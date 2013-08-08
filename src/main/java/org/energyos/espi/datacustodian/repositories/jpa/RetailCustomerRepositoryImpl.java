@@ -16,6 +16,6 @@ public class RetailCustomerRepositoryImpl implements RetailCustomerRepository {
 
     @Override
     public List<RetailCustomer> findAll() {
-        return this.em.createQuery("SELECT customer FROM RetailCustomer customer").getResultList();
+        return this.em.createNamedQuery(RetailCustomer.QUERY_FIND_ALL).getResultList();
     }
 }

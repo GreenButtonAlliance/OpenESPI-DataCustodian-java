@@ -22,6 +22,7 @@
         <tomcat-jdbc.version>7.0.42</tomcat-jdbc.version>
         <ehcache.version>2.6.6</ehcache.version>
         <hsqldb.version>2.3.0</hsqldb.version>
+        <mysql.version>5.1.18</mysql.version>
     </properties>
 
     <repositories>
@@ -146,7 +147,6 @@
         </dependency>
 
         <!-- Databases - Uses HSQL by default -->
-        <!-- <dependency> <groupId>mysql</groupId> <artifactId>mysql-connector-java</artifactId> <version>${mysql.version}</version> </dependency> -->
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
@@ -154,14 +154,19 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- For MySql only -->
-        <!-- <dependency> <groupId>mysql</groupId> <artifactId>mysql-connector-java</artifactId> <version>${mysql.version}</version> </dependency> -->
-        <!-- HIBERNATE -->
+        <!-- Databases - MySQL -->
+        <!--<dependency>-->
+            <!--<groupId>mysql</groupId>-->
+            <!--<artifactId>mysql-connector-java</artifactId>-->
+            <!--<version>${mysql.version}</version>-->
+        <!--</dependency>-->
+
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
             <version>${hibernate.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
@@ -173,6 +178,7 @@
             <artifactId>hibernate-ehcache</artifactId>
             <version>${hibernate.version}</version>
         </dependency>
+
         <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache-core</artifactId>
@@ -185,10 +191,6 @@
             </exclusions>
         </dependency>
 
-        <!-- Database connection pool
-		See here for more details on commons-dbcp versus tomcat-jdbc:
-    	http://blog.ippon.fr/2013/03/13/improving-the-performance-of-the-spring-petclinic-sample-application-part-3-of-5/
-    -->
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-jdbc</artifactId>

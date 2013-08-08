@@ -2,13 +2,17 @@ package org.energyos.espi.datacustodian.models;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 
 @Entity
 @Table(name = "retail_customers")
+@NamedQueries(value = {
+        @NamedQuery(name = RetailCustomer.QUERY_FIND_ALL, query = "SELECT customer FROM RetailCustomer customer")
+})
 public class RetailCustomer extends BaseEntity {
+
+    public final static String QUERY_FIND_ALL = "RetailCustomer.findAll";
 
     @Column(name = "first_name")
     @NotEmpty
