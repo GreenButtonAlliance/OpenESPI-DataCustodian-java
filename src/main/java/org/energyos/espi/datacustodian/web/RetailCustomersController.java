@@ -14,28 +14,27 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.repositories.jpa;
+package org.energyos.espi.datacustodian.web;
 
-import org.energyos.espi.datacustodian.models.RetailCustomer;
 import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.annotation.Resource;
 
-@Repository
-public class MockRetailCustomerRepositoryImpl implements RetailCustomerRepository {
+@Controller
+@RequestMapping("/retailcustomers")
+public class RetailCustomersController {
 
-    @Override
-    public List<RetailCustomer> findAll() {
-        ArrayList customers = new ArrayList<RetailCustomer>();
+    @Resource(name = "retailCustomerRepository")
+    private RetailCustomerRepository customerRepository;
 
-        RetailCustomer alanTuring = new RetailCustomer();
-        alanTuring.setFirstName("Alan");
-        alanTuring.setLastName("Turing");
+    @RequestMapping(method = RequestMethod.GET)
+    public String index(ModelMap model) {
+        model.put("customers", customerRepository.findAll());
 
-        customers.add(alanTuring);
-
-        return customers;
+        return "retailcustomers/index";
     }
 }
