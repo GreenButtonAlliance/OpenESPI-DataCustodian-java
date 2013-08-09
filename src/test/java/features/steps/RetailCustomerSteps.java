@@ -19,7 +19,9 @@ package features.steps;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import static org.junit.Assert.assertTrue;
 
@@ -40,6 +42,23 @@ public class RetailCustomerSteps {
         driver.get("http://localhost:8080/retailcustomers");
     }
 
+    @When("^I create a new retail customer with the name Grace Hopper$")
+    public void I_create_a_new_retail_customer_with_the_name_Grace_Hopper() throws Throwable {
+        driver.get("http://localhost:8080/retailcustomers/new");
+        assertTrue(driver.getPageSource().contains("New Retail Customer"));
+
+        WebElement form = driver.findElement(By.name("new_customer"));
+
+        WebElement firstName = form.findElement(By.name("firstName"));
+        firstName.sendKeys("Grace");
+
+        WebElement lastName = form.findElement(By.name("lastName"));
+        lastName.sendKeys("Hopper");
+
+        WebElement create = form.findElement(By.name("Create"));
+        create.click();
+    }
+
     @Then("^I should see Alan Turing in the customer list$")
     public void I_should_see_Alan_Turing_in_the_customer_list() throws Throwable {
         assertTrue(driver.getPageSource().contains("Alan"));
@@ -48,5 +67,11 @@ public class RetailCustomerSteps {
 
     @Then("^there is a Alan Turing retail customer$")
     public void there_is_a_Alan_Turing_retail_customer() throws Throwable {
+    }
+
+    @Then("^I should see Grace Hopper in the customer list$")
+    public void I_should_see_Grace_Hopper_in_the_customer_list() throws Throwable {
+        assertTrue(driver.getPageSource().contains("Grace"));
+        assertTrue(driver.getPageSource().contains("Hopper"));
     }
 }

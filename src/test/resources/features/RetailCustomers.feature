@@ -10,3 +10,9 @@ Feature: Retail Customers
 
     When I navigate to customer list page
     Then I should see Alan Turing in the customer list
+
+  Scenario: Data Custodian creates customer
+    Given I am a Data Custodian
+
+    When I create a new retail customer with the name Grace Hopper
+    Then I should see Grace Hopper in the customer list
