@@ -44,7 +44,7 @@ public class RetailCustomerSteps {
 
     @When("^I create a new retail customer with the name Grace Hopper$")
     public void I_create_a_new_retail_customer_with_the_name_Grace_Hopper() throws Throwable {
-        driver.get("http://localhost:8080/retailcustomers/new");
+        driver.get("http://localhost:8080/retailcustomers/form");
         assertTrue(driver.getPageSource().contains("New Retail Customer"));
 
         WebElement form = driver.findElement(By.name("new_customer"));
@@ -55,7 +55,7 @@ public class RetailCustomerSteps {
         WebElement lastName = form.findElement(By.name("lastName"));
         lastName.sendKeys("Hopper");
 
-        WebElement create = form.findElement(By.name("Create"));
+        WebElement create = form.findElement(By.name("create"));
         create.click();
     }
 

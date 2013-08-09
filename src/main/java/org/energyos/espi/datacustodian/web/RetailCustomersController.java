@@ -16,6 +16,7 @@
 
 package org.energyos.espi.datacustodian.web;
 
+import org.energyos.espi.datacustodian.models.RetailCustomer;
 import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -38,5 +39,17 @@ public class RetailCustomersController {
         model.put("customers", customerRepository.findAll());
 
         return "retailcustomers/index";
+    }
+
+    @RequestMapping(value = "form", method = RequestMethod.GET)
+    public String form(ModelMap model) {
+        model.put("customer", new RetailCustomer());
+
+        return "retailcustomers/form";
+    }
+
+    @RequestMapping(value = "create", method = RequestMethod.POST)
+    public String create(ModelMap model) {
+        return "redirect:retailcustomers";
     }
 }

@@ -45,4 +45,12 @@ public class RetailCustomerControllerTests {
 
         assertTrue(((List<RetailCustomer>) model.get("customers")).size() == 1);
     }
+
+    @Test
+    public void form_shouldBuildNewCustomer() throws Exception {
+        ModelMap model = new ModelMap();
+        controller.form(model);
+
+        assertTrue(model.get("customer") != null);
+    }
 }
