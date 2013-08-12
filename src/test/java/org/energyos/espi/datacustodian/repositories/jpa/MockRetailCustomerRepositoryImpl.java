@@ -20,11 +20,14 @@ import org.energyos.espi.datacustodian.models.RetailCustomer;
 import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class MockRetailCustomerRepositoryImpl implements RetailCustomerRepository {
+
+    protected EntityManager em;
 
     @Override
     public List<RetailCustomer> findAll() {
@@ -37,5 +40,10 @@ public class MockRetailCustomerRepositoryImpl implements RetailCustomerRepositor
         customers.add(alanTuring);
 
         return customers;
+    }
+
+    @Override
+    public boolean persist(RetailCustomer customer) {
+        return true;
     }
 }

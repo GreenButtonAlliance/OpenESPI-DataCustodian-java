@@ -20,7 +20,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 
-
 @Entity
 @Table(name = "retail_customers")
 @NamedQueries(value = {

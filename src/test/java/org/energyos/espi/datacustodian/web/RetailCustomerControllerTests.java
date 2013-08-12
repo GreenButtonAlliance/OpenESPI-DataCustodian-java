@@ -19,6 +19,7 @@ package org.energyos.espi.datacustodian.web;
 import static org.junit.Assert.*;
 
 import org.energyos.espi.datacustodian.models.RetailCustomer;
+import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.ui.ModelMap;
 
 import java.util.List;
+
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -52,5 +56,17 @@ public class RetailCustomerControllerTests {
         controller.form(model);
 
         assertTrue(model.get("customer") != null);
+    }
+
+    @Test
+    public void create_shouldSaveCustomer() throws Exception {
+        RetailCustomerRepository repository = mock(RetailCustomerRepository.class);
+
+        RetailCustomersController controller = new RetailCustomersController();
+        controller.setCustomerRepository(repository);
+
+        RetailCustomer customer = new RetailCustomer();
+        controller.create(customer);
+        verify(repository).persist(customer);
     }
 }
