@@ -16,6 +16,9 @@
 
 package org.energyos.espi.datacustodian.web;
 
+import static org.junit.Assert.*;
+
+import org.energyos.espi.datacustodian.models.RetailCustomer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +29,6 @@ import org.springframework.ui.ModelMap;
 
 import java.util.List;
 
-import static junit.framework.Assert.assertTrue;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
@@ -36,11 +37,12 @@ public class RetailCustomerControllerTests {
     @Autowired
     protected RetailCustomersController controller;
 
+    @SuppressWarnings("unchecked")
     @Test
     public void shouldGetListOfCustomers() throws Exception {
         ModelMap model = new ModelMap();
         controller.index(model);
 
-        assertTrue(((List) model.get("customers")).size() == 1);
+        assertTrue(((List<RetailCustomer>) model.get("customers")).size() == 1);
     }
 }

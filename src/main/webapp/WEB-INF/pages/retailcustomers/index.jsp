@@ -57,8 +57,10 @@
 
             <table class="table table-striped">
                 <thead>
-                <th>First Name</th>
-                <th>Last Name</th>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                </tr>
                 </thead>
                 <tbody>
                 <c:forEach var="customer" items="${customers}">

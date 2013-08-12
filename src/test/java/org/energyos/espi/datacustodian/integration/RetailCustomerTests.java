@@ -37,7 +37,6 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 public class RetailCustomerTests {
     private MockMvc mockMvc;
 
-    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     protected WebApplicationContext wac;
 

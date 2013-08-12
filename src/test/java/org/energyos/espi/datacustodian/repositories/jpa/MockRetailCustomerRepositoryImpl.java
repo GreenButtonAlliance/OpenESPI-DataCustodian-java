@@ -28,7 +28,7 @@ public class MockRetailCustomerRepositoryImpl implements RetailCustomerRepositor
 
     @Override
     public List<RetailCustomer> findAll() {
-        ArrayList customers = new ArrayList<RetailCustomer>();
+        ArrayList<RetailCustomer> customers = new ArrayList<RetailCustomer>();
 
         RetailCustomer alanTuring = new RetailCustomer();
         alanTuring.setFirstName("Alan");
