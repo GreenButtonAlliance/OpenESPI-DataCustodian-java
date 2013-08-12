@@ -27,6 +27,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.Validator;
 
 import java.util.List;
 
@@ -63,10 +64,11 @@ public class RetailCustomerControllerTests {
         RetailCustomerRepository repository = mock(RetailCustomerRepository.class);
 
         RetailCustomersController controller = new RetailCustomersController();
+        controller.setValidator(mock(Validator.class));
         controller.setCustomerRepository(repository);
 
         RetailCustomer customer = new RetailCustomer();
-        controller.create(customer);
+        controller.create(customer, new ModelMap());
         verify(repository).persist(customer);
     }
 }

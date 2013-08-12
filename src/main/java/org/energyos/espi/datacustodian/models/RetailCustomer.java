@@ -19,6 +19,7 @@ package org.energyos.espi.datacustodian.models;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "retail_customers")
@@ -30,11 +31,11 @@ public class RetailCustomer extends BaseEntity {
     public final static String QUERY_FIND_ALL = "RetailCustomer.findAll";
 
     @Column(name = "first_name")
-    @NotEmpty
+    @NotEmpty @Size(max = 30)
     protected String firstName;
 
     @Column(name = "last_name")
-    @NotEmpty
+    @NotEmpty @Size(max = 30)
     protected String lastName;
 
     public String getLastName() {

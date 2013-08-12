@@ -19,8 +19,12 @@ package org.energyos.espi.datacustodian.web;
 import org.energyos.espi.datacustodian.models.RetailCustomer;
 import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,6 +34,9 @@ import javax.annotation.Resource;
 @Controller
 @RequestMapping("/retailcustomers")
 public class RetailCustomersController {
+
+    @Autowired
+    protected Validator validator;
 
     @Resource(name = "retailCustomerRepository")
     private RetailCustomerRepository customerRepository;
@@ -54,9 +61,19 @@ public class RetailCustomersController {
     }
 
     @RequestMapping(value = "create", method = RequestMethod.POST)
-    public String create(@ModelAttribute RetailCustomer customer) {
+    public String create(@ModelAttribute RetailCustomer customer, ModelMap model) {
+        model.put("customer", customer);
+        Errors result = new BeanPropertyBindingResult(customer, "customer");
+        validator.validate(customer, result);
+        if (result.hasErrors()) {
+            return "retailcustomers/form";
+        } else {
+            customerRepository.persist(customer);
+            return "redirect:/retailcustomers";
+        }
+    }
 
-        customerRepository.persist(customer);
-        return "redirect:/retailcustomers";
+    public void setValidator(Validator validator) {
+        this.validator = validator;
     }
 }

@@ -10,7 +10,9 @@ New Retail Customer
 
 <form:form modelAttribute="customer" name="new_customer" action="/retailcustomers/create">
     <form:input path="firstName"/>
+    <form:errors path="firstName" cssClass="error"/>
     <form:input path="lastName"/>
+    <form:errors path="lastName" cssClass="error"/>
     <input type="submit" name="create" value="Create"/>
 </form:form>
 
