@@ -6,6 +6,7 @@ Feature: Retail Customers
   Scenario: Data Custodian views customer list
     Given I am a Data Custodian
     And there is an Alan Turing retail customer
+    And I am logged in as Grace Hopper
 
     When I navigate to customer list page
     Then I should see Alan Turing in the customer list

@@ -20,13 +20,12 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import static org.junit.Assert.assertTrue;
 
 public class RetailCustomerSteps {
 
-    private WebDriver driver = new HtmlUnitDriver();
+    private WebDriver driver = WebDriverSingleton.getInstance();
 
     @Given("^I am a Data Custodian$")
     public void I_am_a_Data_Custodian() throws Throwable {
