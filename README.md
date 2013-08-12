@@ -20,12 +20,14 @@ mvn tomcat7:run
 
 Now the application should be available at [http://localhost:8080/retailcustomers](http://localhost:8080/retailcustomers).
 
-## Eclipse Setup
-
-To create an Eclipse project, run this maven command:
-
-```bash
-mvn eclipse:eclipse
-```
+### Eclipse Setup
 
 Open Eclipse and import a Maven project (File > Import... > Maven > Existing Maven Projects).
+
+### Spring Tool Suite Setup
+
+Open Spring Tool Suite and import a Maven project (File > Import... > Maven > Existing Maven Projects).
+
+### IntelliJ Setup
+
+Open IntelliJ and open the project (File > Open...).
