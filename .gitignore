@@ -9,3 +9,8 @@
 *.iml
 .idea/
 target/
+
+# Eclipse
+.classpath
+.project
+.settings/
