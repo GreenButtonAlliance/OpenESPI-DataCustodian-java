@@ -25,12 +25,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/retailcustomers")
+@EnableWebMvc
 public class RetailCustomersController {
 
     @Resource(name = "retailCustomerRepository")
@@ -48,16 +50,15 @@ public class RetailCustomersController {
         return "retailcustomers/index";
     }
 
-    @RequestMapping(value = "form", method = RequestMethod.GET)
+    @RequestMapping(value = "new", method = RequestMethod.GET)
     public String form(ModelMap model) {
         model.put("RetailCustomer", new RetailCustomer());
 
         return "retailcustomers/form";
     }
 
-    @RequestMapping(value = "create", method = RequestMethod.POST)
-    public String create(@ModelAttribute("RetailCustomer") @Valid RetailCustomer customer, BindingResult result, ModelMap model) {
-        model.put("RetailCustomer", customer);
+    @RequestMapping(value = "new", method = RequestMethod.POST)
+    public String create(@ModelAttribute("RetailCustomer") @Valid RetailCustomer customer, BindingResult result) {
         if (result.hasErrors()) {
             return "retailcustomers/form";
         } else {

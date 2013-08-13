@@ -69,17 +69,15 @@ public class RetailCustomerControllerTests {
 
         RetailCustomer customer = new RetailCustomer();
         BindingResult result = mock(BindingResult.class);
-        ModelMap model = new ModelMap();
         when(result.hasErrors()).thenReturn(false);
 
-        String viewPath = controller.create(customer, result, model);
+        String viewPath = controller.create(customer, result);
         verify(repository).persist(customer);
-        assertEquals("Customer not set in model", customer, model.get("RetailCustomer"));
         assertEquals("Controller failed to redirect", "redirect:/retailcustomers", viewPath);
     }
 
     @Test
-    public void create_whenInvalidCustomer_returnsForm() throws Exception {
+    public void create_whenInvalidCustomer_rendersForm() throws Exception {
         RetailCustomerRepository repository = mock(RetailCustomerRepository.class);
 
         RetailCustomersController controller = new RetailCustomersController();
@@ -87,12 +85,10 @@ public class RetailCustomerControllerTests {
 
         RetailCustomer customer = new RetailCustomer();
         BindingResult result = mock(BindingResult.class);
-        ModelMap model = new ModelMap();
         when(result.hasErrors()).thenReturn(true);
 
-        String viewPath = controller.create(customer, result, model);
+        String viewPath = controller.create(customer, result);
         verify(repository, never()).persist(customer);
-        assertEquals("Customer not set in model", customer, model.get("RetailCustomer"));
         assertEquals("Controller failed to render form", "retailcustomers/form", viewPath);
     }
 }

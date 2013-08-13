@@ -55,14 +55,21 @@ public class RetailCustomerTests {
 
     @Test
     public void showDisplayNewCustomerPage() throws Exception {
-        mockMvc.perform(get("/retailcustomers/form"))
+        mockMvc.perform(get("/retailcustomers/new"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("retailcustomers/form"));
     }
 
     @Test
+    public void shouldRenderFormWhenModelInvalid() throws Exception {
+        ResultActions result = mockMvc.perform(post("/retailcustomers/new"));
+        result.andExpect(view().name("retailcustomers/form"));
+//            .andExpect(model().hasErrors());
+    }
+
+    @Test
     public void shouldRedirectToCustomerListAfterCreate() throws Exception {
-        ResultActions result = mockMvc.perform(post("/retailcustomers/create").param("firstName", "Grace").param("lastName", "Hopper"));
+        ResultActions result = mockMvc.perform(post("/retailcustomers/new").param("firstName", "Grace").param("lastName", "Hopper"));
         result.andExpect(redirectedUrl("/retailcustomers"));
     }
 
