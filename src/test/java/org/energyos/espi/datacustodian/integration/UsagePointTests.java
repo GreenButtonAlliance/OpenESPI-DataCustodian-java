@@ -27,8 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -46,9 +45,17 @@ public class UsagePointTests {
     }
 
     @Test
-    public void shouldDisplayUsagePointIndexView() throws Exception {
-        mockMvc.perform(get("/usagepoints"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("usagepoints/index"));
+    public void index_should_returnOkStatus() throws Exception {
+        mockMvc.perform(get("/usagepoints")).andExpect(status().isOk());
+    }
+
+    @Test
+    public void index_should_displayUsagePointIndexView() throws Exception {
+        mockMvc.perform(get("/usagepoints")).andExpect(view().name("usagepoints/index"));
+    }
+
+    @Test
+    public void index_should_setUsagePointListModel() throws Exception {
+        mockMvc.perform(get("/usagepoints")).andExpect(model().attributeExists("usagePointList"));
     }
 }
