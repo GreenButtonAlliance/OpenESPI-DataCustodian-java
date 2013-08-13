@@ -16,9 +16,8 @@
 
 package org.energyos.espi.datacustodian.web;
 
-import static org.junit.Assert.*;
-
 import org.energyos.espi.datacustodian.models.RetailCustomer;
+import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +25,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 
 import java.util.List;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -44,5 +48,45 @@ public class RetailCustomerControllerTests {
         controller.index(model);
 
         assertTrue(((List<RetailCustomer>) model.get("customers")).size() == 1);
+    }
+
+    @Test
+    public void form_shouldBuildNewCustomer() throws Exception {
+        ModelMap model = new ModelMap();
+        controller.form(model);
+
+        assertTrue(model.get("retailCustomer") != null);
+    }
+
+    @Test
+    public void create_whenValidCustomer_savesCustomerAndRedirects() throws Exception {
+        RetailCustomerRepository repository = mock(RetailCustomerRepository.class);
+
+        RetailCustomersController controller = new RetailCustomersController();
+        controller.setCustomerRepository(repository);
+
+        RetailCustomer customer = new RetailCustomer();
+        BindingResult result = mock(BindingResult.class);
+        when(result.hasErrors()).thenReturn(false);
+
+        String viewPath = controller.create(customer, result);
+        verify(repository).persist(customer);
+        assertEquals("Controller failed to redirect", "redirect:/retailcustomers", viewPath);
+    }
+
+    @Test
+    public void create_whenInvalidCustomer_rendersForm() throws Exception {
+        RetailCustomerRepository repository = mock(RetailCustomerRepository.class);
+
+        RetailCustomersController controller = new RetailCustomersController();
+        controller.setCustomerRepository(repository);
+
+        RetailCustomer customer = new RetailCustomer();
+        BindingResult result = mock(BindingResult.class);
+        when(result.hasErrors()).thenReturn(true);
+
+        String viewPath = controller.create(customer, result);
+        verify(repository, never()).persist(customer);
+        assertEquals("Controller failed to render form", "retailcustomers/form", viewPath);
     }
 }

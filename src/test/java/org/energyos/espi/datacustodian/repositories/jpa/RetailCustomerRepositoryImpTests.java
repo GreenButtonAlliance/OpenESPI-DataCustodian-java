@@ -16,6 +16,7 @@
 
 package org.energyos.espi.datacustodian.repositories.jpa;
 
+import org.energyos.espi.datacustodian.models.RetailCustomer;
 import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,5 +39,16 @@ public class RetailCustomerRepositoryImpTests {
     @Test
     public void findAll_shouldReturnAllRetailCustomers() throws Exception {
         assertTrue(repository.findAll().size() == 7);
+    }
+
+    @Test
+    public void persist_withNewCustomer_shouldIncreaseSizeOfCustomersTable() throws Exception {
+        RetailCustomer alanTuring = new RetailCustomer();
+        alanTuring.setFirstName("Alan");
+        alanTuring.setLastName("Turing");
+        int startSize = repository.findAll().size();
+        repository.persist(alanTuring);
+        int endSize = repository.findAll().size();
+        assertTrue(endSize > startSize);
     }
 }

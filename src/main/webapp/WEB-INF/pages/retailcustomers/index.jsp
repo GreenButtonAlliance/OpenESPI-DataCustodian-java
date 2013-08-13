@@ -12,6 +12,7 @@
     <div class="row">
         <div class="span12">
             <h2>Retail Customers</h2>
+            <a href="/retailcustomers/new" class="btn btn-large"><i class="icon-plus"></i>&nbsp;Add new customer</a>
 
             <table class="table table-striped">
                 <thead>

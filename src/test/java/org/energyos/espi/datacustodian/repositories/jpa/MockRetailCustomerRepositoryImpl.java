@@ -38,4 +38,8 @@ public class MockRetailCustomerRepositoryImpl implements RetailCustomerRepositor
 
         return customers;
     }
+
+    @Override
+    public void persist(RetailCustomer customer) {
+    }
 }

@@ -16,27 +16,55 @@
 
 package org.energyos.espi.datacustodian.web;
 
+import org.energyos.espi.datacustodian.models.RetailCustomer;
 import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/retailcustomers")
+@EnableWebMvc
+@PreAuthorize("hasRole('custodian')")
 public class RetailCustomersController {
 
     @Resource(name = "retailCustomerRepository")
     private RetailCustomerRepository customerRepository;
 
-    @PreAuthorize("hasRole('custodian')")
+    public void setCustomerRepository(RetailCustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+    }
+
     @RequestMapping(method = RequestMethod.GET)
     public String index(ModelMap model) {
         model.put("customers", customerRepository.findAll());
 
         return "retailcustomers/index";
     }
+
+    @RequestMapping(value = "new", method = RequestMethod.GET)
+    public String form(ModelMap model) {
+        model.put("retailCustomer", new RetailCustomer());
+
+        return "retailcustomers/form";
+    }
+
+    @RequestMapping(value = "new", method = RequestMethod.POST)
+    public String create(@ModelAttribute("retailCustomer") @Valid RetailCustomer retailCustomer, BindingResult result) {
+        if (result.hasErrors()) {
+            return "retailcustomers/form";
+        } else {
+            customerRepository.persist(retailCustomer);
+            return "redirect:/retailcustomers";
+        }
+    }
+
 }

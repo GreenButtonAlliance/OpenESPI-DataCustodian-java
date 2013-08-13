@@ -23,4 +23,6 @@ import java.util.List;
 public interface RetailCustomerRepository {
 
     List<RetailCustomer> findAll();
+
+    void persist(RetailCustomer customer);
 }

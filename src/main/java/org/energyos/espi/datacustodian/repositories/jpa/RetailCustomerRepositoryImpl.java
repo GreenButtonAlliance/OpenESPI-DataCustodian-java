@@ -19,10 +19,10 @@ package org.energyos.espi.datacustodian.repositories.jpa;
 import org.energyos.espi.datacustodian.models.RetailCustomer;
 import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import java.util.List;
 
 @Repository
@@ -35,5 +35,11 @@ public class RetailCustomerRepositoryImpl implements RetailCustomerRepository {
 	@Override
     public List<RetailCustomer> findAll() {
         return (List<RetailCustomer>)this.em.createNamedQuery(RetailCustomer.QUERY_FIND_ALL).getResultList();
+    }
+
+    @Override
+    @Transactional
+    public void persist(RetailCustomer customer) {
+        this.em.persist(customer);
     }
 }
