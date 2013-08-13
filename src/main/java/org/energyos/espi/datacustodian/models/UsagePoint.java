@@ -17,4 +17,9 @@
 package org.energyos.espi.datacustodian.models;
 
 public class UsagePoint {
+    private String title;
+
+    public String getTitle() {
+        return "Usage Point Title";
+    }
 }
