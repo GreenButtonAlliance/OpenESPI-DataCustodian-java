@@ -74,5 +74,20 @@ public class RetailCustomerSteps {
     public void I_should_see_Grace_Hopper_in_the_customer_list() throws Throwable {
         assertTrue(driver.getPageSource().contains("Grace"));
         assertTrue(driver.getPageSource().contains("Hopper"));
+
+    }
+    @Given("^a logged in retail customer$")
+    public void a_logged_in_retail_customer() throws Throwable {
+        StepUtils.login("alan", "koala");
+    }
+
+    @When("^I look at my usage page$")
+    public void I_look_at_my_usage_page() throws Throwable {
+        driver.get("http://localhost:8080/usagepoints");
+    }
+
+    @Then("^I should see my Usage Points$")
+    public void I_should_see_my_Usage_Points() throws Throwable {
+        assertTrue(driver.getPageSource().contains("House meter"));
     }
 }

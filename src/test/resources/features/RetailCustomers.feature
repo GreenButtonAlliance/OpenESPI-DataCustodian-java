@@ -1,7 +1,7 @@
 Feature: Retail Customers
-  As a Data Custodian
-  I want to be able to create retail customers
-  So that I can associate retail customers to their usage data
+  As a Retail Customer,
+  I want to be able to view my usage point in my browser
+  So that I can see my UsagePoints
 
   Scenario: Data Custodian views customer list
     Given I am a Data Custodian
@@ -17,3 +17,9 @@ Feature: Retail Customers
     When I log in as Grace Hopper
     And I create a new retail customer with the name Grace Hopper
     Then I should see Grace Hopper in the customer list
+
+  Scenario: Retail Customer views Usage Points
+    Given a logged in retail customer
+
+    When I look at my usage page
+    Then I should see my Usage Points
