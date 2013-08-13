@@ -62,12 +62,6 @@ public class RetailCustomerTests {
 
     @Test
     public void shouldRedirectToCustomerListAfterCreate() throws Exception {
-        ResultActions result = mockMvc.perform(post("/retailcustomers/create"));
-        result.andExpect(view().name("retailcustomers/form"));
-    }
-
-    @Test
-    public void shouldInvokeCreateAction() throws Exception {
         ResultActions result = mockMvc.perform(post("/retailcustomers/create").param("firstName", "Grace").param("lastName", "Hopper"));
         result.andExpect(redirectedUrl("/retailcustomers"));
     }

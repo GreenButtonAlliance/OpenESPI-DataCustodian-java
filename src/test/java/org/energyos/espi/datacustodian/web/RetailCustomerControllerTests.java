@@ -27,10 +27,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.Validator;
+import org.springframework.validation.BindingResult;
 
 import java.util.List;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
@@ -56,19 +57,42 @@ public class RetailCustomerControllerTests {
         ModelMap model = new ModelMap();
         controller.form(model);
 
-        assertTrue(model.get("customer") != null);
+        assertTrue(model.get("RetailCustomer") != null);
     }
 
     @Test
-    public void create_shouldSaveCustomer() throws Exception {
+    public void create_whenValidCustomer_savesCustomerAndRedirects() throws Exception {
         RetailCustomerRepository repository = mock(RetailCustomerRepository.class);
 
         RetailCustomersController controller = new RetailCustomersController();
-        controller.setValidator(mock(Validator.class));
         controller.setCustomerRepository(repository);
 
         RetailCustomer customer = new RetailCustomer();
-        controller.create(customer, new ModelMap());
+        BindingResult result = mock(BindingResult.class);
+        ModelMap model = new ModelMap();
+        when(result.hasErrors()).thenReturn(false);
+
+        String viewPath = controller.create(customer, result, model);
         verify(repository).persist(customer);
+        assertEquals("Customer not set in model", customer, model.get("RetailCustomer"));
+        assertEquals("Controller failed to redirect", "redirect:/retailcustomers", viewPath);
+    }
+
+    @Test
+    public void create_whenInvalidCustomer_returnsForm() throws Exception {
+        RetailCustomerRepository repository = mock(RetailCustomerRepository.class);
+
+        RetailCustomersController controller = new RetailCustomersController();
+        controller.setCustomerRepository(repository);
+
+        RetailCustomer customer = new RetailCustomer();
+        BindingResult result = mock(BindingResult.class);
+        ModelMap model = new ModelMap();
+        when(result.hasErrors()).thenReturn(true);
+
+        String viewPath = controller.create(customer, result, model);
+        verify(repository, never()).persist(customer);
+        assertEquals("Customer not set in model", customer, model.get("RetailCustomer"));
+        assertEquals("Controller failed to render form", "retailcustomers/form", viewPath);
     }
 }

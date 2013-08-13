@@ -19,24 +19,19 @@ package org.energyos.espi.datacustodian.web;
 import org.energyos.espi.datacustodian.models.RetailCustomer;
 import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/retailcustomers")
 public class RetailCustomersController {
-
-    @Autowired
-    protected Validator validator;
 
     @Resource(name = "retailCustomerRepository")
     private RetailCustomerRepository customerRepository;
@@ -55,16 +50,14 @@ public class RetailCustomersController {
 
     @RequestMapping(value = "form", method = RequestMethod.GET)
     public String form(ModelMap model) {
-        model.put("customer", new RetailCustomer());
+        model.put("RetailCustomer", new RetailCustomer());
 
         return "retailcustomers/form";
     }
 
     @RequestMapping(value = "create", method = RequestMethod.POST)
-    public String create(@ModelAttribute RetailCustomer customer, ModelMap model) {
-        model.put("customer", customer);
-        Errors result = new BeanPropertyBindingResult(customer, "customer");
-        validator.validate(customer, result);
+    public String create(@ModelAttribute("RetailCustomer") @Valid RetailCustomer customer, BindingResult result, ModelMap model) {
+        model.put("RetailCustomer", customer);
         if (result.hasErrors()) {
             return "retailcustomers/form";
         } else {
@@ -73,7 +66,4 @@ public class RetailCustomersController {
         }
     }
 
-    public void setValidator(Validator validator) {
-        this.validator = validator;
-    }
 }
