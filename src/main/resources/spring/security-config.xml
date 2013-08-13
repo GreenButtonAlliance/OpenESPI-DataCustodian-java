@@ -32,7 +32,7 @@
                                authorities="user"/>
                 <security:user name="grace"
                                password="4efe081594ce25ee4efd9f7067f7f678a347bccf2de201f3adf2a3eb544850b465b4e51cdc3fcdde"
-                               authorities="admin"/>
+                               authorities="custodian"/>
             </security:user-service>
         </security:authentication-provider>
     </security:authentication-manager>

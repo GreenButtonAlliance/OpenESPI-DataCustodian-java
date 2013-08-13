@@ -32,7 +32,7 @@ public class RetailCustomersController {
     @Resource(name = "retailCustomerRepository")
     private RetailCustomerRepository customerRepository;
 
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('custodian')")
     @RequestMapping(method = RequestMethod.GET)
     public String index(ModelMap model) {
         model.put("customers", customerRepository.findAll());
