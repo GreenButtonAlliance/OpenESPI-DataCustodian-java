@@ -64,7 +64,6 @@ public class RetailCustomerTests {
     public void shouldRenderFormWhenModelInvalid() throws Exception {
         ResultActions result = mockMvc.perform(post("/retailcustomers/new"));
         result.andExpect(view().name("retailcustomers/form"));
-//            .andExpect(model().hasErrors());
     }
 
     @Test

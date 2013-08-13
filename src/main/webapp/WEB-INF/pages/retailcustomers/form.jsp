@@ -8,7 +8,7 @@
 <body>
 New Retail Customer
 
-<form:form modelAttribute="RetailCustomer" name="new_customer" action="/retailcustomers/new">
+<form:form modelAttribute="retailCustomer" name="new_customer" action="/retailcustomers/new">
     <form:input path="firstName"/>
     <form:errors path="firstName" cssClass="error"/>
     <form:input path="lastName"/>

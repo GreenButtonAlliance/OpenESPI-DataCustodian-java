@@ -57,7 +57,7 @@ public class RetailCustomerControllerTests {
         ModelMap model = new ModelMap();
         controller.form(model);
 
-        assertTrue(model.get("RetailCustomer") != null);
+        assertTrue(model.get("retailCustomer") != null);
     }
 
     @Test

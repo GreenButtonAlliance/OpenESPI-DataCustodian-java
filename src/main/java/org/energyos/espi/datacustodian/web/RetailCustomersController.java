@@ -52,17 +52,17 @@ public class RetailCustomersController {
 
     @RequestMapping(value = "new", method = RequestMethod.GET)
     public String form(ModelMap model) {
-        model.put("RetailCustomer", new RetailCustomer());
+        model.put("retailCustomer", new RetailCustomer());
 
         return "retailcustomers/form";
     }
 
     @RequestMapping(value = "new", method = RequestMethod.POST)
-    public String create(@ModelAttribute("RetailCustomer") @Valid RetailCustomer customer, BindingResult result) {
+    public String create(@ModelAttribute("retailCustomer") @Valid RetailCustomer retailCustomer, BindingResult result) {
         if (result.hasErrors()) {
             return "retailcustomers/form";
         } else {
-            customerRepository.persist(customer);
+            customerRepository.persist(retailCustomer);
             return "redirect:/retailcustomers";
         }
     }

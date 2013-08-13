@@ -40,8 +40,7 @@ public class RetailCustomerRepositoryImpl implements RetailCustomerRepository {
 
     @Override
     @Transactional
-    public boolean persist(RetailCustomer customer) {
+    public void persist(RetailCustomer customer) {
         this.em.persist(customer);
-        return true;
     }
 }

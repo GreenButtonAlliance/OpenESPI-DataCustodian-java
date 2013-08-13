@@ -43,7 +43,6 @@ public class MockRetailCustomerRepositoryImpl implements RetailCustomerRepositor
     }
 
     @Override
-    public boolean persist(RetailCustomer customer) {
-        return true;
+    public void persist(RetailCustomer customer) {
     }
 }

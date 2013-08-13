@@ -43,14 +43,18 @@ public class RetailCustomerTests {
     @Test
     public void shouldNotBeValid_whenFirstNameMissing() throws Exception {
         customer.setLastName("bob");
+
         validator.validate(customer, errors);
+
         assertTrue(errors.hasErrors());
     }
 
     @Test
     public void shouldNotBeValid_whenLastNameMissing() throws Exception {
         customer.setFirstName("bob");
+
         validator.validate(customer, errors);
+
         assertTrue(errors.hasErrors());
     }
 
@@ -58,7 +62,9 @@ public class RetailCustomerTests {
     public void shouldNotBeValid_whenFirstNameTooLong() throws Exception {
         customer.setFirstName("abcdefghgijklmniopqrstuvwxyzlkjasdflkjasdlkfjasdlkfjasdflkj");
         customer.setLastName("last");
+
         validator.validate(customer, errors);
+
         assertTrue(errors.hasErrors());
     }
 
@@ -66,7 +72,9 @@ public class RetailCustomerTests {
     public void shouldNotBeValid_whenLastNameTooLong() throws Exception {
         customer.setFirstName("first");
         customer.setLastName("abcdefghgijklmniopqrstuvwxyzlkjasdflkjasdlkfjasdlkfjasdflkj");
+
         validator.validate(customer, errors);
+
         assertTrue(errors.hasErrors());
     }
 

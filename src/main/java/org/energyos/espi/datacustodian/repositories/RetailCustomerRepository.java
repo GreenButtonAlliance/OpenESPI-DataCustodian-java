@@ -24,5 +24,5 @@ public interface RetailCustomerRepository {
 
     List<RetailCustomer> findAll();
 
-    boolean persist(RetailCustomer customer);
+    void persist(RetailCustomer customer);
 }
