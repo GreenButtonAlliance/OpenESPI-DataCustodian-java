@@ -33,12 +33,12 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/retailcustomers")
 @EnableWebMvc
+@PreAuthorize("hasRole('custodian')")
 public class RetailCustomersController {
 
     @Resource(name = "retailCustomerRepository")
     private RetailCustomerRepository customerRepository;
 
-    @PreAuthorize("hasRole('custodian')")
     public void setCustomerRepository(RetailCustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }

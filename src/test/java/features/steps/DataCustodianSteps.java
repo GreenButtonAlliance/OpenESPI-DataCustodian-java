@@ -51,7 +51,7 @@ public class DataCustodianSteps {
 
     @Then("^I should see login form$")
     public void I_should_see_login_form() throws Throwable {
-        assertTrue(driver.getPageSource().contains("Password"));
+        assertTrue(driver.getPageSource().contains("Sign in"));
     }
 
     @After
