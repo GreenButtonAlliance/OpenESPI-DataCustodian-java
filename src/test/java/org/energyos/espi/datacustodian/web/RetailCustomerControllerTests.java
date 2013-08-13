@@ -16,8 +16,6 @@
 
 package org.energyos.espi.datacustodian.web;
 
-import static org.junit.Assert.*;
-
 import org.energyos.espi.datacustodian.models.RetailCustomer;
 import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
 import org.junit.Test;
