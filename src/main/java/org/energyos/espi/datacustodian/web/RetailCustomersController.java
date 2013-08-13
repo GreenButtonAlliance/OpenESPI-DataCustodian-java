@@ -17,6 +17,7 @@
 package org.energyos.espi.datacustodian.web;
 
 import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,7 @@ public class RetailCustomersController {
     @Resource(name = "retailCustomerRepository")
     private RetailCustomerRepository customerRepository;
 
+    @PreAuthorize("hasRole('admin')")
     @RequestMapping(method = RequestMethod.GET)
     public String index(ModelMap model) {
         model.put("customers", customerRepository.findAll());
