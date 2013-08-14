@@ -26,29 +26,30 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.annotation.Resource;
 
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
-public class RetailCustomerRepositoryImpTests {
+public class RetailCustomerRepositoryImplTests {
 
     @Resource(name = "retailCustomerRepositoryJpa")
     private RetailCustomerRepository repository;
 
     @Test
-    public void findAll_shouldReturnAllRetailCustomers() throws Exception {
+    public void findAll_returnsAllRetailCustomers() throws Exception {
         assertTrue(repository.findAll().size() == 7);
     }
 
     @Test
-    public void persist_withNewCustomer_shouldIncreaseSizeOfCustomersTable() throws Exception {
+    public void persist_withNewCustomer_increasesSizeOfCustomersTable() throws Exception {
         RetailCustomer alanTuring = new RetailCustomer();
         alanTuring.setFirstName("Alan");
         alanTuring.setLastName("Turing");
-        int startSize = repository.findAll().size();
+
         repository.persist(alanTuring);
-        int endSize = repository.findAll().size();
-        assertTrue(endSize > startSize);
+
+        assertNotNull(alanTuring.getId());
     }
 }
