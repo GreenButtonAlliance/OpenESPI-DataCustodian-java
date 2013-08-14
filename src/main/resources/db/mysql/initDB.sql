@@ -1,7 +1,20 @@
-DROP TABLE retail_customers IF EXISTS;
+DROP TABLE IF EXISTS usage_points;
+DROP TABLE IF EXISTS retail_customers;
 
 CREATE TABLE retail_customers (
-  id         INTEGER IDENTITY PRIMARY KEY,
+  id BIGINT(20) NOT NULL,
   first_name VARCHAR(30),
-  last_name  VARCHAR(30)
+  last_name  VARCHAR(30),
+  PRIMARY KEY (id)
 );
+
+CREATE TABLE usage_points (
+  id BIGINT(20) NOT NULL,
+  title      VARCHAR(100) NOT NULL,
+  retail_customer_id BIGINT(20) NOT NULL
+);
+
+ALTER TABLE usage_points
+  ADD CONSTRAINT usage_points_retail_customer_fk
+  FOREIGN KEY (retail_customer_id)
+  REFERENCES retail_customers (id);
