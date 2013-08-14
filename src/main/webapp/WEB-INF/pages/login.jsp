@@ -34,7 +34,7 @@
                     <form name="f" action="<c:url value='/j_spring_security_check'/>" method="POST">
                         <fieldset>
                             <div class="clearfix">
-                                <input type="text" name="j_username" placeholder="Username">
+                                <input type="text" name="j_username" placeholder="Username" autofocus="autofocus">
                             </div>
                             <div class="clearfix">
                                 <input type="password" name="j_password" placeholder="Password">
