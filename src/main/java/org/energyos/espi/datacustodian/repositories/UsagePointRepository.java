@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013 EnergyOS ESPI
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -14,29 +14,13 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.models;
+package org.energyos.espi.datacustodian.repositories;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import org.energyos.espi.datacustodian.models.UsagePoint;
 
-@MappedSuperclass
-public class BaseEntity {
+import java.util.List;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+public interface UsagePointRepository {
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public boolean isNew() {
-        return (this.id == null);
-    }
+    List<UsagePoint> findAllByRetailCustomerId(Long id);
 }
