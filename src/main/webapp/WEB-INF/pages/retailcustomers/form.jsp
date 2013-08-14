@@ -31,7 +31,7 @@
         <div class="span12">
             <h2>New Retail Customer</h2>
 
-            <form:form modelAttribute="retailCustomer" name="new_customer" class="form-horizontal" action="/retailcustomers/new">
+            <form:form modelAttribute="retailCustomer" name="new_customer" class="form-horizontal" action="new">
                 <div class="control-group">
                     <label class="control-label" for="firstName">First Name</label>
                     <div class="controls">
