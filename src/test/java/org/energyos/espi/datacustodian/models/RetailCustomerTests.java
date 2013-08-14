@@ -16,82 +16,38 @@
 
 package org.energyos.espi.datacustodian.models;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 
-import static org.junit.Assert.assertFalse;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import java.util.Set;
+
+import static org.energyos.espi.datacustodian.support.TestUtils.assertNotEmptyValidation;
+import static org.energyos.espi.datacustodian.support.TestUtils.assertSizeValidation;
 import static org.junit.Assert.assertTrue;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
-@ContextConfiguration("/spring/test-context.xml")
 public class RetailCustomerTests {
 
-    @Autowired
-    private Validator validator;
-    private RetailCustomer customer;
-    private Errors errors;
-
-    @Before
-    public void setUp() {
-        customer = new RetailCustomer();
-        errors = new BeanPropertyBindingResult(customer, "customer");
-    }
-
     @Test
-    public void shouldBeValid_ifFieldsAreValid() throws Exception {
+    public void retailCustomer_should_BeValid() throws Exception {
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
+        RetailCustomer customer = new RetailCustomer();
         customer.setFirstName("First");
         customer.setLastName("Last");
 
-        validator.validate(customer, errors);
+        Set<ConstraintViolation<RetailCustomer>> violations = validator.validate(customer);
 
-        assertFalse(errors.hasErrors());
+        assertTrue(violations.isEmpty());
     }
 
     @Test
-    public void shouldNotBeValid_whenFirstNameMissing() throws Exception {
-        customer.setLastName("bob");
+    public void validations() {
+        assertNotEmptyValidation(RetailCustomer.class, "firstName");
+        assertSizeValidation(RetailCustomer.class, "firstName", 0, 30);
 
-        validator.validate(customer, errors);
-
-        assertTrue(errors.hasErrors());
+        assertNotEmptyValidation(RetailCustomer.class, "lastName");
+        assertSizeValidation(RetailCustomer.class, "lastName", 0, 30);
     }
-
-    @Test
-    public void shouldNotBeValid_whenLastNameMissing() throws Exception {
-        customer.setFirstName("bob");
-
-        validator.validate(customer, errors);
-
-        assertTrue(errors.hasErrors());
-    }
-
-    @Test
-    public void shouldNotBeValid_whenFirstNameTooLong() throws Exception {
-        customer.setFirstName("abcdefghgijklmniopqrstuvwxyzlkjasdflkjasdlkfjasdlkfjasdflkj");
-        customer.setLastName("last");
-
-        validator.validate(customer, errors);
-
-        assertTrue(errors.hasErrors());
-    }
-
-    @Test
-    public void shouldNotBeValid_whenLastNameTooLong() throws Exception {
-        customer.setFirstName("first");
-        customer.setLastName("abcdefghgijklmniopqrstuvwxyzlkjasdflkjasdlkfjasdlkfjasdflkj");
-
-        validator.validate(customer, errors);
-
-        assertTrue(errors.hasErrors());
-    }
-
 }
