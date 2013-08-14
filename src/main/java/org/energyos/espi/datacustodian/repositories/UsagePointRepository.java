@@ -17,7 +17,6 @@
 package org.energyos.espi.datacustodian.repositories;
 
 import org.energyos.espi.datacustodian.models.UsagePoint;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

@@ -17,10 +17,14 @@
 package org.energyos.espi.datacustodian.models;
 
 import org.junit.Test;
-import javax.validation.*;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import java.util.Set;
 
-import static org.energyos.espi.datacustodian.support.TestUtils.*;
+import static org.energyos.espi.datacustodian.support.TestUtils.assertNotEmptyValidation;
+import static org.energyos.espi.datacustodian.support.TestUtils.assertSizeValidation;
 import static org.junit.Assert.assertTrue;
 
 public class UsagePointTests {

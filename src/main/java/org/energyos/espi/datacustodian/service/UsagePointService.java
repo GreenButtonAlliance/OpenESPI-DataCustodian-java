@@ -18,7 +18,6 @@ package org.energyos.espi.datacustodian.service;
 
 import org.energyos.espi.datacustodian.models.RetailCustomer;
 import org.energyos.espi.datacustodian.models.UsagePoint;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
