@@ -16,15 +16,28 @@
 
 package org.energyos.espi.datacustodian.models;
 
-import javax.persistence.*;
+import org.hibernate.validator.constraints.NotEmpty;
 
-//@Entity
-//@Table(name = "usage_points")
-public class UsagePoint {
+import javax.persistence.*;
+import javax.validation.constraints.Size;
+
+@Entity
+@Table(name = "usage_points")
+@NamedQueries(value = {
+        @NamedQuery(name = UsagePoint.QUERY_FIND_ALL_BY_RETAIL_CUSTOMER_ID,
+                query = "SELECT point FROM UsagePoint point WHERE point.retailCustomer.id = :retailCustomerId")
+})
+public class UsagePoint extends BaseEntity {
+
+    public static final String QUERY_FIND_ALL_BY_RETAIL_CUSTOMER_ID = "UsagePoint.findUsagePointsByRetailCustomer";
 
     @Column(name = "title")
-//    @NotEmpty @Max(100)
+    @NotEmpty @Size(max = 100)
     private String title;
+
+    @ManyToOne
+    @JoinColumn(name="retail_customer_id")
+    private RetailCustomer retailCustomer;
 
     public String getTitle() {
         return title;
@@ -32,5 +45,13 @@ public class UsagePoint {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public RetailCustomer getRetailCustomer() {
+        return retailCustomer;
+    }
+
+    public void setRetailCustomer(RetailCustomer retailCustomer) {
+        this.retailCustomer = retailCustomer;
     }
 }
