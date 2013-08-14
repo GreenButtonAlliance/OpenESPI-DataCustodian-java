@@ -16,10 +16,21 @@
 
 package org.energyos.espi.datacustodian.models;
 
+import javax.persistence.*;
+
+//@Entity
+//@Table(name = "usage_points")
 public class UsagePoint {
+
+    @Column(name = "title")
+//    @NotEmpty @Max(100)
     private String title;
 
     public String getTitle() {
-        return "Usage Point Title";
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
