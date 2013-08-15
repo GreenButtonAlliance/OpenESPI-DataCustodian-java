@@ -90,4 +90,19 @@ public class RetailCustomerSteps {
     public void I_should_see_my_Usage_Points() throws Throwable {
         assertTrue(driver.getPageSource().contains("House meter"));
     }
+
+    @Given("^I have a Retail Customer account$")
+    public void I_have_a_Retail_Customer_account() throws Throwable {
+    }
+
+    @When("^I log in as Alan Turing$")
+    public void I_log_in_as_Alan_Turing() throws Throwable {
+        StepUtils.login("alan", "koala");
+    }
+
+    @Then("^I should see Retail Customer home page$")
+    public void I_should_see_Retail_Customer_home_page() throws Throwable {
+        assertTrue(driver.getCurrentUrl().endsWith("/customer/home"));
+        assertTrue(driver.getPageSource().contains("Welcome Retail Customer"));
+    }
 }
