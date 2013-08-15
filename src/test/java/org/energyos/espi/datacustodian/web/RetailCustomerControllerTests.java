@@ -17,76 +17,84 @@
 package org.energyos.espi.datacustodian.web;
 
 import org.energyos.espi.datacustodian.models.RetailCustomer;
-import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
+import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
+@Transactional
 public class RetailCustomerControllerTests {
 
     @Autowired
-    protected RetailCustomersController controller;
+    protected RetailCustomerController controller;
 
     @SuppressWarnings("unchecked")
     @Test
-    public void shouldGetListOfCustomers() throws Exception {
+    public void index_displaysIndexView() throws Exception {
+        assertEquals("retailcustomers/index", controller.index(new ModelMap()));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void index_setsCustomersModel() throws Exception {
         ModelMap model = new ModelMap();
         controller.index(model);
 
-        assertTrue(((List<RetailCustomer>) model.get("customers")).size() == 1);
+        assertEquals(7, ((List<RetailCustomer>) model.get("customers")).size());
     }
 
     @Test
-    public void form_shouldBuildNewCustomer() throws Exception {
+    public void form_setsRetailCustomer() throws Exception {
         ModelMap model = new ModelMap();
         controller.form(model);
 
-        assertTrue(model.get("retailCustomer") != null);
+        assertNotNull(model.get("retailCustomer"));
     }
 
     @Test
     public void create_whenValidCustomer_savesCustomerAndRedirects() throws Exception {
-        RetailCustomerRepository repository = mock(RetailCustomerRepository.class);
+        RetailCustomerService service = mock(RetailCustomerService.class);
 
-        RetailCustomersController controller = new RetailCustomersController();
-        controller.setCustomerRepository(repository);
+        RetailCustomerController controller = new RetailCustomerController();
+        controller.setService(service);
 
         RetailCustomer customer = new RetailCustomer();
         BindingResult result = mock(BindingResult.class);
         when(result.hasErrors()).thenReturn(false);
 
         String viewPath = controller.create(customer, result);
-        verify(repository).persist(customer);
+        verify(service).persist(customer);
         assertEquals("Controller failed to redirect", "redirect:/retailcustomers", viewPath);
     }
 
     @Test
     public void create_whenInvalidCustomer_rendersForm() throws Exception {
-        RetailCustomerRepository repository = mock(RetailCustomerRepository.class);
+        RetailCustomerService service = mock(RetailCustomerService.class);
 
-        RetailCustomersController controller = new RetailCustomersController();
-        controller.setCustomerRepository(repository);
+        RetailCustomerController controller = new RetailCustomerController();
+        controller.setService(service);
 
         RetailCustomer customer = new RetailCustomer();
         BindingResult result = mock(BindingResult.class);
         when(result.hasErrors()).thenReturn(true);
 
         String viewPath = controller.create(customer, result);
-        verify(repository, never()).persist(customer);
+        verify(service, never()).persist(customer);
         assertEquals("Controller failed to render form", "retailcustomers/form", viewPath);
     }
 }

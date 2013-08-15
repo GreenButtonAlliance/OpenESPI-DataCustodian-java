@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013 EnergyOS ESPI
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -14,32 +14,33 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.repositories.jpa;
+package org.energyos.espi.datacustodian.service.impl;
 
 import org.energyos.espi.datacustodian.models.RetailCustomer;
 import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
-import org.springframework.stereotype.Repository;
+import org.energyos.espi.datacustodian.service.RetailCustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Repository
-public class MockRetailCustomerRepositoryImpl implements RetailCustomerRepository {
+@Service
+public class RetailCustomerServiceImpl implements RetailCustomerService {
+
+    @Autowired
+    private RetailCustomerRepository repository;
+
+    public void setRepository(RetailCustomerRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public List<RetailCustomer> findAll() {
-        ArrayList<RetailCustomer> customers = new ArrayList<RetailCustomer>();
-
-        RetailCustomer alanTuring = new RetailCustomer();
-        alanTuring.setFirstName("Alan");
-        alanTuring.setLastName("Turing");
-
-        customers.add(alanTuring);
-
-        return customers;
+        return repository.findAll();
     }
 
     @Override
     public void persist(RetailCustomer customer) {
+        repository.persist(customer);
     }
 }

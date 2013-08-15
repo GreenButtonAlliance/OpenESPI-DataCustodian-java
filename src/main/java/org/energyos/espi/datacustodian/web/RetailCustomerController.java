@@ -17,7 +17,7 @@
 package org.energyos.espi.datacustodian.web;
 
 import org.energyos.espi.datacustodian.models.RetailCustomer;
-import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
+import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -34,18 +34,18 @@ import javax.validation.Valid;
 @RequestMapping("/retailcustomers")
 @EnableWebMvc
 @PreAuthorize("hasRole('custodian')")
-public class RetailCustomersController {
+public class RetailCustomerController {
 
-    @Resource(name = "retailCustomerRepository")
-    private RetailCustomerRepository customerRepository;
+    @Resource
+    private RetailCustomerService service;
 
-    public void setCustomerRepository(RetailCustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
+    public void setService(RetailCustomerService service) {
+        this.service = service;
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public String index(ModelMap model) {
-        model.put("customers", customerRepository.findAll());
+        model.put("customers", service.findAll());
 
         return "retailcustomers/index";
     }
@@ -62,7 +62,7 @@ public class RetailCustomersController {
         if (result.hasErrors()) {
             return "retailcustomers/form";
         } else {
-            customerRepository.persist(retailCustomer);
+            service.persist(retailCustomer);
             return "redirect:/retailcustomers";
         }
     }

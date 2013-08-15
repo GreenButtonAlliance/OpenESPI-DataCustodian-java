@@ -32,12 +32,10 @@ public class RetailCustomerRepositoryImpl implements RetailCustomerRepository {
     protected EntityManager em;
 
 	@SuppressWarnings("unchecked")
-	@Override
     public List<RetailCustomer> findAll() {
         return (List<RetailCustomer>)this.em.createNamedQuery(RetailCustomer.QUERY_FIND_ALL).getResultList();
     }
 
-    @Override
     @Transactional
     public void persist(RetailCustomer customer) {
         this.em.persist(customer);
