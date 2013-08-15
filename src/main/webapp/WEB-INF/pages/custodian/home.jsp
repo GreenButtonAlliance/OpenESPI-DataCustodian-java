@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%--
-  ~ Copyright 2013 EnergyOS.org
+  ~ Copyright 2013 EnergyOS ESPI
   ~
   ~    Licensed under the Apache License, Version 2.0 (the "License");
   ~    you may not use this file except in compliance with the License.
@@ -19,17 +19,17 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<jsp:include page="tiles/head.jsp"/>
+<jsp:include page="/WEB-INF/pages/tiles/head.jsp"/>
 
 <body>
 
-<jsp:include page="tiles/header.jsp"/>
+<jsp:include page="/WEB-INF/pages/tiles/custodian/header.jsp"/>
 
 <div class="container">
 
     <!-- Main hero unit for a primary marketing message or call to action -->
     <div class="hero-unit">
-        <h1>Welcome</h1>
+        <h1>Welcome Data Custodian</h1>
         <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
         <p><a href="#" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
     </div>
@@ -55,7 +55,7 @@
 
     <hr>
 
-    <jsp:include page="tiles/footer.jsp"/>
+    <jsp:include page="/WEB-INF/pages/tiles/footer.jsp"/>
 
 </div>
 

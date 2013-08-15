@@ -3,6 +3,12 @@ Feature: Retail Customers
   I want to be able to create retail customers
   So that I can associate retail customers to their usage data
 
+  Scenario: Data Custodian visits Data Custodian's home page
+    Given I have a Data Custodian account
+
+    When I log in as Grace Hopper
+    Then I should see Data Custodian home page
+
   Scenario: Data Custodian logs in with valid credentials
     Given I have a Data Custodian account
 
