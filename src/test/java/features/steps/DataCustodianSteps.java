@@ -67,4 +67,10 @@ public class DataCustodianSteps {
     public void I_am_logged_in_as_Grace_Hopper() throws Throwable {
         StepUtils.login("grace", "koala");
     }
+
+    @Then("^I should see Data Custodian home page$")
+    public void I_should_see_Data_Custodian_home_page() throws Throwable {
+        assertTrue(driver.getCurrentUrl().endsWith("/custodian/home"));
+        assertTrue(driver.getPageSource().contains("Welcome Data Custodian"));
+    }
 }
