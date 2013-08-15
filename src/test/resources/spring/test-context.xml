@@ -31,7 +31,4 @@
         <property name="prefix" value="/WEB-INF/pages/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
-
-    <bean id="retailCustomerRepository" class="org.energyos.espi.datacustodian.repositories.jpa.MockRetailCustomerRepositoryImpl"/>
-    <bean id="retailCustomerRepositoryJpa" class="org.energyos.espi.datacustodian.repositories.jpa.RetailCustomerRepositoryImpl"/>
 </beans>

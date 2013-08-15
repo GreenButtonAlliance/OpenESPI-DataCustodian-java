@@ -47,7 +47,7 @@ public class RetailCustomerControllerTests {
         ModelMap model = new ModelMap();
         controller.index(model);
 
-        assertTrue(((List<RetailCustomer>) model.get("customers")).size() == 1);
+        assertEquals(8, ((List<RetailCustomer>) model.get("customers")).size());
     }
 
     @Test

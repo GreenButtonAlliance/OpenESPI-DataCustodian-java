@@ -36,7 +36,7 @@ import javax.validation.Valid;
 @PreAuthorize("hasRole('custodian')")
 public class RetailCustomersController {
 
-    @Resource(name = "retailCustomerRepository")
+    @Resource
     private RetailCustomerRepository customerRepository;
 
     public void setCustomerRepository(RetailCustomerRepository customerRepository) {
