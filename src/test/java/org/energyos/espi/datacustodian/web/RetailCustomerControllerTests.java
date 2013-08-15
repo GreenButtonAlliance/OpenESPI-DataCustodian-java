@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 
@@ -36,6 +37,7 @@ import static org.mockito.Mockito.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
+@Transactional
 public class RetailCustomerControllerTests {
 
     @Autowired
@@ -53,7 +55,7 @@ public class RetailCustomerControllerTests {
         ModelMap model = new ModelMap();
         controller.index(model);
 
-        assertEquals(8, ((List<RetailCustomer>) model.get("customers")).size());
+        assertEquals(7, ((List<RetailCustomer>) model.get("customers")).size());
     }
 
     @Test
