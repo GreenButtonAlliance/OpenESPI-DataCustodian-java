@@ -50,28 +50,28 @@ public class RetailCustomerTests {
 
     @Test
     public void shouldHaveAListOfRetailCustomers() throws Exception {
-        mockMvc.perform(get("/retailcustomers"))
+        mockMvc.perform(get("/custodian/retailcustomers"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("retailcustomers/index"));
     }
 
     @Test
     public void showDisplayNewCustomerPage() throws Exception {
-        mockMvc.perform(get("/retailcustomers/new"))
+        mockMvc.perform(get("/custodian/retailcustomers/new"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("retailcustomers/form"));
     }
 
     @Test
     public void shouldRenderFormWhenModelInvalid() throws Exception {
-        ResultActions result = mockMvc.perform(post("/retailcustomers/new"));
+        ResultActions result = mockMvc.perform(post("/custodian/retailcustomers/new"));
         result.andExpect(view().name("retailcustomers/form"));
     }
 
     @Test
     public void shouldRedirectToCustomerListAfterCreate() throws Exception {
-        ResultActions result = mockMvc.perform(post("/retailcustomers/new").param("firstName", "Grace").param("lastName", "Hopper"));
-        result.andExpect(redirectedUrl("/retailcustomers"));
+        ResultActions result = mockMvc.perform(post("/custodian/retailcustomers/new").param("firstName", "Grace").param("lastName", "Hopper"));
+        result.andExpect(redirectedUrl("/custodian/retailcustomers"));
     }
 
 }

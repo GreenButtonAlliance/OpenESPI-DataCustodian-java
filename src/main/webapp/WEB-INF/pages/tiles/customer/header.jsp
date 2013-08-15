@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%--
-  ~ Copyright 2013 EnergyOS.org
+  ~ Copyright 2013 EnergyOS ESPI
   ~
   ~    Licensed under the Apache License, Version 2.0 (the "License");
   ~    you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@
 
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li><a href="<c:url value='/retailcustomers'/>">Customer List</a></li>
+                    <li><a href="<c:url value='/usagepoints'/>">Usage Points</a></li>
                     <security:authorize access="isAuthenticated()">
                         <li class="active"><a id="logout" href="<c:url value='/j_spring_security_logout'/>">Logout</a></li>
                     </security:authorize>

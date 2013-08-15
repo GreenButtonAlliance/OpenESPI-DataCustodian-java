@@ -31,9 +31,9 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/retailcustomers")
+@RequestMapping("/custodian/retailcustomers")
 @EnableWebMvc
-@PreAuthorize("hasRole('custodian')")
+@PreAuthorize("hasRole('ROLE_CUSTODIAN')")
 public class RetailCustomerController {
 
     @Resource
@@ -63,7 +63,7 @@ public class RetailCustomerController {
             return "retailcustomers/form";
         } else {
             service.persist(retailCustomer);
-            return "redirect:/retailcustomers";
+            return "redirect:/custodian/retailcustomers";
         }
     }
 

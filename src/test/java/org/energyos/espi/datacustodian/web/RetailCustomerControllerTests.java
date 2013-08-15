@@ -79,7 +79,7 @@ public class RetailCustomerControllerTests {
 
         String viewPath = controller.create(customer, result);
         verify(service).persist(customer);
-        assertEquals("Controller failed to redirect", "redirect:/retailcustomers", viewPath);
+        assertEquals("Controller failed to redirect", "redirect:/custodian/retailcustomers", viewPath);
     }
 
     @Test

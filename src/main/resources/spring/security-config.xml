@@ -21,14 +21,21 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
-    <security:debug/>
-
     <security:global-method-security jsr250-annotations="enabled" pre-post-annotations="enabled"
                                      secured-annotations="enabled"/>
 
     <security:http use-expressions="true">
-        <security:intercept-url pattern="/**" access="permitAll"/>
-        <security:form-login login-page="/login"/>
+
+        <security:intercept-url pattern="/home" access="permitAll"/>
+        <security:intercept-url pattern="/css/**" access="permitAll"/>
+        <security:intercept-url pattern="/ico/**" access="permitAll"/>
+        <security:intercept-url pattern="/img/**" access="permitAll"/>
+        <security:intercept-url pattern="/js/**" access="permitAll"/>
+
+        <security:intercept-url pattern="/customer/**" access="hasRole('ROLE_CUSTOMER')"/>
+        <security:intercept-url pattern="/custodian/**" access="hasRole('ROLE_CUSTODIAN')"/>
+
+        <security:form-login login-page="/login" default-target-url="/default"/>
         <security:logout logout-success-url="/" delete-cookies="JSESSIONID"/>
         <security:remember-me/>
         <security:session-management invalid-session-url="/">
@@ -45,10 +52,10 @@
                 <!-- Password: "koala" for both -->
                 <security:user name="alan"
                                password="4efe081594ce25ee4efd9f7067f7f678a347bccf2de201f3adf2a3eb544850b465b4e51cdc3fcdde"
-                               authorities="user"/>
+                               authorities="ROLE_CUSTOMER"/>
                 <security:user name="grace"
                                password="4efe081594ce25ee4efd9f7067f7f678a347bccf2de201f3adf2a3eb544850b465b4e51cdc3fcdde"
-                               authorities="custodian"/>
+                               authorities="ROLE_CUSTODIAN"/>
             </security:user-service>
         </security:authentication-provider>
     </security:authentication-manager>

@@ -28,11 +28,10 @@
 
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li><a href="<c:url value='/retailcustomers'/>">Customer List</a></li>
-                    <security:authorize access="hasRole('custodian')">
+                    <security:authorize access="isAuthenticated()">
                         <li class="active"><a id="logout" href="<c:url value='/j_spring_security_logout'/>">Logout</a></li>
                     </security:authorize>
-                    <security:authorize access="not hasRole('custodian')">
+                    <security:authorize access="isAnonymous()">
                         <li class="active"><a id="login" href="<c:url value='/login'/>">Login</a></li>
                     </security:authorize>
                 </ul>

@@ -39,7 +39,7 @@ public class RetailCustomerSteps {
 
     @When("^I navigate to customer list page$")
     public void I_navigate_to_customer_list_page() throws Throwable {
-        driver.get("http://localhost:8080/retailcustomers");
+        driver.get("http://localhost:8080/custodian/retailcustomers");
     }
 
     @When("^I create a new retail customer with the name Grace Hopper$")
