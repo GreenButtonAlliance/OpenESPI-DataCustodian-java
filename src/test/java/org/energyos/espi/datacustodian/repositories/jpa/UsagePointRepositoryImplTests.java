@@ -18,29 +18,38 @@ package org.energyos.espi.datacustodian.repositories.jpa;
 
 
 import org.energyos.espi.datacustodian.models.RetailCustomer;
-import org.energyos.espi.datacustodian.service.UsagePointService;
+import org.energyos.espi.datacustodian.models.UsagePoint;
+import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
+@Transactional
 public class UsagePointRepositoryImplTests {
 
     @Autowired
-    UsagePointService service;
+    UsagePointRepository repository;
+    private RetailCustomer customer;
+
+    @Before
+    public void setup() {
+        customer = new RetailCustomer();
+        customer.setId(1L);
+    }
 
     @Test
     public void findByRetailCustomer_returnsUsagePointsByCustomer() {
-        RetailCustomer customer = new RetailCustomer();
-        customer.setId(1L);
 
-        assertTrue(service.findAllByRetailCustomer(customer).size() == 2);
+        assertTrue(repository.findAllByRetailCustomerId(customer.getId()).size() == 2);
     }
 }
