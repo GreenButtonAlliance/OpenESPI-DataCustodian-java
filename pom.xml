@@ -183,12 +183,12 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Databases - MySQL -->
-        <!--<dependency>-->
-            <!--<groupId>mysql</groupId>-->
-            <!--<artifactId>mysql-connector-java</artifactId>-->
-            <!--<version>${mysql.version}</version>-->
-        <!--</dependency>-->
+         <!--Databases - MySQL-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
 
         <!-- Databases - PostgreSQL -->
         <dependency>
