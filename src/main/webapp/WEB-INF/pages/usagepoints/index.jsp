@@ -29,6 +29,8 @@
         <div class="span12">
             <h2>Usage Points</h2>
 
+            <a href="<c:url value='/customer/usagepoints/feed'/>">Download XML</a>
+
             <table class="table table-striped">
                 <thead>
                 <tr>
