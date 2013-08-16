@@ -29,3 +29,9 @@ Feature: Retail Customers
 
     When I look at my usage page
     Then I should see my Usage Points
+
+  Scenario: Retail Customer downloads Usage Points in XML format
+    Given a logged in retail customer
+
+    When I look at my usage page
+    Then I should be able to download Usage Points in XML format
