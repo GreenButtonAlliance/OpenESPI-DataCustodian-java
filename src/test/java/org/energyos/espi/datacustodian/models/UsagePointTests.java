@@ -45,4 +45,11 @@ public class UsagePointTests {
         assertNotEmptyValidation(UsagePoint.class, "title");
         assertSizeValidation(UsagePoint.class, "title", 0, 100);
     }
+
+    @Test
+    public void marshal() throws Exception {
+        UsagePoint up = new UsagePoint();
+        up.setTitle("Electric meter");
+        assertTrue(up.marshal().contains("<UsagePoint>"));
+    }
 }

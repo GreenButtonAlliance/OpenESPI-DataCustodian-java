@@ -20,6 +20,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import java.io.StringWriter;
 
 @MappedSuperclass
 public class BaseEntity {
@@ -38,5 +42,16 @@ public class BaseEntity {
 
     public boolean isNew() {
         return (this.id == null);
+    }
+
+    public String marshal() throws JAXBException {
+        StringWriter w = new StringWriter();
+        JAXBContext context;
+        context = JAXBContext.newInstance(this.getClass());
+        Marshaller m = context.createMarshaller();
+        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        m.marshal(this, w);
+        return w.toString();
+
     }
 }
