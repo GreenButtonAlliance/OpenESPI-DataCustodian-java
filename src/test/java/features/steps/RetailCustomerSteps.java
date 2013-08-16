@@ -105,4 +105,13 @@ public class RetailCustomerSteps {
         assertTrue(driver.getCurrentUrl().endsWith("/customer/home"));
         assertTrue(driver.getPageSource().contains("Welcome Retail Customer"));
     }
+
+    @Then("^I should be able to download Usage Points in XML format$")
+    public void I_should_be_able_to_download_Usage_Points_in_XML_format() throws Throwable {
+        WebElement downloadLink = driver.findElement(By.partialLinkText("Download XML"));
+        downloadLink.click();
+        assertTrue(driver.getPageSource().contains("xml"));
+        assertTrue(driver.getPageSource().contains("House meter"));
+        assertTrue(driver.getPageSource().contains("Gas meter"));
+    }
 }
