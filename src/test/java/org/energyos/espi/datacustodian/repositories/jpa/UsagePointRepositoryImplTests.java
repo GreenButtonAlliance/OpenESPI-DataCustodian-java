@@ -29,6 +29,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -51,5 +52,17 @@ public class UsagePointRepositoryImplTests {
     public void findByRetailCustomer_returnsUsagePointsByCustomer() {
 
         assertTrue(repository.findAllByRetailCustomerId(customer.getId()).size() == 2);
+    }
+
+    @Test
+    public void persist_withNewUsagePoint_persistsUsagePoint() throws Exception {
+        UsagePoint usagePoint = new UsagePoint();
+        usagePoint.setTitle("Electric meter");
+        usagePoint.setRetailCustomer(customer);
+
+        repository.persist(usagePoint);
+
+        assertNotNull(usagePoint.getId());
+        assertNotNull(usagePoint.getRetailCustomer());
     }
 }

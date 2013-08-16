@@ -23,4 +23,6 @@ import java.util.List;
 
 public interface UsagePointService {
     List<UsagePoint> findAllByRetailCustomer(RetailCustomer customer);
+
+    void persist(UsagePoint up);
 }

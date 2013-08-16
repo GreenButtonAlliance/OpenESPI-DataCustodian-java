@@ -19,6 +19,7 @@ package org.energyos.espi.datacustodian.repositories.jpa;
 import org.energyos.espi.datacustodian.models.UsagePoint;
 import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -30,10 +31,14 @@ public class UsagePointRepositoryImpl implements UsagePointRepository{
     @PersistenceContext
     protected EntityManager em;
 
-    @Override
     public List<UsagePoint> findAllByRetailCustomerId(Long id) {
         return (List<UsagePoint>)this.em.createNamedQuery(UsagePoint.QUERY_FIND_ALL_BY_RETAIL_CUSTOMER_ID)
                 .setParameter("retailCustomerId", id)
                 .getResultList();
+    }
+
+    @Transactional
+    public void persist(UsagePoint up){
+        this.em.persist(up);
     }
 }

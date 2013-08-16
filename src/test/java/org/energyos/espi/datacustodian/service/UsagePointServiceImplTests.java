@@ -18,25 +18,41 @@ package org.energyos.espi.datacustodian.service;
 
 
 import org.energyos.espi.datacustodian.models.RetailCustomer;
+import org.energyos.espi.datacustodian.models.UsagePoint;
 import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
-import org.energyos.espi.datacustodian.repositories.jpa.UsagePointRepositoryImpl;
 import org.energyos.espi.datacustodian.service.impl.UsagePointServiceImpl;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.mockito.Mockito.*;
 
 public class UsagePointServiceImplTests {
 
+    private UsagePointServiceImpl service;
+    private UsagePointRepository repository;
+
+    @Before
+    public void setup() {
+        repository = mock(UsagePointRepository.class);
+        service = new UsagePointServiceImpl();
+        service.setRepository(repository);
+    }
+
     @Test
     public void findAllByRetailCustomer_returnsUsageDataForRetailCustomer() {
-        UsagePointRepository repository = mock(UsagePointRepositoryImpl.class);
         RetailCustomer customer = new RetailCustomer();
-        UsagePointServiceImpl service = new UsagePointServiceImpl();
-        service.setRepository(repository);
 
         service.findAllByRetailCustomer(customer);
 
         verify(repository, times(1)).findAllByRetailCustomerId(customer.getId());
     }
 
+    @Test
+    public void persist_persistsUsagePoint() {
+        UsagePoint up = new UsagePoint();
+
+        service.persist(up);
+
+        verify(repository).persist(up);
+    }
 }

@@ -35,7 +35,7 @@ public class RetailCustomerServiceTests {
     private RetailCustomerServiceImpl service;
 
     @Before
-    public void before() {
+    public void setup() {
         repository = mock(RetailCustomerRepository.class);
         service = new RetailCustomerServiceImpl();
         service.setRepository(repository);
