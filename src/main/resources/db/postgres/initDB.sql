@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS usage_points;
 DROP TABLE IF EXISTS retail_customers;
-DROP SEQUENCE retail_customers_seq;
-DROP SEQUENCE usage_points_seq;
+DROP SEQUENCE IF EXISTS retail_customers_seq;
+DROP SEQUENCE IF EXISTS usage_points_seq;
 
 CREATE SEQUENCE retail_customers_seq START 8;
 

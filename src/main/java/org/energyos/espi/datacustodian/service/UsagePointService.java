@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS ESPI
+ * Copyright 2013 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -23,4 +23,6 @@ import java.util.List;
 
 public interface UsagePointService {
     List<UsagePoint> findAllByRetailCustomer(RetailCustomer customer);
+
+    void persist(UsagePoint up);
 }

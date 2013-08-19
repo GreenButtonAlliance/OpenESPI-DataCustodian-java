@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS ESPI
+ * Copyright 2013 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -44,5 +44,12 @@ public class UsagePointTests {
     public void validations() {
         assertNotEmptyValidation(UsagePoint.class, "title");
         assertSizeValidation(UsagePoint.class, "title", 0, 100);
+    }
+
+    @Test
+    public void marshal() throws Exception {
+        UsagePoint up = new UsagePoint();
+        up.setTitle("Electric meter");
+        assertTrue(up.marshal().contains("<UsagePoint>"));
     }
 }

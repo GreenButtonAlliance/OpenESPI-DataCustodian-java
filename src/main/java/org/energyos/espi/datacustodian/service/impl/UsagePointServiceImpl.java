@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS ESPI
+ * Copyright 2013 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -31,12 +31,15 @@ public class UsagePointServiceImpl implements UsagePointService {
     @Autowired
     private UsagePointRepository repository;
 
-    @Override
     public List<UsagePoint> findAllByRetailCustomer(RetailCustomer customer) {
         return repository.findAllByRetailCustomerId(customer.getId());
     }
 
     public void setRepository(UsagePointRepository repository) {
         this.repository = repository;
+    }
+
+    public void persist(UsagePoint up) {
+        this.repository.persist(up);
     }
 }

@@ -14,15 +14,12 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.repositories;
+package features;
 
-import org.energyos.espi.datacustodian.models.UsagePoint;
+import cucumber.api.junit.Cucumber;
+import org.junit.runner.RunWith;
 
-import java.util.List;
-
-public interface UsagePointRepository {
-
-    List<UsagePoint> findAllByRetailCustomerId(Long id);
-
-    void persist(UsagePoint up);
+@RunWith(Cucumber.class)
+@Cucumber.Options(features = {"classpath:features/ImportUsagePoint.feature"})
+public class ImportUsagePointFeature {
 }

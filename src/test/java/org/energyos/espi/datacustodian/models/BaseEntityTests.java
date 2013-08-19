@@ -14,15 +14,17 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.repositories;
+package org.energyos.espi.datacustodian.models;
 
-import org.energyos.espi.datacustodian.models.UsagePoint;
+import org.junit.Test;
 
-import java.util.List;
+import static org.junit.Assert.assertNotNull;
 
-public interface UsagePointRepository {
+public class BaseEntityTests {
 
-    List<UsagePoint> findAllByRetailCustomerId(Long id);
-
-    void persist(UsagePoint up);
+    @Test
+    public void marshal() throws Exception {
+        UsagePoint up = new UsagePoint();
+        assertNotNull("the xml is invalid", up.marshal());
+    }
 }

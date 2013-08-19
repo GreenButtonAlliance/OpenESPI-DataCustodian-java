@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS ESPI
+ * Copyright 2013 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -20,7 +20,13 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.*;
 
+@XmlRootElement(name="UsagePoint")
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "UsagePoint", propOrder = {
+        "title"
+})
 @Entity
 @Table(name = "usage_points")
 @NamedQueries(value = {
@@ -31,6 +37,7 @@ public class UsagePoint extends BaseEntity {
 
     public static final String QUERY_FIND_ALL_BY_RETAIL_CUSTOMER_ID = "UsagePoint.findUsagePointsByRetailCustomer";
 
+    @XmlElement(type = String.class)
     @Column(name = "title")
     @NotEmpty @Size(max = 100)
     private String title;
