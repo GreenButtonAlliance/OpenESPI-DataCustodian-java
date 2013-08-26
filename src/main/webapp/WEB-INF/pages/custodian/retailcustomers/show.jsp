@@ -30,6 +30,9 @@
     <div class="row">
         <div class="span12">
             <h2><c:out value="${retailCustomer.firstName}"/> <c:out value="${retailCustomer.lastName}"/></h2>
+
+            <a href="<c:url value='/custodian/retailcustomers/${retailCustomer.id}/upload'/>" class="btn btn-large"></i>Upload data</a>
+
         </div>
     </div>
 

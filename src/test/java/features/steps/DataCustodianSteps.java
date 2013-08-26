@@ -25,6 +25,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.io.File;
+
 import static org.junit.Assert.assertTrue;
 
 public class DataCustodianSteps {
@@ -90,8 +92,11 @@ public class DataCustodianSteps {
 
     @When("^I upload Usage Points")
     public void I_upload_Usage_Points() throws Throwable {
+        WebElement uploadLink = driver.findElement(By.linkText("Upload data"));
+        uploadLink.click();
+        File cwd = new File(".");
         WebElement file = driver.findElement(By.name("file"));
-        file.sendKeys("/Users/pivotal/workspace/OpenESPI-DataCustodian-java/etc/usage_point.xml");
+        file.sendKeys(cwd.getAbsolutePath() + "/etc/usage_point.xml");
         WebElement upload = driver.findElement(By.name("upload"));
         upload.click();
         driver.get("http://localhost:8080/j_spring_security_logout");
