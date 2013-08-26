@@ -39,3 +39,13 @@ Feature: Retail Customers
 
     When I navigate to customer list page
     Then I should see Alan Turing in the customer list
+
+  Scenario: Data Custodian uploads Usage Points
+    Given Grace Hopper Data Custodian
+    And Alan Turing Retail Customer
+
+    When I login as Grace Hopper
+    And I upload Usage Points
+
+    When I login as Alan Turing
+    Then I should see my Usage Points with title "Electric meter"
