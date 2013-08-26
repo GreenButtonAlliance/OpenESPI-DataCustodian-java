@@ -24,10 +24,7 @@
 
 package org.energyos.espi.datacustodian.models.atom;
 
-import org.energyos.espi.datacustodian.models.atom.adapters.ContentAdapter;
-import org.energyos.espi.datacustodian.models.atom.adapters.DateTimeAdapter;
-import org.energyos.espi.datacustodian.models.atom.adapters.GenericAdapter;
-import org.energyos.espi.datacustodian.models.atom.adapters.StringAdapter;
+import org.energyos.espi.datacustodian.models.atom.adapters.*;
 import org.joda.time.DateTime;
 
 import javax.xml.bind.JAXBElement;
@@ -85,6 +82,7 @@ import java.util.Map;
     "content",
     "published",
     "updated",
+    "links",
     "authorOrCategoryOrContent"
 })
 public class EntryType {
@@ -123,6 +121,13 @@ public class EntryType {
     @XmlAnyElement(lax = true)
     @XmlJavaTypeAdapter(DateTimeAdapter.class)
     protected DateTime updated;
+
+    @XmlElementRefs({
+            @XmlElementRef(name = "link", namespace = "http://www.w3.org/2005/Atom", type = JAXBElement.class, required = false),
+    })
+    @XmlAnyElement(lax = true)
+    @XmlJavaTypeAdapter(LinkAdapter.class)
+    protected List<LinkType> links = new ArrayList<LinkType>();
 
     @XmlElementRefs({
         @XmlElementRef(name = "category", namespace = "http://www.w3.org/2005/Atom", type = JAXBElement.class, required = false),
@@ -357,6 +362,30 @@ public class EntryType {
      */
     public void setUpdated(DateTime updated) {
         this.updated = updated;
+    }
+
+    /**
+     * Gets the value of the links property.
+     *
+     * @return
+     *     possible object is
+     *     {@link List<LinkType> }
+     *
+     */
+    public List<LinkType> getLinks() {
+        return links;
+    }
+
+    /**
+     * Sets the value of the links property.
+     *
+     * @param links
+     *     allowed object is
+     *     {@link List<LinkType> }
+     *
+     */
+    public void setLinks(List<LinkType> links) {
+        this.links = links;
     }
 
     /**
