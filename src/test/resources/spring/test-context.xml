@@ -36,7 +36,7 @@
         <property name="packagesToScan">
             <list>
                 <value>org.energyos.espi.datacustodian.models.atom</value>
-                <value>org.naesb.espi</value>
+                <value>org.energyos.espi.datacustodian.domain</value>
             </list>
         </property>
     </bean>

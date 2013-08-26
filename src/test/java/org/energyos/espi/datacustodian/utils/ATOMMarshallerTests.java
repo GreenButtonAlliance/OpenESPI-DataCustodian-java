@@ -16,6 +16,7 @@
 
 package org.energyos.espi.datacustodian.utils;
 
+import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.models.atom.EntryType;
 import org.energyos.espi.datacustodian.models.atom.FeedType;
 import org.energyos.espi.datacustodian.models.atom.IdType;
@@ -23,7 +24,6 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.naesb.espi.UsagePoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.UnmarshallingFailureException;
 import org.springframework.test.context.ContextConfiguration;

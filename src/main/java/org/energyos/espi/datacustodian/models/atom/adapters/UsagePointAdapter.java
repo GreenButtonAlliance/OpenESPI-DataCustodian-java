@@ -16,7 +16,7 @@
 
 package org.energyos.espi.datacustodian.models.atom.adapters;
 
-import org.naesb.espi.UsagePoint;
+import org.energyos.espi.datacustodian.domain.UsagePoint;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
