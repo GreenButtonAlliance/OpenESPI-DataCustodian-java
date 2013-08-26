@@ -37,12 +37,23 @@ Feature: Retail Customers
     When I navigate to customer list page
     Then I should see login form
 
+  Scenario: Data Custodian views Retail Customer profile page
+    Given Grace Hopper Data Custodian
+    And Alan Turing Retail Customer
+
+    When I login as Grace Hopper
+    And I navigate to customer list page
+    And I select "Alan Turing" from customer list
+    Then I should see "Alan Turing" profile page
+
   Scenario: Data Custodian uploads Usage Points
     Given Grace Hopper Data Custodian
     And Alan Turing Retail Customer
 
     When I login as Grace Hopper
+    And I select "Alan Turing" from customer list
     And I upload Usage Points
 
     When I login as Alan Turing
+    And I navigate to the Usage Points list
     Then I should see my Usage Points with title "Electric meter"

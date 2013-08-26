@@ -1,17 +1,17 @@
 /*
  * Copyright 2013 EnergyOS.org
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ *     Licensed under the Apache License, Version 2.0 (the "License");
+ *     you may not use this file except in compliance with the License.
+ *     You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *         http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ *     Unless required by applicable law or agreed to in writing, software
+ *     distributed under the License is distributed on an "AS IS" BASIS,
+ *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *     See the License for the specific language governing permissions and
+ *     limitations under the License.
  */
 
 package features.steps;
@@ -21,7 +21,6 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import cucumber.runtime.PendingException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -94,7 +93,7 @@ public class DataCustodianSteps {
         WebElement uploadLink = driver.findElement(By.linkText("Upload"));
         uploadLink.click();
         WebElement file = driver.findElement(By.name("file"));
-        file.sendKeys("./usagePoints.xml");
+        file.sendKeys("/Users/pivotal/workspace/OpenESPI-DataCustodian-java/etc/usage_point.xml");
         WebElement upload = driver.findElement(By.name("upload"));
         upload.click();
         driver.get("http://localhost:8080/j_spring_security_logout");
@@ -103,5 +102,22 @@ public class DataCustodianSteps {
     @When("^I login as Alan Turing$")
     public void I_login_as_Alan_Turing() throws Throwable {
         StepUtils.login("alan", "koala");
+    }
+
+    @And("^I navigate to the Usage Points list$")
+    public void I_navigate_to_the_Usage_Points_list() throws Throwable {
+        WebElement usagePointsLink = driver.findElement(By.linkText("Usage Points"));
+        usagePointsLink.click();
+    }
+
+    @And("^I select \"Alan Turing\" from customer list$")
+    public void I_select_from_customer_list() throws Throwable {
+        WebElement customerLink = driver.findElement(By.linkText("Turing"));
+        customerLink.click();
+    }
+
+    @Then("^I should see \"([^\"]*)\" profile page$")
+    public void I_should_see_profile_page(String arg1) throws Throwable {
+        assertTrue(driver.getPageSource().contains("Alan Turing"));
     }
 }
