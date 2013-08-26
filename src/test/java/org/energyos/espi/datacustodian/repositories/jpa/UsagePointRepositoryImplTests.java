@@ -18,6 +18,7 @@ package org.energyos.espi.datacustodian.repositories.jpa;
 
 
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.datacustodian.domain.ServiceCategory;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
 import org.junit.Before;
@@ -65,6 +66,7 @@ public class UsagePointRepositoryImplTests {
         UsagePoint usagePoint = new UsagePoint();
         usagePoint.setTitle("Electric meter");
         usagePoint.setRetailCustomer(customer);
+        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
 
         repository.persist(usagePoint);
 
