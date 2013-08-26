@@ -51,6 +51,16 @@ public class RetailCustomerServiceTests {
     }
 
     @Test
+    public void findById_returnsRetailCustomers() {
+        RetailCustomer customer = new RetailCustomer();
+        customer.setId(13L);
+
+        when(repository.findById(customer.getId())).thenReturn(customer);
+
+        assertEquals(customer, service.findById(customer.getId()));
+    }
+
+    @Test
     public void persist_persistsRetailCustomer() {
         RetailCustomer customer = new RetailCustomer();
 

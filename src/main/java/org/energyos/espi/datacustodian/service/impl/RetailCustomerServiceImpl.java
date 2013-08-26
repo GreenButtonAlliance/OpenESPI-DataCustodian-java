@@ -43,4 +43,9 @@ public class RetailCustomerServiceImpl implements RetailCustomerService {
     public void persist(RetailCustomer customer) {
         repository.persist(customer);
     }
+
+    @Override
+    public RetailCustomer findById(Long id) {
+        return repository.findById(id);
+    }
 }
