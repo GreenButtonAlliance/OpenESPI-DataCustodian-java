@@ -16,15 +16,57 @@
 
 package org.energyos.espi.datacustodian.web.custodian;
 
+import org.energyos.espi.datacustodian.service.UsagePointService;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.xml.bind.JAXBException;
+import java.io.InputStream;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 
 public class UploadControllerTests {
 
+    private UsagePointService service;
+    private UploadController controller;
+    private BindingResult result;
+    private UploadForm form;
+
+    @Before
+    public void before() {
+        service = mock(UsagePointService.class);
+        form = new UploadForm();
+        form.setFile(mock(MultipartFile.class));
+        controller = new UploadController();
+        controller.setService(service);
+        result = mock(BindingResult.class);
+    }
+
     @Test
     public void upload_displaysUsagePointUploadView() throws Exception {
-        UploadController controller = new UploadController();
         assertEquals("/custodian/upload", controller.upload());
+    }
+
+    @Test
+    public void uploadPost_givenInvalidFile_displaysHomeViewWithErrors() throws Exception {
+        Mockito.doThrow(new JAXBException("Unable to process file")).when(service).importUsagePoint(any(InputStream.class));
+
+        String view = controller.uploadPost(form, result);
+
+        assertEquals("/custodian/upload", view);
+        verify(result).addError(new ObjectError("uploadForm", "Unable to process file"));
+    }
+
+    @Test
+    public void uploadPost_givenValidFile_importsUsagePointWithNoErrors() throws Exception {
+        controller.uploadPost(form, result);
+
+        verify(service).importUsagePoint(form.getFile().getInputStream());
+        assertEquals(false, result.hasErrors());
     }
 }

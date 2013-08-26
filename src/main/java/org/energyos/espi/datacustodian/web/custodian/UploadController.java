@@ -16,15 +16,46 @@
 
 package org.energyos.espi.datacustodian.web.custodian;
 
+import org.energyos.espi.datacustodian.service.UsagePointService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.xml.bind.JAXBException;
+import java.io.IOException;
 
 @Controller
 public class UploadController {
 
+    @Autowired
+    private UsagePointService service;
+
+    public void setService(UsagePointService service) {
+        this.service = service;
+    }
+
+    @ModelAttribute("uploadForm")
+    public UploadForm uploadForm() {
+        return new UploadForm();
+    }
+
     @RequestMapping(value = "/custodian/upload", method = RequestMethod.GET)
     public String upload() {
         return "/custodian/upload";
+    }
+
+    @RequestMapping(value = "/custodian/upload", method = RequestMethod.POST)
+    public String uploadPost(@ModelAttribute UploadForm uploadForm, BindingResult result) throws IOException, JAXBException {
+        try {
+            service.importUsagePoint(uploadForm.getFile().getInputStream());
+            return "redirect:/custodian/home";
+        } catch(Exception e) {
+            result.addError(new ObjectError("uploadForm", "Unable to process file"));
+            return "/custodian/upload";
+        }
     }
 }
