@@ -90,8 +90,6 @@ public class DataCustodianSteps {
 
     @When("^I upload Usage Points")
     public void I_upload_Usage_Points() throws Throwable {
-        WebElement uploadLink = driver.findElement(By.linkText("Upload"));
-        uploadLink.click();
         WebElement file = driver.findElement(By.name("file"));
         file.sendKeys("/Users/pivotal/workspace/OpenESPI-DataCustodian-java/etc/usage_point.xml");
         WebElement upload = driver.findElement(By.name("upload"));

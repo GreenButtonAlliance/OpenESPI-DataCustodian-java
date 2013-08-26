@@ -51,6 +51,7 @@ Feature: Retail Customers
     And Alan Turing Retail Customer
 
     When I login as Grace Hopper
+    And I navigate to customer list page
     And I select "Alan Turing" from customer list
     And I upload Usage Points
 
