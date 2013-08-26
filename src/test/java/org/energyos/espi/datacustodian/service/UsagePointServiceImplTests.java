@@ -21,8 +21,13 @@ import org.energyos.espi.datacustodian.models.RetailCustomer;
 import org.energyos.espi.datacustodian.models.UsagePoint;
 import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
 import org.energyos.espi.datacustodian.service.impl.UsagePointServiceImpl;
+import org.energyos.espi.datacustodian.utils.UsagePointUnmarshaller;
 import org.junit.Before;
 import org.junit.Test;
+
+import javax.xml.bind.JAXBException;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import static org.mockito.Mockito.*;
 
@@ -54,5 +59,19 @@ public class UsagePointServiceImplTests {
         service.persist(up);
 
         verify(repository).persist(up);
+    }
+
+    @Test
+    public void importUsagePoints_persistsUsagePoint() throws JAXBException, FileNotFoundException {
+        UsagePoint usagePoint = new UsagePoint();
+
+        UsagePointUnmarshaller unmarshaller = mock(UsagePointUnmarshaller.class);
+        when(unmarshaller.unmarshal(any(InputStream.class))).thenReturn(usagePoint);
+
+        service.setUnmarshaller(unmarshaller);
+
+        service.importUsagePoint(mock(InputStream.class));
+
+        verify(repository).persist(usagePoint);
     }
 }

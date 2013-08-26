@@ -20,26 +20,42 @@ import org.energyos.espi.datacustodian.models.RetailCustomer;
 import org.energyos.espi.datacustodian.models.UsagePoint;
 import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
 import org.energyos.espi.datacustodian.service.UsagePointService;
+import org.energyos.espi.datacustodian.utils.UsagePointUnmarshaller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.xml.bind.JAXBException;
+import java.io.InputStream;
 import java.util.List;
 
 @Service
+@Transactional
 public class UsagePointServiceImpl implements UsagePointService {
 
     @Autowired
     private UsagePointRepository repository;
-
-    public List<UsagePoint> findAllByRetailCustomer(RetailCustomer customer) {
-        return repository.findAllByRetailCustomerId(customer.getId());
-    }
+    @Autowired
+    private UsagePointUnmarshaller unmarshaller;
 
     public void setRepository(UsagePointRepository repository) {
         this.repository = repository;
     }
 
+    public void setUnmarshaller(UsagePointUnmarshaller unmarshaller) {
+        this.unmarshaller = unmarshaller;
+    }
+
+    public List<UsagePoint> findAllByRetailCustomer(RetailCustomer customer) {
+        return repository.findAllByRetailCustomerId(customer.getId());
+    }
+
     public void persist(UsagePoint up) {
         this.repository.persist(up);
     }
+
+    public void importUsagePoint(InputStream stream) throws JAXBException {
+        persist(unmarshaller.unmarshal(stream));
+    }
+
 }
