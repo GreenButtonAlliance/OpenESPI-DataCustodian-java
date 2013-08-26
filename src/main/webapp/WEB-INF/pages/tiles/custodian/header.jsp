@@ -29,6 +29,7 @@
             <div class="nav-collapse collapse">
                 <ul class="nav">
                     <li><a href="<c:url value='/custodian/retailcustomers'/>">Customer List</a></li>
+                    <li><a href="<c:url value='/custodian/upload'/>">Upload</a></li>
                     <security:authorize access="isAuthenticated()">
                         <li class="active"><a id="logout" href="<c:url value='/j_spring_security_logout'/>">Logout</a></li>
                     </security:authorize>
