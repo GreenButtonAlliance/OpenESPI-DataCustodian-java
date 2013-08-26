@@ -16,57 +16,51 @@
 
 package org.energyos.espi.datacustodian.console;
 
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.service.UsagePointService;
-import org.energyos.espi.datacustodian.utils.ATOMMarshaller;
-import org.energyos.espi.datacustodian.utils.UsagePointBuilder;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.apache.http.HttpVersion;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.CoreProtocolPNames;
 
-import java.io.FileInputStream;
+import java.io.File;
+import java.io.IOException;
 
 public class ImportUsagePoint {
-    private static UsagePointService usagePointService;
+
+    public static void upload(String filename, String url, HttpClient client) throws IOException {
+        HttpPost post = new HttpPost(url);
+        MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+        File file = new File(filename);
+        entity.addPart("file", new FileBody(((File) file), "application/rss+xml"));
+
+        post.setEntity(entity);
+
+        client.execute(post);
+    }
 
     public static void main(String[] args) {
-        if (args.length > 0) {
-            String filename = args[0];
-            ApplicationContext springContext = new ClassPathXmlApplicationContext("classpath:spring/business-config.xml");
-            UsagePointBuilder builder = springContext.getBean(UsagePointBuilder.class);
-            ATOMMarshaller marshaller = springContext.getBean(ATOMMarshaller.class);
-            usagePointService = springContext.getBean(UsagePointService.class);
-
+        if (args.length == 2) {
             try {
-                persistUsagePoint(builder.newUsagePoint(marshaller.unmarshal(new FileInputStream(filename))));
-            } catch (Exception e) {
+                String filename = args[0];
+                String url = args[1];
+
+                DefaultHttpClient client = new DefaultHttpClient();
+                client.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
+                upload(filename, url, client);
+                client.getConnectionManager().shutdown();
+            } catch (IOException e) {
                 e.printStackTrace();
-                System.exit(1);
             }
-
-            System.out.println("**********");
-            System.out.println("\nXML file imported successfully.\n");
-            System.out.println("**********");
         } else {
-            System.out.println("**********");
-            System.out.println("\nPlease specify an XML file to import.\n");
-            System.out.println("**********");
-            System.exit(1);
+            System.out.println("Usage: import_usage_point.sh filename url");
+            System.out.println("");
+            System.out.println("Example:");
+            System.out.println("");
+            System.out.println("  import_usage_point.sh etc/usage_point.xml http://localhost:8080/custodian/retailcustomers/1/upload");
         }
-    }
-
-    public static void persistUsagePoint(UsagePoint up) {
-        RetailCustomer customer = new RetailCustomer();
-        customer.setFirstName("Alan");
-        customer.setLastName("Turing");
-        customer.setId(1L);
-
-        up.setRetailCustomer(customer);
-
-        usagePointService.persist(up);
-    }
-
-    public static void setUsagePointService(UsagePointService usagePointService) {
-        ImportUsagePoint.usagePointService = usagePointService;
     }
 }
