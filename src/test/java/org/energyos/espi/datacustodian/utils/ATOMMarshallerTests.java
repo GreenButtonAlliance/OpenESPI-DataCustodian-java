@@ -18,6 +18,7 @@ package org.energyos.espi.datacustodian.utils;
 
 import org.energyos.espi.datacustodian.models.atom.EntryType;
 import org.energyos.espi.datacustodian.models.atom.FeedType;
+import org.energyos.espi.datacustodian.models.atom.IdType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.naesb.espi.UsagePoint;
@@ -89,5 +90,21 @@ public class ATOMMarshallerTests {
         FeedType feed = marshaller.unmarshal(xmlStream);
 
         assertEquals(UsagePoint.class, feed.getEntries().get(0).getContent().getUsagePoint().getClass());
+    }
+
+    @Test
+    public void givenFeedWithId_returnsFeedWithId() throws JAXBException {
+        String xml ="<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+                "<?xml-stylesheet type=\"text/xsl\" href=\"GreenButtonDataStyleSheet.xslt\"?>" +
+                "<feed xmlns=\"http://www.w3.org/2005/Atom\" " +
+                " xsi:schemaLocation=\"http://naesb.org/espi espiDerived.xsd\"" +
+                " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">" +
+                "   <id>urn:uuid:D7B58EA6-D94D-45D1-A0CA-F8A843AB1080</id>" +
+                "</feed>";
+        InputStream xmlStream = new ByteArrayInputStream(xml.getBytes());
+        FeedType feed = marshaller.unmarshal(xmlStream);
+
+        assertEquals(IdType.class, feed.getId().getClass());
+
     }
 }
