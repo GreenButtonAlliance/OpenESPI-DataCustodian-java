@@ -299,6 +299,12 @@
             <artifactId>httpmime</artifactId>
             <version>4.2.5</version>
         </dependency>
+
+        <dependency>
+            <groupId>rome</groupId>
+            <artifactId>rome</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
     <build>

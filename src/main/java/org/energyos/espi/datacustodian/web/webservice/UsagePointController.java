@@ -16,7 +16,10 @@
 
 package org.energyos.espi.datacustodian.web.webservice;
 
-import org.energyos.espi.datacustodian.models.UsagePoint;
+import com.sun.syndication.feed.atom.Feed;
+import com.sun.syndication.io.FeedException;
+import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.service.AtomMarshallerService;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +39,8 @@ public class UsagePointController {
     private UsagePointService usagePointService;
     @Autowired
     private RetailCustomerService retailCustomerService;
+    @Autowired
+    private AtomMarshallerService atomMarshallerService;
 
     public void setUsagePointService(UsagePointService usagePointService) {
         this.usagePointService = usagePointService;
@@ -45,17 +50,25 @@ public class UsagePointController {
         this.retailCustomerService = retailCustomerService;
     }
 
-    @ModelAttribute
-    public List<UsagePoint> usagePointsList(@PathVariable("retailCustomerId") Long retailCustomerId) {
-        return  usagePointService.findAllByRetailCustomer(retailCustomerService.find_by_id(retailCustomerId));
+    public void setAtomMarshallerService(AtomMarshallerService atomMarshallerService) {
+        this.atomMarshallerService = atomMarshallerService;
     }
 
+
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_ATOM_XML_VALUE)
-    public String index() {
-        return "/customer/usagepoints/feed";
+    @ResponseBody
+    public String index(@PathVariable("retailCustomerId") Long retailCustomerId) throws FeedException {
+        List<UsagePoint> usagePointList = usagePointService.findAllByRetailCustomer(retailCustomerService.findById(retailCustomerId));
+        Feed atomFeed = null;
+        atomFeed = atomMarshallerService.buildFeed(usagePointList);
+        return atomMarshallerService.marshal(atomFeed);
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(EmptyResultDataAccessException.class)
     public void handleException(EmptyResultDataAccessException e) { }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(FeedException.class)
+    public void handleFeedException(FeedException e) { }
 }

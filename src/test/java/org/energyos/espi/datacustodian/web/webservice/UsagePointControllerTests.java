@@ -16,8 +16,11 @@
 
 package org.energyos.espi.datacustodian.web.webservice;
 
-import org.energyos.espi.datacustodian.models.RetailCustomer;
-import org.energyos.espi.datacustodian.models.UsagePoint;
+import com.sun.syndication.feed.atom.Feed;
+import com.sun.syndication.io.FeedException;
+import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.service.AtomMarshallerService;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.junit.Before;
@@ -34,33 +37,39 @@ public class UsagePointControllerTests {
     private UsagePointController controller;
     private UsagePointService usagePointService;
     private RetailCustomerService retailCustomerService;
+    private AtomMarshallerService atomMarshallerService;
+    private Feed atomFeed;
 
     @Before
     public void before() {
         usagePointService = mock(UsagePointService.class);
         retailCustomerService = mock(RetailCustomerService.class);
+        atomMarshallerService = mock(AtomMarshallerService.class);
+        atomFeed = mock(Feed.class);
 
         controller = new UsagePointController();
         controller.setUsagePointService(usagePointService);
         controller.setRetailCustomerService(retailCustomerService);
+        controller.setAtomMarshallerService(atomMarshallerService);
     }
 
     @Test
-    public void index_displaysUsagePointsFeedView() {
-        assertEquals("/customer/usagepoints/feed", controller.index());
-    }
-
-    @Test
-    public void usagePointList_returnsListUsagePoints() throws Exception {
-        List<UsagePoint> usagePointList = new ArrayList<UsagePoint>();
+    public void index_returnsAtomFeedOfUsagePointsForAppropriateUser() throws FeedException {
+        Long customerId = 1L;
         RetailCustomer customer = new RetailCustomer();
-        Long customerId = 1l;
+        List<UsagePoint> usagePointList = new ArrayList<UsagePoint>();
+        String atomFeedResult = "THIS IS AN ATOM FEED";
 
-        when(retailCustomerService.find_by_id(customerId)).thenReturn(customer);
+        when(retailCustomerService.findById(customerId)).thenReturn(customer);
         when(usagePointService.findAllByRetailCustomer(customer)).thenReturn(usagePointList);
 
-        assertEquals(usagePointList, controller.usagePointsList(customerId));
-        verify(retailCustomerService).find_by_id(customerId);
+        when(atomMarshallerService.marshal(atomFeed)).thenReturn(atomFeedResult);
+        when(atomMarshallerService.buildFeed(usagePointList)).thenReturn(atomFeed);
+
+        assertEquals(atomFeedResult, controller.index(customerId));
+        verify(retailCustomerService).findById(customerId);
         verify(usagePointService).findAllByRetailCustomer(customer);
+        verify(atomMarshallerService).marshal(atomFeed);
+        verify(atomMarshallerService).buildFeed(usagePointList);
     }
 }
