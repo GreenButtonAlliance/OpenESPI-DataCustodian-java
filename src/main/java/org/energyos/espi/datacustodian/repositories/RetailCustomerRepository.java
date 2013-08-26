@@ -25,4 +25,6 @@ public interface RetailCustomerRepository {
     List<RetailCustomer> findAll();
 
     void persist(RetailCustomer customer);
+
+    RetailCustomer findById(Long id);
 }

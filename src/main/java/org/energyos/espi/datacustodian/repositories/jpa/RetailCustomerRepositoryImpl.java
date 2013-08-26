@@ -40,4 +40,9 @@ public class RetailCustomerRepositoryImpl implements RetailCustomerRepository {
     public void persist(RetailCustomer customer) {
         this.em.persist(customer);
     }
+
+    @Override
+    public RetailCustomer findById(Long id) {
+        return this.em.find(RetailCustomer.class, id);
+    }
 }

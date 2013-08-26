@@ -45,6 +45,11 @@ public class RetailCustomerRepositoryImplTests {
     }
 
     @Test
+    public void findById_returnsRetailCustomer() throws Exception {
+        assertNotNull(repository.findById(1L));
+    }
+
+    @Test
     public void persist_withNewCustomer_increasesSizeOfCustomersTable() throws Exception {
         RetailCustomer alanTuring = new RetailCustomer();
         alanTuring.setFirstName("Alan");
