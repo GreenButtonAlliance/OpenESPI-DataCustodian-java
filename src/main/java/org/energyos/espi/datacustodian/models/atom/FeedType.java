@@ -96,7 +96,7 @@ public class FeedType {
     })
     @XmlAnyElement(lax = true)
     @XmlJavaTypeAdapter(EntryAdapter.class)
-    protected List<EntryType> entries;
+    protected List<EntryType> entries = new ArrayList<EntryType>();
 
     @XmlElementRefs({
         @XmlElementRef(name = "logo", namespace = "http://www.w3.org/2005/Atom", type = JAXBElement.class, required = false),
