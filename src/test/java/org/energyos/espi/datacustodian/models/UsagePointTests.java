@@ -16,6 +16,7 @@
 
 package org.energyos.espi.datacustodian.models;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.junit.Test;
 
 import javax.validation.ConstraintViolation;
@@ -23,8 +24,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.Set;
 
-import static org.energyos.espi.datacustodian.support.TestUtils.assertNotEmptyValidation;
-import static org.energyos.espi.datacustodian.support.TestUtils.assertSizeValidation;
+import static org.energyos.espi.datacustodian.support.TestUtils.*;
 import static org.junit.Assert.assertTrue;
 
 public class UsagePointTests {
@@ -42,8 +42,13 @@ public class UsagePointTests {
 
     @Test
     public void validations() {
-        assertNotEmptyValidation(UsagePoint.class, "title");
+        assertAnnotationPresent(UsagePoint.class, "title", NotEmpty.class);
         assertSizeValidation(UsagePoint.class, "title", 0, 100);
+    }
+
+    @Test
+    public void marshaling() {
+        assertXmlElement(UsagePoint.class, "title", String.class);
     }
 
     @Test
