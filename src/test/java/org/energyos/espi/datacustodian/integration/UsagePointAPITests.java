@@ -28,7 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -47,19 +48,10 @@ public class UsagePointAPITests {
     }
 
     @Test
-    public void index_should_returnOkStatus() throws Exception {
+    public void index_should_returnAtomFeed_whenValidUser() throws Exception {
         mockMvc.perform(get("/RetailCustomer/1/UsagePoint"))
-            .andExpect(status().isOk());
-    }
-
-    @Test
-    public void index_should_displayUsagePointFeedView() throws Exception {
-        mockMvc.perform(get("/RetailCustomer/1/UsagePoint")).andExpect(view().name("/customer/usagepoints/feed"));
-    }
-
-    @Test
-    public void index_should_setUsagePointListModel() throws Exception {
-        mockMvc.perform(get("/RetailCustomer/1/UsagePoint")).andExpect(model().attributeExists("usagePointList"));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/atom+xml"));
     }
 
     @Test
