@@ -23,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -67,4 +68,10 @@ public class RetailCustomerController {
         }
     }
 
+    @RequestMapping(value = "/{retailCustomerId}/show", method = RequestMethod.GET)
+    public String show(@PathVariable Long retailCustomerId, ModelMap model) {
+        RetailCustomer retailCustomer = service.findById(retailCustomerId);
+        model.put("retailCustomer", retailCustomer);
+        return "/custodian/retailcustomers/show";
+    }
 }

@@ -43,6 +43,9 @@ public class RetailCustomerControllerTests {
     @Autowired
     protected RetailCustomerController controller;
 
+    @Autowired
+    protected RetailCustomerService service;
+
     @SuppressWarnings("unchecked")
     @Test
     public void index_displaysIndexView() throws Exception {
@@ -97,4 +100,10 @@ public class RetailCustomerControllerTests {
         verify(service, never()).persist(customer);
         assertEquals("Controller failed to render form", "retailcustomers/form", viewPath);
     }
+
+    @Test
+    public void show_displaysShowView() {
+        assertEquals("/custodian/retailcustomers/show", controller.show(2L, new ModelMap()));
+    }
+
 }
