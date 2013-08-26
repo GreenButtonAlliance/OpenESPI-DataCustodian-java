@@ -16,8 +16,8 @@
 
 package org.energyos.espi.datacustodian.web;
 
-import org.energyos.espi.datacustodian.models.RetailCustomer;
-import org.energyos.espi.datacustodian.models.UsagePoint;
+import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

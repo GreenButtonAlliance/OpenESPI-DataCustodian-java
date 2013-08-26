@@ -16,8 +16,8 @@
 
 package org.energyos.espi.datacustodian.web;
 
-import org.energyos.espi.datacustodian.models.RetailCustomer;
-import org.energyos.espi.datacustodian.models.UsagePoint;
+import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.energyos.espi.datacustodian.service.impl.UsagePointServiceImpl;
 import org.junit.Before;
@@ -29,7 +29,8 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class UsagePointControllerTests {
 

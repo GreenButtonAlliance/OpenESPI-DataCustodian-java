@@ -16,7 +16,8 @@
 
 package org.energyos.espi.datacustodian.service;
 
-import org.energyos.espi.datacustodian.models.RetailCustomer;
+
+import org.energyos.espi.datacustodian.domain.RetailCustomer;
 
 import java.util.List;
 
@@ -25,4 +26,6 @@ public interface RetailCustomerService {
     List<RetailCustomer> findAll();
 
     void persist(RetailCustomer customer);
+
+    RetailCustomer findById(Long id);
 }

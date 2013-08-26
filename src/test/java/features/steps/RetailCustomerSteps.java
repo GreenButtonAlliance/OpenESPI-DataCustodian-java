@@ -91,6 +91,11 @@ public class RetailCustomerSteps {
         assertTrue(driver.getPageSource().contains("House meter"));
     }
 
+    @Then("^I should see my Usage Points with title \"Electric meter\"$")
+    public void I_should_see_my_Usage_Points_with_title_Electric_meter() throws Throwable {
+        assertTrue(driver.getPageSource().contains("Electric meter"));
+    }
+
     @Given("^I have a Retail Customer account$")
     public void I_have_a_Retail_Customer_account() throws Throwable {
     }

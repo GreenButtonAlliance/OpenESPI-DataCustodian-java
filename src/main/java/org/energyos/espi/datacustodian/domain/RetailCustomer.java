@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.models;
+package org.energyos.espi.datacustodian.domain;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -26,7 +26,7 @@ import javax.validation.constraints.Size;
 @NamedQueries(value = {
         @NamedQuery(name = RetailCustomer.QUERY_FIND_ALL, query = "SELECT customer FROM RetailCustomer customer")
 })
-public class RetailCustomer extends BaseEntity {
+public class RetailCustomer extends IdentifiedObject {
 
     public final static String QUERY_FIND_ALL = "RetailCustomer.findAll";
 

@@ -17,8 +17,8 @@
 package org.energyos.espi.datacustodian.repositories.jpa;
 
 
-import org.energyos.espi.datacustodian.models.RetailCustomer;
-import org.energyos.espi.datacustodian.models.UsagePoint;
+import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
 import org.junit.Before;
 import org.junit.Test;

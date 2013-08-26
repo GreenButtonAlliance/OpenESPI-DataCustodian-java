@@ -16,6 +16,8 @@
 
 package org.energyos.espi.datacustodian.models;
 
+import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.junit.Test;
 
 import javax.validation.ConstraintViolation;
@@ -23,7 +25,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.Set;
 
-import static org.energyos.espi.datacustodian.support.TestUtils.assertNotEmptyValidation;
+import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
 import static org.energyos.espi.datacustodian.support.TestUtils.assertSizeValidation;
 import static org.junit.Assert.assertTrue;
 
@@ -44,10 +46,10 @@ public class RetailCustomerTests {
 
     @Test
     public void validations() {
-        assertNotEmptyValidation(RetailCustomer.class, "firstName");
+        assertAnnotationPresent(RetailCustomer.class, "firstName", NotEmpty.class);
         assertSizeValidation(RetailCustomer.class, "firstName", 0, 30);
 
-        assertNotEmptyValidation(RetailCustomer.class, "lastName");
+        assertAnnotationPresent(RetailCustomer.class, "lastName", NotEmpty.class);
         assertSizeValidation(RetailCustomer.class, "lastName", 0, 30);
     }
 }

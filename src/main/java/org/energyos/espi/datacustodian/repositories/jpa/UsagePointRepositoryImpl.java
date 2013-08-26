@@ -16,7 +16,7 @@
 
 package org.energyos.espi.datacustodian.repositories.jpa;
 
-import org.energyos.espi.datacustodian.models.UsagePoint;
+import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

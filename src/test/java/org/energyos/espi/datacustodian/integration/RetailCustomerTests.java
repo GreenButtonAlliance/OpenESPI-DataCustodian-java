@@ -74,4 +74,10 @@ public class RetailCustomerTests {
         result.andExpect(redirectedUrl("/custodian/retailcustomers"));
     }
 
+    @Test
+    public void showDisplayRetailCustomerProfilePage() throws Exception {
+        mockMvc.perform(get("/custodian/retailcustomers/1/show"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("retailCustomer"));
+    }
 }

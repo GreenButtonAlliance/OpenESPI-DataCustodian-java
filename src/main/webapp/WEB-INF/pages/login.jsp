@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page isELIgnored="false" %>
 <%--
   ~ Copyright 2013 EnergyOS.org
   ~
@@ -30,6 +31,12 @@
             <div class="span12">
                 <div class="login-form">
                     <h2>Login</h2>
+
+                    <c:if test="${not empty sessionScope.SPRING_SECURITY_LAST_EXCEPTION}">
+                        <div class="alert alert-error">
+                            <c:out value="${sessionScope.SPRING_SECURITY_LAST_EXCEPTION.localizedMessage}"/>
+                        </div>
+                    </c:if>
 
                     <form name="f" action="<c:url value='/j_spring_security_check'/>" method="POST">
                         <fieldset>

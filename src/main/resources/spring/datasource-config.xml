@@ -32,8 +32,7 @@
           p:driverClassName="${jdbc.driverClassName}" p:url="${jdbc.url}"
           p:username="${jdbc.username}" p:password="${jdbc.password}"/>
 
-    <jdbc:initialize-database data-source="dataSource">
-        <jdbc:script location="${jdbc.initLocation}"/>
+    <jdbc:initialize-database data-source="dataSource" ignore-failures="ALL">
         <jdbc:script location="${jdbc.dataLocation}"/>
     </jdbc:initialize-database>
 </beans>

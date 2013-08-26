@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS ESPI
+ * Copyright 2013 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 
 package org.energyos.espi.datacustodian.web.customer;
 
-import org.energyos.espi.datacustodian.models.RetailCustomer;
-import org.energyos.espi.datacustodian.models.UsagePoint;
+import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.junit.Before;
 import org.junit.Test;

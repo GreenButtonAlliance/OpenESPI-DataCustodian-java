@@ -17,7 +17,7 @@
 package org.energyos.espi.datacustodian.service;
 
 
-import org.energyos.espi.datacustodian.models.RetailCustomer;
+import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
 import org.energyos.espi.datacustodian.service.impl.RetailCustomerServiceImpl;
 import org.junit.Before;
@@ -48,6 +48,16 @@ public class RetailCustomerServiceTests {
         when(repository.findAll()).thenReturn(allRetailCustomers);
 
         assertEquals(allRetailCustomers, service.findAll());
+    }
+
+    @Test
+    public void findById_returnsRetailCustomers() {
+        RetailCustomer customer = new RetailCustomer();
+        customer.setId(13L);
+
+        when(repository.findById(customer.getId())).thenReturn(customer);
+
+        assertEquals(customer, service.findById(customer.getId()));
     }
 
     @Test

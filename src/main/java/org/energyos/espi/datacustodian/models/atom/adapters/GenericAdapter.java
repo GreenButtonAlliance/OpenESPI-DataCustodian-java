@@ -14,17 +14,19 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.models;
+package org.energyos.espi.datacustodian.models.atom.adapters;
 
-import org.junit.Test;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-import static org.junit.Assert.assertNotNull;
+public class GenericAdapter extends XmlAdapter<JAXBElement, Object> {
+    @Override
+    public Object unmarshal(JAXBElement v) throws Exception {
+        return v.getValue();
+    }
 
-public class BaseEntityTests {
-
-    @Test
-    public void marshal() throws Exception {
-        UsagePoint up = new UsagePoint();
-        assertNotNull("the xml is invalid", up.marshal());
+    @Override
+    public JAXBElement marshal(Object v) throws Exception {
+        return null;
     }
 }

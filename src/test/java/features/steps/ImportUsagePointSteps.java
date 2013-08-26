@@ -36,7 +36,7 @@ public class ImportUsagePointSteps {
     @When("^Data Custodian imports the XML file$")
     public void Data_Custodian_imports_the_XML_file() throws Throwable {
         Runtime r = Runtime.getRuntime();
-        Process p = r.exec("bin/import_usage_point.sh etc/usage_point.xml");
+        Process p = r.exec("bin/import_usage_point.sh etc/usage_point.xml http://localhost:8080/custodian/retailcustomers/1/upload");
         p.waitFor();
         importExitValue = p.exitValue();
     }

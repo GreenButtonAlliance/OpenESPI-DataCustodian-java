@@ -31,4 +31,13 @@
         <property name="prefix" value="/WEB-INF/pages/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+
+    <bean id="jaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <property name="packagesToScan">
+            <list>
+                <value>org.energyos.espi.datacustodian.models.atom</value>
+                <value>org.energyos.espi.datacustodian.domain</value>
+            </list>
+        </property>
+    </bean>
 </beans>

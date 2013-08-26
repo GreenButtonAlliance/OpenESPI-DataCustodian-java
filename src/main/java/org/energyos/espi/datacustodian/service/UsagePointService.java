@@ -16,13 +16,18 @@
 
 package org.energyos.espi.datacustodian.service;
 
-import org.energyos.espi.datacustodian.models.RetailCustomer;
-import org.energyos.espi.datacustodian.models.UsagePoint;
 
+import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.datacustodian.domain.UsagePoint;
+
+import javax.xml.bind.JAXBException;
+import java.io.InputStream;
 import java.util.List;
 
 public interface UsagePointService {
     List<UsagePoint> findAllByRetailCustomer(RetailCustomer customer);
 
     void persist(UsagePoint up);
+
+    void importUsagePoint(RetailCustomer customer, InputStream stream) throws JAXBException;
 }

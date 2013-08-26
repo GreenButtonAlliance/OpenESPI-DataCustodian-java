@@ -16,31 +16,32 @@
 
 package org.energyos.espi.datacustodian.console;
 
-import org.energyos.espi.datacustodian.models.UsagePoint;
-import org.energyos.espi.datacustodian.service.UsagePointService;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
-import static junit.framework.Assert.assertNotNull;
-import static org.mockito.Mockito.*;
+import java.io.IOException;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration
+@ContextConfiguration("/spring/test-context.xml")
 public class ImportUsagePointTests {
 
     @Test
-    public void unmarshalUsagePoint_returnsUsagePoint() throws Exception {
-        UsagePoint usagePoint = null;
-        usagePoint = ImportUsagePoint.unmarshalUsagePoint("etc/usage_point.xml");
+    public void givenValidInput_postsToURL() throws IOException {
+        ImportUsagePoint importUsagePoint = new ImportUsagePoint();
+        HttpClient client = mock(HttpClient.class);
 
-        assertNotNull(usagePoint.getTitle());
-    }
+        importUsagePoint.upload("import .xml", "http://locahost/upload", client);
 
-    @Test
-    public void persistUsagePoint_persistsUsagePoint() {
-        UsagePoint usagePoint = new UsagePoint();
-        UsagePointService usagePointService = mock(UsagePointService.class);
-        ImportUsagePoint.setUsagePointService(usagePointService);
-
-        ImportUsagePoint.persistUsagePoint(usagePoint);
-
-        verify(usagePointService).persist(usagePoint);
+        verify(client).execute(any(HttpUriRequest.class));
     }
 }

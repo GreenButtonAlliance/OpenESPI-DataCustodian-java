@@ -44,7 +44,9 @@
                             <c:out value="${customer.firstName}"/>
                         </td>
                         <td>
-                            <c:out value="${customer.lastName}"/>
+                            <a href="<c:url value='/custodian/retailcustomers/${customer.id}/show'/>">
+                                <c:out value="${customer.lastName}"/>
+                            </a>
                         </td>
                     </tr>
                 </c:forEach>

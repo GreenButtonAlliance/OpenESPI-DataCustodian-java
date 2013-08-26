@@ -10,6 +10,5 @@ Feature: As a Data Custodian
     When Data Custodian imports the XML file
     Then the import tool should indicate success
 
-
     When I look at my usage page
     Then I should see the imported data

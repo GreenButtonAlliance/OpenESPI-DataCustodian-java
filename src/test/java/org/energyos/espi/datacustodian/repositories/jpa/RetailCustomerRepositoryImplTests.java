@@ -16,7 +16,7 @@
 
 package org.energyos.espi.datacustodian.repositories.jpa;
 
-import org.energyos.espi.datacustodian.models.RetailCustomer;
+import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,6 +42,11 @@ public class RetailCustomerRepositoryImplTests {
     @Test
     public void findAll_returnsAllRetailCustomers() throws Exception {
         assertTrue(repository.findAll().size() == 7);
+    }
+
+    @Test
+    public void findById_returnsRetailCustomer() throws Exception {
+        assertNotNull(repository.findById(1L));
     }
 
     @Test

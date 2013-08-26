@@ -16,7 +16,7 @@
 
 package org.energyos.espi.datacustodian.service.impl;
 
-import org.energyos.espi.datacustodian.models.RetailCustomer;
+import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +42,10 @@ public class RetailCustomerServiceImpl implements RetailCustomerService {
     @Override
     public void persist(RetailCustomer customer) {
         repository.persist(customer);
+    }
+
+    @Override
+    public RetailCustomer findById(Long id) {
+        return repository.findById(id);
     }
 }

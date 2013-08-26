@@ -16,7 +16,7 @@
 
 package org.energyos.espi.datacustodian.repositories.jpa;
 
-import org.energyos.espi.datacustodian.models.RetailCustomer;
+import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,5 +39,10 @@ public class RetailCustomerRepositoryImpl implements RetailCustomerRepository {
     @Transactional
     public void persist(RetailCustomer customer) {
         this.em.persist(customer);
+    }
+
+    @Override
+    public RetailCustomer findById(Long id) {
+        return this.em.find(RetailCustomer.class, id);
     }
 }

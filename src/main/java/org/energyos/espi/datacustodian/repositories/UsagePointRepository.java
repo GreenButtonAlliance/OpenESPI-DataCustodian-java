@@ -16,7 +16,7 @@
 
 package org.energyos.espi.datacustodian.repositories;
 
-import org.energyos.espi.datacustodian.models.UsagePoint;
+import org.energyos.espi.datacustodian.domain.UsagePoint;
 
 import java.util.List;
 
