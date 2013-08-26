@@ -24,6 +24,9 @@
 
 package org.energyos.espi.datacustodian.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -55,12 +58,31 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "ServiceCategory", propOrder = {
     "kind"
 })
+@Entity
+@Table(name = "service_categories")
 public class ServiceCategory
     extends Object
 {
+    public final static Long ELECTRICITY_SERVICE = 0L;
+    public final static Long GAS_SERVICE = 1L;
+    public final static Long WATER_SERVICE = 2L;
+    public final static Long TIME_SERVICE = 3L;
+    public final static Long HEAT_SERVICE = 4L;
+    public final static Long REFUSE_WASTER_SERVICE = 5L;
+    public final static Long SEWERAGE_SERVICE = 6L;
+    public final static Long RATES_SERVICE = 7L;
+    public final static Long TV_LICENSE_SERVICE = 8L;
+    public final static Long INTERNET_SERVICE = 9L;
+
+    public ServiceCategory() { }
+
+    public ServiceCategory(Long kind) {
+        this.kind = kind;
+    }
 
     @XmlElement(required = true)
-    protected String kind;
+    @Id
+    protected Long kind;
 
     /**
      * Gets the value of the kind property.
@@ -70,7 +92,7 @@ public class ServiceCategory
      *     {@link String }
      *     
      */
-    public String getKind() {
+    public Long getKind() {
         return kind;
     }
 
@@ -82,7 +104,7 @@ public class ServiceCategory
      *     {@link String }
      *     
      */
-    public void setKind(String value) {
+    public void setKind(Long value) {
         this.kind = value;
     }
 
