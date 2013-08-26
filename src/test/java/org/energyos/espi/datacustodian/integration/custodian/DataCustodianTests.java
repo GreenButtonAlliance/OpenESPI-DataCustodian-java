@@ -53,4 +53,11 @@ public class DataCustodianTests {
                 .andExpect(status().isOk())
                 .andExpect(view().name("/custodian/home"));
     }
+
+    @Test
+    public void displaysUsagePointUploadView() throws Exception {
+        mockMvc.perform(get("/custodian/upload"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/custodian/upload"));
+    }
 }
