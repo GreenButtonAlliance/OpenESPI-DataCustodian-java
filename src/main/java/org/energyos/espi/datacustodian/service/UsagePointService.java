@@ -29,5 +29,5 @@ public interface UsagePointService {
 
     void persist(UsagePoint up);
 
-    void importUsagePoint(InputStream stream) throws JAXBException;
+    void importUsagePoint(RetailCustomer customer, InputStream stream) throws JAXBException;
 }

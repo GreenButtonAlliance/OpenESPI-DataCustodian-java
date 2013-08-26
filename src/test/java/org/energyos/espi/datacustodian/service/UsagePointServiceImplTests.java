@@ -19,9 +19,11 @@ package org.energyos.espi.datacustodian.service;
 
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.models.atom.FeedType;
 import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
 import org.energyos.espi.datacustodian.service.impl.UsagePointServiceImpl;
-import org.energyos.espi.datacustodian.utils.UsagePointUnmarshaller;
+import org.energyos.espi.datacustodian.utils.ATOMMarshaller;
+import org.energyos.espi.datacustodian.utils.UsagePointBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,6 +31,7 @@ import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class UsagePointServiceImplTests {
@@ -63,15 +66,20 @@ public class UsagePointServiceImplTests {
 
     @Test
     public void importUsagePoints_persistsUsagePoint() throws JAXBException, FileNotFoundException {
+        RetailCustomer customer = new RetailCustomer();
         UsagePoint usagePoint = new UsagePoint();
 
-        UsagePointUnmarshaller unmarshaller = mock(UsagePointUnmarshaller.class);
-        when(unmarshaller.unmarshal(any(InputStream.class))).thenReturn(usagePoint);
+        ATOMMarshaller marshaller = mock(ATOMMarshaller.class);
+        UsagePointBuilder builder = mock(UsagePointBuilder.class);
 
-        service.setUnmarshaller(unmarshaller);
+        when(builder.newUsagePoint(any(FeedType.class))).thenReturn(usagePoint);
 
-        service.importUsagePoint(mock(InputStream.class));
+        service.setMarshaller(marshaller);
+        service.setBuilder(builder);
+
+        service.importUsagePoint(customer, mock(InputStream.class));
 
         verify(repository).persist(usagePoint);
+        assertEquals(customer, usagePoint.getRetailCustomer());
     }
 }
