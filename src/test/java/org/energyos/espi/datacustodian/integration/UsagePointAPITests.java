@@ -58,4 +58,16 @@ public class UsagePointAPITests {
     public void index_shouldReturn404_whenInvalidUser() throws Exception {
         mockMvc.perform(get("/RetailCustomer/999999999/UsagePoint")).andExpect(status().isNotFound());
     }
+
+    @Test
+    public void index_should_returnAtomFeedForUSagePoint_whenValidUsagePoint() throws Exception {
+        mockMvc.perform(get("/RetailCustomer/1/UsagePoint/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/atom+xml"));
+    }
+
+    @Test
+    public void index_shouldReturn404_whenInvalidUsagePoint() throws Exception {
+        mockMvc.perform(get("/RetailCustomer/1/UsagePoint/999999")).andExpect(status().isNotFound());
+    }
 }

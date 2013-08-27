@@ -29,6 +29,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller("webServicesUsagePointController")
@@ -59,10 +60,23 @@ public class UsagePointController {
     @ResponseBody
     public String index(@PathVariable("retailCustomerId") Long retailCustomerId) throws FeedException {
         List<UsagePoint> usagePointList = usagePointService.findAllByRetailCustomer(retailCustomerService.findById(retailCustomerId));
-        Feed atomFeed = null;
-        atomFeed = atomMarshallerService.buildFeed(usagePointList);
+        Feed atomFeed = atomMarshallerService.buildFeed(usagePointList);
         return atomMarshallerService.marshal(atomFeed);
     }
+
+    @RequestMapping(value="/{usagePointId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_ATOM_XML_VALUE)
+    @ResponseBody
+    public String show(@PathVariable("usagePointId") Long usagePointId) throws FeedException {
+        List<UsagePoint> usagePointList = new ArrayList<UsagePoint>();
+        UsagePoint usagePoint = usagePointService.findById(usagePointId);
+        usagePointList.add(usagePoint);
+        Feed atomFeed = atomMarshallerService.buildFeed(usagePointList);
+        return atomMarshallerService.marshal(atomFeed);
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NullPointerException.class)
+    public void handleNullPointerException(NullPointerException e) { }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(EmptyResultDataAccessException.class)

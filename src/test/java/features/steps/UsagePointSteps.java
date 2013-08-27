@@ -46,9 +46,7 @@ public class UsagePointSteps {
 
     @Then("^I should receive an xml response with the user's usage points$")
     public void I_should_receive_an_xml_response_with_the_user_s_usage_points() throws Throwable {
-        XMLUnit.setIgnoreWhitespace(Boolean.TRUE);
-
-        String xmlResult =
+        String expected =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
                 "<feed xmlns=\"http://www.w3.org/2005/Atom\">" +
                 "<title>UsagePoint Feed</title>" +
@@ -77,12 +75,48 @@ public class UsagePointSteps {
                 "</entry>" +
                 "</feed>";
 
-        String pageSource = driver.getPageSource();
-        String flatPageSource = pageSource.replace("\n", "").replaceAll("\\s+<", "<").replaceAll(">\\s+", ">");
 
-        DetailedDiff diffXml = new DetailedDiff(new Diff(xmlResult, pageSource));
+        assertXmlMatches(expected, driver.getPageSource());
+    }
+
+    @When("^I request a usage point for a user$")
+    public void I_request_a_usage_point_for_a_user() throws Throwable {
+        driver.get("http://localhost:8080/RetailCustomer/1/UsagePoint/2");
+    }
+
+    @Then("^I should receive an xml response with the usage point$")
+    public void I_should_receive_an_xml_response_with_the_usage_point() throws Throwable {
+
+        String expected =
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+                        "<feed xmlns=\"http://www.w3.org/2005/Atom\">" +
+                        "<title>UsagePoint Feed</title>" +
+                        "<id>*</id>" +
+                        "<entry>" +
+                        "<title>Gas meter</title>" +
+                        "<link rel=\"self\" href=\"RetailCustomer/1/UsagePoint/2\" />" +
+                        "<link rel=\"up\" href=\"RetailCustomer/1/UsagePoint\" />" +
+                        "<id>2</id>" +
+                        "<updated>*</updated>" +
+                        "<published>*</published>" +
+                        "<content>" +
+                        "<UsagePoint/>" +
+                        "</content>" +
+                        "</entry>" +
+                        "</feed>";
+
+        String pageSource = driver.getPageSource();
+
+        assertXmlMatches(expected, driver.getPageSource());
+    }
+
+    private void assertXmlMatches(String expected, String result) throws Throwable {
+        XMLUnit.setIgnoreWhitespace(Boolean.TRUE);
+        DetailedDiff diffXml = new DetailedDiff(new Diff(expected, result));
         diffXml.overrideDifferenceListener(new WildcardListener());
 
-        assertTrue("\n\n\nXMLUnit ERROR:\n" + diffXml.toString() + ":\n\nEXPECTED:\n[" + xmlResult + "]\n\nGOT:\n[" + flatPageSource + "]\n\n\n", diffXml.similar());
+        String flatResult = result.replace("\n", "").replaceAll("\\s+<", "<").replaceAll(">\\s+", ">");
+        String flatExpected = expected.replace("\n", "").replaceAll("\\s+<", "<").replaceAll(">\\s+", ">");
+        assertTrue("\n\n\nXMLUnit ERROR:\n" + diffXml.toString() + ":\n\nEXPECTED:\n[" + flatExpected + "]\n\nGOT:\n[" + flatResult + "]\n\n\n", diffXml.similar());
     }
 }

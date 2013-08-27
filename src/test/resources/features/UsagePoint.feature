@@ -9,3 +9,10 @@ Feature: Usage Points
 
     When I request the usage points for a user
     Then I should receive an xml response with the user's usage points
+
+  Scenario: Third party requests a specific usage point
+    Given I am a Third Party
+    And there exists a user that has Usage Points
+
+    When I request a usage point for a user
+    Then I should receive an xml response with the usage point

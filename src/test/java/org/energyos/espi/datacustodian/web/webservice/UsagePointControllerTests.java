@@ -25,6 +25,8 @@ import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,4 +74,38 @@ public class UsagePointControllerTests {
         verify(atomMarshallerService).marshal(atomFeed);
         verify(atomMarshallerService).buildFeed(usagePointList);
     }
+
+    @Test
+    public void show_ReturnsAtomFeedOfAppropriateUsagePoint() throws FeedException {
+        Long usagePointId = 1L;
+        UsagePoint usagePoint = mock(UsagePoint.class);
+        when(usagePoint.getId()).thenReturn(42L); // The ID is set explicitly to verify that this mock instance is being used
+
+        String atomFeedResult = "THIS IS AN ATOM FEED";
+
+        when(usagePointService.findById(usagePointId)).thenReturn(usagePoint);
+
+        when(atomMarshallerService.buildFeed(any(List.class))).thenAnswer(new Answer() {
+            public Object answer(InvocationOnMock invocation) {
+                Object[] args = invocation.getArguments();
+
+                List<UsagePoint> usagePoints = ((List<UsagePoint>)args[0]);
+                assertEquals(1, usagePoints.size());
+
+                UsagePoint up = usagePoints.get(0);
+                assertEquals((Long)42L, up.getId());
+
+                return atomFeed;
+            }
+        });
+
+
+        when(atomMarshallerService.marshal(atomFeed)).thenReturn(atomFeedResult);
+
+        assertEquals(atomFeedResult, controller.show(usagePointId));
+        verify(usagePointService).findById(usagePointId);
+        verify(atomMarshallerService).marshal(atomFeed);
+        verify(atomMarshallerService).buildFeed(any(List.class));
+    }
+
 }
