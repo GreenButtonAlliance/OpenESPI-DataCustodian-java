@@ -41,7 +41,7 @@ public class UsagePointSteps {
 
     @When("^I request the usage points for a user$")
     public void I_request_the_usage_points_for_a_user() throws Throwable {
-        driver.get("http://localhost:8080/RetailCustomer/1/UsagePoint");
+        driver.get("http://localhost:8080/RetailCustomer/6/UsagePoint");
     }
 
     @Then("^I should receive an xml response with the user's usage points$")
@@ -53,9 +53,9 @@ public class UsagePointSteps {
                 "<id>*</id>" +
                 "<entry>" +
                 "<title>House meter</title>" +
-                "<link rel=\"self\" href=\"RetailCustomer/1/UsagePoint/1\" />" +
-                "<link rel=\"up\" href=\"RetailCustomer/1/UsagePoint\" />" +
-                "<id>1</id>" +
+                "<link rel=\"self\" href=\"RetailCustomer/6/UsagePoint/4\" />" +
+                "<link rel=\"up\" href=\"RetailCustomer/6/UsagePoint\" />" +
+                "<id>4</id>" +
                 "<updated>*</updated>" +
                 "<published>*</published>" +
                 "<content>" +
@@ -64,9 +64,9 @@ public class UsagePointSteps {
                 "</entry>" +
                 "<entry>" +
                 "<title>Gas meter</title>" +
-                "<link rel=\"self\" href=\"RetailCustomer/1/UsagePoint/2\" />" +
-                "<link rel=\"up\" href=\"RetailCustomer/1/UsagePoint\" />" +
-                "<id>2</id>" +
+                "<link rel=\"self\" href=\"RetailCustomer/6/UsagePoint/5\" />" +
+                "<link rel=\"up\" href=\"RetailCustomer/6/UsagePoint\" />" +
+                "<id>5</id>" +
                 "<updated>*</updated>" +
                 "<published>*</published>" +
                 "<content>" +
@@ -89,23 +89,21 @@ public class UsagePointSteps {
 
         String expected =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-                        "<feed xmlns=\"http://www.w3.org/2005/Atom\">" +
-                        "<title>UsagePoint Feed</title>" +
-                        "<id>*</id>" +
-                        "<entry>" +
-                        "<title>Gas meter</title>" +
-                        "<link rel=\"self\" href=\"RetailCustomer/1/UsagePoint/2\" />" +
-                        "<link rel=\"up\" href=\"RetailCustomer/1/UsagePoint\" />" +
-                        "<id>2</id>" +
-                        "<updated>*</updated>" +
-                        "<published>*</published>" +
-                        "<content>" +
-                        "<UsagePoint/>" +
-                        "</content>" +
-                        "</entry>" +
-                        "</feed>";
-
-        String pageSource = driver.getPageSource();
+                "<feed xmlns=\"http://www.w3.org/2005/Atom\">" +
+                "<title>UsagePoint Feed</title>" +
+                "<id>*</id>" +
+                "<entry>" +
+                "<title>Gas meter</title>" +
+                "<link rel=\"self\" href=\"RetailCustomer/1/UsagePoint/2\" />" +
+                "<link rel=\"up\" href=\"RetailCustomer/1/UsagePoint\" />" +
+                "<id>2</id>" +
+                "<updated>*</updated>" +
+                "<published>*</published>" +
+                "<content>" +
+                "<UsagePoint/>" +
+                "</content>" +
+                "</entry>" +
+                "</feed>";
 
         assertXmlMatches(expected, driver.getPageSource());
     }
