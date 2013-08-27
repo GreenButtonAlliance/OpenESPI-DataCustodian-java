@@ -27,6 +27,7 @@ import java.util.List;
 public interface UsagePointService {
     List<UsagePoint> findAllByRetailCustomer(RetailCustomer customer);
 
+    UsagePoint findById(Long id);
     void persist(UsagePoint up);
 
     void importUsagePoint(RetailCustomer customer, InputStream stream) throws JAXBException;

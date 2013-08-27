@@ -57,6 +57,10 @@ public class UsagePointServiceImpl implements UsagePointService {
         return repository.findAllByRetailCustomerId(customer.getId());
     }
 
+    public UsagePoint findById(Long id) {
+        return this.repository.findById(id);
+    }
+
     public void persist(UsagePoint up) {
         this.repository.persist(up);
     }

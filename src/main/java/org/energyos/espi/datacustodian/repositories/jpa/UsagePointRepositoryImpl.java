@@ -37,6 +37,10 @@ public class UsagePointRepositoryImpl implements UsagePointRepository{
                 .getResultList();
     }
 
+    public UsagePoint findById(Long id) {
+        return this.em.find(UsagePoint.class, id);
+    }
+
     @Transactional
     public void persist(UsagePoint up){
         this.em.persist(up);
