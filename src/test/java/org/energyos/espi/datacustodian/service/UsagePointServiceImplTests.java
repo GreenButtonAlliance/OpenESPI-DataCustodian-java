@@ -55,6 +55,13 @@ public class UsagePointServiceImplTests {
         verify(repository, times(1)).findAllByRetailCustomerId(customer.getId());
     }
 
+
+    @Test
+    public void findById_returnsUsagePoint() {
+        service.findById(1L);
+        verify(repository).findById(1L);
+    }
+
     @Test
     public void persist_persistsUsagePoint() {
         UsagePoint up = new UsagePoint();

@@ -24,5 +24,6 @@ public interface UsagePointRepository {
 
     List<UsagePoint> findAllByRetailCustomerId(Long id);
 
+    UsagePoint findById(Long id);
     void persist(UsagePoint up);
 }

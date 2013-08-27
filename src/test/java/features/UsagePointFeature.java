@@ -14,21 +14,12 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.service;
+package features;
 
+import cucumber.api.junit.Cucumber;
+import org.junit.runner.RunWith;
 
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
-
-import javax.xml.bind.JAXBException;
-import java.io.InputStream;
-import java.util.List;
-
-public interface UsagePointService {
-    List<UsagePoint> findAllByRetailCustomer(RetailCustomer customer);
-
-    UsagePoint findById(Long id);
-    void persist(UsagePoint up);
-
-    void importUsagePoint(RetailCustomer customer, InputStream stream) throws JAXBException;
+@RunWith(Cucumber.class)
+@Cucumber.Options(features = {"classpath:features/UsagePoint.feature"})
+public class UsagePointFeature {
 }

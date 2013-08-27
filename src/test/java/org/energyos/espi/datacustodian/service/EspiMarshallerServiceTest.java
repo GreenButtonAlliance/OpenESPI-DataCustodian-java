@@ -16,19 +16,18 @@
 
 package org.energyos.espi.datacustodian.service;
 
-
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.junit.Test;
 
-import javax.xml.bind.JAXBException;
-import java.io.InputStream;
-import java.util.List;
+import static org.junit.Assert.assertEquals;
 
-public interface UsagePointService {
-    List<UsagePoint> findAllByRetailCustomer(RetailCustomer customer);
+public class EspiMarshallerServiceTest {
 
-    UsagePoint findById(Long id);
-    void persist(UsagePoint up);
+    @Test
+    public void marshal_with_marshallableObject_returnsValidXml() throws Exception {
+        UsagePoint usagePoint = new UsagePoint();
 
-    void importUsagePoint(RetailCustomer customer, InputStream stream) throws JAXBException;
+        String xmlResult = "<UsagePoint/>";
+        assertEquals(xmlResult, EspiMarshallerService.marshal(usagePoint));
+    }
 }

@@ -58,6 +58,7 @@ import java.util.List;
  * 
  * 
  */
+@XmlRootElement(name="UsagePoint")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "UsagePoint", propOrder = {
     "roleFlags",

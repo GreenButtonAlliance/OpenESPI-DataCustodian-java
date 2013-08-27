@@ -55,6 +55,12 @@ public class UsagePointRepositoryImplTests {
     }
 
     @Test
+    public void findById_returnsUsagePoint() {
+        UsagePoint usagePoint = repository.findById(1L);
+        assertNotNull("The usage point was null.", usagePoint);
+    }
+
+    @Test
     public void persist_withNewUsagePoint_persistsUsagePoint() throws Exception {
         UsagePoint usagePoint = new UsagePoint();
         usagePoint.setTitle("Electric meter");

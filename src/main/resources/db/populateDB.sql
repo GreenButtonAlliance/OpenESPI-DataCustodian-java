@@ -9,3 +9,5 @@ INSERT INTO retail_customers (id, first_name, last_name) VALUES (7, 'Marian', 'R
 INSERT INTO usage_points (id, title, retail_customer_id) VALUES (1, 'House meter', 1);
 INSERT INTO usage_points (id, title, retail_customer_id) VALUES (2, 'Gas meter', 1);
 INSERT INTO usage_points (id, title, retail_customer_id) VALUES (3, 'House meter', 2);
+INSERT INTO usage_points (id, title, retail_customer_id) VALUES (4, 'House meter', 6);
+INSERT INTO usage_points (id, title, retail_customer_id) VALUES (5, 'Gas meter', 6);
