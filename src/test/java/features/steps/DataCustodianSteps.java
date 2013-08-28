@@ -35,7 +35,7 @@ public class DataCustodianSteps {
 
     @After
     public void logout() {
-        driver.get("http://localhost:8080/j_spring_security_logout");
+        driver.get("http://localhost:8080/DataCustodian/j_spring_security_logout");
     }
 
     @Given("^I have a Data Custodian account$")
@@ -99,7 +99,6 @@ public class DataCustodianSteps {
         file.sendKeys(cwd.getAbsolutePath() + "/etc/usage_point.xml");
         WebElement upload = driver.findElement(By.name("upload"));
         upload.click();
-        driver.get("http://localhost:8080/j_spring_security_logout");
     }
 
     @When("^I login as Alan Turing$")

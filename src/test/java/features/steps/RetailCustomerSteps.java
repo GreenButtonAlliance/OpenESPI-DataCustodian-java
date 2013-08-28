@@ -39,7 +39,7 @@ public class RetailCustomerSteps {
 
     @When("^I navigate to customer list page$")
     public void I_navigate_to_customer_list_page() throws Throwable {
-        driver.get("http://localhost:8080/custodian/retailcustomers");
+        driver.get("http://localhost:8080/DataCustodian/custodian/retailcustomers");
     }
 
     @When("^I create a new retail customer with the name Grace Hopper$")
@@ -83,17 +83,12 @@ public class RetailCustomerSteps {
 
     @When("^I look at my usage page$")
     public void I_look_at_my_usage_page() throws Throwable {
-        driver.get("http://localhost:8080/usagepoints");
+        driver.get("http://localhost:8080/DataCustodian/usagepoints");
     }
 
-    @Then("^I should see my Usage Points$")
-    public void I_should_see_my_Usage_Points() throws Throwable {
-        assertTrue(driver.getPageSource().contains("House meter"));
-    }
-
-    @Then("^I should see my Usage Points with title \"Electric meter\"$")
-    public void I_should_see_my_Usage_Points_with_title_Electric_meter() throws Throwable {
-        assertTrue(driver.getPageSource().contains("Electric meter"));
+    @Then("^I should see my Usage Points with title \"([^\"]*)\"$")
+    public void I_should_see_my_Usage_Points_with_title(String title) throws Throwable {
+        assertTrue(driver.getPageSource().contains(title));
     }
 
     @Then("^I should see my Usage Points with Service Categories with Service Kind of \"ELECTRICITY_SERVICE\"$")

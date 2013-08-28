@@ -24,8 +24,8 @@ public class StepUtils {
 
     public static void login(String username, String password) {
         WebDriver driver = WebDriverSingleton.getInstance();
-        driver.get("http://localhost:8080/j_spring_security_logout");
-        driver.get("http://localhost:8080/");
+        driver.get("http://localhost:8080/DataCustodian/j_spring_security_logout");
+        driver.get("http://localhost:8080/DataCustodian/");
         WebElement loginLink = driver.findElement(By.id("login"));
         loginLink.click();
         WebElement usernameInput = driver.findElement(By.name("j_username"));
