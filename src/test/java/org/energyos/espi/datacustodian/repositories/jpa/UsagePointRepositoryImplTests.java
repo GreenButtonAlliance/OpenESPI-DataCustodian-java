@@ -30,8 +30,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -52,7 +52,7 @@ public class UsagePointRepositoryImplTests {
     @Test
     public void findByRetailCustomer_returnsUsagePointsByCustomer() {
 
-        assertTrue(repository.findAllByRetailCustomerId(customer.getId()).size() == 2);
+        assertEquals(2, repository.findAllByRetailCustomerId(customer.getId()).size());
     }
 
     @Test
