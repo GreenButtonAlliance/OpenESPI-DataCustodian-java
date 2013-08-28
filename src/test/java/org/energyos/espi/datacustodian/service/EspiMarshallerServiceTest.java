@@ -27,7 +27,7 @@ public class EspiMarshallerServiceTest {
     public void marshal_with_marshallableObject_returnsValidXml() throws Exception {
         UsagePoint usagePoint = new UsagePoint();
 
-        String xmlResult = "<UsagePoint/>";
+        String xmlResult = "<UsagePoint xmlns=\"http://naesb.org/espi\"/>";
         assertEquals(xmlResult, EspiMarshallerService.marshal(usagePoint));
     }
 }
