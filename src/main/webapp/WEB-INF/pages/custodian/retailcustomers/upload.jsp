@@ -31,7 +31,7 @@
         <div class="span12">
             <h2>Upload Usage Points</h2>
 
-            <form:form modelAttribute="uploadForm" class="form-horizontal" action="/custodian/retailcustomers/${retailCustomer.id}/upload" enctype="multipart/form-data">
+            <form:form modelAttribute="uploadForm" class="form-horizontal" action="${pageContext.request.contextPath}/custodian/retailcustomers/${retailCustomer.id}/upload" enctype="multipart/form-data">
                 <form:errors path="*" cssClass="alert alert-error" element="div" />
 
                 <div class="control-group">
