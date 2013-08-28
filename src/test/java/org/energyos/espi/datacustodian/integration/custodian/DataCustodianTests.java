@@ -89,7 +89,7 @@ public class DataCustodianTests {
                 "        <link rel=\"related\" href=\"RetailCustomer/9b6c7063/UsagePoint/01/MeterReading\"/>\n" +
                 "        <link rel=\"related\" href=\"RetailCustomer/9b6c7063/UsagePoint/01/ElectricPowerUsageSummary\"/>\n" +
                 "        <link rel=\"related\" href=\"LocalTimeParameters/01\"/>\n" +
-                "        <title>your house<a>1</a></title>\n" +
+                "        <title>Electric meter</title>\n" +
                 "        <content>\n" +
                 "            <UsagePoint xmlns=\"http://naesb.org/espi\">\n" +
                 "                <ServiceCategory>\n" +

@@ -36,6 +36,7 @@ public class UsagePointTests {
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         UsagePoint usagePoint = new UsagePoint();
         usagePoint.setTitle("Usage point title");
+        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
 
         Set<ConstraintViolation<UsagePoint>> violations = validator.validate(usagePoint);
 
