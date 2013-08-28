@@ -70,4 +70,4 @@ Feature: Retail Customers
 
     When I login as Alan Turing
     And I navigate to the Usage Points list
-    Then I should see my Usage Points with Service Categories with Service Kind of "Electricity service."
+    Then I should see my Usage Points with Service Categories with Service Kind of "ELECTRICITY_SERVICE"
