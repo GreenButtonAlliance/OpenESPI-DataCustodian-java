@@ -40,7 +40,7 @@
         <security:logout logout-success-url="/" delete-cookies="JSESSIONID"/>
         <security:remember-me/>
         <security:session-management invalid-session-url="/">
-            <security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
+            <security:concurrency-control max-sessions="1" error-if-maximum-exceeded="false" expired-url="/login"/>
         </security:session-management>
     </security:http>
 
