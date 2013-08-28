@@ -28,7 +28,7 @@ Feature: Retail Customers
     Given a logged in retail customer
 
     When I look at my usage page
-    Then I should see my Usage Points
+    Then I should see my Usage Points with title "Gas meter"
 
   Scenario: Retail Customer downloads Usage Points in XML format
     Given a logged in retail customer

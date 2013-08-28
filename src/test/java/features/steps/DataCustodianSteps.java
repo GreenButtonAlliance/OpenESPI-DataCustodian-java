@@ -35,7 +35,7 @@ public class DataCustodianSteps {
 
     @After
     public void logout() {
-        driver.get("http://localhost:8080/j_spring_security_logout");
+        driver.get(StepUtils.BASE_URL + "/j_spring_security_logout");
     }
 
     @Given("^I have a Data Custodian account$")
