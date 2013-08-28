@@ -17,6 +17,7 @@
 package org.energyos.espi.datacustodian.utils;
 
 import org.energyos.espi.datacustodian.domain.MeterReading;
+import org.energyos.espi.datacustodian.domain.ServiceCategory;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.models.atom.ContentType;
 import org.energyos.espi.datacustodian.models.atom.EntryType;
@@ -106,7 +107,9 @@ public class UsagePointBuilderTests {
 
     private void newUsagePoint(EntryType entryType) {
         ContentType usagePointContentType = new ContentType();
-        usagePointContentType.setUsagePoint(new UsagePoint());
+        UsagePoint usagePoint = new UsagePoint();
+        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
+        usagePointContentType.setUsagePoint(usagePoint);
         entryType.setContent(usagePointContentType);
         entryType.getLinks().add(newLinkType("self", "RetailCustomer/9b6c7063/UsagePoint/01"));
         entryType.getLinks().add(newLinkType("related", "RetailCustomer/9b6c7063/UsagePoint/01/MeterReading"));

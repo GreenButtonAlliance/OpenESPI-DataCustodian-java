@@ -14,20 +14,22 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.service;
+package org.energyos.espi.datacustodian.models.atom.adapters;
 
-import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.junit.Test;
+import org.energyos.espi.datacustodian.domain.ServiceCategory;
 
-import static org.junit.Assert.assertEquals;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class EspiMarshallerServiceTest {
+public class ServiceCategoryAdapter extends XmlAdapter<JAXBElement, ServiceCategory> {
+    @Override
+    public ServiceCategory unmarshal(JAXBElement v) throws Exception {
+        System.out.println("****** unmarshal adapter");
+        return (ServiceCategory)v.getValue();
+    }
 
-    @Test
-    public void marshal_with_marshallableObject_returnsValidXml() throws Exception {
-        UsagePoint usagePoint = new UsagePoint();
-
-        String xmlResult = "<UsagePoint xmlns=\"http://naesb.org/espi\"/>";
-        assertEquals(xmlResult, EspiMarshallerService.marshal(usagePoint));
+    @Override
+    public JAXBElement marshal(ServiceCategory v) throws Exception {
+        return null;
     }
 }

@@ -18,6 +18,7 @@ package org.energyos.espi.datacustodian.repositories.jpa;
 
 
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.datacustodian.domain.ServiceCategory;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
 import org.junit.Before;
@@ -29,8 +30,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -51,7 +52,7 @@ public class UsagePointRepositoryImplTests {
     @Test
     public void findByRetailCustomer_returnsUsagePointsByCustomer() {
 
-        assertTrue(repository.findAllByRetailCustomerId(customer.getId()).size() == 2);
+        assertEquals(2, repository.findAllByRetailCustomerId(customer.getId()).size());
     }
 
     @Test
@@ -65,6 +66,7 @@ public class UsagePointRepositoryImplTests {
         UsagePoint usagePoint = new UsagePoint();
         usagePoint.setTitle("Electric meter");
         usagePoint.setRetailCustomer(customer);
+        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
 
         repository.persist(usagePoint);
 

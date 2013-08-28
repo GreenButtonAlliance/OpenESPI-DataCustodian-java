@@ -58,3 +58,16 @@ Feature: Retail Customers
     When I login as Alan Turing
     And I navigate to the Usage Points list
     Then I should see my Usage Points with title "Electric meter"
+
+  Scenario: Data Custodian uploads Usage Points with Service Categories
+    Given Grace Hopper Data Custodian
+    And Alan Turing Retail Customer
+
+    When I login as Grace Hopper
+    And I navigate to customer list page
+    And I select "Alan Turing" from customer list
+    And I upload Usage Points
+
+    When I login as Alan Turing
+    And I navigate to the Usage Points list
+    Then I should see my Usage Points with Service Categories with Service Kind of "ELECTRICITY_SERVICE"

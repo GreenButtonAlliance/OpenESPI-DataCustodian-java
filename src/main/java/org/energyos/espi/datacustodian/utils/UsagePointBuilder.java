@@ -49,9 +49,6 @@ public class UsagePointBuilder {
     }
 
     private void associateWithParent(Map<String, Object> lookup, ContentType content, LinkType upLink) {
-        if (content.getElectricPowerUsageSummary() != null) {
-            ((EntryType) lookup.get(upLink.getHref())).getContent().getUsagePoint().setElectricPowerUsageSummary(content.getElectricPowerUsageSummary());
-        }
         if (content.getMeterReading() != null) {
             ((EntryType) lookup.get(upLink.getHref())).getContent().getUsagePoint().getMeterReadings().add(content.getMeterReading());
         }

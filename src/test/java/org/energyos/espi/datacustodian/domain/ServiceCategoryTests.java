@@ -14,20 +14,18 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.service;
+package org.energyos.espi.datacustodian.domain;
 
-import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import javax.persistence.Id;
 
-public class EspiMarshallerServiceTest {
+import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
+
+public class ServiceCategoryTests {
 
     @Test
-    public void marshal_with_marshallableObject_returnsValidXml() throws Exception {
-        UsagePoint usagePoint = new UsagePoint();
-
-        String xmlResult = "<UsagePoint xmlns=\"http://naesb.org/espi\"/>";
-        assertEquals(xmlResult, EspiMarshallerService.marshal(usagePoint));
+    public void hasId() {
+        assertAnnotationPresent(ServiceCategory.class, "kind", Id.class);
     }
 }

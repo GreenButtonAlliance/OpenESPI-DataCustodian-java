@@ -43,6 +43,9 @@
                         <td>
                             <c:out value="${usagePoint.title}"/>
                         </td>
+                        <td>
+                            <c:out value="${usagePoint.serviceCategory}"/>
+                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>

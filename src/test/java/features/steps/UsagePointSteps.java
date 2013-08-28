@@ -59,7 +59,11 @@ public class UsagePointSteps {
                 "<updated>*</updated>" +
                 "<published>*</published>" +
                 "<content>" +
-                "<UsagePoint/>" +
+                "<UsagePoint xmlns=\"http://naesb.org/espi\">" +
+                "<ServiceCategory>" +
+                "<kind>1</kind>" +
+                "</ServiceCategory>" +
+                "</UsagePoint>" +
                 "</content>" +
                 "</entry>" +
                 "<entry>" +
@@ -70,7 +74,11 @@ public class UsagePointSteps {
                 "<updated>*</updated>" +
                 "<published>*</published>" +
                 "<content>" +
-                "<UsagePoint/>" +
+                "<UsagePoint xmlns=\"http://naesb.org/espi\">" +
+                "<ServiceCategory>" +
+                "<kind>1</kind>" +
+                "</ServiceCategory>" +
+                "</UsagePoint>" +
                 "</content>" +
                 "</entry>" +
                 "</feed>";
@@ -100,7 +108,11 @@ public class UsagePointSteps {
                 "<updated>*</updated>" +
                 "<published>*</published>" +
                 "<content>" +
-                "<UsagePoint/>" +
+                "<UsagePoint xmlns=\"http://naesb.org/espi\">" +
+                "<ServiceCategory>" +
+                "<kind>1</kind>" +
+                "</ServiceCategory>" +
+                "</UsagePoint>" +
                 "</content>" +
                 "</entry>" +
                 "</feed>";

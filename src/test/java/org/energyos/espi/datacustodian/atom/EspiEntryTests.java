@@ -49,7 +49,7 @@ public class EspiEntryTests {
         assertNotNull("Updated is null", entry.getUpdated());
 
         Content content = (Content)entry.getContents().get(0);
-        assertEquals("<UsagePoint/>", content.getValue());
+        assertEquals("<UsagePoint xmlns=\"http://naesb.org/espi\"/>", content.getValue());
     }
 
     private Link findLink(EspiEntry entry, String type) {
