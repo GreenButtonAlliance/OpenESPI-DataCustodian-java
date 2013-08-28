@@ -39,7 +39,7 @@ public class RetailCustomerSteps {
 
     @When("^I navigate to customer list page$")
     public void I_navigate_to_customer_list_page() throws Throwable {
-        driver.get("http://localhost:8080/DataCustodian/custodian/retailcustomers");
+        driver.get(StepUtils.BASE_URL + "/custodian/retailcustomers");
     }
 
     @When("^I create a new retail customer with the name Grace Hopper$")
@@ -83,7 +83,7 @@ public class RetailCustomerSteps {
 
     @When("^I look at my usage page$")
     public void I_look_at_my_usage_page() throws Throwable {
-        driver.get("http://localhost:8080/DataCustodian/usagepoints");
+        driver.get(StepUtils.BASE_URL + "/usagepoints");
     }
 
     @Then("^I should see my Usage Points with title \"([^\"]*)\"$")

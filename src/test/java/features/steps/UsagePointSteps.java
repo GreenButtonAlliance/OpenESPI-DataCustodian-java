@@ -41,7 +41,7 @@ public class UsagePointSteps {
 
     @When("^I request the usage points for a user$")
     public void I_request_the_usage_points_for_a_user() throws Throwable {
-        driver.get("http://localhost:8080/DataCustodian/RetailCustomer/6/UsagePoint");
+        driver.get(StepUtils.BASE_URL + "/RetailCustomer/6/UsagePoint");
     }
 
     @Then("^I should receive an xml response with the user's usage points$")
@@ -89,7 +89,7 @@ public class UsagePointSteps {
 
     @When("^I request a usage point for a user$")
     public void I_request_a_usage_point_for_a_user() throws Throwable {
-        driver.get("http://localhost:8080/DataCustodian/RetailCustomer/1/UsagePoint/2");
+        driver.get(StepUtils.BASE_URL + "/RetailCustomer/1/UsagePoint/2");
     }
 
     @Then("^I should receive an xml response with the usage point$")

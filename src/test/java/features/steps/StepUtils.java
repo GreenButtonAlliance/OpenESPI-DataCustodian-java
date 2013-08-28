@@ -22,10 +22,12 @@ import org.openqa.selenium.WebElement;
 
 public class StepUtils {
 
+    public final static String BASE_URL = "http://localhost:8080/DataCustodian";
+
     public static void login(String username, String password) {
         WebDriver driver = WebDriverSingleton.getInstance();
-        driver.get("http://localhost:8080/DataCustodian/j_spring_security_logout");
-        driver.get("http://localhost:8080/DataCustodian/");
+        driver.get(BASE_URL + "/j_spring_security_logout");
+        driver.get(BASE_URL + "/");
         WebElement loginLink = driver.findElement(By.id("login"));
         loginLink.click();
         WebElement usernameInput = driver.findElement(By.name("j_username"));
