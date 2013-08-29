@@ -37,10 +37,9 @@ public class ImportUsagePointTests {
 
     @Test
     public void givenValidInput_postsToURL() throws IOException {
-        ImportUsagePoint importUsagePoint = new ImportUsagePoint();
         HttpClient client = mock(HttpClient.class);
 
-        importUsagePoint.upload("import .xml", "http://locahost/upload", client);
+        ImportUsagePoint.upload("import .xml", "http://locahost/upload", client);
 
         verify(client).execute(any(HttpUriRequest.class));
     }

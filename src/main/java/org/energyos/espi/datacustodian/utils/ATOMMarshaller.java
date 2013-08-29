@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.stream.StreamSource;
+
 import java.io.InputStream;
 
 @Component
@@ -33,7 +34,8 @@ public class ATOMMarshaller {
     private Jaxb2Marshaller marshaller;
 
     public FeedType unmarshal(InputStream stream) throws JAXBException {
-        JAXBElement<FeedType> object = (JAXBElement<FeedType>)marshaller.unmarshal(new StreamSource(stream));
+        @SuppressWarnings("unchecked") // We assume that users will only ever pass well-formed ATOM xml and therefore Jxb2Marshaller.unmarshal will only ever return a JAXBElement<FeedType>
+		JAXBElement<FeedType> object = (JAXBElement<FeedType>)marshaller.unmarshal(new StreamSource(stream));
         return object.getValue();
     }
 }

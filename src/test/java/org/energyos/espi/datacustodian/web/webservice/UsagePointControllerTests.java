@@ -18,6 +18,7 @@ package org.energyos.espi.datacustodian.web.webservice;
 
 import com.sun.syndication.feed.atom.Feed;
 import com.sun.syndication.io.FeedException;
+
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.service.AtomMarshallerService;
@@ -85,11 +86,12 @@ public class UsagePointControllerTests {
 
         when(usagePointService.findById(usagePointId)).thenReturn(usagePoint);
 
-        when(atomMarshallerService.buildFeed(any(List.class))).thenAnswer(new Answer() {
+        when(atomMarshallerService.buildFeed(anyListOf(UsagePoint.class))).thenAnswer(new Answer<Object>() {
             public Object answer(InvocationOnMock invocation) {
                 Object[] args = invocation.getArguments();
 
-                List<UsagePoint> usagePoints = ((List<UsagePoint>)args[0]);
+                @SuppressWarnings("unchecked") // Third party code InvocationOnMock.getArguments() returns an Object[] array and must be explicitly cast to the known argument type
+				List<UsagePoint> usagePoints = ((List<UsagePoint>)args[0]);
                 assertEquals(1, usagePoints.size());
 
                 UsagePoint up = usagePoints.get(0);
@@ -105,7 +107,7 @@ public class UsagePointControllerTests {
         assertEquals(atomFeedResult, controller.show(usagePointId));
         verify(usagePointService).findById(usagePointId);
         verify(atomMarshallerService).marshal(atomFeed);
-        verify(atomMarshallerService).buildFeed(any(List.class));
+        verify(atomMarshallerService).buildFeed(anyListOf(UsagePoint.class));
     }
 
 }

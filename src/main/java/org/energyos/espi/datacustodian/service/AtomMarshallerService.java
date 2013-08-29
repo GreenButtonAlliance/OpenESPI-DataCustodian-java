@@ -19,6 +19,7 @@ package org.energyos.espi.datacustodian.service;
 import com.sun.syndication.feed.atom.Feed;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.WireFeedOutput;
+
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.energyos.espi.datacustodian.atom.EspiEntry;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
@@ -37,16 +38,16 @@ public class AtomMarshallerService {
         return StringEscapeUtils.unescapeXml(result);
     }
 
-    public Feed buildFeed(List<UsagePoint> usagePointList) throws FeedException {
+    @SuppressWarnings("unchecked")  // Third party code Feed.getEntries() returns an unparameterized List
+	public Feed buildFeed(List<UsagePoint> usagePointList) throws FeedException {
         Feed feed = new Feed();
-        List<EspiEntry> entries = feed.getEntries();
         EspiEntry entry;
 
         for (UsagePoint usagePoint : usagePointList) {
             entry = new EspiEntry(usagePoint);
             entry.setSelfLink(getSelfHrefFor(usagePoint));
             entry.setUpLink(getUpHrefFor(usagePoint));
-            entries.add(entry);
+            feed.getEntries().add(entry);
         }
 
         feed.setFeedType("atom_1.0");

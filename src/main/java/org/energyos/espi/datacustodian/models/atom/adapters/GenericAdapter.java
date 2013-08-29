@@ -19,14 +19,14 @@ package org.energyos.espi.datacustodian.models.atom.adapters;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class GenericAdapter extends XmlAdapter<JAXBElement, Object> {
+public class GenericAdapter extends XmlAdapter<JAXBElement<Object>, Object> {
     @Override
-    public Object unmarshal(JAXBElement v) throws Exception {
+    public Object unmarshal(JAXBElement<Object> v) throws Exception {
         return v.getValue();
     }
 
     @Override
-    public JAXBElement marshal(Object v) throws Exception {
+    public JAXBElement<Object> marshal(Object v) throws Exception {
         return null;
     }
 }

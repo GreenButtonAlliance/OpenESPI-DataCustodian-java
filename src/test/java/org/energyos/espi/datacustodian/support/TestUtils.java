@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlElement;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
+@SuppressWarnings("rawtypes")
 public class TestUtils {
 
     public static void assertAnnotationPresent(Class clazz, String fieldName, Class annotationClass) {

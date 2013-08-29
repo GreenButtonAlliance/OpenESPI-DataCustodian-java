@@ -20,15 +20,18 @@ import com.sun.syndication.feed.atom.Content;
 import com.sun.syndication.feed.atom.Entry;
 import com.sun.syndication.feed.atom.Link;
 import com.sun.syndication.io.FeedException;
+
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.service.EspiMarshallerService;
 
 import java.util.Date;
 
+@SuppressWarnings("serial") // Third party class Entry from which this class inherits does not declare serialVersionUID
 public class EspiEntry extends Entry {
     private Link selfLink;
     private Link upLink;
 
+    @SuppressWarnings("unchecked")  // Third party code Entry.getOtherLinks() and Entry.getContents() both return an unparameterized List
     public EspiEntry(UsagePoint usagePoint) throws FeedException {
         this.setTitle(usagePoint.getTitle());
         this.setId(usagePoint.getId().toString());

@@ -21,15 +21,15 @@ import org.energyos.espi.datacustodian.domain.ServiceCategory;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class ServiceCategoryAdapter extends XmlAdapter<JAXBElement, ServiceCategory> {
+public class ServiceCategoryAdapter extends XmlAdapter<JAXBElement<ServiceCategory>, ServiceCategory> {
     @Override
-    public ServiceCategory unmarshal(JAXBElement v) throws Exception {
+    public ServiceCategory unmarshal(JAXBElement<ServiceCategory> v) throws Exception {
         System.out.println("****** unmarshal adapter");
         return (ServiceCategory)v.getValue();
     }
 
     @Override
-    public JAXBElement marshal(ServiceCategory v) throws Exception {
+    public JAXBElement<ServiceCategory> marshal(ServiceCategory v) throws Exception {
         return null;
     }
 }

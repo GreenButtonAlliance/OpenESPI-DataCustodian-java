@@ -75,7 +75,8 @@ public class ObjectFactory {
 
     private final static QName _IntervalReading_QNAME = new QName("http://naesb.org/espi", "IntervalReading");
     private final static QName _IntervalBlock_QNAME = new QName("http://naesb.org/espi", "IntervalBlock");
-    private final static QName _Object_QNAME = new QName("http://naesb.org/espi", "Object");
+    @SuppressWarnings("unused") // Third party generated code
+	private final static QName _Object_QNAME = new QName("http://naesb.org/espi", "Object");
     private final static QName _ReadingType_QNAME = new QName("http://naesb.org/espi", "ReadingType");
     private final static QName _SummaryMeasurement_QNAME = new QName("http://naesb.org/espi", "SummaryMeasurement");
     private final static QName _Authorization_QNAME = new QName("http://naesb.org/espi", "Authorization");
