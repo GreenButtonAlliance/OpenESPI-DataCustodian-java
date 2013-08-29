@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
 import java.util.List;
 
 @Repository
@@ -31,7 +32,8 @@ public class UsagePointRepositoryImpl implements UsagePointRepository{
     @PersistenceContext
     protected EntityManager em;
 
-    public List<UsagePoint> findAllByRetailCustomerId(Long id) {
+    @SuppressWarnings("unchecked") // Third party code Query.getResultList() returns an unparameterized List
+	public List<UsagePoint> findAllByRetailCustomerId(Long id) {
         return (List<UsagePoint>)this.em.createNamedQuery(UsagePoint.QUERY_FIND_ALL_BY_RETAIL_CUSTOMER_ID)
                 .setParameter("retailCustomerId", id)
                 .getResultList();

@@ -18,13 +18,11 @@ package org.energyos.espi.datacustodian.atom;
 
 
 import com.sun.syndication.feed.atom.Content;
-import com.sun.syndication.feed.atom.Link;
 import com.sun.syndication.io.FeedException;
+
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.junit.Test;
-
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -50,14 +48,5 @@ public class EspiEntryTests {
 
         Content content = (Content)entry.getContents().get(0);
         assertEquals("<UsagePoint xmlns=\"http://naesb.org/espi\"/>", content.getValue());
-    }
-
-    private Link findLink(EspiEntry entry, String type) {
-        for (Link link : (List<Link>)entry.getOtherLinks()) {
-            if (link.getRel() == type) {
-                return link;
-            }
-        }
-        return null;
     }
 }

@@ -21,14 +21,14 @@ import org.energyos.espi.datacustodian.domain.ElectricPowerUsageSummary;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class ElectricPowerUsageSummaryAdapter extends XmlAdapter<JAXBElement, ElectricPowerUsageSummary> {
+public class ElectricPowerUsageSummaryAdapter extends XmlAdapter<JAXBElement<ElectricPowerUsageSummary>, ElectricPowerUsageSummary> {
     @Override
-    public ElectricPowerUsageSummary unmarshal(JAXBElement v) throws Exception {
+    public ElectricPowerUsageSummary unmarshal(JAXBElement<ElectricPowerUsageSummary> v) throws Exception {
         return (ElectricPowerUsageSummary)v.getValue();
     }
 
     @Override
-    public JAXBElement marshal(ElectricPowerUsageSummary v) throws Exception {
+    public JAXBElement<ElectricPowerUsageSummary> marshal(ElectricPowerUsageSummary v) throws Exception {
         return null;
     }
 }

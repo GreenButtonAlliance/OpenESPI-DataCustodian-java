@@ -21,14 +21,14 @@ import org.energyos.espi.datacustodian.models.atom.EntryType;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class EntryAdapter extends XmlAdapter<JAXBElement, EntryType> {
+public class EntryAdapter extends XmlAdapter<JAXBElement<EntryType>, EntryType> {
     @Override
-    public EntryType unmarshal(JAXBElement v) throws Exception {
+    public EntryType unmarshal(JAXBElement<EntryType> v) throws Exception {
         return (EntryType)v.getValue();
     }
 
     @Override
-    public JAXBElement marshal(EntryType v) throws Exception {
+    public JAXBElement<EntryType> marshal(EntryType v) throws Exception {
         return null;
     }
 }

@@ -21,14 +21,14 @@ import org.energyos.espi.datacustodian.models.atom.ContentType;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class ContentAdapter extends XmlAdapter<JAXBElement, ContentType> {
+public class ContentAdapter extends XmlAdapter<JAXBElement<ContentType>, ContentType> {
     @Override
-    public ContentType unmarshal(JAXBElement v) throws Exception {
+    public ContentType unmarshal(JAXBElement<ContentType> v) throws Exception {
         return (ContentType)v.getValue();
     }
 
     @Override
-    public JAXBElement marshal(ContentType v) throws Exception {
+    public JAXBElement<ContentType> marshal(ContentType v) throws Exception {
         return null;
     }
 }

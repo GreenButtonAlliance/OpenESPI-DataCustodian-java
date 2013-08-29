@@ -21,14 +21,14 @@ import org.energyos.espi.datacustodian.models.atom.TextType;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class StringAdapter extends XmlAdapter<JAXBElement, String> {
+public class StringAdapter extends XmlAdapter<JAXBElement<TextType>, String> {
     @Override
-    public String unmarshal(JAXBElement v) throws Exception {
+    public String unmarshal(JAXBElement<TextType> v) throws Exception {
         return ((TextType)v.getValue()).getTitle();
     }
 
     @Override
-    public JAXBElement marshal(String v) throws Exception {
+    public JAXBElement<TextType> marshal(String v) throws Exception {
         return null;
     }
 }

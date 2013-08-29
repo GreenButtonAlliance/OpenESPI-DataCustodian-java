@@ -21,14 +21,14 @@ import org.energyos.espi.datacustodian.models.atom.LinkType;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class LinkAdapter extends XmlAdapter<JAXBElement, LinkType> {
+public class LinkAdapter extends XmlAdapter<JAXBElement<LinkType>, LinkType> {
     @Override
-    public LinkType unmarshal(JAXBElement v) throws Exception {
+    public LinkType unmarshal(JAXBElement<LinkType> v) throws Exception {
         return (LinkType)v.getValue();
     }
 
     @Override
-    public JAXBElement marshal(LinkType v) throws Exception {
+    public JAXBElement<LinkType> marshal(LinkType v) throws Exception {
         return null;
     }
 }

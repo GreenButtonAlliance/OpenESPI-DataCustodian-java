@@ -30,8 +30,8 @@ import org.springframework.validation.BindingResult;
 
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -46,7 +46,6 @@ public class RetailCustomerControllerTests {
     @Autowired
     protected RetailCustomerService service;
 
-    @SuppressWarnings("unchecked")
     @Test
     public void index_displaysIndexView() throws Exception {
         assertEquals("retailcustomers/index", controller.index(new ModelMap()));

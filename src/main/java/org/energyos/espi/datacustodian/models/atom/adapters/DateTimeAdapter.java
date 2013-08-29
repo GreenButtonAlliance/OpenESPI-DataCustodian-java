@@ -24,14 +24,14 @@ import org.joda.time.chrono.ISOChronology;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class DateTimeAdapter extends XmlAdapter<JAXBElement, DateTime> {
+public class DateTimeAdapter extends XmlAdapter<JAXBElement<DateTimeType>, DateTime> {
     @Override
-    public DateTime unmarshal(JAXBElement v) throws Exception {
+    public DateTime unmarshal(JAXBElement<DateTimeType> v) throws Exception {
         return new DateTime(((DateTimeType)v.getValue()).getValue().toGregorianCalendar(), ISOChronology.getInstance(DateTimeZone.UTC));
     }
 
     @Override
-    public JAXBElement marshal(DateTime v) throws Exception {
+    public JAXBElement<DateTimeType> marshal(DateTime v) throws Exception {
         return null;
     }
 }
