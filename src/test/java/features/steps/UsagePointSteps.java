@@ -125,8 +125,8 @@ public class UsagePointSteps {
         DetailedDiff diffXml = new DetailedDiff(new Diff(expected, result));
         diffXml.overrideDifferenceListener(new WildcardListener());
 
-        String flatResult = result.replace("\n", "").replaceAll("\\s+<", "<").replaceAll(">\\s+", ">");
-        String flatExpected = expected.replace("\n", "").replaceAll("\\s+<", "<").replaceAll(">\\s+", ">");
+        String flatResult = StepUtils.flattenXml(result);
+        String flatExpected = StepUtils.flattenXml(expected);
         assertTrue("\n\n\nXMLUnit ERROR:\n" + diffXml.toString() + ":\n\nEXPECTED:\n[" + flatExpected + "]\n\nGOT:\n[" + flatResult + "]\n\n\n", diffXml.similar());
     }
 }
