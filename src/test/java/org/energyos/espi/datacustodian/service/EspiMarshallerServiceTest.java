@@ -16,6 +16,7 @@
 
 package org.energyos.espi.datacustodian.service;
 
+import org.energyos.espi.datacustodian.domain.ServiceCategory;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.junit.Test;
 
@@ -29,5 +30,18 @@ public class EspiMarshallerServiceTest {
 
         String xmlResult = "<UsagePoint xmlns=\"http://naesb.org/espi\"/>";
         assertEquals(xmlResult, EspiMarshallerService.marshal(usagePoint));
+    }
+
+    @Test
+    public void marshal_with_marshallableObject_returnsXmlWithServiceCategory() throws Exception {
+        UsagePoint usagePoint = new UsagePoint();
+        ServiceCategory serviceCategory = new ServiceCategory();
+        serviceCategory.setKind(1L);
+
+        usagePoint.setServiceCategory(serviceCategory);
+
+        String xmlResult = "<UsagePoint xmlns=\"http://naesb.org/espi\"><ServiceCategory><kind>1</kind></ServiceCategory></UsagePoint>";
+        assertEquals(xmlResult, EspiMarshallerService.marshal(usagePoint));
+
     }
 }
