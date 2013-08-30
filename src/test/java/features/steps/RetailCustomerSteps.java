@@ -16,6 +16,7 @@
 
 package features.steps;
 
+import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -34,6 +35,11 @@ import static org.junit.Assert.assertTrue;
 public class RetailCustomerSteps {
 
     private WebDriver driver = WebDriverSingleton.getInstance();
+
+    @Before
+    public void setup() {
+        XMLUnit.getControlDocumentBuilderFactory().setNamespaceAware(false);
+    }
 
     @Given("^I am a Data Custodian$")
     public void I_am_a_Data_Custodian() throws Throwable {
@@ -121,9 +127,11 @@ public class RetailCustomerSteps {
     public void I_should_be_able_to_download_Usage_Points_in_XML_format() throws Throwable {
         WebElement downloadLink = driver.findElement(By.partialLinkText("Download XML"));
         downloadLink.click();
-        assertTrue(driver.getPageSource().contains("xml"));
-        assertTrue(driver.getPageSource().contains("House meter"));
-        assertTrue(driver.getPageSource().contains("Gas meter"));
+
+        String xmlResult = StepUtils.flattenXml(driver.getPageSource());
+
+        assertXpathEvaluatesTo("House meter", "feed/entry[1]/title", xmlResult);
+        assertXpathEvaluatesTo("Gas meter", "feed/entry[2]/title", xmlResult);
     }
 
     @Given("^Usage Points with Service Categories$")
@@ -135,8 +143,7 @@ public class RetailCustomerSteps {
         WebElement downloadLink = driver.findElement(By.partialLinkText("Download XML"));
         downloadLink.click();
 
-        XMLUnit.getControlDocumentBuilderFactory().setNamespaceAware(false);
 
-        assertXpathEvaluatesTo("1", "//entry//content//UsagePoint//ServiceCategory//kind", StepUtils.flattenXml(driver.getPageSource()));
+        assertXpathEvaluatesTo("1", "feed/entry[1]/content/UsagePoint/ServiceCategory/kind", StepUtils.flattenXml(driver.getPageSource()));
     }
 }
