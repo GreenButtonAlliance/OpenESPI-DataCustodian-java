@@ -35,3 +35,11 @@ Feature: Retail Customers
 
     When I look at my usage page
     Then I should be able to download Usage Points in XML format
+
+  Scenario: Retail Customer downloads Usage Points with Service Categories
+    Given Alan Turing Retail Customer
+    And Usage Points with Service Categories
+
+    When I login as Alan Turing
+    And I look at my usage page
+    Then I should be able to download my Usage Points with Service Categories with Service Kind of Gas service

@@ -16,13 +16,19 @@
 
 package features.steps;
 
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import cucumber.runtime.PendingException;
+import org.custommonkey.xmlunit.XMLUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
+import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
+import static org.custommonkey.xmlunit.XMLAssert.assertXpathsEqual;
 import static org.junit.Assert.assertTrue;
 
 public class RetailCustomerSteps {
@@ -118,5 +124,19 @@ public class RetailCustomerSteps {
         assertTrue(driver.getPageSource().contains("xml"));
         assertTrue(driver.getPageSource().contains("House meter"));
         assertTrue(driver.getPageSource().contains("Gas meter"));
+    }
+
+    @Given("^Usage Points with Service Categories$")
+    public void Usage_Points_with_Service_Categories() throws Throwable {
+    }
+
+    @Then("^I should be able to download my Usage Points with Service Categories with Service Kind of Gas service$")
+    public void I_should_be_able_to_download_Usage_Points_with_Service_Categories_with_Service_Kind_of_Gas_service() throws Throwable {
+        WebElement downloadLink = driver.findElement(By.partialLinkText("Download XML"));
+        downloadLink.click();
+
+        XMLUnit.getControlDocumentBuilderFactory().setNamespaceAware(false);
+
+        assertXpathEvaluatesTo("1", "//entry//content//UsagePoint//ServiceCategory//kind", StepUtils.flattenXml(driver.getPageSource()));
     }
 }

@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
@@ -48,9 +49,9 @@ public class UsagePointTests {
     }
 
     @Test
-    public void displayUsagePointsFeedView() throws Exception {
+    public void displayAtomFeed() throws Exception {
         mockMvc.perform(get("/customer/usagepoints/feed"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/customer/usagepoints/feed"));
+                .andExpect(content().contentType("application/atom+xml"));
     }
 }

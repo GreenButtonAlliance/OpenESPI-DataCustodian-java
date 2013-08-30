@@ -16,8 +16,11 @@
 
 package org.energyos.espi.datacustodian.web.customer;
 
+import com.sun.syndication.feed.atom.Feed;
+import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.service.AtomMarshallerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -25,6 +28,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -33,22 +37,28 @@ import java.util.List;
 public class UsagePointFeedController {
 
     @Autowired
-    private UsagePointService service;
+    private UsagePointService usagePointService;
 
-    public void setService(UsagePointService service) {
-        this.service = service;
+    @Autowired
+    private AtomMarshallerService atomMarshallerService;
+
+    public void setUsagePointService(UsagePointService usagePointService) {
+        this.usagePointService = usagePointService;
     }
 
-    @ModelAttribute
-    public List<UsagePoint> usagePointsList() {
-        RetailCustomer customer = new RetailCustomer();
-        customer.setId(1L);
-
-        return  service.findAllByRetailCustomer(customer);
+    public void setAtomMarshallerService(AtomMarshallerService atomMarshallerService) {
+        this.atomMarshallerService = atomMarshallerService;
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_ATOM_XML_VALUE)
-    public String index() {
-        return "/customer/usagepoints/feed";
+    @ResponseBody
+    public String index() throws FeedException {
+        RetailCustomer customer = new RetailCustomer();
+        customer.setId(1L);
+
+        List<UsagePoint> usagePointList = usagePointService.findAllByRetailCustomer(customer);
+        Feed atomFeed = atomMarshallerService.buildFeed(usagePointList);
+
+        return atomMarshallerService.marshal(atomFeed);
     }
 }

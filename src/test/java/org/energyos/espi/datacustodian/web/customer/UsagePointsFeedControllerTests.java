@@ -16,8 +16,10 @@
 
 package org.energyos.espi.datacustodian.web.customer;
 
+import com.sun.syndication.feed.atom.Feed;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.service.AtomMarshallerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,27 +34,35 @@ import static org.mockito.Mockito.*;
 public class UsagePointsFeedControllerTests {
 
     private UsagePointFeedController controller;
-    private UsagePointService service;
+    private UsagePointService usagePointService;
+    private AtomMarshallerService atomMarshallerService;
 
     @Before
     public void before() {
-        service = mock(UsagePointService.class);
+        usagePointService = mock(UsagePointService.class);
+        atomMarshallerService = mock(AtomMarshallerService.class);
 
         controller = new UsagePointFeedController();
-        controller.setService(service);
+        controller.setUsagePointService(usagePointService);
+        controller.setAtomMarshallerService(atomMarshallerService);
     }
 
     @Test
-    public void usagePointList_returnsListUsagePoints() {
-        assertEquals("/customer/usagepoints/feed", controller.index());
-    }
+    public void index_returnsAtomFeedOfUsagePointsForCurrentUser() throws Exception {
+        Feed atomFeed = mock(Feed.class);
 
-    @Test
-    public void index_displaysUsagePointsFeedView() throws Exception {
         List<UsagePoint> usagePointList = new ArrayList<UsagePoint>();
+        String atomFeedResult = "THIS IS AN ATOM FEED";
 
-        when(service.findAllByRetailCustomer(any(RetailCustomer.class))).thenReturn(usagePointList);
+        when(usagePointService.findAllByRetailCustomer(any(RetailCustomer.class))).thenReturn(usagePointList);
 
-        assertEquals(usagePointList, controller.usagePointsList());
+        when(atomMarshallerService.buildFeed(usagePointList)).thenReturn(atomFeed);
+        when(atomMarshallerService.marshal(atomFeed)).thenReturn(atomFeedResult);
+
+        assertEquals(atomFeedResult, controller.index());
+        verify(usagePointService).findAllByRetailCustomer(any(RetailCustomer.class));
+        verify(atomMarshallerService).buildFeed(usagePointList);
+        verify(atomMarshallerService).marshal(atomFeed);
+
     }
 }
