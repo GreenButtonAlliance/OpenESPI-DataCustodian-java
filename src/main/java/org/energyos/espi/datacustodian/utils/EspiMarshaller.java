@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.service;
+package org.energyos.espi.datacustodian.utils;
 
 import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.domain.IdentifiedObject;
@@ -24,8 +24,9 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
 
-public class EspiMarshallerService {
-    private EspiMarshallerService() {}
+public class EspiMarshaller {
+    private EspiMarshaller() {
+    }
 
     public static String marshal(IdentifiedObject entity) throws FeedException {
         StringWriter sw = new StringWriter();
