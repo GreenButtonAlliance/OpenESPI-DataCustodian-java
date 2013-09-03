@@ -34,24 +34,34 @@ public class UsagePointBuilder {
         EntryType usagePointEntry = null;
         Map<String, Object> lookup = new HashMap<String, Object>();
 
+        setDescriptions(feed);
         addSelfLinks(feed, lookup);
         addRelatedLinks(feed, lookup);
         associate(feed, lookup);
         usagePointEntry = findUsagePoint(feed, usagePointEntry);
 
-        if (usagePointEntry != null)
-        {
+        if (usagePointEntry != null) {
             UsagePoint usagePoint = usagePointEntry.getContent().getUsagePoint();
-            usagePoint.setDescription(usagePointEntry.getTitle());
             return usagePoint;
         }
 
         return null;
     }
 
+    private void setDescriptions(FeedType feed) {
+        for (EntryType entry : feed.getEntries()) {
+            ContentType content = entry.getContent();
+
+            if (content.getUsagePoint() != null) {
+                content.getUsagePoint().setDescription(entry.getTitle());
+            } else if (content.getMeterReading() != null) {
+                content.getMeterReading().setDescription(entry.getTitle());
+            }
+        }
+    }
+
     private void associateWithParent(Map<String, Object> lookup, EntryType entryType, LinkType upLink) {
         ContentType content = entryType.getContent();
-
         if (content.getMeterReading() != null) {
             MeterReading meterReading = content.getMeterReading();
             UsagePoint usagePoint = ((EntryType) lookup.get(upLink.getHref())).getContent().getUsagePoint();
@@ -65,7 +75,7 @@ public class UsagePointBuilder {
     }
 
     private EntryType findUsagePoint(FeedType feed, EntryType usagePointEntry) {
-        for(EntryType entryType : feed.getEntries()) {
+        for (EntryType entryType : feed.getEntries()) {
             if (entryType.getContent().getUsagePoint() != null)
                 usagePointEntry = entryType;
         }
@@ -79,9 +89,9 @@ public class UsagePointBuilder {
     }
 
     private void addRelatedLinks(FeedType feed, Map<String, Object> lookup) {
-        for(EntryType entry : feed.getEntries()) {
-            for(LinkType link : entry.getLinks()){
-                if(link.getRel().equals("related") && !lookup.containsKey(link.getHref())){
+        for (EntryType entry : feed.getEntries()) {
+            for (LinkType link : entry.getLinks()) {
+                if (link.getRel().equals("related") && !lookup.containsKey(link.getHref())) {
                     lookup.put(link.getHref(), entry);
                 }
             }
@@ -89,7 +99,7 @@ public class UsagePointBuilder {
     }
 
     private void addSelfLinks(FeedType feed, Map<String, Object> lookup) {
-        for(EntryType entry : feed.getEntries()) {
+        for (EntryType entry : feed.getEntries()) {
             lookup.put(findSelfLink(entry).getHref(), entry);
         }
     }

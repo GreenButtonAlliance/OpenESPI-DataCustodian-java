@@ -80,11 +80,25 @@ public class UsagePointBuilderTests {
         assertEquals(usagePoint, meterReading.getUsagePoint());
     }
 
+    @Test
+    public void givenFeedWithTitledMeterReading_addsEntryTitleToMeterReading() {
+        UsagePointBuilder builder = new UsagePointBuilder();
+        FeedType feed = newFeed("Super title");
+
+        MeterReading meterReading = new MeterReading();
+
+        feed.getEntries().add(newMeterReading(meterReading));
+        UsagePoint usagePoint = builder.newUsagePoint(feed);
+
+        assertEquals("Electricity consumption", usagePoint.getMeterReadings().get(0).getDescription());
+    }
+
     private EntryType newMeterReading(MeterReading meterReading) {
         EntryType meterReadingEntry = new EntryType();
         ContentType meterReadingContentType = new ContentType();
         meterReadingContentType.setMeterReading(meterReading);
         meterReadingEntry.setContent(meterReadingContentType);
+        meterReadingEntry.setTitle("Electricity consumption");
         meterReadingEntry.getLinks().add(newLinkType("self", "RetailCustomer/9b6c7063/UsagePoint/01/MeterReading/01"));
         meterReadingEntry.getLinks().add(newLinkType("up", "RetailCustomer/9b6c7063/UsagePoint/01/MeterReading"));
         return meterReadingEntry;

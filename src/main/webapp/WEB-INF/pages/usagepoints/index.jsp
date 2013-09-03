@@ -35,6 +35,8 @@
                 <thead>
                 <tr>
                     <th>Title</th>
+                    <th>Service Category</th>
+                    <th>Meter Readings</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -47,6 +49,11 @@
                         </td>
                         <td>
                             <c:out value="${usagePoint.serviceCategory}"/>
+                        </td>
+                        <td>
+                            <c:forEach var="meterReading" items="${usagePoint.meterReadings}">
+                                <c:out value="${meterReading.description}"/>
+                            </c:forEach>
                         </td>
                     </tr>
                 </c:forEach>

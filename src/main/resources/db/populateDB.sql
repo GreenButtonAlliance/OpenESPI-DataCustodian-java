@@ -24,3 +24,5 @@ INSERT INTO usage_points (id, description, serviceCategory_kind, retail_customer
 INSERT INTO usage_points (id, description, serviceCategory_kind, retail_customer_id) VALUES (4, 'House meter', 1, 6);
 INSERT INTO usage_points (id, description, serviceCategory_kind, retail_customer_id) VALUES (5, 'Gas meter', 1, 6);
 
+INSERT INTO meter_readings (id, description, usage_point_id) VALUES (1, "Electricity consumption", 1)
+INSERT INTO meter_readings (id, description, usage_point_id) VALUES (2, "Gas consumption", 2)
