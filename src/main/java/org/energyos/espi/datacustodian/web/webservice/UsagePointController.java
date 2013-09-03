@@ -16,10 +16,7 @@
 
 package org.energyos.espi.datacustodian.web.webservice;
 
-import com.sun.syndication.feed.atom.Feed;
 import com.sun.syndication.io.FeedException;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.service.AtomMarshallerService;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +26,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Controller("webServicesUsagePointController")
 @RequestMapping("/RetailCustomer/{retailCustomerId}/UsagePoint")
 public class UsagePointController {
@@ -40,8 +34,6 @@ public class UsagePointController {
     private UsagePointService usagePointService;
     @Autowired
     private RetailCustomerService retailCustomerService;
-    @Autowired
-    private AtomMarshallerService atomMarshallerService;
 
     public void setUsagePointService(UsagePointService usagePointService) {
         this.usagePointService = usagePointService;
@@ -51,38 +43,30 @@ public class UsagePointController {
         this.retailCustomerService = retailCustomerService;
     }
 
-    public void setAtomMarshallerService(AtomMarshallerService atomMarshallerService) {
-        this.atomMarshallerService = atomMarshallerService;
-    }
-
-
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_ATOM_XML_VALUE)
     @ResponseBody
     public String index(@PathVariable("retailCustomerId") Long retailCustomerId) throws FeedException {
-        List<UsagePoint> usagePointList = usagePointService.findAllByRetailCustomer(retailCustomerService.findById(retailCustomerId));
-        Feed atomFeed = atomMarshallerService.buildFeed(usagePointList);
-        return atomMarshallerService.marshal(atomFeed);
+        return usagePointService.exportUsagePoints(retailCustomerService.findById(retailCustomerId));
     }
 
-    @RequestMapping(value="/{usagePointId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_ATOM_XML_VALUE)
+    @RequestMapping(value = "/{usagePointId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_ATOM_XML_VALUE)
     @ResponseBody
     public String show(@PathVariable("usagePointId") Long usagePointId) throws FeedException {
-        List<UsagePoint> usagePointList = new ArrayList<UsagePoint>();
-        UsagePoint usagePoint = usagePointService.findById(usagePointId);
-        usagePointList.add(usagePoint);
-        Feed atomFeed = atomMarshallerService.buildFeed(usagePointList);
-        return atomMarshallerService.marshal(atomFeed);
+        return usagePointService.exportUsagePointById(usagePointId);
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NullPointerException.class)
-    public void handleNullPointerException(NullPointerException e) { }
+    public void handleNullPointerException(NullPointerException e) {
+    }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(EmptyResultDataAccessException.class)
-    public void handleException(EmptyResultDataAccessException e) { }
+    public void handleException(EmptyResultDataAccessException e) {
+    }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(FeedException.class)
-    public void handleFeedException(FeedException e) { }
+    public void handleFeedException(FeedException e) {
+    }
 }

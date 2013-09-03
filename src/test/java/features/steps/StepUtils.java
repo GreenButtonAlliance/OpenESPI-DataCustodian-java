@@ -39,4 +39,8 @@ public class StepUtils {
         WebElement login = driver.findElement(By.name("submit"));
         login.click();
     }
+
+    public static String flattenXml(String xml) {
+        return xml.replace("\n", "").replaceAll("\\s+<", "<").replaceAll(">\\s+", ">");
+    }
 }

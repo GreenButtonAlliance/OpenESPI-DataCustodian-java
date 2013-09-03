@@ -17,6 +17,7 @@
 package org.energyos.espi.datacustodian.service;
 
 
+import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 
@@ -28,7 +29,12 @@ public interface UsagePointService {
     List<UsagePoint> findAllByRetailCustomer(RetailCustomer customer);
 
     UsagePoint findById(Long id);
+
     void persist(UsagePoint up);
 
     void importUsagePoint(RetailCustomer customer, InputStream stream) throws JAXBException;
+
+    String exportUsagePoints(RetailCustomer customer) throws FeedException;
+
+    String exportUsagePointById(Long usagePointId) throws FeedException;
 }

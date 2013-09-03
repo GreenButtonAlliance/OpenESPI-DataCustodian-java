@@ -17,13 +17,8 @@
 package org.energyos.espi.datacustodian.web.customer;
 
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.service.UsagePointService;
-import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
@@ -31,28 +26,19 @@ import static org.mockito.Mockito.*;
 
 public class UsagePointsFeedControllerTests {
 
-    private UsagePointFeedController controller;
-    private UsagePointService service;
-
-    @Before
-    public void before() {
-        service = mock(UsagePointService.class);
-
-        controller = new UsagePointFeedController();
-        controller.setService(service);
-    }
-
     @Test
-    public void usagePointList_returnsListUsagePoints() {
-        assertEquals("/customer/usagepoints/feed", controller.index());
-    }
+    public void index_returnsAtomFeedOfUsagePointsForCurrentUser() throws Exception {
+        UsagePointService usagePointService = mock(UsagePointService.class);
 
-    @Test
-    public void index_displaysUsagePointsFeedView() throws Exception {
-        List<UsagePoint> usagePointList = new ArrayList<UsagePoint>();
+        UsagePointFeedController controller = new UsagePointFeedController();
+        controller.setUsagePointService(usagePointService);
 
-        when(service.findAllByRetailCustomer(any(RetailCustomer.class))).thenReturn(usagePointList);
 
-        assertEquals(usagePointList, controller.usagePointsList());
+        String atomFeedResult = "<?xml version=\"1.0\"?><feed></feed>";
+
+        when(usagePointService.exportUsagePoints(any(RetailCustomer.class))).thenReturn(atomFeedResult);
+
+        assertEquals(atomFeedResult, controller.index());
+        verify(usagePointService).exportUsagePoints(any(RetailCustomer.class));
     }
 }

@@ -16,20 +16,24 @@
 
 package features.steps;
 
+import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import features.WildcardListener;
-import org.custommonkey.xmlunit.DetailedDiff;
-import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.openqa.selenium.WebDriver;
 
-import static org.junit.Assert.assertTrue;
+import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
+import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 
 public class UsagePointSteps {
 
     private WebDriver driver = WebDriverSingleton.getInstance();
+
+    @Before
+    public void setup() {
+        XMLUnit.getControlDocumentBuilderFactory().setNamespaceAware(false);
+    }
 
     @Given("^I am a Third Party$")
     public void I_am_a_Third_Party() throws Throwable {
@@ -46,45 +50,13 @@ public class UsagePointSteps {
 
     @Then("^I should receive an xml response with the user's usage points$")
     public void I_should_receive_an_xml_response_with_the_user_s_usage_points() throws Throwable {
-        String expected =
-                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-                "<feed xmlns=\"http://www.w3.org/2005/Atom\">" +
-                "<title>UsagePoint Feed</title>" +
-                "<id>*</id>" +
-                "<entry>" +
-                "<title>House meter</title>" +
-                "<link rel=\"self\" href=\"RetailCustomer/6/UsagePoint/4\" />" +
-                "<link rel=\"up\" href=\"RetailCustomer/6/UsagePoint\" />" +
-                "<id>4</id>" +
-                "<updated>*</updated>" +
-                "<published>*</published>" +
-                "<content>" +
-                "<UsagePoint xmlns=\"http://naesb.org/espi\">" +
-                "<ServiceCategory>" +
-                "<kind>1</kind>" +
-                "</ServiceCategory>" +
-                "</UsagePoint>" +
-                "</content>" +
-                "</entry>" +
-                "<entry>" +
-                "<title>Gas meter</title>" +
-                "<link rel=\"self\" href=\"RetailCustomer/6/UsagePoint/5\" />" +
-                "<link rel=\"up\" href=\"RetailCustomer/6/UsagePoint\" />" +
-                "<id>5</id>" +
-                "<updated>*</updated>" +
-                "<published>*</published>" +
-                "<content>" +
-                "<UsagePoint xmlns=\"http://naesb.org/espi\">" +
-                "<ServiceCategory>" +
-                "<kind>1</kind>" +
-                "</ServiceCategory>" +
-                "</UsagePoint>" +
-                "</content>" +
-                "</entry>" +
-                "</feed>";
+        String xmlResult = StepUtils.flattenXml(driver.getPageSource());
 
+        assertXpathExists("feed/entry[1]/content/UsagePoint", xmlResult);
+        assertXpathEvaluatesTo("House meter", "feed/entry[1]/title", xmlResult);
 
-        assertXmlMatches(expected, driver.getPageSource());
+        assertXpathExists("feed/entry[2]/content/UsagePoint", xmlResult);
+        assertXpathEvaluatesTo("Gas meter", "feed/entry[2]/title", xmlResult);
     }
 
     @When("^I request a usage point for a user$")
@@ -94,39 +66,9 @@ public class UsagePointSteps {
 
     @Then("^I should receive an xml response with the usage point$")
     public void I_should_receive_an_xml_response_with_the_usage_point() throws Throwable {
+        String xmlResult = StepUtils.flattenXml(driver.getPageSource());
 
-        String expected =
-                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-                "<feed xmlns=\"http://www.w3.org/2005/Atom\">" +
-                "<title>UsagePoint Feed</title>" +
-                "<id>*</id>" +
-                "<entry>" +
-                "<title>Gas meter</title>" +
-                "<link rel=\"self\" href=\"RetailCustomer/1/UsagePoint/2\" />" +
-                "<link rel=\"up\" href=\"RetailCustomer/1/UsagePoint\" />" +
-                "<id>2</id>" +
-                "<updated>*</updated>" +
-                "<published>*</published>" +
-                "<content>" +
-                "<UsagePoint xmlns=\"http://naesb.org/espi\">" +
-                "<ServiceCategory>" +
-                "<kind>1</kind>" +
-                "</ServiceCategory>" +
-                "</UsagePoint>" +
-                "</content>" +
-                "</entry>" +
-                "</feed>";
-
-        assertXmlMatches(expected, driver.getPageSource());
-    }
-
-    private void assertXmlMatches(String expected, String result) throws Throwable {
-        XMLUnit.setIgnoreWhitespace(Boolean.TRUE);
-        DetailedDiff diffXml = new DetailedDiff(new Diff(expected, result));
-        diffXml.overrideDifferenceListener(new WildcardListener());
-
-        String flatResult = result.replace("\n", "").replaceAll("\\s+<", "<").replaceAll(">\\s+", ">");
-        String flatExpected = expected.replace("\n", "").replaceAll("\\s+<", "<").replaceAll(">\\s+", ">");
-        assertTrue("\n\n\nXMLUnit ERROR:\n" + diffXml.toString() + ":\n\nEXPECTED:\n[" + flatExpected + "]\n\nGOT:\n[" + flatResult + "]\n\n\n", diffXml.similar());
+        assertXpathExists("feed/entry[1]/content/UsagePoint", xmlResult);
+        assertXpathEvaluatesTo("Gas meter", "feed/entry[1]/title", xmlResult);
     }
 }
