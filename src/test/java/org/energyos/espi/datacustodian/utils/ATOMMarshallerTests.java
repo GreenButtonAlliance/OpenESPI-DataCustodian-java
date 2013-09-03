@@ -16,6 +16,10 @@
 
 package org.energyos.espi.datacustodian.utils;
 
+import com.sun.syndication.feed.atom.Feed;
+import org.custommonkey.xmlunit.XMLUnit;
+import org.custommonkey.xmlunit.exceptions.XpathException;
+import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.ServiceCategory;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.models.atom.EntryType;
@@ -23,6 +27,7 @@ import org.energyos.espi.datacustodian.models.atom.FeedType;
 import org.energyos.espi.datacustodian.models.atom.IdType;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +35,18 @@ import org.springframework.oxm.UnmarshallingFailureException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBException;
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
+import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
+import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -48,25 +59,34 @@ public class ATOMMarshallerTests {
             "<feed xmlns=\"http://www.w3.org/2005/Atom\" " +
             " xsi:schemaLocation=\"http://naesb.org/espi espiDerived.xsd\"" +
             " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">";
-    String FEED_POSTFIX =  "</feed>";
+    String FEED_POSTFIX = "</feed>";
 
     @Autowired
     private ATOMMarshaller marshaller;
+    String xmlResult;
+
+    @Before
+    public void setup() throws Exception {
+        XMLUnit.getControlDocumentBuilderFactory().setNamespaceAware(false);
+
+        Feed atomFeed = newFeed();
+        xmlResult = marshaller.marshal(atomFeed);
+    }
 
     @Test(expected = UnmarshallingFailureException.class)
-    public void givenInvalidInput_throwsAnException() throws JAXBException {
+    public void unmarshal_givenInvalidInput_throwsAnException() throws JAXBException {
         marshaller.unmarshal(new ByteArrayInputStream(new byte[0]));
     }
 
     @Test
-    public void givenEmptyFeed_returnsFeed() throws JAXBException {
+    public void unmarshal_givenEmptyFeed_returnsFeed() throws JAXBException {
         String xml = FEED_PREFIX + FEED_POSTFIX;
 
         assertEquals(FeedType.class, marshaller.unmarshal(new ByteArrayInputStream(xml.getBytes())).getClass());
     }
 
     @Test
-    public void givenFeedWithEntry_returnsFeedWithEntry() throws JAXBException {
+    public void unmarshal_givenFeedWithEntry_returnsFeedWithEntry() throws JAXBException {
         String xml = FEED_PREFIX + "<entry></entry>" + FEED_POSTFIX;
         InputStream xmlStream = new ByteArrayInputStream(xml.getBytes());
         FeedType feed = marshaller.unmarshal(xmlStream);
@@ -75,7 +95,7 @@ public class ATOMMarshallerTests {
     }
 
     @Test
-    public void givenFeedWithUsagePointEntry_returnsFeedWithUsagePoint() throws JAXBException {
+    public void unmarshal_givenFeedWithUsagePointEntry_returnsFeedWithUsagePoint() throws JAXBException {
         String xml = FEED_PREFIX +
                 "  <entry>" +
                 "    <content>" +
@@ -90,7 +110,7 @@ public class ATOMMarshallerTests {
     }
 
     @Test
-    public void givenFeedWithId_returnsFeedWithId() throws JAXBException {
+    public void unmarshal_givenFeedWithId_returnsFeedWithId() throws JAXBException {
         String xml = FEED_PREFIX +
                 "   <id>urn:uuid:D7B58EA6-D94D-45D1-A0CA-F8A843AB1080</id>" +
                 FEED_POSTFIX;
@@ -102,7 +122,7 @@ public class ATOMMarshallerTests {
     }
 
     @Test
-    public void givenEntryWithId_returnsEntryWithId() throws JAXBException {
+    public void unmarshal_givenEntryWithId_returnsEntryWithId() throws JAXBException {
         String xml = FEED_PREFIX +
                 "   <entry>" +
                 "     <id>urn:uuid:D7B58EA6-D94D-45D1-A0CA-F8A843AB1080</id>" +
@@ -116,7 +136,7 @@ public class ATOMMarshallerTests {
     }
 
     @Test
-    public void givenEntryWithTitle_returnsEntryWithTitle() throws JAXBException {
+    public void unmarshal_givenEntryWithTitle_returnsEntryWithTitle() throws JAXBException {
         String xml = FEED_PREFIX +
                 "   <entry>" +
                 "     <title>Entry Title</title>" +
@@ -129,7 +149,7 @@ public class ATOMMarshallerTests {
     }
 
     @Test
-    public void givenEntryWithPublished_returnsEntryWithPublished() throws JAXBException {
+    public void unmarshal_givenEntryWithPublished_returnsEntryWithPublished() throws JAXBException {
         String xml = FEED_PREFIX +
                 "   <entry>" +
                 "     <published>2000-02-29T00:00:00Z</published>" +
@@ -142,7 +162,7 @@ public class ATOMMarshallerTests {
     }
 
     @Test
-    public void givenEntryWithUpdate_returnsEntryWithUpdated() throws JAXBException {
+    public void unmarshal_givenEntryWithUpdate_returnsEntryWithUpdated() throws JAXBException {
         String xml = FEED_PREFIX +
                 "   <entry>" +
                 "     <updated>2000-02-29T00:00:00Z</updated>" +
@@ -155,7 +175,7 @@ public class ATOMMarshallerTests {
     }
 
     @Test
-    public void givenXML_returnsFeed() throws JAXBException, FileNotFoundException {
+    public void unmarshal_givenXML_returnsFeed() throws JAXBException, FileNotFoundException {
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<?xml-stylesheet type=\"text/xsl\" href=\"GreenButtonDataStyleSheet.xslt\"?>\n" +
                 "<feed xmlns=\"http://www.w3.org/2005/Atom\" xsi:schemaLocation=\"http://naesb.org/espi espiDerived.xsd\"\n" +
@@ -223,5 +243,73 @@ public class ATOMMarshallerTests {
         InputStream xmlStream = new ByteArrayInputStream(xml.getBytes());
         FeedType feed = marshaller.unmarshal(xmlStream);
         assertEquals(ServiceCategory.class, feed.getEntries().get(0).getContent().getUsagePoint().getServiceCategory().getClass());
+    }
+
+    @Test
+    public void marshal_returnsAtomFeed_withRequiredProperties() throws Exception {
+        assertXpathExists("feed", xmlResult);
+        assertXpathExists("feed/title", xmlResult);
+        assertXpathExists("feed/id", xmlResult);
+    }
+
+    @Test
+    public void marshal_returnsEntryWithId() throws SAXException, IOException, XpathException {
+        assertXpathEvaluatesTo("1", "/feed/entry/id", xmlResult);
+    }
+
+    @Test
+    public void marshal_returnsEntryWithSelfLink() throws SAXException, IOException, XpathException {
+        assertXpathEvaluatesTo("RetailCustomer/1/UsagePoint/1", "feed/entry[1]/link[@rel='self']/@href", xmlResult);
+    }
+
+    @Test
+    public void marshal_returnsEntryWithUpLink() throws SAXException, IOException, XpathException {
+        assertXpathEvaluatesTo("RetailCustomer/1/UsagePoint", "feed/entry[1]/link[@rel='up']/@href", xmlResult);
+    }
+
+    @Test
+    public void marshal_returnsEntryWithTitle() throws SAXException, IOException, XpathException {
+        assertXpathEvaluatesTo("Electric meter", "/feed/entry/title", xmlResult);
+    }
+
+    @Test
+    public void marshal_returnsEntryWithContent() throws SAXException, IOException, XpathException {
+        assertXpathExists("/feed/entry[1]/content", xmlResult);
+    }
+
+    @Test
+    public void marshal_returnsEntryWithPublishedDate() throws SAXException, IOException, XpathException {
+        assertXpathExists("/feed/entry[1]/published", xmlResult);
+    }
+
+    @Test
+    public void marshal_returnsEntryWithUpdatedDate() throws SAXException, IOException, XpathException {
+        assertXpathExists("/feed/entry[1]/updated", xmlResult);
+    }
+
+    @Test
+    public void marshal_returnsEntryWithUsagePointContent() throws SAXException, IOException, XpathException {
+        assertXpathExists("/feed/entry[1]/content/UsagePoint", xmlResult);
+    }
+
+    private Feed newFeed() throws Exception {
+        FeedBuilder builder = new FeedBuilder();
+
+        RetailCustomer retailCustomer = new RetailCustomer();
+        retailCustomer.setId(1L);
+        List<UsagePoint> usagePoints = new ArrayList<UsagePoint>();
+        UsagePoint usagePoint1 = new UsagePoint();
+        usagePoint1.setTitle("Electric meter");
+        usagePoint1.setId(1L);
+        usagePoint1.setRetailCustomer(retailCustomer);
+        UsagePoint usagePoint2 = new UsagePoint();
+        usagePoint2.setTitle("Gas meter");
+        usagePoint2.setId(2L);
+        usagePoint2.setRetailCustomer(retailCustomer);
+
+        usagePoints.add(usagePoint1);
+        usagePoints.add(usagePoint2);
+        Feed atomFeed = builder.buildFeed(usagePoints);
+        return atomFeed;
     }
 }

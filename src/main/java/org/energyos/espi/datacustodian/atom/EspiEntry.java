@@ -20,18 +20,17 @@ import com.sun.syndication.feed.atom.Content;
 import com.sun.syndication.feed.atom.Entry;
 import com.sun.syndication.feed.atom.Link;
 import com.sun.syndication.io.FeedException;
-
 import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.service.EspiMarshallerService;
+import org.energyos.espi.datacustodian.utils.EspiMarshaller;
 
 import java.util.Date;
 
-@SuppressWarnings("serial") // Third party class Entry from which this class inherits does not declare serialVersionUID
+@SuppressWarnings("serial")
 public class EspiEntry extends Entry {
     private Link selfLink;
     private Link upLink;
 
-    @SuppressWarnings("unchecked")  // Third party code Entry.getOtherLinks() and Entry.getContents() both return an unparameterized List
+    @SuppressWarnings("unchecked")
     public EspiEntry(UsagePoint usagePoint) throws FeedException {
         this.setTitle(usagePoint.getTitle());
         this.setId(usagePoint.getId().toString());
@@ -48,7 +47,7 @@ public class EspiEntry extends Entry {
         getOtherLinks().add(upLink);
 
         Content content = new Content();
-        content.setValue(EspiMarshallerService.marshal(usagePoint));
+        content.setValue(EspiMarshaller.marshal(usagePoint));
         this.getContents().add(content);
     }
 
