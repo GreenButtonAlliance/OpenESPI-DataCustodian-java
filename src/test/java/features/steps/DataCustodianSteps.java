@@ -24,9 +24,17 @@ import cucumber.api.java.en.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static org.junit.Assert.assertTrue;
 
 public class DataCustodianSteps {
@@ -92,11 +100,14 @@ public class DataCustodianSteps {
 
     @When("^I upload Usage Points")
     public void I_upload_Usage_Points() throws Throwable {
+        File tmpFile = File.createTempFile("usage_point",".xml");
+        ClassPathResource sourceFile = new ClassPathResource("/fixtures/usage_point.xml");
+        Files.copy(sourceFile.getInputStream(), Paths.get(tmpFile.getAbsolutePath()), REPLACE_EXISTING);
+
         WebElement uploadLink = driver.findElement(By.linkText("Upload data"));
         uploadLink.click();
-        File cwd = new File(".");
         WebElement file = driver.findElement(By.name("file"));
-        file.sendKeys(cwd.getAbsolutePath() + "/etc/usage_point.xml");
+        file.sendKeys(tmpFile.getAbsolutePath());
         WebElement upload = driver.findElement(By.name("upload"));
         upload.click();
         driver.get("http://localhost:8080/DataCustodian/j_spring_security_logout");
