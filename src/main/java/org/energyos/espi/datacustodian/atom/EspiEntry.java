@@ -25,13 +25,12 @@ import org.energyos.espi.datacustodian.utils.EspiMarshaller;
 
 import java.util.Date;
 
-@SuppressWarnings("serial") // Third party class Entry from which this class inherits does not declare serialVersionUID
+@SuppressWarnings("serial")
 public class EspiEntry extends Entry {
     private Link selfLink;
     private Link upLink;
 
     @SuppressWarnings("unchecked")
-    // Third party code Entry.getOtherLinks() and Entry.getContents() both return an unparameterized List
     public EspiEntry(UsagePoint usagePoint) throws FeedException {
         this.setTitle(usagePoint.getTitle());
         this.setId(usagePoint.getId().toString());

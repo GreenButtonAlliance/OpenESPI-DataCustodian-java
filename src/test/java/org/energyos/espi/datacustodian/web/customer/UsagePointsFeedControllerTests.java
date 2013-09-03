@@ -34,7 +34,7 @@ public class UsagePointsFeedControllerTests {
         controller.setUsagePointService(usagePointService);
 
 
-        String atomFeedResult = "THIS IS AN ATOM FEED";
+        String atomFeedResult = "<?xml version=\"1.0\"?><feed></feed>";
 
         when(usagePointService.exportUsagePoints(any(RetailCustomer.class))).thenReturn(atomFeedResult);
 

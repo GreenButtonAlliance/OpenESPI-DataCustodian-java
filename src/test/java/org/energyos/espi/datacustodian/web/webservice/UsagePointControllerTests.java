@@ -46,7 +46,7 @@ public class UsagePointControllerTests {
     public void index_returnsAtomFeedOfUsagePointsForAppropriateUser() throws FeedException {
         Long customerId = 1L;
         RetailCustomer customer = new RetailCustomer();
-        String atomFeedResult = "THIS IS AN ATOM FEED";
+        String atomFeedResult = "<?xml version=\"1.0\"?><feed></feed>";
 
         when(retailCustomerService.findById(customerId)).thenReturn(customer);
         when(usagePointService.exportUsagePoints(customer)).thenReturn(atomFeedResult);
@@ -61,7 +61,7 @@ public class UsagePointControllerTests {
     public void show_ReturnsAtomFeedOfAppropriateUsagePoint() throws FeedException {
         Long usagePointId = 1L;
 
-        String atomFeedResult = "THIS IS AN ATOM FEED";
+        String atomFeedResult = "<?xml version=\"1.0\"?><feed></feed>";
 
         when(usagePointService.exportUsagePointById(usagePointId)).thenReturn(atomFeedResult);
 

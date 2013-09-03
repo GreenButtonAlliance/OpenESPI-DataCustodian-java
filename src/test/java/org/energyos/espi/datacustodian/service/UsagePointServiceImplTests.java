@@ -97,7 +97,7 @@ public class UsagePointServiceImplTests {
     }
 
     @Test
-    public void exportUsagePoints_returnsFeedString() throws Exception {
+    public void exportUsagePoints_returnsFeed() throws Exception {
 
         RetailCustomer customer = new RetailCustomer();
         customer.setId(1L);
@@ -109,7 +109,7 @@ public class UsagePointServiceImplTests {
         Feed atomFeed = mock(Feed.class);
 
         List<UsagePoint> usagePointList = new ArrayList<UsagePoint>();
-        String atomFeedResult = "THIS IS AN ATOM FEED";
+        String atomFeedResult = "<?xml version=\"1.0\"?><feed></feed>";
 
 
         when(feedBuilder.buildFeed(usagePointList)).thenReturn(atomFeed);
@@ -121,7 +121,7 @@ public class UsagePointServiceImplTests {
     }
 
     @Test
-    public void exportUsagePointById_returnsFeedString() throws Exception {
+    public void exportUsagePointById_returnsFeed() throws Exception {
         Long usagePointId = 1L;
         FeedBuilder feedBuilder = mock(FeedBuilder.class);
 
@@ -129,7 +129,7 @@ public class UsagePointServiceImplTests {
 
         Feed atomFeed = mock(Feed.class);
 
-        String atomFeedResult = "THIS IS AN ATOM FEED";
+        String atomFeedResult = "<?xml version=\"1.0\"?><feed></feed>";
 
         when(feedBuilder.buildFeed(anyListOf(UsagePoint.class))).thenReturn(atomFeed);
         when(marshaller.marshal(atomFeed)).thenReturn(atomFeedResult);
