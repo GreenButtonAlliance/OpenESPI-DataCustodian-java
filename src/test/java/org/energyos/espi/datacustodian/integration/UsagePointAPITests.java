@@ -48,26 +48,33 @@ public class UsagePointAPITests {
     }
 
     @Test
-    public void index_should_returnAtomFeed_whenValidUser() throws Exception {
+    public void index_givenValidUser_returnsAtomFeed() throws Exception {
         mockMvc.perform(get("/RetailCustomer/1/UsagePoint"))
             .andExpect(status().isOk())
             .andExpect(content().contentType("application/atom+xml"));
     }
 
     @Test
-    public void index_shouldReturn404_whenInvalidUser() throws Exception {
+    public void index_givenInvalidUser_returns404() throws Exception {
         mockMvc.perform(get("/RetailCustomer/999999999/UsagePoint")).andExpect(status().isNotFound());
     }
 
     @Test
-    public void index_should_returnAtomFeedForUSagePoint_whenValidUsagePoint() throws Exception {
+    public void index_givenValidUsagePoint_returnsAtomFeed() throws Exception {
         mockMvc.perform(get("/RetailCustomer/1/UsagePoint/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/atom+xml"));
     }
 
     @Test
-    public void index_shouldReturn404_whenInvalidUsagePoint() throws Exception {
+    public void index_givenInvalidUsagePoint_returns404() throws Exception {
         mockMvc.perform(get("/RetailCustomer/1/UsagePoint/999999")).andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void feed_returnsAtomFeed() throws Exception {
+        mockMvc.perform(get("/api/feed"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/atom+xml"));
     }
 }
