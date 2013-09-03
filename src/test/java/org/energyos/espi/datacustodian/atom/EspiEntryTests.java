@@ -19,7 +19,6 @@ package org.energyos.espi.datacustodian.atom;
 
 import com.sun.syndication.feed.atom.Content;
 import com.sun.syndication.io.FeedException;
-
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.junit.Test;
