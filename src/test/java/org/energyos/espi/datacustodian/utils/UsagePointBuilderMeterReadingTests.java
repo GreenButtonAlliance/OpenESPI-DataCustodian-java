@@ -90,7 +90,7 @@ public class UsagePointBuilderMeterReadingTests {
         MeterReading meterReading = usagePoint.getMeterReadings().get(0);
 
         assertEquals(MeterReading.class, meterReading.getClass());
-        assertEquals("Meter reading title", meterReading.getTitle());
+        assertEquals("Meter reading description", meterReading.getDescription());
     }
 }
 

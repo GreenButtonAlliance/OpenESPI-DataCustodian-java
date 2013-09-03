@@ -42,7 +42,7 @@ public class UsagePointBuilder {
         if (usagePointEntry != null)
         {
             UsagePoint usagePoint = usagePointEntry.getContent().getUsagePoint();
-            usagePoint.setTitle(usagePointEntry.getTitle());
+            usagePoint.setDescription(usagePointEntry.getTitle());
             return usagePoint;
         }
 
@@ -56,7 +56,7 @@ public class UsagePointBuilder {
             UsagePoint usagePoint = ((EntryType) lookup.get(upLink.getHref())).getContent().getUsagePoint();
             usagePoint.getMeterReadings().add(content.getMeterReading());
             content.getMeterReading().setUsagePoint(usagePoint);
-            content.getMeterReading().setTitle(entryType.getTitle());
+            content.getMeterReading().setDescription(entryType.getTitle());
         }
         if (content.getIntervalBlock() != null) {
             MeterReading meterReading = ((EntryType) lookup.get(upLink.getHref())).getContent().getMeterReading();

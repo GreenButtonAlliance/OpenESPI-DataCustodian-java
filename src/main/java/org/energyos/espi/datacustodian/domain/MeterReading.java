@@ -69,9 +69,6 @@ public class MeterReading
     @JoinColumn(name = "usage_point_id")
     private UsagePoint usagePoint;
 
-    @XmlTransient
-    private String title;
-
     public List<IntervalBlock> getIntervalBlocks() {
         return intervalBlocks;
     }
@@ -86,14 +83,6 @@ public class MeterReading
 
     public void setUsagePoint(UsagePoint usagePoint) {
         this.usagePoint = usagePoint;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public void addIntervalBlock(IntervalBlock intervalBlock) {

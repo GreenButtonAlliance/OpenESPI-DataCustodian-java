@@ -21,16 +21,13 @@
 // Generated on: 2013.08.27 at 01:43:57 PM EDT
 //
 
-
 package org.energyos.espi.datacustodian.domain;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -89,10 +86,6 @@ public class UsagePoint
     protected ServiceCategory serviceCategory;
 
     protected Short status;
-
-    @XmlTransient
-    @NotEmpty @Size(min = 0, max = 100)
-    protected String title;
 
     @XmlTransient
     @OneToMany(mappedBy = "usagePoint", cascade = CascadeType.ALL)
@@ -173,14 +166,6 @@ public class UsagePoint
      */
     public void setStatus(Short value) {
         this.status = value;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public List<MeterReading> getMeterReadings() {

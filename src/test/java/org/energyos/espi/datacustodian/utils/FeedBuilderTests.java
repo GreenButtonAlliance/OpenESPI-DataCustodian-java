@@ -129,7 +129,7 @@ public class FeedBuilderTests {
         List<UsagePoint> usagePoints = new ArrayList<>();
         UsagePoint usagePoint = new UsagePoint();
         usagePoint.setId(1L);
-        usagePoint.setTitle("Electric meter");
+        usagePoint.setDescription("Electric meter");
         usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
         RetailCustomer retailCustomer = new RetailCustomer();
         retailCustomer.setId(1L);

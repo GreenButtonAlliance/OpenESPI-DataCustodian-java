@@ -32,7 +32,7 @@ public class EspiEntry extends Entry {
 
     @SuppressWarnings("unchecked")
     public EspiEntry(UsagePoint usagePoint) throws FeedException {
-        this.setTitle(usagePoint.getTitle());
+        this.setTitle(usagePoint.getDescription());
         this.setId(usagePoint.getId().toString());
         this.setPublished(new Date());
         this.setUpdated(this.getPublished());

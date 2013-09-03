@@ -66,10 +66,7 @@ public class UsagePointRepositoryImplTests {
 
     @Test
     public void persist_withNewUsagePoint_persistsUsagePoint() throws Exception {
-        UsagePoint usagePoint = new UsagePoint();
-        usagePoint.setTitle("Electric meter");
-        usagePoint.setRetailCustomer(customer);
-        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
+        UsagePoint usagePoint = newUsagePoint();
 
         repository.persist(usagePoint);
 
@@ -79,9 +76,7 @@ public class UsagePointRepositoryImplTests {
 
     @Test
     public void persist_savesMeterReading() {
-        UsagePoint usagePoint = new UsagePoint();
-        usagePoint.setTitle("Electric meter");
-        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
+        UsagePoint usagePoint = newUsagePoint();
         MeterReading meterReading = new MeterReading();
 
         usagePoint.getMeterReadings().add(meterReading);
@@ -93,9 +88,7 @@ public class UsagePointRepositoryImplTests {
 
     @Test
     public void persist_savesIntervalBlocks() {
-        UsagePoint usagePoint = new UsagePoint();
-        usagePoint.setTitle("Electric meter");
-        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
+        UsagePoint usagePoint = newUsagePoint();
         MeterReading meterReading = new MeterReading();
         IntervalBlock intervalBlock = new IntervalBlock();
 
@@ -105,5 +98,13 @@ public class UsagePointRepositoryImplTests {
         repository.persist(usagePoint);
 
         assertNotNull(usagePoint.getMeterReadings().get(0).getIntervalBlocks().get(0).getId());
+    }
+
+    private UsagePoint newUsagePoint() {
+        UsagePoint usagePoint = new UsagePoint();
+        usagePoint.setDescription("Electric meter");
+        usagePoint.setRetailCustomer(customer);
+        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
+        return usagePoint;
     }
 }

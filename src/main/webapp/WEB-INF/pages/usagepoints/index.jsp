@@ -42,7 +42,7 @@
                     <tr>
                         <td>
                             <a href="<c:url value='/customer/usagepoints/${usagePoint.id}/show'/>">
-                            <c:out value="${usagePoint.title}"/>
+                                <c:out value="${usagePoint.description}"/>
                             </a>
                         </td>
                         <td>

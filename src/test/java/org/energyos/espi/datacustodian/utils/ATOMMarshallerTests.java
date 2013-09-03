@@ -299,11 +299,11 @@ public class ATOMMarshallerTests {
         retailCustomer.setId(1L);
         List<UsagePoint> usagePoints = new ArrayList<UsagePoint>();
         UsagePoint usagePoint1 = new UsagePoint();
-        usagePoint1.setTitle("Electric meter");
+        usagePoint1.setDescription("Electric meter");
         usagePoint1.setId(1L);
         usagePoint1.setRetailCustomer(retailCustomer);
         UsagePoint usagePoint2 = new UsagePoint();
-        usagePoint2.setTitle("Gas meter");
+        usagePoint2.setDescription("Gas meter");
         usagePoint2.setId(2L);
         usagePoint2.setRetailCustomer(retailCustomer);
 

@@ -63,7 +63,7 @@ public class UsagePointBuilderTests {
         String title = "Usage Point Title";
         FeedType feed = newFeed(title);
 
-        assertEquals(title, builder.newUsagePoint(feed).getTitle());
+        assertEquals(title, builder.newUsagePoint(feed).getDescription());
     }
 
     @Test
