@@ -28,6 +28,10 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
@@ -65,10 +69,6 @@ public class MeterReading
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<IntervalBlock> intervalBlocks = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "usage_point_id")
-    private UsagePoint usagePoint;
-
     public List<IntervalBlock> getIntervalBlocks() {
         return intervalBlocks;
     }
@@ -76,6 +76,11 @@ public class MeterReading
     public void setIntervalBlocks(List<IntervalBlock> intervalBlocks) {
         this.intervalBlocks = intervalBlocks;
     }
+
+    @XmlTransient
+    @ManyToOne
+    @JoinColumn(name = "usage_point_id")
+    private UsagePoint usagePoint;
 
     public UsagePoint getUsagePoint() {
         return usagePoint;

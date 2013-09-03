@@ -53,12 +53,11 @@ public class UsagePointBuilder {
         ContentType content = entryType.getContent();
 
         if (content.getMeterReading() != null) {
+            MeterReading meterReading = content.getMeterReading();
             UsagePoint usagePoint = ((EntryType) lookup.get(upLink.getHref())).getContent().getUsagePoint();
-            usagePoint.getMeterReadings().add(content.getMeterReading());
-            content.getMeterReading().setUsagePoint(usagePoint);
-            content.getMeterReading().setDescription(entryType.getTitle());
-        }
-        if (content.getIntervalBlock() != null) {
+            usagePoint.addMeterReading(meterReading);
+            meterReading.setDescription(entryType.getTitle());
+        } else if (content.getIntervalBlock() != null) {
             MeterReading meterReading = ((EntryType) lookup.get(upLink.getHref())).getContent().getMeterReading();
             meterReading.getIntervalBlocks().add(content.getIntervalBlock());
             content.getIntervalBlock().setMeterReading(meterReading);

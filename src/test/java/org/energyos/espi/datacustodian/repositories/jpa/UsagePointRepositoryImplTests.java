@@ -83,7 +83,8 @@ public class UsagePointRepositoryImplTests {
 
         repository.persist(usagePoint);
 
-        assertNotNull(usagePoint.getMeterReadings().get(0).getId());
+        assertNotNull("MeterReading id was null", usagePoint.getMeterReadings().get(0).getId());
+        assertNotNull("MeterReading usagePoint is null", usagePoint.getMeterReadings().get(0).getUsagePoint());
     }
 
     @Test

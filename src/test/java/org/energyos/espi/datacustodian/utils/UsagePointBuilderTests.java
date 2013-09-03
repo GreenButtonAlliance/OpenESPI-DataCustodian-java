@@ -28,12 +28,12 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -67,7 +67,6 @@ public class UsagePointBuilderTests {
     }
 
     @Test
-    @Transactional
     public void givenFeedWithUsagePointAndMeterReading_returnsUsagePointWithMeterReading() {
         UsagePointBuilder builder = new UsagePointBuilder();
         FeedType feed = newFeed("Super title");
@@ -78,9 +77,7 @@ public class UsagePointBuilderTests {
         UsagePoint usagePoint = builder.newUsagePoint(feed);
 
         assertEquals(meterReading, usagePoint.getMeterReadings().get(0));
-
-        em.persist(usagePoint);
-        assertNotNull(usagePoint.getId());
+        assertEquals(usagePoint, meterReading.getUsagePoint());
     }
 
     private EntryType newMeterReading(MeterReading meterReading) {

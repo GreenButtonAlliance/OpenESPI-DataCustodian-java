@@ -92,6 +92,12 @@ public class UsagePoint
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<MeterReading> meterReadings = new ArrayList<MeterReading>();
 
+    public void addMeterReading(MeterReading meterReading)
+    {
+        meterReading.setUsagePoint(this);
+        meterReadings.add(meterReading);
+    }
+
     @XmlTransient
     @ManyToOne @JoinColumn(name="retail_customer_id")
     protected RetailCustomer retailCustomer;
