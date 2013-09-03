@@ -1,4 +1,4 @@
-Feature: Retail Customers
+Feature: Data Custodian
   As a Data Custodian
   I want to be able to create retail customers
   So that I can associate retail customers to their usage data
