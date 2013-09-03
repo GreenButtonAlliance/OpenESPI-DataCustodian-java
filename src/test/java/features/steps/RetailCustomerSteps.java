@@ -25,7 +25,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
 import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
 import static org.junit.Assert.assertTrue;
 
@@ -59,6 +58,13 @@ public class RetailCustomerSteps {
 
     @Then("^there is a Alan Turing retail customer$")
     public void there_is_a_Alan_Turing_retail_customer() throws Throwable {
+    }
+
+    @Then("^I should see Grace Hopper in the customer list$")
+    public void I_should_see_Grace_Hopper_in_the_customer_list() throws Throwable {
+        assertTrue(driver.getPageSource().contains("Grace"));
+        assertTrue(driver.getPageSource().contains("Hopper"));
+
     }
 
     @Given("^a logged in retail customer$")
@@ -116,7 +122,7 @@ public class RetailCustomerSteps {
         WebElement downloadLink = driver.findElement(By.partialLinkText("Download XML"));
         downloadLink.click();
 
-        assertXpathEvaluatesTo("1", "feed/entry[1]/content/UsagePoint/ServiceCategory/kind", StepUtils.flattenXml(driver.getPageSource()));
+        assertXpathValue("1", "feed/entry[1]/content/UsagePoint/ServiceCategory/kind", driver.getPageSource());
     }
 
     @Then("^I should see Meter Reading$")
@@ -127,5 +133,11 @@ public class RetailCustomerSteps {
     @Given("^a logged in Retail Customer with Usage Points$")
     public void a_logged_in_Retail_Customer_with_Usage_Points() throws Throwable {
 
+    }
+
+    @Then("^I should see my Usage Points with Meter Readings and Reading Types$")
+    public void I_should_see_my_Usage_Points_with_Meter_Readings() throws Throwable {
+        assertTrue(driver.getPageSource().contains("Fifteen Minute Electricity Consumption"));
+        assertTrue(driver.getPageSource().contains("Energy Delivered (kWh)"));
     }
 }

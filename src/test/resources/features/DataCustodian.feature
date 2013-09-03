@@ -93,3 +93,16 @@ Feature: Data Custodian
     And I select Usage Point
     And I select Meter Reading
     Then I should see my Meter Reading with Interval Blocks
+
+  Scenario: Data Custodian uploads Usage Points with Meter Readings
+    Given Grace Hopper Data Custodian
+    And Alan Turing Retail Customer
+
+    When I login as Grace Hopper
+    And I navigate to customer list page
+    And I select "Alan Turing" from customer list
+    And I upload Usage Points
+
+    When I login as Alan Turing
+    And I navigate to the Usage Points list
+    Then I should see my Usage Points with Meter Readings and Reading Types
