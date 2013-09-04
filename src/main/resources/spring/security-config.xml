@@ -31,6 +31,9 @@
         <security:intercept-url pattern="/ico/**" access="permitAll"/>
         <security:intercept-url pattern="/img/**" access="permitAll"/>
         <security:intercept-url pattern="/js/**" access="permitAll"/>
+
+        <security:intercept-url pattern="/api/**" access="permitAll"/>
+
         <security:intercept-url pattern="/custodian/retailcustomers/**" access="permitAll"/>
 
         <security:intercept-url pattern="/customer/**" access="hasRole('ROLE_CUSTOMER')"/>

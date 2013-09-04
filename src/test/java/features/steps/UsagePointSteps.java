@@ -25,6 +25,7 @@ import org.openqa.selenium.WebDriver;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
+import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
 
 public class UsagePointSteps {
 
@@ -50,13 +51,13 @@ public class UsagePointSteps {
 
     @Then("^I should receive an xml response with the user's usage points$")
     public void I_should_receive_an_xml_response_with_the_user_s_usage_points() throws Throwable {
-        String xmlResult = StepUtils.flattenXml(driver.getPageSource());
+        String xmlResult = driver.getPageSource();
 
         assertXpathExists("feed/entry[1]/content/UsagePoint", xmlResult);
-        assertXpathEvaluatesTo("House meter", "feed/entry[1]/title", xmlResult);
+        assertXpathValue("House meter", "feed/entry[1]/title", xmlResult);
 
         assertXpathExists("feed/entry[2]/content/UsagePoint", xmlResult);
-        assertXpathEvaluatesTo("Gas meter", "feed/entry[2]/title", xmlResult);
+        assertXpathValue("Gas meter", "feed/entry[2]/title", xmlResult);
     }
 
     @When("^I request a usage point for a user$")
@@ -70,5 +71,10 @@ public class UsagePointSteps {
 
         assertXpathExists("feed/entry[1]/content/UsagePoint", xmlResult);
         assertXpathEvaluatesTo("Gas meter", "feed/entry[1]/title", xmlResult);
+    }
+
+    @When("^I request the feed for a user$")
+    public void I_request_the_feed_for_a_user() throws Throwable {
+        driver.get(StepUtils.BASE_URL + "/api/feed");
     }
 }

@@ -1,4 +1,5 @@
-Feature: As a Data Custodian
+Feature: Usage Point Import
+  As a Data Custodian
   I want to be able to import XML UsagePoint data
   So that my Retail Customers can download their UsagePoint data
 
