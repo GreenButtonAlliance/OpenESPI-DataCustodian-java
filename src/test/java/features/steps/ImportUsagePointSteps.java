@@ -19,8 +19,15 @@ package features.steps;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.energyos.espi.datacustodian.console.ImportUsagePoint;
 import org.openqa.selenium.WebDriver;
+import org.springframework.core.io.ClassPathResource;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -35,10 +42,11 @@ public class ImportUsagePointSteps {
 
     @When("^Data Custodian imports the XML file$")
     public void Data_Custodian_imports_the_XML_file() throws Throwable {
-        Runtime r = Runtime.getRuntime();
-        Process p = r.exec("bin/import_usage_point.sh etc/usage_point.xml " + StepUtils.BASE_URL + "/custodian/retailcustomers/1/upload");
-        p.waitFor();
-        importExitValue = p.exitValue();
+        File tmpFile = File.createTempFile("usage_point", ".xml");
+        ClassPathResource sourceFile = new ClassPathResource("/fixtures/usage_point.xml");
+        Files.copy(sourceFile.getInputStream(), Paths.get(tmpFile.getAbsolutePath()), REPLACE_EXISTING);
+
+        ImportUsagePoint.main(new String[] {tmpFile.getAbsolutePath(), StepUtils.BASE_URL + "/custodian/retailcustomers/1/upload"});
     }
 
     @Then("^the import tool should indicate success$")
