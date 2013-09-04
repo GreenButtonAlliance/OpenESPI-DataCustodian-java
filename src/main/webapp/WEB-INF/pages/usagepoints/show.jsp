@@ -22,32 +22,30 @@
 
 <body>
 
-<jsp:include page="../tiles/customer/header.jsp"/>
+<jsp:include page="../tiles/header.jsp"/>
 
 <div class="container">
     <div class="row">
         <div class="span12">
-            <h2>Usage Points</h2>
-
-            <a href="<c:url value='/customer/usagepoints/feed'/>">Download XML</a>
+            <h2><c:out value="${usagePoint.description}"/></h2>
 
             <table class="table table-striped">
+                <caption class="text-left">Meter Readings:</caption>
                 <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Service Category</th>
+                    <th>Description</th>
+                    <th>Reading Type</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="usagePoint" items="${usagePointList}">
+                <c:forEach var="meterReading" items="${usagePoint.meterReadings}">
                     <tr>
                         <td>
-                            <a href="<c:url value='/customer/usagepoints/${usagePoint.id}/show'/>">
-                                <c:out value="${usagePoint.description}"/>
-                            </a>
+                            <a href="<c:url value='/usagepoints/${usagePoint.id}'/>"><c:out
+                                    value="${meterReading.description}"/></a>
                         </td>
                         <td>
-                            <c:out value="${usagePoint.serviceCategory}"/>
+                            [Reading Type]
                         </td>
                     </tr>
                 </c:forEach>

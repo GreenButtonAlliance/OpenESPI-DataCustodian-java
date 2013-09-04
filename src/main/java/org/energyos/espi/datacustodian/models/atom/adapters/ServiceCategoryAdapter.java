@@ -24,8 +24,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 public class ServiceCategoryAdapter extends XmlAdapter<JAXBElement<ServiceCategory>, ServiceCategory> {
     @Override
     public ServiceCategory unmarshal(JAXBElement<ServiceCategory> v) throws Exception {
-        System.out.println("****** unmarshal adapter");
-        return (ServiceCategory)v.getValue();
+        return (ServiceCategory) v.getValue();
     }
 
     @Override

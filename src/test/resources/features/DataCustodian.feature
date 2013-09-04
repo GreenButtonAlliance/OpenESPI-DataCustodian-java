@@ -105,4 +105,5 @@ Feature: Data Custodian
 
     When I login as Alan Turing
     And I navigate to the Usage Points list
-    Then I should see my Usage Points with Meter Readings and Reading Types
+    And I select "Electric meter" from the Usage Point list
+    Then I should see the Meter Readings and Reading Types

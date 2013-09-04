@@ -93,4 +93,19 @@ public class UsagePointTests {
         mockMvc.perform(get("/customer/usagepoints/1/show").principal(authentication))
                 .andExpect(model().attributeExists("usagePoint"));
     }
+
+    @Test
+    public void show_should_returnOkStatus() throws Exception {
+        mockMvc.perform(get("/usagepoints/1")).andExpect(status().isOk());
+    }
+
+    @Test
+    public void show_should_displayUsagePointDetails() throws Exception {
+        mockMvc.perform(get("/usagepoints/1")).andExpect(view().name("usagepoints/show"));
+    }
+
+    @Test
+    public void show_should_setUsagePointModel() throws Exception {
+        mockMvc.perform(get("/usagepoints/1")).andExpect(model().attributeExists("usagePoint"));
+    }
 }

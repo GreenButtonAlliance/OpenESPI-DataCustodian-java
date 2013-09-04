@@ -135,7 +135,13 @@ public class RetailCustomerSteps {
 
     }
 
-    @Then("^I should see my Usage Points with Meter Readings and Reading Types$")
+    @Then("^I select \"([^\"]*)\" from the Usage Point list$")
+    public void I_select_from_the_Usage_Point_list(String usagePoint) throws Throwable {
+        WebElement usagePointLink = driver.findElement(By.linkText(usagePoint));
+        usagePointLink.click();
+    }
+
+    @Then("^I should see the Meter Readings and Reading Types$")
     public void I_should_see_my_Usage_Points_with_Meter_Readings() throws Throwable {
         assertTrue(driver.getPageSource().contains("Fifteen Minute Electricity Consumption"));
         assertTrue(driver.getPageSource().contains("Energy Delivered (kWh)"));
