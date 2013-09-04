@@ -26,6 +26,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
+import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
 import static org.junit.Assert.assertTrue;
 
 public class RetailCustomerSteps {
@@ -124,10 +125,10 @@ public class RetailCustomerSteps {
         WebElement downloadLink = driver.findElement(By.partialLinkText("Download XML"));
         downloadLink.click();
 
-        String xmlResult = StepUtils.flattenXml(driver.getPageSource());
+        String xmlResult = driver.getPageSource();
 
-        assertXpathEvaluatesTo("House meter", "feed/entry[1]/title", xmlResult);
-        assertXpathEvaluatesTo("Gas meter", "feed/entry[2]/title", xmlResult);
+        assertXpathValue("House meter", "feed/entry[1]/title", xmlResult);
+        assertXpathValue("Gas meter", "feed/entry[2]/title", xmlResult);
     }
 
     @Given("^Usage Points with Service Categories$")
