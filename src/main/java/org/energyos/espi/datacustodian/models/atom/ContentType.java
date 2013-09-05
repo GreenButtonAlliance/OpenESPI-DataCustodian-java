@@ -26,6 +26,7 @@ package org.energyos.espi.datacustodian.models.atom;
 
 import org.energyos.espi.datacustodian.domain.IntervalBlock;
 import org.energyos.espi.datacustodian.domain.MeterReading;
+import org.energyos.espi.datacustodian.domain.ReadingType;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.models.atom.adapters.GenericAdapter;
 
@@ -41,14 +42,13 @@ import java.util.Map;
 
 
 /**
- *
- * 				The Atom content construct is defined in section 4.1.3 of the format spec.
- *
- *
+ * The Atom content construct is defined in section 4.1.3 of the format spec.
+ * <p/>
+ * <p/>
  * <p>Java class for contentType complex type.
- *
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- *
+ * <p/>
  * <pre>
  * &lt;complexType name="contentType">
  *   &lt;complexContent>
@@ -72,6 +72,7 @@ import java.util.Map;
         "usagePoint",
         "meterReading",
         "intervalBlock",
+        "readingType",
         "content"
 })
 public class ContentType {
@@ -120,6 +121,13 @@ public class ContentType {
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<QName, String>();
 
+    @XmlElementRefs({
+            @XmlElementRef(name = "ReadingType", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
+    })
+    @XmlAnyElement(lax = true)
+    @XmlJavaTypeAdapter(GenericAdapter.class)
+    protected ReadingType readingType;
+
     public UsagePoint getUsagePoint() {
         return usagePoint;
     }
@@ -154,20 +162,11 @@ public class ContentType {
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the content property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getContent().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
+     * <p/>
+     * <p/>
      * Objects of the following type(s) are allowed in the list
      * {@link Object }
      * {@link String }
-     *
-     *
      */
     public List<Object> getContent() {
         if (content == null) {
@@ -288,5 +287,13 @@ public class ContentType {
      */
     public Map<QName, String> getOtherAttributes() {
         return otherAttributes;
+    }
+
+    public void setReadingType(ReadingType readingType) {
+        this.readingType = readingType;
+    }
+
+    public ReadingType getReadingType() {
+        return readingType;
     }
 }

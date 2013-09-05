@@ -19,10 +19,7 @@ package org.energyos.espi.datacustodian.utils;
 import com.sun.syndication.feed.atom.Feed;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.custommonkey.xmlunit.exceptions.XpathException;
-import org.energyos.espi.datacustodian.domain.MeterReading;
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.domain.ServiceCategory;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.domain.*;
 import org.energyos.espi.datacustodian.models.atom.EntryType;
 import org.energyos.espi.datacustodian.models.atom.FeedType;
 import org.energyos.espi.datacustodian.models.atom.IdType;
@@ -177,14 +174,7 @@ public class ATOMMarshallerTests {
 
     @Test
     public void unmarshal_givenXML_returnsFeed() throws JAXBException, FileNotFoundException {
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<?xml-stylesheet type=\"text/xsl\" href=\"GreenButtonDataStyleSheet.xslt\"?>\n" +
-                "<feed xmlns=\"http://www.w3.org/2005/Atom\" xsi:schemaLocation=\"http://naesb.org/espi espiDerived.xsd\"\n" +
-                "      xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
-                "    <id>urn:uuid:0071C5A7-91CF-434E-8BCE-C38AC8AF215D</id>\n" +
-                "    <title>ThirdPartyX Batch Feed</title>\n" +
-                "    <updated>2012-10-24T00:00:00Z</updated>\n" +
-                "    <link rel=\"self\" href=\"/ThirdParty/83e269c1/Batch\"/>\n" +
+        String xml = FEED_PREFIX +
                 "    <entry>\n" +
                 "        <id>urn:uuid:7BC41774-7190-4864-841C-861AC76D46C2</id>\n" +
                 "        <link rel=\"self\" href=\"RetailCustomer/9b6c7063/UsagePoint/01\"/>\n" +
@@ -203,7 +193,7 @@ public class ATOMMarshallerTests {
                 "        <published>2012-10-24T00:00:00Z</published>\n" +
                 "        <updated>2012-10-24T00:00:00Z</updated>\n" +
                 "    </entry>\n" +
-                "</feed>\n";
+                FEED_POSTFIX;
 
         InputStream xmlStream = new ByteArrayInputStream(xml.getBytes());
         FeedType feed = marshaller.unmarshal(xmlStream);
@@ -213,14 +203,7 @@ public class ATOMMarshallerTests {
 
     @Test
     public void importsServiceCategory() throws JAXBException {
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<?xml-stylesheet type=\"text/xsl\" href=\"GreenButtonDataStyleSheet.xslt\"?>\n" +
-                "<feed xmlns=\"http://www.w3.org/2005/Atom\" xsi:schemaLocation=\"http://naesb.org/espi espiDerived.xsd\"\n" +
-                "      xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
-                "    <id>urn:uuid:0071C5A7-91CF-434E-8BCE-C38AC8AF215D</id>\n" +
-                "    <title>ThirdPartyX Batch Feed</title>\n" +
-                "    <updated>2012-10-24T00:00:00Z</updated>\n" +
-                "    <link rel=\"self\" href=\"/ThirdParty/83e269c1/Batch\"/>\n" +
+        String xml = FEED_PREFIX +
                 "    <entry>\n" +
                 "        <id>urn:uuid:7BC41774-7190-4864-841C-861AC76D46C2</id>\n" +
                 "        <link rel=\"self\" href=\"RetailCustomer/9b6c7063/UsagePoint/01\"/>\n" +
@@ -239,7 +222,7 @@ public class ATOMMarshallerTests {
                 "        <published>2012-10-24T00:00:00Z</published>\n" +
                 "        <updated>2012-10-24T00:00:00Z</updated>\n" +
                 "    </entry>\n" +
-                "</feed>\n";
+                FEED_POSTFIX;
 
         InputStream xmlStream = new ByteArrayInputStream(xml.getBytes());
         FeedType feed = marshaller.unmarshal(xmlStream);
@@ -248,32 +231,7 @@ public class ATOMMarshallerTests {
 
     @Test
     public void importsMeterReading() throws JAXBException {
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<?xml-stylesheet type=\"text/xsl\" href=\"GreenButtonDataStyleSheet.xslt\"?>\n" +
-                "<feed xmlns=\"http://www.w3.org/2005/Atom\" xsi:schemaLocation=\"http://naesb.org/espi espiDerived.xsd\"\n" +
-                "      xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
-                "    <id>urn:uuid:0071C5A7-91CF-434E-8BCE-C38AC8AF215D</id>\n" +
-                "    <title>ThirdPartyX Batch Feed</title>\n" +
-                "    <updated>2012-10-24T00:00:00Z</updated>\n" +
-                "    <link rel=\"self\" href=\"/ThirdParty/83e269c1/Batch\"/>\n" +
-                "    <entry>\n" +
-                "        <id>urn:uuid:7BC41774-7190-4864-841C-861AC76D46C2</id>\n" +
-                "        <link rel=\"self\" href=\"RetailCustomer/9b6c7063/UsagePoint/01\"/>\n" +
-                "        <link rel=\"up\" href=\"RetailCustomer/9b6c7063/UsagePoint\"/>\n" +
-                "        <link rel=\"related\" href=\"RetailCustomer/9b6c7063/UsagePoint/01/MeterReading\"/>\n" +
-                "        <link rel=\"related\" href=\"RetailCustomer/9b6c7063/UsagePoint/01/ElectricPowerUsageSummary\"/>\n" +
-                "        <link rel=\"related\" href=\"LocalTimeParameters/01\"/>\n" +
-                "        <title>Electric meter</title>\n" +
-                "        <content>\n" +
-                "            <UsagePoint xmlns=\"http://naesb.org/espi\">\n" +
-                "                <ServiceCategory>\n" +
-                "                    <kind>0</kind>\n" +
-                "                </ServiceCategory>\n" +
-                "            </UsagePoint>\n" +
-                "        </content>\n" +
-                "        <published>2012-10-24T00:00:00Z</published>\n" +
-                "        <updated>2012-10-24T00:00:00Z</updated>\n" +
-                "    </entry>\n" +
+        String xml = FEED_PREFIX +
                 "    <entry>\n" +
                 "        <id>urn:uuid:E8B19EF0-6833-41CE-A28B-A5E7F9F193AE</id>\n" +
                 "        <link rel=\"self\" href=\"RetailCustomer/9b6c7063/UsagePoint/01/MeterReading/01\"/>\n" +
@@ -287,11 +245,44 @@ public class ATOMMarshallerTests {
                 "        <published>2012-10-24T00:00:00Z</published>\n" +
                 "        <updated>2012-10-24T00:00:00Z</updated>\n" +
                 "    </entry>\n" +
-                "</feed>\n";
+                FEED_POSTFIX;
 
         InputStream xmlStream = new ByteArrayInputStream(xml.getBytes());
         FeedType feed = marshaller.unmarshal(xmlStream);
-        assertEquals(MeterReading.class, feed.getEntries().get(1).getContent().getMeterReading().getClass());
+        assertEquals(MeterReading.class, feed.getEntries().get(0).getContent().getMeterReading().getClass());
+    }
+
+    @Test
+    public void importsReadingType() throws JAXBException {
+        String xml = FEED_PREFIX +
+                "    <entry>\n" +
+                "        <id>urn:uuid:82B3E74B-DFC0-4DD4-8651-91A67B40374D</id>\n" +
+                "        <link rel=\"self\" href=\"ReadingType/07\"/>\n" +
+                "        <link rel=\"up\" href=\"ReadingType\"/>\n" +
+                "        <title>Energy Delivered (kWh)</title>\n" +
+                "        <content>\n" +
+                "            <ReadingType xmlns=\"http://naesb.org/espi\">\n" +
+                "                <accumulationBehaviour>4</accumulationBehaviour>\n" +
+                "                <commodity>1</commodity>\n" +
+                "                <currency>840</currency>\n" +
+                "                <dataQualifier>12</dataQualifier>\n" +
+                "                <flowDirection>1</flowDirection>\n" +
+                "                <intervalLength>900</intervalLength>\n" +
+                "                <kind>12</kind>\n" +
+                "                <phase>769</phase>\n" +
+                "                <powerOfTenMultiplier>0</powerOfTenMultiplier>\n" +
+                "                <timeAttribute>0</timeAttribute>\n" +
+                "                <uom>72</uom>\n" +
+                "            </ReadingType>\n" +
+                "        </content>\n" +
+                "        <published>2012-10-24T00:00:00Z</published>\n" +
+                "        <updated>2012-10-24T00:00:00Z</updated>\n" +
+                "    </entry>" +
+                FEED_POSTFIX;
+
+        InputStream xmlStream = new ByteArrayInputStream(xml.getBytes());
+        FeedType feed = marshaller.unmarshal(xmlStream);
+        assertEquals(ReadingType.class, feed.getEntries().get(0).getContent().getReadingType().getClass());
     }
 
     @Test
