@@ -41,7 +41,9 @@
                 <c:forEach var="usagePoint" items="${usagePointList}">
                     <tr>
                         <td>
+                            <a href="<c:url value='/customer/usagepoints/${usagePoint.id}/show'/>">
                             <c:out value="${usagePoint.title}"/>
+                            </a>
                         </td>
                         <td>
                             <c:out value="${usagePoint.serviceCategory}"/>
