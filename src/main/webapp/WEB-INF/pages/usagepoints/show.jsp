@@ -35,18 +35,35 @@
                 <tr>
                     <th>Description</th>
                     <th>Reading Type</th>
+                    <%--<th>Accumulation Behaviour</th>--%>
+                    <%--<th>Commodity</th>--%>
+                    <%--<th>Currency</th>--%>
+                    <%--<th>Data Qualifier</th>--%>
+                    <%--<th>Flow direction</th>--%>
+                    <%--<th>Kind</th>--%>
+                    <%--<th>Phase</th>--%>
+                    <%--<th>n<sup>10</sup></th>--%>
+                    <%--<th>Time Attribute</th>--%>
+                    <%--<th>UOM</th>--%>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach var="meterReading" items="${usagePoint.meterReadings}">
                     <tr>
                         <td>
-                            <a href="<c:url value='/usagepoints/${usagePoint.id}'/>"><c:out
-                                    value="${meterReading.description}"/></a>
+                            <c:out value="${meterReading.description}"/>
                         </td>
-                        <td>
-                            [Reading Type]
-                        </td>
+                        <td><c:out value="${meterReading.readingType.description}"/></td>
+                            <%--<td><c:out value="${meterReading.readingType.accumulationBehavior}"/></td>--%>
+                            <%--<td><c:out value="${meterReading.readingType.commodity}"/></td>--%>
+                            <%--<td><c:out value="${meterReading.readingType.currency}"/></td>--%>
+                            <%--<td><c:out value="${meterReading.readingType.dataQualifier}"/></td>--%>
+                            <%--<td><c:out value="${meterReading.readingType.flowDirection}"/></td>--%>
+                            <%--<td><c:out value="${meterReading.readingType.kind}"/></td>--%>
+                            <%--<td><c:out value="${meterReading.readingType.phase}"/></td>--%>
+                            <%--<td><c:out value="${meterReading.readingType.powerOfTenMultiplier}"/></td>--%>
+                            <%--<td><c:out value="${meterReading.readingType.timeAttribute}"/></td>--%>
+                            <%--<td><c:out value="${meterReading.readingType.uom}"/></td>--%>
                     </tr>
                 </c:forEach>
                 </tbody>

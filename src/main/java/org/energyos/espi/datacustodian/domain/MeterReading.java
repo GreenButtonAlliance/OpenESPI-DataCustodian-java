@@ -32,6 +32,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
@@ -42,11 +43,11 @@ import java.util.List;
 
 /**
  * Set of values obtained from the meter.
- *
+ * <p/>
  * <p>Java class for MeterReading complex type.
- *
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- *
+ * <p/>
  * <pre>
  * &lt;complexType name="MeterReading">
  *   &lt;complexContent>
@@ -55,8 +56,6 @@ import java.util.List;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- *
- *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MeterReading")
@@ -82,6 +81,11 @@ public class MeterReading
     @JoinColumn(name = "usage_point_id")
     private UsagePoint usagePoint;
 
+    @XmlTransient
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "reading_type_id")
+    private ReadingType readingType;
+
     public UsagePoint getUsagePoint() {
         return usagePoint;
     }
@@ -93,5 +97,13 @@ public class MeterReading
     public void addIntervalBlock(IntervalBlock intervalBlock) {
         intervalBlock.setMeterReading(this);
         intervalBlocks.add(intervalBlock);
+    }
+
+    public ReadingType getReadingType() {
+        return readingType;
+    }
+
+    public void setReadingType(ReadingType readingType) {
+        this.readingType = readingType;
     }
 }

@@ -32,7 +32,7 @@ public interface UsagePointService {
 
     void persist(UsagePoint up);
 
-    void importUsagePoint(RetailCustomer customer, InputStream stream) throws JAXBException;
+    void importUsagePoints(RetailCustomer customer, InputStream stream) throws JAXBException;
 
     String exportUsagePoints(RetailCustomer customer) throws FeedException;
 

@@ -65,9 +65,9 @@ public class RetailCustomerUploadController {
     public String uploadPost(@PathVariable Long retailCustomerId, @ModelAttribute UploadForm uploadForm, BindingResult result) throws IOException, JAXBException {
         try {
             RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
-            usagePointService.importUsagePoint(retailCustomer, uploadForm.getFile().getInputStream());
+            usagePointService.importUsagePoints(retailCustomer, uploadForm.getFile().getInputStream());
             return String.format("redirect:/custodian/retailcustomers/%s/show", retailCustomer.getId());
-        } catch(Exception e) {
+        } catch (Exception e) {
             result.addError(new ObjectError("uploadForm", "Unable to process file"));
             return "/custodian/retailcustomers/upload";
         }

@@ -74,10 +74,13 @@ public class UsagePointServiceImpl implements UsagePointService {
         this.repository.persist(up);
     }
 
-    public void importUsagePoint(RetailCustomer customer, InputStream stream) throws JAXBException {
-        UsagePoint usagePoint = usagePointBuilder.newUsagePoint(marshaller.unmarshal(stream));
-        usagePoint.setRetailCustomer(customer);
-        persist(usagePoint);
+    public void importUsagePoints(RetailCustomer customer, InputStream stream) throws JAXBException {
+        List<UsagePoint> usagePoints = usagePointBuilder.newUsagePoints(marshaller.unmarshal(stream));
+
+        for (UsagePoint usagePoint : usagePoints) {
+            usagePoint.setRetailCustomer(customer);
+            persist(usagePoint);
+        }
     }
 
     public String exportUsagePoints(RetailCustomer customer) throws FeedException {

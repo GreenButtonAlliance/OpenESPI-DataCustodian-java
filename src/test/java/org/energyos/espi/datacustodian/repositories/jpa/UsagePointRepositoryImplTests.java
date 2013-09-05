@@ -101,6 +101,17 @@ public class UsagePointRepositoryImplTests {
         assertNotNull(usagePoint.getMeterReadings().get(0).getIntervalBlocks().get(0).getId());
     }
 
+    public void persist_savesReadingTypes() throws Exception {
+        UsagePoint usagePoint = newUsagePoint();
+        MeterReading meterReading = new MeterReading();
+        usagePoint.addMeterReading(meterReading);
+        meterReading.setReadingType(new ReadingType());
+
+        repository.persist(usagePoint);
+
+        assertNotNull("ReadingType id was null", meterReading.getReadingType().getId());
+    }
+
     private UsagePoint newUsagePoint() {
         UsagePoint usagePoint = new UsagePoint();
         usagePoint.setDescription("Electric meter");
