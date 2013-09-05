@@ -21,6 +21,13 @@ Feature: Data Custodian
     When I log in as Grace Hopper with invalid credentials
     Then I should see login form
 
+  Scenario: Data Custodian creates customer
+    Given I am a Data Custodian
+
+    When I log in as Grace Hopper
+    And I create a new Retail Customer
+    Then I should see the new Retail Customer in the customer list
+
   Scenario: Data Custodian views customer list
     Given I am a Data Custodian
     And there is an Alan Turing retail customer
@@ -71,3 +78,18 @@ Feature: Data Custodian
     When I login as Alan Turing
     And I navigate to the Usage Points list
     Then I should see my Usage Points with Service Categories with Service Kind of "ELECTRICITY_SERVICE"
+
+  Scenario: Data Custodian uploads Usage Points with Interval Blocks
+    Given Grace Hopper Data Custodian
+    And Alan Turing Retail Customer
+
+    When I login as Grace Hopper
+    And I navigate to customer list page
+    And I select "Alan Turing" from customer list
+    And I upload Usage Points
+
+    When I login as Alan Turing
+    And I navigate to the Usage Points list
+    And I select Usage Point
+    And I select Meter Reading
+    Then I should see my Meter Reading with Interval Blocks

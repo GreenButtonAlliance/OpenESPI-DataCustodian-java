@@ -16,6 +16,7 @@
 
 package org.energyos.espi.datacustodian.utils;
 
+import org.energyos.espi.datacustodian.domain.MeterReading;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.models.atom.ContentType;
 import org.energyos.espi.datacustodian.models.atom.EntryType;
@@ -48,9 +49,19 @@ public class UsagePointBuilder {
         return null;
     }
 
-    private void associateWithParent(Map<String, Object> lookup, ContentType content, LinkType upLink) {
+    private void associateWithParent(Map<String, Object> lookup, EntryType entryType, LinkType upLink) {
+        ContentType content = entryType.getContent();
+
         if (content.getMeterReading() != null) {
-            ((EntryType) lookup.get(upLink.getHref())).getContent().getUsagePoint().getMeterReadings().add(content.getMeterReading());
+            UsagePoint usagePoint = ((EntryType) lookup.get(upLink.getHref())).getContent().getUsagePoint();
+            usagePoint.getMeterReadings().add(content.getMeterReading());
+            content.getMeterReading().setUsagePoint(usagePoint);
+            content.getMeterReading().setTitle(entryType.getTitle());
+        }
+        if (content.getIntervalBlock() != null) {
+            MeterReading meterReading = ((EntryType) lookup.get(upLink.getHref())).getContent().getMeterReading();
+            meterReading.getIntervalBlocks().add(content.getIntervalBlock());
+            content.getIntervalBlock().setMeterReading(meterReading);
         }
     }
 
@@ -64,7 +75,7 @@ public class UsagePointBuilder {
 
     private void associate(FeedType feed, Map<String, Object> lookup) {
         for(EntryType entryType : feed.getEntries()) {
-            associateWithParent(lookup, entryType.getContent(), findUpLink(entryType));
+            associateWithParent(lookup, entryType, findUpLink(entryType));
         }
     }
 

@@ -20,6 +20,8 @@ import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,5 +49,10 @@ public class RetailCustomerServiceImpl implements RetailCustomerService {
     @Override
     public RetailCustomer findById(Long id) {
         return repository.findById(id);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return repository.findByUsername(username);
     }
 }

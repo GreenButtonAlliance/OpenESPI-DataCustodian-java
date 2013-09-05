@@ -16,39 +16,28 @@
 
 package org.energyos.espi.datacustodian.repositories.jpa;
 
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.energyos.espi.datacustodian.domain.MeterReading;
+import org.energyos.espi.datacustodian.repositories.MeterReadingRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
 
 @Repository
-public class RetailCustomerRepositoryImpl implements RetailCustomerRepository {
+public class MeterReadingRepositoryImpl implements MeterReadingRepository {
 
     @PersistenceContext
     protected EntityManager em;
 
-	@SuppressWarnings("unchecked")
-    public List<RetailCustomer> findAll() {
-        return (List<RetailCustomer>)this.em.createNamedQuery(RetailCustomer.QUERY_FIND_ALL).getResultList();
+    @Override
+    public MeterReading findAllById(Long meterReadingId) {
+        return em.find(MeterReading.class, meterReadingId);
     }
 
+    @Override
     @Transactional
-    public void persist(RetailCustomer customer) {
-        this.em.persist(customer);
-    }
-
-    @Override
-    public RetailCustomer findById(Long id) {
-        return this.em.find(RetailCustomer.class, id);
-    }
-
-    @Override
-    public UserDetails findByUsername(String username) {
-       return (UserDetails)this.em.createNamedQuery(RetailCustomer.QUERY_FIND_BY_USERNAME).setParameter("username", username).getSingleResult();
+    public void persist(MeterReading meterReading) {
+        em.persist(meterReading);
     }
 }

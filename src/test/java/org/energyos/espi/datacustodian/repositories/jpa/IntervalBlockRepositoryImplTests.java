@@ -16,47 +16,40 @@
 
 package org.energyos.espi.datacustodian.repositories.jpa;
 
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
+
+import org.energyos.espi.datacustodian.domain.IntervalBlock;
+import org.energyos.espi.datacustodian.domain.MeterReading;
+import org.energyos.espi.datacustodian.repositories.IntervalBlockRepository;
+import org.energyos.espi.datacustodian.repositories.MeterReadingRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-
-import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
 @Transactional
-public class RetailCustomerRepositoryImplTests {
+public class IntervalBlockRepositoryImplTests {
 
-    @Resource
-    private RetailCustomerRepository repository;
-
-    @Test
-    public void findAll_returnsAllRetailCustomers() throws Exception {
-        assertTrue(repository.findAll().size() == 8);
-    }
+    @Autowired
+    protected IntervalBlockRepository repository;
+    @Autowired
+    protected MeterReadingRepository meterReadingRepository;
 
     @Test
-    public void findById_returnsRetailCustomer() throws Exception {
-        assertNotNull(repository.findById(1L));
-    }
+    public void findByMeterReadingId_returnsIntervalBlocks() {
+        MeterReading meterReading = new MeterReading();
+        meterReading.addIntervalBlock(new IntervalBlock());
+        meterReading.addIntervalBlock(new IntervalBlock());
 
-    @Test
-    public void persist_withNewCustomer_increasesSizeOfCustomersTable() throws Exception {
-        RetailCustomer alanTuring = new RetailCustomer();
-        alanTuring.setFirstName("Alan");
-        alanTuring.setLastName("Turing");
+        meterReadingRepository.persist(meterReading);
 
-        repository.persist(alanTuring);
-
-        assertNotNull(alanTuring.getId());
+        assertEquals(2, repository.findAllByMeterReadingId(meterReading.getId()).size());
     }
 }

@@ -14,37 +14,43 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.web;
+package org.energyos.espi.datacustodian.web.customer;
 
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.service.UsagePointService;
+import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
-@RequestMapping("/usagepoints")
-public class UsagePointController {
+@RequestMapping("/customer/usagepoints")
+public class UsagePointController extends BaseController {
 
     @Autowired
     private UsagePointService usagePointService;
 
     @ModelAttribute
-    public List<UsagePoint> usagePoints() {
-        RetailCustomer customer = new RetailCustomer();
-        customer.setId(1L);
-
-        return usagePointService.findAllByRetailCustomer(customer);
+    public List<UsagePoint> usagePoints(Principal principal) {
+        return usagePointService.findAllByRetailCustomer(currentCustomer(principal));
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public String index() {
         return "usagepoints/index";
+    }
+
+    @RequestMapping(value = "{usagePointId}/show", method = RequestMethod.GET)
+    public String show(@PathVariable Long usagePointId, ModelMap model) {
+        model.put("usagePoint", usagePointService.findById(usagePointId));
+        return "/customer/usagepoints/show";
     }
 
     public void setUsagePointService(UsagePointService usagePointService) {

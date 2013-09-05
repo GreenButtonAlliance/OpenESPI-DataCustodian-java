@@ -17,16 +17,22 @@
 package org.energyos.espi.datacustodian.service;
 
 
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.energyos.espi.datacustodian.repositories.IntervalBlockRepository;
+import org.energyos.espi.datacustodian.service.impl.IntervalBlockServiceImpl;
+import org.junit.Test;
 
-import java.util.List;
+import static org.mockito.Mockito.*;
 
-public interface RetailCustomerService extends UserDetailsService {
+public class IntervalBlockServiceImplTests {
 
-    List<RetailCustomer> findAll();
+    @Test
+    public void findAllByMeterReading_returnsIntervalBlocks() {
+        IntervalBlockRepository repository = mock(IntervalBlockRepository.class);
+        IntervalBlockService service = new IntervalBlockServiceImpl();
+        service.setRepository(repository);
 
-    void persist(RetailCustomer customer);
+        service.findAllByMeterReadingId(1L);
 
-    RetailCustomer findById(Long id);
+        verify(repository).findAllByMeterReadingId(1L);
+    }
 }

@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.web;
+package org.energyos.espi.datacustodian.web.custodian;
 
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -59,11 +60,12 @@ public class RetailCustomerController {
     }
 
     @RequestMapping(value = "new", method = RequestMethod.POST)
-    public String create(@ModelAttribute("retailCustomer") @Valid RetailCustomer retailCustomer, BindingResult result) {
+    public String create(@ModelAttribute("retailCustomer") @Valid RetailCustomer retailCustomer, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return "retailcustomers/form";
         } else {
             service.persist(retailCustomer);
+            redirectAttributes.addFlashAttribute("message", "Retail customer created");
             return "redirect:/custodian/retailcustomers";
         }
     }

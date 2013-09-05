@@ -18,44 +18,32 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<jsp:include page="../tiles/head.jsp"/>
+<jsp:include page="../../tiles/head.jsp"/>
 
 <body>
 
-<jsp:include page="../tiles/custodian/header.jsp"/>
+<jsp:include page="../../tiles/customer/header.jsp"/>
 
 <div class="container">
     <div class="row">
         <div class="span12">
-            <h2>Retail Customers</h2>
-
-            <c:if test="${not empty message}">
-            <div class="alert">${message}</div>
-            </c:if>
-
-            <a href="<c:url value='/custodian/retailcustomers/new'/>" class="btn btn-large"><i class="icon-plus"></i>&nbsp;Add new customer</a>
+            <h2>Meter Reading</h2>
 
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Username</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
+                    <th>Duration</th>
+                    <th>Start</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="customer" items="${customers}">
+                <c:forEach var="intervalBlock" items="${intervalBlockList}">
                     <tr>
                         <td>
-                            <a href="<c:url value='/custodian/retailcustomers/${customer.id}/show'/>">
-                                <c:out value="${customer.username}"/>
-                            </a>
+                            <c:out value="${intervalBlock.interval.duration}"/>
                         </td>
                         <td>
-                            <c:out value="${customer.firstName}"/>
-                        </td>
-                        <td>
-                            <c:out value="${customer.lastName}"/>
+                            <c:out value="${intervalBlock.interval.start}"/>
                         </td>
                     </tr>
                 </c:forEach>
@@ -66,7 +54,7 @@
 
     <hr>
 
-    <jsp:include page="../tiles/footer.jsp"/>
+    <jsp:include page="../../tiles/footer.jsp"/>
 
 </div>
 
