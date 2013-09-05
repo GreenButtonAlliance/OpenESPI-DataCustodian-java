@@ -24,9 +24,9 @@
 
 package org.energyos.espi.datacustodian.domain;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
@@ -70,23 +70,23 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ReadingType", propOrder = {
-//    "accumulationBehaviour",
-//    "commodity",
-//    "dataQualifier",
-//    "flowDirection",
-//    "intervalLength",
-//    "kind",
-//    "phase",
-//    "powerOfTenMultiplier",
-//    "timeAttribute",
-//    "uom",
-//    "consumptionTier",
-//    "cpp",
-//    "currency",
-//    "interharmonic",
-//    "measuringPeriod",
-//    "tou",
-//    "aggregate",
+        "accumulationBehaviour",
+        "commodity",
+        "dataQualifier",
+        "flowDirection",
+        "intervalLength",
+        "kind",
+        "phase",
+        "powerOfTenMultiplier",
+        "timeAttribute",
+        "uom",
+        "consumptionTier",
+        "cpp",
+        "currency",
+        "interharmonic",
+        "measuringPeriod",
+        "tou",
+        "aggregate",
         "argument"
 })
 @Entity
@@ -94,433 +94,367 @@ import javax.xml.bind.annotation.XmlType;
 public class ReadingType
         extends IdentifiedObject {
 
-    //    protected String accumulationBehaviour;
-//    protected String commodity;
-//    protected String dataQualifier;
-//    protected String flowDirection;
-//    protected Long intervalLength;
-//    protected String kind;
-//    protected String phase;
-//    protected String powerOfTenMultiplier;
-//    protected String timeAttribute;
-//    protected String uom;
-//    protected String consumptionTier;
-//    protected String cpp;
-//    protected String currency;
-//    protected ReadingInterharmonic interharmonic;
-//    protected String measuringPeriod;
-//    protected String tou;
-//    protected String aggregate;
-    @Transient
-    protected RationalNumber argument;
+    protected String accumulationBehaviour;
+    protected String commodity;
+    protected String dataQualifier;
+    protected String flowDirection;
+    protected Long intervalLength;
+    protected String kind;
+    protected String phase;
+    protected String powerOfTenMultiplier;
+    protected String timeAttribute;
+    protected String uom;
+    protected String consumptionTier;
+    protected String cpp;
+    protected String currency;
+    protected String measuringPeriod;
+    protected String tou;
+    protected String aggregate;
 
-//    /**
-//     * Gets the value of the accumulationBehaviour property.
-//     *
-//     * @return
-//     *     possible object is
-//     *     {@link String }
-//     *
-//     */
-//    public String getAccumulationBehaviour() {
-//        return accumulationBehaviour;
-//    }
-//
-//    /**
-//     * Sets the value of the accumulationBehaviour property.
-//     *
-//     * @param value
-//     *     allowed object is
-//     *     {@link String }
-//     *
-//     */
-//    public void setAccumulationBehaviour(String value) {
-//        this.accumulationBehaviour = value;
-//    }
-//
-//    /**
-//     * Gets the value of the commodity property.
-//     *
-//     * @return
-//     *     possible object is
-//     *     {@link String }
-//     *
-//     */
-//    public String getCommodity() {
-//        return commodity;
-//    }
-//
-//    /**
-//     * Sets the value of the commodity property.
-//     *
-//     * @param value
-//     *     allowed object is
-//     *     {@link String }
-//     *
-//     */
-//    public void setCommodity(String value) {
-//        this.commodity = value;
-//    }
-//
-//    /**
-//     * Gets the value of the dataQualifier property.
-//     *
-//     * @return
-//     *     possible object is
-//     *     {@link String }
-//     *
-//     */
-//    public String getDataQualifier() {
-//        return dataQualifier;
-//    }
-//
-//    /**
-//     * Sets the value of the dataQualifier property.
-//     *
-//     * @param value
-//     *     allowed object is
-//     *     {@link String }
-//     *
-//     */
-//    public void setDataQualifier(String value) {
-//        this.dataQualifier = value;
-//    }
-//
-//    /**
-//     * Gets the value of the flowDirection property.
-//     *
-//     * @return
-//     *     possible object is
-//     *     {@link String }
-//     *
-//     */
-//    public String getFlowDirection() {
-//        return flowDirection;
-//    }
-//
-//    /**
-//     * Sets the value of the flowDirection property.
-//     *
-//     * @param value
-//     *     allowed object is
-//     *     {@link String }
-//     *
-//     */
-//    public void setFlowDirection(String value) {
-//        this.flowDirection = value;
-//    }
-//
-//    /**
-//     * Gets the value of the intervalLength property.
-//     *
-//     * @return
-//     *     possible object is
-//     *     {@link Long }
-//     *
-//     */
-//    public Long getIntervalLength() {
-//        return intervalLength;
-//    }
-//
-//    /**
-//     * Sets the value of the intervalLength property.
-//     *
-//     * @param value
-//     *     allowed object is
-//     *     {@link Long }
-//     *
-//     */
-//    public void setIntervalLength(Long value) {
-//        this.intervalLength = value;
-//    }
-//
-//    /**
-//     * Gets the value of the kind property.
-//     *
-//     * @return
-//     *     possible object is
-//     *     {@link String }
-//     *
-//     */
-//    public String getKind() {
-//        return kind;
-//    }
-//
-//    /**
-//     * Sets the value of the kind property.
-//     *
-//     * @param value
-//     *     allowed object is
-//     *     {@link String }
-//     *
-//     */
-//    public void setKind(String value) {
-//        this.kind = value;
-//    }
-//
-//    /**
-//     * Gets the value of the phase property.
-//     *
-//     * @return
-//     *     possible object is
-//     *     {@link String }
-//     *
-//     */
-//    public String getPhase() {
-//        return phase;
-//    }
-//
-//    /**
-//     * Sets the value of the phase property.
-//     *
-//     * @param value
-//     *     allowed object is
-//     *     {@link String }
-//     *
-//     */
-//    public void setPhase(String value) {
-//        this.phase = value;
-//    }
-//
-//    /**
-//     * Gets the value of the powerOfTenMultiplier property.
-//     *
-//     * @return
-//     *     possible object is
-//     *     {@link String }
-//     *
-//     */
-//    public String getPowerOfTenMultiplier() {
-//        return powerOfTenMultiplier;
-//    }
-//
-//    /**
-//     * Sets the value of the powerOfTenMultiplier property.
-//     *
-//     * @param value
-//     *     allowed object is
-//     *     {@link String }
-//     *
-//     */
-//    public void setPowerOfTenMultiplier(String value) {
-//        this.powerOfTenMultiplier = value;
-//    }
-//
-//    /**
-//     * Gets the value of the timeAttribute property.
-//     *
-//     * @return
-//     *     possible object is
-//     *     {@link String }
-//     *
-//     */
-//    public String getTimeAttribute() {
-//        return timeAttribute;
-//    }
-//
-//    /**
-//     * Sets the value of the timeAttribute property.
-//     *
-//     * @param value
-//     *     allowed object is
-//     *     {@link String }
-//     *
-//     */
-//    public void setTimeAttribute(String value) {
-//        this.timeAttribute = value;
-//    }
-//
-//    /**
-//     * Gets the value of the uom property.
-//     *
-//     * @return
-//     *     possible object is
-//     *     {@link String }
-//     *
-//     */
-//    public String getUom() {
-//        return uom;
-//    }
-//
-//    /**
-//     * Sets the value of the uom property.
-//     *
-//     * @param value
-//     *     allowed object is
-//     *     {@link String }
-//     *
-//     */
-//    public void setUom(String value) {
-//        this.uom = value;
-//    }
-//
-//    /**
-//     * Gets the value of the consumptionTier property.
-//     *
-//     * @return
-//     *     possible object is
-//     *     {@link String }
-//     *
-//     */
-//    public String getConsumptionTier() {
-//        return consumptionTier;
-//    }
-//
-//    /**
-//     * Sets the value of the consumptionTier property.
-//     *
-//     * @param value
-//     *     allowed object is
-//     *     {@link String }
-//     *
-//     */
-//    public void setConsumptionTier(String value) {
-//        this.consumptionTier = value;
-//    }
-//
-//    /**
-//     * Gets the value of the cpp property.
-//     *
-//     * @return
-//     *     possible object is
-//     *     {@link String }
-//     *
-//     */
-//    public String getCpp() {
-//        return cpp;
-//    }
-//
-//    /**
-//     * Sets the value of the cpp property.
-//     *
-//     * @param value
-//     *     allowed object is
-//     *     {@link String }
-//     *
-//     */
-//    public void setCpp(String value) {
-//        this.cpp = value;
-//    }
-//
-//    /**
-//     * Gets the value of the currency property.
-//     *
-//     * @return
-//     *     possible object is
-//     *     {@link String }
-//     *
-//     */
-//    public String getCurrency() {
-//        return currency;
-//    }
-//
-//    /**
-//     * Sets the value of the currency property.
-//     *
-//     * @param value
-//     *     allowed object is
-//     *     {@link String }
-//     *
-//     */
-//    public void setCurrency(String value) {
-//        this.currency = value;
-//    }
-//
-//    /**
-//     * Gets the value of the interharmonic property.
-//     *
-//     * @return
-//     *     possible object is
-//     *     {@link ReadingInterharmonic }
-//     *
-//     */
-//    public ReadingInterharmonic getInterharmonic() {
-//        return interharmonic;
-//    }
-//
-//    /**
-//     * Sets the value of the interharmonic property.
-//     *
-//     * @param value
-//     *     allowed object is
-//     *     {@link ReadingInterharmonic }
-//     *
-//     */
-//    public void setInterharmonic(ReadingInterharmonic value) {
-//        this.interharmonic = value;
-//    }
-//
-//    /**
-//     * Gets the value of the measuringPeriod property.
-//     *
-//     * @return
-//     *     possible object is
-//     *     {@link String }
-//     *
-//     */
-//    public String getMeasuringPeriod() {
-//        return measuringPeriod;
-//    }
-//
-//    /**
-//     * Sets the value of the measuringPeriod property.
-//     *
-//     * @param value
-//     *     allowed object is
-//     *     {@link String }
-//     *
-//     */
-//    public void setMeasuringPeriod(String value) {
-//        this.measuringPeriod = value;
-//    }
-//
-//    /**
-//     * Gets the value of the tou property.
-//     *
-//     * @return
-//     *     possible object is
-//     *     {@link String }
-//     *
-//     */
-//    public String getTou() {
-//        return tou;
-//    }
-//
-//    /**
-//     * Sets the value of the tou property.
-//     *
-//     * @param value
-//     *     allowed object is
-//     *     {@link String }
-//     *
-//     */
-//    public void setTou(String value) {
-//        this.tou = value;
-//    }
-//
-//    /**
-//     * Gets the value of the aggregate property.
-//     *
-//     * @return
-//     *     possible object is
-//     *     {@link String }
-//     *
-//     */
-//    public String getAggregate() {
-//        return aggregate;
-//    }
-//
-//    /**
-//     * Sets the value of the aggregate property.
-//     *
-//     * @param value
-//     *     allowed object is
-//     *     {@link String }
-//     *
-//     */
-//    public void setAggregate(String value) {
-//        this.aggregate = value;
-//    }
+    @Embedded
+    protected RationalNumber argument;
+    @Embedded
+    protected ReadingInterharmonic interharmonic;
+
+    /**
+     * Gets the value of the accumulationBehaviour property.
+     *
+     * @return possible object is
+     *         {@link String }
+     */
+    public String getAccumulationBehaviour() {
+        return accumulationBehaviour;
+    }
+
+    /**
+     * Sets the value of the accumulationBehaviour property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setAccumulationBehaviour(String value) {
+        this.accumulationBehaviour = value;
+    }
+
+    /**
+     * Gets the value of the commodity property.
+     *
+     * @return possible object is
+     *         {@link String }
+     */
+    public String getCommodity() {
+        return commodity;
+    }
+
+    /**
+     * Sets the value of the commodity property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setCommodity(String value) {
+        this.commodity = value;
+    }
+
+    /**
+     * Gets the value of the dataQualifier property.
+     *
+     * @return possible object is
+     *         {@link String }
+     */
+    public String getDataQualifier() {
+        return dataQualifier;
+    }
+
+    /**
+     * Sets the value of the dataQualifier property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setDataQualifier(String value) {
+        this.dataQualifier = value;
+    }
+
+    /**
+     * Gets the value of the flowDirection property.
+     *
+     * @return possible object is
+     *         {@link String }
+     */
+    public String getFlowDirection() {
+        return flowDirection;
+    }
+
+    /**
+     * Sets the value of the flowDirection property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setFlowDirection(String value) {
+        this.flowDirection = value;
+    }
+
+    /**
+     * Gets the value of the intervalLength property.
+     *
+     * @return possible object is
+     *         {@link Long }
+     */
+    public Long getIntervalLength() {
+        return intervalLength;
+    }
+
+    /**
+     * Sets the value of the intervalLength property.
+     *
+     * @param value allowed object is
+     *              {@link Long }
+     */
+    public void setIntervalLength(Long value) {
+        this.intervalLength = value;
+    }
+
+    /**
+     * Gets the value of the kind property.
+     *
+     * @return possible object is
+     *         {@link String }
+     */
+    public String getKind() {
+        return kind;
+    }
+
+    /**
+     * Sets the value of the kind property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setKind(String value) {
+        this.kind = value;
+    }
+
+    /**
+     * Gets the value of the phase property.
+     *
+     * @return possible object is
+     *         {@link String }
+     */
+    public String getPhase() {
+        return phase;
+    }
+
+    /**
+     * Sets the value of the phase property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setPhase(String value) {
+        this.phase = value;
+    }
+
+    /**
+     * Gets the value of the powerOfTenMultiplier property.
+     *
+     * @return possible object is
+     *         {@link String }
+     */
+    public String getPowerOfTenMultiplier() {
+        return powerOfTenMultiplier;
+    }
+
+    /**
+     * Sets the value of the powerOfTenMultiplier property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setPowerOfTenMultiplier(String value) {
+        this.powerOfTenMultiplier = value;
+    }
+
+    /**
+     * Gets the value of the timeAttribute property.
+     *
+     * @return possible object is
+     *         {@link String }
+     */
+    public String getTimeAttribute() {
+        return timeAttribute;
+    }
+
+    /**
+     * Sets the value of the timeAttribute property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setTimeAttribute(String value) {
+        this.timeAttribute = value;
+    }
+
+    /**
+     * Gets the value of the uom property.
+     *
+     * @return possible object is
+     *         {@link String }
+     */
+    public String getUom() {
+        return uom;
+    }
+
+    /**
+     * Sets the value of the uom property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setUom(String value) {
+        this.uom = value;
+    }
+
+    /**
+     * Gets the value of the consumptionTier property.
+     *
+     * @return possible object is
+     *         {@link String }
+     */
+    public String getConsumptionTier() {
+        return consumptionTier;
+    }
+
+    /**
+     * Sets the value of the consumptionTier property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setConsumptionTier(String value) {
+        this.consumptionTier = value;
+    }
+
+    /**
+     * Gets the value of the cpp property.
+     *
+     * @return possible object is
+     *         {@link String }
+     */
+    public String getCpp() {
+        return cpp;
+    }
+
+    /**
+     * Sets the value of the cpp property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setCpp(String value) {
+        this.cpp = value;
+    }
+
+    /**
+     * Gets the value of the currency property.
+     *
+     * @return possible object is
+     *         {@link String }
+     */
+    public String getCurrency() {
+        return currency;
+    }
+
+    /**
+     * Sets the value of the currency property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setCurrency(String value) {
+        this.currency = value;
+    }
+
+    /**
+     * Gets the value of the interharmonic property.
+     *
+     * @return possible object is
+     *         {@link ReadingInterharmonic }
+     */
+    public ReadingInterharmonic getInterharmonic() {
+        return interharmonic;
+    }
+
+    /**
+     * Sets the value of the interharmonic property.
+     *
+     * @param value allowed object is
+     *              {@link ReadingInterharmonic }
+     */
+    public void setInterharmonic(ReadingInterharmonic value) {
+        this.interharmonic = value;
+    }
+
+    /**
+     * Gets the value of the measuringPeriod property.
+     *
+     * @return possible object is
+     *         {@link String }
+     */
+    public String getMeasuringPeriod() {
+        return measuringPeriod;
+    }
+
+    /**
+     * Sets the value of the measuringPeriod property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setMeasuringPeriod(String value) {
+        this.measuringPeriod = value;
+    }
+
+    /**
+     * Gets the value of the tou property.
+     *
+     * @return possible object is
+     *         {@link String }
+     */
+    public String getTou() {
+        return tou;
+    }
+
+    /**
+     * Sets the value of the tou property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setTou(String value) {
+        this.tou = value;
+    }
+
+    /**
+     * Gets the value of the aggregate property.
+     *
+     * @return possible object is
+     *         {@link String }
+     */
+    public String getAggregate() {
+        return aggregate;
+    }
+
+    /**
+     * Sets the value of the aggregate property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setAggregate(String value) {
+        this.aggregate = value;
+    }
 
     /**
      * Gets the value of the argument property.

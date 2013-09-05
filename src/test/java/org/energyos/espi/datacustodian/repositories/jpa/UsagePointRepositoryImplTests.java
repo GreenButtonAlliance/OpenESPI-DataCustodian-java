@@ -30,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.math.BigInteger;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -104,12 +105,23 @@ public class UsagePointRepositoryImplTests {
     public void persist_savesReadingTypes() throws Exception {
         UsagePoint usagePoint = newUsagePoint();
         MeterReading meterReading = new MeterReading();
+        ReadingType readingType = newReadingType();
+
         usagePoint.addMeterReading(meterReading);
-        meterReading.setReadingType(new ReadingType());
+        meterReading.setReadingType(readingType);
 
         repository.persist(usagePoint);
 
-        assertNotNull("ReadingType id was null", meterReading.getReadingType().getId());
+        assertNotNull("ReadingType id was null", readingType.getId());
+    }
+
+    private ReadingType newReadingType() {
+        ReadingType readingType = new ReadingType();
+        RationalNumber number = new RationalNumber();
+        number.setNumerator(new BigInteger("1"));
+        number.setDenominator(new BigInteger("2"));
+        readingType.setArgument(number);
+        return readingType;
     }
 
     private UsagePoint newUsagePoint() {

@@ -145,8 +145,9 @@ public class RetailCustomerSteps {
     public void I_should_see_my_Usage_Points_with_Meter_Readings() throws Throwable {
         String pageSource = driver.getPageSource();
 
-        assertTrue(pageSource.contains("Fifteen Minute Electricity Consumption"));
-        assertTrue(pageSource.contains("Energy Delivered (kWh)"));
-        assertTrue(pageSource.contains("1/2"));
+        assertTrue("MeterReading title missing", pageSource.contains("Fifteen Minute Electricity Consumption"));
+        assertTrue("ReadingType title missing", pageSource.contains("Energy Delivered (kWh)"));
+        assertTrue("Argument missing", pageSource.contains("1/2"));
+        assertTrue("Interharmonic missing", pageSource.contains("600/800"));
     }
 }
