@@ -24,11 +24,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
@@ -45,6 +45,43 @@ public class DataCustodianTests {
     @Before
     public void setup() {
         this.mockMvc = webAppContextSetup(this.wac).build();
+    }
+
+    @Test
+    public void hasListOfRetailCustomers() throws Exception {
+        mockMvc.perform(get("/custodian/retailcustomers"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("retailcustomers/index"));
+    }
+
+    @Test
+    public void displaysNewCustomerView() throws Exception {
+        mockMvc.perform(get("/custodian/retailcustomers/new"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("retailcustomers/form"));
+    }
+
+    @Test
+    public void givenInvalidModel_displaysForm() throws Exception {
+        ResultActions result = mockMvc.perform(post("/custodian/retailcustomers/new"));
+        result.andExpect(view().name("retailcustomers/form"));
+    }
+
+    @Test
+    public void redirectsToCustomerListAfterCreate() throws Exception {
+        ResultActions result = mockMvc.perform(post("/custodian/retailcustomers/new")
+                .param("username", "grace")
+                .param("firstName", "Grace")
+                .param("lastName", "Hopper")
+                .param("password", "koala"));
+        result.andExpect(redirectedUrl("/custodian/retailcustomers"));
+    }
+
+    @Test
+    public void displaysRetailCustomerProfileView() throws Exception {
+        mockMvc.perform(get("/custodian/retailcustomers/1/show"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("retailCustomer"));
     }
 
     @Test
