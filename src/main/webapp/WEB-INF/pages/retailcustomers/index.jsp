@@ -22,17 +22,23 @@
 
 <body>
 
-<jsp:include page="../tiles/header.jsp"/>
+<jsp:include page="../tiles/custodian/header.jsp"/>
 
 <div class="container">
     <div class="row">
         <div class="span12">
             <h2>Retail Customers</h2>
+
+            <c:if test="${not empty message}">
+            <div class="alert">${message}</div>
+            </c:if>
+
             <a href="<c:url value='/custodian/retailcustomers/new'/>" class="btn btn-large"><i class="icon-plus"></i>&nbsp;Add new customer</a>
 
             <table class="table table-striped">
                 <thead>
                 <tr>
+                    <th>Username</th>
                     <th>First Name</th>
                     <th>Last Name</th>
                 </tr>
@@ -41,12 +47,15 @@
                 <c:forEach var="customer" items="${customers}">
                     <tr>
                         <td>
+                            <a href="<c:url value='/custodian/retailcustomers/${customer.id}/show'/>">
+                                <c:out value="${customer.username}"/>
+                            </a>
+                        </td>
+                        <td>
                             <c:out value="${customer.firstName}"/>
                         </td>
                         <td>
-                            <a href="<c:url value='/custodian/retailcustomers/${customer.id}/show'/>">
-                                <c:out value="${customer.lastName}"/>
-                            </a>
+                            <c:out value="${customer.lastName}"/>
                         </td>
                     </tr>
                 </c:forEach>
