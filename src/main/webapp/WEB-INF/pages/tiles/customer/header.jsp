@@ -28,7 +28,7 @@
 
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li><a href="<c:url value='/usagepoints'/>">Usage Points</a></li>
+                    <li><a href="<c:url value='/customer/usagepoints'/>">Usage Points</a></li>
                     <security:authorize access="isAuthenticated()">
                         <li class="active"><a id="logout" href="<c:url value='/j_spring_security_logout'/>">Logout</a></li>
                     </security:authorize>
