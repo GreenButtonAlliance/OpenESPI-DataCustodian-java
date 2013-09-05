@@ -18,10 +18,11 @@ package org.energyos.espi.datacustodian.service;
 
 
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
-public interface RetailCustomerService {
+public interface RetailCustomerService extends UserDetailsService {
 
     List<RetailCustomer> findAll();
 

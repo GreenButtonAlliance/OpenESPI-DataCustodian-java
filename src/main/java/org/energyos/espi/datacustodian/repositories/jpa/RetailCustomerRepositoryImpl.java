@@ -18,6 +18,7 @@ package org.energyos.espi.datacustodian.repositories.jpa;
 
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,5 +45,10 @@ public class RetailCustomerRepositoryImpl implements RetailCustomerRepository {
     @Override
     public RetailCustomer findById(Long id) {
         return this.em.find(RetailCustomer.class, id);
+    }
+
+    @Override
+    public UserDetails findByUsername(String username) {
+       return (UserDetails)this.em.createNamedQuery(RetailCustomer.QUERY_FIND_BY_USERNAME).setParameter("username", username).getSingleResult();
     }
 }
