@@ -26,6 +26,7 @@ package org.energyos.espi.datacustodian.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
@@ -86,14 +87,14 @@ import javax.xml.bind.annotation.XmlType;
 //    "measuringPeriod",
 //    "tou",
 //    "aggregate",
-//    "argument"
+        "argument"
 })
 @Entity
 @Table(name = "reading_types")
 public class ReadingType
         extends IdentifiedObject {
 
-//    protected String accumulationBehaviour;
+    //    protected String accumulationBehaviour;
 //    protected String commodity;
 //    protected String dataQualifier;
 //    protected String flowDirection;
@@ -110,7 +111,8 @@ public class ReadingType
 //    protected String measuringPeriod;
 //    protected String tou;
 //    protected String aggregate;
-//    protected RationalNumber argument;
+    @Transient
+    protected RationalNumber argument;
 
 //    /**
 //     * Gets the value of the accumulationBehaviour property.
@@ -519,29 +521,24 @@ public class ReadingType
 //    public void setAggregate(String value) {
 //        this.aggregate = value;
 //    }
-//
-//    /**
-//     * Gets the value of the argument property.
-//     *
-//     * @return
-//     *     possible object is
-//     *     {@link RationalNumber }
-//     *
-//     */
-//    public RationalNumber getArgument() {
-//        return argument;
-//    }
-//
-//    /**
-//     * Sets the value of the argument property.
-//     *
-//     * @param value
-//     *     allowed object is
-//     *     {@link RationalNumber }
-//     *
-//     */
-//    public void setArgument(RationalNumber value) {
-//        this.argument = value;
-//    }
 
+    /**
+     * Gets the value of the argument property.
+     *
+     * @return possible object is
+     *         {@link RationalNumber }
+     */
+    public RationalNumber getArgument() {
+        return argument;
+    }
+
+    /**
+     * Sets the value of the argument property.
+     *
+     * @param value allowed object is
+     *              {@link RationalNumber }
+     */
+    public void setArgument(RationalNumber value) {
+        this.argument = value;
+    }
 }

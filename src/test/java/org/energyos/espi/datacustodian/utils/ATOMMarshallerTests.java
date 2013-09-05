@@ -43,6 +43,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static junit.framework.Assert.assertNotNull;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.junit.Assert.assertEquals;
@@ -116,7 +117,6 @@ public class ATOMMarshallerTests {
         FeedType feed = marshaller.unmarshal(xmlStream);
 
         assertEquals(IdType.class, feed.getId().getClass());
-
     }
 
     @Test
@@ -130,7 +130,6 @@ public class ATOMMarshallerTests {
         FeedType feed = marshaller.unmarshal(xmlStream);
 
         assertEquals(IdType.class, feed.getEntries().get(0).getId().getClass());
-
     }
 
     @Test
@@ -273,6 +272,10 @@ public class ATOMMarshallerTests {
                 "                <powerOfTenMultiplier>0</powerOfTenMultiplier>\n" +
                 "                <timeAttribute>0</timeAttribute>\n" +
                 "                <uom>72</uom>\n" +
+                "                <argument>\n" +
+                "                    <numerator>1</numerator>\n" +
+                "                    <denominator>2</denominator>\n" +
+                "                </argument>\n" +
                 "            </ReadingType>\n" +
                 "        </content>\n" +
                 "        <published>2012-10-24T00:00:00Z</published>\n" +
@@ -282,7 +285,9 @@ public class ATOMMarshallerTests {
 
         InputStream xmlStream = new ByteArrayInputStream(xml.getBytes());
         FeedType feed = marshaller.unmarshal(xmlStream);
-        assertEquals(ReadingType.class, feed.getEntries().get(0).getContent().getReadingType().getClass());
+        ReadingType readingType = feed.getEntries().get(0).getContent().getReadingType();
+        assertNotNull(readingType);
+        assertEquals(RationalNumber.class, readingType.getArgument().getClass());
     }
 
     @Test

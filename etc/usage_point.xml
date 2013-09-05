@@ -98,6 +98,11 @@ Please leave this heading comment section in this file.
                 <powerOfTenMultiplier>0</powerOfTenMultiplier>
                 <timeAttribute>0</timeAttribute>
                 <uom>72</uom>
+                <argument>
+                    <numerator>1</numerator>
+                    <denominator>2</denominator>
+                </argument>
+
             </ReadingType>
         </content>
         <published>2012-10-24T00:00:00Z</published>

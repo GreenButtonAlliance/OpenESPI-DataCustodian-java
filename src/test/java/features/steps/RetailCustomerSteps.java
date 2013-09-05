@@ -143,7 +143,10 @@ public class RetailCustomerSteps {
 
     @Then("^I should see the Meter Readings and Reading Types$")
     public void I_should_see_my_Usage_Points_with_Meter_Readings() throws Throwable {
-        assertTrue(driver.getPageSource().contains("Fifteen Minute Electricity Consumption"));
-        assertTrue(driver.getPageSource().contains("Energy Delivered (kWh)"));
+        String pageSource = driver.getPageSource();
+
+        assertTrue(pageSource.contains("Fifteen Minute Electricity Consumption"));
+        assertTrue(pageSource.contains("Energy Delivered (kWh)"));
+        assertTrue(pageSource.contains("1/2"));
     }
 }

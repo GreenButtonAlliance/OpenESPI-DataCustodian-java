@@ -45,6 +45,7 @@
                     <%--<th>n<sup>10</sup></th>--%>
                     <%--<th>Time Attribute</th>--%>
                     <%--<th>UOM</th>--%>
+                    <th>Argument</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -64,6 +65,7 @@
                             <%--<td><c:out value="${meterReading.readingType.powerOfTenMultiplier}"/></td>--%>
                             <%--<td><c:out value="${meterReading.readingType.timeAttribute}"/></td>--%>
                             <%--<td><c:out value="${meterReading.readingType.uom}"/></td>--%>
+                        <td><c:out value="${meterReading.readingType.argument}"/></td>
                     </tr>
                 </c:forEach>
                 </tbody>
