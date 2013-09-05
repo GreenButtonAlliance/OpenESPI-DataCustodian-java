@@ -32,6 +32,7 @@ import static org.junit.Assert.assertTrue;
 public class RetailCustomerSteps {
 
     private WebDriver driver = WebDriverSingleton.getInstance();
+    private String username;
 
     @Before
     public void setup() {
@@ -51,27 +52,8 @@ public class RetailCustomerSteps {
         driver.get(StepUtils.BASE_URL + "/custodian/retailcustomers");
     }
 
-    @When("^I create a new retail customer with the name Grace Hopper$")
-    public void I_create_a_new_retail_customer_with_the_name_Grace_Hopper() throws Throwable {
-        driver.findElement(By.partialLinkText("Customer List")).click();
-        driver.findElement(By.partialLinkText("Add new customer")).click();
-        assertTrue(driver.getPageSource().contains("New Retail Customer"));
-
-        WebElement form = driver.findElement(By.name("new_customer"));
-
-        WebElement firstName = form.findElement(By.name("firstName"));
-        firstName.sendKeys("Grace");
-
-        WebElement lastName = form.findElement(By.name("lastName"));
-        lastName.sendKeys("Hopper");
-
-        WebElement create = form.findElement(By.name("create"));
-        create.click();
-    }
-
     @Then("^I should see Alan Turing in the customer list$")
     public void I_should_see_Alan_Turing_in_the_customer_list() throws Throwable {
-        assertTrue(driver.getPageSource().contains("Alan"));
         assertTrue(driver.getPageSource().contains("Turing"));
     }
 
@@ -79,12 +61,6 @@ public class RetailCustomerSteps {
     public void there_is_a_Alan_Turing_retail_customer() throws Throwable {
     }
 
-    @Then("^I should see Grace Hopper in the customer list$")
-    public void I_should_see_Grace_Hopper_in_the_customer_list() throws Throwable {
-        assertTrue(driver.getPageSource().contains("Grace"));
-        assertTrue(driver.getPageSource().contains("Hopper"));
-
-    }
     @Given("^a logged in retail customer$")
     public void a_logged_in_retail_customer() throws Throwable {
         StepUtils.login("alan", "koala");
@@ -92,7 +68,7 @@ public class RetailCustomerSteps {
 
     @When("^I look at my usage page$")
     public void I_look_at_my_usage_page() throws Throwable {
-        driver.get(StepUtils.BASE_URL + "/usagepoints");
+        driver.get(StepUtils.BASE_URL + "/customer/usagepoints");
     }
 
     @Then("^I should see my Usage Points with title \"([^\"]*)\"$")
@@ -140,7 +116,16 @@ public class RetailCustomerSteps {
         WebElement downloadLink = driver.findElement(By.partialLinkText("Download XML"));
         downloadLink.click();
 
-
         assertXpathEvaluatesTo("1", "feed/entry[1]/content/UsagePoint/ServiceCategory/kind", StepUtils.flattenXml(driver.getPageSource()));
+    }
+
+    @Then("^I should see Meter Reading$")
+    public void I_should_see_Meter_Reading() throws Throwable {
+        assertTrue(driver.getPageSource().contains("86400"));
+    }
+
+    @Given("^a logged in Retail Customer with Usage Points$")
+    public void a_logged_in_Retail_Customer_with_Usage_Points() throws Throwable {
+
     }
 }

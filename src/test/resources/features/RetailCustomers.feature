@@ -17,18 +17,20 @@ Feature: Retail Customers
     When I navigate to customer list page
     Then I should see Alan Turing in the customer list
 
-  Scenario: Data Custodian creates customer
-    Given I am a Data Custodian
-
-    When I log in as Grace Hopper
-    And I create a new retail customer with the name Grace Hopper
-    Then I should see Grace Hopper in the customer list
-
   Scenario: Retail Customer views Usage Points
     Given a logged in retail customer
 
     When I look at my usage page
     Then I should see my Usage Points with title "Gas meter"
+
+  Scenario: Retail Customer views Meter Readings
+    Given a logged in as Retail Customer with Usage Points
+
+    When I navigate to the Usage Points list
+    And I select Usage Point
+    And I select Meter Reading
+
+    Then I should see Meter Reading
 
   Scenario: Retail Customer downloads Usage Points in XML format
     Given a logged in retail customer
