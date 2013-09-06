@@ -53,18 +53,19 @@ public class UsagePointBuilder {
                 handleMeterReading(entry);
             } else if (content.getReadingType() != null) {
                 handleReadingType(entry);
-            } else if (content.getIntervalBlock() != null) {
+            } else if (content.getIntervalBlocks() != null) {
                 handleIntervalBlock(entry);
             }
         }
     }
 
     private void handleIntervalBlock(EntryType entry) {
-        IntervalBlock intervalBlock = entry.getContent().getIntervalBlock();
         MeterReading meterReading = lookup.getUpEntry(entry).getContent().getMeterReading();
 
-        intervalBlock.setDescription(entry.getTitle());
-        meterReading.addIntervalBlock(intervalBlock);
+        for (IntervalBlock intervalBlock : entry.getContent().getIntervalBlocks()) {
+            intervalBlock.setDescription(entry.getTitle());
+            meterReading.addIntervalBlock(intervalBlock);
+        }
     }
 
     private void handleReadingType(EntryType entry) {

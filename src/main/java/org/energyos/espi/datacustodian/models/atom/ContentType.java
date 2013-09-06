@@ -29,6 +29,7 @@ import org.energyos.espi.datacustodian.domain.MeterReading;
 import org.energyos.espi.datacustodian.domain.ReadingType;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.models.atom.adapters.GenericAdapter;
+import org.energyos.espi.datacustodian.models.atom.adapters.IntervalBlockAdapter;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.*;
@@ -64,14 +65,12 @@ import java.util.Map;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- *
- *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "contentType", propOrder = {
         "usagePoint",
         "meterReading",
-        "intervalBlock",
+        "intervalBlocks",
         "readingType",
         "content"
 })
@@ -95,8 +94,8 @@ public class ContentType {
             @XmlElementRef(name = "IntervalBlock", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
     })
     @XmlAnyElement(lax = true)
-    @XmlJavaTypeAdapter(GenericAdapter.class)
-    protected IntervalBlock intervalBlock;
+    @XmlJavaTypeAdapter(IntervalBlockAdapter.class)
+    protected List<IntervalBlock> intervalBlocks;
 
     @XmlMixed
     @XmlAnyElement(lax = true)
@@ -144,20 +143,19 @@ public class ContentType {
         this.meterReading = meterReading;
     }
 
-    public IntervalBlock getIntervalBlock() {
-        return intervalBlock;
+    public List<IntervalBlock> getIntervalBlocks() {
+        return intervalBlocks;
     }
 
-    public void setIntervalBlock(IntervalBlock intervalBlock) {
-        this.intervalBlock = intervalBlock;
+    public void setIntervalBlocks(List<IntervalBlock> intervalBlocks) {
+        this.intervalBlocks = intervalBlocks;
     }
 
     /**
-     *
-     * 				The Atom content construct is defined in section 4.1.3 of the format spec.
-     * 			Gets the value of the content property.
-     *
-     * <p>
+     * The Atom content construct is defined in section 4.1.3 of the format spec.
+     * Gets the value of the content property.
+     * <p/>
+     * <p/>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
@@ -178,10 +176,8 @@ public class ContentType {
     /**
      * Gets the value of the type property.
      *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
+     * @return possible object is
+     *         {@link String }
      */
     public String getType() {
         return type;
@@ -190,10 +186,8 @@ public class ContentType {
     /**
      * Sets the value of the type property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setType(String value) {
         this.type = value;
@@ -202,10 +196,8 @@ public class ContentType {
     /**
      * Gets the value of the src property.
      *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
+     * @return possible object is
+     *         {@link String }
      */
     public String getSrc() {
         return src;
@@ -214,10 +206,8 @@ public class ContentType {
     /**
      * Sets the value of the src property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setSrc(String value) {
         this.src = value;
@@ -226,10 +216,8 @@ public class ContentType {
     /**
      * Gets the value of the base property.
      *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
+     * @return possible object is
+     *         {@link String }
      */
     public String getBase() {
         return base;
@@ -238,10 +226,8 @@ public class ContentType {
     /**
      * Sets the value of the base property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setBase(String value) {
         this.base = value;
@@ -250,10 +236,8 @@ public class ContentType {
     /**
      * Gets the value of the lang property.
      *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
+     * @return possible object is
+     *         {@link String }
      */
     public String getLang() {
         return lang;
@@ -262,10 +246,8 @@ public class ContentType {
     /**
      * Sets the value of the lang property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setLang(String value) {
         this.lang = value;
@@ -273,17 +255,15 @@ public class ContentType {
 
     /**
      * Gets a map that contains attributes that aren't bound to any typed property on this class.
-     *
-     * <p>
+     * <p/>
+     * <p/>
      * the map is keyed by the name of the attribute and
      * the value is the string value of the attribute.
-     *
+     * <p/>
      * the map returned by this method is live, and you can add new attribute
      * by updating the map directly. Because of this design, there's no setter.
      *
-     *
-     * @return
-     *     always non-null
+     * @return always non-null
      */
     public Map<QName, String> getOtherAttributes() {
         return otherAttributes;
