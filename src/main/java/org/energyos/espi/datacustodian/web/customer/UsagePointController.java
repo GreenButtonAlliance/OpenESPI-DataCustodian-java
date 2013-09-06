@@ -44,7 +44,7 @@ public class UsagePointController extends BaseController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String index() {
-        return "usagepoints/index";
+        return "/customer/usagepoints/index";
     }
 
     @RequestMapping(value = "{usagePointId}/show", method = RequestMethod.GET)

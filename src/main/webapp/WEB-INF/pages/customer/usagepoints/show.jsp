@@ -22,17 +22,25 @@
 
 <body>
 
-<jsp:include page="../../tiles/customer/header.jsp"/>
+<jsp:include page="../../tiles/header.jsp"/>
 
 <div class="container">
     <div class="row">
         <div class="span12">
-            <h2>Usage Point</h2>
+            <h2><c:out value="${usagePoint.description}"/></h2>
 
             <table class="table table-striped">
+                <caption class="text-left">Meter Readings:</caption>
                 <thead>
                 <tr>
-                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Reading Type</th>
+                    <th>Accumulation Behaviour</th>
+                    <th>Commodity</th>
+                    <th>Currency</th>
+                    <th>Data Qualifier</th>
+                    <th>Argument</th>
+                    <th>Interharmonic</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -40,9 +48,18 @@
                     <tr>
                         <td>
                             <a href="<c:url value='/customer/meterreadings/${meterReading.id}/show'/>">
-                                <c:out value="${meterReading.title}"/>
+                                <c:out value="${meterReading.description}"/>
                             </a>
                         </td>
+                        <td><c:out value="${meterReading.readingType.description}"/></td>
+                        <td><c:out value="${meterReading.readingType.accumulationBehaviour}"/></td>
+                        <td><c:out value="${meterReading.readingType.commodity}"/></td>
+                        <td><c:out value="${meterReading.readingType.currency}"/></td>
+                        <td><c:out value="${meterReading.readingType.dataQualifier}"/></td>
+                        <td><c:out
+                                value="${meterReading.readingType.argument.numerator}/${meterReading.readingType.argument.denominator}"/></td>
+                        <td><c:out
+                                value="${meterReading.readingType.interharmonic.numerator}/${meterReading.readingType.interharmonic.denominator}"/></td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -58,3 +75,4 @@
 
 </body>
 </html>
+

@@ -18,11 +18,11 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<jsp:include page="../tiles/head.jsp"/>
+<jsp:include page="../../tiles/head.jsp"/>
 
 <body>
 
-<jsp:include page="../tiles/customer/header.jsp"/>
+<jsp:include page="../../tiles/header.jsp"/>
 
 <div class="container">
     <div class="row">
@@ -58,7 +58,7 @@
 
     <hr>
 
-    <jsp:include page="../tiles/footer.jsp"/>
+    <jsp:include page="../../tiles/footer.jsp"/>
 
 </div>
 
