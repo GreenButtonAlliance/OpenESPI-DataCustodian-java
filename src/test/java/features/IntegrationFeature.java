@@ -14,19 +14,12 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.service;
+package features;
 
+import cucumber.api.junit.Cucumber;
+import org.junit.runner.RunWith;
 
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.springframework.security.core.userdetails.UserDetailsService;
-
-import java.util.List;
-
-public interface RetailCustomerService extends UserDetailsService {
-
-    List<RetailCustomer> findAll();
-
-    void persist(RetailCustomer customer);
-
-    RetailCustomer findById(Long id);
+@RunWith(Cucumber.class)
+@Cucumber.Options(features = {"classpath:features/API.feature"})
+public class IntegrationFeature {
 }

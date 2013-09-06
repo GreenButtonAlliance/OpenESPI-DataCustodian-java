@@ -17,9 +17,7 @@
 package org.energyos.espi.datacustodian.repositories.jpa;
 
 
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.domain.ServiceCategory;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.domain.*;
 import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +27,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -42,6 +43,8 @@ public class UsagePointRepositoryImplTests {
     @Autowired
     UsagePointRepository repository;
     private RetailCustomer customer;
+    @PersistenceContext
+    protected EntityManager em;
 
     @Before
     public void setup() {
@@ -72,5 +75,35 @@ public class UsagePointRepositoryImplTests {
 
         assertNotNull(usagePoint.getId());
         assertNotNull(usagePoint.getRetailCustomer());
+    }
+
+    @Test
+    public void persist_savesMeterReading() {
+        UsagePoint usagePoint = new UsagePoint();
+        usagePoint.setTitle("Electric meter");
+        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
+        MeterReading meterReading = new MeterReading();
+
+        usagePoint.getMeterReadings().add(meterReading);
+
+        repository.persist(usagePoint);
+
+        assertNotNull(usagePoint.getMeterReadings().get(0).getId());
+    }
+
+    @Test
+    public void persist_savesIntervalBlocks() {
+        UsagePoint usagePoint = new UsagePoint();
+        usagePoint.setTitle("Electric meter");
+        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
+        MeterReading meterReading = new MeterReading();
+        IntervalBlock intervalBlock = new IntervalBlock();
+
+        meterReading.getIntervalBlocks().add(intervalBlock);
+        usagePoint.getMeterReadings().add(meterReading);
+
+        repository.persist(usagePoint);
+
+        assertNotNull(usagePoint.getMeterReadings().get(0).getIntervalBlocks().get(0).getId());
     }
 }

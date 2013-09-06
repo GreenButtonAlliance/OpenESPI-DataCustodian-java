@@ -42,7 +42,6 @@ public class UsagePointBuilderTests {
     @PersistenceContext
     protected EntityManager em;
 
-
     @Test
     public void givenFeedWithNoEntries_returnsNull() {
         UsagePointBuilder builder = new UsagePointBuilder();

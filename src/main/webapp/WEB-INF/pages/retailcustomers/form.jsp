@@ -24,7 +24,7 @@
 
 <body>
 
-<jsp:include page="../tiles/header.jsp"/>
+<jsp:include page="../tiles/custodian/header.jsp"/>
 
 <div class="container">
     <div class="row">
@@ -32,6 +32,13 @@
             <h2>New Retail Customer</h2>
 
             <form:form modelAttribute="retailCustomer" name="new_customer" class="form-horizontal" action="${pageContext.request.contextPath}/custodian/retailcustomers/new">
+                <div class="control-group">
+                    <label class="control-label" for="username">Username</label>
+                    <div class="controls">
+                        <form:input path="username"/>
+                        <form:errors path="username" cssClass="error"/>
+                    </div>
+                </div>
                 <div class="control-group">
                     <label class="control-label" for="firstName">First Name</label>
                     <div class="controls">
@@ -44,6 +51,13 @@
                     <div class="controls">
                         <form:input path="lastName"/>
                         <form:errors path="lastName" cssClass="error"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="password">Password</label>
+                    <div class="controls">
+                        <form:password path="password"/>
+                        <form:errors path="password" cssClass="error"/>
                     </div>
                 </div>
                 <div class="control-group">

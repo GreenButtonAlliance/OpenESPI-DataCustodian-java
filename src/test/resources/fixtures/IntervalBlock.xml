@@ -13,7 +13,7 @@
         <link rel="related" href="RetailCustomer/9b6c7063/UsagePoint/01/MeterReading"/>
         <link rel="related" href="RetailCustomer/9b6c7063/UsagePoint/01/ElectricPowerUsageSummary"/>
         <link rel="related" href="LocalTimeParameters/01"/>
-        <title>your house</title>
+        <title>Front Electric Meter</title>
         <content>
             <UsagePoint xmlns="http://naesb.org/espi">
                 <ServiceCategory>

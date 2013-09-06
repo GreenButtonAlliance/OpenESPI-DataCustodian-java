@@ -50,18 +50,7 @@
     <bean id="encoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder"/>
 
     <security:authentication-manager>
-        <security:authentication-provider>
-            <security:password-encoder ref="encoder"/>
-            <security:user-service>
-                <!-- Password: "koala" for both -->
-                <security:user name="alan"
-                               password="4efe081594ce25ee4efd9f7067f7f678a347bccf2de201f3adf2a3eb544850b465b4e51cdc3fcdde"
-                               authorities="ROLE_CUSTOMER"/>
-                <security:user name="grace"
-                               password="4efe081594ce25ee4efd9f7067f7f678a347bccf2de201f3adf2a3eb544850b465b4e51cdc3fcdde"
-                               authorities="ROLE_CUSTODIAN"/>
-            </security:user-service>
-        </security:authentication-provider>
+        <security:authentication-provider user-service-ref="retailCustomerServiceImpl"/>
     </security:authentication-manager>
 
 </beans>

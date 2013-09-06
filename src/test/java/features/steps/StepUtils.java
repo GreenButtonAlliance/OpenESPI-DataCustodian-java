@@ -19,13 +19,22 @@ package features.steps;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.springframework.core.io.ClassPathResource;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import static junit.framework.Assert.assertTrue;
 
 public class StepUtils {
 
     public final static String BASE_URL = "http://localhost:8080/DataCustodian";
+    private static WebDriver driver = WebDriverSingleton.getInstance();;
 
     public static void login(String username, String password) {
-        WebDriver driver = WebDriverSingleton.getInstance();
         driver.get(BASE_URL + "/j_spring_security_logout");
         driver.get(BASE_URL + "/");
         WebElement loginLink = driver.findElement(By.id("login"));
@@ -42,5 +51,66 @@ public class StepUtils {
 
     public static String flattenXml(String xml) {
         return xml.replace("\n", "").replaceAll("\\s+<", "<").replaceAll(">\\s+", ">");
+
+    }
+
+    public static void importUsagePoint(String username, String path) throws IOException {
+        WebElement customerLink = driver.findElement(By.linkText(username));
+        customerLink.click();
+
+        uploadUsagePoints(path);
+    }
+
+    public static void registerUser(String username, String firstName, String lastName, String password) {
+        StepUtils.login("grace", "koala");
+
+        driver.findElement(By.partialLinkText("Customer List")).click();
+        driver.findElement(By.partialLinkText("Add new customer")).click();
+
+        assertTrue(driver.getPageSource().contains("New Retail Customer"));
+
+        WebElement form = driver.findElement(By.name("new_customer"));
+
+        WebElement usernameField = form.findElement(By.name("username"));
+        usernameField.sendKeys(username);
+
+        WebElement firstNameField = form.findElement(By.name("firstName"));
+        firstNameField.sendKeys(firstName);
+
+        WebElement lastNameField = form.findElement(By.name("lastName"));
+        lastNameField.sendKeys(lastName);
+
+        WebElement passwordField = form.findElement(By.name("password"));
+        passwordField.sendKeys(password);
+
+        WebElement create = form.findElement(By.name("create"));
+        create.click();
+
+        assertTrue(driver.getPageSource().contains("Retail customer created"));
+    }
+
+    public static String newLastName() {
+        return "Doe" + System.currentTimeMillis();
+    }
+
+    public static String newFirstName() {
+        return "John" + System.currentTimeMillis();
+    }
+
+    public static String newUsername() {
+        return "User" + System.currentTimeMillis();
+    }
+
+    public static void uploadUsagePoints(String path) throws IOException {
+        File tmpFile = File.createTempFile("usage_point", ".xml");
+        ClassPathResource sourceFile = new ClassPathResource(path);
+        Files.copy(sourceFile.getInputStream(), Paths.get(tmpFile.getAbsolutePath()), REPLACE_EXISTING);
+
+        WebElement uploadLink = driver.findElement(By.linkText("Upload data"));
+        uploadLink.click();
+        WebElement file = driver.findElement(By.name("file"));
+        file.sendKeys(tmpFile.getAbsolutePath());
+        WebElement upload = driver.findElement(By.name("upload"));
+        upload.click();
     }
 }

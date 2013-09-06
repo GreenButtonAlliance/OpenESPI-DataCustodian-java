@@ -17,6 +17,7 @@
 package org.energyos.espi.datacustodian.repositories;
 
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 
@@ -27,4 +28,6 @@ public interface RetailCustomerRepository {
     void persist(RetailCustomer customer);
 
     RetailCustomer findById(Long id);
+
+    UserDetails findByUsername(String username);
 }

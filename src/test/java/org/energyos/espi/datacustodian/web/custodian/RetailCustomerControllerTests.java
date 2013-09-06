@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.web;
+package org.energyos.espi.datacustodian.web.custodian;
 
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
@@ -27,6 +27,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import java.util.List;
 
@@ -57,7 +58,7 @@ public class RetailCustomerControllerTests {
         ModelMap model = new ModelMap();
         controller.index(model);
 
-        assertEquals(7, ((List<RetailCustomer>) model.get("customers")).size());
+        assertEquals(8, ((List<RetailCustomer>) model.get("customers")).size());
     }
 
     @Test
@@ -69,7 +70,7 @@ public class RetailCustomerControllerTests {
     }
 
     @Test
-    public void create_whenValidCustomer_savesCustomerAndRedirects() throws Exception {
+    public void create_givenValidCustomer_savesCustomerAndRedirects() throws Exception {
         RetailCustomerService service = mock(RetailCustomerService.class);
 
         RetailCustomerController controller = new RetailCustomerController();
@@ -79,13 +80,13 @@ public class RetailCustomerControllerTests {
         BindingResult result = mock(BindingResult.class);
         when(result.hasErrors()).thenReturn(false);
 
-        String viewPath = controller.create(customer, result);
+        String viewPath = controller.create(customer, result, new RedirectAttributesModelMap());
         verify(service).persist(customer);
         assertEquals("Controller failed to redirect", "redirect:/custodian/retailcustomers", viewPath);
     }
 
     @Test
-    public void create_whenInvalidCustomer_rendersForm() throws Exception {
+    public void create_givenInvalidCustomer_rendersForm() throws Exception {
         RetailCustomerService service = mock(RetailCustomerService.class);
 
         RetailCustomerController controller = new RetailCustomerController();
@@ -95,7 +96,7 @@ public class RetailCustomerControllerTests {
         BindingResult result = mock(BindingResult.class);
         when(result.hasErrors()).thenReturn(true);
 
-        String viewPath = controller.create(customer, result);
+        String viewPath = controller.create(customer, result, new RedirectAttributesModelMap());
         verify(service, never()).persist(customer);
         assertEquals("Controller failed to render form", "retailcustomers/form", viewPath);
     }
