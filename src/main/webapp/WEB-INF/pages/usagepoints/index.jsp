@@ -22,7 +22,7 @@
 
 <body>
 
-<jsp:include page="../tiles/header.jsp"/>
+<jsp:include page="../tiles/customer/header.jsp"/>
 
 <div class="container">
     <div class="row">
