@@ -52,21 +52,21 @@ public class IntegrationSteps {
         xml = usagePointService.exportUsagePoints(retailCustomer);
     }
 
-    @Then("^Usage Point should be save in the database$")
-    public void Usage_Point_should_be_save_in_the_database() throws Throwable {
+    @Then("^Usage Point should be saved in the database$")
+    public void Usage_Point_should_be_saved_in_the_database() throws Throwable {
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(retailCustomer);
         assertEquals("Usage point not saved", 1, usagePoints.size());
     }
 
-    @And("^Meter Readings should be save in the database$")
-    public void Usage_Point_s_Meter_Readings_should_be_save_in_the_database() throws Throwable {
+    @And("^Meter Readings should be saved in the database$")
+    public void Usage_Point_s_Meter_Readings_should_be_saved_in_the_database() throws Throwable {
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(retailCustomer);
         MeterReading meterReading = usagePoints.get(0).getMeterReadings().get(0);
         assertNotNull("Meter reading not saved", meterReading);
     }
 
-    @And("^Interval Blocks should be save in the database$")
-    public void Interval_Blocks_should_be_save_in_the_database() throws Throwable {
+    @And("^Interval Blocks should be saved in the database$")
+    public void Interval_Blocks_should_be_saved_in_the_database() throws Throwable {
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(retailCustomer);
         MeterReading meterReading = usagePoints.get(0).getMeterReadings().get(0);
         IntervalBlock intervalBlock = meterReading.getIntervalBlocks().get(0);
@@ -96,8 +96,8 @@ public class IntegrationSteps {
         assertNotNull(createdRetailCustomer);
     }
 
-    @And("^Reading Type should be save in the database$")
-    public void Reading_Type_should_be_save_in_the_database() throws Throwable {
+    @And("^Reading Type should be saved in the database$")
+    public void Reading_Type_should_be_saved_in_the_database() throws Throwable {
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(retailCustomer);
         MeterReading meterReading = usagePoints.get(0).getMeterReadings().get(0);
         assertNotNull(meterReading.getReadingType());
