@@ -17,7 +17,6 @@
 package features.steps;
 
 import cucumber.api.java.Before;
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -33,6 +32,7 @@ public class RetailCustomerSteps {
 
     private WebDriver driver = WebDriverSingleton.getInstance();
     private String username;
+    String xmlResult;
 
     @Before
     public void setup() {
@@ -107,22 +107,13 @@ public class RetailCustomerSteps {
         WebElement downloadLink = driver.findElement(By.partialLinkText("Download XML"));
         downloadLink.click();
 
-        String xmlResult = driver.getPageSource();
+        xmlResult = driver.getPageSource();
 
-        assertXpathValue("House meter", "feed/entry[1]/title", xmlResult);
-        assertXpathValue("Gas meter", "feed/entry[2]/title", xmlResult);
+        assertXpathValue("Front Electric Meter", "feed/entry[1]/title", xmlResult);
     }
 
     @Given("^Usage Points with Service Categories$")
     public void Usage_Points_with_Service_Categories() throws Throwable {
-    }
-
-    @Then("^I should be able to download my Usage Points with Service Categories with Service Kind of Gas service$")
-    public void I_should_be_able_to_download_Usage_Points_with_Service_Categories_with_Service_Kind_of_Gas_service() throws Throwable {
-        WebElement downloadLink = driver.findElement(By.partialLinkText("Download XML"));
-        downloadLink.click();
-
-        assertXpathValue("1", "feed/entry[1]/content/UsagePoint/ServiceCategory/kind", driver.getPageSource());
     }
 
     @Then("^I should see Meter Reading$")
@@ -156,7 +147,7 @@ public class RetailCustomerSteps {
         assertTrue("MeterReading title missing", pageSource.contains("Fifteen Minute Electricity Consumption"));
     }
 
-    @And("^I should see Reading Type$")
+    @Then("^I should see Reading Type$")
     public void I_should_see_Reading_Type() throws Throwable {
         String pageSource = driver.getPageSource();
 
@@ -165,11 +156,26 @@ public class RetailCustomerSteps {
         assertTrue("Interharmonic missing", pageSource.contains("600/800"));
     }
 
-    @And("^I should see Interval Blocks$")
+    @Then("^I should see Interval Blocks$")
     public void I_should_see_Interval_Blocks() throws Throwable {
         String pageSource = driver.getPageSource();
 
         assertTrue("First interval block missing", pageSource.contains("1330578000"));
         assertTrue("Second interval block missing", pageSource.contains("1330664400"));
+    }
+
+    @Then("^the XML includes Service categories$")
+    public void the_XML_includes_Service_categories() throws Throwable {
+        assertXpathValue("0", "feed/entry[1]/content/UsagePoint/ServiceCategory/kind", xmlResult);
+    }
+
+    @Then("^the XML includes Meter Readings$")
+    public void the_XML_includes_Meter_Readings() throws Throwable {
+        assertXpathValue("Fifteen Minute Electricity Consumption", "feed/entry[2]/title", xmlResult);
+    }
+
+    @Then("^the XML includes Reading Types$")
+    public void the_XML_includes_Reading_Types() throws Throwable {
+        assertXpathValue("Energy Delivered (kWh)", "feed/entry[4]/title", xmlResult);
     }
 }
