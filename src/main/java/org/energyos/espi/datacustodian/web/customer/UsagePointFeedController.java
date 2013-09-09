@@ -19,6 +19,7 @@ package org.energyos.espi.datacustodian.web.customer;
 import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.service.UsagePointService;
+import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -30,9 +31,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
+import java.security.Principal;
+
 @Controller
 @RequestMapping("/customer/usagepoints/feed")
-public class UsagePointFeedController {
+public class UsagePointFeedController extends BaseController {
 
     @Autowired
     private UsagePointService usagePointService;
@@ -43,10 +46,7 @@ public class UsagePointFeedController {
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_ATOM_XML_VALUE)
     @ResponseBody
-    public String index() throws FeedException {
-        RetailCustomer customer = new RetailCustomer();
-        customer.setId(1L);
-
-        return usagePointService.exportUsagePoints(customer);
+    public String index(Principal principal) throws FeedException {
+        return usagePointService.exportUsagePoints(currentCustomer(principal));
     }
 }

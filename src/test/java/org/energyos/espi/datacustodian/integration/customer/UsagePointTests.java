@@ -40,13 +40,13 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @Transactional
 public class UsagePointTests {
     private MockMvc mockMvc;
+    protected TestingAuthenticationToken authentication;
 
     @Autowired
     protected WebApplicationContext wac;
     @Autowired
     protected RetailCustomerService retailCustomerService;
 
-    protected TestingAuthenticationToken authentication;
 
     @Before
     public void setup() {
@@ -105,7 +105,8 @@ public class UsagePointTests {
 
     @Test
     public void feed_returnsATOMContentType() throws Exception {
-        mockMvc.perform(get("/customer/usagepoints/feed"))
+        mockMvc.perform(get("/customer/usagepoints/feed").principal(authentication))
                 .andExpect(content().contentType("application/atom+xml"));
     }
+
 }

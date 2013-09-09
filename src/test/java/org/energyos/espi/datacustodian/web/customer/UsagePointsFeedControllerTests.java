@@ -19,6 +19,9 @@ package org.energyos.espi.datacustodian.web.customer;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.junit.Test;
+import org.springframework.security.core.Authentication;
+
+import java.security.Principal;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
@@ -38,7 +41,10 @@ public class UsagePointsFeedControllerTests {
 
         when(usagePointService.exportUsagePoints(any(RetailCustomer.class))).thenReturn(atomFeedResult);
 
-        assertEquals(atomFeedResult, controller.index());
+        Authentication auth = mock(Authentication.class);
+        when(auth.getPrincipal()).thenReturn(mock(RetailCustomer.class));
+
+        assertEquals(atomFeedResult, controller.index(auth));
         verify(usagePointService).exportUsagePoints(any(RetailCustomer.class));
     }
 }
