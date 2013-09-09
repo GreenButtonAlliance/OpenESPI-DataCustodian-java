@@ -7,3 +7,11 @@ notifications:
     recipients:
       - greenbutton-dev@googlegroups.com
     on_success: never
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: S93tu9osAiPrcMMvWYwY4KyB1ZH075qym7oaikD3jfRj/++f37v7ObquGWs/76OMavvvE1ESwdYz6Fxl4KD68k0Y3mycon1g0SR4nUxnsSiBTVou2/MB5+nBUYq9mUQZsplKwYZfB0DfLBWZIJPyRup16fw05O3cQCKDdcrfsu4=
+  app: datacustodian-dev
+  on:
+    repo: energyos/OpenESPI-DataCustodian-java
