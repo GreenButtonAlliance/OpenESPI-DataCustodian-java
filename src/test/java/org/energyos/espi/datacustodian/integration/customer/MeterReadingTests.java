@@ -1,7 +1,9 @@
 package org.energyos.espi.datacustodian.integration.customer;
 
 
+import org.energyos.espi.datacustodian.domain.MeterReading;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.datacustodian.service.MeterReadingService;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,38 +32,43 @@ public class MeterReadingTests {
     protected WebApplicationContext wac;
     @Autowired
     protected RetailCustomerService retailCustomerService;
+    @Autowired
+    protected MeterReadingService meterReadingService;
 
     protected TestingAuthenticationToken authentication;
+    private MeterReading meterReading;
 
     @Before
     public void setup() {
         this.mockMvc = webAppContextSetup(this.wac).build();
         RetailCustomer customer = retailCustomerService.findById(1L);
         authentication = new TestingAuthenticationToken(customer, null);
+        meterReading = new MeterReading();
+        meterReadingService.persist(meterReading);
     }
 
     @Test
     public void show_returnsOkStatus() throws Exception {
-        mockMvc.perform(get("/customer/meterreadings/1/show").principal(authentication))
+        mockMvc.perform(get("/customer/meterreadings/" + meterReading.getId() + "/show").principal(authentication))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void show_displaysMeterReadingShowPage() throws Exception {
-        mockMvc.perform(get("/customer/meterreadings/1/show").principal(authentication))
+    public void show_displaysShowView() throws Exception {
+        mockMvc.perform(get("/customer/meterreadings/" + meterReading.getId() + "/show").principal(authentication))
                 .andExpect(view().name("/customer/meterreadings/show"));
     }
 
     @Test
     public void show_setsCurrentCustomerModel() throws Exception {
-        mockMvc.perform(get("/customer/meterreadings/1/show").principal(authentication))
+        mockMvc.perform(get("/customer/meterreadings/" + meterReading.getId() + "/show").principal(authentication))
                 .andExpect(model().attributeExists("currentCustomer"));
     }
 
     @Test
     public void show_setsMeterReadingModel() throws Exception {
-        mockMvc.perform(get("/customer/meterreadings/1/show").principal(authentication))
-                .andExpect(model().attributeExists("intervalBlockList"));
+        mockMvc.perform(get("/customer/meterreadings/" + meterReading.getId() + "/show").principal(authentication))
+                .andExpect(model().attributeExists("meterReading"));
     }
 }
 
