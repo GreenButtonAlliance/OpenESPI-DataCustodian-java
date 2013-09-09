@@ -16,8 +16,6 @@
 
 package org.energyos.espi.datacustodian.utils;
 
-import org.energyos.espi.datacustodian.domain.MeterReading;
-import org.energyos.espi.datacustodian.domain.ReadingType;
 import org.energyos.espi.datacustodian.domain.ServiceCategory;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.models.atom.ContentType;
@@ -26,23 +24,11 @@ import org.energyos.espi.datacustodian.models.atom.FeedType;
 import org.energyos.espi.datacustodian.models.atom.LinkType;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
-@ContextConfiguration("/spring/test-context.xml")
 public class UsagePointBuilderTests {
-    @PersistenceContext
-    protected EntityManager em;
+
     private UsagePointBuilder builder;
 
     @Before
@@ -69,80 +55,6 @@ public class UsagePointBuilderTests {
         FeedType feed = newFeed(title);
 
         assertEquals(title, builder.newUsagePoints(feed).get(0).getDescription());
-    }
-
-    @Test
-    public void givenFeedWithUsagePointAndMeterReading_returnsUsagePointWithMeterReading() {
-        FeedType feed = newFeed("Super title");
-
-        MeterReading meterReading = new MeterReading();
-
-        feed.getEntries().add(newMeterReading(meterReading));
-        UsagePoint usagePoint = builder.newUsagePoints(feed).get(0);
-
-        assertEquals(meterReading, usagePoint.getMeterReadings().get(0));
-        assertEquals(usagePoint, meterReading.getUsagePoint());
-    }
-
-    @Test
-    public void givenFeedWithTitledMeterReading_addsEntryTitleToMeterReading() {
-        FeedType feed = newFeed("Super title");
-
-        MeterReading meterReading = new MeterReading();
-
-        feed.getEntries().add(newMeterReading(meterReading));
-        UsagePoint usagePoint = builder.newUsagePoints(feed).get(0);
-
-        assertEquals("Electricity consumption", usagePoint.getMeterReadings().get(0).getDescription());
-    }
-
-    @Test
-    public void givenFeedWithMeterReadingAndReadingType_returnsMeterReadingWithReadingType() {
-        FeedType feed = newFeed("Super title");
-        ReadingType readingType = new ReadingType();
-        MeterReading meterReading = new MeterReading();
-
-        feed.getEntries().add(newMeterReading(meterReading));
-        feed.getEntries().add(newReadingType(readingType));
-
-        UsagePoint usagePoint = builder.newUsagePoints(feed).get(0);
-
-        assertEquals(readingType, meterReading.getReadingType());
-    }
-
-    @Test
-    public void givenFeedWithTitledReadingType_addsEntryTitleToReadingType() {
-        ReadingType readingType = new ReadingType();
-        FeedType feed = newFeed("Test feed");
-
-        feed.getEntries().add(newReadingType(readingType));
-
-        List<UsagePoint> usagePoints = builder.newUsagePoints(feed);
-
-        assertEquals("Energy Delivered", readingType.getDescription());
-    }
-
-    private EntryType newReadingType(ReadingType readingType) {
-        EntryType readingTypeEntry = new EntryType();
-        ContentType readingTypeContentType = new ContentType();
-        readingTypeContentType.setReadingType(readingType);
-        readingTypeEntry.setContent(readingTypeContentType);
-        readingTypeEntry.setTitle("Energy Delivered");
-        readingTypeEntry.getLinks().add(newLinkType("self", "ReadingType/07"));
-        readingTypeEntry.getLinks().add(newLinkType("up", "ReadingType"));
-        return readingTypeEntry;
-    }
-
-    private EntryType newMeterReading(MeterReading meterReading) {
-        EntryType meterReadingEntry = new EntryType();
-        ContentType meterReadingContentType = new ContentType();
-        meterReadingContentType.setMeterReading(meterReading);
-        meterReadingEntry.setContent(meterReadingContentType);
-        meterReadingEntry.setTitle("Electricity consumption");
-        meterReadingEntry.getLinks().add(newLinkType("self", "RetailCustomer/9b6c7063/UsagePoint/01/MeterReading/01"));
-        meterReadingEntry.getLinks().add(newLinkType("up", "RetailCustomer/9b6c7063/UsagePoint/01/MeterReading"));
-        meterReadingEntry.getLinks().add(newLinkType("related", "ReadingType/07"));
-        return meterReadingEntry;
     }
 
     private FeedType newFeed(String title) {
