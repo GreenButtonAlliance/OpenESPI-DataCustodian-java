@@ -16,10 +16,8 @@
 
 package features.steps;
 
-import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import cucumber.runtime.PendingException;
 import org.energyos.espi.datacustodian.console.ImportUsagePoint;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -29,9 +27,8 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static features.steps.StepUtils.*;
+import static features.steps.StepUtils.login;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class ImportUsagePointSteps {
@@ -51,7 +48,7 @@ public class ImportUsagePointSteps {
     public void I_should_see_the_imported_data() throws Throwable {
         login("alan", "koala");
         driver.findElement(By.linkText("Usage Points")).click();
-        driver.findElement(By.linkText("your house")).click();
+        driver.findElement(By.linkText("Front Electric Meter")).click();
         driver.findElement(By.linkText("Fifteen Minute Electricity Consumption")).click();
         assertTrue(driver.getPageSource().contains("86400"));
         assertTrue(driver.getPageSource().contains("1331697600"));
