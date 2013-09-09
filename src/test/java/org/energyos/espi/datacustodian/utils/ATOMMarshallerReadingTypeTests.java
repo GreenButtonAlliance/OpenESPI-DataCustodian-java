@@ -16,9 +16,9 @@
 
 package org.energyos.espi.datacustodian.utils;
 
-import org.energyos.espi.datacustodian.domain.MeterReading;
+import org.energyos.espi.datacustodian.domain.RationalNumber;
+import org.energyos.espi.datacustodian.domain.ReadingType;
 import org.energyos.espi.datacustodian.models.atom.FeedType;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +32,13 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
-public class ATOMMarshallerMeterReadingTests {
+public class ATOMMarshallerReadingTypeTests {
 
     String FEED_PREFIX = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
             "<?xml-stylesheet type=\"text/xsl\" href=\"GreenButtonDataStyleSheet.xslt\"?>" +
@@ -49,37 +50,49 @@ public class ATOMMarshallerMeterReadingTests {
     @Autowired
     private ATOMMarshaller marshaller;
 
-    @Before
-    public void before() throws IOException, JAXBException {
-    }
-
     @Test
-    public void unmarshall_unmarshallsMeterReading() throws JAXBException {
+    public void unmarshall_unmarshallsReadingType() throws JAXBException {
         String xml = FEED_PREFIX +
                 "    <entry>\n" +
-                "        <id>urn:uuid:E8B19EF0-6833-41CE-A28B-A5E7F9F193AE</id>\n" +
-                "        <link rel=\"self\" href=\"RetailCustomer/9b6c7063/UsagePoint/01/MeterReading/01\"/>\n" +
-                "        <link rel=\"up\" href=\"RetailCustomer/9b6c7063/UsagePoint/01/MeterReading\"/>\n" +
-                "        <link rel=\"related\" href=\"RetailCustomer/9b6c7063/UsagePoint/01/MeterReading/01/IntervalBlock\"/>\n" +
-                "        <link rel=\"related\" href=\"ReadingType/07\"/>\n" +
-                "        <title>Fifteen Minute Electricity Consumption</title>\n" +
+                "        <id>urn:uuid:82B3E74B-DFC0-4DD4-8651-91A67B40374D</id>\n" +
+                "        <link rel=\"self\" href=\"ReadingType/07\"/>\n" +
+                "        <link rel=\"up\" href=\"ReadingType\"/>\n" +
+                "        <title>Energy Delivered (kWh)</title>\n" +
                 "        <content>\n" +
-                "            <MeterReading xmlns=\"http://naesb.org/espi\"/>\n" +
+                "            <ReadingType xmlns=\"http://naesb.org/espi\">\n" +
+                "                <accumulationBehaviour>4</accumulationBehaviour>\n" +
+                "                <commodity>1</commodity>\n" +
+                "                <currency>840</currency>\n" +
+                "                <dataQualifier>12</dataQualifier>\n" +
+                "                <flowDirection>1</flowDirection>\n" +
+                "                <intervalLength>900</intervalLength>\n" +
+                "                <kind>12</kind>\n" +
+                "                <phase>769</phase>\n" +
+                "                <powerOfTenMultiplier>0</powerOfTenMultiplier>\n" +
+                "                <timeAttribute>0</timeAttribute>\n" +
+                "                <uom>72</uom>\n" +
+                "                <argument>\n" +
+                "                    <numerator>1</numerator>\n" +
+                "                    <denominator>2</denominator>\n" +
+                "                </argument>\n" +
+                "            </ReadingType>\n" +
                 "        </content>\n" +
                 "        <published>2012-10-24T00:00:00Z</published>\n" +
                 "        <updated>2012-10-24T00:00:00Z</updated>\n" +
-                "    </entry>\n" +
+                "    </entry>" +
                 FEED_POSTFIX;
 
         InputStream xmlStream = new ByteArrayInputStream(xml.getBytes());
         FeedType feed = marshaller.unmarshal(xmlStream);
-        assertEquals(MeterReading.class, feed.getEntries().get(0).getContent().getMeterReading().getClass());
+        ReadingType readingType = feed.getEntries().get(0).getContent().getReadingType();
+        assertNotNull(readingType);
+        assertEquals(RationalNumber.class, readingType.getArgument().getClass());
     }
 
     @Test
     public void unmarshal_unmarshallsMeterReadingFromFixture() throws IOException, JAXBException {
         ClassPathResource sourceFile = new ClassPathResource("/fixtures/15minLP_15Days.xml");
         FeedType feedType = marshaller.unmarshal(sourceFile.getInputStream());
-        assertEquals(MeterReading.class, feedType.getEntries().get(2).getContent().getMeterReading().getClass());
+        assertEquals(ReadingType.class, feedType.getEntries().get(4).getContent().getReadingType().getClass());
     }
 }

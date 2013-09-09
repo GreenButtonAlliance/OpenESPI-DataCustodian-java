@@ -228,28 +228,6 @@ public class ATOMMarshallerTests {
         assertEquals(ServiceCategory.class, feed.getEntries().get(0).getContent().getUsagePoint().getServiceCategory().getClass());
     }
 
-    @Test
-    public void importsMeterReading() throws JAXBException {
-        String xml = FEED_PREFIX +
-                "    <entry>\n" +
-                "        <id>urn:uuid:E8B19EF0-6833-41CE-A28B-A5E7F9F193AE</id>\n" +
-                "        <link rel=\"self\" href=\"RetailCustomer/9b6c7063/UsagePoint/01/MeterReading/01\"/>\n" +
-                "        <link rel=\"up\" href=\"RetailCustomer/9b6c7063/UsagePoint/01/MeterReading\"/>\n" +
-                "        <link rel=\"related\" href=\"RetailCustomer/9b6c7063/UsagePoint/01/MeterReading/01/IntervalBlock\"/>\n" +
-                "        <link rel=\"related\" href=\"ReadingType/07\"/>\n" +
-                "        <title>Fifteen Minute Electricity Consumption</title>\n" +
-                "        <content>\n" +
-                "            <MeterReading xmlns=\"http://naesb.org/espi\"/>\n" +
-                "        </content>\n" +
-                "        <published>2012-10-24T00:00:00Z</published>\n" +
-                "        <updated>2012-10-24T00:00:00Z</updated>\n" +
-                "    </entry>\n" +
-                FEED_POSTFIX;
-
-        InputStream xmlStream = new ByteArrayInputStream(xml.getBytes());
-        FeedType feed = marshaller.unmarshal(xmlStream);
-        assertEquals(MeterReading.class, feed.getEntries().get(0).getContent().getMeterReading().getClass());
-    }
 
     @Test
     public void importsReadingType() throws JAXBException {
