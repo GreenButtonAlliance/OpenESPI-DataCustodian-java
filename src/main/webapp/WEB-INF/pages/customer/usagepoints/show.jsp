@@ -35,12 +35,6 @@
                 <tr>
                     <th>Description</th>
                     <th>Reading Type</th>
-                    <th>Accumulation Behaviour</th>
-                    <th>Commodity</th>
-                    <th>Currency</th>
-                    <th>Data Qualifier</th>
-                    <th>Argument</th>
-                    <th>Interharmonic</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -52,14 +46,6 @@
                             </a>
                         </td>
                         <td><c:out value="${meterReading.readingType.description}"/></td>
-                        <td><c:out value="${meterReading.readingType.accumulationBehaviour}"/></td>
-                        <td><c:out value="${meterReading.readingType.commodity}"/></td>
-                        <td><c:out value="${meterReading.readingType.currency}"/></td>
-                        <td><c:out value="${meterReading.readingType.dataQualifier}"/></td>
-                        <td><c:out
-                                value="${meterReading.readingType.argument.numerator}/${meterReading.readingType.argument.denominator}"/></td>
-                        <td><c:out
-                                value="${meterReading.readingType.interharmonic.numerator}/${meterReading.readingType.interharmonic.denominator}"/></td>
                     </tr>
                 </c:forEach>
                 </tbody>
