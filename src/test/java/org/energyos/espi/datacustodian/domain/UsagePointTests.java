@@ -16,7 +16,6 @@
 
 package org.energyos.espi.datacustodian.domain;
 
-import org.hibernate.validator.constraints.NotEmpty;
 import org.junit.Test;
 
 import javax.validation.ConstraintViolation;
@@ -26,7 +25,6 @@ import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
-import static org.energyos.espi.datacustodian.support.TestUtils.assertSizeValidation;
 import static org.junit.Assert.assertTrue;
 
 public class UsagePointTests {
@@ -35,7 +33,7 @@ public class UsagePointTests {
     public void title_should_beValid() throws Exception {
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         UsagePoint usagePoint = new UsagePoint();
-        usagePoint.setTitle("Usage point title");
+        usagePoint.setDescription("Usage point title");
         usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
 
         Set<ConstraintViolation<UsagePoint>> violations = validator.validate(usagePoint);
@@ -45,8 +43,6 @@ public class UsagePointTests {
 
     @Test
     public void validations() {
-        assertAnnotationPresent(UsagePoint.class, "title", NotEmpty.class);
         assertAnnotationPresent(UsagePoint.class, "serviceCategory", NotNull.class);
-        assertSizeValidation(UsagePoint.class, "title", 0, 100);
     }
 }

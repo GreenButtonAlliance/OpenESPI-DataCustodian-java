@@ -83,14 +83,16 @@ public class UsagePointServiceImplTests {
     public void importUsagePoints_persistsUsagePoint() throws JAXBException, FileNotFoundException {
         RetailCustomer customer = new RetailCustomer();
         UsagePoint usagePoint = new UsagePoint();
+        List<UsagePoint> usagePoints = new ArrayList<UsagePoint>();
+        usagePoints.add(usagePoint);
 
         UsagePointBuilder builder = mock(UsagePointBuilder.class);
 
-        when(builder.newUsagePoint(any(FeedType.class))).thenReturn(usagePoint);
+        when(builder.newUsagePoints(any(FeedType.class))).thenReturn(usagePoints);
 
         service.setUsagePointBuilder(builder);
 
-        service.importUsagePoint(customer, mock(InputStream.class));
+        service.importUsagePoints(customer, mock(InputStream.class));
 
         verify(repository).persist(usagePoint);
         assertEquals(customer, usagePoint.getRetailCustomer());

@@ -31,7 +31,7 @@ public class MeterReadingRepositoryImpl implements MeterReadingRepository {
     protected EntityManager em;
 
     @Override
-    public MeterReading findAllById(Long meterReadingId) {
+    public MeterReading findById(Long meterReadingId) {
         return em.find(MeterReading.class, meterReadingId);
     }
 

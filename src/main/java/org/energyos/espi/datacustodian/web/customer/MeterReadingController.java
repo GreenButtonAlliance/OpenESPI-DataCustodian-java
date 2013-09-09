@@ -16,7 +16,7 @@
 
 package org.energyos.espi.datacustodian.web.customer;
 
-import org.energyos.espi.datacustodian.service.IntervalBlockService;
+import org.energyos.espi.datacustodian.service.MeterReadingService;
 import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,11 +30,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class MeterReadingController extends BaseController {
 
     @Autowired
-    protected IntervalBlockService intervalBlockService;
+    protected MeterReadingService meterReadingService;
 
     @RequestMapping(value = "{meterReadingId}/show", method = RequestMethod.GET)
     public String show(@PathVariable Long meterReadingId, ModelMap model) {
-        model.put("intervalBlockList", intervalBlockService.findAllByMeterReadingId(meterReadingId));
+        model.put("meterReading", meterReadingService.findById(meterReadingId));
         return "/customer/meterreadings/show";
+    }
+
+    public void setMeterReadingService(MeterReadingService meterReadingService) {
+        this.meterReadingService = meterReadingService;
     }
 }

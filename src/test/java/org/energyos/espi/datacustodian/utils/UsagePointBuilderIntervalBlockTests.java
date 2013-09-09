@@ -18,102 +18,59 @@ package org.energyos.espi.datacustodian.utils;
 
 import org.energyos.espi.datacustodian.domain.IntervalBlock;
 import org.energyos.espi.datacustodian.domain.MeterReading;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.models.atom.ContentType;
-import org.energyos.espi.datacustodian.models.atom.EntryType;
 import org.energyos.espi.datacustodian.models.atom.FeedType;
-import org.energyos.espi.datacustodian.models.atom.LinkType;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import javax.xml.bind.JAXBException;
+import java.io.IOException;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
 public class UsagePointBuilderIntervalBlockTests {
 
-    @Test
-    public void meterReading_hasInervalBlocks() {
+    @Autowired
+    private ATOMMarshaller marshaller;
+    private IntervalBlock firstIntervalBlock;
+    private IntervalBlock secondIntervalBlock;
 
-        FeedType feedType = new FeedType();
-
-        EntryType usagePointEntry = new EntryType();
-        EntryType meterReadingEntry = new EntryType();
-        EntryType intervalBlockEntry = new EntryType();
-
-
-        LinkType usagePointSelfLink = new LinkType();
-        usagePointSelfLink.setRel("self");
-        usagePointSelfLink.setHref("RetailCustomer/9b6c7063/UsagePoint/01");
-
-        usagePointEntry.getLinks().add(usagePointSelfLink);
-
-        LinkType usagePointRelatedLink = new LinkType();
-        usagePointRelatedLink.setRel("related");
-        usagePointRelatedLink.setHref("RetailCustomer/9b6c7063/UsagePoint/01/MeterReading");
-
-        usagePointEntry.getLinks().add(usagePointRelatedLink);
-
-
-        LinkType meterReadingSelfLink = new LinkType();
-        meterReadingSelfLink.setRel("self");
-        meterReadingSelfLink.setHref("RetailCustomer/9b6c7063/UsagePoint/01/MeterReading/01");
-
-        meterReadingEntry.getLinks().add(meterReadingSelfLink);
-
-        LinkType meterReadingUpLink = new LinkType();
-        meterReadingUpLink.setRel("up");
-        meterReadingUpLink.setHref("RetailCustomer/9b6c7063/UsagePoint/01/MeterReading");
-
-        meterReadingEntry.getLinks().add(meterReadingUpLink);
-
-        LinkType meterReadingRelatedLink = new LinkType();
-        meterReadingRelatedLink.setRel("related");
-        meterReadingRelatedLink.setHref("RetailCustomer/9b6c7063/UsagePoint/01/MeterReading/01/IntervalBlock");
-
-        meterReadingEntry.getLinks().add(meterReadingRelatedLink);
-
-
-        LinkType intervalBlockSelfLink = new LinkType();
-        intervalBlockSelfLink.setRel("self");
-        intervalBlockSelfLink.setHref("RetailCustomer/9b6c7063/UsagePoint/01/MeterReading/01/IntervalBlock/0173");
-
-        intervalBlockEntry.getLinks().add(intervalBlockSelfLink);
-
-        LinkType intervalBlockUpLink = new LinkType();
-        intervalBlockUpLink.setRel("up");
-        intervalBlockUpLink.setHref("RetailCustomer/9b6c7063/UsagePoint/01/MeterReading/01/IntervalBlock");
-
-
-        intervalBlockEntry.getLinks().add(intervalBlockUpLink);
-
-        ContentType usagePointContent = new ContentType();
-        ContentType meterReadingContent = new ContentType();
-        ContentType intervalBlockContent = new ContentType();
-
-        usagePointContent.setUsagePoint(new UsagePoint());
-        meterReadingContent.setMeterReading(new MeterReading());
-        IntervalBlock intervalBlock = new IntervalBlock();
-        intervalBlockContent.setIntervalBlock(intervalBlock);
-
-        usagePointEntry.setContent(usagePointContent);
-        meterReadingEntry.setContent(meterReadingContent);
-        intervalBlockEntry.setContent(intervalBlockContent);
-
-        feedType.getEntries().add(usagePointEntry);
-        feedType.getEntries().add(meterReadingEntry);
-        feedType.getEntries().add(intervalBlockEntry);
-
+    @Before
+    public void before() throws IOException, JAXBException {
+        ClassPathResource sourceFile = new ClassPathResource("/fixtures/15minLP_15Days.xml");
+        FeedType feedType = marshaller.unmarshal(sourceFile.getInputStream());
 
         UsagePointBuilder builder = new UsagePointBuilder();
-        UsagePoint usagePoint = builder.newUsagePoint(feedType);
-        MeterReading meterReading = usagePoint.getMeterReadings().get(0);
 
-        assertEquals(intervalBlock, meterReading.getIntervalBlocks().get(0));
+        firstIntervalBlock = builder.newUsagePoints(feedType).get(0).getMeterReadings().get(0).getIntervalBlocks().get(0);
+        secondIntervalBlock = builder.newUsagePoints(feedType).get(0).getMeterReadings().get(0).getIntervalBlocks().get(1);
+    }
+
+    @Test
+    public void buildsIntervalBlocks() throws IOException, JAXBException {
+        assertEquals(IntervalBlock.class, firstIntervalBlock.getClass());
+        assertEquals(IntervalBlock.class, secondIntervalBlock.getClass());
+    }
+
+    @Test
+    public void setsMeterReadings() throws IOException, JAXBException {
+        assertEquals(MeterReading.class, firstIntervalBlock.getMeterReading().getClass());
+        assertEquals(MeterReading.class, secondIntervalBlock.getMeterReading().getClass());
+    }
+
+    @Test
+    public void setsDescription() throws IOException, JAXBException {
+        assertNotNull(firstIntervalBlock.getDescription());
+        assertNotNull(secondIntervalBlock.getDescription());
     }
 }
 

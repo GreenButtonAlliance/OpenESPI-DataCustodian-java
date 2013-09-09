@@ -16,104 +16,89 @@
 
 package org.energyos.espi.datacustodian.utils;
 
+import org.energyos.espi.datacustodian.domain.IntervalBlock;
 import org.energyos.espi.datacustodian.domain.MeterReading;
+import org.energyos.espi.datacustodian.domain.ReadingType;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.models.atom.ContentType;
 import org.energyos.espi.datacustodian.models.atom.EntryType;
 import org.energyos.espi.datacustodian.models.atom.FeedType;
-import org.energyos.espi.datacustodian.models.atom.LinkType;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class UsagePointBuilder {
 
-    public UsagePoint newUsagePoint(FeedType feed) {
-        EntryType usagePointEntry = null;
-        Map<String, Object> lookup = new HashMap<String, Object>();
+    private EntryLookupTable lookup;
+    private List<UsagePoint> usagePoints;
 
-        addSelfLinks(feed, lookup);
-        addRelatedLinks(feed, lookup);
-        associate(feed, lookup);
-        usagePointEntry = findUsagePoint(feed, usagePointEntry);
+    public List<UsagePoint> newUsagePoints(FeedType feed) {
+        usagePoints = new ArrayList<>();
+        lookup = new EntryLookupTable(feed.getEntries());
 
-        if (usagePointEntry != null)
-        {
-            UsagePoint usagePoint = usagePointEntry.getContent().getUsagePoint();
-            usagePoint.setTitle(usagePointEntry.getTitle());
-            return usagePoint;
+        associate(feed);
+
+        return usagePoints;
+    }
+
+    private void associate(FeedType feed) {
+        for (EntryType entry : feed.getEntries()) {
+            ContentType content = entry.getContent();
+
+            if (content.getUsagePoint() != null) {
+                handleUsagePoint(entry);
+            } else if (content.getMeterReading() != null) {
+                handleMeterReading(entry);
+            } else if (content.getReadingType() != null) {
+                handleReadingType(entry);
+            } else if (content.getIntervalBlocks() != null) {
+                handleIntervalBlock(entry);
+            }
         }
+    }
 
+    private void handleIntervalBlock(EntryType entry) {
+        MeterReading meterReading = lookup.getUpEntry(entry).getContent().getMeterReading();
+
+        for (IntervalBlock intervalBlock : entry.getContent().getIntervalBlocks()) {
+            intervalBlock.setDescription(entry.getTitle());
+            meterReading.addIntervalBlock(intervalBlock);
+        }
+    }
+
+    private void handleReadingType(EntryType entry) {
+        entry.getContent().getReadingType().setDescription(entry.getTitle());
+    }
+
+    private void handleUsagePoint(EntryType entry) {
+        UsagePoint usagePoint = entry.getContent().getUsagePoint();
+
+        usagePoint.setDescription(entry.getTitle());
+
+        usagePoints.add(usagePoint);
+    }
+
+    private void handleMeterReading(EntryType entry) {
+        ContentType content = entry.getContent();
+        MeterReading meterReading = content.getMeterReading();
+
+        meterReading.setDescription(entry.getTitle());
+
+        EntryType usagePointEntry = lookup.getUpEntry(entry);
+        usagePointEntry.getContent().getUsagePoint().addMeterReading(content.getMeterReading());
+
+        meterReading.setReadingType(findReadingType(entry));
+        findReadingType(entry);
+    }
+
+    private ReadingType findReadingType(EntryType entry) {
+        for (EntryType relatedEntry : lookup.getRelatedEntries(entry)) {
+            if (relatedEntry != entry) {
+                return relatedEntry.getContent().getReadingType();
+            }
+        }
         return null;
-    }
-
-    private void associateWithParent(Map<String, Object> lookup, EntryType entryType, LinkType upLink) {
-        ContentType content = entryType.getContent();
-
-        if (content.getMeterReading() != null) {
-            UsagePoint usagePoint = ((EntryType) lookup.get(upLink.getHref())).getContent().getUsagePoint();
-            usagePoint.getMeterReadings().add(content.getMeterReading());
-            content.getMeterReading().setUsagePoint(usagePoint);
-            content.getMeterReading().setTitle(entryType.getTitle());
-        }
-        if (content.getIntervalBlock() != null) {
-            MeterReading meterReading = ((EntryType) lookup.get(upLink.getHref())).getContent().getMeterReading();
-            meterReading.getIntervalBlocks().add(content.getIntervalBlock());
-            content.getIntervalBlock().setMeterReading(meterReading);
-        }
-    }
-
-    private EntryType findUsagePoint(FeedType feed, EntryType usagePointEntry) {
-        for(EntryType entryType : feed.getEntries()) {
-            if (entryType.getContent().getUsagePoint() != null)
-                usagePointEntry = entryType;
-        }
-        return usagePointEntry;
-    }
-
-    private void associate(FeedType feed, Map<String, Object> lookup) {
-        for(EntryType entryType : feed.getEntries()) {
-            associateWithParent(lookup, entryType, findUpLink(entryType));
-        }
-    }
-
-    private void addRelatedLinks(FeedType feed, Map<String, Object> lookup) {
-        for(EntryType entry : feed.getEntries()) {
-            for(LinkType link : entry.getLinks()){
-                if(link.getRel().equals("related") && !lookup.containsKey(link.getHref())){
-                    lookup.put(link.getHref(), entry);
-                }
-            }
-        }
-    }
-
-    private void addSelfLinks(FeedType feed, Map<String, Object> lookup) {
-        for(EntryType entry : feed.getEntries()) {
-            lookup.put(findSelfLink(entry).getHref(), entry);
-        }
-    }
-
-    private LinkType findUpLink(EntryType entryType) {
-        LinkType selfLink = null;
-        for (LinkType link : entryType.getLinks()) {
-            if (link.getRel().equals("up")) {
-                selfLink = link;
-                break;
-            }
-        }
-        return selfLink;
-    }
-
-    private LinkType findSelfLink(EntryType entryType) {
-        LinkType selfLink = null;
-        for (LinkType link : entryType.getLinks()) {
-            if (link.getRel().equals("self")) {
-                selfLink = link;
-                break;
-            }
-        }
-        return selfLink;
     }
 }

@@ -24,6 +24,8 @@
 
 package org.energyos.espi.datacustodian.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
@@ -32,9 +34,9 @@ import java.math.BigInteger;
 
 /**
  * <p>Java class for RationalNumber complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="RationalNumber">
  *   &lt;complexContent>
@@ -47,26 +49,25 @@ import java.math.BigInteger;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RationalNumber", propOrder = {
-    "numerator",
-    "denominator"
+        "numerator",
+        "denominator"
 })
+@Embeddable
 public class RationalNumber {
 
+    @Column(name = "rational_numerator")
     protected BigInteger numerator;
-    protected java.lang.Object denominator;
+    @Column(name = "rational_denominator")
+    protected BigInteger denominator;
 
     /**
      * Gets the value of the numerator property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
+     *
+     * @return possible object is
+     *         {@link BigInteger }
      */
     public BigInteger getNumerator() {
         return numerator;
@@ -74,11 +75,9 @@ public class RationalNumber {
 
     /**
      * Sets the value of the numerator property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link BigInteger }
      */
     public void setNumerator(BigInteger value) {
         this.numerator = value;
@@ -86,25 +85,21 @@ public class RationalNumber {
 
     /**
      * Gets the value of the denominator property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link java.lang.Object }
-     *     
+     *
+     * @return possible object is
+     *         {@link java.lang.Object }
      */
-    public java.lang.Object getDenominator() {
+    public BigInteger getDenominator() {
         return denominator;
     }
 
     /**
      * Sets the value of the denominator property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link java.lang.Object }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link java.lang.Object }
      */
-    public void setDenominator(java.lang.Object value) {
+    public void setDenominator(BigInteger value) {
         this.denominator = value;
     }
 

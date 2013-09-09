@@ -30,6 +30,33 @@
             <h2>Meter Reading</h2>
 
             <table class="table table-striped">
+                <caption class="text-left">Reading Type:</caption>
+                <thead>
+                <tr>
+                    <th>Reading Type</th>
+                    <th>Accumulation Behaviour</th>
+                    <th>Commodity</th>
+                    <th>Currency</th>
+                    <th>Data Qualifier</th>
+                    <th>Argument</th>
+                    <th>Interharmonic</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><c:out value="${meterReading.readingType.description}"/></td>
+                        <td><c:out value="${meterReading.readingType.accumulationBehaviour}"/></td>
+                        <td><c:out value="${meterReading.readingType.commodity}"/></td>
+                        <td><c:out value="${meterReading.readingType.currency}"/></td>
+                        <td><c:out value="${meterReading.readingType.dataQualifier}"/></td>
+                        <td><c:out value="${meterReading.readingType.argument.numerator}/${meterReading.readingType.argument.denominator}"/></td>
+                        <td><c:out value="${meterReading.readingType.interharmonic.numerator}/${meterReading.readingType.interharmonic.denominator}"/></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table table-striped">
+                <caption class="text-left">Interval Blocks:</caption>
                 <thead>
                 <tr>
                     <th>Duration</th>
@@ -37,7 +64,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="intervalBlock" items="${intervalBlockList}">
+                <c:forEach var="intervalBlock" items="${meterReading.intervalBlocks}">
                     <tr>
                         <td>
                             <c:out value="${intervalBlock.interval.duration}"/>

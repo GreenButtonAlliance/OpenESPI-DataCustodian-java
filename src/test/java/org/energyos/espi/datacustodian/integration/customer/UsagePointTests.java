@@ -16,10 +16,13 @@
 
 package org.energyos.espi.datacustodian.integration.customer;
 
+import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -28,8 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -41,16 +43,69 @@ public class UsagePointTests {
 
     @Autowired
     protected WebApplicationContext wac;
+    @Autowired
+    protected RetailCustomerService retailCustomerService;
+
+    protected TestingAuthenticationToken authentication;
 
     @Before
     public void setup() {
         this.mockMvc = webAppContextSetup(this.wac).build();
+        RetailCustomer customer = retailCustomerService.findById(1L);
+        authentication = new TestingAuthenticationToken(customer, null);
     }
 
     @Test
-    public void displayAtomFeed() throws Exception {
+    public void index_returnsOkStatus() throws Exception {
+        mockMvc.perform(get("/customer/usagepoints").principal(authentication))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void index_displaysIndexView() throws Exception {
+        mockMvc.perform(get("/customer/usagepoints").principal(authentication))
+                .andExpect(view().name("/customer/usagepoints/index"));
+    }
+
+    @Test
+    public void index_setsUsagePointListModel() throws Exception {
+        mockMvc.perform(get("/customer/usagepoints").principal(authentication))
+                .andExpect(model().attributeExists("usagePointList"));
+    }
+
+    @Test
+    public void show_returnsOkStatus() throws Exception {
+        mockMvc.perform(get("/customer/usagepoints/1/show").principal(authentication))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void show_displaysShowView() throws Exception {
+        mockMvc.perform(get("/customer/usagepoints/1/show").principal(authentication))
+                .andExpect(view().name("/customer/usagepoints/show"));
+    }
+
+    @Test
+    public void show_setsCurrentCustomerModel() throws Exception {
+        mockMvc.perform(get("/customer/usagepoints/1/show").principal(authentication))
+                .andExpect(model().attributeExists("currentCustomer"));
+    }
+
+    @Test
+    public void show_setsUsagePointModel() throws Exception {
+        mockMvc.perform(get("/customer/usagepoints/1/show").principal(authentication))
+                .andExpect(model().attributeExists("usagePoint"));
+    }
+
+    @Test
+    public void feed_returnsOkStatus() throws Exception {
+        mockMvc.perform(get("/customer/usagepoints/feed").principal(authentication))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void feed_returnsATOMContentType() throws Exception {
         mockMvc.perform(get("/customer/usagepoints/feed"))
-                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/atom+xml"));
     }
 }

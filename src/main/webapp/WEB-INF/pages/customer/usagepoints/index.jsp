@@ -18,11 +18,11 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<jsp:include page="../tiles/head.jsp"/>
+<jsp:include page="../../tiles/head.jsp"/>
 
 <body>
 
-<jsp:include page="../tiles/customer/header.jsp"/>
+<jsp:include page="../../tiles/header.jsp"/>
 
 <div class="container">
     <div class="row">
@@ -35,6 +35,7 @@
                 <thead>
                 <tr>
                     <th>Title</th>
+                    <th>Service Category</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -42,7 +43,7 @@
                     <tr>
                         <td>
                             <a href="<c:url value='/customer/usagepoints/${usagePoint.id}/show'/>">
-                            <c:out value="${usagePoint.title}"/>
+                                <c:out value="${usagePoint.description}"/>
                             </a>
                         </td>
                         <td>
@@ -57,7 +58,7 @@
 
     <hr>
 
-    <jsp:include page="../tiles/footer.jsp"/>
+    <jsp:include page="../../tiles/footer.jsp"/>
 
 </div>
 

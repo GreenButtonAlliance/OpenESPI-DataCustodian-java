@@ -16,9 +16,9 @@ import org.springframework.core.io.ClassPathResource;
 
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class IntegrationSteps {
 
@@ -44,7 +44,7 @@ public class IntegrationSteps {
 
         ClassPathResource sourceFile = new ClassPathResource("/fixtures/15minLP_15Days.xml");
 
-        usagePointService.importUsagePoint(retailCustomer, sourceFile.getInputStream());
+        usagePointService.importUsagePoints(retailCustomer, sourceFile.getInputStream());
     }
 
     @And("^I export Usage Point$")
@@ -55,23 +55,20 @@ public class IntegrationSteps {
     @Then("^Usage Point should be save in the database$")
     public void Usage_Point_should_be_save_in_the_database() throws Throwable {
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(retailCustomer);
-        assertEquals(1, usagePoints.size());
+        assertEquals("Usage point not saved", 1, usagePoints.size());
     }
 
     @And("^Meter Readings should be save in the database$")
     public void Usage_Point_s_Meter_Readings_should_be_save_in_the_database() throws Throwable {
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(retailCustomer);
         MeterReading meterReading = usagePoints.get(0).getMeterReadings().get(0);
-        assertNotNull(meterReading);
-        IntervalBlock intervalBlock = meterReading.getIntervalBlocks().get(0);
-        assertNotNull(intervalBlock);
+        assertNotNull("Meter reading not saved", meterReading);
     }
 
     @And("^Interval Blocks should be save in the database$")
     public void Interval_Blocks_should_be_save_in_the_database() throws Throwable {
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(retailCustomer);
         MeterReading meterReading = usagePoints.get(0).getMeterReadings().get(0);
-        assertNotNull(meterReading);
         IntervalBlock intervalBlock = meterReading.getIntervalBlocks().get(0);
         assertNotNull(intervalBlock);
     }
@@ -97,5 +94,12 @@ public class IntegrationSteps {
         RetailCustomer createdRetailCustomer = retailCustomerService.findById(retailCustomer.getId());
 
         assertNotNull(createdRetailCustomer);
+    }
+
+    @And("^Reading Type should be save in the database$")
+    public void Reading_Type_should_be_save_in_the_database() throws Throwable {
+        List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(retailCustomer);
+        MeterReading meterReading = usagePoints.get(0).getMeterReadings().get(0);
+        assertNotNull(meterReading.getReadingType());
     }
 }

@@ -92,7 +92,7 @@ public class DataCustodianSteps {
 
     @When("^I upload Usage Points")
     public void I_upload_Usage_Points() throws Throwable {
-        StepUtils.uploadUsagePoints("/fixtures/IntervalBlock.xml");
+        StepUtils.uploadUsagePoints("/fixtures/15minLP_15Days.xml");
     }
 
     @When("^I login as Alan Turing$")
@@ -134,19 +134,6 @@ public class DataCustodianSteps {
         assertNotNull("86400", driver.getPageSource());
     }
 
-    @Given("^a logged in as Retail Customer with Usage Points$")
-    public void a_logged_in_as_Retail_Customer_with_Usage_Points() throws Throwable {
-        String username = StepUtils.newUsername();
-        String firstName = StepUtils.newFirstName();
-        String lastName = StepUtils.newLastName();
-        String password = "koala";
-        String path = "/fixtures/IntervalBlock.xml";
-
-        StepUtils.registerUser(username, firstName, lastName, password);
-        StepUtils.importUsagePoint(username, path);
-        StepUtils.login(username, password);
-    }
-
     @And("^I create a new Retail Customer$")
     public void I_create_a_new_Retail_Customer() throws Throwable {
         username = StepUtils.newUsername();
@@ -156,5 +143,28 @@ public class DataCustodianSteps {
     @Then("^I should see the new Retail Customer in the customer list$")
     public void I_should_see_the_new_Retail_Customer_in_the_customer_list() throws Throwable {
         assertTrue(driver.getPageSource().contains(username));
+    }
+
+    @And("^I select Retail Customer from customer list$")
+    public void I_select_Retail_Customer_from_customer_list() throws Throwable {
+        driver.findElement(By.linkText(username)).click();
+    }
+
+    @When("^I login as Retail Customer$")
+    public void I_login_as_Retail_Customer() throws Throwable {
+        StepUtils.login(username, "koala");
+    }
+
+    @Given("^a Retail Customer with Usage Points$")
+    public void a_Retail_Customer_with_Usage_Points() throws Throwable {
+        username = StepUtils.newUsername();
+        String firstName = StepUtils.newFirstName();
+        String lastName = StepUtils.newLastName();
+        String password = "koala";
+        String path = "/fixtures/15minLP_15Days.xml";
+
+        StepUtils.registerUser(username, firstName, lastName, password);
+        StepUtils.importUsagePoint(username, path);
+        StepUtils.login(username, password);
     }
 }
