@@ -80,7 +80,7 @@ public class UsagePointRepositoryImplTests {
         UsagePoint usagePoint = newUsagePoint();
         MeterReading meterReading = new MeterReading();
 
-        usagePoint.getMeterReadings().add(meterReading);
+        usagePoint.addMeterReading(meterReading);
 
         repository.persist(usagePoint);
 
