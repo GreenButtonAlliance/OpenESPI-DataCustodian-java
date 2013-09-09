@@ -137,6 +137,42 @@ public class DataCustodianTests {
                 "        <published>2012-10-24T00:00:00Z</published>\n" +
                 "        <updated>2012-10-24T00:00:00Z</updated>\n" +
                 "    </entry>\n" +
+                "    <entry>\n" +
+                "        <id>urn:uuid:E8B19EF0-6833-41CE-A28B-A5E7F9F193AE</id>\n" +
+                "        <link rel=\"self\" href=\"RetailCustomer/9b6c7063/UsagePoint/01/MeterReading/01\"/>\n" +
+                "        <link rel=\"up\" href=\"RetailCustomer/9b6c7063/UsagePoint/01/MeterReading\"/>\n" +
+                "        <link rel=\"related\" href=\"RetailCustomer/9b6c7063/UsagePoint/01/MeterReading/01/IntervalBlock\"/>\n" +
+                "        <link rel=\"related\" href=\"ReadingType/07\"/>\n" +
+                "        <title>Fifteen Minute Electricity Consumption</title>\n" +
+                "        <content>\n" +
+                "            <MeterReading xmlns=\"http://naesb.org/espi\"/>\n" +
+                "        </content>\n" +
+                "        <published>2012-10-24T00:00:00Z</published>\n" +
+                "        <updated>2012-10-24T00:00:00Z</updated>\n" +
+                "    </entry>\n" +
+                "    <entry>\n" +
+                "        <id>urn:uuid:82B3E74B-DFC0-4DD4-8651-91A67B40374D</id>\n" +
+                "        <link rel=\"self\" href=\"ReadingType/07\"/>\n" +
+                "        <link rel=\"up\" href=\"ReadingType\"/>\n" +
+                "        <title>Energy Delivered (kWh)</title>\n" +
+                "        <content>\n" +
+                "            <ReadingType xmlns=\"http://naesb.org/espi\">\n" +
+                "                <accumulationBehaviour>4</accumulationBehaviour>\n" +
+                "                <commodity>1</commodity>\n" +
+                "                <currency>840</currency>\n" +
+                "                <dataQualifier>12</dataQualifier>\n" +
+                "                <flowDirection>1</flowDirection>\n" +
+                "                <intervalLength>900</intervalLength>\n" +
+                "                <kind>12</kind>\n" +
+                "                <phase>769</phase>\n" +
+                "                <powerOfTenMultiplier>0</powerOfTenMultiplier>\n" +
+                "                <timeAttribute>0</timeAttribute>\n" +
+                "                <uom>72</uom>\n" +
+                "            </ReadingType>\n" +
+                "        </content>\n" +
+                "        <published>2012-10-24T00:00:00Z</published>\n" +
+                "        <updated>2012-10-24T00:00:00Z</updated>\n" +
+                "    </entry>" +
                 "</feed>\n";
 
         mockMvc.perform(fileUpload("/custodian/retailcustomers/1/upload").file("file", xml.getBytes()))

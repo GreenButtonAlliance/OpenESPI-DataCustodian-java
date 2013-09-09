@@ -44,6 +44,6 @@ public class MeterReadingRepositoryImplTests {
 
         repository.persist(meterReading);
 
-        assertNotNull(repository.findAllById(meterReading.getId()));
+        assertNotNull(repository.findById(meterReading.getId()));
     }
 }

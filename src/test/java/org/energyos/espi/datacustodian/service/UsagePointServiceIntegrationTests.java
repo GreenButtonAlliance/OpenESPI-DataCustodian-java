@@ -78,7 +78,7 @@ public class UsagePointServiceIntegrationTests {
 
         int count = service.findAllByRetailCustomer(customer).size();
 
-        service.importUsagePoint(customer, xmlStream);
+        service.importUsagePoints(customer, xmlStream);
 
         assertEquals(count + 1, service.findAllByRetailCustomer(customer).size());
     }

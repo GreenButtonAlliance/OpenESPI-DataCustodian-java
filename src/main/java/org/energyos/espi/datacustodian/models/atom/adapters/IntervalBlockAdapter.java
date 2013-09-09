@@ -16,19 +16,20 @@
 
 package org.energyos.espi.datacustodian.models.atom.adapters;
 
-import org.energyos.espi.datacustodian.domain.ServiceCategory;
+import org.energyos.espi.datacustodian.domain.IntervalBlock;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class ServiceCategoryAdapter extends XmlAdapter<JAXBElement<ServiceCategory>, ServiceCategory> {
+public class IntervalBlockAdapter extends XmlAdapter<JAXBElement<IntervalBlock>, IntervalBlock> {
+
     @Override
-    public ServiceCategory unmarshal(JAXBElement<ServiceCategory> v) throws Exception {
-        return (ServiceCategory) v.getValue();
+    public IntervalBlock unmarshal(JAXBElement<IntervalBlock> v) throws Exception {
+        return v.getValue();
     }
 
     @Override
-    public JAXBElement<ServiceCategory> marshal(ServiceCategory v) throws Exception {
+    public JAXBElement<IntervalBlock> marshal(IntervalBlock v) throws Exception {
         return null;
     }
 }

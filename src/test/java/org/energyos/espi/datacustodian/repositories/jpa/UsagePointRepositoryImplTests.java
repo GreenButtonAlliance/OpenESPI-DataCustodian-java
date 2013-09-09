@@ -30,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.math.BigInteger;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -66,10 +67,7 @@ public class UsagePointRepositoryImplTests {
 
     @Test
     public void persist_withNewUsagePoint_persistsUsagePoint() throws Exception {
-        UsagePoint usagePoint = new UsagePoint();
-        usagePoint.setTitle("Electric meter");
-        usagePoint.setRetailCustomer(customer);
-        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
+        UsagePoint usagePoint = newUsagePoint();
 
         repository.persist(usagePoint);
 
@@ -79,23 +77,20 @@ public class UsagePointRepositoryImplTests {
 
     @Test
     public void persist_savesMeterReading() {
-        UsagePoint usagePoint = new UsagePoint();
-        usagePoint.setTitle("Electric meter");
-        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
+        UsagePoint usagePoint = newUsagePoint();
         MeterReading meterReading = new MeterReading();
 
-        usagePoint.getMeterReadings().add(meterReading);
+        usagePoint.addMeterReading(meterReading);
 
         repository.persist(usagePoint);
 
-        assertNotNull(usagePoint.getMeterReadings().get(0).getId());
+        assertNotNull("MeterReading id was null", usagePoint.getMeterReadings().get(0).getId());
+        assertNotNull("MeterReading usagePoint is null", usagePoint.getMeterReadings().get(0).getUsagePoint());
     }
 
     @Test
     public void persist_savesIntervalBlocks() {
-        UsagePoint usagePoint = new UsagePoint();
-        usagePoint.setTitle("Electric meter");
-        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
+        UsagePoint usagePoint = newUsagePoint();
         MeterReading meterReading = new MeterReading();
         IntervalBlock intervalBlock = new IntervalBlock();
 
@@ -105,5 +100,35 @@ public class UsagePointRepositoryImplTests {
         repository.persist(usagePoint);
 
         assertNotNull(usagePoint.getMeterReadings().get(0).getIntervalBlocks().get(0).getId());
+    }
+
+    public void persist_savesReadingTypes() throws Exception {
+        UsagePoint usagePoint = newUsagePoint();
+        MeterReading meterReading = new MeterReading();
+        ReadingType readingType = newReadingType();
+
+        usagePoint.addMeterReading(meterReading);
+        meterReading.setReadingType(readingType);
+
+        repository.persist(usagePoint);
+
+        assertNotNull("ReadingType id was null", readingType.getId());
+    }
+
+    private ReadingType newReadingType() {
+        ReadingType readingType = new ReadingType();
+        RationalNumber number = new RationalNumber();
+        number.setNumerator(new BigInteger("1"));
+        number.setDenominator(new BigInteger("2"));
+        readingType.setArgument(number);
+        return readingType;
+    }
+
+    private UsagePoint newUsagePoint() {
+        UsagePoint usagePoint = new UsagePoint();
+        usagePoint.setDescription("Electric meter");
+        usagePoint.setRetailCustomer(customer);
+        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
+        return usagePoint;
     }
 }

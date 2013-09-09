@@ -17,6 +17,7 @@
 package features.steps;
 
 import cucumber.api.java.Before;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -25,7 +26,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
 import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
 import static org.junit.Assert.assertTrue;
 
@@ -59,6 +59,12 @@ public class RetailCustomerSteps {
 
     @Then("^there is a Alan Turing retail customer$")
     public void there_is_a_Alan_Turing_retail_customer() throws Throwable {
+    }
+
+    @Then("^I should see Grace Hopper in the customer list$")
+    public void I_should_see_Grace_Hopper_in_the_customer_list() throws Throwable {
+        assertTrue(driver.getPageSource().contains("Grace"));
+        assertTrue(driver.getPageSource().contains("Hopper"));
     }
 
     @Given("^a logged in retail customer$")
@@ -116,7 +122,7 @@ public class RetailCustomerSteps {
         WebElement downloadLink = driver.findElement(By.partialLinkText("Download XML"));
         downloadLink.click();
 
-        assertXpathEvaluatesTo("1", "feed/entry[1]/content/UsagePoint/ServiceCategory/kind", StepUtils.flattenXml(driver.getPageSource()));
+        assertXpathValue("1", "feed/entry[1]/content/UsagePoint/ServiceCategory/kind", driver.getPageSource());
     }
 
     @Then("^I should see Meter Reading$")
@@ -127,5 +133,43 @@ public class RetailCustomerSteps {
     @Given("^a logged in Retail Customer with Usage Points$")
     public void a_logged_in_Retail_Customer_with_Usage_Points() throws Throwable {
 
+    }
+
+    @Then("^I select \"([^\"]*)\" from the Usage Point list$")
+    public void I_select_from_the_Usage_Point_list(String usagePoint) throws Throwable {
+        WebElement usagePointLink = driver.findElement(By.linkText(usagePoint));
+        usagePointLink.click();
+    }
+
+    @Then("^I should see the Meter Readings and Reading Types$")
+    public void I_should_see_my_Usage_Points_with_Meter_Readings() throws Throwable {
+        String pageSource = driver.getPageSource();
+
+        assertTrue("MeterReading title missing", pageSource.contains("Fifteen Minute Electricity Consumption"));
+        assertTrue("ReadingType title missing", pageSource.contains("Energy Delivered (kWh)"));
+    }
+
+    @Then("^I should see the Meter Readings$")
+    public void I_should_see_the_Meter_Readings() throws Throwable {
+        String pageSource = driver.getPageSource();
+
+        assertTrue("MeterReading title missing", pageSource.contains("Fifteen Minute Electricity Consumption"));
+    }
+
+    @And("^I should see Reading Type$")
+    public void I_should_see_Reading_Type() throws Throwable {
+        String pageSource = driver.getPageSource();
+
+        assertTrue("ReadingType title missing", pageSource.contains("Energy Delivered (kWh)"));
+        assertTrue("Argument missing", pageSource.contains("1/2"));
+        assertTrue("Interharmonic missing", pageSource.contains("600/800"));
+    }
+
+    @And("^I should see Interval Blocks$")
+    public void I_should_see_Interval_Blocks() throws Throwable {
+        String pageSource = driver.getPageSource();
+
+        assertTrue("First interval block missing", pageSource.contains("1330578000"));
+        assertTrue("Second interval block missing", pageSource.contains("1330664400"));
     }
 }

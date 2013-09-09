@@ -55,7 +55,7 @@ public class UsagePointServiceTests {
         retailCustomerService.persist(retailCustomer);
 
         ClassPathResource sourceFile = new ClassPathResource("/fixtures/15minLP_15Days.xml");
-        usagePointService.importUsagePoint(retailCustomer, sourceFile.getInputStream());
+        usagePointService.importUsagePoints(retailCustomer, sourceFile.getInputStream());
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(retailCustomer);
         MeterReading meterReading = usagePoints.get(0).getMeterReadings().get(0);
 

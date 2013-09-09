@@ -17,17 +17,22 @@
 package org.energyos.espi.datacustodian.utils;
 
 import org.energyos.espi.datacustodian.domain.MeterReading;
+import org.energyos.espi.datacustodian.domain.ReadingType;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.models.atom.ContentType;
-import org.energyos.espi.datacustodian.models.atom.EntryType;
 import org.energyos.espi.datacustodian.models.atom.FeedType;
-import org.energyos.espi.datacustodian.models.atom.LinkType;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import javax.xml.bind.JAXBException;
+import java.io.IOException;
+
+import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -35,62 +40,43 @@ import static org.junit.Assert.assertEquals;
 @ContextConfiguration("/spring/test-context.xml")
 public class UsagePointBuilderMeterReadingTests {
 
-    @Test
-    public void usagePoint_hasMeterReadings() {
+    @Autowired
+    private ATOMMarshaller marshaller;
+    private MeterReading meterReading;
 
-        FeedType feedType = new FeedType();
-
-        EntryType usagePointEntry = new EntryType();
-        EntryType meterReadingEntry = new EntryType();
-
-        meterReadingEntry.setTitle("Meter reading title");
-
-
-        LinkType usagePointSelfLink = new LinkType();
-        usagePointSelfLink.setRel("self");
-        usagePointSelfLink.setHref("RetailCustomer/9b6c7063/UsagePoint/01");
-
-        usagePointEntry.getLinks().add(usagePointSelfLink);
-
-        LinkType usagePointRelatedLink = new LinkType();
-        usagePointRelatedLink.setRel("related");
-        usagePointRelatedLink.setHref("RetailCustomer/9b6c7063/UsagePoint/01/MeterReading");
-
-        usagePointEntry.getLinks().add(usagePointRelatedLink);
-
-
-        LinkType meterReadingSelfLink = new LinkType();
-        meterReadingSelfLink.setRel("self");
-        meterReadingSelfLink.setHref("RetailCustomer/9b6c7063/UsagePoint/01/MeterReading/01");
-
-        meterReadingEntry.getLinks().add(meterReadingSelfLink);
-
-        LinkType meterReadingUpLink = new LinkType();
-        meterReadingUpLink.setRel("up");
-        meterReadingUpLink.setHref("RetailCustomer/9b6c7063/UsagePoint/01/MeterReading");
-
-        meterReadingEntry.getLinks().add(meterReadingUpLink);
-
-        ContentType usagePointContent = new ContentType();
-        ContentType meterReadingContent = new ContentType();
-
-        usagePointContent.setUsagePoint(new UsagePoint());
-        meterReadingContent.setMeterReading(new MeterReading());
-
-        usagePointEntry.setContent(usagePointContent);
-        meterReadingEntry.setContent(meterReadingContent);
-
-        feedType.getEntries().add(usagePointEntry);
-        feedType.getEntries().add(meterReadingEntry);
-
+    @Before
+    public void before() throws IOException, JAXBException {
+        ClassPathResource sourceFile = new ClassPathResource("/fixtures/15minLP_15Days.xml");
+        FeedType feedType = marshaller.unmarshal(sourceFile.getInputStream());
 
         UsagePointBuilder builder = new UsagePointBuilder();
 
-        UsagePoint usagePoint = builder.newUsagePoint(feedType);
-        MeterReading meterReading = usagePoint.getMeterReadings().get(0);
+        meterReading = builder.newUsagePoints(feedType).get(0).getMeterReadings().get(0);
+    }
 
+    @Test
+    public void buildsMeterReading() {
         assertEquals(MeterReading.class, meterReading.getClass());
-        assertEquals("Meter reading title", meterReading.getTitle());
+    }
+
+    @Test
+    public void setsUsagePoint() {
+        assertEquals(UsagePoint.class, meterReading.getUsagePoint().getClass());
+    }
+
+    @Test
+    public void setsDescription() {
+        assertNotNull(meterReading.getDescription());
+    }
+
+    @Test
+    public void buildsReadingType() {
+        assertEquals(ReadingType.class, meterReading.getReadingType().getClass());
+    }
+
+    @Test
+    public void setsReadingTypeDescription() {
+        assertNotNull(meterReading.getReadingType().getDescription());
     }
 }
 

@@ -56,7 +56,6 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "IdentifiedObject", propOrder = {
     "mrid",
-    "description"
 })
 @XmlSeeAlso({
     MeterReading.class,
@@ -76,6 +75,8 @@ public class IdentifiedObject
 {
     @XmlElement(name = "mRID")
     protected String mrid;
+
+    @XmlTransient
     protected String description;
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

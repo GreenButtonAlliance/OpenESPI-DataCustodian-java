@@ -32,7 +32,7 @@ public class EspiEntryTests {
     public void espiEntry_withUsagePoint_constructsEspiEntry() throws FeedException {
         UsagePoint usagePoint = new UsagePoint();
         usagePoint.setId(1L);
-        usagePoint.setTitle("Electric Meter");
+        usagePoint.setDescription("Electric Meter");
         RetailCustomer customer = new RetailCustomer();
         customer.setId(1L);
         usagePoint.setRetailCustomer(customer);

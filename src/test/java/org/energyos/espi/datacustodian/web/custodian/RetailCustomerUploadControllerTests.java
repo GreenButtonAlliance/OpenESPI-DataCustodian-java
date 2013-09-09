@@ -85,14 +85,14 @@ public class RetailCustomerUploadControllerTests {
 
         String view = controller.uploadPost(retailCustomer.getId(), form, result);
 
-        verify(usagePointService).importUsagePoint(any(RetailCustomer.class), any(InputStream.class));
+        verify(usagePointService).importUsagePoints(any(RetailCustomer.class), any(InputStream.class));
         assertEquals(false, result.hasErrors());
         assertEquals("redirect:/custodian/retailcustomers/1/show", view);
     }
 
     @Test
     public void uploadPost_givenInvalidFile_displaysHomeViewWithErrors() throws Exception {
-        Mockito.doThrow(new JAXBException("Unable to process file")).when(usagePointService).importUsagePoint(any(RetailCustomer.class), any(InputStream.class));
+        Mockito.doThrow(new JAXBException("Unable to process file")).when(usagePointService).importUsagePoints(any(RetailCustomer.class), any(InputStream.class));
         RetailCustomer retailCustomer = new RetailCustomer();
         retailCustomer.setId(1L);
         when(retailCustomerService.findById(anyLong())).thenReturn(retailCustomer);
