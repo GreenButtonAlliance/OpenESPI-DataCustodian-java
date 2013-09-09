@@ -4,12 +4,7 @@ Feature: Usage Point Import
   So that my Retail Customers can download their UsagePoint data
 
   Scenario: Data Custodian Imports Retail Customer Data
-    Given an XML file
-    And there is an Alan Turing retail customer
-    And a logged in retail customer
+    Given Alan Turing Retail Customer
 
-    When Data Custodian imports the XML file
-    Then the import tool should indicate success
-
-    When I look at my usage page
-    Then I should see the imported data
+    When I import Alan Turing's Usage Points from an XML file
+    Then Alan Turing should be able to see the imported data
