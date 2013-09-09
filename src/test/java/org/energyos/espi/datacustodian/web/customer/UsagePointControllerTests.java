@@ -14,23 +14,24 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.web;
+package org.energyos.espi.datacustodian.web.customer;
 
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.energyos.espi.datacustodian.service.impl.UsagePointServiceImpl;
-import org.energyos.espi.datacustodian.web.customer.UsagePointController;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.security.core.Authentication;
+import org.springframework.ui.ModelMap;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class UsagePointControllerTests {
 
@@ -45,33 +46,20 @@ public class UsagePointControllerTests {
     }
 
     @Test
-    public void index_should_displayUsagePointsPage() throws Exception {
-        assertTrue(controller.index() == "usagepoints/index");
+    public void index_displaysIndexView() throws Exception {
+        assertEquals("/customer/usagepoints/index", controller.index());
     }
 
     @Test
-    public void show_should_displayUsagePointsPage() throws Exception {
-        ModelAndView modelAndView = controller.show(1L);
-        assertTrue(modelAndView.getViewName() == "usagepoints/show");
+    public void show_displaysShowView() throws Exception {
+        assertEquals("/customer/usagepoints/show", controller.show(1L, mock(ModelMap.class)));
     }
 
     @Test
-    public void show_should_addUsagePointToModel() throws Exception {
-        Long usagePointId = 5L;
-        UsagePoint usagePoint = new UsagePoint();
-        usagePoint.setId(usagePointId);
-
-        when(service.findById(usagePointId)).thenReturn(usagePoint);
-        ModelAndView modelAndView = controller.show(usagePointId);
-
-        assertTrue(((UsagePoint) modelAndView.getModelMap().get("usagePoint")).getId() == usagePointId);
-    }
-
-    @Test
-    public void usagePoints_should_returnUsagePointList() throws Exception {
+    public void usagePoints_returnsUsagePointList() throws Exception {
         List<UsagePoint> points = new ArrayList<UsagePoint>();
         when(service.findAllByRetailCustomer(any(RetailCustomer.class))).thenReturn(points);
 
-//        assertEquals(controller.usagePoints(), points);
+        assertEquals(controller.usagePoints(mock(Authentication.class)), points);
     }
 }
