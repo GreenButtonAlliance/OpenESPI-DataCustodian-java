@@ -107,3 +107,17 @@ Feature: Data Custodian
     And I select Meter Reading
     Then I should see my Meter Reading with Interval Blocks
 
+  Scenario: Data Custodian uploads Usage Points with Electric Power Usage Summaries
+    Given Grace Hopper Data Custodian
+    And Alan Turing Retail Customer
+
+    When I login as Grace Hopper
+    And I navigate to customer list page
+    And I select "Alan Turing" from customer list
+    And I upload Usage Points
+
+    When I login as Alan Turing
+    And I navigate to the Usage Points list
+    And I select Usage Point
+    And I select Electric Power Usage Summary
+    Then I should see my Electric Power Usage Summaries

@@ -21,6 +21,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import cucumber.runtime.PendingException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -167,4 +168,15 @@ public class DataCustodianSteps {
         StepUtils.importUsagePoint(username, path);
         StepUtils.login(username, password);
     }
+
+    @And("^I select Electric Power Usage Summary$")
+    public void I_select_Electric_Power_Usage_Summary() throws Throwable {
+        WebElement electricPowerUsageSummaryLink = driver.findElement(By.linkText("Usage Summary"));
+        electricPowerUsageSummaryLink.click();
+    }
+
+    @Then("^I should see my Electric Power Usage Summaries$")
+    public void I_should_see_my_Electric_Power_Usage_Summaries() throws Throwable {
+        assertTrue(driver.getPageSource().contains("15303000"));
+        }
 }
