@@ -17,6 +17,7 @@
 package features.steps;
 
 import cucumber.api.java.Before;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -64,7 +65,6 @@ public class RetailCustomerSteps {
     public void I_should_see_Grace_Hopper_in_the_customer_list() throws Throwable {
         assertTrue(driver.getPageSource().contains("Grace"));
         assertTrue(driver.getPageSource().contains("Hopper"));
-
     }
 
     @Given("^a logged in retail customer$")
@@ -147,7 +147,29 @@ public class RetailCustomerSteps {
 
         assertTrue("MeterReading title missing", pageSource.contains("Fifteen Minute Electricity Consumption"));
         assertTrue("ReadingType title missing", pageSource.contains("Energy Delivered (kWh)"));
+    }
+
+    @Then("^I should see the Meter Readings$")
+    public void I_should_see_the_Meter_Readings() throws Throwable {
+        String pageSource = driver.getPageSource();
+
+        assertTrue("MeterReading title missing", pageSource.contains("Fifteen Minute Electricity Consumption"));
+    }
+
+    @And("^I should see Reading Type$")
+    public void I_should_see_Reading_Type() throws Throwable {
+        String pageSource = driver.getPageSource();
+
+        assertTrue("ReadingType title missing", pageSource.contains("Energy Delivered (kWh)"));
         assertTrue("Argument missing", pageSource.contains("1/2"));
         assertTrue("Interharmonic missing", pageSource.contains("600/800"));
+    }
+
+    @And("^I should see Interval Blocks$")
+    public void I_should_see_Interval_Blocks() throws Throwable {
+        String pageSource = driver.getPageSource();
+
+        assertTrue("First interval block missing", pageSource.contains("1330578000"));
+        assertTrue("Second interval block missing", pageSource.contains("1330664400"));
     }
 }

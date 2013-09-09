@@ -18,19 +18,23 @@ Feature: Retail Customers
     Then I should see Alan Turing in the customer list
 
   Scenario: Retail Customer views Usage Points
-    Given a logged in retail customer
+    Given a Retail Customer with Usage Points
 
-    When I look at my usage page
-    Then I should see my Usage Points with title "Gas meter"
+    When I login as Retail Customer
+    And I navigate to the Usage Points list
+
+    Then I should see my Usage Points with title "Front Electric Meter"
 
   Scenario: Retail Customer views Meter Readings
-    Given a logged in as Retail Customer with Usage Points
+    Given a Retail Customer with Usage Points
 
     When I navigate to the Usage Points list
     And I select Usage Point
     And I select Meter Reading
 
     Then I should see Meter Reading
+    And I should see Reading Type
+    And I should see Interval Blocks
 
   Scenario: Retail Customer downloads Usage Points in XML format
     Given a logged in retail customer

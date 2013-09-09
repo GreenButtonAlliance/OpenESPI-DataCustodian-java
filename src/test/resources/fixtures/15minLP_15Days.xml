@@ -12290,6 +12290,14 @@ permissions and limitations under the License.
                 <powerOfTenMultiplier>0</powerOfTenMultiplier>
                 <timeAttribute>0</timeAttribute>
                 <uom>72</uom>
+                <argument>
+                    <numerator>1</numerator>
+                    <denominator>2</denominator>
+                </argument>
+                <interharmonic>
+                    <numerator>600</numerator>
+                    <denominator>800</denominator>
+                </interharmonic>
             </ReadingType>
         </content>
         <published>2012-10-24T00:00:00Z</published>

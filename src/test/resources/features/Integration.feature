@@ -10,6 +10,7 @@ Feature: System Integration
     When I import Usage Point
     Then Usage Point should be save in the database
     And Meter Readings should be save in the database
+    And Reading Type should be save in the database
     And Interval Blocks should be save in the database
 
   Scenario: Import and export Usage Point
