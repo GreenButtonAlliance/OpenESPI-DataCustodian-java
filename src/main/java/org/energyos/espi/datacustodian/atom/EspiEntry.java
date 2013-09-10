@@ -20,9 +20,9 @@ import com.sun.syndication.feed.atom.Content;
 import com.sun.syndication.feed.atom.Entry;
 import com.sun.syndication.feed.atom.Link;
 import com.sun.syndication.io.FeedException;
+import org.energyos.espi.datacustodian.domain.IdentifiedObject;
 import org.energyos.espi.datacustodian.domain.MeterReading;
 import org.energyos.espi.datacustodian.domain.ReadingType;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.utils.EspiMarshaller;
 
 import java.util.ArrayList;
@@ -31,29 +31,19 @@ import java.util.List;
 
 @SuppressWarnings("serial")
 public class EspiEntry extends Entry {
-    private Link selfLink;
-    private Link upLink;
-    private List<Link> relatedLinks;
+    protected Link selfLink;
+    protected Link upLink;
+    protected List<Link> relatedLinks;
 
     @SuppressWarnings("unchecked")
-    public EspiEntry(UsagePoint usagePoint) throws FeedException {
-        this.setTitle(usagePoint.getDescription());
-        this.setId(usagePoint.getId().toString());
+    public EspiEntry(IdentifiedObject object) throws FeedException {
+        this.setTitle(object.getDescription());
+        this.setId(object.getId().toString());
         this.setPublished(new Date());
         this.setUpdated(this.getPublished());
 
-        selfLink = buildSelfLink(usagePoint);
-        upLink = buildUpLink(usagePoint);
-        relatedLinks = buildRelatedLinks(usagePoint);
-
-        getOtherLinks().add(selfLink);
-        getOtherLinks().add(upLink);
-        for (Link relatedLink : relatedLinks) {
-            getOtherLinks().add(relatedLink);
-        }
-
         Content content = new Content();
-        content.setValue(EspiMarshaller.marshal(usagePoint));
+        content.setValue(EspiMarshaller.marshal(object));
         this.getContents().add(content);
     }
 
@@ -108,24 +98,6 @@ public class EspiEntry extends Entry {
         return upLink;
     }
 
-    private Link buildSelfLink(UsagePoint usagePoint) {
-        Link link = new Link();
-
-        link.setRel("self");
-        link.setHref("RetailCustomer/" + usagePoint.getRetailCustomer().getId() + "/UsagePoint/" + usagePoint.getId());
-
-        return link;
-    }
-
-    private Link buildUpLink(UsagePoint usagePoint) {
-        Link link = new Link();
-
-        link.setRel("up");
-        link.setHref("RetailCustomer/" + usagePoint.getRetailCustomer().getId() + "/UsagePoint");
-
-        return link;
-    }
-
     private Link buildSelfLink(MeterReading meterReading) {
         Link link = new Link();
 
@@ -155,20 +127,6 @@ public class EspiEntry extends Entry {
         link.setHref("ReadingType/" + readingType.getId());
 
         return link;
-    }
-
-    private List<Link> buildRelatedLinks(UsagePoint usagePoint) {
-        List<Link> links = new ArrayList<>();
-
-        if (usagePoint.getMeterReadings().size() > 0) {
-            Link meterReadingsLink = new Link();
-
-            meterReadingsLink.setRel("related");
-            meterReadingsLink.setHref(getSelfLink().getHref() + "/MeterReading");
-
-            links.add(meterReadingsLink);
-        }
-        return links;
     }
 
     private List<Link> buildRelatedLinks(MeterReading meterReading) {

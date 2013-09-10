@@ -129,7 +129,6 @@ public class FeedBuilderMeterReadingTests {
 
     @Test
     public void returnsEntryWithContentWithoutUsagePoint() throws FeedException, SAXException, IOException, XpathException {
-        System.out.println(contents.get(0).getValue());
         assertXpathNotExists("//usagePoint", contents.get(0).getValue());
     }
 

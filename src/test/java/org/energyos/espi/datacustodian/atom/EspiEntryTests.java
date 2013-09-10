@@ -58,7 +58,7 @@ public class EspiEntryTests {
     }
 
     @Test
-    public void withUsagePoint_constructsEspiEntry() throws FeedException, SAXException, IOException, XpathException {
+    public void constructsEspiEntry() throws FeedException, SAXException, IOException, XpathException {
 
         EspiEntry entry = new EspiEntry(usagePoint);
         assertNotNull("entry was null", entry);
@@ -67,9 +67,6 @@ public class EspiEntryTests {
         assertEquals("Invalid entry id", "1", entry.getId());
         assertNotNull("Published is null", entry.getPublished());
         assertNotNull("Updated is null", entry.getUpdated());
-        assertEquals("RetailCustomer/1/UsagePoint/1", entry.getSelfLink().getHref());
-        assertEquals("RetailCustomer/1/UsagePoint", entry.getUpLink().getHref());
-        assertEquals("RetailCustomer/1/UsagePoint/1/MeterReading", findMeterReadingLink(entry).getHref());
 
         Content content = (Content)entry.getContents().get(0);
         assertXpathExists("UsagePoint", content.getValue());
