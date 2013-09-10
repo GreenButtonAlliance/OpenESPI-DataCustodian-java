@@ -12,6 +12,7 @@ Feature: System Integration
     And Meter Readings should be saved in the database
     And Reading Type should be saved in the database
     And Interval Blocks should be saved in the database
+    And Electric Power Usage Summary should be saved in the database
 
   Scenario: Import and export Usage Point
     When I import Usage Point
