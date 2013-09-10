@@ -51,7 +51,7 @@ import static org.junit.Assert.assertNotNull;
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
 @Transactional
-public class FeedBuilderTests {
+public class FeedBuilderUsagePointTests {
 
     @Autowired
     UsagePointService usagePointService;
