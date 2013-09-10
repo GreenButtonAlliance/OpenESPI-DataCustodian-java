@@ -199,4 +199,9 @@ public class UsagePoint
     public List<ElectricPowerUsageSummary> getElectricPowerUsageSummaries() {
         return electricPowerUsageSummaries;
     }
+
+    public void addElectricPowerUsageSummary(ElectricPowerUsageSummary electricPowerUsageSummary) {
+        electricPowerUsageSummary.setUsagePoint(this);
+        electricPowerUsageSummaries.add(electricPowerUsageSummary);
+    }
 }
