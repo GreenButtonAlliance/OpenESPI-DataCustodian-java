@@ -18,8 +18,8 @@ package org.energyos.espi.datacustodian.utils;
 
 import com.sun.syndication.feed.atom.Feed;
 import com.sun.syndication.io.FeedException;
-import org.energyos.espi.datacustodian.atom.EspiEntry;
 import org.energyos.espi.datacustodian.atom.MeterReadingEntry;
+import org.energyos.espi.datacustodian.atom.ReadingTypeEntry;
 import org.energyos.espi.datacustodian.atom.UsagePointEntry;
 import org.energyos.espi.datacustodian.domain.MeterReading;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
@@ -52,7 +52,7 @@ public class FeedBuilder {
             if (usagePoint.getMeterReadings().size() > 0) {
                 for(MeterReading meterReading : usagePoint.getMeterReadings()) {
                     MeterReadingEntry meterEntry = new MeterReadingEntry(meterReading);
-                    EspiEntry readingTypeEntry = new EspiEntry(meterReading.getReadingType());
+                    ReadingTypeEntry readingTypeEntry = new ReadingTypeEntry(meterReading.getReadingType());
                     feed.getEntries().add(meterEntry);
                     feed.getEntries().add(readingTypeEntry);
                 }

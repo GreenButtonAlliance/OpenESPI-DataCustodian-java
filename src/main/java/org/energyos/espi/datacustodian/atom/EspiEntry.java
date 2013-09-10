@@ -21,7 +21,6 @@ import com.sun.syndication.feed.atom.Entry;
 import com.sun.syndication.feed.atom.Link;
 import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.domain.IdentifiedObject;
-import org.energyos.espi.datacustodian.domain.ReadingType;
 import org.energyos.espi.datacustodian.utils.EspiMarshaller;
 
 import java.util.Date;
@@ -45,49 +44,12 @@ public class EspiEntry extends Entry {
         this.getContents().add(content);
     }
 
-    @SuppressWarnings("unchecked")
-    public EspiEntry(ReadingType readingType) throws FeedException {
-        this.setTitle(readingType.getDescription());
-        this.setId(readingType.getId().toString());
-        this.setPublished(new Date());
-        this.setUpdated(this.getPublished());
-
-        selfLink = buildSelfLink(readingType);
-        upLink = buildUpLink(readingType);
-
-        selfLink.setRel("self");
-        upLink.setRel("up");
-
-        getOtherLinks().add(selfLink);
-        getOtherLinks().add(upLink);
-
-        Content content = new Content();
-        content.setValue(EspiMarshaller.marshal(readingType));
-        this.getContents().add(content);
-    }
-
     public Link getSelfLink() {
         return selfLink;
     }
 
     public Link getUpLink() {
         return upLink;
-    }
-
-    private Link buildSelfLink(ReadingType readingType) {
-        Link link = new Link();
-
-        link.setRel("self");
-        link.setHref("ReadingType/" + readingType.getId());
-
-        return link;
-    }
-
-    private Link buildUpLink(ReadingType readingType) {
-        Link link = new Link();
-        link.setRel("up");
-        link.setHref("ReadingType");
-        return link;
     }
 
     public List<Link> getRelatedLinks() {

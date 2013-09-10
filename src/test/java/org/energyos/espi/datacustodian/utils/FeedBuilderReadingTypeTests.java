@@ -56,7 +56,6 @@ public class FeedBuilderReadingTypeTests {
     @Autowired
     UsagePointService usagePointService;
 
-    private Feed feed;
     private EspiEntry entry;
     private List<Content> contents;
 
@@ -71,7 +70,7 @@ public class FeedBuilderReadingTypeTests {
         usagePointService.importUsagePoints(customer, sourceFile.getInputStream());
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(customer);
 
-        feed =  builder.buildFeed(usagePoints);
+        Feed feed = builder.buildFeed(usagePoints);
         entry = (EspiEntry) feed.getEntries().get(2);
         contents = entry.getContents();
     }
