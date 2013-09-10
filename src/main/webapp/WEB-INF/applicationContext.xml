@@ -121,13 +121,17 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     </authentication-manager>
 
     <authentication-manager alias="authenticationManager" xmlns="http://www.springframework.org/schema/security">
-        <authentication-provider>
-            <user-service id="userDetailsService">
-                <user name="marissa" password="koala" authorities="ROLE_USER" />
-                <user name="paul" password="emu" authorities="ROLE_USER" />
-            </user-service>
-        </authentication-provider>
+        <security:authentication-provider user-service-ref="retailCustomerServiceImpl"/>
     </authentication-manager>
+
+    <!--<authentication-manager alias="authenticationManager" xmlns="http://www.springframework.org/schema/security">-->
+        <!--<authentication-provider>-->
+            <!--<user-service id="userDetailsService">-->
+                <!--<user name="marissa" password="koala" authorities="ROLE_USER" />-->
+                <!--<user name="paul" password="emu" authorities="ROLE_USER" />-->
+            <!--</user-service>-->
+        <!--</authentication-provider>-->
+    <!--</authentication-manager>-->
 
     <bean id="clientDetailsUserService" class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
         <constructor-arg ref="clientDetails" />
@@ -234,7 +238,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     </bean>
 
     <bean id="photoServiceUserController" class="org.springframework.security.oauth.examples.sparklr.mvc.PhotoServiceUserController">
-        <property name="userDetailsService" ref="userDetailsService" />
+        <property name="userDetailsService" ref="retailCustomerServiceImpl" />
     </bean>
 
     <bean id="adminController" class="org.springframework.security.oauth.examples.sparklr.mvc.AdminController">
@@ -277,13 +281,13 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
                 <bean class="org.springframework.security.oauth.examples.sparklr.PhotoInfo">
                     <property name="id" value="5" />
                     <property name="name" value="photo5.jpg" />
-                    <property name="userId" value="marissa" />
+                    <property name="userId" value="alan" />
                     <property name="resourceURL" value="/org/springframework/security/oauth/examples/sparklr/impl/resources/photo5.jpg" />
                 </bean>
                 <bean class="org.springframework.security.oauth.examples.sparklr.PhotoInfo">
                     <property name="id" value="6" />
                     <property name="name" value="photo6.jpg" />
-                    <property name="userId" value="marissa" />
+                    <property name="userId" value="alan" />
                     <property name="resourceURL" value="/org/springframework/security/oauth/examples/sparklr/impl/resources/photo6.jpg" />
                 </bean>
             </list>
