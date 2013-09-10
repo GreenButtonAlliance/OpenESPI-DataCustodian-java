@@ -23,7 +23,6 @@
 
 package org.energyos.espi.datacustodian.domain;
 
-import javassist.bytecode.AttributeInfo;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 

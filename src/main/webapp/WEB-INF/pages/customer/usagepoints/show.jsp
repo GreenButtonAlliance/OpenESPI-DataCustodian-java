@@ -27,7 +27,7 @@
 <div class="container">
     <div class="row">
         <div class="span12">
-            <h2><c:out value="${usagePoint.description}"/></h2>
+            <h2>Usage Point: <c:out value="${usagePoint.description}"/></h2>
 
             <table class="table table-striped">
                 <caption class="text-left">Meter Readings:</caption>

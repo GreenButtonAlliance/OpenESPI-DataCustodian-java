@@ -24,11 +24,7 @@
 
 package org.energyos.espi.datacustodian.models.atom;
 
-import org.energyos.espi.datacustodian.domain.ElectricPowerUsageSummary;
-import org.energyos.espi.datacustodian.domain.IntervalBlock;
-import org.energyos.espi.datacustodian.domain.MeterReading;
-import org.energyos.espi.datacustodian.domain.ReadingType;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.domain.*;
 import org.energyos.espi.datacustodian.models.atom.adapters.GenericAdapter;
 import org.energyos.espi.datacustodian.models.atom.adapters.IntervalBlockAdapter;
 
@@ -41,6 +37,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.lang.Object;
 
 
 /**

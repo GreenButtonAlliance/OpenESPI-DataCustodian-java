@@ -24,7 +24,6 @@
 
 package org.energyos.espi.datacustodian.domain;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

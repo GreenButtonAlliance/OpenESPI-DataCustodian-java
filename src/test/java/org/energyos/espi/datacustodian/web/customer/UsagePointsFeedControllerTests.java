@@ -21,8 +21,6 @@ import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.junit.Test;
 import org.springframework.security.core.Authentication;
 
-import java.security.Principal;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
