@@ -22,54 +22,56 @@ import com.sun.syndication.feed.atom.Link;
 import com.sun.syndication.io.FeedException;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.custommonkey.xmlunit.exceptions.XpathException;
-import org.energyos.espi.datacustodian.domain.MeterReading;
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.domain.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
+import java.math.BigInteger;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class UsagePointEntryTests {
+public class MeterReadingEntryTests {
 
-    private UsagePoint usagePoint;
+    private MeterReading meterReading;
 
     @Before
     public void before() {
         XMLUnit.getControlDocumentBuilderFactory().setNamespaceAware(false);
 
-        usagePoint = new UsagePoint();
+        UsagePoint usagePoint = new UsagePoint();
         usagePoint.setId(1L);
         usagePoint.setDescription("Electric Meter");
         RetailCustomer customer = new RetailCustomer();
         customer.setId(1L);
         usagePoint.setRetailCustomer(customer);
-        MeterReading meterReading = newMeterReading();
+        meterReading = newMeterReading();
+        ReadingType readingType = newReadingType();
+        meterReading.setReadingType(readingType);
         usagePoint.addMeterReading(meterReading);
     }
 
     @Test
-    public void constructsUsagePointEntry() throws FeedException, SAXException, IOException, XpathException {
+    public void constructsMeterReadingEntry() throws FeedException, SAXException, IOException, XpathException {
 
-        UsagePointEntry entry = new UsagePointEntry(usagePoint);
+
+        MeterReadingEntry entry = new MeterReadingEntry(meterReading);
         assertNotNull("entry was null", entry);
 
-        assertEquals("RetailCustomer/1/UsagePoint/1", entry.getSelfLink().getHref());
-        assertEquals("RetailCustomer/1/UsagePoint", entry.getUpLink().getHref());
-        assertEquals("RetailCustomer/1/UsagePoint/1/MeterReading", findMeterReadingLink(entry).getHref());
+        assertEquals("RetailCustomer/1/UsagePoint/1/MeterReading/9", entry.getSelfLink().getHref());
+        assertEquals("RetailCustomer/1/UsagePoint/1/MeterReading", entry.getUpLink().getHref());
+        assertEquals("ReadingType/8", findReadingTypeLink(entry).getHref());
 
         Content content = (Content)entry.getContents().get(0);
-        assertXpathExists("UsagePoint", content.getValue());
+        assertXpathExists("MeterReading", content.getValue());
     }
 
-    private Link findMeterReadingLink(EspiEntry entry) {
+    private Link findReadingTypeLink(EspiEntry entry) {
         for (Link link : entry.getRelatedLinks()) {
-            if (link.getHref().contains("MeterReading")) {
+            if (link.getHref().contains("ReadingType")) {
                 return link;
             }
         }
@@ -83,5 +85,33 @@ public class UsagePointEntryTests {
         reading.setDescription("Electricity consumption");
 
         return reading;
+    }
+
+    private ReadingType newReadingType() {
+        ReadingType type = new ReadingType();
+        RationalNumber argument = new RationalNumber();
+        argument.setNumerator(new BigInteger("1"));
+        argument.setDenominator(new BigInteger("3"));
+        ReadingInterharmonic interharmonic = new ReadingInterharmonic();
+        interharmonic.setNumerator(new BigInteger("1"));
+        interharmonic.setDenominator(new BigInteger("6"));
+
+        type.setId(8L);
+        type.setDescription("Energy Delivered");
+        type.setAccumulationBehaviour("accumulationBehaviour");
+        type.setCommodity("commodity");
+        type.setDataQualifier("dataQualifier");
+        type.setIntervalLength(10L);
+        type.setKind("kind");
+        type.setPhase("phase");
+        type.setPowerOfTenMultiplier("multiplier");
+        type.setUom("uom");
+        type.setCurrency("currency");
+        type.setTou("tou");
+        type.setAggregate("aggregate");
+        type.setArgument(argument);
+        type.setInterharmonic(interharmonic);
+
+        return type;
     }
 }
