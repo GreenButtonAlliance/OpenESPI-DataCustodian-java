@@ -50,7 +50,9 @@ public class FeedBuilder {
             if (usagePoint.getMeterReadings().size() > 0) {
                 for(MeterReading meterReading : usagePoint.getMeterReadings()) {
                     EspiEntry meterEntry = new EspiEntry(meterReading);
+                    EspiEntry readingTypeEntry = new EspiEntry(meterReading.getReadingType());
                     feed.getEntries().add(meterEntry);
+                    feed.getEntries().add(readingTypeEntry);
                 }
             }
         }

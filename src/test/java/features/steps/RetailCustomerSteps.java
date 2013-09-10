@@ -176,6 +176,6 @@ public class RetailCustomerSteps {
 
     @Then("^the XML includes Reading Types$")
     public void the_XML_includes_Reading_Types() throws Throwable {
-        assertXpathValue("Energy Delivered (kWh)", "feed/entry[4]/title", xmlResult);
+        assertXpathValue("Energy Delivered (kWh)", "feed/entry[3]/title", xmlResult);
     }
 }

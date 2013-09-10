@@ -21,6 +21,7 @@ import com.sun.syndication.feed.atom.Entry;
 import com.sun.syndication.feed.atom.Link;
 import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.domain.MeterReading;
+import org.energyos.espi.datacustodian.domain.ReadingType;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.utils.EspiMarshaller;
 
@@ -41,36 +42,19 @@ public class EspiEntry extends Entry {
         this.setPublished(new Date());
         this.setUpdated(this.getPublished());
 
-        selfLink = new Link();
-        upLink = new Link();
-
-        selfLink.setRel("self");
-        upLink.setRel("up");
-        setSelfLink(buildSelfHrefFor(usagePoint));
-        setUpLink(buildUpHrefFor(usagePoint));
-        setRelatedLinks(buildRelatedLinksFor(usagePoint));
-
-
+        selfLink = buildSelfLink(usagePoint);
+        upLink = buildUpLink(usagePoint);
+        relatedLinks = buildRelatedLinks(usagePoint);
 
         getOtherLinks().add(selfLink);
         getOtherLinks().add(upLink);
+        for (Link relatedLink : relatedLinks) {
+            getOtherLinks().add(relatedLink);
+        }
 
         Content content = new Content();
         content.setValue(EspiMarshaller.marshal(usagePoint));
         this.getContents().add(content);
-    }
-
-    private List<Link> buildRelatedLinksFor(UsagePoint usagePoint) {
-        List<Link> links = new ArrayList<>();
-
-        if (usagePoint.getMeterReadings().size() > 0) {
-            Link meterReadingsLink = new Link();
-            meterReadingsLink.setRel("related");
-            meterReadingsLink.setHref(buildSelfHrefFor(usagePoint) + "/MeterReading");
-            links.add(meterReadingsLink);
-            getOtherLinks().add(meterReadingsLink);
-        }
-        return links;
     }
 
     @SuppressWarnings("unchecked")
@@ -80,24 +64,40 @@ public class EspiEntry extends Entry {
         this.setPublished(new Date());
         this.setUpdated(this.getPublished());
 
-        selfLink = new Link();
-        upLink = new Link();
-
-        selfLink.setRel("self");
-        upLink.setRel("up");
-        setSelfLink(buildSelfHrefFor(meterReading));
-        setUpLink(buildUpHrefFor(meterReading));
+        selfLink = buildSelfLink(meterReading);
+        upLink = buildUpLink(meterReading);
+        relatedLinks = buildRelatedLinks(meterReading);
 
         getOtherLinks().add(selfLink);
         getOtherLinks().add(upLink);
+        for (Link relatedLink : relatedLinks) {
+            getOtherLinks().add(relatedLink);
+        }
 
         Content content = new Content();
         content.setValue(EspiMarshaller.marshal(meterReading));
         this.getContents().add(content);
     }
 
-    public void setSelfLink(String href) {
-        selfLink.setHref(href);
+    @SuppressWarnings("unchecked")
+    public EspiEntry(ReadingType readingType) throws FeedException {
+        this.setTitle(readingType.getDescription());
+        this.setId(readingType.getId().toString());
+        this.setPublished(new Date());
+        this.setUpdated(this.getPublished());
+
+        selfLink = buildSelfLink(readingType);
+        upLink = buildUpLink(readingType);
+
+        selfLink.setRel("self");
+        upLink.setRel("up");
+
+        getOtherLinks().add(selfLink);
+        getOtherLinks().add(upLink);
+
+        Content content = new Content();
+        content.setValue(EspiMarshaller.marshal(readingType));
+        this.getContents().add(content);
     }
 
     public Link getSelfLink() {
@@ -108,36 +108,92 @@ public class EspiEntry extends Entry {
         return upLink;
     }
 
-    public void setUpLink(String href) {
-        upLink.setHref(href);
+    private Link buildSelfLink(UsagePoint usagePoint) {
+        Link link = new Link();
+
+        link.setRel("self");
+        link.setHref("RetailCustomer/" + usagePoint.getRetailCustomer().getId() + "/UsagePoint/" + usagePoint.getId());
+
+        return link;
     }
 
-    private String buildSelfHrefFor(UsagePoint usagePoint) {
-        return "RetailCustomer/" + usagePoint.getRetailCustomer().getId() + "/UsagePoint/" + usagePoint.getId();
+    private Link buildUpLink(UsagePoint usagePoint) {
+        Link link = new Link();
+
+        link.setRel("up");
+        link.setHref("RetailCustomer/" + usagePoint.getRetailCustomer().getId() + "/UsagePoint");
+
+        return link;
     }
 
-    private String buildUpHrefFor(UsagePoint usagePoint) {
-        return "RetailCustomer/" + usagePoint.getRetailCustomer().getId() + "/UsagePoint";
-    }
+    private Link buildSelfLink(MeterReading meterReading) {
+        Link link = new Link();
 
-    private String buildSelfHrefFor(MeterReading meterReading) {
-        return "RetailCustomer/" + meterReading.getUsagePoint().getRetailCustomer().getId() +
+        link.setRel("self");
+        link.setHref("RetailCustomer/" + meterReading.getUsagePoint().getRetailCustomer().getId() +
                 "/UsagePoint/" + meterReading.getUsagePoint().getId() +
-                "/MeterReading/" + meterReading.getId();
+                "/MeterReading/" + meterReading.getId());
+
+        return link;
     }
 
-    private String buildUpHrefFor(MeterReading meterReading) {
-        return "RetailCustomer/" + meterReading.getUsagePoint().getRetailCustomer().getId() +
+    private Link buildUpLink(MeterReading meterReading) {
+        Link link = new Link();
+
+        link.setRel("up");
+        link.setHref("RetailCustomer/" + meterReading.getUsagePoint().getRetailCustomer().getId() +
                 "/UsagePoint/" + meterReading.getUsagePoint().getId() +
-                "/MeterReading";
+                "/MeterReading");
+
+        return link;
+    }
+
+    private Link buildSelfLink(ReadingType readingType) {
+        Link link = new Link();
+
+        link.setRel("self");
+        link.setHref("ReadingType/" + readingType.getId());
+
+        return link;
+    }
+
+    private List<Link> buildRelatedLinks(UsagePoint usagePoint) {
+        List<Link> links = new ArrayList<>();
+
+        if (usagePoint.getMeterReadings().size() > 0) {
+            Link meterReadingsLink = new Link();
+
+            meterReadingsLink.setRel("related");
+            meterReadingsLink.setHref(getSelfLink().getHref() + "/MeterReading");
+
+            links.add(meterReadingsLink);
+        }
+        return links;
+    }
+
+    private List<Link> buildRelatedLinks(MeterReading meterReading) {
+        List<Link> links = new ArrayList<>();
+
+        if (meterReading.getReadingType() != null) {
+            Link readingTypeLink = new Link();
+
+            readingTypeLink.setRel("related");
+            readingTypeLink.setHref("ReadingType/" + meterReading.getReadingType().getId());
+
+            links.add(readingTypeLink);
+        }
+        return links;
+    }
+
+    private Link buildUpLink(ReadingType readingType) {
+        Link link = new Link();
+        link.setRel("up");
+        link.setHref("ReadingType");
+        return link;
     }
 
     public List<Link> getRelatedLinks() {
         return relatedLinks;
-    }
-
-    public void setRelatedLinks(List<Link> relatedLinks) {
-        this.relatedLinks = relatedLinks;
     }
 }
 
