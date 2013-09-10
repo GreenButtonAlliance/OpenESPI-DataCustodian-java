@@ -27,7 +27,7 @@ import java.util.Date;
 import java.util.List;
 
 @SuppressWarnings("serial")
-public class EspiEntry extends Entry {
+public abstract class EspiEntry extends Entry {
     protected Link selfLink;
     protected Link upLink;
     protected List<Link> relatedLinks;

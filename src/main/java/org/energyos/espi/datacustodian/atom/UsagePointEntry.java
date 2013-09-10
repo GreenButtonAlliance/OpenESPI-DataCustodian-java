@@ -26,12 +26,16 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class UsagePointEntry extends EspiEntry {
 
+    private final UsagePoint usagePoint;
+
     @SuppressWarnings("unchecked")
     public UsagePointEntry(UsagePoint usagePoint) throws FeedException {
         super(usagePoint);
-        selfLink = buildSelfLink(usagePoint);
-        upLink = buildUpLink(usagePoint);
-        relatedLinks = buildRelatedLinks(usagePoint);
+
+        this.usagePoint = usagePoint;
+        selfLink = buildSelfLink();
+        upLink = buildUpLink();
+        relatedLinks = buildRelatedLinks();
 
         getOtherLinks().add(selfLink);
         getOtherLinks().add(upLink);
@@ -40,7 +44,7 @@ public class UsagePointEntry extends EspiEntry {
         }
     }
 
-    private Link buildSelfLink(UsagePoint usagePoint) {
+    private Link buildSelfLink() {
         Link link = new Link();
 
         link.setRel("self");
@@ -49,7 +53,7 @@ public class UsagePointEntry extends EspiEntry {
         return link;
     }
 
-    private Link buildUpLink(UsagePoint usagePoint) {
+    private Link buildUpLink() {
         Link link = new Link();
 
         link.setRel("up");
@@ -58,7 +62,7 @@ public class UsagePointEntry extends EspiEntry {
         return link;
     }
 
-    private List<Link> buildRelatedLinks(UsagePoint usagePoint) {
+    private List<Link> buildRelatedLinks() {
         List<Link> links = new ArrayList<>();
 
         if (usagePoint.getMeterReadings().size() > 0) {

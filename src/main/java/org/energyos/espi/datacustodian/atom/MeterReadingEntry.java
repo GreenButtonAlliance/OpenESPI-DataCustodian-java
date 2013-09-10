@@ -26,13 +26,16 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class MeterReadingEntry extends EspiEntry {
 
+    private final MeterReading meterReading;
+
     @SuppressWarnings("unchecked")
     public MeterReadingEntry(MeterReading meterReading) throws FeedException {
         super(meterReading);
 
-        selfLink = buildSelfLink(meterReading);
-        upLink = buildUpLink(meterReading);
-        relatedLinks = buildRelatedLinks(meterReading);
+        this.meterReading = meterReading;
+        selfLink = buildSelfLink();
+        upLink = buildUpLink();
+        relatedLinks = buildRelatedLinks();
 
         getOtherLinks().add(selfLink);
         getOtherLinks().add(upLink);
@@ -41,7 +44,7 @@ public class MeterReadingEntry extends EspiEntry {
         }
     }
 
-    private Link buildSelfLink(MeterReading meterReading) {
+    private Link buildSelfLink() {
         Link link = new Link();
 
         link.setRel("self");
@@ -52,7 +55,7 @@ public class MeterReadingEntry extends EspiEntry {
         return link;
     }
 
-    private Link buildUpLink(MeterReading meterReading) {
+    private Link buildUpLink() {
         Link link = new Link();
 
         link.setRel("up");
@@ -63,7 +66,7 @@ public class MeterReadingEntry extends EspiEntry {
         return link;
     }
 
-    private List<Link> buildRelatedLinks(MeterReading meterReading) {
+    private List<Link> buildRelatedLinks() {
         List<Link> links = new ArrayList<>();
 
         if (meterReading.getReadingType() != null) {

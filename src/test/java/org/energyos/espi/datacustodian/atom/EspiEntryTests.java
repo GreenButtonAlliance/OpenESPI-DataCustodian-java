@@ -21,6 +21,7 @@ import com.sun.syndication.feed.atom.Content;
 import com.sun.syndication.io.FeedException;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.custommonkey.xmlunit.exceptions.XpathException;
+import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,12 +44,15 @@ public class EspiEntryTests {
         usagePoint = new UsagePoint();
         usagePoint.setId(1L);
         usagePoint.setDescription("Electric Meter");
+        RetailCustomer customer = new RetailCustomer();
+        customer.setId(3L);
+        usagePoint.setRetailCustomer(customer);
     }
 
     @Test
     public void constructsEspiEntry() throws FeedException, SAXException, IOException, XpathException {
 
-        EspiEntry entry = new EspiEntry(usagePoint);
+        UsagePointEntry entry = new UsagePointEntry(usagePoint);
         assertNotNull("entry was null", entry);
 
         assertEquals("Electric Meter", entry.getTitle());

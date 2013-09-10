@@ -23,12 +23,15 @@ import org.energyos.espi.datacustodian.domain.ReadingType;
 @SuppressWarnings("serial")
 public class ReadingTypeEntry extends EspiEntry {
 
+    private final ReadingType readingType;
+
     @SuppressWarnings("unchecked")
     public ReadingTypeEntry(ReadingType readingType) throws FeedException {
         super(readingType);
 
-        selfLink = buildSelfLink(readingType);
-        upLink = buildUpLink(readingType);
+        this.readingType = readingType;
+        selfLink = buildSelfLink();
+        upLink = buildUpLink();
 
         selfLink.setRel("self");
         upLink.setRel("up");
@@ -37,7 +40,7 @@ public class ReadingTypeEntry extends EspiEntry {
         getOtherLinks().add(upLink);
     }
 
-    private Link buildSelfLink(ReadingType readingType) {
+    private Link buildSelfLink() {
         Link link = new Link();
 
         link.setRel("self");
@@ -46,7 +49,7 @@ public class ReadingTypeEntry extends EspiEntry {
         return link;
     }
 
-    private Link buildUpLink(ReadingType readingType) {
+    private Link buildUpLink() {
         Link link = new Link();
 
         link.setRel("up");
