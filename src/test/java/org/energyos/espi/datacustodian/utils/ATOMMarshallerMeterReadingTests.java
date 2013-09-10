@@ -148,7 +148,7 @@ public class ATOMMarshallerMeterReadingTests {
     }
 
     @Test
-    public void marshal_returnsEntryWithUsagePointContent() throws SAXException, IOException, XpathException {
+    public void marshal_returnsEntryWithMeterReadingContent() throws SAXException, IOException, XpathException {
         assertXpathExists("//entry[2]/content/MeterReading", xmlResult);
     }
 }

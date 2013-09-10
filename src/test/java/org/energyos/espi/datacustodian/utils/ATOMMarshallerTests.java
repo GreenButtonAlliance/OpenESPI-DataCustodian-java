@@ -298,4 +298,9 @@ public class ATOMMarshallerTests {
     public void marshal_returnsEntryWithUsagePointContent() throws SAXException, IOException, XpathException {
         assertXpathExists("/feed/entry[1]/content/UsagePoint", xmlResult);
     }
+
+    @Test
+    public void marshal_returnsEntryWithServiceCategoryContent() throws SAXException, IOException, XpathException {
+        assertXpathExists("/feed/entry[1]/content/UsagePoint/ServiceCategory/kind", xmlResult);
+    }
 }
