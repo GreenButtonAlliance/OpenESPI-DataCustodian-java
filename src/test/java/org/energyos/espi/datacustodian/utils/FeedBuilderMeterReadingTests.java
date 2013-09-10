@@ -19,7 +19,6 @@ package org.energyos.espi.datacustodian.utils;
 
 import com.sun.syndication.feed.atom.Content;
 import com.sun.syndication.feed.atom.Feed;
-import com.sun.syndication.feed.atom.Link;
 import com.sun.syndication.io.FeedException;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -45,13 +44,14 @@ import java.util.List;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathNotExists;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
 @Transactional
-public class FeedBuilderUsagePointTests {
+public class FeedBuilderMeterReadingTests {
 
     @Autowired
     UsagePointService usagePointService;
@@ -66,13 +66,13 @@ public class FeedBuilderUsagePointTests {
         ClassPathResource sourceFile = new ClassPathResource("/fixtures/15minLP_15Days.xml");
         FeedBuilder builder = new FeedBuilder();
         RetailCustomer customer = new RetailCustomer();
-        customer.setId(3L);
+        customer.setId(4L);
 
         usagePointService.importUsagePoints(customer, sourceFile.getInputStream());
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(customer);
 
         feed =  builder.buildFeed(usagePoints);
-        entry = (EspiEntry) feed.getEntries().get(0);
+        entry = (EspiEntry) feed.getEntries().get(1);
         contents = entry.getContents();
     }
 
@@ -83,7 +83,7 @@ public class FeedBuilderUsagePointTests {
 
     @Test
     public void returnsEntryWithTitle() throws FeedException {
-        assertEquals("Front Electric Meter", entry.getTitle());
+        assertEquals("Fifteen Minute Electricity Consumption", entry.getTitle());
     }
 
     @Test
@@ -97,19 +97,12 @@ public class FeedBuilderUsagePointTests {
     }
 
     @Test
-    public void returnsEntryWithMeterReadingRelatedLink() throws FeedException {
-        List<Link> relatedLinks = entry.getRelatedLinks();
-
-        assertTrue("Meter Reading link not found", hasMeterReadingLink(relatedLinks));
-    }
-
-    @Test
     public void returnsEntryWithSelfLinkHref() throws FeedException {
         assertNotNull(entry.getSelfLink().getHref());
     }
 
     @Test
-    public void returnsEntryWithUpLinkHref() throws FeedException {
+    public void givenUsagePoint_returnsEntryWithUpLinkHref() throws FeedException {
         assertNotNull(entry.getUpLink().getHref());
     }
 
@@ -130,31 +123,23 @@ public class FeedBuilderUsagePointTests {
     }
 
     @Test
-    public void returnsEntryWithContentWithUsagePoint() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathExists("UsagePoint", contents.get(0).getValue());
+    public void returnsEntryWithContentWithMeterReading() throws FeedException, SAXException, IOException, XpathException {
+        assertXpathExists("MeterReading", contents.get(0).getValue());
     }
 
     @Test
-    public void returnsEntryWithContentWithServiceCategory() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathExists("UsagePoint/ServiceCategory/kind", contents.get(0).getValue());
+    public void returnsEntryWithContentWithoutUsagePoint() throws FeedException, SAXException, IOException, XpathException {
+        System.out.println(contents.get(0).getValue());
+        assertXpathNotExists("//usagePoint", contents.get(0).getValue());
     }
 
     @Test
-    public void returnsEntryWithContentWithoutRetailCustomer() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathNotExists("//retailCustomer", contents.get(0).getValue());
+    public void returnsEntryWithContentWithoutReadingType() throws FeedException, SAXException, IOException, XpathException {
+        assertXpathNotExists("//readingType", contents.get(0).getValue());
     }
 
     @Test
-    public void returnsEntryWithContentWithoutMeterReading() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathNotExists("//meterReadings", contents.get(0).getValue());
-    }
-
-    private boolean hasMeterReadingLink(List<Link> relatedLinks) {
-        for (Link link : relatedLinks) {
-            if (link.getHref().contains("MeterReading")) {
-                return true;
-            }
-        }
-        return false;
+    public void returnsEntryWithContentWithoutIntervalBlocks() throws FeedException, SAXException, IOException, XpathException {
+        assertXpathNotExists("//intervalBlocks", contents.get(0).getValue());
     }
 }

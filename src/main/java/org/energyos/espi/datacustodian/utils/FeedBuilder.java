@@ -19,6 +19,7 @@ package org.energyos.espi.datacustodian.utils;
 import com.sun.syndication.feed.atom.Feed;
 import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.atom.EspiEntry;
+import org.energyos.espi.datacustodian.domain.MeterReading;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.springframework.stereotype.Service;
 
@@ -44,17 +45,14 @@ public class FeedBuilder {
     private void populateEntries(List<UsagePoint> usagePointList, Feed feed) throws FeedException {
         for (UsagePoint usagePoint : usagePointList) {
             EspiEntry entry = new EspiEntry(usagePoint);
-            entry.setSelfLink(getSelfHrefFor(usagePoint));
-            entry.setUpLink(getUpHrefFor(usagePoint));
             feed.getEntries().add(entry);
+
+            if (usagePoint.getMeterReadings().size() > 0) {
+                for(MeterReading meterReading : usagePoint.getMeterReadings()) {
+                    EspiEntry meterEntry = new EspiEntry(meterReading);
+                    feed.getEntries().add(meterEntry);
+                }
+            }
         }
-    }
-
-    private String getSelfHrefFor(UsagePoint usagePoint) {
-        return "RetailCustomer/" + usagePoint.getRetailCustomer().getId() + "/UsagePoint/" + usagePoint.getId();
-    }
-
-    private String getUpHrefFor(UsagePoint usagePoint) {
-        return "RetailCustomer/" + usagePoint.getRetailCustomer().getId() + "/UsagePoint";
     }
 }
