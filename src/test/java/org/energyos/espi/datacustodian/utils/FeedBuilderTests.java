@@ -18,124 +18,127 @@ package org.energyos.espi.datacustodian.utils;
 
 
 import com.sun.syndication.feed.atom.Content;
-import com.sun.syndication.feed.atom.Entry;
 import com.sun.syndication.feed.atom.Feed;
-import com.sun.syndication.feed.atom.Link;
 import com.sun.syndication.io.FeedException;
+import org.custommonkey.xmlunit.XMLUnit;
+import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.atom.EspiEntry;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.domain.ServiceCategory;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.service.UsagePointService;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
+import org.xml.sax.SAXException;
 
-import java.util.ArrayList;
+import javax.xml.bind.JAXBException;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
+import static org.custommonkey.xmlunit.XMLAssert.assertXpathNotExists;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration
+@ContextConfiguration("/spring/test-context.xml")
+@Transactional
 public class FeedBuilderTests {
 
-    @Test
-    public void givenNoUsagePoints_returnsEmptyFeed() throws FeedException {
-        assertEquals(Feed.class, newFeed().getClass());
+    @Autowired
+    UsagePointService usagePointService;
+
+    private Feed feed;
+    private EspiEntry entry;
+    private List<Content> contents;
+
+    @Before
+    public void setup() throws IOException, JAXBException, FeedException {
+        XMLUnit.getControlDocumentBuilderFactory().setNamespaceAware(false);
+        ClassPathResource sourceFile = new ClassPathResource("/fixtures/15minLP_15Days.xml");
+        FeedBuilder builder = new FeedBuilder();
+        RetailCustomer customer = new RetailCustomer();
+        customer.setId(3L);
+
+        usagePointService.importUsagePoints(customer, sourceFile.getInputStream());
+        List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(customer);
+
+        feed =  builder.buildFeed(usagePoints);
+        entry = (EspiEntry) feed.getEntries().get(0);
+        contents = entry.getContents();
     }
 
     @Test
-    public void givenUsagePoint_returnsFeed() throws FeedException {
-        assertEquals(Feed.class, newFeed().getClass());
+    public void returnsEntryWithId() throws FeedException {
+        assertNotNull("Entry id was null", entry.getId());
     }
 
     @Test
-    public void givenUsagePoint_returnsEntryWithId() throws FeedException {
-        Entry entry = newEntry();
-        assertEquals("1", entry.getId());
+    public void returnsEntryWithTitle() throws FeedException {
+        assertEquals("Front Electric Meter", entry.getTitle());
     }
 
     @Test
-    public void givenUsagePoint_returnsEntryWithTitle() throws FeedException {
-        Entry entry = newEntry();
-        assertEquals("Electric meter", entry.getTitle());
+    public void returnsEntryWithSelfLink() throws FeedException {
+        assertNotNull("Entry self link was null", entry.getSelfLink());
     }
 
     @Test
-    public void givenUsagePoint_returnsEntryWithSelfLink() throws FeedException {
-        EspiEntry entry = newEntry();
-        Link link = entry.getSelfLink();
-        assertEquals(Link.class, link.getClass());
+    public void returnsEntryWithUpLink() throws FeedException {
+        assertNotNull("Entry up link was null", entry.getUpLink());
     }
 
     @Test
-    public void givenUsagePoint_returnsEntryWithUpLink() throws FeedException {
-        EspiEntry entry = newEntry();
-        Link link = entry.getUpLink();
-        assertEquals(Link.class, link.getClass());
+    public void returnsEntryWithSelfLinkHref() throws FeedException {
+        assertNotNull(entry.getSelfLink().getHref());
     }
 
     @Test
-    public void givenUsagePoint_returnsEntryWithSelfLinkHref() throws FeedException {
-        EspiEntry entry = newEntry();
-        Link link = entry.getSelfLink();
-        assertEquals("RetailCustomer/1/UsagePoint/1", link.getHref());
+    public void returnsEntryWithUpLinkHref() throws FeedException {
+        assertNotNull(entry.getUpLink().getHref());
     }
 
     @Test
-    public void givenUsagePoint_returnsEntryWithUpLinkHref() throws FeedException {
-        EspiEntry entry = newEntry();
-        Link link = entry.getUpLink();
-        assertEquals("RetailCustomer/1/UsagePoint", link.getHref());
-    }
-
-    @Test
-    public void givenUsagePoint_returnsEntryWithUpdatedDate() throws FeedException {
-        EspiEntry entry = newEntry();
+    public void returnsEntryWithUpdatedDate() throws FeedException {
         assertEquals(Date.class, entry.getUpdated().getClass());
     }
 
     @Test
-    public void givenUsagePoint_returnsEntryWithPublishedDate() throws FeedException {
-        EspiEntry entry = newEntry();
+    public void returnsEntryWithPublishedDate() throws FeedException {
         assertEquals(Date.class, entry.getPublished().getClass());
     }
 
     @Test
-    public void givenUsagePoint_returnsEntryWithContent() throws FeedException {
-        List<Content> contents = newEntry().getContents();
+    public void returnsEntryWithContent() throws FeedException {
         assertEquals(1, contents.size());
         assertEquals(Content.class, contents.get(0).getClass());
     }
 
     @Test
-    public void givenUsagePoint_returnsEntryWithContentWithUsagePoint() throws FeedException {
-        assertTrue("Content missing usage point", newContent().getValue().contains("<UsagePoint"));
+    public void returnsEntryWithContentWithUsagePoint() throws FeedException, SAXException, IOException, XpathException {
+        assertXpathExists("UsagePoint", contents.get(0).getValue());
     }
 
     @Test
-    public void givenUsagePoint_returnsEntryWithContentWithServiceCategory() throws FeedException {
-        assertTrue("Content missing service category", newContent().getValue().contains("<ServiceCategory><kind>0</kind></ServiceCategory>"));
+    public void returnsEntryWithContentWithServiceCategory() throws FeedException, SAXException, IOException, XpathException {
+        assertXpathExists("UsagePoint/ServiceCategory/kind", contents.get(0).getValue());
     }
 
-    private Content newContent() throws FeedException {
-        return (Content) newEntry().getContents().get(0);
+    @Test
+    public void returnsEntryWithContentWithoutRetailCustomer() throws FeedException, SAXException, IOException, XpathException {
+        assertXpathNotExists("//retailCustomer", contents.get(0).getValue());
     }
 
-    private EspiEntry newEntry() throws FeedException {
-        return (EspiEntry) newFeed().getEntries().get(0);
-    }
-
-    private Feed newFeed() throws FeedException {
-        FeedBuilder builder = new FeedBuilder();
-        List<UsagePoint> usagePoints = new ArrayList<>();
-        UsagePoint usagePoint = new UsagePoint();
-        usagePoint.setId(1L);
-        usagePoint.setDescription("Electric meter");
-        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
-        RetailCustomer retailCustomer = new RetailCustomer();
-        retailCustomer.setId(1L);
-        usagePoint.setRetailCustomer(retailCustomer);
-        usagePoints.add(usagePoint);
-
-        return builder.buildFeed(usagePoints);
+    @Test
+    public void returnsEntryWithContentWithoutMeterReading() throws FeedException, SAXException, IOException, XpathException {
+        assertXpathNotExists("//meterReadings", contents.get(0).getValue());
     }
 }

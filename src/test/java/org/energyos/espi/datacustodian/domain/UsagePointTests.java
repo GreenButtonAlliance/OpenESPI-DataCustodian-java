@@ -18,31 +18,25 @@ package org.energyos.espi.datacustodian.domain;
 
 import org.junit.Test;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
+import javax.xml.bind.annotation.XmlTransient;
 
 import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
-import static org.junit.Assert.assertTrue;
 
 public class UsagePointTests {
 
     @Test
-    public void title_should_beValid() throws Exception {
-        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-        UsagePoint usagePoint = new UsagePoint();
-        usagePoint.setDescription("Usage point title");
-        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
-
-        Set<ConstraintViolation<UsagePoint>> violations = validator.validate(usagePoint);
-
-        assertTrue(violations.isEmpty());
+    public void validations() {
+        assertAnnotationPresent(UsagePoint.class, "serviceCategory", NotNull.class);
     }
 
     @Test
-    public void validations() {
-        assertAnnotationPresent(UsagePoint.class, "serviceCategory", NotNull.class);
+    public void meterReadings_hasTransientAnnotation() {
+        assertAnnotationPresent(UsagePoint.class, "meterReadings", XmlTransient.class);
+    }
+
+    @Test
+    public void retailCustomer_hasTransientAnnotation() {
+        assertAnnotationPresent(UsagePoint.class, "retailCustomer", XmlTransient.class);
     }
 }
