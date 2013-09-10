@@ -50,6 +50,32 @@
                 </c:forEach>
                 </tbody>
             </table>
+
+            <table class="table table-striped">
+                <caption class="text-left">Electric Power Usage Summaries:</caption>
+                <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Billing Period Start</th>
+                    <th>Billing Period Duration</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="electricPowerUsageSummary" items="${usagePoint.electricPowerUsageSummaries}">
+                    <tr>
+                        <td>
+                            <c:out value="${electricPowerUsageSummary.description}"/>
+                        </td>
+                        <td>
+                            <c:out value="${electricPowerUsageSummary.billingPeriod.start}"/>
+                        </td>
+                        <td>
+                            <c:out value="${electricPowerUsageSummary.billingPeriod.duration}"/>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
         </div>
     </div>
 

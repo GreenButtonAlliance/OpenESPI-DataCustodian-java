@@ -118,7 +118,7 @@ public class DataCustodianSteps {
         assertTrue(driver.getPageSource().contains("Alan Turing"));
     }
 
-    @And("^I select Usage Point$")
+    @And("^I select a Usage Point$")
     public void I_select_Usage_Point() throws Throwable {
         WebElement usagePointLink = driver.findElement(By.linkText("Front Electric Meter"));
         usagePointLink.click();
@@ -169,14 +169,8 @@ public class DataCustodianSteps {
         StepUtils.login(username, password);
     }
 
-    @And("^I select Electric Power Usage Summary$")
-    public void I_select_Electric_Power_Usage_Summary() throws Throwable {
-        WebElement electricPowerUsageSummaryLink = driver.findElement(By.linkText("Usage Summary"));
-        electricPowerUsageSummaryLink.click();
-    }
-
     @Then("^I should see my Electric Power Usage Summaries$")
     public void I_should_see_my_Electric_Power_Usage_Summaries() throws Throwable {
-        assertTrue(driver.getPageSource().contains("15303000"));
-        }
+        assertTrue(driver.getPageSource().contains("Usage Summary"));
+    }
 }

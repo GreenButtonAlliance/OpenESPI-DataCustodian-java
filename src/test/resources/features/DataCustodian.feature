@@ -103,7 +103,7 @@ Feature: Data Custodian
 
     When I login as Alan Turing
     And I navigate to the Usage Points list
-    And I select Usage Point
+    And I select a Usage Point
     And I select Meter Reading
     Then I should see my Meter Reading with Interval Blocks
 
@@ -118,6 +118,5 @@ Feature: Data Custodian
 
     When I login as Alan Turing
     And I navigate to the Usage Points list
-    And I select Usage Point
-    And I select Electric Power Usage Summary
+    And I select a Usage Point
     Then I should see my Electric Power Usage Summaries
