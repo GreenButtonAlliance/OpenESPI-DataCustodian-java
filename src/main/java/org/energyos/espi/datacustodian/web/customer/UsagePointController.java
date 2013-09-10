@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.security.Principal;
 import java.util.List;
 
-@Controller
+//@Controller
 @RequestMapping("/customer/usagepoints")
 public class UsagePointController extends BaseController {
 

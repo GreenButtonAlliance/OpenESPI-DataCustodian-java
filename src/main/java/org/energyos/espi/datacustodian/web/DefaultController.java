@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Controller
+//@Controller
 public class DefaultController {
 
     @RequestMapping("/default")
