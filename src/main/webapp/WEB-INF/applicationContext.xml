@@ -198,7 +198,15 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 
     <oauth:web-expression-handler id="oauthWebExpressionHandler" />
 
+    <import resource="classpath:spring/business-config.xml"/>
+    <import resource="classpath:spring/data-config.xml"/>
+    <!--<import resource="classpath:spring/security-config.xml"/>-->
+
     <context:component-scan base-package="org.energyos.espi.datacustodian.web"/>
+    <context:component-scan base-package="org.energyos.espi.datacustodian.repositories"/>
+    <context:component-scan base-package="org.energyos.espi.datacustodian.service"/>
+    <context:component-scan base-package="org.energyos.espi.datacustodian.utils"/>
+
 
 
     <!--Basic application beans. -->

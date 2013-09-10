@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+//@Service
 public class RetailCustomerServiceImpl implements RetailCustomerService {
 
     @Autowired
