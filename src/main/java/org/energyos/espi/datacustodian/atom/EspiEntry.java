@@ -20,39 +20,28 @@ import com.sun.syndication.feed.atom.Content;
 import com.sun.syndication.feed.atom.Entry;
 import com.sun.syndication.feed.atom.Link;
 import com.sun.syndication.io.FeedException;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.domain.IdentifiedObject;
 import org.energyos.espi.datacustodian.utils.EspiMarshaller;
 
 import java.util.Date;
+import java.util.List;
 
 @SuppressWarnings("serial")
-public class EspiEntry extends Entry {
-    private Link selfLink;
-    private Link upLink;
+public abstract class EspiEntry extends Entry {
+    protected Link selfLink;
+    protected Link upLink;
+    protected List<Link> relatedLinks;
 
     @SuppressWarnings("unchecked")
-    public EspiEntry(UsagePoint usagePoint) throws FeedException {
-        this.setTitle(usagePoint.getDescription());
-        this.setId(usagePoint.getId().toString());
+    public EspiEntry(IdentifiedObject object) throws FeedException {
+        this.setTitle(object.getDescription());
+        this.setId(object.getId().toString());
         this.setPublished(new Date());
         this.setUpdated(this.getPublished());
 
-        selfLink = new Link();
-        upLink = new Link();
-
-        selfLink.setRel("self");
-        upLink.setRel("up");
-
-        getOtherLinks().add(selfLink);
-        getOtherLinks().add(upLink);
-
         Content content = new Content();
-        content.setValue(EspiMarshaller.marshal(usagePoint));
+        content.setValue(EspiMarshaller.marshal(object));
         this.getContents().add(content);
-    }
-
-    public void setSelfLink(String href) {
-        selfLink.setHref(href);
     }
 
     public Link getSelfLink() {
@@ -63,8 +52,7 @@ public class EspiEntry extends Entry {
         return upLink;
     }
 
-    public void setUpLink(String href) {
-        upLink.setHref(href);
+    public List<Link> getRelatedLinks() {
+        return relatedLinks;
     }
 }
-
