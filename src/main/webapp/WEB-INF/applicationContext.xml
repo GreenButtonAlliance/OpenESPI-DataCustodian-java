@@ -86,7 +86,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         <intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 
         <form-login authentication-failure-url="/login?authentication_error=true" default-target-url="/default"
-                    login-page="/login.jsp" login-processing-url="/login.do" />
+                    login-page="/login" login-processing-url="/login.do" />
         <logout logout-success-url="/" logout-url="/logout.do" />
         <anonymous />
     </http>
