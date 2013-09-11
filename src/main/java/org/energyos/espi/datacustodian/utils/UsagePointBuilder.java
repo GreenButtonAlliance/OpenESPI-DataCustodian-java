@@ -16,10 +16,7 @@
 
 package org.energyos.espi.datacustodian.utils;
 
-import org.energyos.espi.datacustodian.domain.IntervalBlock;
-import org.energyos.espi.datacustodian.domain.MeterReading;
-import org.energyos.espi.datacustodian.domain.ReadingType;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.domain.*;
 import org.energyos.espi.datacustodian.models.atom.ContentType;
 import org.energyos.espi.datacustodian.models.atom.EntryType;
 import org.energyos.espi.datacustodian.models.atom.FeedType;
@@ -55,6 +52,8 @@ public class UsagePointBuilder {
                 handleReadingType(entry);
             } else if (content.getIntervalBlocks() != null) {
                 handleIntervalBlock(entry);
+            } else if (content.getElectricPowerUsageSummary() != null) {
+                handleElectricPowerUsageSummary(entry);
             }
         }
     }
@@ -87,7 +86,7 @@ public class UsagePointBuilder {
         meterReading.setDescription(entry.getTitle());
 
         EntryType usagePointEntry = lookup.getUpEntry(entry);
-        usagePointEntry.getContent().getUsagePoint().addMeterReading(content.getMeterReading());
+        usagePointEntry.getContent().getUsagePoint().addMeterReading(meterReading);
 
         meterReading.setReadingType(findReadingType(entry));
         findReadingType(entry);
@@ -100,5 +99,14 @@ public class UsagePointBuilder {
             }
         }
         return null;
+    }
+    private void handleElectricPowerUsageSummary (EntryType entry) {
+        ContentType content = entry.getContent();
+        ElectricPowerUsageSummary electricPowerUsageSummary = content.getElectricPowerUsageSummary();
+
+        electricPowerUsageSummary.setDescription(entry.getTitle());
+
+        EntryType usagePointEntry = lookup.getUpEntry(entry);
+        usagePointEntry.getContent().getUsagePoint().addElectricPowerUsageSummary(electricPowerUsageSummary);
     }
 }

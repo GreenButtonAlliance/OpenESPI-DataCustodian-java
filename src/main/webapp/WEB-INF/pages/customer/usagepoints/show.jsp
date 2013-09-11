@@ -27,7 +27,7 @@
 <div class="container">
     <div class="row">
         <div class="span12">
-            <h2><c:out value="${usagePoint.description}"/></h2>
+            <h2>Usage Point: <c:out value="${usagePoint.description}"/></h2>
 
             <table class="table table-striped">
                 <caption class="text-left">Meter Readings:</caption>
@@ -46,6 +46,32 @@
                             </a>
                         </td>
                         <td><c:out value="${meterReading.readingType.description}"/></td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+
+            <table class="table table-striped">
+                <caption class="text-left">Electric Power Usage Summaries:</caption>
+                <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Billing Period Start</th>
+                    <th>Billing Period Duration</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="electricPowerUsageSummary" items="${usagePoint.electricPowerUsageSummaries}">
+                    <tr>
+                        <td>
+                            <c:out value="${electricPowerUsageSummary.description}"/>
+                        </td>
+                        <td>
+                            <c:out value="${electricPowerUsageSummary.billingPeriod.start}"/>
+                        </td>
+                        <td>
+                            <c:out value="${electricPowerUsageSummary.billingPeriod.duration}"/>
+                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>

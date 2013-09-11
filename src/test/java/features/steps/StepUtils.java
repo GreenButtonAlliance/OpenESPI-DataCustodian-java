@@ -34,9 +34,18 @@ public class StepUtils {
     public final static String BASE_URL = "http://localhost:8080/DataCustodian";
     private static WebDriver driver = WebDriverSingleton.getInstance();;
 
+    public static void navigateTo(String path) {
+        driver.get(StepUtils.BASE_URL + path);
+    }
+
+    public static void clickLinkByText(String linkText) {
+        WebElement link = driver.findElement(By.linkText(linkText));
+        link.click();
+    }
+
     public static void login(String username, String password) {
-        driver.get(BASE_URL + "/j_spring_security_logout");
-        driver.get(BASE_URL + "/");
+        navigateTo("/j_spring_security_logout");
+        navigateTo("/");
         WebElement loginLink = driver.findElement(By.id("login"));
         loginLink.click();
         WebElement usernameInput = driver.findElement(By.name("j_username"));
@@ -55,8 +64,7 @@ public class StepUtils {
     }
 
     public static void importUsagePoint(String username, String path) throws IOException {
-        WebElement customerLink = driver.findElement(By.linkText(username));
-        customerLink.click();
+        clickLinkByText(username);
 
         uploadUsagePoints(path);
     }
@@ -64,8 +72,8 @@ public class StepUtils {
     public static void registerUser(String username, String firstName, String lastName, String password) {
         StepUtils.login("grace", "koala");
 
-        driver.findElement(By.partialLinkText("Customer List")).click();
-        driver.findElement(By.partialLinkText("Add new customer")).click();
+        clickLinkByText("Customer List");
+        clickLinkByText("Add new customer");
 
         assertTrue(driver.getPageSource().contains("New Retail Customer"));
 
@@ -106,8 +114,7 @@ public class StepUtils {
         ClassPathResource sourceFile = new ClassPathResource(path);
         Files.copy(sourceFile.getInputStream(), Paths.get(tmpFile.getAbsolutePath()), REPLACE_EXISTING);
 
-        WebElement uploadLink = driver.findElement(By.linkText("Upload data"));
-        uploadLink.click();
+        clickLinkByText("Upload data");
         WebElement file = driver.findElement(By.name("file"));
         file.sendKeys(tmpFile.getAbsolutePath());
         WebElement upload = driver.findElement(By.name("upload"));
