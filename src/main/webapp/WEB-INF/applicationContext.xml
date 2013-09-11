@@ -80,16 +80,27 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         <access-denied-handler ref="oauthAccessDeniedHandler" />
     </http>
 
-    <http access-denied-page="/login.jsp?authorization_error=true" disable-url-rewriting="true"
+    <http access-denied-page="/login?authorization_error=true" disable-url-rewriting="true"
           xmlns="http://www.springframework.org/schema/security">
         <intercept-url pattern="/oauth/**" access="ROLE_USER" />
         <intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 
-        <form-login authentication-failure-url="/login.jsp?authentication_error=true" default-target-url="/index.jsp"
+        <form-login authentication-failure-url="/login?authentication_error=true" default-target-url="/default"
                     login-page="/login.jsp" login-processing-url="/login.do" />
-        <logout logout-success-url="/index.jsp" logout-url="/logout.do" />
+        <logout logout-success-url="/" logout-url="/logout.do" />
         <anonymous />
     </http>
+
+    <!--<http access-denied-page="/login.jsp?authorization_error=true" disable-url-rewriting="true"-->
+          <!--xmlns="http://www.springframework.org/schema/security">-->
+        <!--<intercept-url pattern="/oauth/**" access="ROLE_USER" />-->
+        <!--<intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />-->
+
+        <!--<form-login authentication-failure-url="/login.jsp?authentication_error=true" default-target-url="/index.jsp"-->
+                    <!--login-page="/login.jsp" login-processing-url="/login.do" />-->
+        <!--<logout logout-success-url="/index.jsp" logout-url="/logout.do" />-->
+        <!--<anonymous />-->
+    <!--</http>-->
 
     <bean id="oauthAuthenticationEntryPoint" class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
         <property name="realmName" value="sparklr2" />

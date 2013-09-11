@@ -32,9 +32,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
-//@Controller
+@Controller
 @RequestMapping("/custodian/retailcustomers")
-@EnableWebMvc
+//@EnableWebMvc
 @PreAuthorize("hasRole('ROLE_CUSTODIAN')")
 public class RetailCustomerController {
 

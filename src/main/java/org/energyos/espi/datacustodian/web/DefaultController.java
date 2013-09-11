@@ -21,14 +21,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
-//@Controller
+@Controller
 public class DefaultController {
 
     @RequestMapping("/default")
     public String defaultAfterLogin(HttpServletRequest request) {
         if (request.isUserInRole("ROLE_CUSTODIAN")) {
             return "redirect:/custodian/home";
-        } else if (request.isUserInRole("ROLE_CUSTOMER")) {
+        } else if (request.isUserInRole("ROLE_USER")) {
             return "redirect:/customer/home";
         }
         return "redirect:/home";
