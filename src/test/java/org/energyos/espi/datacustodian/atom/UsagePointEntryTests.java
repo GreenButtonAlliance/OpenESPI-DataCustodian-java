@@ -18,9 +18,11 @@ package org.energyos.espi.datacustodian.atom;
 
 
 import com.sun.syndication.feed.atom.Content;
+import com.sun.syndication.feed.atom.Link;
 import com.sun.syndication.io.FeedException;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.custommonkey.xmlunit.exceptions.XpathException;
+import org.energyos.espi.datacustodian.domain.MeterReading;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.junit.Before;
@@ -33,7 +35,7 @@ import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class EspiEntryTests {
+public class UsagePointEntryTests {
 
     private UsagePoint usagePoint;
 
@@ -45,22 +47,41 @@ public class EspiEntryTests {
         usagePoint.setId(1L);
         usagePoint.setDescription("Electric Meter");
         RetailCustomer customer = new RetailCustomer();
-        customer.setId(3L);
+        customer.setId(1L);
         usagePoint.setRetailCustomer(customer);
+        MeterReading meterReading = newMeterReading();
+        usagePoint.addMeterReading(meterReading);
     }
 
     @Test
-    public void constructsEspiEntry() throws FeedException, SAXException, IOException, XpathException {
+    public void constructsUsagePointEntry() throws FeedException, SAXException, IOException, XpathException {
 
         UsagePointEntry entry = new UsagePointEntry(usagePoint);
         assertNotNull("entry was null", entry);
 
-        assertEquals("Electric Meter", entry.getTitle());
-        assertEquals("Invalid entry id", "1", entry.getId());
-        assertNotNull("Published is null", entry.getPublished());
-        assertNotNull("Updated is null", entry.getUpdated());
+        assertEquals("RetailCustomer/1/UsagePoint/1", entry.getSelfLink().getHref());
+        assertEquals("RetailCustomer/1/UsagePoint", entry.getUpLink().getHref());
+        assertEquals("RetailCustomer/1/UsagePoint/1/MeterReading", findMeterReadingLink(entry).getHref());
 
         Content content = (Content)entry.getContents().get(0);
         assertXpathExists("UsagePoint", content.getValue());
+    }
+
+    private Link findMeterReadingLink(EspiEntry entry) {
+        for (Link link : entry.getRelatedLinks()) {
+            if (link.getHref().contains("MeterReading")) {
+                return link;
+            }
+        }
+        return null;
+    }
+
+    private MeterReading newMeterReading() {
+        MeterReading reading = new MeterReading();
+
+        reading.setId(9L);
+        reading.setDescription("Electricity consumption");
+
+        return reading;
     }
 }

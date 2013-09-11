@@ -18,25 +18,24 @@ package org.energyos.espi.datacustodian.domain;
 
 import org.junit.Test;
 
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlTransient;
 
 import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
 
-public class UsagePointTests {
+public class MeterReadingTests {
 
     @Test
-    public void validations() {
-        assertAnnotationPresent(UsagePoint.class, "serviceCategory", NotNull.class);
+    public void usagePoint_hasTransientAnnotation() {
+        assertAnnotationPresent(MeterReading.class, "usagePoint", XmlTransient.class);
     }
 
     @Test
-    public void meterReadings_hasTransientAnnotation() {
-        assertAnnotationPresent(UsagePoint.class, "meterReadings", XmlTransient.class);
+    public void intervalBlocks_hasTransientAnnotation() {
+        assertAnnotationPresent(MeterReading.class, "intervalBlocks", XmlTransient.class);
     }
 
     @Test
-    public void retailCustomer_hasTransientAnnotation() {
-        assertAnnotationPresent(UsagePoint.class, "retailCustomer", XmlTransient.class);
+    public void readingType_hasTransientAnnotation() {
+        assertAnnotationPresent(MeterReading.class, "readingType", XmlTransient.class);
     }
 }

@@ -37,15 +37,10 @@ Feature: Retail Customers
     And I should see Interval Blocks
 
   Scenario: Retail Customer downloads Usage Points in XML format
-    Given a logged in retail customer
+    Given a Retail Customer with Usage Points
 
-    When I look at my usage page
+    When I navigate to the Usage Points list
     Then I should be able to download Usage Points in XML format
-
-  Scenario: Retail Customer downloads Usage Points with Service Categories
-    Given Alan Turing Retail Customer
-    And Usage Points with Service Categories
-
-    When I login as Alan Turing
-    And I look at my usage page
-    Then I should be able to download my Usage Points with Service Categories with Service Kind of Gas service
+    And the XML includes Service categories
+    And the XML includes Meter Readings
+    And the XML includes Reading Types

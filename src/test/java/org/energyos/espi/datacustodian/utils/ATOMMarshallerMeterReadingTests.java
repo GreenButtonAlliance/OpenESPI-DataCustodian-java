@@ -16,8 +16,14 @@
 
 package org.energyos.espi.datacustodian.utils;
 
+import com.sun.syndication.io.FeedException;
+import org.custommonkey.xmlunit.XMLUnit;
+import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.domain.MeterReading;
+import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.models.atom.FeedType;
+import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,17 +32,23 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
+import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
+import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
+import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
+@Transactional
 public class ATOMMarshallerMeterReadingTests {
 
     String FEED_PREFIX = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
@@ -48,9 +60,26 @@ public class ATOMMarshallerMeterReadingTests {
 
     @Autowired
     private ATOMMarshaller marshaller;
+    @Autowired
+    UsagePointService usagePointService;
+
+    private String xmlResult;
+    private MeterReading meterReading;
 
     @Before
-    public void before() throws IOException, JAXBException {
+    public void before() throws IOException, JAXBException, FeedException {
+        XMLUnit.getControlDocumentBuilderFactory().setNamespaceAware(false);
+
+        ClassPathResource sourceFile = new ClassPathResource("/fixtures/15minLP_15Days.xml");
+        FeedBuilder builder = new FeedBuilder();
+        RetailCustomer customer = new RetailCustomer();
+        customer.setId(5L);
+
+        usagePointService.importUsagePoints(customer, sourceFile.getInputStream());
+        List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(customer);
+        meterReading = usagePoints.get(0).getMeterReadings().get(0);
+
+        xmlResult = marshaller.marshal(builder.buildFeed(usagePoints));
     }
 
     @Test
@@ -81,5 +110,45 @@ public class ATOMMarshallerMeterReadingTests {
         ClassPathResource sourceFile = new ClassPathResource("/fixtures/15minLP_15Days.xml");
         FeedType feedType = marshaller.unmarshal(sourceFile.getInputStream());
         assertEquals(MeterReading.class, feedType.getEntries().get(2).getContent().getMeterReading().getClass());
+    }
+
+    @Test
+    public void marshal_returnsEntryWithId() throws SAXException, IOException, XpathException {
+        assertXpathEvaluatesTo(meterReading.getId().toString(), "//entry[2]/id", xmlResult);
+    }
+
+    @Test
+    public void marshal_returnsEntryWithSelfLink() throws SAXException, IOException, XpathException {
+        assertXpathExists("//entry[2]/link[@rel='self']/@href", xmlResult);
+    }
+
+    @Test
+    public void marshal_returnsEntryWithUpLink() throws SAXException, IOException, XpathException {
+        assertXpathExists("//entry[2]/link[@rel='up']/@href", xmlResult);
+    }
+
+    @Test
+    public void marshal_returnsEntryWithTitle() throws SAXException, IOException, XpathException {
+        assertXpathEvaluatesTo("Fifteen Minute Electricity Consumption", "//entry[2]/title", xmlResult);
+    }
+
+    @Test
+    public void marshal_returnsEntryWithContent() throws SAXException, IOException, XpathException {
+        assertXpathExists("//entry[2]/content", xmlResult);
+    }
+
+    @Test
+    public void marshal_returnsEntryWithPublishedDate() throws SAXException, IOException, XpathException {
+        assertXpathExists("//entry[2]/published", xmlResult);
+    }
+
+    @Test
+    public void marshal_returnsEntryWithUpdatedDate() throws SAXException, IOException, XpathException {
+        assertXpathExists("//entry[2]/updated", xmlResult);
+    }
+
+    @Test
+    public void marshal_returnsEntryWithMeterReadingContent() throws SAXException, IOException, XpathException {
+        assertXpathExists("//entry[2]/content/MeterReading", xmlResult);
     }
 }
