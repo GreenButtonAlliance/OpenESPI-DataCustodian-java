@@ -25,6 +25,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import static features.steps.StepUtils.clickLinkByText;
+import static features.steps.StepUtils.navigateTo;
 import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
 import static org.junit.Assert.assertTrue;
 
@@ -49,7 +51,7 @@ public class RetailCustomerSteps {
 
     @When("^I navigate to customer list page$")
     public void I_navigate_to_customer_list_page() throws Throwable {
-        driver.get(StepUtils.BASE_URL + "/custodian/retailcustomers");
+        navigateTo("/custodian/retailcustomers");
     }
 
     @Then("^I should see Alan Turing in the customer list$")
@@ -74,7 +76,7 @@ public class RetailCustomerSteps {
 
     @When("^I look at my usage page$")
     public void I_look_at_my_usage_page() throws Throwable {
-        driver.get(StepUtils.BASE_URL + "/customer/usagepoints");
+        navigateTo("/customer/usagepoints");
     }
 
     @Then("^I should see my Usage Points with title \"([^\"]*)\"$")
@@ -128,8 +130,7 @@ public class RetailCustomerSteps {
 
     @Then("^I select \"([^\"]*)\" from the Usage Point list$")
     public void I_select_from_the_Usage_Point_list(String usagePoint) throws Throwable {
-        WebElement usagePointLink = driver.findElement(By.linkText(usagePoint));
-        usagePointLink.click();
+        clickLinkByText(usagePoint);
     }
 
     @Then("^I should see the Meter Readings and Reading Types$")
@@ -178,4 +179,42 @@ public class RetailCustomerSteps {
     public void the_XML_includes_Reading_Types() throws Throwable {
         assertXpathValue("Energy Delivered (kWh)", "feed/entry[3]/title", xmlResult);
     }
+
+    @Then("^I should see Electric Power Usage Summaries$")
+    public void I_should_see_Electric_Power_Usage_Summaries() throws Throwable {
+        assertTrue(driver.getPageSource().contains("Usage Summary"));
+        assertTrue(driver.getPageSource().contains("1119600"));
+    }
+
+    @Then("^the logged in retail customer can see their usage data$")
+    public void the_logged_in_retail_customer_can_see_their_usage_data() throws Throwable {
+        navigateTo("/customer/home");
+
+        clickLinkByText("Usage Points");
+
+        assertTrue(driver.getPageSource().contains("Front Electric Meter"));
+
+        clickLinkByText("Front Electric Meter");
+
+        assertTrue(driver.getPageSource().contains("Usage Point: Front Electric Meter"));
+        assertTrue(driver.getPageSource().contains("Usage Summary"));
+        assertTrue(driver.getPageSource().contains("1119600"));
+        assertTrue(driver.getPageSource().contains("1330578000"));
+
+        assertTrue(driver.getPageSource().contains("Fifteen Minute Electricity Consumption"));
+        assertTrue(driver.getPageSource().contains("Energy Delivered (kWh)"));
+
+        clickLinkByText("Fifteen Minute Electricity Consumption");
+
+        assertTrue(driver.getPageSource().contains("Meter Reading: Fifteen Minute Electricity Consumption"));
+        assertTrue(driver.getPageSource().contains("Energy Delivered (kWh)"));
+        assertTrue(driver.getPageSource().contains("840"));
+        assertTrue(driver.getPageSource().contains("12"));
+        assertTrue(driver.getPageSource().contains("1/2"));
+        assertTrue(driver.getPageSource().contains("600/800"));
+
+        assertTrue(driver.getPageSource().contains("86400"));
+        assertTrue(driver.getPageSource().contains("1330578000"));
+        assertTrue(driver.getPageSource().contains("1330664400"));
+   }
 }

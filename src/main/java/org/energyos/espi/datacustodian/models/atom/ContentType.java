@@ -24,10 +24,7 @@
 
 package org.energyos.espi.datacustodian.models.atom;
 
-import org.energyos.espi.datacustodian.domain.IntervalBlock;
-import org.energyos.espi.datacustodian.domain.MeterReading;
-import org.energyos.espi.datacustodian.domain.ReadingType;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.domain.*;
 import org.energyos.espi.datacustodian.models.atom.adapters.GenericAdapter;
 import org.energyos.espi.datacustodian.models.atom.adapters.IntervalBlockAdapter;
 
@@ -40,6 +37,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.lang.Object;
 
 
 /**
@@ -71,6 +69,7 @@ import java.util.Map;
         "usagePoint",
         "meterReading",
         "intervalBlocks",
+        "electricPowerUsageSummary",
         "readingType",
         "content"
 })
@@ -96,6 +95,13 @@ public class ContentType {
     @XmlAnyElement(lax = true)
     @XmlJavaTypeAdapter(IntervalBlockAdapter.class)
     protected List<IntervalBlock> intervalBlocks;
+
+    @XmlElementRefs({
+            @XmlElementRef(name = "ElectricPowerUsageSummary", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
+    })
+    @XmlAnyElement(lax = true)
+    @XmlJavaTypeAdapter(GenericAdapter.class)
+    protected ElectricPowerUsageSummary electricPowerUsageSummary;
 
     @XmlMixed
     @XmlAnyElement(lax = true)
@@ -275,5 +281,9 @@ public class ContentType {
 
     public ReadingType getReadingType() {
         return readingType;
+    }
+
+    public ElectricPowerUsageSummary getElectricPowerUsageSummary() {
+        return electricPowerUsageSummary;
     }
 }

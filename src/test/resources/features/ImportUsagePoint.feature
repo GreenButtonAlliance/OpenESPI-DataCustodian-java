@@ -8,10 +8,4 @@ Feature: Usage Point Import
 
     When I import Alan Turing's Usage Points from an XML file
     And I login as Alan Turing
-    And I navigate to the Usage Points list
-    And I select Usage Point
-    And I select Meter Reading
-
-    Then I should see Meter Reading
-    And I should see Reading Type
-    And I should see Interval Blocks
+    Then the logged in retail customer can see their usage data

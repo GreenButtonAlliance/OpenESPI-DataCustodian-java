@@ -90,7 +90,12 @@ public class UsagePoint
     @XmlTransient
     @OneToMany(mappedBy = "usagePoint", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<MeterReading> meterReadings = new ArrayList<MeterReading>();
+    private List<MeterReading> meterReadings = new ArrayList<>();
+
+    @XmlTransient
+    @OneToMany(mappedBy = "usagePoint", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<ElectricPowerUsageSummary> electricPowerUsageSummaries = new ArrayList<>();
 
     public void addMeterReading(MeterReading meterReading)
     {
@@ -188,5 +193,14 @@ public class UsagePoint
 
     public void setRetailCustomer(RetailCustomer retailCustomer) {
         this.retailCustomer = retailCustomer;
+    }
+
+    public List<ElectricPowerUsageSummary> getElectricPowerUsageSummaries() {
+        return electricPowerUsageSummaries;
+    }
+
+    public void addElectricPowerUsageSummary(ElectricPowerUsageSummary electricPowerUsageSummary) {
+        electricPowerUsageSummary.setUsagePoint(this);
+        electricPowerUsageSummaries.add(electricPowerUsageSummary);
     }
 }

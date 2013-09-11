@@ -21,10 +21,10 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
+import static features.steps.StepUtils.clickLinkByText;
+import static features.steps.StepUtils.navigateTo;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -35,7 +35,7 @@ public class DataCustodianSteps {
 
     @After
     public void logout() {
-        driver.get(StepUtils.BASE_URL + "/j_spring_security_logout");
+        navigateTo("/j_spring_security_logout");
     }
 
     @Given("^I have a Data Custodian account$")
@@ -102,14 +102,12 @@ public class DataCustodianSteps {
 
     @And("^I navigate to the Usage Points list$")
     public void I_navigate_to_the_Usage_Points_list() throws Throwable {
-        WebElement usagePointsLink = driver.findElement(By.linkText("Usage Points"));
-        usagePointsLink.click();
+        clickLinkByText("Usage Points");
     }
 
     @And("^I select \"Alan Turing\" from customer list$")
     public void I_select_from_customer_list() throws Throwable {
-        WebElement customerLink = driver.findElement(By.linkText("alan"));
-        customerLink.click();
+        clickLinkByText("alan");
     }
 
     @Then("^I should see \"([^\"]*)\" profile page$")
@@ -117,16 +115,14 @@ public class DataCustodianSteps {
         assertTrue(driver.getPageSource().contains("Alan Turing"));
     }
 
-    @And("^I select Usage Point$")
+    @And("^I select a Usage Point$")
     public void I_select_Usage_Point() throws Throwable {
-        WebElement usagePointLink = driver.findElement(By.linkText("Front Electric Meter"));
-        usagePointLink.click();
+        clickLinkByText("Front Electric Meter");
     }
 
     @And("^I select Meter Reading$")
     public void I_select_Meter_Reading() throws Throwable {
-        WebElement meterReadingLink = driver.findElement(By.linkText("Fifteen Minute Electricity Consumption"));
-        meterReadingLink.click();
+        clickLinkByText("Fifteen Minute Electricity Consumption");
     }
 
     @Then("^I should see my Meter Reading with Interval Blocks$")
@@ -147,7 +143,7 @@ public class DataCustodianSteps {
 
     @And("^I select Retail Customer from customer list$")
     public void I_select_Retail_Customer_from_customer_list() throws Throwable {
-        driver.findElement(By.linkText(username)).click();
+        clickLinkByText(username);
     }
 
     @When("^I login as Retail Customer$")
@@ -166,5 +162,10 @@ public class DataCustodianSteps {
         StepUtils.registerUser(username, firstName, lastName, password);
         StepUtils.importUsagePoint(username, path);
         StepUtils.login(username, password);
+    }
+
+    @Then("^I should see my Electric Power Usage Summaries$")
+    public void I_should_see_my_Electric_Power_Usage_Summaries() throws Throwable {
+        assertTrue(driver.getPageSource().contains("Usage Summary"));
     }
 }

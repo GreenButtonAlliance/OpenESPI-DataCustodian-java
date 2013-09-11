@@ -21,7 +21,8 @@ import org.energyos.espi.datacustodian.repositories.IntervalBlockRepository;
 import org.energyos.espi.datacustodian.service.impl.IntervalBlockServiceImpl;
 import org.junit.Test;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class IntervalBlockServiceImplTests {
 

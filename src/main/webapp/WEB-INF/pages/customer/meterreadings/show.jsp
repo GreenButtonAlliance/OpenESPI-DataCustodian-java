@@ -27,8 +27,7 @@
 <div class="container">
     <div class="row">
         <div class="span12">
-            <h2>Meter Reading</h2>
-
+            <h2>Meter Reading: <c:out value="${meterReading.description}"/></h2>
             <table class="table table-striped">
                 <caption class="text-left">Reading Type:</caption>
                 <thead>
