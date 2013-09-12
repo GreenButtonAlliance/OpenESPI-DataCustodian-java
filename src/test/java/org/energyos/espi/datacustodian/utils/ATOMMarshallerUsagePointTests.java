@@ -253,7 +253,7 @@ public class ATOMMarshallerUsagePointTests {
 
     @Test
     public void marshal_returnsEntryWithId() throws SAXException, IOException, XpathException {
-        assertXpathEvaluatesTo(usagePoint.getId().toString(), "/feed/entry/id", xmlResult);
+        assertXpathEvaluatesTo("urn:uuid:" + usagePoint.getMRID().toString(), "/feed/entry/id", xmlResult);
     }
 
     @Test

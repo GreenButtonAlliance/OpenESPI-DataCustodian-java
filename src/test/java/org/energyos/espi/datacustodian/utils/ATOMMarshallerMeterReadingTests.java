@@ -114,7 +114,7 @@ public class ATOMMarshallerMeterReadingTests {
 
     @Test
     public void marshal_returnsEntryWithId() throws SAXException, IOException, XpathException {
-        assertXpathEvaluatesTo(meterReading.getId().toString(), "//entry[2]/id", xmlResult);
+        assertXpathEvaluatesTo("urn:uuid:" + meterReading.getMRID().toString(), "//entry[2]/id", xmlResult);
     }
 
     @Test
