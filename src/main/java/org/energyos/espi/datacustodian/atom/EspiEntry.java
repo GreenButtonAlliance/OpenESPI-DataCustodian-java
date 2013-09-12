@@ -23,7 +23,6 @@ import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.domain.IdentifiedObject;
 import org.energyos.espi.datacustodian.utils.EspiMarshaller;
 
-import java.util.Date;
 import java.util.List;
 
 @SuppressWarnings("serial")
@@ -35,9 +34,9 @@ public abstract class EspiEntry extends Entry {
     @SuppressWarnings("unchecked")
     public EspiEntry(IdentifiedObject object) throws FeedException {
         this.setTitle(object.getDescription());
-        this.setId(object.getId().toString());
-        this.setPublished(new Date());
-        this.setUpdated(this.getPublished());
+        this.setId("urn:uuid:" + object.getMRID());
+        this.setPublished(object.getCreated());
+        this.setUpdated(object.getUpdated());
 
         Content content = new Content();
         content.setValue(EspiMarshaller.marshal(object));
