@@ -73,6 +73,7 @@ public class IntegrationSteps {
     @Then("^export data should include Feed$")
     public void export_data_should_include_Feed() throws Throwable {
         assertXpathExists("/feed", xml);
+        assertXpathExists("//ElectricPowerUsageSummary", xml);
     }
 
     @When("^I create a Retail Customer$")

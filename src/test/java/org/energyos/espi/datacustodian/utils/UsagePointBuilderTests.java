@@ -18,10 +18,7 @@ package org.energyos.espi.datacustodian.utils;
 
 import org.energyos.espi.datacustodian.domain.ServiceCategory;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.models.atom.ContentType;
-import org.energyos.espi.datacustodian.models.atom.EntryType;
-import org.energyos.espi.datacustodian.models.atom.FeedType;
-import org.energyos.espi.datacustodian.models.atom.LinkType;
+import org.energyos.espi.datacustodian.models.atom.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -62,6 +59,9 @@ public class UsagePointBuilderTests {
 
         EntryType entryType = new EntryType();
         entryType.setTitle(title);
+        IdType id = new IdType();
+        id.setValue("urn:uuid:0071C5A7-91CF-434E-8BCE-C38AC8AF215D");
+        entryType.setId(id);
         newUsagePoint(entryType);
         feed.getEntries().add(entryType);
 

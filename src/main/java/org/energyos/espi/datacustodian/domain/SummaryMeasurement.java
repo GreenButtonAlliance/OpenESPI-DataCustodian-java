@@ -71,6 +71,16 @@ public class SummaryMeasurement
     protected String uom;
     protected Long value;
 
+    public SummaryMeasurement() {
+    }
+
+    public SummaryMeasurement(String powerOfTenMultiplier, Long timeStamp, String uom, Long value) {
+        this.powerOfTenMultiplier = powerOfTenMultiplier;
+        this.timeStamp = timeStamp;
+        this.uom = uom;
+        this.value = value;
+    }
+
     /**
      * Gets the value of the powerOfTenMultiplier property.
      * 
