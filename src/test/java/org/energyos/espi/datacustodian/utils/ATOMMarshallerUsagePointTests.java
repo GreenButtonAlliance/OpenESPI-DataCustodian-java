@@ -54,7 +54,7 @@ import static org.junit.Assert.assertEquals;
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
 @Transactional
-public class ATOMMarshallerTests {
+public class ATOMMarshallerUsagePointTests {
 
     String FEED_PREFIX = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
             "<?xml-stylesheet type=\"text/xsl\" href=\"GreenButtonDataStyleSheet.xslt\"?>" +
