@@ -219,7 +219,7 @@ public class RetailCustomerSteps {
 
     @And("^the XML includes Electric Power Usage Summary$")
     public void the_XML_includes_Electric_Power_Usage_Summary() throws Throwable {
-        assertXpathValue("Usage Summary", "feed/entry[6]/title", xmlResult);
-        assertXpathValue("1119600", "feed/entry[6]/content/ElectricPowerUsageSummary/billingPeriod/duration", xmlResult);
+        assertXpathValue("Usage Summary", "feed/entry[4]/title", xmlResult);
+        assertXpathValue("1119600", "feed/entry[4]/content/ElectricPowerUsageSummary/billingPeriod/duration", xmlResult);
     }
 }
