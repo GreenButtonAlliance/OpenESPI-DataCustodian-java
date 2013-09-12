@@ -29,6 +29,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.xml.bind.annotation.*;
+import java.util.Date;
 
 
 /**
@@ -82,6 +83,11 @@ public class IdentifiedObject
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @XmlTransient
     protected Long id;
+
+    @XmlTransient
+    protected Date created = new Date();
+    @XmlTransient
+    protected Date updated = new Date();
 
     public Long getId() {
         return id;
@@ -139,4 +145,19 @@ public class IdentifiedObject
         this.description = value;
     }
 
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
 }
