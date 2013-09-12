@@ -17,6 +17,7 @@
 package features.steps;
 
 import cucumber.api.java.Before;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -180,32 +181,21 @@ public class RetailCustomerSteps {
         assertXpathValue("Energy Delivered (kWh)", "feed/entry[3]/title", xmlResult);
     }
 
-    @Then("^I should see Electric Power Usage Summaries$")
-    public void I_should_see_Electric_Power_Usage_Summaries() throws Throwable {
-        assertTrue(driver.getPageSource().contains("Usage Summary"));
-        assertTrue(driver.getPageSource().contains("1119600"));
-    }
-
     @Then("^the logged in retail customer can see their usage data$")
     public void the_logged_in_retail_customer_can_see_their_usage_data() throws Throwable {
         navigateTo("/customer/home");
 
         clickLinkByText("Usage Points");
-
         assertTrue(driver.getPageSource().contains("Front Electric Meter"));
 
         clickLinkByText("Front Electric Meter");
-
-        assertTrue(driver.getPageSource().contains("Usage Point: Front Electric Meter"));
-        assertTrue(driver.getPageSource().contains("Usage Summary"));
-        assertTrue(driver.getPageSource().contains("1119600"));
-        assertTrue(driver.getPageSource().contains("1330578000"));
-
-        assertTrue(driver.getPageSource().contains("Fifteen Minute Electricity Consumption"));
-        assertTrue(driver.getPageSource().contains("Energy Delivered (kWh)"));
+        assertUsagePoint();
 
         clickLinkByText("Fifteen Minute Electricity Consumption");
+        assertMeterReading();
+    }
 
+    private void assertMeterReading() {
         assertTrue(driver.getPageSource().contains("Meter Reading: Fifteen Minute Electricity Consumption"));
         assertTrue(driver.getPageSource().contains("Energy Delivered (kWh)"));
         assertTrue(driver.getPageSource().contains("840"));
@@ -216,5 +206,20 @@ public class RetailCustomerSteps {
         assertTrue(driver.getPageSource().contains("86400"));
         assertTrue(driver.getPageSource().contains("1330578000"));
         assertTrue(driver.getPageSource().contains("1330664400"));
-   }
+    }
+
+    private void assertUsagePoint() {
+        assertTrue(driver.getPageSource().contains("Usage Point: Front Electric Meter"));
+        assertTrue(driver.getPageSource().contains("Usage Summary"));
+        assertTrue(driver.getPageSource().contains("1119600"));
+
+        assertTrue(driver.getPageSource().contains("Fifteen Minute Electricity Consumption"));
+        assertTrue(driver.getPageSource().contains("Energy Delivered (kWh)"));
+    }
+
+    @And("^the XML includes Electric Power Usage Summary$")
+    public void the_XML_includes_Electric_Power_Usage_Summary() throws Throwable {
+        assertXpathValue("Usage Summary", "feed/entry[6]/title", xmlResult);
+        assertXpathValue("1119600", "feed/entry[6]/content/ElectricPowerUsageSummary/billingPeriod/duration", xmlResult);
+    }
 }
