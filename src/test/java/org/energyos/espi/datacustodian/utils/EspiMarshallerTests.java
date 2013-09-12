@@ -16,32 +16,42 @@
 
 package org.energyos.espi.datacustodian.utils;
 
+import cucumber.api.java.Before;
+import org.custommonkey.xmlunit.XMLUnit;
 import org.energyos.espi.datacustodian.domain.ServiceCategory;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
+import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
 import static org.junit.Assert.assertEquals;
 
 public class EspiMarshallerTests {
 
+    @BeforeClass
+    public static void before() {
+        XMLUnit.getControlDocumentBuilderFactory().setNamespaceAware(false);
+    }
+
     @Test
     public void marshal_with_marshallableObject_returnsValidXml() throws Exception {
-        UsagePoint usagePoint = new UsagePoint();
-
-        String xmlResult = "<UsagePoint xmlns=\"http://naesb.org/espi\"/>";
-        assertEquals(xmlResult, EspiMarshaller.marshal(usagePoint));
+        assertXpathExists("UsagePoint", EspiMarshaller.marshal(newUsagePoint()));
     }
 
     @Test
     public void marshal_with_marshallableObject_returnsXmlWithServiceCategory() throws Exception {
+        assertXpathValue("1", "UsagePoint/ServiceCategory/kind", EspiMarshaller.marshal(newUsagePoint()));
+    }
+
+    private UsagePoint newUsagePoint() {
         UsagePoint usagePoint = new UsagePoint();
+
         ServiceCategory serviceCategory = new ServiceCategory();
         serviceCategory.setKind(1L);
 
         usagePoint.setServiceCategory(serviceCategory);
 
-        String xmlResult = "<UsagePoint xmlns=\"http://naesb.org/espi\"><ServiceCategory><kind>1</kind></ServiceCategory></UsagePoint>";
-        assertEquals(xmlResult, EspiMarshaller.marshal(usagePoint));
-
+        return usagePoint;
     }
 }

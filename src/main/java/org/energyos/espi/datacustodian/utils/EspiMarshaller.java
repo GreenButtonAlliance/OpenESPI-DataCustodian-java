@@ -35,6 +35,7 @@ public class EspiMarshaller {
             JAXBContext jaxbContext = JAXBContext.newInstance(entity.getClass());
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             marshaller.marshal(entity, sw);
         } catch (JAXBException e) {
             throw new FeedException("Invalid " + entity.getClass().toString() + ". Could not serialize.");
