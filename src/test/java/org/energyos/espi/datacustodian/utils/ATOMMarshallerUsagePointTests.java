@@ -54,7 +54,7 @@ import static org.junit.Assert.assertEquals;
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
 @Transactional
-public class ATOMMarshallerTests {
+public class ATOMMarshallerUsagePointTests {
 
     String FEED_PREFIX = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
             "<?xml-stylesheet type=\"text/xsl\" href=\"GreenButtonDataStyleSheet.xslt\"?>" +
@@ -253,7 +253,7 @@ public class ATOMMarshallerTests {
 
     @Test
     public void marshal_returnsEntryWithId() throws SAXException, IOException, XpathException {
-        assertXpathEvaluatesTo(usagePoint.getId().toString(), "/feed/entry/id", xmlResult);
+        assertXpathEvaluatesTo("urn:uuid:" + usagePoint.getMRID().toString(), "/feed/entry/id", xmlResult);
     }
 
     @Test

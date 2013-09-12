@@ -25,10 +25,7 @@
 package org.energyos.espi.datacustodian.domain;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 
 
 /**
@@ -68,6 +65,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
+@XmlRootElement(name="ElectricPowerUsageSummary")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ElectricPowerUsageSummary", propOrder = {
     "billingPeriod",

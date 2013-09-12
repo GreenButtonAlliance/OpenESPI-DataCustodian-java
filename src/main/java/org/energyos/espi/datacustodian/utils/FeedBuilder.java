@@ -18,9 +18,11 @@ package org.energyos.espi.datacustodian.utils;
 
 import com.sun.syndication.feed.atom.Feed;
 import com.sun.syndication.io.FeedException;
+import org.energyos.espi.datacustodian.atom.ElectricPowerUsageSummaryEntry;
 import org.energyos.espi.datacustodian.atom.MeterReadingEntry;
 import org.energyos.espi.datacustodian.atom.ReadingTypeEntry;
 import org.energyos.espi.datacustodian.atom.UsagePointEntry;
+import org.energyos.espi.datacustodian.domain.ElectricPowerUsageSummary;
 import org.energyos.espi.datacustodian.domain.MeterReading;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.springframework.stereotype.Service;
@@ -46,16 +48,19 @@ public class FeedBuilder {
 
     private void populateEntries(List<UsagePoint> usagePointList, Feed feed) throws FeedException {
         for (UsagePoint usagePoint : usagePointList) {
-            UsagePointEntry entry = new UsagePointEntry(usagePoint);
-            feed.getEntries().add(entry);
+            UsagePointEntry usagePointEntry = new UsagePointEntry(usagePoint);
+            feed.getEntries().add(usagePointEntry);
 
-            if (usagePoint.getMeterReadings().size() > 0) {
-                for(MeterReading meterReading : usagePoint.getMeterReadings()) {
-                    MeterReadingEntry meterEntry = new MeterReadingEntry(meterReading);
-                    ReadingTypeEntry readingTypeEntry = new ReadingTypeEntry(meterReading.getReadingType());
-                    feed.getEntries().add(meterEntry);
-                    feed.getEntries().add(readingTypeEntry);
-                }
+            for(MeterReading meterReading : usagePoint.getMeterReadings()) {
+                MeterReadingEntry meterEntry = new MeterReadingEntry(meterReading);
+                ReadingTypeEntry readingTypeEntry = new ReadingTypeEntry(meterReading.getReadingType());
+                feed.getEntries().add(meterEntry);
+                feed.getEntries().add(readingTypeEntry);
+            }
+
+            for(ElectricPowerUsageSummary summary : usagePoint.getElectricPowerUsageSummaries()) {
+                ElectricPowerUsageSummaryEntry entry = new ElectricPowerUsageSummaryEntry(summary);
+                feed.getEntries().add(entry);
             }
         }
     }

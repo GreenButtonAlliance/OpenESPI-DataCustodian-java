@@ -69,12 +69,14 @@ public class UsagePointBuilder {
 
     private void handleReadingType(EntryType entry) {
         entry.getContent().getReadingType().setDescription(entry.getTitle());
+        entry.getContent().getReadingType().setMRID(entry.getId().getValue().replace("urn:uuid:", ""));
     }
 
     private void handleUsagePoint(EntryType entry) {
         UsagePoint usagePoint = entry.getContent().getUsagePoint();
 
         usagePoint.setDescription(entry.getTitle());
+        usagePoint.setMRID(entry.getId().getValue().replace("urn:uuid:", ""));
 
         usagePoints.add(usagePoint);
     }
@@ -84,6 +86,7 @@ public class UsagePointBuilder {
         MeterReading meterReading = content.getMeterReading();
 
         meterReading.setDescription(entry.getTitle());
+        meterReading.setMRID(entry.getId().getValue().replace("urn:uuid:", ""));
 
         EntryType usagePointEntry = lookup.getUpEntry(entry);
         usagePointEntry.getContent().getUsagePoint().addMeterReading(meterReading);

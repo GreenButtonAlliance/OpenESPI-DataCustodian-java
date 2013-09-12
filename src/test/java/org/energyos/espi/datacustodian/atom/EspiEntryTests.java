@@ -43,6 +43,7 @@ public class EspiEntryTests {
 
         usagePoint = new UsagePoint();
         usagePoint.setId(1L);
+        usagePoint.setMRID("E8E75691-7F9D-49F3-8BE2-3A74EBF6BFC0");
         usagePoint.setDescription("Electric Meter");
         RetailCustomer customer = new RetailCustomer();
         customer.setId(3L);
@@ -56,7 +57,7 @@ public class EspiEntryTests {
         assertNotNull("entry was null", entry);
 
         assertEquals("Electric Meter", entry.getTitle());
-        assertEquals("Invalid entry id", "1", entry.getId());
+        assertEquals("Invalid entry id", "urn:uuid:E8E75691-7F9D-49F3-8BE2-3A74EBF6BFC0", entry.getId());
         assertNotNull("Published is null", entry.getPublished());
         assertNotNull("Updated is null", entry.getUpdated());
 
