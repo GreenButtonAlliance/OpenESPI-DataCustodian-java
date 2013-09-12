@@ -12290,14 +12290,14 @@ permissions and limitations under the License.
                 <powerOfTenMultiplier>0</powerOfTenMultiplier>
                 <timeAttribute>0</timeAttribute>
                 <uom>72</uom>
-                <argument>
-                    <numerator>1</numerator>
-                    <denominator>2</denominator>
-                </argument>
                 <interharmonic>
                     <numerator>600</numerator>
                     <denominator>800</denominator>
                 </interharmonic>
+                <argument>
+                    <numerator>1</numerator>
+                    <denominator>2</denominator>
+                </argument>
             </ReadingType>
         </content>
         <published>2012-10-24T00:00:00Z</published>
@@ -12318,6 +12318,11 @@ permissions and limitations under the License.
                 <billToDate>1135000</billToDate>
                 <costAdditionalLastPeriod>1346000</costAdditionalLastPeriod>
                 <currency>840</currency>
+                <overallConsumptionLastPeriod>
+                    <powerOfTenMultiplier>0</powerOfTenMultiplier>
+                    <uom>72</uom>
+                    <value>1304716</value>
+                </overallConsumptionLastPeriod>
                 <currentBillingPeriodOverAllConsumption>
                     <powerOfTenMultiplier>0</powerOfTenMultiplier>
                     <timeStamp>1331784000</timeStamp>
