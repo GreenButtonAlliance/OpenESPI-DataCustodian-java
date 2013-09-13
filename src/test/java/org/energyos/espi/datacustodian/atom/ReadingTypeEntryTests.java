@@ -25,6 +25,7 @@ import org.energyos.espi.datacustodian.domain.RationalNumber;
 import org.energyos.espi.datacustodian.domain.ReadingInterharmonic;
 import org.energyos.espi.datacustodian.domain.ReadingType;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -34,31 +35,18 @@ import java.math.BigInteger;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newReadingType;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class ReadingTypeEntryTests {
-
-    private ReadingType readingType;
-
-    @Before
-    public void before() {
-        XMLUnit.getControlDocumentBuilderFactory().setNamespaceAware(false);
-
-        UsagePoint usagePoint = new UsagePoint();
-        usagePoint.setId(1L);
-        usagePoint.setDescription("Electric Meter");
-        readingType = newReadingType();
-    }
+public class ReadingTypeEntryTests extends XMLTest {
 
     @Test
     public void constructsReadingTypeEntry() throws FeedException, SAXException, IOException, XpathException {
-
-
-        ReadingTypeEntry entry = new ReadingTypeEntry(readingType);
+        ReadingTypeEntry entry = new ReadingTypeEntry(newReadingType());
         assertNotNull("entry was null", entry);
 
-        assertEquals("ReadingType/8", entry.getSelfLink().getHref());
+        assertEquals("ReadingType/96", entry.getSelfLink().getHref());
         assertEquals("ReadingType", entry.getUpLink().getHref());
 
         Content content = (Content)entry.getContents().get(0);
@@ -80,33 +68,5 @@ public class ReadingTypeEntryTests {
         assertXpathValue("3", "ReadingType/argument/denominator", xmlContent);
         assertXpathValue("1", "ReadingType/interharmonic/numerator", xmlContent);
         assertXpathValue("6", "ReadingType/interharmonic/denominator", xmlContent);
-    }
-
-    private ReadingType newReadingType() {
-        ReadingType type = new ReadingType();
-        RationalNumber argument = new RationalNumber();
-        argument.setNumerator(new BigInteger("1"));
-        argument.setDenominator(new BigInteger("3"));
-        ReadingInterharmonic interharmonic = new ReadingInterharmonic();
-        interharmonic.setNumerator(new BigInteger("1"));
-        interharmonic.setDenominator(new BigInteger("6"));
-
-        type.setId(8L);
-        type.setDescription("Energy Delivered");
-        type.setAccumulationBehaviour("accumulationBehaviour");
-        type.setCommodity("commodity");
-        type.setDataQualifier("dataQualifier");
-        type.setIntervalLength(10L);
-        type.setKind("kind");
-        type.setPhase("phase");
-        type.setPowerOfTenMultiplier("multiplier");
-        type.setUom("uom");
-        type.setCurrency("currency");
-        type.setTou("tou");
-        type.setAggregate("aggregate");
-        type.setArgument(argument);
-        type.setInterharmonic(interharmonic);
-
-        return type;
     }
 }

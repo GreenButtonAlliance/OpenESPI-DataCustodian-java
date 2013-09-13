@@ -31,39 +31,22 @@ import java.io.IOException;
 import java.math.BigInteger;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newMeterReading;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newReadingType;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class MeterReadingEntryTests {
-
-    private MeterReading meterReading;
-
-    @Before
-    public void before() {
-        XMLUnit.getControlDocumentBuilderFactory().setNamespaceAware(false);
-
-        UsagePoint usagePoint = new UsagePoint();
-        usagePoint.setId(1L);
-        usagePoint.setDescription("Electric Meter");
-        RetailCustomer customer = new RetailCustomer();
-        customer.setId(1L);
-        usagePoint.setRetailCustomer(customer);
-        meterReading = newMeterReading();
-        ReadingType readingType = newReadingType();
-        meterReading.setReadingType(readingType);
-        usagePoint.addMeterReading(meterReading);
-    }
+public class MeterReadingEntryTests extends XMLTest {
 
     @Test
     public void constructsMeterReadingEntry() throws FeedException, SAXException, IOException, XpathException {
-
-
-        MeterReadingEntry entry = new MeterReadingEntry(meterReading);
+        MeterReadingEntry entry = new MeterReadingEntry(newMeterReading());
         assertNotNull("entry was null", entry);
 
-        assertEquals("RetailCustomer/1/UsagePoint/1/MeterReading/9", entry.getSelfLink().getHref());
-        assertEquals("RetailCustomer/1/UsagePoint/1/MeterReading", entry.getUpLink().getHref());
-        assertEquals("ReadingType/8", findReadingTypeLink(entry).getHref());
+        assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading/98", entry.getSelfLink().getHref());
+        assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading", entry.getUpLink().getHref());
+        assertEquals("ReadingType/96", findReadingTypeLink(entry).getHref());
 
         Content content = (Content)entry.getContents().get(0);
         assertXpathExists("MeterReading", content.getValue());
@@ -76,42 +59,5 @@ public class MeterReadingEntryTests {
             }
         }
         return null;
-    }
-
-    private MeterReading newMeterReading() {
-        MeterReading reading = new MeterReading();
-
-        reading.setId(9L);
-        reading.setDescription("Electricity consumption");
-
-        return reading;
-    }
-
-    private ReadingType newReadingType() {
-        ReadingType type = new ReadingType();
-        RationalNumber argument = new RationalNumber();
-        argument.setNumerator(new BigInteger("1"));
-        argument.setDenominator(new BigInteger("3"));
-        ReadingInterharmonic interharmonic = new ReadingInterharmonic();
-        interharmonic.setNumerator(new BigInteger("1"));
-        interharmonic.setDenominator(new BigInteger("6"));
-
-        type.setId(8L);
-        type.setDescription("Energy Delivered");
-        type.setAccumulationBehaviour("accumulationBehaviour");
-        type.setCommodity("commodity");
-        type.setDataQualifier("dataQualifier");
-        type.setIntervalLength(10L);
-        type.setKind("kind");
-        type.setPhase("phase");
-        type.setPowerOfTenMultiplier("multiplier");
-        type.setUom("uom");
-        type.setCurrency("currency");
-        type.setTou("tou");
-        type.setAggregate("aggregate");
-        type.setArgument(argument);
-        type.setInterharmonic(interharmonic);
-
-        return type;
     }
 }

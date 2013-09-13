@@ -32,3 +32,4 @@ Feature: Retail Customers
     And the XML includes Meter Readings
     And the XML includes Reading Types
     And the XML includes Electric Power Usage Summary
+    And the XML includes Interval Blocks

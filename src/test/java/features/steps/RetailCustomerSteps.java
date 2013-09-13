@@ -17,7 +17,6 @@
 package features.steps;
 
 import cucumber.api.java.Before;
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -217,9 +216,14 @@ public class RetailCustomerSteps {
         assertTrue(driver.getPageSource().contains("Energy Delivered (kWh)"));
     }
 
-    @And("^the XML includes Electric Power Usage Summary$")
+    @Then("^the XML includes Electric Power Usage Summary$")
     public void the_XML_includes_Electric_Power_Usage_Summary() throws Throwable {
-        assertXpathValue("Usage Summary", "feed/entry[4]/title", xmlResult);
-        assertXpathValue("1119600", "feed/entry[4]/content/ElectricPowerUsageSummary/billingPeriod/duration", xmlResult);
+        assertXpathValue("Usage Summary", "feed/entry[5]/title", xmlResult);
+        assertXpathValue("1119600", "feed/entry[5]/content/ElectricPowerUsageSummary/billingPeriod/duration", xmlResult);
+   }
+
+    @Then("^the XML includes Interval Blocks$")
+    public void the_XML_includes_Interval_Blocks() throws Throwable {
+        assertXpathValue("86400", "feed/entry[4]/content/IntervalBlock/interval/duration", xmlResult);
     }
 }
