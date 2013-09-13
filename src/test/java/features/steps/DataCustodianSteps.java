@@ -35,7 +35,7 @@ public class DataCustodianSteps {
 
     @After
     public void logout() {
-        navigateTo("/j_spring_security_logout");
+        navigateTo("/logout.do");
     }
 
     @Given("^I have a Data Custodian account$")
