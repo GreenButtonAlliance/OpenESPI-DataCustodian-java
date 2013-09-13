@@ -63,6 +63,7 @@ import java.util.List;
         @NamedQuery(name = IntervalBlock.QUERY_ALL_BY_METER_READING_ID,
                 query = "SELECT block FROM IntervalBlock block WHERE block.meterReading.id = :meterReadingId")
 })
+@XmlRootElement(name = "IntervalBlock")
 public class IntervalBlock
     extends IdentifiedObject
 {

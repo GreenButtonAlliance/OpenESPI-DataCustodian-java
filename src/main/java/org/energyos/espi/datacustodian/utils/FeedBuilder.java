@@ -18,10 +18,7 @@ package org.energyos.espi.datacustodian.utils;
 
 import com.sun.syndication.feed.atom.Feed;
 import com.sun.syndication.io.FeedException;
-import org.energyos.espi.datacustodian.atom.ElectricPowerUsageSummaryEntry;
-import org.energyos.espi.datacustodian.atom.MeterReadingEntry;
-import org.energyos.espi.datacustodian.atom.ReadingTypeEntry;
-import org.energyos.espi.datacustodian.atom.UsagePointEntry;
+import org.energyos.espi.datacustodian.atom.*;
 import org.energyos.espi.datacustodian.domain.ElectricPowerUsageSummary;
 import org.energyos.espi.datacustodian.domain.MeterReading;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
@@ -54,8 +51,11 @@ public class FeedBuilder {
             for(MeterReading meterReading : usagePoint.getMeterReadings()) {
                 MeterReadingEntry meterEntry = new MeterReadingEntry(meterReading);
                 ReadingTypeEntry readingTypeEntry = new ReadingTypeEntry(meterReading.getReadingType());
+                IntervalBlocksEntry intervalBlocksEntry = new IntervalBlocksEntry(meterReading.getIntervalBlocks());
+
                 feed.getEntries().add(meterEntry);
                 feed.getEntries().add(readingTypeEntry);
+                feed.getEntries().add(intervalBlocksEntry);
             }
 
             for(ElectricPowerUsageSummary summary : usagePoint.getElectricPowerUsageSummaries()) {
