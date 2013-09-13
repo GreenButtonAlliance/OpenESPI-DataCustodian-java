@@ -19,6 +19,7 @@ package org.energyos.espi.datacustodian.web.customer;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.junit.Test;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.Authentication;
 
 import static org.junit.Assert.assertEquals;
@@ -41,8 +42,10 @@ public class UsagePointsFeedControllerTests {
 
         Authentication auth = mock(Authentication.class);
         when(auth.getPrincipal()).thenReturn(mock(RetailCustomer.class));
+        MockHttpServletResponse response = new MockHttpServletResponse();
 
-        assertEquals(atomFeedResult, controller.index(auth));
+        controller.index(response, auth);
+        assertEquals(atomFeedResult, response.getContentAsString());
         verify(usagePointService).exportUsagePoints(any(RetailCustomer.class));
     }
 }

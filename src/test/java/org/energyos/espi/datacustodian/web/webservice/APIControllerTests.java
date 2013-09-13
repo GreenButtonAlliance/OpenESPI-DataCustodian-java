@@ -21,6 +21,9 @@ import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.junit.Test;
+import org.springframework.mock.web.MockHttpServletResponse;
+
+import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -29,14 +32,13 @@ import static org.mockito.Mockito.when;
 public class APIControllerTests {
 
     @Test
-    public void feed_returnsFeed() throws FeedException {
+    public void feed_returnsFeed() throws FeedException, IOException {
         UsagePointService  usagePointService = mock(UsagePointService.class);
         RetailCustomerService retailCustomerService = mock(RetailCustomerService.class);
         APIController controller = new APIController();
 
         controller.setUsagePointService(usagePointService);
         controller.setRetailCustomerService(retailCustomerService);
-        controller.feed();
 
         RetailCustomer customer = new RetailCustomer();
         customer.setId(1L);
@@ -44,7 +46,9 @@ public class APIControllerTests {
 
         when(retailCustomerService.findById(customer.getId())).thenReturn(customer);
         when(usagePointService.exportUsagePoints(customer)).thenReturn(atomFeedResult);
+        MockHttpServletResponse response = new MockHttpServletResponse();
 
-        assertEquals(atomFeedResult, controller.feed());
+        controller.feed(response);
+        assertEquals(atomFeedResult, response.getContentAsString());
     }
 }

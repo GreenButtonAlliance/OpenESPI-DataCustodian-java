@@ -26,15 +26,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/custodian/retailcustomers")
-//@EnableWebMvc
 @PreAuthorize("hasRole('ROLE_CUSTODIAN')")
 public class RetailCustomerController {
 
@@ -60,12 +58,15 @@ public class RetailCustomerController {
     }
 
     @RequestMapping(value = "new", method = RequestMethod.POST)
-    public String create(@ModelAttribute("retailCustomer") @Valid RetailCustomer retailCustomer, BindingResult result, RedirectAttributes redirectAttributes) {
+    public String create(@ModelAttribute("retailCustomer") @Valid RetailCustomer retailCustomer, BindingResult result) {
         if (result.hasErrors()) {
             return "retailcustomers/form";
         } else {
-            service.persist(retailCustomer);
-            redirectAttributes.addFlashAttribute("message", "Retail customer created");
+            try {
+                service.persist(retailCustomer);
+            } catch (ConstraintViolationException x) {
+                return "retailcustomers/form";
+            }
             return "redirect:/custodian/retailcustomers";
         }
     }
