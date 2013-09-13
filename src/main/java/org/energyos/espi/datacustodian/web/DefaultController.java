@@ -28,7 +28,7 @@ public class DefaultController {
     public String defaultAfterLogin(HttpServletRequest request) {
         if (request.isUserInRole("ROLE_CUSTODIAN")) {
             return "redirect:/custodian/home";
-        } else if (request.isUserInRole("ROLE_CUSTOMER")) {
+        } else if (request.isUserInRole("ROLE_USER")) {
             return "redirect:/customer/home";
         }
         return "redirect:/home";

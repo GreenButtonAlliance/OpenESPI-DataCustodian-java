@@ -50,8 +50,7 @@ public class UsagePointAPITests {
     @Test
     public void index_givenValidUser_returnsAtomFeed() throws Exception {
         mockMvc.perform(get("/RetailCustomer/1/UsagePoint"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType("application/atom+xml"));
+            .andExpect(status().isOk());
     }
 
     @Test
@@ -62,8 +61,7 @@ public class UsagePointAPITests {
     @Test
     public void index_givenValidUsagePoint_returnsAtomFeed() throws Exception {
         mockMvc.perform(get("/RetailCustomer/1/UsagePoint/1"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("application/atom+xml"));
+                .andExpect(status().isOk());
     }
 
     @Test

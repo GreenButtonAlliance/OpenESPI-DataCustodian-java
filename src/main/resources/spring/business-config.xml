@@ -24,7 +24,7 @@
 
     <import resource="datasource-config.xml"/>
 
-    <context:component-scan base-package="org.energyos.espi.datacustodian.service"/>
+    <!--<context:component-scan base-package="org.energyos.espi.datacustodian.service"/>-->
 
     <context:property-placeholder location="classpath:spring/data-access.properties" system-properties-mode="OVERRIDE"/>
 

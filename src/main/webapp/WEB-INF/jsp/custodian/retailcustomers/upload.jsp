@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   ~ Copyright 2013 EnergyOS.org
   ~
@@ -19,26 +20,34 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<jsp:include page="/WEB-INF/pages/tiles/head.jsp"/>
+<jsp:include page="/WEB-INF/jsp/tiles/head.jsp"/>
 
 <body>
 
-<jsp:include page="/WEB-INF/pages/tiles/custodian/header.jsp"/>
+<jsp:include page="/WEB-INF/jsp/tiles/custodian/header.jsp"/>
 
 <div class="container">
-
     <div class="row">
         <div class="span12">
-            <h2><c:out value="${retailCustomer.firstName}"/> <c:out value="${retailCustomer.lastName}"/></h2>
+            <h2>Upload Usage Points</h2>
 
-            <a href="<c:url value='/custodian/retailcustomers/${retailCustomer.id}/upload'/>" class="btn btn-large"></i>Upload data</a>
+            <form:form modelAttribute="uploadForm" class="form-horizontal" action="${pageContext.request.contextPath}/custodian/retailcustomers/${retailCustomer.id}/upload" enctype="multipart/form-data">
+                <form:errors path="*" cssClass="alert alert-error" element="div" />
 
+                <div class="control-group">
+                    <label class="control-label" for="file">File</label>
+                    <div class="controls">
+                        <input type="file" name="file" />
+                        <input type="submit" name="upload" value="Upload"/>
+                    </div>
+                </div>
+            </form:form>
         </div>
     </div>
 
     <hr>
 
-    <jsp:include page="/WEB-INF/pages/tiles/footer.jsp"/>
+    <jsp:include page="/WEB-INF/jsp/tiles/footer.jsp"/>
 
 </div>
 

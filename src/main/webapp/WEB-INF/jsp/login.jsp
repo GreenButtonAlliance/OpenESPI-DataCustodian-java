@@ -38,7 +38,7 @@
                         </div>
                     </c:if>
 
-                    <form name="f" action="<c:url value='/j_spring_security_check'/>" method="POST">
+                    <form name="f" action="<c:url value='/login.do'/>" method="POST">
                         <fieldset>
                             <div class="clearfix">
                                 <input type="text" name="j_username" placeholder="Username" autofocus="autofocus">

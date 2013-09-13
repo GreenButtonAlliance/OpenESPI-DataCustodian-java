@@ -24,12 +24,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="brand" href="<c:url value='/'/>">Data Custodian</a>
+            <a class="brand" href="<c:url value='/customer/home'/>">Data Custodian</a>
 
             <div class="nav-collapse collapse">
                 <ul class="nav">
+                    <li><a href="<c:url value='/customer/usagepoints'/>">Usage Points</a></li>
                     <security:authorize access="isAuthenticated()">
-                        <li class="active"><a id="logout" href="<c:url value='/j_spring_security_logout'/>">Logout</a></li>
+                        <li class="active"><a id="logout" href="<c:url value='/logout.do'/>">Logout</a></li>
                     </security:authorize>
                     <security:authorize access="isAnonymous()">
                         <li class="active"><a id="login" href="<c:url value='/login'/>">Login</a></li>

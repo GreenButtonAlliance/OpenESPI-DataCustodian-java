@@ -24,8 +24,9 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.security.Principal;
 
 @Controller
@@ -39,9 +40,9 @@ public class UsagePointFeedController extends BaseController {
         this.usagePointService = usagePointService;
     }
 
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_ATOM_XML_VALUE)
-    @ResponseBody
-    public String index(Principal principal) throws FeedException {
-        return usagePointService.exportUsagePoints(currentCustomer(principal));
+    @RequestMapping(method = RequestMethod.GET)
+    public void index(HttpServletResponse response, Principal principal) throws FeedException, IOException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+        response.getWriter().write(usagePointService.exportUsagePoints(currentCustomer(principal)));
     }
 }

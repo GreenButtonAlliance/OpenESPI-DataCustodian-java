@@ -20,10 +20,13 @@ import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Controller("apiController")
 @RequestMapping("/api/")
@@ -42,15 +45,11 @@ public class APIController {
         this.retailCustomerService = retailCustomerService;
     }
 
-    @RequestMapping(value="/feed", method = RequestMethod.GET, produces = MediaType.APPLICATION_ATOM_XML_VALUE)
-    @ResponseBody
-    public String feed() throws FeedException {
-        return usagePointService.exportUsagePoints(retailCustomerService.findById(getRetailCustomerId()));
+    @RequestMapping(value="/feed", method = RequestMethod.GET)
+    public void feed(HttpServletResponse response) throws FeedException, IOException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+        response.getWriter().write(usagePointService.exportUsagePoints(retailCustomerService.findById(getRetailCustomerId())));
     }
-
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(FeedException.class)
-    public void handleFeedException(FeedException e) { }
 
     private Long getRetailCustomerId() { return 1L; }
 }

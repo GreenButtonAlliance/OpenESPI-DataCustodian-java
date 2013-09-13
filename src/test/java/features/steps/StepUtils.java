@@ -44,7 +44,7 @@ public class StepUtils {
     }
 
     public static void login(String username, String password) {
-        navigateTo("/j_spring_security_logout");
+        navigateTo("/logout.do");
         navigateTo("/");
         WebElement loginLink = driver.findElement(By.id("login"));
         loginLink.click();
@@ -94,7 +94,7 @@ public class StepUtils {
         WebElement create = form.findElement(By.name("create"));
         create.click();
 
-        assertTrue(driver.getPageSource().contains("Retail customer created"));
+        assertTrue(driver.getPageSource().contains("Retail Customers"));
     }
 
     public static String newLastName() {

@@ -38,7 +38,7 @@ public class RetailCustomer extends IdentifiedObject implements UserDetails, Pri
 
     public final static String QUERY_FIND_ALL = "RetailCustomer.findAll";
     public final static String QUERY_FIND_BY_USERNAME = "RetailCustomer.findByUsername";
-    public final static String ROLE_CUSTOMER  = "ROLE_CUSTOMER";
+    public final static String ROLE_CUSTOMER  = "ROLE_USER";
     public final static String ROLE_CUSTODIAN  = "ROLE_CUSTODIAN";
 
 
