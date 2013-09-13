@@ -32,6 +32,7 @@ import java.io.IOException;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
+import static org.energyos.espi.datacustodian.Asserts.assertXpathValueStartsWith;
 import static org.energyos.espi.datacustodian.utils.factories.FeedFactory.newFeed;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -59,7 +60,7 @@ public class ATOMMarshallerFeedMarshallTests extends XMLTest {
 
     @Test
     public void feedUpdated() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValue("2013-12-28T05:00:00Z", "/feed/updated", newFeedXML());
+        assertXpathValueStartsWith("2013-12-28T", "/feed/updated", newFeedXML());
     }
 
     @Test
@@ -105,11 +106,11 @@ public class ATOMMarshallerFeedMarshallTests extends XMLTest {
 
     @Test
     public void entryPublished() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValue("2012-11-15T05:00:00Z", "/feed/entry[1]/published", newFeedXML());
+        assertXpathValueStartsWith("2012-11-15T", "/feed/entry[1]/published", newFeedXML());
     }
 
     @Test
     public void entryUpdated() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValue("2012-11-17T05:00:00Z", "/feed/entry[1]/updated", newFeedXML());
+        assertXpathValueStartsWith("2012-11-17T", "/feed/entry[1]/updated", newFeedXML());
     }
 }
