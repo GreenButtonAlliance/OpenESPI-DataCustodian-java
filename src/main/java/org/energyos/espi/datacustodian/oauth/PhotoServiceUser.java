@@ -1,4 +1,4 @@
-package org.springframework.security.oauth.examples.sparklr;
+package org.energyos.espi.datacustodian.oauth;
 
 /**
  * Photo service user information - added to enable user information to be available to Spring Social client

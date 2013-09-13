@@ -1,14 +1,13 @@
-package org.springframework.security.oauth.examples.sparklr.mvc;
+package org.energyos.espi.datacustodian.web;
 
-import java.security.Principal;
-
-
+import org.energyos.espi.datacustodian.oauth.PhotoServiceUser;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.oauth.examples.sparklr.PhotoServiceUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.security.Principal;
 
 /**
  * @author Michael Lavelle

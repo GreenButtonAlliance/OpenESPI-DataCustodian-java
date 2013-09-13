@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package org.springframework.security.oauth.examples.sparklr.oauth;
-
-import java.util.Collection;
-import java.util.HashSet;
+package org.energyos.espi.datacustodian.oauth;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.util.OAuth2Utils;
 import org.springframework.security.oauth2.provider.AuthorizationRequest;
 import org.springframework.security.oauth2.provider.approval.TokenServicesUserApprovalHandler;
+
+import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * @author Dave Syer

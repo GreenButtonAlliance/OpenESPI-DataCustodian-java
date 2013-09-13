@@ -171,7 +171,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         <constructor-arg name="clientDetailsService" ref="clientDetails" />
     </bean>
 
-    <bean id="userApprovalHandler" class="org.springframework.security.oauth.examples.sparklr.oauth.SparklrUserApprovalHandler">
+    <bean id="userApprovalHandler" class="org.energyos.espi.datacustodian.oauth.SparklrUserApprovalHandler">
         <property name="autoApproveClients">
             <set>
                 <value>my-less-trusted-autoapprove-client</value>
@@ -255,17 +255,17 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         </property>
     </bean>
 
-    <bean id="photoServiceUserController" class="org.springframework.security.oauth.examples.sparklr.mvc.PhotoServiceUserController">
+    <bean id="photoServiceUserController" class="org.energyos.espi.datacustodian.web.PhotoServiceUserController">
         <property name="userDetailsService" ref="retailCustomerServiceImpl" />
     </bean>
 
-    <bean id="adminController" class="org.springframework.security.oauth.examples.sparklr.mvc.AdminController">
+    <bean id="adminController" class="org.energyos.espi.datacustodian.web.AdminController">
         <property name="tokenServices" ref="tokenServices" />
         <property name="userApprovalHandler" ref="userApprovalHandler" />
     </bean>
 
     <!-- Override the default mappings for approval and error pages -->
-    <bean id="accessConfirmationController" class="org.springframework.security.oauth.examples.sparklr.mvc.AccessConfirmationController">
+    <bean id="accessConfirmationController" class="org.energyos.espi.datacustodian.oauth.AccessConfirmationController">
         <property name="clientDetailsService" ref="clientDetails" />
     </bean>
 
