@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-//@Repository
+@Repository
 public class MeterReadingRepositoryImpl implements MeterReadingRepository {
 
     @PersistenceContext

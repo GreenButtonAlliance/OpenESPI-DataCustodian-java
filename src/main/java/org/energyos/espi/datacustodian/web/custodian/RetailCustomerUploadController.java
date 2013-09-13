@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
 
-//@Controller
+@Controller
 @RequestMapping("/custodian/retailcustomers")
 public class RetailCustomerUploadController {
 
