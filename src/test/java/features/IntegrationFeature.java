@@ -20,6 +20,6 @@ import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
-@Cucumber.Options(features = {"classpath:features/API.feature"})
+@Cucumber.Options(features = {"classpath:features/Integration.feature"})
 public class IntegrationFeature {
 }

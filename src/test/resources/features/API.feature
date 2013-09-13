@@ -6,5 +6,6 @@ Feature: API
   Scenario: Third Party accesses Usage Points
     Given an authorized Third Party
 
-    When I access the Usage Points API
+    When I log in as Alan Turing
+    And I access the Usage Points API
     Then I should see Usage Points
