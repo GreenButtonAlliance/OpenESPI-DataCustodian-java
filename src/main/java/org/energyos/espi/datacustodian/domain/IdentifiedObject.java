@@ -55,9 +55,7 @@ import java.util.Date;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "IdentifiedObject", propOrder = {
-    "mrid",
-})
+@XmlType(name = "IdentifiedObject")
 @XmlSeeAlso({
     MeterReading.class,
     UsagePoint.class,
@@ -74,7 +72,7 @@ import java.util.Date;
 public class IdentifiedObject
     extends Resource
 {
-    @XmlElement(name = "mRID")
+    @XmlTransient
     protected String mrid;
 
     @XmlTransient

@@ -34,6 +34,9 @@ public class EspiFactory {
         usagePoint.setMRID("7BC41774-7190-4864-841C-861AC76D46C2");
         usagePoint.setDescription("Electric meter");
 
+        usagePoint.setRoleFlags("role flags".getBytes());
+        usagePoint.setStatus(new Short("5"));
+
         ServiceCategory serviceCategory = new ServiceCategory();
         serviceCategory.setKind(new Long(0L));
 
@@ -87,16 +90,21 @@ public class EspiFactory {
         readingType.setAccumulationBehaviour("accumulationBehaviour");
         readingType.setCommodity("commodity");
         readingType.setDataQualifier("dataQualifier");
+        readingType.setFlowDirection("flowDirection");
         readingType.setIntervalLength(10L);
         readingType.setKind("kind");
         readingType.setPhase("phase");
         readingType.setPowerOfTenMultiplier("multiplier");
+        readingType.setTimeAttribute("timeAttribute");
         readingType.setUom("uom");
+        readingType.setConsumptionTier("consumptionTier");
+        readingType.setCpp("cpp");
         readingType.setCurrency("currency");
         readingType.setTou("tou");
         readingType.setAggregate("aggregate");
         readingType.setArgument(argument);
         readingType.setInterharmonic(interharmonic);
+        readingType.setMeasuringPeriod("measuringPeriod");
 
         return readingType;
     }

@@ -16,38 +16,27 @@
 
 package org.energyos.espi.datacustodian.utils;
 
-import org.custommonkey.xmlunit.XMLUnit;
-import org.custommonkey.xmlunit.exceptions.XpathException;
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.ServiceCategory;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.models.atom.EntryType;
 import org.energyos.espi.datacustodian.models.atom.FeedType;
 import org.energyos.espi.datacustodian.models.atom.IdType;
-import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.oxm.UnmarshallingFailureException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
-import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBException;
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
-import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
-import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -65,28 +54,6 @@ public class ATOMMarshallerUsagePointTests {
 
     @Autowired
     private ATOMMarshaller marshaller;
-    @Autowired
-    UsagePointService usagePointService;
-
-    String xmlResult;
-    RetailCustomer retailCustomer;
-    UsagePoint usagePoint;
-
-    @Before
-    public void setup() throws Exception {
-        XMLUnit.getControlDocumentBuilderFactory().setNamespaceAware(false);
-
-        ClassPathResource sourceFile = new ClassPathResource("/fixtures/15minLP_15Days.xml");
-        FeedBuilder builder = new FeedBuilder();
-        retailCustomer = new RetailCustomer();
-        retailCustomer.setId(3L);
-
-        usagePointService.importUsagePoints(retailCustomer, sourceFile.getInputStream());
-        List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(retailCustomer);
-        usagePoint = usagePoints.get(0);
-
-        xmlResult = marshaller.marshal(builder.buildFeed(usagePoints));
-    }
 
     @Test(expected = UnmarshallingFailureException.class)
     public void unmarshal_givenInvalidInput_throwsAnException() throws JAXBException {
@@ -244,63 +211,4 @@ public class ATOMMarshallerUsagePointTests {
         assertEquals(ServiceCategory.class, feed.getEntries().get(0).getContent().getUsagePoint().getServiceCategory().getClass());
     }
 
-    @Test
-    public void marshal_returnsAtomFeed_withRequiredProperties() throws Exception {
-        assertXpathExists("feed", xmlResult);
-        assertXpathExists("feed/title", xmlResult);
-        assertXpathExists("feed/id", xmlResult);
-    }
-
-    @Test
-    public void marshal_returnsEntryWithId() throws SAXException, IOException, XpathException {
-        assertXpathEvaluatesTo("urn:uuid:" + usagePoint.getMRID().toString(), "/feed/entry/id", xmlResult);
-    }
-
-    @Test
-    public void marshal_returnsEntryWithSelfLink() throws SAXException, IOException, XpathException {
-        assertXpathEvaluatesTo("RetailCustomer/" + retailCustomer.getId() + "/UsagePoint/" + usagePoint.getId(),
-                "feed/entry[1]/link[@rel='self']/@href", xmlResult);
-    }
-
-    @Test
-    public void marshal_returnsEntryWithUpLink() throws SAXException, IOException, XpathException {
-        assertXpathEvaluatesTo("RetailCustomer/" + retailCustomer.getId() + "/UsagePoint",
-                "feed/entry[1]/link[@rel='up']/@href", xmlResult);
-    }
-
-    @Test
-    public void marshal_returnsEntryWithMeterReadingRelatedLink() throws SAXException, IOException, XpathException {
-        assertXpathEvaluatesTo("RetailCustomer/" + retailCustomer.getId() + "/UsagePoint/" + usagePoint.getId() + "/MeterReading",
-                "feed/entry[1]/link[@rel='related']/@href", xmlResult);
-    }
-
-    @Test
-    public void marshal_returnsEntryWithTitle() throws SAXException, IOException, XpathException {
-        assertXpathEvaluatesTo("Front Electric Meter", "/feed/entry/title", xmlResult);
-    }
-
-    @Test
-    public void marshal_returnsEntryWithContent() throws SAXException, IOException, XpathException {
-        assertXpathExists("/feed/entry[1]/content", xmlResult);
-    }
-
-    @Test
-    public void marshal_returnsEntryWithPublishedDate() throws SAXException, IOException, XpathException {
-        assertXpathExists("/feed/entry[1]/published", xmlResult);
-    }
-
-    @Test
-    public void marshal_returnsEntryWithUpdatedDate() throws SAXException, IOException, XpathException {
-        assertXpathExists("/feed/entry[1]/updated", xmlResult);
-    }
-
-    @Test
-    public void marshal_returnsEntryWithUsagePointContent() throws SAXException, IOException, XpathException {
-        assertXpathExists("/feed/entry[1]/content/UsagePoint", xmlResult);
-    }
-
-    @Test
-    public void marshal_returnsEntryWithServiceCategoryContent() throws SAXException, IOException, XpathException {
-        assertXpathExists("/feed/entry[1]/content/UsagePoint/ServiceCategory/kind", xmlResult);
-    }
 }

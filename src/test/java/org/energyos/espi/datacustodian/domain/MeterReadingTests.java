@@ -16,13 +16,26 @@
 
 package org.energyos.espi.datacustodian.domain;
 
+import com.sun.syndication.io.FeedException;
+import org.custommonkey.xmlunit.exceptions.XpathException;
+import org.energyos.espi.datacustodian.atom.XMLTest;
+import org.energyos.espi.datacustodian.utils.EspiMarshaller;
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.IOException;
 
+import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newMeterReading;
 
-public class MeterReadingTests {
+public class MeterReadingTests extends XMLTest {
+
+    @Test
+    public void meterReading() throws SAXException, IOException, XpathException, FeedException {
+        assertXpathExists("MeterReading", EspiMarshaller.marshal(newMeterReading()));
+    }
 
     @Test
     public void usagePoint_hasTransientAnnotation() {
