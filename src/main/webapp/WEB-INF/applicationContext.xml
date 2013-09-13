@@ -255,10 +255,6 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         </property>
     </bean>
 
-    <bean id="photoController" class="org.springframework.security.oauth.examples.sparklr.mvc.PhotoController">
-        <property name="photoService" ref="photoServices" />
-    </bean>
-
     <bean id="photoServiceUserController" class="org.springframework.security.oauth.examples.sparklr.mvc.PhotoServiceUserController">
         <property name="userDetailsService" ref="retailCustomerServiceImpl" />
     </bean>
@@ -271,49 +267,6 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     <!-- Override the default mappings for approval and error pages -->
     <bean id="accessConfirmationController" class="org.springframework.security.oauth.examples.sparklr.mvc.AccessConfirmationController">
         <property name="clientDetailsService" ref="clientDetails" />
-    </bean>
-
-    <bean id="photoServices" class="org.springframework.security.oauth.examples.sparklr.impl.PhotoServiceImpl">
-        <property name="photos">
-            <list>
-                <bean class="org.springframework.security.oauth.examples.sparklr.PhotoInfo">
-                    <property name="id" value="1" />
-                    <property name="name" value="photo1.jpg" />
-                    <property name="userId" value="marissa" />
-                    <property name="resourceURL" value="/org/springframework/security/oauth/examples/sparklr/impl/resources/photo1.jpg" />
-                </bean>
-                <bean class="org.springframework.security.oauth.examples.sparklr.PhotoInfo">
-                    <property name="id" value="2" />
-                    <property name="name" value="photo2.jpg" />
-                    <property name="userId" value="paul" />
-                    <property name="resourceURL" value="/org/springframework/security/oauth/examples/sparklr/impl/resources/photo2.jpg" />
-                </bean>
-                <bean class="org.springframework.security.oauth.examples.sparklr.PhotoInfo">
-                    <property name="id" value="3" />
-                    <property name="name" value="photo3.jpg" />
-                    <property name="userId" value="marissa" />
-                    <property name="resourceURL" value="/org/springframework/security/oauth/examples/sparklr/impl/resources/photo3.jpg" />
-                </bean>
-                <bean class="org.springframework.security.oauth.examples.sparklr.PhotoInfo">
-                    <property name="id" value="4" />
-                    <property name="name" value="photo4.jpg" />
-                    <property name="userId" value="paul" />
-                    <property name="resourceURL" value="/org/springframework/security/oauth/examples/sparklr/impl/resources/photo4.jpg" />
-                </bean>
-                <bean class="org.springframework.security.oauth.examples.sparklr.PhotoInfo">
-                    <property name="id" value="5" />
-                    <property name="name" value="photo5.jpg" />
-                    <property name="userId" value="alan" />
-                    <property name="resourceURL" value="/org/springframework/security/oauth/examples/sparklr/impl/resources/photo5.jpg" />
-                </bean>
-                <bean class="org.springframework.security.oauth.examples.sparklr.PhotoInfo">
-                    <property name="id" value="6" />
-                    <property name="name" value="photo6.jpg" />
-                    <property name="userId" value="alan" />
-                    <property name="resourceURL" value="/org/springframework/security/oauth/examples/sparklr/impl/resources/photo6.jpg" />
-                </bean>
-            </list>
-        </property>
     </bean>
 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
