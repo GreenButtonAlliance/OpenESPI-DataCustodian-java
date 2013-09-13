@@ -17,11 +17,12 @@
 package org.energyos.espi.datacustodian.utils;
 
 
+import com.sun.syndication.feed.atom.Entry;
 import com.sun.syndication.feed.atom.Feed;
 import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.atom.ElectricPowerUsageSummaryEntry;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.utils.factories.Factory;
+import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -33,6 +34,7 @@ import javax.xml.bind.JAXBException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -44,11 +46,11 @@ public class FeedBuilderElectricPowerUsageSummaryTests {
     @Test
     public void includesElectricPowerUsageSummaryEntry() throws JAXBException, FeedException {
         List<UsagePoint> usagePoints = new ArrayList<>();
-        usagePoints.add(Factory.newUsagePoint());
+        usagePoints.add(newUsagePoint());
 
         FeedBuilder builder = new FeedBuilder();
         Feed feed = builder.buildFeed(usagePoints);
 
-        assertEquals(ElectricPowerUsageSummaryEntry.class, feed.getEntries().get(1).getClass());
+        assertEquals(ElectricPowerUsageSummaryEntry.class, feed.getEntries().get(4).getClass());
     }
 }
