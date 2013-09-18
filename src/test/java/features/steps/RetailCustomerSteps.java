@@ -28,6 +28,7 @@ import org.openqa.selenium.WebElement;
 import static features.steps.StepUtils.clickLinkByText;
 import static features.steps.StepUtils.navigateTo;
 import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class RetailCustomerSteps {
@@ -225,5 +226,18 @@ public class RetailCustomerSteps {
     @Then("^the XML includes Interval Blocks$")
     public void the_XML_includes_Interval_Blocks() throws Throwable {
         assertXpathValue("86400", "feed/entry[4]/content/IntervalBlock/interval/duration", xmlResult);
+    }
+
+    @Given("^I have a I have a web browser open$")
+    public void I_have_a_I_have_a_web_browser_open() throws Throwable {}
+
+    @When("^I visit the home page$")
+    public void I_visit_the_home_page() throws Throwable {
+        StepUtils.navigateTo("/home");
+    }
+
+    @Then("^I should see the option to login$")
+    public void I_should_see_the_option_to_login() throws Throwable {
+        assertNotNull(driver.findElement(By.id("login")));
     }
 }

@@ -3,6 +3,12 @@ Feature: Retail Customers
   I want to be able to view my usage point in my browser
   So that I can see my UsagePoints
 
+  Scenario: Retail Customer visits home page
+    Given I have a I have a web browser open
+
+    When I visit the home page
+    Then I should see the option to login
+
   Scenario: Retail Customer visits Retail Customer's home page
     Given I have a Retail Customer account
 
