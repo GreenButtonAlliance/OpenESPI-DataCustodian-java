@@ -32,7 +32,7 @@ public class EspiMarshaller {
         StringWriter sw = new StringWriter();
 
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(entity.getClass());
+            JAXBContext jaxbContext = JAXBContext.newInstance("org.energyos.espi.datacustodian.models.atom");
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);

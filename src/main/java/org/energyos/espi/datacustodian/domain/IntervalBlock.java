@@ -24,8 +24,14 @@
 
 package org.energyos.espi.datacustodian.domain;
 
+import org.energyos.espi.datacustodian.models.atom.adapters.IntervalBlockAdapter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +61,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "IntervalBlock", propOrder = {
     "interval",
-    "intervalReading"
+    "intervalReadings"
 })
 @Entity
 @Table(name = "interval_blocks")
@@ -64,6 +70,7 @@ import java.util.List;
                 query = "SELECT block FROM IntervalBlock block WHERE block.meterReading.id = :meterReadingId")
 })
 @XmlRootElement(name = "IntervalBlock")
+@XmlJavaTypeAdapter(IntervalBlockAdapter.class)
 public class IntervalBlock
     extends IdentifiedObject
 {
@@ -72,9 +79,13 @@ public class IntervalBlock
     @Embedded
     protected DateTimeInterval interval;
 
-    @XmlElement(name = "IntervalReading")
-    @Transient
-    protected List<IntervalReading> intervalReading;
+    @OneToMany(mappedBy = "intervalBlock", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @XmlElementRefs({
+            @XmlElementRef(name = "IntervalReading", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
+    })
+    @XmlAnyElement(lax = true)
+    protected List<IntervalReading> intervalReadings;
 
     @XmlTransient
     @ManyToOne
@@ -127,11 +138,15 @@ public class IntervalBlock
      *
      *
      */
-    public List<IntervalReading> getIntervalReading() {
-        if (intervalReading == null) {
-            intervalReading = new ArrayList<IntervalReading>();
+    public List<IntervalReading> getIntervalReadings() {
+        if (intervalReadings == null) {
+            intervalReadings = new ArrayList<IntervalReading>();
         }
-        return this.intervalReading;
+        return this.intervalReadings;
+    }
+
+    public void setIntervalReadings(List<IntervalReading> intervalReadings) {
+        this.intervalReadings = intervalReadings;
     }
 
     public MeterReading getMeterReading() {
