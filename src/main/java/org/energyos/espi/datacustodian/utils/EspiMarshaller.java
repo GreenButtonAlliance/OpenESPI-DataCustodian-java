@@ -28,15 +28,24 @@ public class EspiMarshaller {
     private EspiMarshaller() {
     }
 
+    private static Marshaller marshaller;
+
+    private static Marshaller getMarshaller() throws JAXBException {
+        if (marshaller == null) {
+            JAXBContext jaxbContext = JAXBContext.newInstance("org.energyos.espi.datacustodian.models.atom");
+            marshaller = jaxbContext.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        }
+
+        return marshaller;
+    }
+
     public static String marshal(IdentifiedObject entity) throws FeedException {
         StringWriter sw = new StringWriter();
 
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance("org.energyos.espi.datacustodian.models.atom");
-            Marshaller marshaller = jaxbContext.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            marshaller.marshal(entity, sw);
+            getMarshaller().marshal(entity, sw);
         } catch (JAXBException e) {
             throw new FeedException("Invalid " + entity.getClass().toString() + ". Could not serialize.");
         }
