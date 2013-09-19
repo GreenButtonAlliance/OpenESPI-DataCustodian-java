@@ -38,11 +38,8 @@ public class IntervalBlockTests extends XMLTest {
     public void before() throws Exception {
         xml = EspiMarshaller.marshal(newIntervalBlock());
 
-        JAXBContext jaxbContext = JAXBContext.newInstance("org.energyos.espi.datacustodian.models.atom");
-        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-
-        JAXBElement<IntervalBlock> intervalBlockJAXBElement = (JAXBElement<IntervalBlock>) unmarshaller.unmarshal(new ByteArrayInputStream(XML_INPUT.getBytes()));
         IntervalBlockAdapter intervalBlockAdapter = new IntervalBlockAdapter();
+        JAXBElement<IntervalBlock> intervalBlockJAXBElement = EspiMarshaller.unmarshal(XML_INPUT);
         intervalBlock = intervalBlockAdapter.unmarshal(intervalBlockJAXBElement);
     }
 

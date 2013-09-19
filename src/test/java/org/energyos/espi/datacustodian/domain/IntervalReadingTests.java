@@ -49,15 +49,15 @@ public class IntervalReadingTests extends XMLTest {
         "</IntervalReading>";
 
     private IntervalReading intervalReading;
+    private String xml;
 
     @Before
     public void before() throws Exception {
-        JAXBContext jaxbContext = JAXBContext.newInstance("org.energyos.espi.datacustodian.models.atom");
-        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+        xml = EspiMarshaller.marshal(newIntervalReading());
 
-        JAXBElement<IntervalReading> jaxbElement = (JAXBElement<IntervalReading>) unmarshaller.unmarshal(new ByteArrayInputStream(XML_INPUT.getBytes()));
-        IntervalReadingAdapter intervalReadingAdapter = new IntervalReadingAdapter();
-        intervalReading = intervalReadingAdapter.unmarshal(jaxbElement);
+        IntervalReadingAdapter intervalBlockAdapter = new IntervalReadingAdapter();
+        JAXBElement<IntervalReading> intervalReadingJAXBElement = EspiMarshaller.unmarshal(XML_INPUT);
+        intervalReading = intervalBlockAdapter.unmarshal(intervalReadingJAXBElement);
     }
 
     @Test
