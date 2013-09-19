@@ -27,6 +27,10 @@ public class EspiFactory {
         return _usagePoint().getMeterReadings().get(0).getIntervalBlocks().get(0);
     }
 
+    public static IntervalReading newIntervalReading() {
+        return _usagePoint().getMeterReadings().get(0).getIntervalBlocks().get(0).getIntervalReadings().get(0);
+    }
+
     private static UsagePoint _usagePoint() {
         UsagePoint usagePoint = new UsagePoint();
 
@@ -38,7 +42,7 @@ public class EspiFactory {
         usagePoint.setStatus(new Short("5"));
 
         ServiceCategory serviceCategory = new ServiceCategory();
-        serviceCategory.setKind(new Long(0L));
+        serviceCategory.setKind(0L);
 
         usagePoint.setServiceCategory(serviceCategory);
 
@@ -113,14 +117,46 @@ public class EspiFactory {
         IntervalBlock intervalBlock = new IntervalBlock();
 
         DateTimeInterval interval = new DateTimeInterval();
-        interval.setDuration(new Long(86400));
-        interval.setStart(new Long(1330578000));
+        interval.setDuration(86400L);
+        interval.setStart(1330578000L);
+
+        intervalBlock.addIntervalReading(_intervalReading());
+        intervalBlock.addIntervalReading(_intervalReading());
 
         intervalBlock.setId(97L);
         intervalBlock.setMRID("E8E75691-7F9D-49F3-8BE2-3A74EBF6BFC0");
         intervalBlock.setInterval(interval);
 
         return intervalBlock;
+    }
+
+    private static IntervalReading _intervalReading() {
+        IntervalReading intervalReading = new IntervalReading();
+
+        DateTimeInterval timePeriod = new DateTimeInterval();
+        timePeriod.setDuration(86401L);
+        timePeriod.setStart(1330578001L);
+
+        intervalReading.setCost(100L);
+        intervalReading.setValue(6L);
+
+        intervalReading.addReadingQuality(_readingQuality("quality1"));
+        intervalReading.addReadingQuality(_readingQuality("quality2"));
+
+        intervalReading.setId(96L);
+        intervalReading.setMRID("E8E75691-7F9D-49F3-8BE2-3A74EBF6BFC0");
+
+        intervalReading.setTimePeriod(timePeriod);
+
+
+        return intervalReading;
+    }
+
+    private static ReadingQuality _readingQuality(String quality) {
+        ReadingQuality readingQuality = new ReadingQuality();
+        readingQuality.setQuality(quality);
+
+        return readingQuality;
     }
 
     private static ElectricPowerUsageSummary _electricPowerUsageSummary() {

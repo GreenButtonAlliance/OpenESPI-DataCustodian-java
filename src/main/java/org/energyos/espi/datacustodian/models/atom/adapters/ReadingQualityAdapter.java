@@ -16,6 +16,7 @@
 
 package org.energyos.espi.datacustodian.models.atom.adapters;
 
+import org.energyos.espi.datacustodian.domain.ObjectFactory;
 import org.energyos.espi.datacustodian.domain.ReadingQuality;
 
 import javax.xml.bind.JAXBElement;
@@ -30,6 +31,6 @@ public class ReadingQualityAdapter extends XmlAdapter<JAXBElement<ReadingQuality
 
     @Override
     public JAXBElement<ReadingQuality> marshal(ReadingQuality v) throws Exception {
-        return null;
+        return new ObjectFactory().createReadingQuality(v);
     }
 }

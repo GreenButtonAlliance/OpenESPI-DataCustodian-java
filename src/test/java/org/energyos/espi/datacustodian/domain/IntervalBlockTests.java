@@ -8,13 +8,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlTransient;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
+import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
 import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newIntervalBlock;
@@ -38,11 +36,8 @@ public class IntervalBlockTests extends XMLTest {
     public void before() throws Exception {
         xml = EspiMarshaller.marshal(newIntervalBlock());
 
-        JAXBContext jaxbContext = JAXBContext.newInstance("org.energyos.espi.datacustodian.models.atom");
-        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-
-        JAXBElement<IntervalBlock> intervalBlockJAXBElement = (JAXBElement<IntervalBlock>) unmarshaller.unmarshal(new ByteArrayInputStream(XML_INPUT.getBytes()));
         IntervalBlockAdapter intervalBlockAdapter = new IntervalBlockAdapter();
+        JAXBElement<IntervalBlock> intervalBlockJAXBElement = EspiMarshaller.unmarshal(XML_INPUT);
         intervalBlock = intervalBlockAdapter.unmarshal(intervalBlockJAXBElement);
     }
 
@@ -71,6 +66,12 @@ public class IntervalBlockTests extends XMLTest {
     @Test
     public void marshall_setsIntervalStart() throws SAXException, IOException, XpathException {
         assertXpathValue("1330578000", "IntervalBlock/interval/start", xml);
+    }
+
+    @Test
+    public void marshall_setsIntervalReadings() throws SAXException, IOException, XpathException {
+        assertXpathExists("IntervalBlock/IntervalReading[1]", xml);
+        assertXpathExists("IntervalBlock/IntervalReading[2]", xml);
     }
 
     @Test

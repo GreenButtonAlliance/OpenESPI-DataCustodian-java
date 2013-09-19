@@ -117,10 +117,7 @@ public class ElectricPowerUsageSummaryTests extends XMLTest {
     @Before
     public void before() throws JAXBException, FeedException {
         xml = EspiMarshaller.marshal(newElectricPowerUsageSummary());
-        JAXBContext jaxbContext = JAXBContext.newInstance("org.energyos.espi.datacustodian.models.atom");
-        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-
-        electricPowerUsageSummary = ((JAXBElement<ElectricPowerUsageSummary>) unmarshaller.unmarshal(new ByteArrayInputStream(XML_INPUT.getBytes()))).getValue();
+        electricPowerUsageSummary = EspiMarshaller.<ElectricPowerUsageSummary>unmarshal(XML_INPUT).getValue();
     }
 
     @Test
