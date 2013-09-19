@@ -54,27 +54,55 @@
                 </tbody>
             </table>
 
-            <table class="table table-striped">
-                <caption class="text-left">Interval Blocks:</caption>
-                <thead>
-                <tr>
-                    <th>Duration</th>
-                    <th>Start</th>
-                </tr>
-                </thead>
-                <tbody>
+            <div id="interval-blocks">
                 <c:forEach var="intervalBlock" items="${meterReading.intervalBlocks}">
-                    <tr>
-                        <td>
-                            <c:out value="${intervalBlock.interval.duration}"/>
-                        </td>
-                        <td>
-                            <c:out value="${intervalBlock.interval.start}"/>
-                        </td>
-                    </tr>
+                    <table class="table table-striped">
+                        <caption class="text-left">Interval:</caption>
+                        <thead>
+                        <tr>
+                            <th>Duration</th>
+                            <th>Start</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <c:out value="${intervalBlock.interval.duration}"/>
+                                </td>
+                                <td>
+                                    <c:out value="${intervalBlock.interval.start}"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-striped">
+                        <caption class="text-left">Interval Readings:</caption>
+                        <thead>
+                        <tr>
+                            <th>Cost</th>
+                            <th>Duration</th>
+                            <th>Start</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="intervalReading" items="${intervalBlock.intervalReadings}">
+                            <tr>
+                                <td>
+                                    <c:out value="${intervalReading.cost}"/>
+                                </td>
+                                <td>
+                                    <c:out value="${intervalReading.timePeriod.duration}"/>
+                                </td>
+                                <td>
+                                    <c:out value="${intervalReading.timePeriod.start}"/>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
                 </c:forEach>
-                </tbody>
-            </table>
+
+            </div>
         </div>
     </div>
 

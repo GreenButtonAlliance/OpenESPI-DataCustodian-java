@@ -16,27 +16,20 @@
 
 package org.energyos.espi.datacustodian.models.atom.adapters;
 
-import org.energyos.espi.datacustodian.domain.IntervalBlock;
-import org.energyos.espi.datacustodian.domain.IntervalReading;
+import org.energyos.espi.datacustodian.domain.ReadingQuality;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class IntervalBlockAdapter extends XmlAdapter<JAXBElement<IntervalBlock>, IntervalBlock> {
+public class ReadingQualityAdapter extends XmlAdapter<JAXBElement<ReadingQuality>, ReadingQuality> {
 
     @Override
-    public IntervalBlock unmarshal(JAXBElement<IntervalBlock> v) throws Exception {
-        IntervalBlock intervalBlock = v.getValue();
-
-        for (IntervalReading intervalReading : intervalBlock.getIntervalReadings()) {
-            intervalReading.setIntervalBlock(intervalBlock);
-        }
-
-        return intervalBlock;
+    public ReadingQuality unmarshal(JAXBElement<ReadingQuality> v) throws Exception {
+        return v.getValue();
     }
 
     @Override
-    public JAXBElement<IntervalBlock> marshal(IntervalBlock v) throws Exception {
+    public JAXBElement<ReadingQuality> marshal(ReadingQuality v) throws Exception {
         return null;
     }
 }

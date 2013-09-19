@@ -24,8 +24,11 @@
 
 package org.energyos.espi.datacustodian.domain;
 
+import org.energyos.espi.datacustodian.models.atom.adapters.GenericAdapter;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
@@ -88,6 +91,7 @@ import javax.xml.bind.annotation.*;
 })
 @Entity
 @Table(name = "electric_power_usage_summaries")
+@XmlJavaTypeAdapter(GenericAdapter.class)
 public class ElectricPowerUsageSummary
     extends IdentifiedObject
 {

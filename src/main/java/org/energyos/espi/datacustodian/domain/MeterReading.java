@@ -24,11 +24,13 @@
 
 package org.energyos.espi.datacustodian.domain;
 
+import org.energyos.espi.datacustodian.models.atom.adapters.GenericAdapter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +56,7 @@ import java.util.List;
 @XmlType(name = "MeterReading")
 @Entity
 @Table(name = "meter_readings")
+@XmlJavaTypeAdapter(GenericAdapter.class)
 public class MeterReading
     extends IdentifiedObject
 {

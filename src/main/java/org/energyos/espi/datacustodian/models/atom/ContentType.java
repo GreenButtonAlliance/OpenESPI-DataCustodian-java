@@ -25,19 +25,17 @@
 package org.energyos.espi.datacustodian.models.atom;
 
 import org.energyos.espi.datacustodian.domain.*;
-import org.energyos.espi.datacustodian.models.atom.adapters.GenericAdapter;
-import org.energyos.espi.datacustodian.models.atom.adapters.IntervalBlockAdapter;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.namespace.QName;
+import java.lang.Object;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.lang.Object;
 
 
 /**
@@ -79,28 +77,24 @@ public class ContentType {
             @XmlElementRef(name = "UsagePoint", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
     })
     @XmlAnyElement(lax = true)
-    @XmlJavaTypeAdapter(GenericAdapter.class)
     protected UsagePoint usagePoint;
 
     @XmlElementRefs({
             @XmlElementRef(name = "MeterReading", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
     })
     @XmlAnyElement(lax = true)
-    @XmlJavaTypeAdapter(GenericAdapter.class)
     protected MeterReading meterReading;
 
     @XmlElementRefs({
             @XmlElementRef(name = "IntervalBlock", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
     })
     @XmlAnyElement(lax = true)
-    @XmlJavaTypeAdapter(IntervalBlockAdapter.class)
     protected List<IntervalBlock> intervalBlocks;
 
     @XmlElementRefs({
             @XmlElementRef(name = "ElectricPowerUsageSummary", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
     })
     @XmlAnyElement(lax = true)
-    @XmlJavaTypeAdapter(GenericAdapter.class)
     protected ElectricPowerUsageSummary electricPowerUsageSummary;
 
     @XmlMixed
@@ -130,7 +124,6 @@ public class ContentType {
             @XmlElementRef(name = "ReadingType", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
     })
     @XmlAnyElement(lax = true)
-    @XmlJavaTypeAdapter(GenericAdapter.class)
     protected ReadingType readingType;
 
     public UsagePoint getUsagePoint() {

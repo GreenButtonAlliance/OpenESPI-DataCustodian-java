@@ -1,37 +1,75 @@
 package org.energyos.espi.datacustodian.domain;
 
-import com.sun.syndication.io.FeedException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.atom.XMLTest;
+import org.energyos.espi.datacustodian.models.atom.adapters.IntervalBlockAdapter;
 import org.energyos.espi.datacustodian.utils.EspiMarshaller;
 import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-import javax.xml.bind.JAXBException;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
 import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newIntervalBlock;
+import static org.junit.Assert.assertEquals;
 
 public class IntervalBlockTests extends XMLTest {
+    static final String XML_INPUT =
+            "<IntervalBlock xmlns=\"http://naesb.org/espi\">" +
+                "<interval>" +
+                    "<duration>3</duration>" +
+                    "<start>4</start>" +
+                "</interval>" +
+                "<IntervalReading></IntervalReading>" +
+                "<IntervalReading></IntervalReading>" +
+            "</IntervalBlock>";
 
+    private IntervalBlock intervalBlock;
     private  String xml;
 
     @Before
-    public void before() throws JAXBException, FeedException {
+    public void before() throws Exception {
         xml = EspiMarshaller.marshal(newIntervalBlock());
+
+        JAXBContext jaxbContext = JAXBContext.newInstance("org.energyos.espi.datacustodian.models.atom");
+        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+        JAXBElement<IntervalBlock> intervalBlockJAXBElement = (JAXBElement<IntervalBlock>) unmarshaller.unmarshal(new ByteArrayInputStream(XML_INPUT.getBytes()));
+        IntervalBlockAdapter intervalBlockAdapter = new IntervalBlockAdapter();
+        intervalBlock = intervalBlockAdapter.unmarshal(intervalBlockJAXBElement);
     }
 
     @Test
-    public void intervalDuration() throws SAXException, IOException, XpathException {
+    public void unmarshallsIntervalBlock() {
+        assertEquals(IntervalBlock.class, intervalBlock.getClass());
+    }
+
+    @Test
+    public void unmarshal_setsInterval() {
+        assertEquals(3L, intervalBlock.getInterval().getDuration().longValue());
+        assertEquals(4L, intervalBlock.getInterval().getStart().longValue());
+    }
+
+    @Test
+    public void unmarshal_setsIntervalReadings() {
+        assertEquals(intervalBlock, intervalBlock.getIntervalReadings().get(0).getIntervalBlock());
+        assertEquals(intervalBlock, intervalBlock.getIntervalReadings().get(1).getIntervalBlock());
+    }
+
+    @Test
+    public void marshall_setsIntervalDuration() throws SAXException, IOException, XpathException {
         assertXpathValue("86400", "IntervalBlock/interval/duration", xml);
     }
 
     @Test
-    public void intervalStart() throws SAXException, IOException, XpathException {
+    public void marshall_setsIntervalStart() throws SAXException, IOException, XpathException {
         assertXpathValue("1330578000", "IntervalBlock/interval/start", xml);
     }
 

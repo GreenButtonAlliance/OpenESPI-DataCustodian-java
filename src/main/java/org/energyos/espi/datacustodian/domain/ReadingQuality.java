@@ -24,10 +24,14 @@
 
 package org.energyos.espi.datacustodian.domain;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import org.energyos.espi.datacustodian.models.atom.adapters.ReadingQualityAdapter;
+
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
@@ -55,12 +59,20 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "ReadingQuality", propOrder = {
     "quality"
 })
+@Entity
+@Table(name = "reading_qualities")
+@XmlJavaTypeAdapter(ReadingQualityAdapter.class)
 public class ReadingQuality
-    extends java.lang.Object
+    extends IdentifiedObject
 {
 
     @XmlElement(required = true)
     protected String quality;
+
+    @XmlTransient
+    @ManyToOne
+    @JoinColumn(name = "interval_reading_id")
+    protected IntervalReading intervalReading;
 
     /**
      * Gets the value of the quality property.
@@ -84,6 +96,14 @@ public class ReadingQuality
      */
     public void setQuality(String value) {
         this.quality = value;
+    }
+
+    public IntervalReading getIntervalReading() {
+        return intervalReading;
+    }
+
+    public void setIntervalReading(IntervalReading intervalReading) {
+        this.intervalReading = intervalReading;
     }
 
 }
