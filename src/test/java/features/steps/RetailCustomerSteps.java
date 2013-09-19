@@ -206,6 +206,10 @@ public class RetailCustomerSteps {
         assertTrue(driver.getPageSource().contains("86400"));
         assertTrue(driver.getPageSource().contains("1330578000"));
         assertTrue(driver.getPageSource().contains("1330664400"));
+
+        assertTrue(driver.getPageSource().contains("974"));
+        assertTrue(driver.getPageSource().contains("900"));
+        assertTrue(driver.getPageSource().contains("965"));
     }
 
     private void assertUsagePoint() {
