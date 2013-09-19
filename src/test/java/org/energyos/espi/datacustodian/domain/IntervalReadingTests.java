@@ -16,18 +16,21 @@
 
 package org.energyos.espi.datacustodian.domain;
 
+import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.atom.XMLTest;
 import org.energyos.espi.datacustodian.models.atom.adapters.IntervalReadingAdapter;
+import org.energyos.espi.datacustodian.utils.EspiMarshaller;
 import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlTransient;
-import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
+import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
 import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newIntervalReading;
 import static org.junit.Assert.assertEquals;
 
 public class IntervalReadingTests extends XMLTest {
@@ -92,5 +95,27 @@ public class IntervalReadingTests extends XMLTest {
     @Test
     public void intervalBlock_hasTransientAnnotation() {
         assertAnnotationPresent(IntervalReading.class, "intervalBlock", XmlTransient.class);
+    }
+
+    @Test
+    public void marshal_setsCost() throws SAXException, IOException, XpathException {
+        assertXpathValue("100", "IntervalReading/cost", xml);
+    }
+
+    @Test
+    public void marshal_setsReadingQualities() throws SAXException, IOException, XpathException {
+        assertXpathValue("quality1", "IntervalReading/ReadingQuality[1]/quality", xml);
+        assertXpathValue("quality2", "IntervalReading/ReadingQuality[2]/quality", xml);
+    }
+
+    @Test
+    public void marshal_setsTimePeriod() throws SAXException, IOException, XpathException {
+        assertXpathValue("86401", "IntervalReading/timePeriod/duration", xml);
+        assertXpathValue("1330578001", "IntervalReading/timePeriod/start", xml);
+    }
+
+    @Test
+    public void marshal_setsValue() throws SAXException, IOException, XpathException {
+        assertXpathValue("6", "IntervalReading/value", xml);
     }
 }

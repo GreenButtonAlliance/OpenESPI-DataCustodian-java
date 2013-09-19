@@ -70,6 +70,7 @@ import java.util.List;
 @Entity
 @Table(name = "interval_readings")
 @XmlJavaTypeAdapter(IntervalReadingAdapter.class)
+@XmlRootElement(name = "IntervalReading")
 public class IntervalReading
     extends IdentifiedObject
 {
@@ -198,5 +199,10 @@ public class IntervalReading
 
     public void setIntervalBlock(IntervalBlock intervalBlock) {
         this.intervalBlock = intervalBlock;
+    }
+
+    public void addReadingQuality(ReadingQuality readingQuality) {
+        this.readingQualities.add(readingQuality);
+        readingQuality.setIntervalReading(this);
     }
 }

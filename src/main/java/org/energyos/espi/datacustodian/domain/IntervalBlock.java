@@ -153,4 +153,9 @@ public class IntervalBlock
     public void setMeterReading(MeterReading meterReading) {
         this.meterReading = meterReading;
     }
+
+    public void addIntervalReading(IntervalReading intervalReading) {
+        this.intervalReadings.add(intervalReading);
+        intervalReading.setIntervalBlock(this);
+    }
 }
