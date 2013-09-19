@@ -82,7 +82,7 @@ public class IntervalReading
             @XmlElementRef(name = "ReadingQuality", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
     })
     @XmlAnyElement(lax = true)
-    protected List<ReadingQuality> readingQualities;
+    protected List<ReadingQuality> readingQualities = new ArrayList<>();
 
     @Embedded
     protected DateTimeInterval timePeriod;
@@ -141,9 +141,6 @@ public class IntervalReading
      * 
      */
     public List<ReadingQuality> getReadingQualities() {
-        if (readingQualities == null) {
-            readingQualities = new ArrayList<ReadingQuality>();
-        }
         return this.readingQualities;
     }
 

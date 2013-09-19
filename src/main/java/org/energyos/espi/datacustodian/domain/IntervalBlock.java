@@ -85,7 +85,7 @@ public class IntervalBlock
             @XmlElementRef(name = "IntervalReading", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
     })
     @XmlAnyElement(lax = true)
-    protected List<IntervalReading> intervalReadings;
+    protected List<IntervalReading> intervalReadings = new ArrayList<>();
 
     @XmlTransient
     @ManyToOne
@@ -139,9 +139,6 @@ public class IntervalBlock
      *
      */
     public List<IntervalReading> getIntervalReadings() {
-        if (intervalReadings == null) {
-            intervalReadings = new ArrayList<IntervalReading>();
-        }
         return this.intervalReadings;
     }
 
