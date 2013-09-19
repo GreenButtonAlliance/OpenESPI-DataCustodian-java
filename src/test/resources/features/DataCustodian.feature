@@ -92,7 +92,7 @@ Feature: Data Custodian
     And I select "Front Electric Meter" from the Usage Point list
     Then I should see the Meter Readings
 
-  Scenario: Data Custodian uploads Usage Points with Interval Blocks
+  Scenario: Data Custodian uploads Usage Points with Interval Blocks and Readings
     Given Grace Hopper Data Custodian
     And Alan Turing Retail Customer
 
@@ -105,7 +105,7 @@ Feature: Data Custodian
     And I navigate to the Usage Points list
     And I select a Usage Point
     And I select Meter Reading
-    Then I should see my Meter Reading with Interval Blocks
+    Then I should see my Meter Reading with Interval Blocks and Readings
 
   Scenario: Data Custodian uploads Usage Points with Electric Power Usage Summaries
     Given Grace Hopper Data Custodian

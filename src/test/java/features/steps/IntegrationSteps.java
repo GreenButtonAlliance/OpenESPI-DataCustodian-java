@@ -1,7 +1,6 @@
 package features.steps;
 
 import cucumber.api.java.Before;
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.energyos.espi.datacustodian.domain.*;
@@ -44,7 +43,7 @@ public class IntegrationSteps {
         usagePointService.importUsagePoints(retailCustomer, sourceFile.getInputStream());
     }
 
-    @And("^I export Usage Point$")
+    @When("^I export Usage Point$")
     public void I_export_Usage_Point() throws Throwable {
         xml = usagePointService.exportUsagePoints(retailCustomer);
     }
@@ -55,19 +54,20 @@ public class IntegrationSteps {
         assertEquals("Usage point not saved", 1, usagePoints.size());
     }
 
-    @And("^Meter Readings should be saved in the database$")
+    @Then("^Meter Readings should be saved in the database$")
     public void Usage_Point_s_Meter_Readings_should_be_saved_in_the_database() throws Throwable {
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(retailCustomer);
         MeterReading meterReading = usagePoints.get(0).getMeterReadings().get(0);
         assertNotNull("Meter reading not saved", meterReading);
     }
 
-    @And("^Interval Blocks should be saved in the database$")
+    @Then("^Interval Blocks and Readings should be saved in the database$")
     public void Interval_Blocks_should_be_saved_in_the_database() throws Throwable {
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(retailCustomer);
         MeterReading meterReading = usagePoints.get(0).getMeterReadings().get(0);
         IntervalBlock intervalBlock = meterReading.getIntervalBlocks().get(0);
         assertNotNull(intervalBlock);
+        assertNotNull(intervalBlock.getIntervalReadings().get(0));
     }
 
     @Then("^export data should include Feed$")
@@ -94,14 +94,14 @@ public class IntegrationSteps {
         assertNotNull(createdRetailCustomer);
     }
 
-    @And("^Reading Type should be saved in the database$")
+    @Then("^Reading Type should be saved in the database$")
     public void Reading_Type_should_be_saved_in_the_database() throws Throwable {
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(retailCustomer);
         MeterReading meterReading = usagePoints.get(0).getMeterReadings().get(0);
         assertNotNull(meterReading.getReadingType());
     }
 
-    @And("^Electric Power Usage Summary should be saved in the database$")
+    @Then("^Electric Power Usage Summary should be saved in the database$")
     public void Electric_Power_Usage_Summary_should_be_saved_in_the_database() throws Throwable {
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(retailCustomer);
         ElectricPowerUsageSummary electricPowerUsageSummary = usagePoints.get(0).getElectricPowerUsageSummaries().get(0);

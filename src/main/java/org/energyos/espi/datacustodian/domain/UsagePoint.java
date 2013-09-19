@@ -23,6 +23,7 @@
 
 package org.energyos.espi.datacustodian.domain;
 
+import org.energyos.espi.datacustodian.models.atom.adapters.GenericAdapter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -71,6 +72,7 @@ import java.util.List;
         @NamedQuery(name = UsagePoint.QUERY_FIND_ALL_BY_RETAIL_CUSTOMER_ID,
                 query = "SELECT point FROM UsagePoint point WHERE point.retailCustomer.id = :retailCustomerId")
 })
+@XmlJavaTypeAdapter(GenericAdapter.class)
 public class UsagePoint
     extends IdentifiedObject
 {

@@ -25,7 +25,6 @@ import org.openqa.selenium.WebDriver;
 
 import static features.steps.StepUtils.clickLinkByText;
 import static features.steps.StepUtils.navigateTo;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class DataCustodianSteps {
@@ -125,9 +124,13 @@ public class DataCustodianSteps {
         clickLinkByText("Fifteen Minute Electricity Consumption");
     }
 
-    @Then("^I should see my Meter Reading with Interval Blocks$")
+    @Then("^I should see my Meter Reading with Interval Blocks and Readings$")
     public void I_should_see_my_Meter_Reading_with_Interval_Blocks() throws Throwable {
-        assertNotNull("86400", driver.getPageSource());
+        assertTrue(driver.getPageSource().contains("1330578000"));
+        assertTrue(driver.getPageSource().contains("1330664400"));
+        assertTrue(driver.getPageSource().contains("974"));
+        assertTrue(driver.getPageSource().contains("900"));
+        assertTrue(driver.getPageSource().contains("965"));
     }
 
     @And("^I create a new Retail Customer$")
