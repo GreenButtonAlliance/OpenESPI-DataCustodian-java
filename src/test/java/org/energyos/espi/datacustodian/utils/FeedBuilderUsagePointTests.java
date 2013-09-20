@@ -31,7 +31,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -42,6 +41,7 @@ import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathNotExists;
@@ -63,12 +63,12 @@ public class FeedBuilderUsagePointTests {
     @Before
     public void setup() throws IOException, JAXBException, FeedException {
         XMLUnit.getControlDocumentBuilderFactory().setNamespaceAware(false);
-        ClassPathResource sourceFile = new ClassPathResource("/fixtures/15minLP_15Days.xml");
         FeedBuilder builder = new FeedBuilder();
         RetailCustomer customer = new RetailCustomer();
         customer.setId(3L);
+        UUID uuid = UUID.randomUUID();
 
-        usagePointService.importUsagePoints(customer, sourceFile.getInputStream());
+        TestUtils.importUsagePoint(usagePointService, customer, uuid);
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(customer);
 
         feed =  builder.buildFeed(usagePoints);
