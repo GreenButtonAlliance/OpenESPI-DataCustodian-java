@@ -34,6 +34,24 @@ public class UsagePointBuilderTests {
     }
 
     @Test
+    public void id() {
+        String title = "Usage Point Title";
+        FeedType feed = newFeed(title);
+        UsagePoint usagePoint = builder.newUsagePoints(feed).get(0);
+
+        assertEquals("urn:uuid:0071C5A7-91CF-434E-8BCE-C38AC8AF215D", usagePoint.getMRID());
+    }
+
+    @Test
+    public void title() {
+        String title = "Usage Point Title";
+        FeedType feed = newFeed(title);
+        UsagePoint usagePoint = builder.newUsagePoints(feed).get(0);
+
+        assertEquals(title, usagePoint.getDescription());
+    }
+
+    @Test
     public void givenFeedWithNoEntries_returnsEmptyList() {
         FeedType feed = new FeedType();
         assertEquals(0, builder.newUsagePoints(feed).size());

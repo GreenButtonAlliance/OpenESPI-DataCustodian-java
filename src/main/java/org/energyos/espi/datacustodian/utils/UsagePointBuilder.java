@@ -45,54 +45,52 @@ public class UsagePointBuilder {
             ContentType content = entry.getContent();
 
             if (content.getUsagePoint() != null) {
-                handleUsagePoint(entry);
+                handle(entry, entry.getContent().getUsagePoint());
             } else if (content.getMeterReading() != null) {
-                handleMeterReading(entry);
+                handle(entry, entry.getContent().getMeterReading());
             } else if (content.getReadingType() != null) {
-                handleReadingType(entry);
+                handle(entry, entry.getContent().getReadingType());
             } else if (content.getIntervalBlocks() != null) {
-                handleIntervalBlock(entry);
+                for (IntervalBlock intervalBlock : entry.getContent().getIntervalBlocks())
+                    handle(entry, intervalBlock);
             } else if (content.getElectricPowerUsageSummary() != null) {
-                handleElectricPowerUsageSummary(entry);
+                handle(entry, entry.getContent().getElectricPowerUsageSummary());
             }
         }
     }
 
-    private void handleIntervalBlock(EntryType entry) {
-        MeterReading meterReading = lookup.getUpEntry(entry).getContent().getMeterReading();
-
-        for (IntervalBlock intervalBlock : entry.getContent().getIntervalBlocks()) {
-            intervalBlock.setDescription(entry.getTitle());
-            meterReading.addIntervalBlock(intervalBlock);
-        }
-    }
-
-    private void handleReadingType(EntryType entry) {
-        entry.getContent().getReadingType().setDescription(entry.getTitle());
-        entry.getContent().getReadingType().setMRID(entry.getId().getValue().replace("urn:uuid:", ""));
-    }
-
-    private void handleUsagePoint(EntryType entry) {
-        UsagePoint usagePoint = entry.getContent().getUsagePoint();
-
-        usagePoint.setDescription(entry.getTitle());
-        usagePoint.setMRID(entry.getId().getValue().replace("urn:uuid:", ""));
+    private void handle(EntryType entry, UsagePoint usagePoint) {
+        updateEntity(usagePoint, entry);
 
         usagePoints.add(usagePoint);
     }
 
-    private void handleMeterReading(EntryType entry) {
-        ContentType content = entry.getContent();
-        MeterReading meterReading = content.getMeterReading();
-
-        meterReading.setDescription(entry.getTitle());
-        meterReading.setMRID(entry.getId().getValue().replace("urn:uuid:", ""));
+    private void handle(EntryType entry, MeterReading meterReading) {
+        updateEntity(meterReading, entry);
 
         EntryType usagePointEntry = lookup.getUpEntry(entry);
         usagePointEntry.getContent().getUsagePoint().addMeterReading(meterReading);
 
         meterReading.setReadingType(findReadingType(entry));
         findReadingType(entry);
+    }
+
+    private void handle(EntryType entry, ReadingType readingType) {
+        updateEntity(readingType, entry);
+    }
+
+    private void handle(EntryType entry, IntervalBlock intervalBlock) {
+        updateEntity(intervalBlock, entry);
+
+        MeterReading meterReading = lookup.getUpEntry(entry).getContent().getMeterReading();
+        meterReading.addIntervalBlock(intervalBlock);
+    }
+
+    private void handle(EntryType entry, ElectricPowerUsageSummary electricPowerUsageSummary) {
+        updateEntity(electricPowerUsageSummary, entry);
+
+        EntryType usagePointEntry = lookup.getUpEntry(entry);
+        usagePointEntry.getContent().getUsagePoint().addElectricPowerUsageSummary(electricPowerUsageSummary);
     }
 
     private ReadingType findReadingType(EntryType entry) {
@@ -103,13 +101,9 @@ public class UsagePointBuilder {
         }
         return null;
     }
-    private void handleElectricPowerUsageSummary (EntryType entry) {
-        ContentType content = entry.getContent();
-        ElectricPowerUsageSummary electricPowerUsageSummary = content.getElectricPowerUsageSummary();
 
-        electricPowerUsageSummary.setDescription(entry.getTitle());
-
-        EntryType usagePointEntry = lookup.getUpEntry(entry);
-        usagePointEntry.getContent().getUsagePoint().addElectricPowerUsageSummary(electricPowerUsageSummary);
+    private void updateEntity(IdentifiedObject entity, EntryType entry) {
+        entity.setMRID(entry.getId().getValue());
+        entity.setDescription(entry.getTitle());
     }
 }
