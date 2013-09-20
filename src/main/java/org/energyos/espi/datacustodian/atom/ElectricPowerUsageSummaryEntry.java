@@ -16,56 +16,27 @@
 
 package org.energyos.espi.datacustodian.atom;
 
-import com.sun.syndication.feed.atom.Link;
 import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.domain.ElectricPowerUsageSummary;
 
 @SuppressWarnings("serial")
-public class ElectricPowerUsageSummaryEntry extends EspiEntry {
+public class ElectricPowerUsageSummaryEntry extends EspiEntry<ElectricPowerUsageSummary> {
 
-    private ElectricPowerUsageSummary content;
 
-    @SuppressWarnings("unchecked")
-    public ElectricPowerUsageSummaryEntry(ElectricPowerUsageSummary content) throws FeedException {
-        super(content);
-
-        this.content = content;
-        selfLink = buildSelfLink();
-        upLink = buildUpLink();
-
-        getOtherLinks().add(selfLink);
-        getOtherLinks().add(upLink);
-        for (Link relatedLink : relatedLinks) {
-            getOtherLinks().add(relatedLink);
-        }
+    public ElectricPowerUsageSummaryEntry(ElectricPowerUsageSummary espiObject) throws FeedException {
+        super(espiObject);
     }
 
-    private Link buildSelfLink() {
-        Link link = new Link();
-
-        link.setRel("self");
-        link.setHref(getSelfHref());
-
-        return link;
+    protected String getSelfHref() {
+        return "RetailCustomer/" + espiObject.getUsagePoint().getRetailCustomer().getId() +
+                "/ElectricPowerUsageSummary/" + espiObject.getId();
     }
 
-    private String getSelfHref() {
-        return "RetailCustomer/" + content.getUsagePoint().getRetailCustomer().getId() +
-                "/ElectricPowerUsageSummary/" + content.getId();
-    }
-
-    private Link buildUpLink() {
-        Link link = new Link();
-
-        link.setRel("up");
-        link.setHref(getUpHref());
-
-        return link;
-    }
-
-    private String getUpHref() {
-        return "RetailCustomer/" + content.getUsagePoint().getRetailCustomer().getId() +
-                "/UsagePoint/" + content.getUsagePoint().getId() +
+    protected String getUpHref() {
+        return "RetailCustomer/" + espiObject.getUsagePoint().getRetailCustomer().getId() +
+                "/UsagePoint/" + espiObject.getUsagePoint().getId() +
                 "/ElectricPowerUsageSummary";
     }
+
+    protected void buildRelatedLinks() {}
 }

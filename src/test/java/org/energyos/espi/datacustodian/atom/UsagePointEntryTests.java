@@ -20,68 +20,43 @@ package org.energyos.espi.datacustodian.atom;
 import com.sun.syndication.feed.atom.Content;
 import com.sun.syndication.feed.atom.Link;
 import com.sun.syndication.io.FeedException;
-import org.custommonkey.xmlunit.XMLUnit;
 import org.custommonkey.xmlunit.exceptions.XpathException;
-import org.energyos.espi.datacustodian.domain.MeterReading;
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class UsagePointEntryTests {
-
-    private UsagePoint usagePoint;
-
-    @Before
-    public void before() {
-        XMLUnit.getControlDocumentBuilderFactory().setNamespaceAware(false);
-
-        usagePoint = new UsagePoint();
-        usagePoint.setId(1L);
-        usagePoint.setDescription("Electric Meter");
-        RetailCustomer customer = new RetailCustomer();
-        customer.setId(1L);
-        usagePoint.setRetailCustomer(customer);
-        MeterReading meterReading = newMeterReading();
-        usagePoint.addMeterReading(meterReading);
-    }
+public class UsagePointEntryTests extends XMLTest {
 
     @Test
     public void constructsUsagePointEntry() throws FeedException, SAXException, IOException, XpathException {
-
+        UsagePoint usagePoint = newUsagePoint();
+        usagePoint.setId(99L);
+        usagePoint.getRetailCustomer().setId(88L);
         UsagePointEntry entry = new UsagePointEntry(usagePoint);
-        assertNotNull("entry was null", entry);
 
-        assertEquals("RetailCustomer/1/UsagePoint/1", entry.getSelfLink().getHref());
-        assertEquals("RetailCustomer/1/UsagePoint", entry.getUpLink().getHref());
-        assertEquals("RetailCustomer/1/UsagePoint/1/MeterReading", findMeterReadingLink(entry).getHref());
+        assertNotNull("entry was null", entry);
+        assertEquals("RetailCustomer/88/UsagePoint/99", entry.getSelfLink().getHref());
+        assertEquals("RetailCustomer/88/UsagePoint", entry.getUpLink().getHref());
+        assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading", findRelatedLink(entry, "MeterReading").getHref());
+        assertEquals("RetailCustomer/88/UsagePoint/99/ElectricPowerUsageSummary", findRelatedLink(entry, "ElectricPowerUsageSummary").getHref());
 
         Content content = (Content)entry.getContents().get(0);
         assertXpathExists("UsagePoint", content.getValue());
     }
 
-    private Link findMeterReadingLink(EspiEntry entry) {
+    private Link findRelatedLink(UsagePointEntry entry, String type) {
         for (Link link : entry.getRelatedLinks()) {
-            if (link.getHref().contains("MeterReading")) {
+            if (link.getHref().contains(type)) {
                 return link;
             }
         }
         return null;
-    }
-
-    private MeterReading newMeterReading() {
-        MeterReading reading = new MeterReading();
-
-        reading.setId(9L);
-        reading.setDescription("Electricity consumption");
-
-        return reading;
     }
 }

@@ -54,7 +54,7 @@ public class MeterReadingEntryTests extends XMLTest {
         assertXpathExists("MeterReading", content.getValue());
     }
 
-    private Link findIntervalBlockLink(EspiEntry entry) {
+    private Link findIntervalBlockLink(EspiEntry<MeterReading> entry) {
         for (Link relatedLink : entry.getRelatedLinks()) {
             if (relatedLink.getHref().endsWith("IntervalBlock")) {
                 return relatedLink;
@@ -64,7 +64,7 @@ public class MeterReadingEntryTests extends XMLTest {
         return null;
     }
 
-    private Link findReadingTypeLink(EspiEntry entry) {
+    private Link findReadingTypeLink(EspiEntry<MeterReading> entry) {
         for (Link link : entry.getRelatedLinks()) {
             if (link.getHref().contains("ReadingType")) {
                 return link;

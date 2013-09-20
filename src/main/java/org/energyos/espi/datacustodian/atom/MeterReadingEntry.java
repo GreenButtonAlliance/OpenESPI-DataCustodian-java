@@ -16,73 +16,35 @@
 
 package org.energyos.espi.datacustodian.atom;
 
-import com.sun.syndication.feed.atom.Link;
 import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.domain.MeterReading;
 
-import java.util.ArrayList;
-import java.util.List;
+public class MeterReadingEntry extends EspiEntry<MeterReading> {
 
-@SuppressWarnings("serial")
-public class MeterReadingEntry extends EspiEntry {
+    public MeterReadingEntry(MeterReading espiObject) throws FeedException {
+        super(espiObject);
 
-    private final MeterReading meterReading;
-
-    @SuppressWarnings("unchecked")
-    public MeterReadingEntry(MeterReading meterReading) throws FeedException {
-        super(meterReading);
-
-        this.meterReading = meterReading;
-        selfLink = buildSelfLink();
-        upLink = buildUpLink();
-        relatedLinks = buildRelatedLinks();
-
-        getOtherLinks().add(selfLink);
-        getOtherLinks().add(upLink);
-        for (Link relatedLink : relatedLinks) {
-            getOtherLinks().add(relatedLink);
-        }
     }
 
-    private Link buildSelfLink() {
-        Link link = new Link();
-
-        link.setRel("self");
-        link.setHref("RetailCustomer/" + meterReading.getUsagePoint().getRetailCustomer().getId() +
-                "/UsagePoint/" + meterReading.getUsagePoint().getId() +
-                "/MeterReading/" + meterReading.getId());
-
-        return link;
+    @Override
+    protected String getSelfHref() {
+        return "RetailCustomer/" + espiObject.getUsagePoint().getRetailCustomer().getId() +
+                "/UsagePoint/" + espiObject.getUsagePoint().getId() +
+                "/MeterReading/" + espiObject.getId();
     }
 
-    private Link buildUpLink() {
-        Link link = new Link();
-
-        link.setRel("up");
-        link.setHref("RetailCustomer/" + meterReading.getUsagePoint().getRetailCustomer().getId() +
-                "/UsagePoint/" + meterReading.getUsagePoint().getId() +
-                "/MeterReading");
-
-        return link;
+    @Override
+    protected String getUpHref() {
+        return "RetailCustomer/" + espiObject.getUsagePoint().getRetailCustomer().getId() +
+                "/UsagePoint/" + espiObject.getUsagePoint().getId() +
+                "/MeterReading";
     }
 
-    private List<Link> buildRelatedLinks() {
-        List<Link> links = new ArrayList<>();
-
-        if (meterReading.getReadingType() != null) {
-            Link readingTypeLink = new Link();
-
-            readingTypeLink.setRel("related");
-            readingTypeLink.setHref("ReadingType/" + meterReading.getReadingType().getId());
-
-            links.add(readingTypeLink);
+    protected void buildRelatedLinks() {
+        if (espiObject.getReadingType() != null) {
+            addRelatedLink("ReadingType/" + espiObject.getReadingType().getId());
         }
 
-        Link intervalBlockLink = new Link();
-        intervalBlockLink.setRel("realted");
-        intervalBlockLink.setHref(getSelfLink().getHref() + "/IntervalBlock");
-        links.add(intervalBlockLink);
-
-        return links;
+        addRelatedLink(getSelfLink().getHref() + "/IntervalBlock");
     }
 }

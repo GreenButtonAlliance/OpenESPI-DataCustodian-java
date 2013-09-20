@@ -26,23 +26,38 @@ import org.energyos.espi.datacustodian.utils.EspiMarshaller;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("serial")
-public abstract class EspiEntry extends Entry {
-    protected Link selfLink;
-    protected Link upLink;
-    protected List<Link> relatedLinks = new ArrayList<>();
+public abstract class EspiEntry<T extends IdentifiedObject> extends Entry {
+    private Link selfLink = new Link();
+    private Link upLink = new Link();
+    private List<Link> relatedLinks = new ArrayList<>();
 
-    @SuppressWarnings("unchecked")
-    public EspiEntry(IdentifiedObject object) throws FeedException {
-        this.setTitle(object.getDescription());
-        this.setId(object.getMRID());
-        this.setPublished(object.getCreated());
-        this.setUpdated(object.getUpdated());
+    protected T espiObject;
+
+    public EspiEntry(T espiObject) throws FeedException {
+        this.espiObject = espiObject;
+        this.setTitle(espiObject.getDescription());
+        this.setId(espiObject.getMRID());
+        this.setPublished(espiObject.getCreated());
+        this.setUpdated(espiObject.getUpdated());
+
+        selfLink.setRel("self");
+        selfLink.setHref(getSelfHref());
+        upLink.setRel("up");
+        upLink.setHref(getUpHref());
+
+        getOtherLinks().add(selfLink);
+        getOtherLinks().add(upLink);
+
+        buildRelatedLinks();
 
         Content content = new Content();
-        content.setValue(EspiMarshaller.marshal(object));
+        content.setValue(EspiMarshaller.marshal(espiObject));
         this.getContents().add(content);
     }
+
+    protected abstract String getSelfHref();
+    protected abstract String getUpHref();
+    protected abstract void buildRelatedLinks();
 
     public Link getSelfLink() {
         return selfLink;
@@ -54,5 +69,22 @@ public abstract class EspiEntry extends Entry {
 
     public List<Link> getRelatedLinks() {
         return relatedLinks;
+    }
+
+    protected void addRelatedLink(String href) {
+        Link link = new Link();
+        link.setRel("related");
+        link.setHref(href);
+
+        relatedLinks.add(link);
+        getOtherLinks().add(link);
+    };
+
+    protected void setUpLinkHref(String href) {
+        getUpLink().setHref(href);
+    }
+
+    protected void setSelfLinkHref(String href) {
+        getSelfLink().setHref(href);
     }
 }

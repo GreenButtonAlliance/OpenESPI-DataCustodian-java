@@ -16,64 +16,32 @@
 
 package org.energyos.espi.datacustodian.atom;
 
-import com.sun.syndication.feed.atom.Link;
 import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @SuppressWarnings("serial")
-public class UsagePointEntry extends EspiEntry {
+public class UsagePointEntry extends EspiEntry<UsagePoint> {
 
-    private final UsagePoint usagePoint;
-
-    @SuppressWarnings("unchecked")
     public UsagePointEntry(UsagePoint usagePoint) throws FeedException {
         super(usagePoint);
+    }
 
-        this.usagePoint = usagePoint;
-        selfLink = buildSelfLink();
-        upLink = buildUpLink();
-        relatedLinks = buildRelatedLinks();
+    protected String getSelfHref() {
+        return "RetailCustomer/" + espiObject.getRetailCustomer().getId() + "/UsagePoint/" + espiObject.getId();
+    }
 
-        getOtherLinks().add(selfLink);
-        getOtherLinks().add(upLink);
-        for (Link relatedLink : relatedLinks) {
-            getOtherLinks().add(relatedLink);
+    protected String getUpHref() {
+        return "RetailCustomer/" + espiObject.getRetailCustomer().getId() + "/UsagePoint";
+    }
+
+    protected void buildRelatedLinks() {
+        if (espiObject.getMeterReadings().size() > 0) {
+            addRelatedLink(getSelfLink().getHref() + "/MeterReading");
         }
-    }
 
-    private Link buildSelfLink() {
-        Link link = new Link();
-
-        link.setRel("self");
-        link.setHref("RetailCustomer/" + usagePoint.getRetailCustomer().getId() + "/UsagePoint/" + usagePoint.getId());
-
-        return link;
-    }
-
-    private Link buildUpLink() {
-        Link link = new Link();
-
-        link.setRel("up");
-        link.setHref("RetailCustomer/" + usagePoint.getRetailCustomer().getId() + "/UsagePoint");
-
-        return link;
-    }
-
-    private List<Link> buildRelatedLinks() {
-        List<Link> links = new ArrayList<>();
-
-        if (usagePoint.getMeterReadings().size() > 0) {
-            Link meterReadingsLink = new Link();
-
-            meterReadingsLink.setRel("related");
-            meterReadingsLink.setHref(getSelfLink().getHref() + "/MeterReading");
-
-            links.add(meterReadingsLink);
+        if (espiObject.getElectricPowerUsageSummaries().size() > 0) {
+            addRelatedLink(getSelfLink().getHref() + "/ElectricPowerUsageSummary");
         }
-        return links;
     }
 }
 

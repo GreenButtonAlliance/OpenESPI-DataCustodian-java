@@ -16,45 +16,26 @@
 
 package org.energyos.espi.datacustodian.atom;
 
-import com.sun.syndication.feed.atom.Link;
 import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.domain.ReadingType;
 
 @SuppressWarnings("serial")
-public class ReadingTypeEntry extends EspiEntry {
-
-    private final ReadingType readingType;
+public class ReadingTypeEntry extends EspiEntry<ReadingType> {
 
     @SuppressWarnings("unchecked")
-    public ReadingTypeEntry(ReadingType readingType) throws FeedException {
-        super(readingType);
-
-        this.readingType = readingType;
-        selfLink = buildSelfLink();
-        upLink = buildUpLink();
-
-        selfLink.setRel("self");
-        upLink.setRel("up");
-
-        getOtherLinks().add(selfLink);
-        getOtherLinks().add(upLink);
+    public ReadingTypeEntry(ReadingType espiObject) throws FeedException {
+        super(espiObject);
     }
 
-    private Link buildSelfLink() {
-        Link link = new Link();
-
-        link.setRel("self");
-        link.setHref("ReadingType/" + readingType.getId());
-
-        return link;
+    @Override
+    protected String getSelfHref() {
+        return "ReadingType/" + espiObject.getId();
     }
 
-    private Link buildUpLink() {
-        Link link = new Link();
-
-        link.setRel("up");
-        link.setHref("ReadingType");
-
-        return link;
+    @Override
+    protected String getUpHref() {
+        return "ReadingType";
     }
+
+    protected void buildRelatedLinks() {}
 }

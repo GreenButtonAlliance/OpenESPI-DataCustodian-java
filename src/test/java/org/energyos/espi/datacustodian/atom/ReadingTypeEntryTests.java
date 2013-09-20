@@ -24,13 +24,13 @@ import org.energyos.espi.datacustodian.domain.ReadingType;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
+
 import java.io.IOException;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
-import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newReadingType;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
+
 
 public class ReadingTypeEntryTests extends XMLTest {
 
@@ -48,20 +48,5 @@ public class ReadingTypeEntryTests extends XMLTest {
         String xmlContent = content.getValue();
 
         assertXpathExists("ReadingType", xmlContent);
-        assertXpathValue("accumulationBehaviour", "ReadingType/accumulationBehaviour", xmlContent);
-        assertXpathValue("commodity", "ReadingType/commodity", xmlContent);
-        assertXpathValue("dataQualifier", "ReadingType/dataQualifier", xmlContent);
-        assertXpathValue("10", "ReadingType/intervalLength", xmlContent);
-        assertXpathValue("kind", "ReadingType/kind", xmlContent);
-        assertXpathValue("phase", "ReadingType/phase", xmlContent);
-        assertXpathValue("multiplier", "ReadingType/powerOfTenMultiplier", xmlContent);
-        assertXpathValue("uom", "ReadingType/uom", xmlContent);
-        assertXpathValue("currency", "ReadingType/currency", xmlContent);
-        assertXpathValue("tou", "ReadingType/tou", xmlContent);
-        assertXpathValue("aggregate", "ReadingType/aggregate", xmlContent);
-        assertXpathValue("1", "ReadingType/argument/numerator", xmlContent);
-        assertXpathValue("3", "ReadingType/argument/denominator", xmlContent);
-        assertXpathValue("1", "ReadingType/interharmonic/numerator", xmlContent);
-        assertXpathValue("6", "ReadingType/interharmonic/denominator", xmlContent);
     }
 }
