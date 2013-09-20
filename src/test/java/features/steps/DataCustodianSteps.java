@@ -23,12 +23,9 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.WebDriver;
 
-import static features.steps.StepUtils.clickLinkByText;
-import static features.steps.StepUtils.navigateTo;
 import java.util.UUID;
 
 import static features.steps.StepUtils.*;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class DataCustodianSteps {
@@ -167,16 +164,6 @@ public class DataCustodianSteps {
         StepUtils.addUsagePoint(CucumberSession.getUsername(), CucumberSession.getUUID().toString());
         StepUtils.importUsagePoint();
         StepUtils.login(CucumberSession.getUsername(), StepUtils.PASSWORD);
-    }
-
-    @Given("^a Retail Customer$")
-    public void a_Retail_Customer() throws Throwable {
-        username = StepUtils.newUsername();
-        String firstName = StepUtils.newFirstName();
-        String lastName = StepUtils.newLastName();
-        String password = "koala";
-        StepUtils.registerUser(username, firstName, lastName, password);
-        StepUtils.login(username, password);
     }
 
     @Then("^I should see my Electric Power Usage Summaries$")

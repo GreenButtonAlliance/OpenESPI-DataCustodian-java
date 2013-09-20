@@ -15,9 +15,8 @@ import java.io.IOException;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
 import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
-import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newIntervalBlock;
-import static org.junit.Assert.assertEquals;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newIntervalBlockWithUsagePoint;
+import static org.junit.Assert.assertEquals;
 
 public class IntervalBlockTests extends XMLTest {
     static final String XML_INPUT =
@@ -35,7 +34,7 @@ public class IntervalBlockTests extends XMLTest {
 
     @Before
     public void before() throws Exception {
-        xml = EspiMarshaller.marshal(newIntervalBlock());
+        xml = EspiMarshaller.marshal(newIntervalBlockWithUsagePoint());
 
         IntervalBlockAdapter intervalBlockAdapter = new IntervalBlockAdapter();
         JAXBElement<IntervalBlock> intervalBlockJAXBElement = EspiMarshaller.unmarshal(XML_INPUT);

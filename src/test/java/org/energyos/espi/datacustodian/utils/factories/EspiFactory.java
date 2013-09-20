@@ -128,7 +128,7 @@ public class EspiFactory {
         return intervalBlock;
     }
 
-    private static IntervalReading newIntervalReading() {
+    public static IntervalReading newIntervalReading() {
         IntervalReading intervalReading = new IntervalReading();
 
         DateTimeInterval timePeriod = new DateTimeInterval();
@@ -141,7 +141,6 @@ public class EspiFactory {
         intervalReading.addReadingQuality(_readingQuality("quality1"));
         intervalReading.addReadingQuality(_readingQuality("quality2"));
 
-        intervalReading.setId(96L);
         intervalReading.setMRID("E8E75691-7F9D-49F3-8BE2-3A74EBF6BFC0");
 
         intervalReading.setTimePeriod(timePeriod);

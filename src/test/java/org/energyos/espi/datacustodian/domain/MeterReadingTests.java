@@ -28,13 +28,13 @@ import java.io.IOException;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
-import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newMeterReading;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newMeterReadingWithUsagePoint;
 
 public class MeterReadingTests extends XMLTest {
 
     @Test
     public void meterReading() throws SAXException, IOException, XpathException, FeedException {
-        assertXpathExists("MeterReading", EspiMarshaller.marshal(newMeterReading()));
+        assertXpathExists("MeterReading", EspiMarshaller.marshal(newMeterReadingWithUsagePoint()));
     }
 
     @Test
