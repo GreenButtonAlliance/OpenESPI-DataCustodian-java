@@ -24,6 +24,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlTransient;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,13 +35,17 @@ import java.util.Collection;
         @NamedQuery(name = RetailCustomer.QUERY_FIND_ALL, query = "SELECT customer FROM RetailCustomer customer"),
         @NamedQuery(name = RetailCustomer.QUERY_FIND_BY_USERNAME, query = "SELECT customer FROM RetailCustomer customer WHERE customer.username = :username")
 })
-public class RetailCustomer extends IdentifiedObject implements UserDetails, Principal {
+public class RetailCustomer implements UserDetails, Principal {
 
     public final static String QUERY_FIND_ALL = "RetailCustomer.findAll";
     public final static String QUERY_FIND_BY_USERNAME = "RetailCustomer.findByUsername";
     public final static String ROLE_CUSTOMER  = "ROLE_USER";
     public final static String ROLE_CUSTODIAN  = "ROLE_CUSTODIAN";
 
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @XmlTransient
+    protected Long id;
 
     @Column(name = "username")
     @Size(min = 4, max = 30)
@@ -65,6 +70,14 @@ public class RetailCustomer extends IdentifiedObject implements UserDetails, Pri
     @Column(name = "role")
     @NotEmpty
     protected String role = ROLE_CUSTOMER;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;
