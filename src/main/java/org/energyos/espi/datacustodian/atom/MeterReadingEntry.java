@@ -77,6 +77,12 @@ public class MeterReadingEntry extends EspiEntry {
 
             links.add(readingTypeLink);
         }
+
+        Link intervalBlockLink = new Link();
+        intervalBlockLink.setRel("realted");
+        intervalBlockLink.setHref(getSelfLink().getHref() + "/IntervalBlock");
+        links.add(intervalBlockLink);
+
         return links;
     }
 }

@@ -19,6 +19,7 @@ package org.energyos.espi.datacustodian.utils;
 
 import com.sun.syndication.feed.atom.Content;
 import com.sun.syndication.feed.atom.Feed;
+import com.sun.syndication.feed.atom.Link;
 import com.sun.syndication.io.FeedException;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -46,6 +47,7 @@ import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathNotExists;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -94,6 +96,22 @@ public class FeedBuilderMeterReadingTests {
     @Test
     public void returnsEntryWithUpLink() throws FeedException {
         assertNotNull("Entry up link was null", entry.getUpLink());
+    }
+
+    @Test
+    public void returnsEntryWithIntervalBlockRelatedLink() throws FeedException {
+        List<Link> relatedLinks = entry.getRelatedLinks();
+
+        assertTrue("Interval Block link not found", hasIntervalBlockLink(relatedLinks));
+    }
+
+    private boolean hasIntervalBlockLink(List<Link> relatedLinks) {
+        for (Link link : relatedLinks) {
+            if (link.getHref().endsWith("IntervalBlock")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Test

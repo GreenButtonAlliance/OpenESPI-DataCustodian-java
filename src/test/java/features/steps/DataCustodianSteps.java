@@ -167,6 +167,16 @@ public class DataCustodianSteps {
         StepUtils.login(username, password);
     }
 
+    @Given("^a Retail Customer$")
+    public void a_Retail_Customer() throws Throwable {
+        username = StepUtils.newUsername();
+        String firstName = StepUtils.newFirstName();
+        String lastName = StepUtils.newLastName();
+        String password = "koala";
+        StepUtils.registerUser(username, firstName, lastName, password);
+        StepUtils.login(username, password);
+    }
+
     @Then("^I should see my Electric Power Usage Summaries$")
     public void I_should_see_my_Electric_Power_Usage_Summaries() throws Throwable {
         assertTrue(driver.getPageSource().contains("Usage Summary"));

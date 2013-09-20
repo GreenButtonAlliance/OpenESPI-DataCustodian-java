@@ -80,7 +80,7 @@ Feature: Data Custodian
     Then I should see my Usage Points with Service Categories with Service Kind of "ELECTRICITY_SERVICE"
 
   Scenario: Data Custodian uploads Usage Points with Meter Readings
-    Given a Retail Customer with Usage Points
+    Given a Retail Customer
 
     When I login as Grace Hopper
     And I navigate to customer list page

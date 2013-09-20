@@ -46,10 +46,21 @@ public class MeterReadingEntryTests extends XMLTest {
 
         assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading/98", entry.getSelfLink().getHref());
         assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading", entry.getUpLink().getHref());
+        assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading/98/IntervalBlock", findIntervalBlockLink(entry).getHref());
         assertEquals("ReadingType/96", findReadingTypeLink(entry).getHref());
 
         Content content = (Content)entry.getContents().get(0);
         assertXpathExists("MeterReading", content.getValue());
+    }
+
+    private Link findIntervalBlockLink(EspiEntry entry) {
+        for (Link relatedLink : entry.getRelatedLinks()) {
+            if (relatedLink.getHref().endsWith("IntervalBlock")) {
+                return relatedLink;
+            }
+        }
+
+        return null;
     }
 
     private Link findReadingTypeLink(EspiEntry entry) {
