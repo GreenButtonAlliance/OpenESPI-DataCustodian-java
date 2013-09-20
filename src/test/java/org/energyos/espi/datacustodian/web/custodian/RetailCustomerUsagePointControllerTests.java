@@ -17,11 +17,11 @@ import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.*;
 
 public class RetailCustomerUsagePointControllerTests {
-    private RetailCustomerUsagePointController controller;
+    private AssociateUsagePointController controller;
 
     @Before
     public void before() {
-        controller = new RetailCustomerUsagePointController();
+        controller = new AssociateUsagePointController();
     }
     @Test
     public void form_displaysFormView() {
@@ -34,7 +34,7 @@ public class RetailCustomerUsagePointControllerTests {
 
         controller.form(1L, model);
 
-        assertEquals(RetailCustomerUsagePointController.UsagePointForm.class, model.get("usagePointForm").getClass());
+        assertEquals(AssociateUsagePointController.UsagePointForm.class, model.get("usagePointForm").getClass());
     }
 
     @Test
@@ -47,7 +47,7 @@ public class RetailCustomerUsagePointControllerTests {
         controller.setRetailCustomerService(retailCustomerService);
         controller.setService(service);
 
-        RetailCustomerUsagePointController.UsagePointForm usagePointForm = new RetailCustomerUsagePointController.UsagePointForm();
+        AssociateUsagePointController.UsagePointForm usagePointForm = new AssociateUsagePointController.UsagePointForm();
         usagePointForm.setUUID(UUID.randomUUID().toString());
         usagePointForm.setDescription("Front Electric Meter");
 
@@ -58,7 +58,7 @@ public class RetailCustomerUsagePointControllerTests {
     public void create_givenValidInput_persistsUsagePoint() {
         RetailCustomerService retailCustomerService = mock(RetailCustomerService.class);
         UsagePointService service = mock(UsagePointService.class);
-        RetailCustomerUsagePointController.UsagePointForm usagePointForm = new RetailCustomerUsagePointController.UsagePointForm();
+        AssociateUsagePointController.UsagePointForm usagePointForm = new AssociateUsagePointController.UsagePointForm();
         usagePointForm.setUUID(UUID.randomUUID().toString());
         usagePointForm.setDescription("Front Electric Meter");
 
@@ -73,7 +73,7 @@ public class RetailCustomerUsagePointControllerTests {
 
     @Test
     public void create_givenInValidInput_displaysFormView() {
-        RetailCustomerUsagePointController.UsagePointForm usagePointForm = new RetailCustomerUsagePointController.UsagePointForm();
+        AssociateUsagePointController.UsagePointForm usagePointForm = new AssociateUsagePointController.UsagePointForm();
 
         BindingResult result = mock(BindingResult.class);
         when(result.hasErrors()).thenReturn(true);

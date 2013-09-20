@@ -20,7 +20,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/custodian/retailcustomers")
 @PreAuthorize("hasRole('ROLE_CUSTODIAN')")
-public class RetailCustomerUsagePointController {
+public class AssociateUsagePointController {
 
     @Autowired
     private RetailCustomerService retailCustomerService;
