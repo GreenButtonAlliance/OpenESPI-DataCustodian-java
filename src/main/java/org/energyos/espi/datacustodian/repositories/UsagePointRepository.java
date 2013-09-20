@@ -16,9 +16,11 @@
 
 package org.energyos.espi.datacustodian.repositories;
 
+import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface UsagePointRepository {
 
@@ -26,4 +28,10 @@ public interface UsagePointRepository {
 
     UsagePoint findById(Long id);
     void persist(UsagePoint up);
+
+    UsagePoint findByUUID(UUID uuid);
+
+    void associateByUUID(RetailCustomer retailCustomer, UUID uuid);
+
+    void createOrReplaceByUUID(UsagePoint usagePoint);
 }

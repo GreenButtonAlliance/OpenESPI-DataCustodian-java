@@ -26,6 +26,7 @@ package org.energyos.espi.datacustodian.domain;
 import org.energyos.espi.datacustodian.models.atom.adapters.GenericAdapter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -67,16 +68,19 @@ import java.util.List;
     "status"
 })
 @Entity
-@Table(name = "usage_points")
+@Table(name = "usage_points", uniqueConstraints = {@UniqueConstraint(columnNames={"mrid"})})
 @NamedQueries(value = {
         @NamedQuery(name = UsagePoint.QUERY_FIND_ALL_BY_RETAIL_CUSTOMER_ID,
-                query = "SELECT point FROM UsagePoint point WHERE point.retailCustomer.id = :retailCustomerId")
+                query = "SELECT point FROM UsagePoint point WHERE point.retailCustomer.id = :retailCustomerId"),
+        @NamedQuery(name = UsagePoint.QUERY_FIND_BY_UUID,
+                query = "SELECT point FROM UsagePoint point WHERE point.uuid = :uuid")
 })
 @XmlJavaTypeAdapter(GenericAdapter.class)
 public class UsagePoint
     extends IdentifiedObject
 {
     public static final String QUERY_FIND_ALL_BY_RETAIL_CUSTOMER_ID = "UsagePoint.findUsagePointsByRetailCustomer";
+    public static final String QUERY_FIND_BY_UUID = "UsagePoint.findByUUID";
 
     @XmlElement(type = String.class)
     @XmlJavaTypeAdapter(HexBinaryAdapter.class)
@@ -98,6 +102,12 @@ public class UsagePoint
     @OneToMany(mappedBy = "usagePoint", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<ElectricPowerUsageSummary> electricPowerUsageSummaries = new ArrayList<>();
+
+    @Override
+    @NotEmpty
+    public String getMRID() {
+        return super.getMRID();
+    }
 
     public void addMeterReading(MeterReading meterReading)
     {
