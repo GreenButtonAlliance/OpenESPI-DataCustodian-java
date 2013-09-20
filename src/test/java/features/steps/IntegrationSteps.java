@@ -6,11 +6,13 @@ import cucumber.api.java.en.When;
 import org.energyos.espi.datacustodian.domain.*;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
+import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
+import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.core.io.ClassPathResource;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.junit.Assert.assertEquals;
@@ -33,14 +35,13 @@ public class IntegrationSteps {
 
     @When("^I import Usage Point$")
     public void I_import_Usage_Point() throws Throwable {
-        retailCustomer = new RetailCustomer();
-        retailCustomer.setFirstName("Kurt");
-        retailCustomer.setLastName("Godel");
+        retailCustomer = EspiFactory.newRetailCustomer();
         retailCustomerService.persist(retailCustomer);
 
-        ClassPathResource sourceFile = new ClassPathResource("/fixtures/15minLP_15Days.xml");
+        UsagePoint usagePoint = EspiFactory.newUsagePoint(retailCustomer);
+        usagePointService.createOrReplaceByUUID(usagePoint);
 
-        usagePointService.importUsagePoints(retailCustomer, sourceFile.getInputStream());
+        usagePointService.importUsagePoints(FixtureFactory.newUsagePointInputStream(UUID.randomUUID()));
     }
 
     @When("^I export Usage Point$")
@@ -78,12 +79,7 @@ public class IntegrationSteps {
 
     @When("^I create a Retail Customer$")
     public void I_create_a_Retail_Customer() throws Throwable {
-        retailCustomer = new RetailCustomer();
-        retailCustomer.setUsername("kurt");
-        retailCustomer.setFirstName("Kurt");
-        retailCustomer.setLastName("Godel");
-        retailCustomer.setPassword("koala");
-        retailCustomer.setRole(RetailCustomer.ROLE_CUSTOMER);
+        retailCustomer = EspiFactory.newRetailCustomer();
         retailCustomerService.persist(retailCustomer);
     }
 

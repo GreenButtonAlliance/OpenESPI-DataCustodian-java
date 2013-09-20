@@ -54,29 +54,24 @@ Feature: Data Custodian
     Then I should see "Alan Turing" profile page
 
   Scenario: Data Custodian uploads Usage Points
-    Given Grace Hopper Data Custodian
-    And Alan Turing Retail Customer
+    Given a Retail Customer
 
     When I login as Grace Hopper
-    And I navigate to customer list page
+    And I associate "Front Electric Meter" Usage Point with Retail Customer
     And I upload Usage Points
-    And I select "Alan Turing" from customer list
-    And I associate the usage point to "Alan Turing"
 
-    When I login as Alan Turing
+    When I log in as Retail Customer
     And I navigate to the Usage Points list
     Then I should see my Usage Points with title "Front Electric Meter"
 
   Scenario: Data Custodian uploads Usage Points with Service Categories
-    Given Grace Hopper Data Custodian
-    And Alan Turing Retail Customer
+    Given a Retail Customer
 
     When I login as Grace Hopper
-    And I navigate to customer list page
-    And I select "Alan Turing" from customer list
+    And I associate "Front Electric Meter" Usage Point with Retail Customer
     And I upload Usage Points
 
-    When I login as Alan Turing
+    When I log in as Retail Customer
     And I navigate to the Usage Points list
     Then I should see my Usage Points with Service Categories with Service Kind of "ELECTRICITY_SERVICE"
 
@@ -84,40 +79,45 @@ Feature: Data Custodian
     Given a Retail Customer
 
     When I login as Grace Hopper
-    And I navigate to customer list page
-    And I select Retail Customer from customer list
+    And I associate "Front Electric Meter" Usage Point with Retail Customer
     And I upload Usage Points
 
-    When I login as Retail Customer
+    When I log in as Retail Customer
     And I navigate to the Usage Points list
-    And I select "Front Electric Meter" from the Usage Point list
+    And I select a "Front Electric Meter" Usage Point
     Then I should see the Meter Readings
 
   Scenario: Data Custodian uploads Usage Points with Interval Blocks and Readings
-    Given Grace Hopper Data Custodian
-    And Alan Turing Retail Customer
+    Given a Retail Customer
 
     When I login as Grace Hopper
-    And I navigate to customer list page
-    And I select "Alan Turing" from customer list
+    And I associate "Front Electric Meter" Usage Point with Retail Customer
     And I upload Usage Points
 
-    When I login as Alan Turing
+    When I log in as Retail Customer
     And I navigate to the Usage Points list
-    And I select a Usage Point
+    And I select a "Front Electric Meter" Usage Point
     And I select Meter Reading
     Then I should see my Meter Reading with Interval Blocks and Readings
 
-  Scenario: Data Custodian uploads Usage Points with Electric Power Usage Summaries
-    Given Grace Hopper Data Custodian
-    And Alan Turing Retail Customer
+  Scenario: Data Custodian associates an Usage Point with Retail Customer
+    Given a Retail Customer
 
     When I login as Grace Hopper
-    And I navigate to customer list page
-    And I select "Alan Turing" from customer list
+    And I associate "Back Electric Meter" Usage Point with Retail Customer
+
+    When I log in as Retail Customer
+    And I navigate to the Usage Points list
+    Then I should see "Back Electric Meter"
+
+  Scenario: Data Custodian uploads Usage Points with Electric Power Usage Summaries
+    Given a Retail Customer
+
+    When I login as Grace Hopper
+    And I associate "Front Electric Meter" Usage Point with Retail Customer
     And I upload Usage Points
 
-    When I login as Alan Turing
+    When I log in as Retail Customer
     And I navigate to the Usage Points list
-    And I select a Usage Point
+    And I select a "Front Electric Meter" Usage Point
     Then I should see my Electric Power Usage Summaries

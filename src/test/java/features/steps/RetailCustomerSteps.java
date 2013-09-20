@@ -26,8 +26,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import static features.steps.StepUtils.clickLinkByText;
-import static features.steps.StepUtils.navigateTo;
+import static features.steps.StepUtils.*;
 import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -224,9 +223,9 @@ public class RetailCustomerSteps {
 
     @Then("^the XML includes Electric Power Usage Summary$")
     public void the_XML_includes_Electric_Power_Usage_Summary() throws Throwable {
-        assertXpathValue("Usage Summary", "feed/entry[5]/title", xmlResult);
+        assertXpathValue("Usage Summary", "feed/entry/content/ElectricPowerUsageSummary/../../title", xmlResult);
         assertXpathValue("1119600", "feed/entry[5]/content/ElectricPowerUsageSummary/billingPeriod/duration", xmlResult);
-   }
+    }
 
     @Then("^the XML includes Interval Blocks$")
     public void the_XML_includes_Interval_Blocks() throws Throwable {
@@ -252,5 +251,21 @@ public class RetailCustomerSteps {
         assertXpathValue("900", "feed/entry[4]/content/IntervalBlock/IntervalReading[1]/timePeriod/duration", xmlResult);
         assertXpathValue("1330578900", "feed/entry[4]/content/IntervalBlock/IntervalReading[2]/timePeriod/start", xmlResult);
         assertXpathValue("965", "feed/entry[4]/content/IntervalBlock/IntervalReading[2]/cost", xmlResult);
+    }
+
+    @Given("^a Retail Customer$")
+    public void a_Retail_Customer() throws Throwable {
+        CucumberSession.setUsername(newUsername());
+        StepUtils.registerUser(CucumberSession.getUsername(), newFirstName(), newLastName(), StepUtils.PASSWORD);
+    }
+
+    @When("^I log in as Retail Customer$")
+    public void I_log_in_as() throws Throwable {
+        StepUtils.login(CucumberSession.getUsername(), StepUtils.PASSWORD);
+    }
+
+    @And("^I select a \"([^\"]*)\" Usage Point$")
+    public void I_select_a_Usage_Point(String usagePointDescription) throws Throwable {
+        clickLinkByText(usagePointDescription);
     }
 }
