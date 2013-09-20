@@ -16,16 +16,12 @@
 
 package org.energyos.espi.datacustodian.web.custodian;
 
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -33,17 +29,11 @@ import javax.xml.bind.JAXBException;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("/custodian/retailcustomers")
-public class RetailCustomerUploadController {
+@RequestMapping("/custodian/")
+public class UploadController {
 
-    @Autowired
-    private RetailCustomerService retailCustomerService;
     @Autowired
     private UsagePointService usagePointService;
-
-    public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
-        this.retailCustomerService = retailCustomerService;
-    }
 
     public void setUsagePointService(UsagePointService usagePointService) {
         this.usagePointService = usagePointService;
@@ -54,22 +44,19 @@ public class RetailCustomerUploadController {
         return new UploadForm();
     }
 
-    @RequestMapping(value = "/{retailCustomerId}/upload", method = RequestMethod.GET)
-    public String upload(@PathVariable Long retailCustomerId, ModelMap model) {
-        model.put("retailCustomer", retailCustomerService.findById(retailCustomerId));
-
-        return "/custodian/retailcustomers/upload";
+    @RequestMapping(value = "/upload", method = RequestMethod.GET)
+    public String upload() {
+        return "/custodian/upload";
     }
 
-    @RequestMapping(value = "/{retailCustomerId}/upload", method = RequestMethod.POST)
-    public String uploadPost(@PathVariable Long retailCustomerId, @ModelAttribute UploadForm uploadForm, BindingResult result) throws IOException, JAXBException {
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public String uploadPost(@ModelAttribute UploadForm uploadForm, BindingResult result) throws IOException, JAXBException {
         try {
-            RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
-            usagePointService.importUsagePoints(retailCustomer, uploadForm.getFile().getInputStream());
-            return String.format("redirect:/custodian/retailcustomers/%s/show", retailCustomer.getId());
+            usagePointService.importUsagePoints(uploadForm.getFile().getInputStream());
+            return "redirect:/custodian/retailcustomers";
         } catch (Exception e) {
             result.addError(new ObjectError("uploadForm", "Unable to process file"));
-            return "/custodian/retailcustomers/upload";
+            return "/custodian/upload";
         }
     }
 }
