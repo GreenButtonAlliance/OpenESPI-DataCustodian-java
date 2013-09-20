@@ -39,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
@@ -61,8 +62,9 @@ public class FeedBuilderIntervalBlockTests {
         FeedBuilder builder = new FeedBuilder();
         RetailCustomer customer = new RetailCustomer();
         customer.setId(4L);
+        UUID uuid = UUID.randomUUID();
 
-        usagePointService.importUsagePoints(customer, sourceFile.getInputStream());
+        TestUtils.importUsagePoint(usagePointService, customer, uuid);
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(customer);
 
         Feed feed = builder.buildFeed(usagePoints);

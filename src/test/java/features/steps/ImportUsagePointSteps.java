@@ -18,9 +18,10 @@ package features.steps;
 
 import cucumber.api.java.en.When;
 import org.energyos.espi.datacustodian.console.ImportUsagePoint;
+import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
 import org.openqa.selenium.WebDriver;
-import org.springframework.core.io.ClassPathResource;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -31,12 +32,12 @@ public class ImportUsagePointSteps {
 
     private WebDriver driver = WebDriverSingleton.getInstance();
 
-    @When("^I import Alan Turing's Usage Points from an XML file$")
-    public void Data_Custodian_imports_the_XML_file() throws Throwable {
+    @When("^I import Usage Point from XML$")
+    public void imports_usage_point_from_xml() throws Throwable {
+        String xml = FixtureFactory.newUsagePointXML(CucumberSession.getUUID());
         File tmpFile = File.createTempFile("usage_point", ".xml");
-        ClassPathResource sourceFile = new ClassPathResource("/fixtures/15minLP_15Days.xml");
-        Files.copy(sourceFile.getInputStream(), Paths.get(tmpFile.getAbsolutePath()), REPLACE_EXISTING);
+        Files.copy(new ByteArrayInputStream(xml.getBytes()), Paths.get(tmpFile.getAbsolutePath()), REPLACE_EXISTING);
 
-        ImportUsagePoint.main(new String[]{tmpFile.getAbsolutePath(), StepUtils.BASE_URL + "/custodian/retailcustomers/1/upload"});
+        ImportUsagePoint.main(new String[]{tmpFile.getAbsolutePath(), StepUtils.BASE_URL + "/custodian/upload"});
     }
 }

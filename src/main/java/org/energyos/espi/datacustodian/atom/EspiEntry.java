@@ -35,7 +35,7 @@ public abstract class EspiEntry extends Entry {
     @SuppressWarnings("unchecked")
     public EspiEntry(IdentifiedObject object) throws FeedException {
         this.setTitle(object.getDescription());
-        this.setId("urn:uuid:" + object.getMRID());
+        this.setId(object.getMRID());
         this.setPublished(object.getCreated());
         this.setUpdated(object.getUpdated());
 

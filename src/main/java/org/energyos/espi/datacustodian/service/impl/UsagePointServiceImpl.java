@@ -32,6 +32,7 @@ import javax.xml.bind.JAXBException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -74,13 +75,17 @@ public class UsagePointServiceImpl implements UsagePointService {
         this.repository.persist(up);
     }
 
-    public void importUsagePoints(RetailCustomer customer, InputStream stream) throws JAXBException {
+    @Override
+    public void importUsagePoints(InputStream stream) throws JAXBException {
         List<UsagePoint> usagePoints = usagePointBuilder.newUsagePoints(marshaller.unmarshal(stream));
 
         for (UsagePoint usagePoint : usagePoints) {
-            usagePoint.setRetailCustomer(customer);
-            persist(usagePoint);
+            createOrReplaceByUUID(usagePoint);
         }
+    }
+
+    public void createOrReplaceByUUID(UsagePoint usagePoint) {
+        repository.createOrReplaceByUUID(usagePoint);
     }
 
     public String exportUsagePoints(RetailCustomer customer) throws FeedException {
@@ -92,5 +97,15 @@ public class UsagePointServiceImpl implements UsagePointService {
         usagePointList.add(findById(usagePointId));
 
         return marshaller.marshal(feedBuilder.buildFeed(usagePointList));
+    }
+
+    @Override
+    public void associateByUUID(RetailCustomer retailCustomer, UUID uuid) {
+        repository.associateByUUID(retailCustomer, uuid);
+    }
+
+    @Override
+    public UsagePoint findByUUID(UUID uuid) {
+       return repository.findByUUID(uuid);
     }
 }

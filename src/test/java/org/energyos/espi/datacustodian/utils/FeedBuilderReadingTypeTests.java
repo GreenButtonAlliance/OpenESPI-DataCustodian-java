@@ -25,12 +25,12 @@ import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.atom.EspiEntry;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -41,6 +41,7 @@ import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathNotExists;
@@ -55,6 +56,9 @@ public class FeedBuilderReadingTypeTests {
 
     @Autowired
     UsagePointService usagePointService;
+    @Autowired
+    RetailCustomerService retailCustomerService;
+
 
     private EspiEntry entry;
     private List<Content> contents;
@@ -62,12 +66,14 @@ public class FeedBuilderReadingTypeTests {
     @Before
     public void setup() throws IOException, JAXBException, FeedException {
         XMLUnit.getControlDocumentBuilderFactory().setNamespaceAware(false);
-        ClassPathResource sourceFile = new ClassPathResource("/fixtures/15minLP_15Days.xml");
         FeedBuilder builder = new FeedBuilder();
         RetailCustomer customer = new RetailCustomer();
-        customer.setId(4L);
+        customer.setFirstName("First");
+        customer.setLastName("Last");
+        retailCustomerService.persist(customer);
+        UUID uuid = UUID.randomUUID();
 
-        usagePointService.importUsagePoints(customer, sourceFile.getInputStream());
+        TestUtils.importUsagePoint(usagePointService, customer, uuid);
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(customer);
 
         Feed feed = builder.buildFeed(usagePoints);

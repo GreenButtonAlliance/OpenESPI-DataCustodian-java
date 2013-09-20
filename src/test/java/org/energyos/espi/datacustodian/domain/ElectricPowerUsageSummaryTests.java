@@ -24,17 +24,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlTransient;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
 import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
-import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newElectricPowerUsageSummary;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newElectricPowerUsageSummaryWithUsagePoint;
 import static org.junit.Assert.assertEquals;
 
 public class ElectricPowerUsageSummaryTests extends XMLTest {
@@ -116,7 +112,7 @@ public class ElectricPowerUsageSummaryTests extends XMLTest {
 
     @Before
     public void before() throws JAXBException, FeedException {
-        xml = EspiMarshaller.marshal(newElectricPowerUsageSummary());
+        xml = EspiMarshaller.marshal(newElectricPowerUsageSummaryWithUsagePoint());
         electricPowerUsageSummary = EspiMarshaller.<ElectricPowerUsageSummary>unmarshal(XML_INPUT).getValue();
     }
 

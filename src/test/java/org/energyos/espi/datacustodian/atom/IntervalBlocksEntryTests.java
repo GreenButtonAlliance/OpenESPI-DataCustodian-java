@@ -20,15 +20,18 @@ package org.energyos.espi.datacustodian.atom;
 import com.sun.syndication.feed.atom.Content;
 import com.sun.syndication.io.FeedException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
+import org.energyos.espi.datacustodian.domain.IntervalBlock;
+import org.energyos.espi.datacustodian.domain.MeterReading;
 import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
+import java.util.List;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
-import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newMeterReading;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newMeterReadingWithUsagePoint;
 import static org.junit.Assert.*;
 
 public class IntervalBlocksEntryTests extends XMLTest {
@@ -37,7 +40,14 @@ public class IntervalBlocksEntryTests extends XMLTest {
 
     @Before
     public void before() throws JAXBException, FeedException {
-        entry = new IntervalBlocksEntry(newMeterReading().getIntervalBlocks());
+        MeterReading meterReading = newMeterReadingWithUsagePoint();
+        List<IntervalBlock> intervalBlockList = meterReading.getIntervalBlocks();
+        IntervalBlock intervalBlock = intervalBlockList.get(0);
+        intervalBlock.setId(97L);
+        intervalBlock.getMeterReading().setId(98L);
+        intervalBlock.getMeterReading().getUsagePoint().setId(99L);
+        intervalBlock.getMeterReading().getUsagePoint().getRetailCustomer().setId(88L);
+        entry = new IntervalBlocksEntry(meterReading.getIntervalBlocks());
     }
 
     @Test

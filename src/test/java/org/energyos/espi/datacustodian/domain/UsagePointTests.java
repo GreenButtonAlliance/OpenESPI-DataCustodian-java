@@ -24,11 +24,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.IOException;
+import java.util.Set;
 
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.TestCase.assertFalse;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
 import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
@@ -61,6 +67,30 @@ public class UsagePointTests extends XMLTest {
     @Test
     public void status() throws SAXException, IOException, XpathException {
         assertXpathValue("5", "UsagePoint/status", xml);
+    }
+
+    @Test
+    public void isValid() throws Exception {
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
+        UsagePoint usagePoint = new UsagePoint();
+        usagePoint.setMRID("urn:uuid:E8E75691-7F9D-49F3-8BE2-3A74EBF6BFC0");
+        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
+
+        Set<ConstraintViolation<UsagePoint>> violations = validator.validate(usagePoint);
+
+        assertTrue(violations.isEmpty());
+    }
+
+    @Test
+    public void isInvalid() throws Exception {
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
+        UsagePoint usagePoint = new UsagePoint();
+
+        Set<ConstraintViolation<UsagePoint>> violations = validator.validate(usagePoint);
+
+        assertFalse(violations.isEmpty());
     }
 
     @Test

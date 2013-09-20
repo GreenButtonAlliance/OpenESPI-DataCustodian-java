@@ -23,8 +23,9 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.WebDriver;
 
-import static features.steps.StepUtils.clickLinkByText;
-import static features.steps.StepUtils.navigateTo;
+import java.util.UUID;
+
+import static features.steps.StepUtils.*;
 import static org.junit.Assert.assertTrue;
 
 public class DataCustodianSteps {
@@ -86,17 +87,17 @@ public class DataCustodianSteps {
 
     @When("^I login as Grace Hopper$")
     public void I_login_as_Grace_Hopper() throws Throwable {
-        StepUtils.login("grace", "koala");
+        StepUtils.login("grace", StepUtils.PASSWORD);
     }
 
     @When("^I upload Usage Points")
     public void I_upload_Usage_Points() throws Throwable {
-        StepUtils.uploadUsagePoints("/fixtures/15minLP_15Days.xml");
+        StepUtils.uploadUsagePoints();
     }
 
     @When("^I login as Alan Turing$")
     public void I_login_as_Alan_Turing() throws Throwable {
-        StepUtils.login("alan", "koala");
+        StepUtils.login("alan", StepUtils.PASSWORD);
     }
 
     @And("^I navigate to the Usage Points list$")
@@ -135,50 +136,56 @@ public class DataCustodianSteps {
 
     @And("^I create a new Retail Customer$")
     public void I_create_a_new_Retail_Customer() throws Throwable {
-        username = StepUtils.newUsername();
-        StepUtils.registerUser(username, StepUtils.newFirstName(), StepUtils.newLastName(), "koala");
+        CucumberSession.setUsername(StepUtils.newUsername());
+        StepUtils.registerUser(CucumberSession.getUsername(), StepUtils.newFirstName(), StepUtils.newLastName(), StepUtils.PASSWORD);
     }
 
     @Then("^I should see the new Retail Customer in the customer list$")
     public void I_should_see_the_new_Retail_Customer_in_the_customer_list() throws Throwable {
-        assertTrue(driver.getPageSource().contains(username));
+        assertTrue(driver.getPageSource().contains(CucumberSession.getUsername()));
     }
 
     @And("^I select Retail Customer from customer list$")
     public void I_select_Retail_Customer_from_customer_list() throws Throwable {
-        clickLinkByText(username);
+        clickLinkByText(CucumberSession.getUsername());
     }
 
     @When("^I login as Retail Customer$")
     public void I_login_as_Retail_Customer() throws Throwable {
-        StepUtils.login(username, "koala");
+        StepUtils.login(CucumberSession.getUsername(), StepUtils.PASSWORD);
     }
 
     @Given("^a Retail Customer with Usage Points$")
     public void a_Retail_Customer_with_Usage_Points() throws Throwable {
-        username = StepUtils.newUsername();
-        String firstName = StepUtils.newFirstName();
-        String lastName = StepUtils.newLastName();
-        String password = "koala";
-        String path = "/fixtures/15minLP_15Days.xml";
+        CucumberSession.setUsername(StepUtils.newUsername());
 
-        StepUtils.registerUser(username, firstName, lastName, password);
-        StepUtils.importUsagePoint(username, path);
-        StepUtils.login(username, password);
-    }
-
-    @Given("^a Retail Customer$")
-    public void a_Retail_Customer() throws Throwable {
-        username = StepUtils.newUsername();
-        String firstName = StepUtils.newFirstName();
-        String lastName = StepUtils.newLastName();
-        String password = "koala";
-        StepUtils.registerUser(username, firstName, lastName, password);
-        StepUtils.login(username, password);
+        StepUtils.registerUser(CucumberSession.getUsername(), StepUtils.newFirstName(), StepUtils.newLastName(), StepUtils.PASSWORD);
+        CucumberSession.setUUID(UUID.randomUUID());
+        StepUtils.addUsagePoint(CucumberSession.getUsername(), CucumberSession.getUUID().toString());
+        StepUtils.importUsagePoint();
+        StepUtils.login(CucumberSession.getUsername(), StepUtils.PASSWORD);
     }
 
     @Then("^I should see my Electric Power Usage Summaries$")
     public void I_should_see_my_Electric_Power_Usage_Summaries() throws Throwable {
         assertTrue(driver.getPageSource().contains("Usage Summary"));
+}
+
+    @And("^I navigate to the upload form$")
+    public void I_navigate_to_the_upload_form() throws Throwable {
+        clickLinkByText("Upload data");
+    }
+
+    @And("^I associate \"([^\"]*)\" Usage Point with Retail Customer$")
+    public void I_associate_Usage_Point_with_Retail_Customer(String usagePointDescription) throws Throwable {
+        navigateTo("/custodian/retailcustomers");
+        clickLinkByText(CucumberSession.getUsername());
+        CucumberSession.setUUID(UUID.randomUUID());
+        associate(CucumberSession.getUUID().toString(), usagePointDescription);
+    }
+
+    @Then("^I should see \"([^\"]*)\"$")
+    public void I_should_see(String content) throws Throwable {
+        assertTrue("Page should contain '" + content + "'", driver.getPageSource().contains(content));
     }
 }

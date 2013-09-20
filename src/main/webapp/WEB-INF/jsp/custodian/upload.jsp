@@ -20,18 +20,18 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<jsp:include page="/WEB-INF/jsp/tiles/head.jsp"/>
+<jsp:include page="../tiles/head.jsp"/>
 
 <body>
 
-<jsp:include page="/WEB-INF/jsp/tiles/custodian/header.jsp"/>
+<jsp:include page="../tiles/custodian/header.jsp"/>
 
 <div class="container">
     <div class="row">
         <div class="span12">
-            <h2>Upload Usage Points</h2>
+            <h2>Upload</h2>
 
-            <form:form modelAttribute="uploadForm" class="form-horizontal" action="${pageContext.request.contextPath}/custodian/retailcustomers/${retailCustomer.id}/upload" enctype="multipart/form-data">
+            <form:form modelAttribute="uploadForm" class="form-horizontal" action="${pageContext.request.contextPath}/custodian/upload" enctype="multipart/form-data">
                 <form:errors path="*" cssClass="alert alert-error" element="div" />
 
                 <div class="control-group">
@@ -44,10 +44,9 @@
             </form:form>
         </div>
     </div>
-
     <hr>
 
-    <jsp:include page="/WEB-INF/jsp/tiles/footer.jsp"/>
+    <jsp:include page="../tiles/footer.jsp"/>
 
 </div>
 

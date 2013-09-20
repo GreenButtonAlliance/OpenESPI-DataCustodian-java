@@ -20,20 +20,15 @@ package org.energyos.espi.datacustodian.atom;
 import com.sun.syndication.feed.atom.Content;
 import com.sun.syndication.feed.atom.Link;
 import com.sun.syndication.io.FeedException;
-import org.custommonkey.xmlunit.XMLUnit;
 import org.custommonkey.xmlunit.exceptions.XpathException;
-import org.energyos.espi.datacustodian.domain.*;
-import org.junit.Before;
+import org.energyos.espi.datacustodian.domain.MeterReading;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
-import java.math.BigInteger;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
-import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newMeterReading;
-import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newReadingType;
-import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newMeterReadingWithUsagePoint;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -41,7 +36,13 @@ public class MeterReadingEntryTests extends XMLTest {
 
     @Test
     public void constructsMeterReadingEntry() throws FeedException, SAXException, IOException, XpathException {
-        MeterReadingEntry entry = new MeterReadingEntry(newMeterReading());
+        MeterReading meterReading = newMeterReadingWithUsagePoint();
+        meterReading.setId(98L);
+        meterReading.getUsagePoint().setId(99L);
+        meterReading.getUsagePoint().getRetailCustomer().setId(88L);
+        meterReading.getReadingType().setId(96L);
+        MeterReadingEntry entry = new MeterReadingEntry(meterReading);
+
         assertNotNull("entry was null", entry);
 
         assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading/98", entry.getSelfLink().getHref());

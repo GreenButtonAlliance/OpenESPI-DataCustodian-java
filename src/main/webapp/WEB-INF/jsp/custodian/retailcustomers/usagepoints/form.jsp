@@ -20,44 +20,30 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<jsp:include page="../tiles/head.jsp"/>
+<jsp:include page="../../../tiles/head.jsp"/>
 
 <body>
 
-<jsp:include page="../tiles/custodian/header.jsp"/>
+<jsp:include page="../../../tiles/custodian/header.jsp"/>
 
 <div class="container">
     <div class="row">
         <div class="span12">
-            <h2>New Retail Customer</h2>
+            <h2>Add Usage Point</h2>
 
-            <form:form modelAttribute="retailCustomer" name="new_customer" class="form-horizontal" action="${pageContext.request.contextPath}/custodian/retailcustomers/create">
+            <form:form modelAttribute="usagePointForm" name="usagePointForm" class="form-horizontal" action="${pageContext.request.contextPath}/custodian/retailcustomers/${retailCustomerId}/usagepoints/create">
                 <div class="control-group">
-                    <label class="control-label" for="username">Username</label>
+                    <label class="control-label" for="UUID">UUID</label>
                     <div class="controls">
-                        <form:input path="username"/>
-                        <form:errors path="username" cssClass="error"/>
+                        <form:input path="UUID"/>
+                        <form:errors path="UUID" cssClass="error"/>
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="firstName">First Name</label>
+                    <label class="control-label" for="description">Description</label>
                     <div class="controls">
-                        <form:input path="firstName"/>
-                        <form:errors path="firstName" cssClass="error"/>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="lastName">Last Name</label>
-                    <div class="controls">
-                        <form:input path="lastName"/>
-                        <form:errors path="lastName" cssClass="error"/>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="password">Password</label>
-                    <div class="controls">
-                        <form:password path="password"/>
-                        <form:errors path="password" cssClass="error"/>
+                        <form:input id="description" path="description"/>
+                        <form:errors path="description" cssClass="error"/>
                     </div>
                 </div>
                 <div class="control-group">
@@ -67,7 +53,7 @@
                 </div>
             </form:form>
 
-            <jsp:include page="../tiles/footer.jsp"/>
+            <jsp:include page="../../../tiles/footer.jsp"/>
 
         </div>
     </div>

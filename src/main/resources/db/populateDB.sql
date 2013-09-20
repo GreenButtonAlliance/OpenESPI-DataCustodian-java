@@ -12,7 +12,7 @@ INSERT INTO service_categories (kind) VALUES (9);
 INSERT INTO retail_customers (id, username, first_name, last_name, password, enabled, role) VALUES (1, 'alan',    'Alan',    'Turing',      'koala', 1, 'ROLE_USER');
 INSERT INTO retail_customers (id, username, first_name, last_name, password, enabled, role) VALUES (2, 'donald',  'Donald',  'Knuth',       'koala', 1, 'ROLE_USER');
 INSERT INTO retail_customers (id, username, first_name, last_name, password, enabled, role) VALUES (3, 'paul',    'Paul',    'Dirac',       'koala', 1, 'ROLE_USER');
-INSERT INTO retail_customers (id, username, first_name, last_name, password, enabled, role) VALUES (4, 'alonso',  'Alonso',  'Church',      'koala', 1, 'ROLE_USER');
+INSERT INTO retail_customers (id, username, first_name, last_name, password, enabled, role) VALUES (4, 'alonzo',  'Alonzo',  'Church',      'koala', 1, 'ROLE_USER');
 INSERT INTO retail_customers (id, username, first_name, last_name, password, enabled, role) VALUES (5, 'charles', 'Charles', 'Babbage',     'koala', 1, 'ROLE_USER');
 INSERT INTO retail_customers (id, username, first_name, last_name, password, enabled, role) VALUES (6, 'john',    'John',    'von Neumann', 'koala', 1, 'ROLE_USER');
 INSERT INTO retail_customers (id, username, first_name, last_name, password, enabled, role) VALUES (7, 'marian',  'Marian',  'Rejewski',    'koala', 1, 'ROLE_USER');

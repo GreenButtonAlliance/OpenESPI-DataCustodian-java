@@ -19,19 +19,12 @@ package org.energyos.espi.datacustodian.atom;
 
 import com.sun.syndication.feed.atom.Content;
 import com.sun.syndication.io.FeedException;
-import org.custommonkey.xmlunit.XMLUnit;
 import org.custommonkey.xmlunit.exceptions.XpathException;
-import org.energyos.espi.datacustodian.domain.RationalNumber;
-import org.energyos.espi.datacustodian.domain.ReadingInterharmonic;
 import org.energyos.espi.datacustodian.domain.ReadingType;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
-import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
-import java.math.BigInteger;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
@@ -43,7 +36,9 @@ public class ReadingTypeEntryTests extends XMLTest {
 
     @Test
     public void constructsReadingTypeEntry() throws FeedException, SAXException, IOException, XpathException {
-        ReadingTypeEntry entry = new ReadingTypeEntry(newReadingType());
+        ReadingType readingType = newReadingType();
+        readingType.setId(96L);
+        ReadingTypeEntry entry = new ReadingTypeEntry(readingType);
         assertNotNull("entry was null", entry);
 
         assertEquals("ReadingType/96", entry.getSelfLink().getHref());

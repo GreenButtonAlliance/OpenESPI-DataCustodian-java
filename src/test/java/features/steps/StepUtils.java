@@ -16,11 +16,12 @@
 
 package features.steps;
 
+import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.springframework.core.io.ClassPathResource;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -32,6 +33,8 @@ import static junit.framework.Assert.assertTrue;
 public class StepUtils {
 
     public final static String BASE_URL = "http://localhost:8080/DataCustodian";
+    public final static String PASSWORD = "koala";
+
     private static WebDriver driver = WebDriverSingleton.getInstance();;
 
     public static void navigateTo(String path) {
@@ -40,6 +43,11 @@ public class StepUtils {
 
     public static void clickLinkByText(String linkText) {
         WebElement link = driver.findElement(By.linkText(linkText));
+        link.click();
+    }
+
+    public static void clickLinkByPartialText(String linkText) {
+        WebElement link = driver.findElement(By.partialLinkText(linkText));
         link.click();
     }
 
@@ -63,17 +71,22 @@ public class StepUtils {
 
     }
 
-    public static void importUsagePoint(String username, String path) throws IOException {
-        clickLinkByText(username);
+    public static void importUsagePoint() throws IOException {
+        navigateTo("/custodian/upload");
+        uploadUsagePoints();
+    }
 
-        uploadUsagePoints(path);
+    public static void addUsagePoint(String username, String mrid) throws IOException {
+        navigateTo("/custodian/retailcustomers");
+        clickLinkByText(username);
+        associate(mrid, "Front Electric Meter");
     }
 
     public static void registerUser(String username, String firstName, String lastName, String password) {
-        StepUtils.login("grace", "koala");
+        StepUtils.login("grace", StepUtils.PASSWORD);
 
         clickLinkByText("Customer List");
-        clickLinkByText("Add new customer");
+        clickLinkByPartialText("Add new customer");
 
         assertTrue(driver.getPageSource().contains("New Retail Customer"));
 
@@ -97,6 +110,20 @@ public class StepUtils {
         assertTrue(driver.getPageSource().contains("Retail Customers"));
     }
 
+    public static void associate(String uuid, String description) {
+        clickLinkByPartialText("Add Usage Point");
+
+        WebElement uuidElement = driver.findElement(By.name("UUID"));
+        uuidElement.clear();
+        uuidElement.sendKeys(uuid);
+
+        WebElement descriptionElement = driver.findElement(By.id("description"));
+        descriptionElement.sendKeys(description);
+
+        WebElement create = driver.findElement(By.name("create"));
+        create.click();
+    }
+
     public static String newLastName() {
         return "Doe" + System.currentTimeMillis();
     }
@@ -109,12 +136,12 @@ public class StepUtils {
         return "User" + System.currentTimeMillis();
     }
 
-    public static void uploadUsagePoints(String path) throws IOException {
+    public static void uploadUsagePoints() throws IOException {
+        String xml = FixtureFactory.newUsagePointXML(CucumberSession.getUUID());
         File tmpFile = File.createTempFile("usage_point", ".xml");
-        ClassPathResource sourceFile = new ClassPathResource(path);
-        Files.copy(sourceFile.getInputStream(), Paths.get(tmpFile.getAbsolutePath()), REPLACE_EXISTING);
+        Files.copy(new ByteArrayInputStream(xml.getBytes()), Paths.get(tmpFile.getAbsolutePath()), REPLACE_EXISTING);
 
-        clickLinkByText("Upload data");
+        clickLinkByText("Upload");
         WebElement file = driver.findElement(By.name("file"));
         file.sendKeys(tmpFile.getAbsolutePath());
         WebElement upload = driver.findElement(By.name("upload"));
