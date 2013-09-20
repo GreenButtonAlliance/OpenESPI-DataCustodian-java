@@ -25,9 +25,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.UUID;
+
+import static org.energyos.espi.datacustodian.utils.factories.FixtureFactory.newUsagePointXML;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
@@ -35,7 +37,6 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
-@Transactional
 public class DataCustodianTests {
     private MockMvc mockMvc;
 
@@ -55,21 +56,26 @@ public class DataCustodianTests {
     }
 
     @Test
-    public void displaysNewCustomerView() throws Exception {
-        mockMvc.perform(get("/custodian/retailcustomers/new"))
-                .andExpect(status().isOk())
+    public void retailcustomer_form_returnsOkStatus() throws Exception {
+        mockMvc.perform(get("/custodian/retailcustomers/form"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void retailcustomer_form_displaysNewView() throws Exception {
+        mockMvc.perform(get("/custodian/retailcustomers/form"))
                 .andExpect(view().name("retailcustomers/form"));
     }
 
     @Test
-    public void givenInvalidModel_displaysForm() throws Exception {
-        ResultActions result = mockMvc.perform(post("/custodian/retailcustomers/new"));
+    public void retailcustomer_form_givenInvalidModel_displaysForm() throws Exception {
+        ResultActions result = mockMvc.perform(post("/custodian/retailcustomers/create"));
         result.andExpect(view().name("retailcustomers/form"));
     }
 
     @Test
-    public void redirectsToCustomerListAfterCreate() throws Exception {
-        ResultActions result = mockMvc.perform(post("/custodian/retailcustomers/new")
+    public void retailcustomer_create_redirectsToCustomerListAfterCreate() throws Exception {
+        ResultActions result = mockMvc.perform(post("/custodian/retailcustomers/create")
                 .param("username", "grace")
                 .param("firstName", "Grace")
                 .param("lastName", "Hopper")
@@ -78,9 +84,20 @@ public class DataCustodianTests {
     }
 
     @Test
-    public void displaysRetailCustomerProfileView() throws Exception {
+    public void retailcustomer_show_returnsOkStatus() throws Exception {
         mockMvc.perform(get("/custodian/retailcustomers/1/show"))
-                .andExpect(status().isOk())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void retailcustomer_show_displaysShowView() throws Exception {
+        mockMvc.perform(get("/custodian/retailcustomers/1/show"))
+                .andExpect(view().name("/custodian/retailcustomers/show"));
+    }
+
+    @Test
+    public void retailcustomer_show_setsRetailCustomerModel() throws Exception {
+        mockMvc.perform(get("/custodian/retailcustomers/1/show"))
                 .andExpect(model().attributeExists("retailCustomer"));
     }
 

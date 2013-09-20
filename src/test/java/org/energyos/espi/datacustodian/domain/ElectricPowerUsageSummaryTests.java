@@ -36,6 +36,7 @@ import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
 import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newElectricPowerUsageSummary;
 import static org.junit.Assert.assertEquals;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newElectricPowerUsageSummaryWithUsagePoint;
 
 public class ElectricPowerUsageSummaryTests extends XMLTest {
 

@@ -17,6 +17,7 @@ import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
 import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newIntervalBlock;
 import static org.junit.Assert.assertEquals;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newIntervalBlockWithUsagePoint;
 
 public class IntervalBlockTests extends XMLTest {
     static final String XML_INPUT =

@@ -103,5 +103,4 @@ public class RetailCustomerControllerTests {
     public void show_displaysShowView() {
         assertEquals("/custodian/retailcustomers/show", controller.show(2L, new ModelMap()));
     }
-
 }

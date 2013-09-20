@@ -18,15 +18,14 @@ package org.energyos.espi.datacustodian.atom;
 
 import com.sun.syndication.feed.atom.Content;
 import com.sun.syndication.io.FeedException;
-import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
+import org.energyos.espi.datacustodian.domain.ElectricPowerUsageSummary;
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.xml.bind.JAXBException;
 
 import static junit.framework.Assert.assertTrue;
-import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newElectricPowerUsageSummary;
-import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newElectricPowerUsageSummaryWithUsagePoint;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -74,6 +73,10 @@ public class ElectricPowerUsageSummaryEntryTests {
     }
 
     private ElectricPowerUsageSummaryEntry newElectricPowerUsageSummaryEntry() throws FeedException, JAXBException {
-        return new ElectricPowerUsageSummaryEntry(newElectricPowerUsageSummary());
+        ElectricPowerUsageSummary electricPowerUsageSummary = newElectricPowerUsageSummaryWithUsagePoint();
+        electricPowerUsageSummary.setId(1L);
+        electricPowerUsageSummary.getUsagePoint().setId(99L);
+        electricPowerUsageSummary.getUsagePoint().getRetailCustomer().setId(88L);
+        return new ElectricPowerUsageSummaryEntry(electricPowerUsageSummary);
     }
 }

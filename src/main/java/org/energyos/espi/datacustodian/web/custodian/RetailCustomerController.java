@@ -50,14 +50,14 @@ public class RetailCustomerController {
         return "retailcustomers/index";
     }
 
-    @RequestMapping(value = "new", method = RequestMethod.GET)
+    @RequestMapping(value = "form", method = RequestMethod.GET)
     public String form(ModelMap model) {
         model.put("retailCustomer", new RetailCustomer());
 
         return "retailcustomers/form";
     }
 
-    @RequestMapping(value = "new", method = RequestMethod.POST)
+    @RequestMapping(value = "create", method = RequestMethod.POST)
     public String create(@ModelAttribute("retailCustomer") @Valid RetailCustomer retailCustomer, BindingResult result) {
         if (result.hasErrors()) {
             return "retailcustomers/form";
