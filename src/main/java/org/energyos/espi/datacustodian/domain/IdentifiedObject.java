@@ -24,6 +24,8 @@
 
 package org.energyos.espi.datacustodian.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -73,6 +75,7 @@ public class IdentifiedObject
     extends Resource
 {
     @XmlTransient
+    @NotEmpty
     protected String mrid;
 
     @XmlTransient
