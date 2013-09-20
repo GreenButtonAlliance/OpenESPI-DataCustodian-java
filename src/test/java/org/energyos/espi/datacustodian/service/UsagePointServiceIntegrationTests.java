@@ -18,6 +18,7 @@ package org.energyos.espi.datacustodian.service;
 
 
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.datacustodian.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.xml.bind.JAXBException;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import java.io.IOException;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
@@ -42,43 +43,13 @@ public class UsagePointServiceIntegrationTests {
     private UsagePointService service;
 
     @Test
-    public void givenXML_returnsFeed() throws JAXBException {
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<?xml-stylesheet type=\"text/xsl\" href=\"GreenButtonDataStyleSheet.xslt\"?>\n" +
-                "<feed xmlns=\"http://www.w3.org/2005/Atom\" xsi:schemaLocation=\"http://naesb.org/espi espiDerived.xsd\"\n" +
-                "      xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
-                "    <id>urn:uuid:0071C5A7-91CF-434E-8BCE-C38AC8AF215D</id>\n" +
-                "    <title>ThirdPartyX Batch Feed</title>\n" +
-                "    <updated>2012-10-24T00:00:00Z</updated>\n" +
-                "    <link rel=\"self\" href=\"/ThirdParty/83e269c1/Batch\"/>\n" +
-                "    <entry>\n" +
-                "        <id>urn:uuid:7BC41774-7190-4864-841C-861AC76D46C2</id>\n" +
-                "        <link rel=\"self\" href=\"RetailCustomer/9b6c7063/UsagePoint/01\"/>\n" +
-                "        <link rel=\"up\" href=\"RetailCustomer/9b6c7063/UsagePoint\"/>\n" +
-                "        <link rel=\"related\" href=\"RetailCustomer/9b6c7063/UsagePoint/01/MeterReading\"/>\n" +
-                "        <link rel=\"related\" href=\"RetailCustomer/9b6c7063/UsagePoint/01/ElectricPowerUsageSummary\"/>\n" +
-                "        <link rel=\"related\" href=\"LocalTimeParameters/01\"/>\n" +
-                "        <title>your house</title>\n" +
-                "        <content>\n" +
-                "            <UsagePoint xmlns=\"http://naesb.org/espi\">\n" +
-                "                <ServiceCategory>\n" +
-                "                    <kind>0</kind>\n" +
-                "                </ServiceCategory>\n" +
-                "            </UsagePoint>\n" +
-                "        </content>\n" +
-                "        <published>2012-10-24T00:00:00Z</published>\n" +
-                "        <updated>2012-10-24T00:00:00Z</updated>\n" +
-                "    </entry>\n" +
-                "</feed>\n";
-
-        InputStream xmlStream = new ByteArrayInputStream(xml.getBytes());
-
+    public void givenXML_returnsFeed() throws JAXBException, IOException {
         RetailCustomer customer = new RetailCustomer();
         customer.setId(1L);
 
         int count = service.findAllByRetailCustomer(customer).size();
 
-        service.importUsagePoints(customer, xmlStream);
+        TestUtils.importUsagePoint(service, customer, UUID.randomUUID());
 
         assertEquals(count + 1, service.findAllByRetailCustomer(customer).size());
     }

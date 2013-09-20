@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.service;
+package org.energyos.espi.datacustodian.service.impl;
 
 
 import com.sun.syndication.feed.atom.Feed;
@@ -22,7 +22,6 @@ import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.models.atom.FeedType;
 import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
-import org.energyos.espi.datacustodian.service.impl.UsagePointServiceImpl;
 import org.energyos.espi.datacustodian.utils.ATOMMarshaller;
 import org.energyos.espi.datacustodian.utils.FeedBuilder;
 import org.energyos.espi.datacustodian.utils.UsagePointBuilder;
@@ -81,7 +80,6 @@ public class UsagePointServiceImplTests {
 
     @Test
     public void importUsagePoints_persistsUsagePoint() throws JAXBException, FileNotFoundException {
-        RetailCustomer customer = new RetailCustomer();
         UsagePoint usagePoint = new UsagePoint();
         List<UsagePoint> usagePoints = new ArrayList<UsagePoint>();
         usagePoints.add(usagePoint);
@@ -92,10 +90,9 @@ public class UsagePointServiceImplTests {
 
         service.setUsagePointBuilder(builder);
 
-        service.importUsagePoints(customer, mock(InputStream.class));
+        service.importUsagePoints(mock(InputStream.class));
 
-        verify(repository).persist(usagePoint);
-        assertEquals(customer, usagePoint.getRetailCustomer());
+        verify(repository).createOrReplaceByUUID(usagePoint);
     }
 
     @Test
@@ -139,5 +136,14 @@ public class UsagePointServiceImplTests {
         assertEquals(atomFeedResult, service.exportUsagePointById(usagePointId));
         verify(feedBuilder).buildFeed(anyListOf(UsagePoint.class));
         verify(marshaller).marshal(atomFeed);
+    }
+
+    @Test
+    public void createOrReplaceByUUID() {
+        UsagePoint usagePoint = new UsagePoint();
+
+        service.createOrReplaceByUUID(usagePoint);
+
+        verify(repository).createOrReplaceByUUID(usagePoint);
     }
 }

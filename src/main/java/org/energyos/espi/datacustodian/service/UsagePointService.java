@@ -24,6 +24,7 @@ import org.energyos.espi.datacustodian.domain.UsagePoint;
 import javax.xml.bind.JAXBException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.UUID;
 
 public interface UsagePointService {
     List<UsagePoint> findAllByRetailCustomer(RetailCustomer customer);
@@ -32,9 +33,15 @@ public interface UsagePointService {
 
     void persist(UsagePoint up);
 
-    void importUsagePoints(RetailCustomer customer, InputStream stream) throws JAXBException;
+    void importUsagePoints(InputStream stream) throws JAXBException;
 
     String exportUsagePoints(RetailCustomer customer) throws FeedException;
 
     String exportUsagePointById(Long usagePointId) throws FeedException;
+
+    void createOrReplaceByUUID(UsagePoint usagePoint);
+
+    void associateByUUID(RetailCustomer retailCustomer, UUID uuid);
+
+    UsagePoint findByUUID(UUID uuid);
 }

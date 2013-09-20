@@ -8,6 +8,20 @@ import java.util.UUID;
 
 public class EspiFactory {
 
+    public static UsagePoint newUsagePointOnly(UUID uuid) {
+        UsagePoint usagePoint = new UsagePoint();
+
+        usagePoint.setUUID(uuid);
+        usagePoint.setDescription("Electric meter");
+
+        ServiceCategory serviceCategory = new ServiceCategory();
+        serviceCategory.setKind(new Long(0L));
+
+        usagePoint.setServiceCategory(serviceCategory);
+
+        return usagePoint;
+    }
+
     public static UsagePoint newUsagePoint() {
        return newUsagePoint(newRetailCustomer());
     }
