@@ -59,8 +59,9 @@ Feature: Data Custodian
 
     When I login as Grace Hopper
     And I navigate to customer list page
-    And I select "Alan Turing" from customer list
     And I upload Usage Points
+    And I select "Alan Turing" from customer list
+    And I associate the usage point to "Alan Turing"
 
     When I login as Alan Turing
     And I navigate to the Usage Points list

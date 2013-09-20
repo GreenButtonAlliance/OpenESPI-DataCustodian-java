@@ -21,7 +21,9 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import static features.steps.StepUtils.clickLinkByText;
 import static features.steps.StepUtils.navigateTo;
@@ -180,5 +182,23 @@ public class DataCustodianSteps {
     @Then("^I should see my Electric Power Usage Summaries$")
     public void I_should_see_my_Electric_Power_Usage_Summaries() throws Throwable {
         assertTrue(driver.getPageSource().contains("Usage Summary"));
+    }
+
+    @And("^I navigate to the upload form$")
+    public void I_navigate_to_the_upload_form() throws Throwable {
+        clickLinkByText("Upload data");
+    }
+
+    @And("^I associate the usage point to \"([^\"]*)\"$")
+    public void I_associate_the_usage_point_to(String arg1) throws Throwable {
+        clickLinkByText("Add Usage Point");
+
+        WebElement uuid = driver.findElement(By.name("uuid"));
+        uuid.sendKeys("7BC41774-7190-4864-841C-861AC76D46C2");
+
+        WebElement description = driver.findElement(By.name("uuid"));
+        description.sendKeys("Front Electric Meter");
+
+        clickLinkByText("Submit");
     }
 }
