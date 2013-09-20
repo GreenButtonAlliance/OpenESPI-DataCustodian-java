@@ -14,11 +14,11 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.service;
+package org.energyos.espi.datacustodian.service.impl;
 
 
 import org.energyos.espi.datacustodian.repositories.IntervalBlockRepository;
-import org.energyos.espi.datacustodian.service.impl.IntervalBlockServiceImpl;
+import org.energyos.espi.datacustodian.service.IntervalBlockService;
 import org.junit.Test;
 
 import static org.mockito.Mockito.mock;
