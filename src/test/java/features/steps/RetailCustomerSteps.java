@@ -17,6 +17,7 @@
 package features.steps;
 
 import cucumber.api.java.Before;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -243,5 +244,13 @@ public class RetailCustomerSteps {
     @Then("^I should see the option to login$")
     public void I_should_see_the_option_to_login() throws Throwable {
         assertNotNull(driver.findElement(By.id("login")));
+    }
+
+    @And("^the XML includes Interval Readings$")
+    public void the_XML_includes_Interval_Readings() throws Throwable {
+        assertXpathValue("974", "feed/entry[4]/content/IntervalBlock/IntervalReading[1]/cost", xmlResult);
+        assertXpathValue("900", "feed/entry[4]/content/IntervalBlock/IntervalReading[1]/timePeriod/duration", xmlResult);
+        assertXpathValue("1330578900", "feed/entry[4]/content/IntervalBlock/IntervalReading[2]/timePeriod/start", xmlResult);
+        assertXpathValue("965", "feed/entry[4]/content/IntervalBlock/IntervalReading[2]/cost", xmlResult);
     }
 }

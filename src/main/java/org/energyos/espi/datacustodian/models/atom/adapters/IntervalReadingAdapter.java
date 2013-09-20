@@ -17,6 +17,7 @@
 package org.energyos.espi.datacustodian.models.atom.adapters;
 
 import org.energyos.espi.datacustodian.domain.IntervalReading;
+import org.energyos.espi.datacustodian.domain.ObjectFactory;
 import org.energyos.espi.datacustodian.domain.ReadingQuality;
 
 import javax.xml.bind.JAXBElement;
@@ -37,6 +38,6 @@ public class IntervalReadingAdapter extends XmlAdapter<JAXBElement<IntervalReadi
 
     @Override
     public JAXBElement<IntervalReading> marshal(IntervalReading v) throws Exception {
-        return null;
+        return new ObjectFactory().createIntervalReading(v);
     }
 }
