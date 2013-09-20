@@ -102,98 +102,92 @@ public class DataCustodianTests {
     }
 
     @Test
-    public void home_displaysDataCustodianHomeView() throws Exception {
+    public void retailcustomer_usagepoints_form_returnsOkStatus() throws Exception {
+        mockMvc.perform(get("/custodian/retailcustomers/1/usagepoints/form"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void retailcustomer_usagepoints_form_displaysFormView() throws Exception {
+        mockMvc.perform(get("/custodian/retailcustomers/1/usagepoints/form"))
+                .andExpect(view().name("/custodian/retailcustomers/usagepoints/form"));
+    }
+
+    @Test
+    public void retailcustomer_usagepoints_create_givenValidUsagePoint_returnsOkStatus() throws Exception {
+        mockMvc.perform(post("/custodian/retailcustomers/1/usagepoints/create")
+                .param("UUID", "0071C5A7-91CF-434E-8BCE-C38AC8AF215D")
+                .param("description", "Front Electric Meter"))
+                .andExpect(status().is(302));
+    }
+
+    @Test
+    public void retailcustomer_usagepoints_create_givenValidUsagePoint_displaysIndexView() throws Exception {
+        mockMvc.perform(post("/custodian/retailcustomers/1/usagepoints/create")
+                .param("UUID", "0071C5A7-91CF-434E-8BCE-C38AC8AF215D")
+                .param("description", "Front Electric Meter"))
+                .andExpect(redirectedUrl("/custodian/retailcustomers"));
+    }
+
+    @Test
+    public void retailcustomer_usagepoints_create_givenInValidUsagePoint_displayFormView() throws Exception {
+        mockMvc.perform(post("/custodian/retailcustomers/1/usagepoints/create")
+                .param("UUID", "")
+                .param("description", "Front Electric Meter"))
+                .andExpect(view().name("/custodian/retailcustomers/usagepoints/form"));
+    }
+
+    @Test
+    public void home_returnsOkStatus() throws Exception {
         mockMvc.perform(get("/custodian/home"))
-                .andExpect(status().isOk())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void home_displaysHomeView() throws Exception {
+        mockMvc.perform(get("/custodian/home"))
                 .andExpect(view().name("/custodian/home"));
     }
 
     @Test
-    public void upload_displaysRetailCustomerUploadView() throws Exception {
-        mockMvc.perform(get("/custodian/retailcustomers/1/upload"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("/custodian/retailcustomers/upload"))
-                .andExpect(model().attributeExists("retailCustomer"));
+    public void upload_returnsOkStatus() throws Exception {
+        mockMvc.perform(get("/custodian/upload"))
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void fileUpload_givenInvalidFile() throws Exception {
-        String xml = "";
+    public void upload_displaysUploadView() throws Exception {
+        mockMvc.perform(get("/custodian/upload"))
+                .andExpect(view().name("/custodian/upload"));
+    }
 
-        mockMvc.perform(fileUpload("/custodian/retailcustomers/1/upload").file("file", xml.getBytes()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("/custodian/retailcustomers/upload"))
+    @Test
+    public void upload_givenInvalidFile_returnsOkStatus() throws Exception {
+        mockMvc.perform(fileUpload("/custodian/upload").file("file", "".getBytes()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void upload_givenInvalidFile_displaysUploadView() throws Exception {
+        mockMvc.perform(fileUpload("/custodian/upload").file("file", "".getBytes()))
+                .andExpect(view().name("/custodian/upload"));
+    }
+
+    @Test
+    public void upload_givenInvalidFile_hasErrors() throws Exception {
+        mockMvc.perform(fileUpload("/custodian/upload").file("file", "".getBytes()))
                 .andExpect(model().attributeHasErrors("uploadForm"));
     }
 
     @Test
-    public void fileUpload_givenValidFile() throws Exception {
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<?xml-stylesheet type=\"text/xsl\" href=\"GreenButtonDataStyleSheet.xslt\"?>\n" +
-                "<feed xmlns=\"http://www.w3.org/2005/Atom\" xsi:schemaLocation=\"http://naesb.org/espi espiDerived.xsd\"\n" +
-                "      xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
-                "    <id>urn:uuid:0071C5A7-91CF-434E-8BCE-C38AC8AF215D</id>\n" +
-                "    <title>ThirdPartyX Batch Feed</title>\n" +
-                "    <updated>2012-10-24T00:00:00Z</updated>\n" +
-                "    <link rel=\"self\" href=\"/ThirdParty/83e269c1/Batch\"/>\n" +
-                "    <entry>\n" +
-                "        <id>urn:uuid:7BC41774-7190-4864-841C-861AC76D46C2</id>\n" +
-                "        <link rel=\"self\" href=\"RetailCustomer/9b6c7063/UsagePoint/01\"/>\n" +
-                "        <link rel=\"up\" href=\"RetailCustomer/9b6c7063/UsagePoint\"/>\n" +
-                "        <link rel=\"related\" href=\"RetailCustomer/9b6c7063/UsagePoint/01/MeterReading\"/>\n" +
-                "        <link rel=\"related\" href=\"RetailCustomer/9b6c7063/UsagePoint/01/ElectricPowerUsageSummary\"/>\n" +
-                "        <link rel=\"related\" href=\"LocalTimeParameters/01\"/>\n" +
-                "        <title>Electric meter</title>\n" +
-                "        <content>\n" +
-                "            <UsagePoint xmlns=\"http://naesb.org/espi\">\n" +
-                "                <ServiceCategory>\n" +
-                "                    <kind>0</kind>\n" +
-                "                </ServiceCategory>\n" +
-                "            </UsagePoint>\n" +
-                "        </content>\n" +
-                "        <published>2012-10-24T00:00:00Z</published>\n" +
-                "        <updated>2012-10-24T00:00:00Z</updated>\n" +
-                "    </entry>\n" +
-                "    <entry>\n" +
-                "        <id>urn:uuid:E8B19EF0-6833-41CE-A28B-A5E7F9F193AE</id>\n" +
-                "        <link rel=\"self\" href=\"RetailCustomer/9b6c7063/UsagePoint/01/MeterReading/01\"/>\n" +
-                "        <link rel=\"up\" href=\"RetailCustomer/9b6c7063/UsagePoint/01/MeterReading\"/>\n" +
-                "        <link rel=\"related\" href=\"RetailCustomer/9b6c7063/UsagePoint/01/MeterReading/01/IntervalBlock\"/>\n" +
-                "        <link rel=\"related\" href=\"ReadingType/07\"/>\n" +
-                "        <title>Fifteen Minute Electricity Consumption</title>\n" +
-                "        <content>\n" +
-                "            <MeterReading xmlns=\"http://naesb.org/espi\"/>\n" +
-                "        </content>\n" +
-                "        <published>2012-10-24T00:00:00Z</published>\n" +
-                "        <updated>2012-10-24T00:00:00Z</updated>\n" +
-                "    </entry>\n" +
-                "    <entry>\n" +
-                "        <id>urn:uuid:82B3E74B-DFC0-4DD4-8651-91A67B40374D</id>\n" +
-                "        <link rel=\"self\" href=\"ReadingType/07\"/>\n" +
-                "        <link rel=\"up\" href=\"ReadingType\"/>\n" +
-                "        <title>Energy Delivered (kWh)</title>\n" +
-                "        <content>\n" +
-                "            <ReadingType xmlns=\"http://naesb.org/espi\">\n" +
-                "                <accumulationBehaviour>4</accumulationBehaviour>\n" +
-                "                <commodity>1</commodity>\n" +
-                "                <currency>840</currency>\n" +
-                "                <dataQualifier>12</dataQualifier>\n" +
-                "                <flowDirection>1</flowDirection>\n" +
-                "                <intervalLength>900</intervalLength>\n" +
-                "                <kind>12</kind>\n" +
-                "                <phase>769</phase>\n" +
-                "                <powerOfTenMultiplier>0</powerOfTenMultiplier>\n" +
-                "                <timeAttribute>0</timeAttribute>\n" +
-                "                <uom>72</uom>\n" +
-                "            </ReadingType>\n" +
-                "        </content>\n" +
-                "        <published>2012-10-24T00:00:00Z</published>\n" +
-                "        <updated>2012-10-24T00:00:00Z</updated>\n" +
-                "    </entry>" +
-                "</feed>\n";
+    public void upload_givenValidFile_returnsRedirectStatus() throws Exception {
+        mockMvc.perform(fileUpload("/custodian/upload").file("file", newUsagePointXML(UUID.randomUUID()).getBytes()))
+                .andExpect(status().is(302));
+    }
 
-        mockMvc.perform(fileUpload("/custodian/retailcustomers/1/upload").file("file", xml.getBytes()))
-                .andExpect(status().is(302))
-                .andExpect(redirectedUrl("/custodian/retailcustomers/1/show"));
+    @Test
+    public void upload_givenValidFile_displaysCustomerListView() throws Exception {
+        mockMvc.perform(fileUpload("/custodian/upload").file("file", newUsagePointXML(UUID.randomUUID()).getBytes()))
+                .andExpect(redirectedUrl("/custodian/retailcustomers"));
     }
 }
