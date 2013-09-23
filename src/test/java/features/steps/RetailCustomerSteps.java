@@ -264,8 +264,8 @@ public class RetailCustomerSteps {
         StepUtils.login(CucumberSession.getUsername(), StepUtils.PASSWORD);
     }
 
-    @And("^I select a \"([^\"]*)\" Usage Point$")
-    public void I_select_a_Usage_Point(String usagePointDescription) throws Throwable {
-        clickLinkByText(usagePointDescription);
+    @Then("^I should see a Select Third Party link$")
+    public void I_should_see_a_Select_Third_Party_link() throws Throwable {
+        assertNotNull(driver.findElement(By.linkText("Select Authorized Third Party")));
     }
 }

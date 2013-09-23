@@ -14,6 +14,7 @@ Feature: Retail Customers
 
     When I log in as Alan Turing
     Then I should see Retail Customer home page
+    And I should see a Select Third Party link
 
   Scenario: Retail Customer views their usage data
     Given a Retail Customer with Usage Points
