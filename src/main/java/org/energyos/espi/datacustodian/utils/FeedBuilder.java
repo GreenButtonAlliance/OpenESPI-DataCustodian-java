@@ -50,12 +50,17 @@ public class FeedBuilder {
 
             for(MeterReading meterReading : usagePoint.getMeterReadings()) {
                 MeterReadingEntry meterEntry = new MeterReadingEntry(meterReading);
-                ReadingTypeEntry readingTypeEntry = new ReadingTypeEntry(meterReading.getReadingType());
-                IntervalBlocksEntry intervalBlocksEntry = new IntervalBlocksEntry(meterReading.getIntervalBlocks());
-
                 feed.getEntries().add(meterEntry);
-                feed.getEntries().add(readingTypeEntry);
-                feed.getEntries().add(intervalBlocksEntry);
+
+                if (meterReading.getReadingType() != null) {
+                    ReadingTypeEntry readingTypeEntry = new ReadingTypeEntry(meterReading.getReadingType());
+                    feed.getEntries().add(readingTypeEntry);
+                }
+
+                if (meterReading.getIntervalBlocks().size() > 0) {
+                    IntervalBlocksEntry intervalBlocksEntry = new IntervalBlocksEntry(meterReading.getIntervalBlocks());
+                    feed.getEntries().add(intervalBlocksEntry);
+                }
             }
 
             for(ElectricPowerUsageSummary summary : usagePoint.getElectricPowerUsageSummaries()) {

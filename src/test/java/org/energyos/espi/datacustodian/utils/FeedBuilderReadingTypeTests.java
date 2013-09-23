@@ -23,6 +23,8 @@ import com.sun.syndication.io.FeedException;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.atom.EspiEntry;
+import org.energyos.espi.datacustodian.atom.ReadingTypeEntry;
+import org.energyos.espi.datacustodian.domain.ReadingType;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
@@ -77,7 +79,7 @@ public class FeedBuilderReadingTypeTests {
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(customer);
 
         Feed feed = builder.buildFeed(usagePoints);
-        entry = (EspiEntry) feed.getEntries().get(2);
+        entry = findReadingTypeEntry(feed);
         contents = entry.getContents();
     }
 
@@ -135,5 +137,14 @@ public class FeedBuilderReadingTypeTests {
     @Test
     public void returnsEntryWithContentWithoutMeterReading() throws FeedException, SAXException, IOException, XpathException {
         assertXpathNotExists("//meterReading", contents.get(0).getValue());
+    }
+
+    private ReadingTypeEntry findReadingTypeEntry(Feed feed) {
+        for (Object entry : feed.getEntries()) {
+            if (entry instanceof ReadingTypeEntry) {
+                return (ReadingTypeEntry) entry;
+            }
+        }
+        return null;
     }
 }
