@@ -18,11 +18,11 @@ INSERT INTO retail_customers (id, username, first_name, last_name, password, ena
 INSERT INTO retail_customers (id, username, first_name, last_name, password, enabled, role) VALUES (7, 'marian',  'Marian',  'Rejewski',    'koala', 1, 'ROLE_USER');
 INSERT INTO retail_customers (id, username, first_name, last_name, password, enabled, role) VALUES (8, 'grace',   'Grace',   'Hopper',      'koala', 1, 'ROLE_CUSTODIAN');
 
-INSERT INTO usage_points (id, description, serviceCategory_kind, retail_customer_id) VALUES (1, 'House meter', 1, 1);
-INSERT INTO usage_points (id, description, serviceCategory_kind, retail_customer_id) VALUES (2, 'Gas meter', 1, 1);
-INSERT INTO usage_points (id, description, serviceCategory_kind, retail_customer_id) VALUES (3, 'House meter', 1, 2);
-INSERT INTO usage_points (id, description, serviceCategory_kind, retail_customer_id) VALUES (4, 'House meter', 1, 6);
-INSERT INTO usage_points (id, description, serviceCategory_kind, retail_customer_id) VALUES (5, 'Gas meter', 1, 6);
+INSERT INTO usage_points (id, description, serviceCategory_kind, retail_customer_id, uuid) VALUES (1, 'House meter', 1, 1, '1');
+INSERT INTO usage_points (id, description, serviceCategory_kind, retail_customer_id, uuid) VALUES (2, 'Gas meter', 1, 1, '2');
+INSERT INTO usage_points (id, description, serviceCategory_kind, retail_customer_id, uuid) VALUES (3, 'House meter', 1, 2, '3');
+INSERT INTO usage_points (id, description, serviceCategory_kind, retail_customer_id, uuid) VALUES (4, 'House meter', 1, 6, '4');
+INSERT INTO usage_points (id, description, serviceCategory_kind, retail_customer_id, uuid) VALUES (5, 'Gas meter', 1, 6, '5');
 
 INSERT INTO meter_readings (id, description, usage_point_id) VALUES (1, "Electricity consumption", 1)
 INSERT INTO meter_readings (id, description, usage_point_id) VALUES (2, "Gas consumption", 2)
