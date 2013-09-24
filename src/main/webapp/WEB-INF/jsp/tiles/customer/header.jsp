@@ -30,7 +30,6 @@
                 <ul class="nav">
                     <li><a href="<c:url value='/customer/usagepoints'/>">Usage Points</a></li>
                     <security:authorize access="isAuthenticated()">
-                        <li><a href="<c:url value='#' />">Select Authorized Third Party</a></li>
                         <li><a id="logout" href="<c:url value='/logout.do'/>">Logout</a></li>
                     </security:authorize>
                     <security:authorize access="isAnonymous()">

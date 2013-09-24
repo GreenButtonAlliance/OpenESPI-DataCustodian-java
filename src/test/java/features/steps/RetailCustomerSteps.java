@@ -259,6 +259,11 @@ public class RetailCustomerSteps {
         StepUtils.registerUser(CucumberSession.getUsername(), newFirstName(), newLastName(), StepUtils.PASSWORD);
     }
 
+    @When("^I select a \"([^\"]*)\" Usage Point$")
+    public void I_select_a_Usage_Point(String usagePointDescription) throws Throwable {
+        clickLinkByText(usagePointDescription);
+    }
+
     @When("^I log in as Retail Customer$")
     public void I_log_in_as() throws Throwable {
         StepUtils.login(CucumberSession.getUsername(), StepUtils.PASSWORD);
