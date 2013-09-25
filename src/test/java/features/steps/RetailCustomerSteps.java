@@ -77,7 +77,7 @@ public class RetailCustomerSteps {
 
     @When("^I look at my usage page$")
     public void I_look_at_my_usage_page() throws Throwable {
-        navigateTo("/customer/usagepoints");
+        navigateTo("/RetailCustomer/1/usagepoints");
     }
 
     @Then("^I should see my Usage Points with title \"([^\"]*)\"$")
@@ -101,7 +101,7 @@ public class RetailCustomerSteps {
 
     @Then("^I should see Retail Customer home page$")
     public void I_should_see_Retail_Customer_home_page() throws Throwable {
-        assertTrue(driver.getCurrentUrl().endsWith("/customer/home"));
+        assertTrue(driver.getCurrentUrl().endsWith("/RetailCustomer/1/home"));
         assertTrue(driver.getPageSource().contains("Welcome Retail Customer"));
     }
 
@@ -183,7 +183,6 @@ public class RetailCustomerSteps {
 
     @Then("^the logged in retail customer can see their usage data$")
     public void the_logged_in_retail_customer_can_see_their_usage_data() throws Throwable {
-        navigateTo("/customer/home");
 
         clickLinkByText("Usage Points");
         assertTrue(driver.getPageSource().contains("Front Electric Meter"));
@@ -272,5 +271,23 @@ public class RetailCustomerSteps {
     @Then("^I should see a Select Third Party link$")
     public void I_should_see_a_Select_Third_Party_link() throws Throwable {
         assertNotNull(driver.findElement(By.linkText("Select Authorized Third Party")));
+    }
+
+    @When("^I click on the Select Third Party link$")
+    public void I_click_on_the_Select_Third_Party_link() throws Throwable {
+        clickLinkByText("Select Authorized Third Party");
+    }
+
+    @Then("^I should see the Third Party list$")
+    public void I_should_see_the_Third_Party_list() throws Throwable {
+        String pageSource = driver.getPageSource();
+
+        assertContains("Third Party List", pageSource);
+        assertNotNull(driver.findElement(By.linkText("Pivotal Energy")));
+    }
+
+    @Given("^There is a Third Party$")
+    public void There_is_a_Third_Party() throws Throwable {
+       // Defined in seed data
     }
 }

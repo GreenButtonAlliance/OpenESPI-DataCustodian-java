@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.security.Principal;
 
 @Controller
-@RequestMapping("/customer/usagepoints/feed")
+@RequestMapping("/RetailCustomer/{retailCustomerId}/usagepoints/feed")
 public class UsagePointFeedController extends BaseController {
 
     @Autowired

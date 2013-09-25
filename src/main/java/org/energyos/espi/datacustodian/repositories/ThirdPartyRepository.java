@@ -14,19 +14,13 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.web.customer;
+package org.energyos.espi.datacustodian.repositories;
 
-import org.energyos.espi.datacustodian.web.BaseController;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.energyos.espi.datacustodian.domain.ThirdParty;
 
-@Controller
-@RequestMapping("/RetailCustomer/{retailCustomerId}/home")
-public class CustomerHomeController extends BaseController {
+import java.util.List;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String index() {
-        return "/customer/home";
-    }
+public interface ThirdPartyRepository {
+
+    public List<ThirdParty> findAll();
 }

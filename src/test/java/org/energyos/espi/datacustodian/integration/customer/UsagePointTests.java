@@ -46,66 +46,71 @@ public class UsagePointTests {
     protected WebApplicationContext wac;
     @Autowired
     protected RetailCustomerService retailCustomerService;
-
+    private String indexPath;
+    private String showPath;
+    private String feedPath;
 
     @Before
     public void setup() {
         this.mockMvc = webAppContextSetup(this.wac).build();
         RetailCustomer customer = retailCustomerService.findById(1L);
         authentication = new TestingAuthenticationToken(customer, null);
+        indexPath = "/RetailCustomer/" + customer.getId() + "/usagepoints";
+        showPath = indexPath + "/1/show";
+        feedPath = indexPath + "/feed";
     }
 
     @Test
     public void index_returnsOkStatus() throws Exception {
-        mockMvc.perform(get("/customer/usagepoints").principal(authentication))
+        mockMvc.perform(get(indexPath).principal(authentication))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void index_displaysIndexView() throws Exception {
-        mockMvc.perform(get("/customer/usagepoints").principal(authentication))
+        mockMvc.perform(get(indexPath).principal(authentication))
                 .andExpect(view().name("/customer/usagepoints/index"));
     }
 
     @Test
     public void index_setsUsagePointListModel() throws Exception {
-        mockMvc.perform(get("/customer/usagepoints").principal(authentication))
+        mockMvc.perform(get(indexPath).principal(authentication))
                 .andExpect(model().attributeExists("usagePointList"));
     }
 
     @Test
     public void show_returnsOkStatus() throws Exception {
-        mockMvc.perform(get("/customer/usagepoints/1/show").principal(authentication))
+        mockMvc.perform(get(showPath).principal(authentication))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void show_displaysShowView() throws Exception {
-        mockMvc.perform(get("/customer/usagepoints/1/show").principal(authentication))
+        mockMvc.perform(get(showPath).principal(authentication))
                 .andExpect(view().name("/customer/usagepoints/show"));
     }
 
     @Test
     public void show_setsCurrentCustomerModel() throws Exception {
-        mockMvc.perform(get("/customer/usagepoints/1/show").principal(authentication))
+        mockMvc.perform(get(showPath).principal(authentication))
                 .andExpect(model().attributeExists("currentCustomer"));
     }
 
     @Test
     public void show_setsUsagePointModel() throws Exception {
-        mockMvc.perform(get("/customer/usagepoints/1/show").principal(authentication))
+        mockMvc.perform(get(showPath).principal(authentication))
                 .andExpect(model().attributeExists("usagePoint"));
     }
 
     @Test
     public void feed_returnsOkStatus() throws Exception {
-        mockMvc.perform(get("/customer/usagepoints/feed").principal(authentication))
+        mockMvc.perform(get(feedPath).principal(authentication))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void feed_returnsATOMContentType() throws Exception {
-        mockMvc.perform(get("/customer/usagepoints/feed").principal(authentication))
+        mockMvc.perform(get(feedPath).principal(authentication))
                 .andExpect(content().contentType("application/atom+xml"));
     }
 
