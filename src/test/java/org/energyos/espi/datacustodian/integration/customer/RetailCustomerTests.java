@@ -16,10 +16,13 @@
 
 package org.energyos.espi.datacustodian.integration.customer;
 
+import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.datacustodian.service.impl.RetailCustomerServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -41,15 +44,21 @@ public class RetailCustomerTests {
 
     @Autowired
     protected WebApplicationContext wac;
+    private RetailCustomer customer;
+    @Autowired
+    private RetailCustomerServiceImpl retailCustomerService;
+    protected TestingAuthenticationToken authentication;
 
     @Before
     public void setup() {
         this.mockMvc = webAppContextSetup(this.wac).build();
+        customer = retailCustomerService.findById(1L);
+        authentication = new TestingAuthenticationToken(customer, null);
     }
 
     @Test
     public void displaysCustomerHomeView() throws Exception {
-        mockMvc.perform(get("/customer/home"))
+        mockMvc.perform(get("/RetailCustomer/" + customer.getId() + "/home").principal(authentication))
                 .andExpect(status().isOk())
                 .andExpect(view().name("/customer/home"));
     }

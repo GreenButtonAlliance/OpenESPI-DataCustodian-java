@@ -16,13 +16,14 @@
 
 package org.energyos.espi.datacustodian.web.customer;
 
+import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/customer/home")
-public class CustomerHomeController {
+@RequestMapping("/RetailCustomer/{retailCustomerId}/home")
+public class CustomerHomeController extends BaseController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String index() {

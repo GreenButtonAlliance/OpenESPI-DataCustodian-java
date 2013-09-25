@@ -31,7 +31,7 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-@RequestMapping("/customer/usagepoints")
+@RequestMapping("/RetailCustomer/{retailCustomerId}/usagepoints")
 public class UsagePointController extends BaseController {
 
     @Autowired
