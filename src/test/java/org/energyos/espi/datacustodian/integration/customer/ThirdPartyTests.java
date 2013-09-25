@@ -16,13 +16,10 @@
 
 package org.energyos.espi.datacustodian.integration.customer;
 
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.service.impl.RetailCustomerServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -31,35 +28,35 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
 @Transactional
-public class RetailCustomerTests {
+public class ThirdPartyTests {
     private MockMvc mockMvc;
 
     @Autowired
     protected WebApplicationContext wac;
-    private RetailCustomer customer;
-    @Autowired
-    private RetailCustomerServiceImpl retailCustomerService;
-    protected TestingAuthenticationToken authentication;
 
     @Before
     public void setup() {
         this.mockMvc = webAppContextSetup(this.wac).build();
-        customer = retailCustomerService.findById(1L);
-        authentication = new TestingAuthenticationToken(customer, null);
     }
 
     @Test
     public void displaysCustomerHomeView() throws Exception {
-        mockMvc.perform(get("/RetailCustomer/" + customer.getId() + "/home").principal(authentication))
+        mockMvc.perform(get("/RetailCustomer/1/ThirdPartyList"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/customer/home"));
+                .andExpect(view().name("/customer/thirdparties/index"));
+    }
+
+    @Test
+    public void setsThirdPartiesModel() throws Exception {
+        mockMvc.perform(get("/RetailCustomer/1/ThirdPartyList"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("thirdParties"));
     }
 }

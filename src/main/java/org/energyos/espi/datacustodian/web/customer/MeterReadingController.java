@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/customer/meterreadings")
+@RequestMapping("/RetailCustomer/{retailCustomerId}/meterreadings")
 public class MeterReadingController extends BaseController {
 
     @Autowired

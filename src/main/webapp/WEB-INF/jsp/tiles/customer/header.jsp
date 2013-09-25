@@ -1,8 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%--
-  ~ Copyright 2013 EnergyOS.org
-  ~
+e ~
   ~    Licensed under the Apache License, Version 2.0 (the "License");
   ~    you may not use this file except in compliance with the License.
   ~    You may obtain a copy of the License at
@@ -24,11 +23,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="brand" href="<c:url value='/customer/home'/>">Data Custodian</a>
+            <a class="brand" href="<c:url value='/RetailCustomer/${currentCustomer.id}/home'/>">Data Custodian</a>
 
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li><a href="<c:url value='/customer/usagepoints'/>">Usage Points</a></li>
+                    <li><a href="<c:url value='/RetailCustomer/${currentCustomer.id}/usagepoints'/>">Usage Points</a></li>
                     <security:authorize access="isAuthenticated()">
                         <li><a id="logout" href="<c:url value='/logout.do'/>">Logout</a></li>
                     </security:authorize>

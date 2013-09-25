@@ -36,7 +36,7 @@
 
         <security:intercept-url pattern="/custodian/retailcustomers/**" access="permitAll"/>
 
-        <security:intercept-url pattern="/customer/**" access="hasRole('ROLE_CUSTOMER')"/>
+        <security:intercept-url pattern="/RetailCustomer/**" access="hasRole('ROLE_CUSTOMER')"/>
         <security:intercept-url pattern="/custodian/**" access="hasRole('ROLE_CUSTODIAN')"/>
 
         <security:form-login login-page="/login" default-target-url="/default"/>

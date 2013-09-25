@@ -16,6 +16,15 @@ Feature: Retail Customers
     Then I should see Retail Customer home page
     And I should see a Select Third Party link
 
+  Scenario: Retail Customer visits Third Party list
+    Given I have a Retail Customer account
+    And There is a Third Party
+
+    When I log in as Alan Turing
+    And I click on the Select Third Party link
+
+    Then I should see the Third Party list
+
   Scenario: Retail Customer views their usage data
     Given a Retail Customer with Usage Points
 

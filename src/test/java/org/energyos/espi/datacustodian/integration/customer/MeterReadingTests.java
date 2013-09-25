@@ -37,6 +37,7 @@ public class MeterReadingTests {
 
     protected TestingAuthenticationToken authentication;
     private MeterReading meterReading;
+    private String showPath;
 
     @Before
     public void setup() {
@@ -45,29 +46,30 @@ public class MeterReadingTests {
         authentication = new TestingAuthenticationToken(customer, null);
         meterReading = new MeterReading();
         meterReadingService.persist(meterReading);
+        showPath = "/RetailCustomer/" + customer.getId() + "/meterreadings/" + meterReading.getId() + "/show";
     }
 
     @Test
     public void show_returnsOkStatus() throws Exception {
-        mockMvc.perform(get("/customer/meterreadings/" + meterReading.getId() + "/show").principal(authentication))
+        mockMvc.perform(get(showPath).principal(authentication))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void show_displaysShowView() throws Exception {
-        mockMvc.perform(get("/customer/meterreadings/" + meterReading.getId() + "/show").principal(authentication))
+        mockMvc.perform(get(showPath).principal(authentication))
                 .andExpect(view().name("/customer/meterreadings/show"));
     }
 
     @Test
     public void show_setsCurrentCustomerModel() throws Exception {
-        mockMvc.perform(get("/customer/meterreadings/" + meterReading.getId() + "/show").principal(authentication))
+        mockMvc.perform(get(showPath).principal(authentication))
                 .andExpect(model().attributeExists("currentCustomer"));
     }
 
     @Test
     public void show_setsMeterReadingModel() throws Exception {
-        mockMvc.perform(get("/customer/meterreadings/" + meterReading.getId() + "/show").principal(authentication))
+        mockMvc.perform(get(showPath).principal(authentication))
                 .andExpect(model().attributeExists("meterReading"));
     }
 }

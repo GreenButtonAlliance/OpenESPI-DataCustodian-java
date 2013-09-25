@@ -147,4 +147,8 @@ public class StepUtils {
         WebElement upload = driver.findElement(By.name("upload"));
         upload.click();
     }
+
+    public static void assertContains(String s, String pageSource) {
+        assertTrue("Missing content '" + s + "'", pageSource.contains(s));
+    }
 }
