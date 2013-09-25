@@ -272,4 +272,22 @@ public class RetailCustomerSteps {
     public void I_should_see_a_Select_Third_Party_link() throws Throwable {
         assertNotNull(driver.findElement(By.linkText("Select Authorized Third Party")));
     }
+
+    @When("^I click on the Select Third Party link$")
+    public void I_click_on_the_Select_Third_Party_link() throws Throwable {
+        clickLinkByText("Select Authorized Third Party");
+    }
+
+    @Then("^I should see the Third Party list$")
+    public void I_should_see_the_Third_Party_list() throws Throwable {
+        String pageSource = driver.getPageSource();
+
+        assertContains("Third Party List", pageSource);
+        assertNotNull(driver.findElement(By.linkText("Pivotal Energy")));
+    }
+
+    @Given("^There is a Third Party$")
+    public void There_is_a_Third_Party() throws Throwable {
+       // Defined in seed data
+    }
 }

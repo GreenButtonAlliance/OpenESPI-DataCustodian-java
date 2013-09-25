@@ -27,13 +27,25 @@
 
 <div class="container">
 
-    <!-- Main hero unit for a primary marketing message or call to action -->
-    <div class="hero-unit">
-        <h1>Welcome Retail Customer</h1>
-        <p></p><a href="<c:url value='/RetailCustomer/1/ThirdPartyList'/>" class="btn btn-primary btn-large">Select Authorized Third Party</a></p>
-    </div>
+    <h1>Third Party List</h1>
 
-    <hr>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Third Party</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach var="thirdParty" items="${thirdParties}">
+            <tr>
+                <td>
+                    <a href="#"><c:out value="${thirdParty.name}"/></a>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+
 
     <jsp:include page="/WEB-INF/jsp/tiles/footer.jsp"/>
 
