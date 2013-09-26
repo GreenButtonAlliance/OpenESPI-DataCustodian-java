@@ -20,11 +20,30 @@ public class ThirdParty extends Resource {
     @Size(min = 2, max = 64)
     protected String name;
 
+    @Column(name = "url")
+    protected String url;
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
