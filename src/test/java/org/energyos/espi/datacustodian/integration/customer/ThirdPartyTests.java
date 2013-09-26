@@ -16,10 +16,13 @@
 
 package org.energyos.espi.datacustodian.integration.customer;
 
+import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -28,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
@@ -36,27 +40,45 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @ContextConfiguration("/spring/test-context.xml")
 @Transactional
 public class ThirdPartyTests {
+    private static final String THIRD_PARTY_URL = "http://localhost:8080/ThirdParty/login";
     private MockMvc mockMvc;
+    protected TestingAuthenticationToken authentication;
+    private RetailCustomer customer;
 
     @Autowired
     protected WebApplicationContext wac;
+    @Autowired
+    protected RetailCustomerService retailCustomerService;
 
     @Before
     public void setup() {
         this.mockMvc = webAppContextSetup(this.wac).build();
+        customer = retailCustomerService.findById(1L);
+        authentication = new TestingAuthenticationToken(customer, null);
     }
 
     @Test
-    public void displaysCustomerHomeView() throws Exception {
-        mockMvc.perform(get("/RetailCustomer/1/ThirdPartyList"))
+    public void index_displaysCustomerHomeView() throws Exception {
+        mockMvc.perform(get("/RetailCustomer/" + customer.getId() + "/ThirdPartyList").principal(authentication))
                 .andExpect(status().isOk())
                 .andExpect(view().name("/customer/thirdparties/index"));
     }
 
     @Test
-    public void setsThirdPartiesModel() throws Exception {
-        mockMvc.perform(get("/RetailCustomer/1/ThirdPartyList"))
+    public void index_setsThirdPartiesModel() throws Exception {
+        mockMvc.perform(get("/RetailCustomer/" + customer.getId() + "/ThirdPartyList").principal(authentication))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("thirdParties"));
+    }
+
+    @Test
+    public void selectThirdParty_redirectsToThirdPartyUrl() throws Exception {
+        String DataCustodianID = "1";
+        String redirectUrl = THIRD_PARTY_URL + "?scope=all&DataCustodianID=" + DataCustodianID;
+        mockMvc.perform(post("/RetailCustomer/1/ThirdPartyList")
+                    .param("Third_party_URL", THIRD_PARTY_URL)
+                    .param("Third_party", DataCustodianID)
+                    .principal(authentication))
+                .andExpect(redirectedUrl(redirectUrl));
     }
 }

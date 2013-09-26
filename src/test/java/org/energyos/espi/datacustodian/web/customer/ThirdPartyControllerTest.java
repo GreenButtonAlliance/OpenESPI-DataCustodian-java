@@ -41,4 +41,13 @@ public class ThirdPartyControllerTest {
         assertEquals(thirdParties, model.get("thirdParties"));
         verify(thirdPartyService).findAll();
     }
+
+    @Test
+    public void selectThirdParty_redirectsToThirdPartyUrl() {
+        String Third_party_URL = "http://example.com";
+        String DataCustodianID = "2";
+        String redirectUrl = "redirect:" + Third_party_URL + "?scope=all&DataCustodianID=" + DataCustodianID;
+
+        assertEquals(redirectUrl, controller.selectThirdParty(Third_party_URL, DataCustodianID));
+    }
 }

@@ -23,28 +23,46 @@
 
 <body>
 
+<script type="text/javascript">
+    $(function() {
+        $("form input[type=radio]").on("click", function() {
+            $("input[name=Third_party_URL]").val($(this).data("third-party-url"));
+            $("input[type=submit]").removeAttr("disabled");
+        });
+    });
+</script>
+
 <jsp:include page="/WEB-INF/jsp/tiles/customer/header.jsp"/>
 
 <div class="container">
 
     <h1>Third Party List</h1>
 
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Third Party</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach var="thirdParty" items="${thirdParties}">
+    <form method="POST" action="<c:url value='/RetailCustomer/${currentCustomer.id}/ThirdPartyList'/>">
+        <table class="table table-striped">
+            <thead>
             <tr>
-                <td>
-                    <a href="#"><c:out value="${thirdParty.name}"/></a>
-                </td>
+                <th>Third Party</th>
+                <th>URL</th>
             </tr>
-        </c:forEach>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            <c:forEach var="thirdParty" items="${thirdParties}">
+                <tr>
+                    <td>
+                        <label>
+                            <input type="radio" name="Third_party" value="${thirdParty.id}" data-third-party-url="${thirdParty.url}" class="third-party" />
+                            <c:out value="${thirdParty.name}"/>
+                        </label>
+                    </td>
+                    <td><c:out value="${thirdParty.url}"/></td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+        <input type="hidden" name="Third_party_URL"/>
+        <input type="submit" name="next" value="Next" disabled="disabled" class="btn btn-primary">
+    </form>
 
 
     <jsp:include page="/WEB-INF/jsp/tiles/footer.jsp"/>
