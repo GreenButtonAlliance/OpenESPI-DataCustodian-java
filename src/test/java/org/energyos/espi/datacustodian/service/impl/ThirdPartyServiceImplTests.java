@@ -30,6 +30,17 @@ import static org.mockito.Mockito.when;
 public class ThirdPartyServiceImplTests {
 
     @Test
+    public void findById() {
+        ThirdPartyServiceImpl service = new ThirdPartyServiceImpl();
+        ThirdPartyRepository repository = mock(ThirdPartyRepository.class);
+        ThirdParty thirdParty = new ThirdParty();
+        service.setRepository(repository);
+        when(repository.findById(1L)).thenReturn(thirdParty);
+
+        assertEquals(thirdParty, service.findById(1L));
+    }
+
+    @Test
     public void findAll() {
         ThirdPartyServiceImpl service = new ThirdPartyServiceImpl();
         ThirdPartyRepository repository = mock(ThirdPartyRepository.class);

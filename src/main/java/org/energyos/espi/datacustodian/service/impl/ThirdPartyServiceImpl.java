@@ -21,6 +21,11 @@ public class ThirdPartyServiceImpl implements ThirdPartyService {
         return repository.findAll();
     }
 
+    @Override
+    public ThirdParty findById(Long id) {
+        return repository.findById(id);
+    }
+
     public void setRepository(ThirdPartyRepository repository) {
         this.repository = repository;
     }
