@@ -283,11 +283,23 @@ public class RetailCustomerSteps {
         String pageSource = driver.getPageSource();
 
         assertContains("Third Party List", pageSource);
-        assertNotNull(driver.findElement(By.linkText("Pivotal Energy")));
+        assertNotNull(driver.findElement(By.name("Third_party")));
     }
 
     @Given("^There is a Third Party$")
     public void There_is_a_Third_Party() throws Throwable {
        // Defined in seed data
+    }
+
+    @When("^I select the Third Party$")
+    public void I_select_the_Third_Party() throws Throwable {
+        selectRadioByLabel("Pivotal Energy");
+        driver.findElement(By.name("next")).click();
+    }
+
+    @Then("^I should be taken to the Third Party login page$")
+    public void I_should_be_taken_to_the_Third_Party_login_page() throws Throwable {
+        assertNotNull("Login field missing", driver.findElement(By.name("j_username")));
+        assertNotNull("Password field missing", driver.findElement(By.name("j_password")));
     }
 }
