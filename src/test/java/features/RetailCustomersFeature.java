@@ -20,6 +20,6 @@ import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
-@Cucumber.Options(features = {"classpath:features/RetailCustomers.feature"})
+@Cucumber.Options(features = {"classpath:features/RetailCustomers.feature"}, tags = {"~@thirdparty"})
 public class RetailCustomersFeature {
 }
