@@ -151,4 +151,8 @@ public class StepUtils {
     public static void assertContains(String s, String pageSource) {
         assertTrue("Missing content '" + s + "'", pageSource.contains(s));
     }
+
+    public static void selectRadioByLabel(String labelText) {
+        driver.findElement(By.xpath("//label[contains(.,'" + labelText + "')]/input")).click();
+    }
 }
