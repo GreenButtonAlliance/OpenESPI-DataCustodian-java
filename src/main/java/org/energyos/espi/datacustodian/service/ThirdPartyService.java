@@ -9,4 +9,6 @@ public interface ThirdPartyService {
     public List<ThirdParty> findAll();
 
     ThirdParty findById(Long id);
+
+    void persist(ThirdParty thirdParty);
 }

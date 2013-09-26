@@ -29,4 +29,10 @@ public class ThirdPartyServiceImpl implements ThirdPartyService {
     public void setRepository(ThirdPartyRepository repository) {
         this.repository = repository;
     }
+
+    @Override
+    public void persist(ThirdParty thirdParty) {
+        repository.persist(thirdParty);
+    }
+
 }
