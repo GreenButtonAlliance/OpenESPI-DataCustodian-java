@@ -186,4 +186,11 @@ public class EspiFactory {
 
         return summary;
     }
+
+    public static ThirdParty newThirdParty() {
+        ThirdParty thirdParty = new ThirdParty();
+        thirdParty.setName("Name" + System.currentTimeMillis());
+
+        return thirdParty;
+    }
 }

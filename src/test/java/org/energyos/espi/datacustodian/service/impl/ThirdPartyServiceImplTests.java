@@ -24,10 +24,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class ThirdPartyServiceImplTests {
+
+    @Test
+    public void persist() {
+        ThirdPartyServiceImpl service = new ThirdPartyServiceImpl();
+        ThirdPartyRepository repository = mock(ThirdPartyRepository.class);
+        ThirdParty thirdParty = new ThirdParty();
+        service.setRepository(repository);
+
+        service.persist(thirdParty);
+
+        verify(repository).persist(thirdParty);
+    }
+
+    @Test
+    public void findById() {
+        ThirdPartyServiceImpl service = new ThirdPartyServiceImpl();
+        ThirdPartyRepository repository = mock(ThirdPartyRepository.class);
+        ThirdParty thirdParty = new ThirdParty();
+        service.setRepository(repository);
+        when(repository.findById(1L)).thenReturn(thirdParty);
+
+        assertEquals(thirdParty, service.findById(1L));
+    }
 
     @Test
     public void findAll() {
