@@ -25,4 +25,4 @@ INSERT INTO usage_points (id, description, serviceCategory_kind, retail_customer
 INSERT INTO usage_points (id, description, serviceCategory_kind, retail_customer_id, uuid) VALUES (5, 'Gas meter', 1, 6, '5');
 
 INSERT INTO third_parties (id, name, url) VALUES(1, 'Pivotal Energy (localhost)', 'http://localhost:8080/ThirdParty/RetailCustomer/ScopeSelection')
-INSERT INTO third_parties (id, name, url) VALUES(2, 'Heroku Analytics (Heroku)', 'http://thirdparty-dev.herokuapp.com/ThirdParty/RetailCustomer/ScopeSelection')
+INSERT INTO third_parties (id, name, url) VALUES(2, 'Heroku Analytics (localhost)', 'http://localhost:8080/ThirdParty/RetailCustomer/ScopeSelection')

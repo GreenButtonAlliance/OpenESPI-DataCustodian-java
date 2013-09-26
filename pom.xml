@@ -24,6 +24,25 @@
     <version>1.0-SNAPSHOT</version>
     <name>DataCustodian</name>
 
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <profile>dev</profile>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>heroku</id>
+            <properties>
+                <profile>heroku</profile>
+            </properties>
+        </profile>
+    </profiles>
+
     <properties>
         <!-- Spring -->
         <spring.version>3.2.4.RELEASE</spring.version>
@@ -352,6 +371,19 @@
 
     <build>
         <finalName>DataCustodian</finalName>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.sql</include>
+                </includes>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
