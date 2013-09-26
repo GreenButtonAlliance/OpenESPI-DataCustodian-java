@@ -30,7 +30,7 @@
     <!-- Main hero unit for a primary marketing message or call to action -->
     <div class="hero-unit">
         <h1>Welcome Retail Customer</h1>
-        <p></p><a href="<c:url value='/RetailCustomer/1/ThirdPartyList'/>" class="btn btn-primary btn-large">Select Authorized Third Party</a></p>
+        <p></p><a href="<c:url value='/RetailCustomer/${currentCustomer.id}/ThirdPartyList'/>" class="btn btn-primary btn-large">Select Authorized Third Party</a></p>
     </div>
 
     <hr>
