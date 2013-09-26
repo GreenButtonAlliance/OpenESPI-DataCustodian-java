@@ -19,19 +19,32 @@ package org.energyos.espi.datacustodian.repositories.jpa;
 import org.energyos.espi.datacustodian.domain.ThirdParty;
 import org.energyos.espi.datacustodian.repositories.ThirdPartyRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
+@Transactional
 public class ThirdPartyRepositoryImpl implements ThirdPartyRepository {
 
     @PersistenceContext
     protected EntityManager em;
 
-    @SuppressWarnings("unchecked")
+    @Override
+    public ThirdParty findById(Long id) {
+        return (ThirdParty)em.createNamedQuery(ThirdParty.QUERY_FIND_BY_ID)
+                .setParameter("id", id).getSingleResult();
+    }
+
+    @Override @SuppressWarnings("unchecked")
     public List<ThirdParty> findAll() {
         return (List<ThirdParty>)this.em.createNamedQuery(ThirdParty.QUERY_FIND_ALL).getResultList();
+    }
+
+    @Override
+    public void persist(ThirdParty thirdParty) {
+        em.persist(thirdParty);
     }
 }

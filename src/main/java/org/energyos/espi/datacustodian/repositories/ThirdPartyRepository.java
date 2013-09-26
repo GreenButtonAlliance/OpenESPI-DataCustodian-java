@@ -23,4 +23,8 @@ import java.util.List;
 public interface ThirdPartyRepository {
 
     public List<ThirdParty> findAll();
+
+    ThirdParty findById(Long id);
+
+    void persist(ThirdParty thirdParty);
 }
