@@ -20,6 +20,7 @@ import org.energyos.espi.datacustodian.domain.Configuration;
 import org.energyos.espi.datacustodian.domain.ThirdParty;
 import org.energyos.espi.datacustodian.service.ThirdPartyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/RetailCustomer")
+@PreAuthorize("hasRole('ROLE_USER')")
 public class ScopeSelectionController {
 
     @Autowired
