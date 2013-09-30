@@ -27,4 +27,6 @@ public interface ThirdPartyRepository {
     ThirdParty findById(Long id);
 
     void persist(ThirdParty thirdParty);
+
+    ThirdParty findByClientId(String clientId);
 }

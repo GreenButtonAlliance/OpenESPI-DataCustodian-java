@@ -29,12 +29,21 @@ public class ThirdPartyRepositoryImplTest {
 
         assertNotNull(thirdParty.getId());
     }
+
     @Test
     public void findById() throws Exception {
         ThirdParty thirdParty = EspiFactory.newThirdParty();
         repository.persist(thirdParty);
 
         assertEquals(thirdParty.getId(), repository.findById(thirdParty.getId()).getId());
+    }
+
+    @Test
+    public void findByClientId() throws Exception {
+        ThirdParty thirdParty = EspiFactory.newThirdParty();
+        repository.persist(thirdParty);
+
+        assertEquals(thirdParty.getId(), repository.findByClientId(thirdParty.getClientId()).getId());
     }
 
     @Test
