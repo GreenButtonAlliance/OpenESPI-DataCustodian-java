@@ -8,13 +8,15 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "third_parties")
 @NamedQueries(value = {
-        @NamedQuery(name = ThirdParty.QUERY_FIND_BY_ID, query = "SELECT third_party FROM ThirdParty third_party WHERE third_party.id = :id"),
-        @NamedQuery(name = ThirdParty.QUERY_FIND_ALL, query = "SELECT third_party FROM ThirdParty third_party")
+        @NamedQuery(name = ThirdParty.QUERY_FIND_BY_ID, query = "SELECT thirdParty FROM ThirdParty thirdParty WHERE thirdParty.id = :id"),
+        @NamedQuery(name = ThirdParty.QUERY_FIND_BY_CLIENT_ID, query = "SELECT thirdParty FROM ThirdParty thirdParty WHERE thirdParty.clientId = :clientId"),
+        @NamedQuery(name = ThirdParty.QUERY_FIND_ALL, query = "SELECT thirdParty FROM ThirdParty thirdParty")
 })
 public class ThirdParty extends Resource {
 
     public final static String QUERY_FIND_ALL = "ThirdParty.findAll";
     public static final String QUERY_FIND_BY_ID = "ThirdParty.findById";
+    public static final String QUERY_FIND_BY_CLIENT_ID = "ThirdParty.findByClientId";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +28,10 @@ public class ThirdParty extends Resource {
 
     @Column(name = "url")
     protected String url;
+
+    @Column(name = "clientId")
+    @NotEmpty @Size(min = 2, max = 64)
+    private String clientId;
 
     public Long getId() {
         return id;
@@ -48,5 +54,13 @@ public class ThirdParty extends Resource {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 }
