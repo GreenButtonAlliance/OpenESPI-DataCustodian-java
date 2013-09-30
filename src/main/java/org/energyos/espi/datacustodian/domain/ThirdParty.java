@@ -6,7 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "third_parties")
+@Table(name = "third_parties", uniqueConstraints = {@UniqueConstraint(columnNames={"client_id"})})
 @NamedQueries(value = {
         @NamedQuery(name = ThirdParty.QUERY_FIND_BY_ID, query = "SELECT thirdParty FROM ThirdParty thirdParty WHERE thirdParty.id = :id"),
         @NamedQuery(name = ThirdParty.QUERY_FIND_BY_CLIENT_ID, query = "SELECT thirdParty FROM ThirdParty thirdParty WHERE thirdParty.clientId = :clientId"),
@@ -29,7 +29,7 @@ public class ThirdParty extends Resource {
     @Column(name = "url")
     protected String url;
 
-    @Column(name = "clientId")
+    @Column(name = "client_id")
     @NotEmpty @Size(min = 2, max = 64)
     private String clientId;
 

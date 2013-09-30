@@ -30,6 +30,17 @@ public class ThirdPartyRepositoryImplTest {
         assertNotNull(thirdParty.getId());
     }
 
+    @Test(expected = org.springframework.dao.DataIntegrityViolationException.class)
+    public void persist_modelEnforcesUniqueClientId() throws Exception {
+        ThirdParty thirdParty1 = EspiFactory.newThirdParty();
+        repository.persist(thirdParty1);
+
+        ThirdParty thirdParty2 = EspiFactory.newThirdParty();
+        thirdParty2.setClientId(thirdParty1.getClientId());
+
+        repository.persist(thirdParty2);
+    }
+
     @Test
     public void findById() throws Exception {
         ThirdParty thirdParty = EspiFactory.newThirdParty();
