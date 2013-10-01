@@ -48,7 +48,7 @@ Feature: Data Custodian
     Given Grace Hopper Data Custodian
     And Alan Turing Retail Customer
 
-    When I login as Grace Hopper
+    When I login as a Data Custodian
     And I navigate to customer list page
     And I select "Alan Turing" from customer list
     Then I should see "Alan Turing" profile page
@@ -56,7 +56,7 @@ Feature: Data Custodian
   Scenario: Data Custodian uploads Usage Points
     Given a Retail Customer
 
-    When I login as Grace Hopper
+    When I login as a Data Custodian
     And I associate "Front Electric Meter" Usage Point with Retail Customer
     And I upload Usage Points
 
@@ -67,7 +67,7 @@ Feature: Data Custodian
   Scenario: Data Custodian uploads Usage Points with Service Categories
     Given a Retail Customer
 
-    When I login as Grace Hopper
+    When I login as a Data Custodian
     And I associate "Front Electric Meter" Usage Point with Retail Customer
     And I upload Usage Points
 
@@ -78,7 +78,7 @@ Feature: Data Custodian
   Scenario: Data Custodian uploads Usage Points with Meter Readings
     Given a Retail Customer
 
-    When I login as Grace Hopper
+    When I login as a Data Custodian
     And I associate "Front Electric Meter" Usage Point with Retail Customer
     And I upload Usage Points
 
@@ -90,7 +90,7 @@ Feature: Data Custodian
   Scenario: Data Custodian uploads Usage Points with Interval Blocks and Readings
     Given a Retail Customer
 
-    When I login as Grace Hopper
+    When I login as a Data Custodian
     And I associate "Front Electric Meter" Usage Point with Retail Customer
     And I upload Usage Points
 
@@ -103,7 +103,7 @@ Feature: Data Custodian
   Scenario: Data Custodian associates an Usage Point with Retail Customer
     Given a Retail Customer
 
-    When I login as Grace Hopper
+    When I login as a Data Custodian
     And I associate "Back Electric Meter" Usage Point with Retail Customer
 
     When I log in as Retail Customer
@@ -113,7 +113,7 @@ Feature: Data Custodian
   Scenario: Data Custodian uploads Usage Points with Electric Power Usage Summaries
     Given a Retail Customer
 
-    When I login as Grace Hopper
+    When I login as a Data Custodian
     And I associate "Front Electric Meter" Usage Point with Retail Customer
     And I upload Usage Points
 
@@ -125,7 +125,7 @@ Feature: Data Custodian
   Scenario: Data Custodian uploads Usage Points with Meter Readings with Reading Qualities
     Given a Retail Customer
 
-    When I login as Grace Hopper
+    When I login as a Data Custodian
     And I associate "Front Electric Meter" Usage Point with Retail Customer
     And I upload Usage Points
 

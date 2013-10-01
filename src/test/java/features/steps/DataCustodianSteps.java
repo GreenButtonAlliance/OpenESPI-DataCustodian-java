@@ -85,8 +85,8 @@ public class DataCustodianSteps {
     public void Alan_Turing_Retail_Customer() throws Throwable {
     }
 
-    @When("^I login as Grace Hopper$")
-    public void I_login_as_Grace_Hopper() throws Throwable {
+    @When("^I login as a Data Custodian$")
+    public void I_login_as_a_Data_Custodian() throws Throwable {
         StepUtils.login("grace", StepUtils.PASSWORD);
     }
 
