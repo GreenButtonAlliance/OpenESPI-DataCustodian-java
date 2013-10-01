@@ -188,4 +188,9 @@ public class DataCustodianSteps {
     public void I_should_see(String content) throws Throwable {
         assertTrue("Page should contain '" + content + "'", driver.getPageSource().contains(content));
     }
+
+    @Then("^I should see my Meter Reading with Reading Qualities$")
+    public void I_should_see_my_Meter_Reading_with_Reading_Qualities() throws Throwable {
+        assertContains("quality1", driver.getPageSource());
+    }
 }

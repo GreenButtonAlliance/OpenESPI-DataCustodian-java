@@ -121,3 +121,16 @@ Feature: Data Custodian
     And I navigate to the Usage Points list
     And I select a "Front Electric Meter" Usage Point
     Then I should see my Electric Power Usage Summaries
+
+  Scenario: Data Custodian uploads Usage Points with Meter Readings with Reading Qualities
+    Given a Retail Customer
+
+    When I login as Grace Hopper
+    And I associate "Front Electric Meter" Usage Point with Retail Customer
+    And I upload Usage Points
+
+    When I log in as Retail Customer
+    And I navigate to the Usage Points list
+    And I select a "Front Electric Meter" Usage Point
+    And I select Meter Reading
+    Then I should see my Meter Reading with Reading Qualities

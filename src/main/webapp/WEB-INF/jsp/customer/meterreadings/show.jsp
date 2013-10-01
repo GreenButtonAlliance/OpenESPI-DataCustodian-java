@@ -82,6 +82,7 @@
                             <th>Cost</th>
                             <th>Duration</th>
                             <th>Start</th>
+                            <th>Reading Qualities</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -95,6 +96,15 @@
                                 </td>
                                 <td>
                                     <c:out value="${intervalReading.timePeriod.start}"/>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <c:forEach var="readingQuality" items="${intervalReading.readingQualities}">
+                                            <li>
+                                                <c:out value="${readingQuality.quality}"/>
+                                            </li>
+                                        </c:forEach>
+                                    </ul>
                                 </td>
                             </tr>
                         </c:forEach>
