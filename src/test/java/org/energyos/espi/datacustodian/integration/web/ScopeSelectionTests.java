@@ -57,7 +57,7 @@ public class ScopeSelectionTests {
 
     @Test
     public void index_returnsRedirectStatus() throws Exception {
-        mockMvc.perform(get("/RetailCustomer/ScopeSelection").param("scope", "scope1").param("scope", "scope2").param("ThirdPartyID", "1"))
+        mockMvc.perform(get("/RetailCustomer/ScopeSelection").param("scope", "scope1").param("scope", "scope2").param("ThirdPartyID", "thirdParty"))
                 .andExpect(status().is(302));
     }
 

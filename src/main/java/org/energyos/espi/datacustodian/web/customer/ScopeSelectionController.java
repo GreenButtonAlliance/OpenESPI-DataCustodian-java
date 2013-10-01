@@ -35,9 +35,10 @@ public class ScopeSelectionController {
     private ThirdPartyService thirdPartyService;
 
     @RequestMapping(value = "/ScopeSelection", method = RequestMethod.GET)
-    public String scopeSelection(String[] scopes, @RequestParam("ThirdPartyID") Long thirdPartyClientId) {
-        ThirdParty thirdParty = thirdPartyService.findById(thirdPartyClientId);
-        return "redirect:" + thirdParty.getUrl() + "?" + newScopeParams(Configuration.SCOPES) + "&DataCustodianID=" + Configuration.DATA_CUSTODIAN_ID;
+    public String scopeSelection(String[] scopes, @RequestParam("ThirdPartyID") String thirdPartyClientId) {
+        ThirdParty thirdParty = thirdPartyService.findByClientId(thirdPartyClientId);
+        return "redirect:" + thirdParty.getUrl() + "?" + newScopeParams(Configuration.SCOPES) +
+                "&DataCustodianID=" + Configuration.DATA_CUSTODIAN_ID;
     }
 
     public void setThirdPartyService(ThirdPartyService thirdPartyService) {
