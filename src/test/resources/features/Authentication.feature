@@ -5,7 +5,7 @@ Feature: Authentication
   Scenario: Data Custodian visits Data Custodian's home page
     Given I have a Data Custodian account
 
-    When I log in as Grace Hopper
+    When I log in as a Data Custodian
     Then I should see Data Custodian home page
 
   Scenario: Retail Customer visits Retail Customer's home page

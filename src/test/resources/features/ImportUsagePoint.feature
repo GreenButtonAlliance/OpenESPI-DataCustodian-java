@@ -6,7 +6,7 @@ Feature: Import Usage Point
   Scenario: Data Custodian Imports Retail Customer Data
     Given a Retail Customer
 
-    When I login as a Data Custodian
+    When I log in as a Data Custodian
     And I associate "Front Electric Meter" Usage Point with Retail Customer
     And I import Usage Point from XML
 

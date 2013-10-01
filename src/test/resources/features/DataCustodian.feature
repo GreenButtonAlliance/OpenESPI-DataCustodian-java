@@ -6,32 +6,32 @@ Feature: Data Custodian
   Scenario: Data Custodian visits Data Custodian's home page
     Given I have a Data Custodian account
 
-    When I log in as Grace Hopper
+    When I log in as a Data Custodian
     Then I should see Data Custodian home page
 
   Scenario: Data Custodian logs in with valid credentials
     Given I have a Data Custodian account
 
-    When I log in as Grace Hopper
+    When I log in as a Data Custodian
     Then I should be logged in
 
   Scenario: User logs in with invalid credentials
     Given I have a Data Custodian account
 
-    When I log in as Grace Hopper with invalid credentials
+    When I log in as a Data Custodian with invalid credentials
     Then I should see login form
 
   Scenario: Data Custodian creates customer
     Given I am a Data Custodian
 
-    When I log in as Grace Hopper
+    When I log in as a Data Custodian
     And I create a new Retail Customer
     Then I should see the new Retail Customer in the customer list
 
   Scenario: Data Custodian views customer list
     Given I am a Data Custodian
     And there is an Alan Turing retail customer
-    And I am logged in as Grace Hopper
+    And I log in as a Data Custodian
 
     When I navigate to customer list page
     Then I should see Alan Turing in the customer list
@@ -45,10 +45,7 @@ Feature: Data Custodian
     Then I should see login form
 
   Scenario: Data Custodian views Retail Customer profile page
-    Given Grace Hopper Data Custodian
-    And Alan Turing Retail Customer
-
-    When I login as a Data Custodian
+    When I log in as a Data Custodian
     And I navigate to customer list page
     And I select "Alan Turing" from customer list
     Then I should see "Alan Turing" profile page
@@ -56,7 +53,7 @@ Feature: Data Custodian
   Scenario: Data Custodian uploads Usage Points
     Given a Retail Customer
 
-    When I login as a Data Custodian
+    When I log in as a Data Custodian
     And I associate "Front Electric Meter" Usage Point with Retail Customer
     And I upload Usage Points
 
@@ -67,7 +64,7 @@ Feature: Data Custodian
   Scenario: Data Custodian uploads Usage Points with Service Categories
     Given a Retail Customer
 
-    When I login as a Data Custodian
+    When I log in as a Data Custodian
     And I associate "Front Electric Meter" Usage Point with Retail Customer
     And I upload Usage Points
 
@@ -78,7 +75,7 @@ Feature: Data Custodian
   Scenario: Data Custodian uploads Usage Points with Meter Readings
     Given a Retail Customer
 
-    When I login as a Data Custodian
+    When I log in as a Data Custodian
     And I associate "Front Electric Meter" Usage Point with Retail Customer
     And I upload Usage Points
 
@@ -90,7 +87,7 @@ Feature: Data Custodian
   Scenario: Data Custodian uploads Usage Points with Interval Blocks and Readings
     Given a Retail Customer
 
-    When I login as a Data Custodian
+    When I log in as a Data Custodian
     And I associate "Front Electric Meter" Usage Point with Retail Customer
     And I upload Usage Points
 
@@ -103,7 +100,7 @@ Feature: Data Custodian
   Scenario: Data Custodian associates an Usage Point with Retail Customer
     Given a Retail Customer
 
-    When I login as a Data Custodian
+    When I log in as a Data Custodian
     And I associate "Back Electric Meter" Usage Point with Retail Customer
 
     When I log in as Retail Customer
@@ -113,7 +110,7 @@ Feature: Data Custodian
   Scenario: Data Custodian uploads Usage Points with Electric Power Usage Summaries
     Given a Retail Customer
 
-    When I login as a Data Custodian
+    When I log in as a Data Custodian
     And I associate "Front Electric Meter" Usage Point with Retail Customer
     And I upload Usage Points
 
@@ -125,7 +122,7 @@ Feature: Data Custodian
   Scenario: Data Custodian uploads Usage Points with Meter Readings with Reading Qualities
     Given a Retail Customer
 
-    When I login as a Data Custodian
+    When I log in as a Data Custodian
     And I associate "Front Electric Meter" Usage Point with Retail Customer
     And I upload Usage Points
 

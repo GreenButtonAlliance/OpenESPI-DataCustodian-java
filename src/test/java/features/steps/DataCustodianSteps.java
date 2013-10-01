@@ -42,12 +42,7 @@ public class DataCustodianSteps {
     public void I_have_a_Data_Custodian_account() throws Throwable {
     }
 
-    @When("^I log in as Grace Hopper$")
-    public void I_log_in_as_Grace_Hopper() throws Throwable {
-        StepUtils.login("grace", "koala");
-    }
-
-    @When("^I log in as Grace Hopper with invalid credentials$")
+    @When("^I log in as a Data Custodian with invalid credentials$")
     public void I_log_in_as_Grace_Hopper_with_invalid_credentials() throws Throwable {
         StepUtils.login("grace", "invalid_password");
     }
@@ -66,26 +61,13 @@ public class DataCustodianSteps {
     public void I_am_not_logged_in() throws Throwable {
     }
 
-    @And("^I am logged in as Grace Hopper$")
-    public void I_am_logged_in_as_Grace_Hopper() throws Throwable {
-        StepUtils.login("grace", "koala");
-    }
-
     @Then("^I should see Data Custodian home page$")
     public void I_should_see_Data_Custodian_home_page() throws Throwable {
         assertTrue(driver.getCurrentUrl().endsWith("/custodian/home"));
         assertTrue(driver.getPageSource().contains("Welcome Data Custodian"));
     }
 
-    @Given("^Grace Hopper Data Custodian$")
-    public void Grace_Hopper_Data_Custodian() throws Throwable {
-    }
-
-    @Given("^Alan Turing Retail Customer$")
-    public void Alan_Turing_Retail_Customer() throws Throwable {
-    }
-
-    @When("^I login as a Data Custodian$")
+    @When("^I log in as a Data Custodian$")
     public void I_login_as_a_Data_Custodian() throws Throwable {
         StepUtils.login("grace", StepUtils.PASSWORD);
     }
