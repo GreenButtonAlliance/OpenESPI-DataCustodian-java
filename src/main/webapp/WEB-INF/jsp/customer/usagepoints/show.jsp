@@ -28,6 +28,7 @@
     <div class="row">
         <div class="span12">
             <h2>Usage Point: <c:out value="${usagePoint.description}"/></h2>
+            <p>Service Category: <c:out value="${usagePoint.serviceCategory}"/></p>
 
             <table class="table table-striped">
                 <caption class="text-left">Meter Readings:</caption>
