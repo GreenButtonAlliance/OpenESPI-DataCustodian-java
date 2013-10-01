@@ -34,5 +34,6 @@
 
     <jdbc:initialize-database data-source="dataSource" ignore-failures="ALL">
         <jdbc:script location="${jdbc.dataLocation}"/>
+        <jdbc:script location="${jdbc.environmentDataLocation}"/>
     </jdbc:initialize-database>
 </beans>
