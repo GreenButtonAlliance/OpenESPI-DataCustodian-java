@@ -123,6 +123,12 @@ permissions and limitations under the License.
                         <start>1330578000</start>
                         <!-- 3/1/2012 5:00:00 AM  -->
                     </timePeriod>
+                    <ReadingQuality>
+                        <quality>quality1</quality>
+                    </ReadingQuality>
+                    <ReadingQuality>
+                        <quality>quality2</quality>
+                    </ReadingQuality>
                     <value>324</value>
                 </IntervalReading>
                 <IntervalReading>
