@@ -31,11 +31,14 @@ import static org.junit.Assert.assertTrue;
 public class DataCustodianSteps {
 
     private WebDriver driver = WebDriverSingleton.getInstance();
-    private String username;
 
     @After
     public void logout() {
         navigateTo("/logout.do");
+    }
+
+    @Given("^I am a Data Custodian$")
+    public void I_am_a_Data_Custodian() throws Throwable {
     }
 
     @Given("^I have a Data Custodian account$")
@@ -97,25 +100,6 @@ public class DataCustodianSteps {
         assertTrue(driver.getPageSource().contains("Alan Turing"));
     }
 
-    @And("^I select a Usage Point$")
-    public void I_select_Usage_Point() throws Throwable {
-        clickLinkByText("Front Electric Meter");
-    }
-
-    @And("^I select Meter Reading$")
-    public void I_select_Meter_Reading() throws Throwable {
-        clickLinkByText("Fifteen Minute Electricity Consumption");
-    }
-
-    @Then("^I should see my Meter Reading with Interval Blocks and Readings$")
-    public void I_should_see_my_Meter_Reading_with_Interval_Blocks() throws Throwable {
-        assertTrue(driver.getPageSource().contains("1330578000"));
-        assertTrue(driver.getPageSource().contains("1330664400"));
-        assertTrue(driver.getPageSource().contains("974"));
-        assertTrue(driver.getPageSource().contains("900"));
-        assertTrue(driver.getPageSource().contains("965"));
-    }
-
     @And("^I create a new Retail Customer$")
     public void I_create_a_new_Retail_Customer() throws Throwable {
         CucumberSession.setUsername(StepUtils.newUsername());
@@ -132,11 +116,6 @@ public class DataCustodianSteps {
         clickLinkByText(CucumberSession.getUsername());
     }
 
-    @When("^I login as Retail Customer$")
-    public void I_login_as_Retail_Customer() throws Throwable {
-        StepUtils.login(CucumberSession.getUsername(), StepUtils.PASSWORD);
-    }
-
     @Given("^a Retail Customer with Usage Points$")
     public void a_Retail_Customer_with_Usage_Points() throws Throwable {
         CucumberSession.setUsername(StepUtils.newUsername());
@@ -146,16 +125,6 @@ public class DataCustodianSteps {
         StepUtils.addUsagePoint(CucumberSession.getUsername(), CucumberSession.getUUID().toString());
         StepUtils.importUsagePoint();
         StepUtils.login(CucumberSession.getUsername(), StepUtils.PASSWORD);
-    }
-
-    @Then("^I should see my Electric Power Usage Summaries$")
-    public void I_should_see_my_Electric_Power_Usage_Summaries() throws Throwable {
-        assertTrue(driver.getPageSource().contains("Usage Summary"));
-}
-
-    @And("^I navigate to the upload form$")
-    public void I_navigate_to_the_upload_form() throws Throwable {
-        clickLinkByText("Upload data");
     }
 
     @And("^I associate \"([^\"]*)\" Usage Point with Retail Customer$")
@@ -169,10 +138,5 @@ public class DataCustodianSteps {
     @Then("^I should see \"([^\"]*)\"$")
     public void I_should_see(String content) throws Throwable {
         assertTrue("Page should contain '" + content + "'", driver.getPageSource().contains(content));
-    }
-
-    @Then("^I should see my Meter Reading with Reading Qualities$")
-    public void I_should_see_my_Meter_Reading_with_Reading_Qualities() throws Throwable {
-        assertContains("quality1", driver.getPageSource());
     }
 }

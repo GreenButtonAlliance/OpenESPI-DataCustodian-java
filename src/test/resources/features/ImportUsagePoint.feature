@@ -11,6 +11,4 @@ Feature: Import Usage Point
     And I import Usage Point from XML
 
     When I log in as Retail Customer
-    And I navigate to the Usage Points list
-    And I select a "Front Electric Meter" Usage Point
-    Then I should see my Electric Power Usage Summaries
+    Then the logged in retail customer can see their usage data

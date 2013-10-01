@@ -50,53 +50,6 @@ Feature: Data Custodian
     And I select "Alan Turing" from customer list
     Then I should see "Alan Turing" profile page
 
-  Scenario: Data Custodian uploads Usage Points
-    Given a Retail Customer
-
-    When I log in as a Data Custodian
-    And I associate "Front Electric Meter" Usage Point with Retail Customer
-    And I upload Usage Points
-
-    When I log in as Retail Customer
-    And I navigate to the Usage Points list
-    Then I should see my Usage Points with title "Front Electric Meter"
-
-  Scenario: Data Custodian uploads Usage Points with Service Categories
-    Given a Retail Customer
-
-    When I log in as a Data Custodian
-    And I associate "Front Electric Meter" Usage Point with Retail Customer
-    And I upload Usage Points
-
-    When I log in as Retail Customer
-    And I navigate to the Usage Points list
-    Then I should see my Usage Points with Service Categories with Service Kind of "ELECTRICITY_SERVICE"
-
-  Scenario: Data Custodian uploads Usage Points with Meter Readings
-    Given a Retail Customer
-
-    When I log in as a Data Custodian
-    And I associate "Front Electric Meter" Usage Point with Retail Customer
-    And I upload Usage Points
-
-    When I log in as Retail Customer
-    And I navigate to the Usage Points list
-    And I select a "Front Electric Meter" Usage Point
-    Then I should see the Meter Readings
-
-  Scenario: Data Custodian uploads Usage Points with Interval Blocks and Readings
-    Given a Retail Customer
-
-    When I log in as a Data Custodian
-    And I associate "Front Electric Meter" Usage Point with Retail Customer
-    And I upload Usage Points
-
-    When I log in as Retail Customer
-    And I navigate to the Usage Points list
-    And I select a "Front Electric Meter" Usage Point
-    And I select Meter Reading
-    Then I should see my Meter Reading with Interval Blocks and Readings
-
   Scenario: Data Custodian associates an Usage Point with Retail Customer
     Given a Retail Customer
 
@@ -107,7 +60,7 @@ Feature: Data Custodian
     And I navigate to the Usage Points list
     Then I should see "Back Electric Meter"
 
-  Scenario: Data Custodian uploads Usage Points with Electric Power Usage Summaries
+  Scenario: Data Custodian uploads Retail Customer usage information
     Given a Retail Customer
 
     When I log in as a Data Custodian
@@ -115,19 +68,4 @@ Feature: Data Custodian
     And I upload Usage Points
 
     When I log in as Retail Customer
-    And I navigate to the Usage Points list
-    And I select a "Front Electric Meter" Usage Point
-    Then I should see my Electric Power Usage Summaries
-
-  Scenario: Data Custodian uploads Usage Points with Meter Readings with Reading Qualities
-    Given a Retail Customer
-
-    When I log in as a Data Custodian
-    And I associate "Front Electric Meter" Usage Point with Retail Customer
-    And I upload Usage Points
-
-    When I log in as Retail Customer
-    And I navigate to the Usage Points list
-    And I select a "Front Electric Meter" Usage Point
-    And I select Meter Reading
-    Then I should see my Meter Reading with Reading Qualities
+    Then the logged in retail customer can see their usage data

@@ -17,7 +17,6 @@
 package features.steps;
 
 import cucumber.api.java.Before;
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -34,16 +33,11 @@ import static org.junit.Assert.assertTrue;
 public class RetailCustomerSteps {
 
     private WebDriver driver = WebDriverSingleton.getInstance();
-    private String username;
     String xmlResult;
 
     @Before
     public void setup() {
         XMLUnit.getControlDocumentBuilderFactory().setNamespaceAware(false);
-    }
-
-    @Given("^I am a Data Custodian$")
-    public void I_am_a_Data_Custodian() throws Throwable {
     }
 
     @Given("^there is an Alan Turing retail customer$")
@@ -68,26 +62,6 @@ public class RetailCustomerSteps {
     public void I_should_see_Grace_Hopper_in_the_customer_list() throws Throwable {
         assertTrue(driver.getPageSource().contains("Grace"));
         assertTrue(driver.getPageSource().contains("Hopper"));
-    }
-
-    @Given("^a logged in retail customer$")
-    public void a_logged_in_retail_customer() throws Throwable {
-        StepUtils.login("alan", "koala");
-    }
-
-    @When("^I look at my usage page$")
-    public void I_look_at_my_usage_page() throws Throwable {
-        navigateTo("/RetailCustomer/1/usagepoints");
-    }
-
-    @Then("^I should see my Usage Points with title \"([^\"]*)\"$")
-    public void I_should_see_my_Usage_Points_with_title(String title) throws Throwable {
-        assertTrue(driver.getPageSource().contains(title));
-    }
-
-    @Then("^I should see my Usage Points with Service Categories with Service Kind of \"ELECTRICITY_SERVICE\"$")
-    public void I_should_see_my_Usage_Points_with_title_Electricity_Service() throws Throwable {
-        assertTrue(driver.getPageSource().contains("ELECTRICITY_SERVICE"));
     }
 
     @Given("^I have a Retail Customer account$")
@@ -115,55 +89,22 @@ public class RetailCustomerSteps {
         assertXpathValue("Front Electric Meter", "feed/entry[1]/title", xmlResult);
     }
 
-    @Given("^Usage Points with Service Categories$")
-    public void Usage_Points_with_Service_Categories() throws Throwable {
-    }
+    @Then("^the logged in retail customer can see their usage data$")
+    public void the_logged_in_retail_customer_can_see_their_usage_data() throws Throwable {
 
-    @Then("^I should see Meter Reading$")
-    public void I_should_see_Meter_Reading() throws Throwable {
-        assertTrue(driver.getPageSource().contains("86400"));
-    }
+        clickLinkByText("Usage Points");
+        assertTrue(driver.getPageSource().contains("Front Electric Meter"));
 
-    @Given("^a logged in Retail Customer with Usage Points$")
-    public void a_logged_in_Retail_Customer_with_Usage_Points() throws Throwable {
+        clickLinkByText("Front Electric Meter");
+        SharedSteps.assertUsagePoint();
+        SharedSteps.assertUsageSummary();
 
-    }
-
-    @Then("^I select \"([^\"]*)\" from the Usage Point list$")
-    public void I_select_from_the_Usage_Point_list(String usagePoint) throws Throwable {
-        clickLinkByText(usagePoint);
-    }
-
-    @Then("^I should see the Meter Readings and Reading Types$")
-    public void I_should_see_my_Usage_Points_with_Meter_Readings() throws Throwable {
-        String pageSource = driver.getPageSource();
-
-        assertTrue("MeterReading title missing", pageSource.contains("Fifteen Minute Electricity Consumption"));
-        assertTrue("ReadingType title missing", pageSource.contains("Energy Delivered (kWh)"));
-    }
-
-    @Then("^I should see the Meter Readings$")
-    public void I_should_see_the_Meter_Readings() throws Throwable {
-        String pageSource = driver.getPageSource();
-
-        assertTrue("MeterReading title missing", pageSource.contains("Fifteen Minute Electricity Consumption"));
-    }
-
-    @Then("^I should see Reading Type$")
-    public void I_should_see_Reading_Type() throws Throwable {
-        String pageSource = driver.getPageSource();
-
-        assertTrue("ReadingType title missing", pageSource.contains("Energy Delivered (kWh)"));
-        assertTrue("Argument missing", pageSource.contains("1/2"));
-        assertTrue("Interharmonic missing", pageSource.contains("600/800"));
-    }
-
-    @Then("^I should see Interval Blocks$")
-    public void I_should_see_Interval_Blocks() throws Throwable {
-        String pageSource = driver.getPageSource();
-
-        assertTrue("First interval block missing", pageSource.contains("1330578000"));
-        assertTrue("Second interval block missing", pageSource.contains("1330664400"));
+        clickLinkByText("Fifteen Minute Electricity Consumption");
+        SharedSteps.assertMeterReading();
+        SharedSteps.assertReadingType();
+        SharedSteps.assertIntervalBlocks();
+        SharedSteps.assertIntervalReadings();
+        SharedSteps.assertReadingQualities();
     }
 
     @Then("^the XML includes Service categories$")
@@ -181,45 +122,6 @@ public class RetailCustomerSteps {
         assertXpathValue("Energy Delivered (kWh)", "feed/entry[3]/title", xmlResult);
     }
 
-    @Then("^the logged in retail customer can see their usage data$")
-    public void the_logged_in_retail_customer_can_see_their_usage_data() throws Throwable {
-
-        clickLinkByText("Usage Points");
-        assertTrue(driver.getPageSource().contains("Front Electric Meter"));
-
-        clickLinkByText("Front Electric Meter");
-        assertUsagePoint();
-
-        clickLinkByText("Fifteen Minute Electricity Consumption");
-        assertMeterReading();
-    }
-
-    private void assertMeterReading() {
-        assertTrue(driver.getPageSource().contains("Meter Reading: Fifteen Minute Electricity Consumption"));
-        assertTrue(driver.getPageSource().contains("Energy Delivered (kWh)"));
-        assertTrue(driver.getPageSource().contains("840"));
-        assertTrue(driver.getPageSource().contains("12"));
-        assertTrue(driver.getPageSource().contains("1/2"));
-        assertTrue(driver.getPageSource().contains("600/800"));
-
-        assertTrue(driver.getPageSource().contains("86400"));
-        assertTrue(driver.getPageSource().contains("1330578000"));
-        assertTrue(driver.getPageSource().contains("1330664400"));
-
-        assertTrue(driver.getPageSource().contains("974"));
-        assertTrue(driver.getPageSource().contains("900"));
-        assertTrue(driver.getPageSource().contains("965"));
-    }
-
-    private void assertUsagePoint() {
-        assertTrue(driver.getPageSource().contains("Usage Point: Front Electric Meter"));
-        assertTrue(driver.getPageSource().contains("Usage Summary"));
-        assertTrue(driver.getPageSource().contains("1119600"));
-
-        assertTrue(driver.getPageSource().contains("Fifteen Minute Electricity Consumption"));
-        assertTrue(driver.getPageSource().contains("Energy Delivered (kWh)"));
-    }
-
     @Then("^the XML includes Electric Power Usage Summary$")
     public void the_XML_includes_Electric_Power_Usage_Summary() throws Throwable {
         assertXpathValue("Usage Summary", "feed/entry/content/ElectricPowerUsageSummary/../../title", xmlResult);
@@ -231,8 +133,14 @@ public class RetailCustomerSteps {
         assertXpathValue("86400", "feed/entry[4]/content/IntervalBlock/interval/duration", xmlResult);
     }
 
-    @Given("^I have a I have a web browser open$")
-    public void I_have_a_I_have_a_web_browser_open() throws Throwable {}
+    @Then("^the XML includes Interval Readings$")
+    public void the_XML_includes_Interval_Readings() throws Throwable {
+        assertXpathValue("974", "feed/entry[4]/content/IntervalBlock/IntervalReading[1]/cost", xmlResult);
+        assertXpathValue("900", "feed/entry[4]/content/IntervalBlock/IntervalReading[1]/timePeriod/duration", xmlResult);
+        assertXpathValue("1330578900", "feed/entry[4]/content/IntervalBlock/IntervalReading[2]/timePeriod/start", xmlResult);
+        assertXpathValue("965", "feed/entry[4]/content/IntervalBlock/IntervalReading[2]/cost", xmlResult);
+    }
+
 
     @When("^I visit the home page$")
     public void I_visit_the_home_page() throws Throwable {
@@ -244,23 +152,10 @@ public class RetailCustomerSteps {
         assertNotNull(driver.findElement(By.id("login")));
     }
 
-    @And("^the XML includes Interval Readings$")
-    public void the_XML_includes_Interval_Readings() throws Throwable {
-        assertXpathValue("974", "feed/entry[4]/content/IntervalBlock/IntervalReading[1]/cost", xmlResult);
-        assertXpathValue("900", "feed/entry[4]/content/IntervalBlock/IntervalReading[1]/timePeriod/duration", xmlResult);
-        assertXpathValue("1330578900", "feed/entry[4]/content/IntervalBlock/IntervalReading[2]/timePeriod/start", xmlResult);
-        assertXpathValue("965", "feed/entry[4]/content/IntervalBlock/IntervalReading[2]/cost", xmlResult);
-    }
-
     @Given("^a Retail Customer$")
     public void a_Retail_Customer() throws Throwable {
         CucumberSession.setUsername(newUsername());
         StepUtils.registerUser(CucumberSession.getUsername(), newFirstName(), newLastName(), StepUtils.PASSWORD);
-    }
-
-    @When("^I select a \"([^\"]*)\" Usage Point$")
-    public void I_select_a_Usage_Point(String usagePointDescription) throws Throwable {
-        clickLinkByText(usagePointDescription);
     }
 
     @When("^I log in as Retail Customer$")

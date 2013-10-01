@@ -4,8 +4,6 @@ Feature: Retail Customers
   So that I can see my UsagePoints
 
   Scenario: Retail Customer visits home page
-    Given I have a I have a web browser open
-
     When I visit the home page
     Then I should see the option to login
 
@@ -39,7 +37,7 @@ Feature: Retail Customers
   Scenario: Retail Customer views their usage data
     Given a Retail Customer with Usage Points
 
-    When I login as Retail Customer
+    When I log in as Retail Customer
     Then the logged in retail customer can see their usage data
 
   Scenario: Retail Customer downloads Usage Points in XML format
