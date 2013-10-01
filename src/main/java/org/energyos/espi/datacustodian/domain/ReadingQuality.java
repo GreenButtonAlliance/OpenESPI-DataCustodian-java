@@ -62,6 +62,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @Entity
 @Table(name = "reading_qualities")
 @XmlJavaTypeAdapter(ReadingQualityAdapter.class)
+@XmlRootElement(name = "ReadingQuality")
 public class ReadingQuality
     extends IdentifiedObject
 {
