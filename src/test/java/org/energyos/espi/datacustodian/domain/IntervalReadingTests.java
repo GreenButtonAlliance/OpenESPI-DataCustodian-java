@@ -58,9 +58,9 @@ public class IntervalReadingTests extends XMLTest {
     public void before() throws Exception {
         xml = EspiMarshaller.marshal(newIntervalReading());
 
-        IntervalReadingAdapter intervalBlockAdapter = new IntervalReadingAdapter();
+        IntervalReadingAdapter intervalReadingAdapter = new IntervalReadingAdapter();
         JAXBElement<IntervalReading> intervalReadingJAXBElement = EspiMarshaller.unmarshal(XML_INPUT);
-        intervalReading = intervalBlockAdapter.unmarshal(intervalReadingJAXBElement);
+        intervalReading = intervalReadingAdapter.unmarshal(intervalReadingJAXBElement);
     }
 
     @Test
@@ -71,7 +71,7 @@ public class IntervalReadingTests extends XMLTest {
     @Test
     public void unmarshal_setsCost() {
         assertEquals(100L, intervalReading.getCost().longValue());
-    };
+    }
 
     @Test
     public void unmarshal_setsReadingQualities() {
@@ -79,18 +79,18 @@ public class IntervalReadingTests extends XMLTest {
         assertEquals(intervalReading, intervalReading.getReadingQualities().get(0).getIntervalReading());
         assertEquals("quality2", intervalReading.getReadingQualities().get(1).getQuality());
         assertEquals(intervalReading, intervalReading.getReadingQualities().get(1).getIntervalReading());
-    };
+    }
 
     @Test
     public void unmarshal_setsTimePeriod() {
         assertEquals(3L, intervalReading.getTimePeriod().getDuration().longValue());
         assertEquals(4L, intervalReading.getTimePeriod().getStart().longValue());
-    };
+    }
 
     @Test
     public void unmarshal_setsValue() {
         assertEquals(6L, intervalReading.getValue().longValue());
-    };
+    }
 
     @Test
     public void intervalBlock_hasTransientAnnotation() {
