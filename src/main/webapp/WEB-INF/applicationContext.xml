@@ -96,7 +96,7 @@
     </bean>
 
     <oauth:authorization-server client-details-service-ref="clientDetails" token-services-ref="tokenServices"
-                                user-approval-handler-ref="userApprovalHandler">
+                                user-approval-handler-ref="userApprovalHandler" authorization-endpoint-url="/oauth/2_0/authorize">
         <oauth:authorization-code />
         <oauth:implicit />
         <oauth:refresh-token />
