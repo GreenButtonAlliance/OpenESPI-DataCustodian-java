@@ -16,16 +16,22 @@
 
 package org.energyos.espi.datacustodian.domain;
 
+import com.sun.syndication.io.FeedException;
+import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.atom.XMLTest;
 import org.energyos.espi.datacustodian.models.atom.adapters.ReadingQualityAdapter;
 import org.energyos.espi.datacustodian.utils.EspiMarshaller;
 import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.IOException;
 
+import static org.energyos.espi.datacustodian.support.Asserts.assertXpathValue;
 import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newIntervalReading;
 import static org.junit.Assert.assertEquals;
 
 public class ReadingQualityTests extends XMLTest {
@@ -51,6 +57,11 @@ public class ReadingQualityTests extends XMLTest {
     @Test
     public void unmarshal_setsQuality() {
         assertEquals("quality1", readingQuality.getQuality());
+    }
+
+    @Test
+    public void marshal_setsQuality() throws FeedException, SAXException, IOException, XpathException {
+        assertXpathValue("100", "IntervalReading/cost", EspiMarshaller.marshal(newIntervalReading()));
     }
 
     @Test
