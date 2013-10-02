@@ -17,36 +17,38 @@
 package org.energyos.espi.datacustodian.atom;
 
 
-import com.sun.syndication.feed.atom.Content;
 import com.sun.syndication.io.FeedException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.domain.ReadingType;
+import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-
 import java.io.IOException;
 
-import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newReadingType;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 
 public class ReadingTypeEntryTests extends XMLTest {
 
-    @Test
-    public void constructsReadingTypeEntry() throws FeedException, SAXException, IOException, XpathException {
+    private ReadingTypeEntry entry;
+
+    @Before
+    public void before() throws FeedException, SAXException, IOException, XpathException {
         ReadingType readingType = newReadingType();
         readingType.setId(96L);
-        ReadingTypeEntry entry = new ReadingTypeEntry(readingType);
-        assertNotNull("entry was null", entry);
 
-        assertEquals("ReadingType/96", entry.getSelfLink().getHref());
-        assertEquals("ReadingType", entry.getUpLink().getHref());
+        entry = new ReadingTypeEntry(readingType);
+    }
 
-        Content content = (Content)entry.getContents().get(0);
-        String xmlContent = content.getValue();
+    @Test
+    public void selfHref() {
+        assertEquals("ReadingType/96", entry.getSelfHref());
+    }
 
-        assertXpathExists("ReadingType", xmlContent);
+    @Test
+    public void upHref() {
+        assertEquals("ReadingType", entry.getUpHref());
     }
 }

@@ -17,59 +17,47 @@
 package org.energyos.espi.datacustodian.atom;
 
 
-import com.sun.syndication.feed.atom.Content;
-import com.sun.syndication.feed.atom.Link;
 import com.sun.syndication.io.FeedException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.domain.MeterReading;
+import org.energyos.espi.datacustodian.utils.TestUtils;
+import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
 
-import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newMeterReadingWithUsagePoint;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 public class MeterReadingEntryTests extends XMLTest {
 
-    @Test
-    public void constructsMeterReadingEntry() throws FeedException, SAXException, IOException, XpathException {
+    private MeterReadingEntry entry;
+
+    @Before
+    public void before() throws FeedException, SAXException, IOException, XpathException {
         MeterReading meterReading = newMeterReadingWithUsagePoint();
         meterReading.setId(98L);
         meterReading.getUsagePoint().setId(99L);
         meterReading.getUsagePoint().getRetailCustomer().setId(88L);
         meterReading.getReadingType().setId(96L);
-        MeterReadingEntry entry = new MeterReadingEntry(meterReading);
 
-        assertNotNull("entry was null", entry);
-
-        assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading/98", entry.getSelfLink().getHref());
-        assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading", entry.getUpLink().getHref());
-        assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading/98/IntervalBlock", findIntervalBlockLink(entry).getHref());
-        assertEquals("ReadingType/96", findReadingTypeLink(entry).getHref());
-
-        Content content = (Content)entry.getContents().get(0);
-        assertXpathExists("MeterReading", content.getValue());
+        entry = new MeterReadingEntry(meterReading);
     }
 
-    private Link findIntervalBlockLink(EspiEntry<MeterReading> entry) {
-        for (Link relatedLink : entry.getRelatedLinks()) {
-            if (relatedLink.getHref().endsWith("IntervalBlock")) {
-                return relatedLink;
-            }
-        }
-
-        return null;
+    @Test
+    public void selfHref() {
+        assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading/98", entry.getSelfHref());
     }
 
-    private Link findReadingTypeLink(EspiEntry<MeterReading> entry) {
-        for (Link link : entry.getRelatedLinks()) {
-            if (link.getHref().contains("ReadingType")) {
-                return link;
-            }
-        }
-        return null;
+    @Test
+    public void upHref() {
+        assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading", entry.getUpHref());
+    }
+
+    @Test
+    public void relatedLinks() {
+        assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading/98/IntervalBlock", TestUtils.findRelatedHref(entry, "IntervalBlock"));
+        assertEquals("ReadingType/96", TestUtils.findRelatedHref(entry, "ReadingType"));
     }
 }

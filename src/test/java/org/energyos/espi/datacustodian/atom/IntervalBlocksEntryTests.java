@@ -17,22 +17,17 @@
 package org.energyos.espi.datacustodian.atom;
 
 
-import com.sun.syndication.feed.atom.Content;
 import com.sun.syndication.io.FeedException;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.domain.IntervalBlock;
 import org.energyos.espi.datacustodian.domain.MeterReading;
 import org.junit.Before;
 import org.junit.Test;
-import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBException;
-import java.io.IOException;
 import java.util.List;
 
-import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newMeterReadingWithUsagePoint;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class IntervalBlocksEntryTests extends XMLTest {
 
@@ -47,45 +42,17 @@ public class IntervalBlocksEntryTests extends XMLTest {
         intervalBlock.getMeterReading().setId(98L);
         intervalBlock.getMeterReading().getUsagePoint().setId(99L);
         intervalBlock.getMeterReading().getUsagePoint().getRetailCustomer().setId(88L);
+
         entry = new IntervalBlocksEntry(meterReading.getIntervalBlocks());
     }
 
     @Test
-    public void id() {
-        assertEquals("urn:uuid:E8E75691-7F9D-49F3-8BE2-3A74EBF6BFC0", entry.getId());
+    public void selfHref() {
+        assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading/98/IntervalBlock/97", entry.getSelfHref());
     }
 
     @Test
-    public void title() {
-        assertNull(entry.getTitle());
-    }
-
-    @Test
-    public void selfLink() {
-        assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading/98/IntervalBlock/97", entry.getSelfLink().getHref());
-    }
-
-    @Test
-    public void upLink() {
-        assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading/98/IntervalBlock", entry.getUpLink().getHref());
-    }
-
-
-    @Test
-    public void content() throws SAXException, IOException, XpathException {
-        String xmlContent = ((Content) entry.getContents().get(0)).getValue();
-        xmlContent = "<content>" + xmlContent + "</content>";
-        assertXpathExists("content/IntervalBlock[1]", xmlContent);
-        assertXpathExists("content/IntervalBlock[2]", xmlContent);
-    }
-
-    @Test
-    public void published() {
-        assertNotNull(entry.getPublished());
-    }
-
-    @Test
-    public void updated() {
-        assertNotNull(entry.getUpdated());
+    public void upHref() {
+        assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading/98/IntervalBlock", entry.getUpHref());
     }
 }

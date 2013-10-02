@@ -17,46 +17,45 @@
 package org.energyos.espi.datacustodian.atom;
 
 
-import com.sun.syndication.feed.atom.Content;
-import com.sun.syndication.feed.atom.Link;
 import com.sun.syndication.io.FeedException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.utils.TestUtils;
+import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
 
-import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 public class UsagePointEntryTests extends XMLTest {
 
-    @Test
-    public void constructsUsagePointEntry() throws FeedException, SAXException, IOException, XpathException {
+    private UsagePointEntry entry;
+
+    @Before
+    public void before() throws FeedException, SAXException, IOException, XpathException {
         UsagePoint usagePoint = newUsagePoint();
         usagePoint.setId(99L);
         usagePoint.getRetailCustomer().setId(88L);
-        UsagePointEntry entry = new UsagePointEntry(usagePoint);
 
-        assertNotNull("entry was null", entry);
-        assertEquals("RetailCustomer/88/UsagePoint/99", entry.getSelfLink().getHref());
-        assertEquals("RetailCustomer/88/UsagePoint", entry.getUpLink().getHref());
-        assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading", findRelatedLink(entry, "MeterReading").getHref());
-        assertEquals("RetailCustomer/88/UsagePoint/99/ElectricPowerUsageSummary", findRelatedLink(entry, "ElectricPowerUsageSummary").getHref());
-
-        Content content = (Content)entry.getContents().get(0);
-        assertXpathExists("UsagePoint", content.getValue());
+        entry = new UsagePointEntry(usagePoint);
     }
 
-    private Link findRelatedLink(UsagePointEntry entry, String type) {
-        for (Link link : entry.getRelatedLinks()) {
-            if (link.getHref().contains(type)) {
-                return link;
-            }
-        }
-        return null;
+    @Test
+    public void selfHref() {
+        assertEquals("RetailCustomer/88/UsagePoint/99", entry.getSelfHref());
+    }
+
+    @Test
+    public void upHref() {
+        assertEquals("RetailCustomer/88/UsagePoint", entry.getUpHref());
+    }
+
+    @Test
+    public void relatedLinks() {
+        assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading", TestUtils.findRelatedHref(entry, "MeterReading"));
+        assertEquals("RetailCustomer/88/UsagePoint/99/ElectricPowerUsageSummary", TestUtils.findRelatedHref(entry, "ElectricPowerUsageSummary"));
     }
 }
