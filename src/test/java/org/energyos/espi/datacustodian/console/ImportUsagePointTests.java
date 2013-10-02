@@ -39,7 +39,7 @@ public class ImportUsagePointTests {
     public void givenValidInput_postsToURL() throws IOException {
         HttpClient client = mock(HttpClient.class);
 
-        ImportUsagePoint.upload("import .xml", "http://locahost/upload", client);
+        ImportUsagePoint.upload("import.xml", "http://locahost/upload", client);
 
         verify(client).execute(any(HttpUriRequest.class));
     }
