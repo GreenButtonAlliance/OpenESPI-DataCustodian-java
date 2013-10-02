@@ -37,11 +37,11 @@
     </http>
 
     <bean id="oauthAuthenticationEntryPoint" class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
-        <property name="realmName" value="sparklr2" />
+        <property name="realmName" value="DataCustodian" />
     </bean>
 
     <bean id="clientAuthenticationEntryPoint" class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
-        <property name="realmName" value="sparklr2/client" />
+        <property name="realmName" value="DataCustodian" />
         <property name="typeName" value="Basic" />
     </bean>
 
@@ -105,10 +105,10 @@
         <oauth:password />
     </oauth:authorization-server>
 
-    <oauth:resource-server id="resourceServerFilter" resource-id="sparklr" token-services-ref="tokenServices" />
+    <oauth:resource-server id="resourceServerFilter" resource-id="dataCustodian" token-services-ref="tokenServices" />
 
     <oauth:client-details-service id="clientDetails">
-        <oauth:client client-id="third_party" resource-ids="sparklr" authorized-grant-types="authorization_code,implicit"
+        <oauth:client client-id="third_party" resource-ids="dataCustodian" authorized-grant-types="authorization_code,implicit"
                       authorities="ROLE_CLIENT" scope="FB_4_5_15_IntervalDuration_3600_BlockDuration_monthly_HistoryLength_13" secret="secret" />
     </oauth:client-details-service>
 
