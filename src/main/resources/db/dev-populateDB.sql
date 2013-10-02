@@ -1,2 +1,1 @@
-INSERT INTO third_parties (id, name, url) VALUES(1, 'Pivotal Energy (localhost)', 'http://localhost:8080/ThirdParty/RetailCustomer/ScopeSelection')
-INSERT INTO third_parties (id, name, url) VALUES(2, 'Heroku Analytics (localhost)', 'http://localhost:8080/ThirdParty/RetailCustomer/ScopeSelection')
+INSERT INTO third_parties (id, client_id, name, url) VALUES(1, 'third_party', 'Third Party (localhost)', 'http://localhost:8080/ThirdParty/espi/1_1/RetailCustomer/ScopeSelectionList')

@@ -190,6 +190,7 @@ public class EspiFactory {
     public static ThirdParty newThirdParty() {
         ThirdParty thirdParty = new ThirdParty();
         thirdParty.setName("Name" + System.currentTimeMillis());
+        thirdParty.setClientId("Client" + System.currentTimeMillis());
 
         return thirdParty;
     }

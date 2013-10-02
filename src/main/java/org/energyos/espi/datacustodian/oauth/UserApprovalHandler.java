@@ -28,7 +28,7 @@ import java.util.HashSet;
  * @author Dave Syer
  * 
  */
-public class SparklrUserApprovalHandler extends TokenServicesUserApprovalHandler {
+public class UserApprovalHandler extends TokenServicesUserApprovalHandler {
 
 	private Collection<String> autoApproveClients = new HashSet<String>();
 	

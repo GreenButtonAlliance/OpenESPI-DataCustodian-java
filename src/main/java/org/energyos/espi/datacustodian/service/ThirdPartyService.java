@@ -11,4 +11,6 @@ public interface ThirdPartyService {
     ThirdParty findById(Long id);
 
     void persist(ThirdParty thirdParty);
+
+    ThirdParty findByClientId(String thirdPartyClientId);
 }

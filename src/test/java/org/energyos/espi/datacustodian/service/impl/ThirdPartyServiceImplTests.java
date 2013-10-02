@@ -52,6 +52,17 @@ public class ThirdPartyServiceImplTests {
     }
 
     @Test
+    public void findByClientId() {
+        ThirdPartyServiceImpl service = new ThirdPartyServiceImpl();
+        ThirdPartyRepository repository = mock(ThirdPartyRepository.class);
+        ThirdParty thirdParty = new ThirdParty();
+        service.setRepository(repository);
+        when(repository.findByClientId("thirdParty")).thenReturn(thirdParty);
+
+        assertEquals(thirdParty, service.findByClientId("thirdParty"));
+    }
+
+    @Test
     public void findAll() {
         ThirdPartyServiceImpl service = new ThirdPartyServiceImpl();
         ThirdPartyRepository repository = mock(ThirdPartyRepository.class);
