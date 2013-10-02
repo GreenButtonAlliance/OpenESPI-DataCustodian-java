@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.util.UUID;
 
 public class FixtureFactory {
-    private FixtureFactory() {};
+    private FixtureFactory() {}
 
     public static InputStream newUsagePointInputStream(UUID uuid) throws IOException {
         return new ByteArrayInputStream(newUsagePointXML(uuid).getBytes());

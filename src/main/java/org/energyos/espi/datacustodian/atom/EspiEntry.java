@@ -78,7 +78,7 @@ public abstract class EspiEntry<T extends IdentifiedObject> extends Entry {
 
         relatedLinks.add(link);
         getOtherLinks().add(link);
-    };
+    }
 
     protected void setUpLinkHref(String href) {
         getUpLink().setHref(href);

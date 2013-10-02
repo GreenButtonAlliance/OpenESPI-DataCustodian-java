@@ -6,7 +6,7 @@ public class CucumberSession {
     private static String username;
     private static UUID uuid;
 
-    private CucumberSession() {};
+    private CucumberSession() {}
 
     public static String getUsername() {
         return username;

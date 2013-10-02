@@ -35,7 +35,7 @@ public class StepUtils {
     public final static String BASE_URL = "http://localhost:8080/DataCustodian";
     public final static String PASSWORD = "koala";
 
-    private static WebDriver driver = WebDriverSingleton.getInstance();;
+    private static WebDriver driver = WebDriverSingleton.getInstance();
 
     public static void navigateTo(String path) {
         driver.get(StepUtils.BASE_URL + path);

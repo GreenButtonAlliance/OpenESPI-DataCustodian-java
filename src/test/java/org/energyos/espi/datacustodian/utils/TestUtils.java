@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 public class TestUtils {
-    private TestUtils() {};
+    private TestUtils() {}
 
     public static void importUsagePoint(UsagePointService usagePointService, RetailCustomer customer, UUID uuid) throws JAXBException, IOException {
         usagePointService.importUsagePoints(FixtureFactory.newUsagePointInputStream(uuid));
