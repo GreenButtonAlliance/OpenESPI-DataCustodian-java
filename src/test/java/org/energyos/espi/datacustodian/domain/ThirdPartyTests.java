@@ -47,6 +47,12 @@ public class ThirdPartyTests {
     }
 
     @Test
+    public void clientId() {
+        assertAnnotationPresent(ThirdParty.class, "clientId", NotEmpty.class);
+        assertSizeValidation(ThirdParty.class, "clientId", 2, 64);
+    }
+
+    @Test
     public void name() {
         assertAnnotationPresent(ThirdParty.class, "name", NotEmpty.class);
         assertSizeValidation(ThirdParty.class, "name", 2, 64);

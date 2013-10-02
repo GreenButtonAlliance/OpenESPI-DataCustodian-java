@@ -47,4 +47,10 @@ public class ThirdPartyRepositoryImpl implements ThirdPartyRepository {
     public void persist(ThirdParty thirdParty) {
         em.persist(thirdParty);
     }
+
+    @Override
+    public ThirdParty findByClientId(String clientId) {
+        return (ThirdParty)em.createNamedQuery(ThirdParty.QUERY_FIND_BY_CLIENT_ID)
+                .setParameter("clientId", clientId).getSingleResult();
+    }
 }

@@ -35,4 +35,8 @@ public class ThirdPartyServiceImpl implements ThirdPartyService {
         repository.persist(thirdParty);
     }
 
+    @Override
+    public ThirdParty findByClientId(String clientId) {
+        return repository.findByClientId(clientId);
+    }
 }

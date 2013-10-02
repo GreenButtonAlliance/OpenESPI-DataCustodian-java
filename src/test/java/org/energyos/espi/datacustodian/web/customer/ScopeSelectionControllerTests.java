@@ -37,12 +37,12 @@ public class ScopeSelectionControllerTests {
 
         ThirdPartyService thirdPartyService = mock(ThirdPartyService.class);
         controller.setThirdPartyService(thirdPartyService);
-        when(thirdPartyService.findById(1L)).thenReturn(thirdParty);
+        when(thirdPartyService.findByClientId(thirdParty.getClientId())).thenReturn(thirdParty);
 
-        String redirectURL = controller.scopeSelection(new String[]{"scope1", "scope2"}, 1L);
+        String redirectURL = controller.scopeSelection(new String[]{"scope1", "scope2"}, thirdParty.getClientId());
 
-        assertEquals(String.format("redirect:%s?scope=%s&scope=%s&scope=%s&DataCustodianID=%s", thirdParty.getUrl(),
-                Configuration.SCOPES[0], Configuration.SCOPES[1], Configuration.SCOPES[2], Configuration.DATA_CUSTODIAN_ID),
+        assertEquals(String.format("redirect:%s?scope=%s&scope=%s&DataCustodianID=%s", thirdParty.getUrl(),
+                Configuration.SCOPES[0], Configuration.SCOPES[1], Configuration.DATA_CUSTODIAN_ID),
                 redirectURL);
     }
 }
