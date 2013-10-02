@@ -33,39 +33,62 @@ import javax.xml.bind.annotation.XmlTransient;
 import java.io.IOException;
 import java.util.Set;
 
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.TestCase.assertFalse;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
 import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
+import static org.junit.Assert.*;
 
 public class UsagePointTests extends XMLTest {
 
+    static final String XML_INPUT =
+            "<UsagePoint xmlns=\"http://naesb.org/espi\">" +
+                "<ServiceCategory>" +
+                    "<kind>0</kind>" +
+                "</ServiceCategory>" +
+            "</UsagePoint>";
+
+    private UsagePoint usagePoint;
     private String xml;
 
     @Before
     public void before() throws JAXBException, FeedException {
         xml = EspiMarshaller.marshal(newUsagePoint());
+        usagePoint = EspiMarshaller.<UsagePoint>unmarshal(XML_INPUT).getValue();
     }
 
     @Test
-    public void usagePoint() throws SAXException, IOException, XpathException {
+    public void unmarshalsUsagePoint() {
+        assertEquals(UsagePoint.class, usagePoint.getClass());
+    }
+
+    @Test
+    public void unmarshalsServiceCategory() {
+        assertEquals(ServiceCategory.class, usagePoint.getServiceCategory().getClass());
+    }
+
+    @Test
+    public void unmarshalsServiceKind() {
+        assertEquals(new Long(0L), usagePoint.getServiceCategory().getKind());
+    }
+
+    @Test
+    public void marshalUsagePoint() throws SAXException, IOException, XpathException {
         assertXpathExists("UsagePoint", xml);
     }
 
     @Test
-    public void roleFlags() throws SAXException, IOException, XpathException {
+    public void marshal_setsRoleFlags() throws SAXException, IOException, XpathException {
         assertXpathValue("726F6C6520666C616773", "UsagePoint/roleFlags", xml);
     }
 
     @Test
-    public void serviceCategory() throws SAXException, IOException, XpathException {
+    public void marshal_setsServiceCategory() throws SAXException, IOException, XpathException {
         assertXpathValue("0", "UsagePoint/ServiceCategory/kind", xml);
     }
 
     @Test
-    public void status() throws SAXException, IOException, XpathException {
+    public void marshal_setsStatus() throws SAXException, IOException, XpathException {
         assertXpathValue("5", "UsagePoint/status", xml);
     }
 

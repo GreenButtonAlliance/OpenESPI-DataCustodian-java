@@ -23,17 +23,26 @@ import org.energyos.espi.datacustodian.utils.EspiMarshaller;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.IOException;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newMeterReadingWithUsagePoint;
+import static org.junit.Assert.assertEquals;
 
 public class MeterReadingTests extends XMLTest {
 
     @Test
-    public void meterReading() throws SAXException, IOException, XpathException, FeedException {
+    public void unmarshalsMeterReading() throws SAXException, IOException, XpathException, FeedException, JAXBException {
+        final String XML_INPUT = "<MeterReading xmlns=\"http://naesb.org/espi\"/>";
+
+        assertEquals(MeterReading.class, EspiMarshaller.unmarshal(XML_INPUT).getValue().getClass());
+    }
+
+    @Test
+    public void marshalsMeterReading() throws SAXException, IOException, XpathException, FeedException {
         assertXpathExists("MeterReading", EspiMarshaller.marshal(newMeterReadingWithUsagePoint()));
     }
 
