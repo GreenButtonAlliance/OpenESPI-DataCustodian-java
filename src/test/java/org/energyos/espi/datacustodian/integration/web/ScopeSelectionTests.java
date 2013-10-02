@@ -49,26 +49,26 @@ public class ScopeSelectionTests {
 
     @Autowired
     protected ThirdPartyService thirdPartyService;
+    private ThirdParty thirdParty;
 
     @Before
     public void setup() {
         this.mockMvc = webAppContextSetup(this.wac).build();
+        thirdParty = EspiFactory.newThirdParty();
+        thirdParty.setName("ThirdParty");
+        thirdParty.setUrl("http://localhost:8080/ThirdParty/RetailCustomer/ScopeSelection");
+        thirdPartyService.persist(thirdParty);
     }
 
     @Test
     public void index_returnsRedirectStatus() throws Exception {
-        mockMvc.perform(get("/RetailCustomer/ScopeSelection").param("scope", "scope1").param("scope", "scope2").param("ThirdPartyID", "thirdParty"))
+        mockMvc.perform(get("/RetailCustomer/ScopeSelection").param("scope", "scope1").param("scope", "scope2").param("ThirdPartyID", thirdParty.getClientId()))
                 .andExpect(status().is(302));
     }
 
     @Test
     public void index_redirectsToThirdParty() throws Exception {
-        ThirdParty thirdParty = EspiFactory.newThirdParty();
-        thirdParty.setName("ThirdParty");
-        thirdParty.setUrl("http://localhost:8080/ThirdParty/RetailCustomer/ScopeSelection");
-        thirdPartyService.persist(thirdParty);
-
-        mockMvc.perform(get("/RetailCustomer/ScopeSelection").param("scope", "scope1").param("scope", "scope2").param("ThirdPartyID", thirdParty.getId().toString()))
+        mockMvc.perform(get("/RetailCustomer/ScopeSelection").param("scope", "scope1").param("scope", "scope2").param("ThirdPartyID", thirdParty.getClientId()))
                 .andExpect(redirectedUrl(String.format("%s?scope=%s&scope=%s&scope=%s&DataCustodianID=%s", thirdParty.getUrl(),
                         Configuration.SCOPES[0], Configuration.SCOPES[1], Configuration.SCOPES[2], Configuration.DATA_CUSTODIAN_ID)));
     }
