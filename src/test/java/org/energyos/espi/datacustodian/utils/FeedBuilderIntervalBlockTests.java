@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import static org.energyos.espi.datacustodian.support.TestUtils.importUsagePoint;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -64,7 +65,7 @@ public class FeedBuilderIntervalBlockTests {
         customer.setId(4L);
         UUID uuid = UUID.randomUUID();
 
-        TestUtils.importUsagePoint(usagePointService, customer, uuid);
+        importUsagePoint(usagePointService, customer, uuid);
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(customer);
 
         Feed feed = builder.buildFeed(usagePoints);

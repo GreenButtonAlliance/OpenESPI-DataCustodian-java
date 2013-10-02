@@ -34,7 +34,7 @@ import java.io.IOException;
 import java.util.Set;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
-import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
+import static org.energyos.espi.datacustodian.support.Asserts.assertXpathValue;
 import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
 import static org.junit.Assert.*;

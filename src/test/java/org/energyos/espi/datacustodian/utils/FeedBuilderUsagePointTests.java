@@ -45,6 +45,7 @@ import java.util.UUID;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathNotExists;
+import static org.energyos.espi.datacustodian.support.TestUtils.importUsagePoint;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -68,7 +69,7 @@ public class FeedBuilderUsagePointTests {
         customer.setId(3L);
         UUID uuid = UUID.randomUUID();
 
-        TestUtils.importUsagePoint(usagePointService, customer, uuid);
+        importUsagePoint(usagePointService, customer, uuid);
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(customer);
 
         feed =  builder.buildFeed(usagePoints);

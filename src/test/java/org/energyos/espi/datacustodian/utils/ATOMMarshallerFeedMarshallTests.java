@@ -31,8 +31,8 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
-import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
-import static org.energyos.espi.datacustodian.Asserts.assertXpathValueStartsWith;
+import static org.energyos.espi.datacustodian.support.Asserts.assertXpathValue;
+import static org.energyos.espi.datacustodian.support.Asserts.assertXpathValueStartsWith;
 import static org.energyos.espi.datacustodian.utils.factories.FeedFactory.newFeed;
 
 @RunWith(SpringJUnit4ClassRunner.class)

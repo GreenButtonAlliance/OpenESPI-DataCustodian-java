@@ -48,6 +48,7 @@ import java.util.UUID;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
+import static org.energyos.espi.datacustodian.support.TestUtils.importUsagePoint;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -82,7 +83,7 @@ public class ATOMMarshallerUsagePointTests {
         retailCustomer.setId(3L);
         UUID uuid = UUID.randomUUID();
 
-        TestUtils.importUsagePoint(usagePointService, retailCustomer, uuid);
+        importUsagePoint(usagePointService, retailCustomer, uuid);
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(retailCustomer);
         usagePoint = usagePoints.get(0);
 

@@ -6,7 +6,7 @@ import cucumber.api.java.en.When;
 import org.openqa.selenium.WebDriver;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
-import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
+import static org.energyos.espi.datacustodian.support.Asserts.assertXpathValue;
 
 public class APISteps {
     private WebDriver driver = WebDriverSingleton.getInstance();

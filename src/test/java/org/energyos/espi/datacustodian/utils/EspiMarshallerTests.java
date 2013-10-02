@@ -16,7 +16,6 @@
 
 package org.energyos.espi.datacustodian.utils;
 
-import cucumber.api.java.Before;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.energyos.espi.datacustodian.domain.ServiceCategory;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
@@ -24,8 +23,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
-import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
-import static org.junit.Assert.assertEquals;
+import static org.energyos.espi.datacustodian.support.Asserts.assertXpathValue;
 
 public class EspiMarshallerTests {
 

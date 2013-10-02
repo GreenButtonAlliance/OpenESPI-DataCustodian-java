@@ -24,7 +24,6 @@ import org.custommonkey.xmlunit.XMLUnit;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.atom.EspiEntry;
 import org.energyos.espi.datacustodian.atom.ReadingTypeEntry;
-import org.energyos.espi.datacustodian.domain.ReadingType;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
@@ -47,6 +46,7 @@ import java.util.UUID;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathNotExists;
+import static org.energyos.espi.datacustodian.support.TestUtils.importUsagePoint;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -75,7 +75,7 @@ public class FeedBuilderReadingTypeTests {
         retailCustomerService.persist(customer);
         UUID uuid = UUID.randomUUID();
 
-        TestUtils.importUsagePoint(usagePointService, customer, uuid);
+        importUsagePoint(usagePointService, customer, uuid);
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(customer);
 
         Feed feed = builder.buildFeed(usagePoints);

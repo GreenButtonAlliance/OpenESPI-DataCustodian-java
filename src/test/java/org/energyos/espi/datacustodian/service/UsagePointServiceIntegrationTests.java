@@ -18,7 +18,6 @@ package org.energyos.espi.datacustodian.service;
 
 
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +30,7 @@ import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.util.UUID;
 
+import static org.energyos.espi.datacustodian.support.TestUtils.importUsagePoint;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -49,7 +49,7 @@ public class UsagePointServiceIntegrationTests {
 
         int count = service.findAllByRetailCustomer(customer).size();
 
-        TestUtils.importUsagePoint(service, customer, UUID.randomUUID());
+        importUsagePoint(service, customer, UUID.randomUUID());
 
         assertEquals(count + 1, service.findAllByRetailCustomer(customer).size());
     }

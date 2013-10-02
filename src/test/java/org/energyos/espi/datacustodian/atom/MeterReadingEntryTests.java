@@ -20,13 +20,13 @@ package org.energyos.espi.datacustodian.atom;
 import com.sun.syndication.io.FeedException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.domain.MeterReading;
-import org.energyos.espi.datacustodian.utils.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
 
+import static org.energyos.espi.datacustodian.support.TestUtils.findRelatedHref;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newMeterReadingWithUsagePoint;
 import static org.junit.Assert.assertEquals;
 
@@ -57,7 +57,7 @@ public class MeterReadingEntryTests extends XMLTest {
 
     @Test
     public void relatedLinks() {
-        assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading/98/IntervalBlock", TestUtils.findRelatedHref(entry, "IntervalBlock"));
-        assertEquals("ReadingType/96", TestUtils.findRelatedHref(entry, "ReadingType"));
+        assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading/98/IntervalBlock", findRelatedHref(entry, "IntervalBlock"));
+        assertEquals("ReadingType/96", findRelatedHref(entry, "ReadingType"));
     }
 }

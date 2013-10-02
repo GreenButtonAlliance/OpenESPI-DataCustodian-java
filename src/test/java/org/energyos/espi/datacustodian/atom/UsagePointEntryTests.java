@@ -20,13 +20,13 @@ package org.energyos.espi.datacustodian.atom;
 import com.sun.syndication.io.FeedException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.utils.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
 
+import static org.energyos.espi.datacustodian.support.TestUtils.findRelatedHref;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
 import static org.junit.Assert.assertEquals;
 
@@ -55,7 +55,7 @@ public class UsagePointEntryTests extends XMLTest {
 
     @Test
     public void relatedLinks() {
-        assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading", TestUtils.findRelatedHref(entry, "MeterReading"));
-        assertEquals("RetailCustomer/88/UsagePoint/99/ElectricPowerUsageSummary", TestUtils.findRelatedHref(entry, "ElectricPowerUsageSummary"));
+        assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading", findRelatedHref(entry, "MeterReading"));
+        assertEquals("RetailCustomer/88/UsagePoint/99/ElectricPowerUsageSummary", findRelatedHref(entry, "ElectricPowerUsageSummary"));
     }
 }

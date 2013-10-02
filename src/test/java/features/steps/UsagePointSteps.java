@@ -25,7 +25,7 @@ import org.openqa.selenium.WebDriver;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
-import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
+import static org.energyos.espi.datacustodian.support.Asserts.assertXpathValue;
 
 public class UsagePointSteps {
 

@@ -1,4 +1,4 @@
-package org.energyos.espi.datacustodian;
+package org.energyos.espi.datacustodian.support;
 
 import org.custommonkey.xmlunit.XMLUnit;
 import org.custommonkey.xmlunit.XpathEngine;

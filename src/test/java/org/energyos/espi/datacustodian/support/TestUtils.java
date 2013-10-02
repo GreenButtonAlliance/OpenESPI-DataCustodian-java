@@ -16,12 +16,19 @@
 
 package org.energyos.espi.datacustodian.support;
 
+import com.sun.syndication.feed.atom.Link;
 import junit.framework.AssertionFailedError;
+import org.energyos.espi.datacustodian.atom.EspiEntry;
+import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.datacustodian.service.UsagePointService;
+import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
 
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.JAXBException;
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.UUID;
 
 @SuppressWarnings("rawtypes")
 public class TestUtils {
@@ -45,16 +52,6 @@ public class TestUtils {
             throw new AssertionFailedError(String.format("@Size annotation maximum does not match expected '%s'", max));
     }
 
-    public static void assertXmlElement(Class clazz, String fieldName, Class type) {
-        assertAnnotationPresent(clazz, fieldName, XmlElement.class);
-
-        Annotation annotation = getAnnotation(clazz, fieldName, XmlElement.class);
-
-        Class annotationType = ((XmlElement)annotation).type();
-        if (type != annotationType)
-            throw new AssertionFailedError(String.format("@XmlElement annotation type does not match expected '%s'", type));
-    }
-
     private static Annotation getAnnotation(Class clazz, String fieldName, Class annotationClass) {
         Field field;
 
@@ -74,5 +71,19 @@ public class TestUtils {
         }
 
         return foundAnnotation;
+    }
+
+    public static void importUsagePoint(UsagePointService usagePointService, RetailCustomer customer, UUID uuid) throws JAXBException, IOException {
+        usagePointService.importUsagePoints(FixtureFactory.newUsagePointInputStream(uuid));
+        usagePointService.associateByUUID(customer, uuid);
+    }
+
+    public static <T extends EspiEntry<?>> String findRelatedHref(T entry, String type) {
+        for (Link link : entry.getRelatedLinks()) {
+            if (link.getHref().contains(type)) {
+                return link.getHref();
+            }
+        }
+        return null;
     }
 }

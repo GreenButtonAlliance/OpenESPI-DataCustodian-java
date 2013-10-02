@@ -28,7 +28,7 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.IOException;
 
-import static org.energyos.espi.datacustodian.Asserts.assertXpathValue;
+import static org.energyos.espi.datacustodian.support.Asserts.assertXpathValue;
 import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newIntervalReading;
 import static org.junit.Assert.assertEquals;
