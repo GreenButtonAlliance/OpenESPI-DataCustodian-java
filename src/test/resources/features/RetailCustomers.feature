@@ -51,3 +51,4 @@ Feature: Retail Customers
     And the XML includes Electric Power Usage Summary
     And the XML includes Interval Blocks
     And the XML includes Interval Readings
+    And the XML includes Reading Qualities

@@ -17,6 +17,7 @@
 package features.steps;
 
 import cucumber.api.java.Before;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -196,5 +197,10 @@ public class RetailCustomerSteps {
     public void I_should_be_taken_to_the_Third_Party_login_page() throws Throwable {
         assertNotNull("Login field missing", driver.findElement(By.name("j_username")));
         assertNotNull("Password field missing", driver.findElement(By.name("j_password")));
+    }
+
+    @And("^the XML includes Reading Qualities$")
+    public void the_XML_includes_Reading_Qualities() throws Throwable {
+        assertXpathValue("quality1", "feed/entry[4]/content/IntervalBlock[1]/IntervalReading[1]/ReadingQuality[1]", xmlResult);
     }
 }
