@@ -62,13 +62,13 @@ public class ScopeSelectionTests {
 
     @Test
     public void index_returnsRedirectStatus() throws Exception {
-        mockMvc.perform(get("/RetailCustomer/ScopeSelection").param("scope", "scope1").param("scope", "scope2").param("ThirdPartyID", thirdParty.getClientId()))
+        mockMvc.perform(get("/RetailCustomer/ScopeSelectionList").param("scope", "scope1").param("scope", "scope2").param("ThirdPartyID", thirdParty.getClientId()))
                 .andExpect(status().is(302));
     }
 
     @Test
     public void index_redirectsToThirdParty() throws Exception {
-        mockMvc.perform(get("/RetailCustomer/ScopeSelection").param("scope", "scope1").param("scope", "scope2").param("ThirdPartyID", thirdParty.getClientId()))
+        mockMvc.perform(get("/RetailCustomer/ScopeSelectionList").param("scope", "scope1").param("scope", "scope2").param("ThirdPartyID", thirdParty.getClientId()))
                 .andExpect(redirectedUrl(String.format("%s?scope=%s&scope=%s&DataCustodianID=%s", thirdParty.getUrl(),
                         Configuration.SCOPES[0], Configuration.SCOPES[1], Configuration.DATA_CUSTODIAN_ID)));
     }

@@ -34,7 +34,7 @@ public class ScopeSelectionController {
     @Autowired
     private ThirdPartyService thirdPartyService;
 
-    @RequestMapping(value = "/ScopeSelection", method = RequestMethod.GET)
+    @RequestMapping(value = "/ScopeSelectionList", method = RequestMethod.GET)
     public String scopeSelection(String[] scopes, @RequestParam("ThirdPartyID") String thirdPartyClientId) {
         ThirdParty thirdParty = thirdPartyService.findByClientId(thirdPartyClientId);
         return "redirect:" + thirdParty.getUrl() + "?" + newScopeParams(Configuration.SCOPES) +
