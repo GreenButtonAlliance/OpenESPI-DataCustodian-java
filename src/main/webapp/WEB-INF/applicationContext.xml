@@ -85,7 +85,7 @@
         <constructor-arg name="clientDetailsService" ref="clientDetails" />
     </bean>
 
-    <bean id="userApprovalHandler" class="org.energyos.espi.datacustodian.oauth.SparklrUserApprovalHandler">
+    <bean id="userApprovalHandler" class="org.energyos.espi.datacustodian.oauth.UserApprovalHandler">
         <property name="autoApproveClients">
             <set>
                 <value>my-less-trusted-autoapprove-client</value>
@@ -144,15 +144,6 @@
                 <property name="extractValueFromSingleKeyModel" value="true" />
             </bean>
         </property>
-    </bean>
-
-    <bean id="photoServiceUserController" class="org.energyos.espi.datacustodian.web.PhotoServiceUserController">
-        <property name="userDetailsService" ref="retailCustomerServiceImpl" />
-    </bean>
-
-    <bean id="adminController" class="org.energyos.espi.datacustodian.web.AdminController">
-        <property name="tokenServices" ref="tokenServices" />
-        <property name="userApprovalHandler" ref="userApprovalHandler" />
     </bean>
 
     <bean id="accessConfirmationController" class="org.energyos.espi.datacustodian.oauth.AccessConfirmationController">
