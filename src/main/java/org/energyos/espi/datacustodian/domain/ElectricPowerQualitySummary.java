@@ -24,10 +24,14 @@
 
 package org.energyos.espi.datacustodian.domain;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import org.energyos.espi.datacustodian.models.atom.adapters.GenericAdapter;
+
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
@@ -81,6 +85,9 @@ import javax.xml.bind.annotation.XmlType;
     "supplyVoltageVariations",
     "tempOvervoltage"
 })
+@Entity
+@Table(name = "electric_power_quality_summaries")
+@XmlJavaTypeAdapter(GenericAdapter.class)
 public class ElectricPowerQualitySummary
     extends IdentifiedObject
 {
@@ -100,6 +107,11 @@ public class ElectricPowerQualitySummary
     protected Long supplyVoltageImbalance;
     protected Long supplyVoltageVariations;
     protected Long tempOvervoltage;
+
+    @XmlTransient
+    @ManyToOne
+    @JoinColumn(name = "usage_point_id")
+    private UsagePoint usagePoint;
 
     /**
      * Gets the value of the flickerPlt property.
@@ -437,4 +449,11 @@ public class ElectricPowerQualitySummary
         this.tempOvervoltage = value;
     }
 
+    public UsagePoint getUsagePoint() {
+        return usagePoint;
+    }
+
+    public void setUsagePoint(UsagePoint usagePoint) {
+        this.usagePoint = usagePoint;
+    }
 }

@@ -103,6 +103,11 @@ public class UsagePoint
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<ElectricPowerUsageSummary> electricPowerUsageSummaries = new ArrayList<>();
 
+    @XmlTransient
+    @OneToMany(mappedBy = "usagePoint", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<ElectricPowerQualitySummary> electricPowerQualitySummaries = new ArrayList<>();
+
     @Override
     @NotEmpty
     public String getMRID() {
@@ -214,5 +219,18 @@ public class UsagePoint
     public void addElectricPowerUsageSummary(ElectricPowerUsageSummary electricPowerUsageSummary) {
         electricPowerUsageSummary.setUsagePoint(this);
         electricPowerUsageSummaries.add(electricPowerUsageSummary);
+    }
+
+    public List<ElectricPowerQualitySummary> getElectricPowerQualitySummaries() {
+        return electricPowerQualitySummaries;
+    }
+
+    public void setElectricPowerQualitySummaries(List<ElectricPowerQualitySummary> electricPowerQualitySummaries) {
+        this.electricPowerQualitySummaries = electricPowerQualitySummaries;
+    }
+
+    public void addElectricPowerQualitySummary(ElectricPowerQualitySummary electricPowerQualitySummary) {
+        electricPowerQualitySummary.setUsagePoint(this);
+        electricPowerQualitySummaries.add(electricPowerQualitySummary);
     }
 }
