@@ -37,7 +37,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
-public class UsagePointBuilderElectricPowerSummaryTests {
+public class UsagePointBuilderElectricPowerUsageSummaryTests {
 
     @Autowired
     private ATOMMarshaller marshaller;
