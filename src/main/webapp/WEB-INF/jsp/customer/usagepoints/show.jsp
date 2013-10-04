@@ -77,6 +77,32 @@
                 </c:forEach>
                 </tbody>
             </table>
+
+            <table class="table table-striped">
+                <caption class="text-left">Electric Power Quality Summaries:</caption>
+                <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Billing Period Start</th>
+                    <th>Billing Period Duration</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="electricPowerQualitySummary" items="${usagePoint.electricPowerQualitySummaries}">
+                    <tr>
+                        <td>
+                            <c:out value="${electricPowerQualitySummary.description}"/>
+                        </td>
+                        <td>
+                            <c:out value="${electricPowerQualitySummary.summaryInterval.start}"/>
+                        </td>
+                        <td>
+                            <c:out value="${electricPowerQualitySummary.summaryInterval.duration}"/>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
         </div>
     </div>
 

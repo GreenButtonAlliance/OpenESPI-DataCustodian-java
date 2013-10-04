@@ -61,4 +61,9 @@ public class SharedSteps {
     static void assertReadingQualities() {
         assertTrue(driver.getPageSource().contains("quality1"));
     }
+
+    public static void assertQualitySummary() {
+        assertTrue(driver.getPageSource().contains("Quality Summary"));
+        assertTrue(driver.getPageSource().contains("2119600"));
+    }
 }

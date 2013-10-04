@@ -99,6 +99,7 @@ public class RetailCustomerSteps {
         clickLinkByText("Front Electric Meter");
         SharedSteps.assertUsagePoint();
         SharedSteps.assertUsageSummary();
+        SharedSteps.assertQualitySummary();
 
         clickLinkByText("Fifteen Minute Electricity Consumption");
         SharedSteps.assertMeterReading();
