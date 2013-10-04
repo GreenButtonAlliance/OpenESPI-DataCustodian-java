@@ -45,18 +45,18 @@ public class UsagePointBuilder {
             ContentType content = entry.getContent();
 
             if (content.getUsagePoint() != null) {
-                handle(entry, entry.getContent().getUsagePoint());
+                handle(entry, content.getUsagePoint());
             } else if (content.getMeterReading() != null) {
-                handle(entry, entry.getContent().getMeterReading());
+                handle(entry, content.getMeterReading());
             } else if (content.getReadingType() != null) {
-                handle(entry, entry.getContent().getReadingType());
+                handle(entry, content.getReadingType());
             } else if (content.getIntervalBlocks() != null) {
-                for (IntervalBlock intervalBlock : entry.getContent().getIntervalBlocks())
+                for (IntervalBlock intervalBlock : content.getIntervalBlocks())
                     handle(entry, intervalBlock);
             } else if (content.getElectricPowerUsageSummary() != null) {
-                handle(entry, entry.getContent().getElectricPowerUsageSummary());
+                handle(entry, content.getElectricPowerUsageSummary());
             } else if (content.getElectricPowerQualitySummary() != null) {
-                handle(entry, entry.getContent().getElectricPowerQualitySummary());
+                handle(entry, content.getElectricPowerQualitySummary());
             }
         }
     }
