@@ -68,6 +68,7 @@ import java.util.Map;
         "meterReading",
         "intervalBlocks",
         "electricPowerUsageSummary",
+        "electricPowerQualitySummary",
         "readingType",
         "content"
 })
@@ -96,6 +97,12 @@ public class ContentType {
     })
     @XmlAnyElement(lax = true)
     protected ElectricPowerUsageSummary electricPowerUsageSummary;
+
+    @XmlElementRefs({
+            @XmlElementRef(name = "ElectricPowerQualitySummary", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
+    })
+    @XmlAnyElement(lax = true)
+    private ElectricPowerQualitySummary electricPowerQualitySummary;
 
     @XmlMixed
     @XmlAnyElement(lax = true)
@@ -278,5 +285,13 @@ public class ContentType {
 
     public ElectricPowerUsageSummary getElectricPowerUsageSummary() {
         return electricPowerUsageSummary;
+    }
+
+    public ElectricPowerQualitySummary getElectricPowerQualitySummary() {
+        return electricPowerQualitySummary;
+    }
+
+    public void setElectricPowerQualitySummary(ElectricPowerQualitySummary electricPowerQualitySummary) {
+        this.electricPowerQualitySummary = electricPowerQualitySummary;
     }
 }

@@ -102,6 +102,15 @@ public class ATOMMarshallerTests {
     }
 
     @Test
+    public void unmarshall_ElectricPowerQualitySummary() throws JAXBException {
+        String espiXml = "<ElectricPowerQualitySummary xmlns=\"http://naesb.org/espi\"/>";
+
+        ElectricPowerQualitySummary electricPowerQualitySummary = unmarshalToContentType(espiXml).getElectricPowerQualitySummary();
+
+        assertNotNull(electricPowerQualitySummary);
+    }
+
+    @Test
     public void marshal_usagePointContent() throws FeedException, SAXException, IOException, XpathException {
         String xmlResult = marshaller.marshal(newFeed());
 

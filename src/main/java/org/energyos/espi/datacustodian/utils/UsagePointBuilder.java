@@ -55,6 +55,8 @@ public class UsagePointBuilder {
                     handle(entry, intervalBlock);
             } else if (content.getElectricPowerUsageSummary() != null) {
                 handle(entry, entry.getContent().getElectricPowerUsageSummary());
+            } else if (content.getElectricPowerQualitySummary() != null) {
+                handle(entry, entry.getContent().getElectricPowerQualitySummary());
             }
         }
     }
@@ -91,6 +93,13 @@ public class UsagePointBuilder {
 
         EntryType usagePointEntry = lookup.getUpEntry(entry);
         usagePointEntry.getContent().getUsagePoint().addElectricPowerUsageSummary(electricPowerUsageSummary);
+    }
+
+    private void handle(EntryType entry, ElectricPowerQualitySummary electricPowerQualitySummary) {
+        updateEntity(electricPowerQualitySummary, entry);
+
+        EntryType usagePointEntry = lookup.getUpEntry(entry);
+        usagePointEntry.getContent().getUsagePoint().addElectricPowerQualitySummary(electricPowerQualitySummary);
     }
 
     private ReadingType findReadingType(EntryType entry) {
