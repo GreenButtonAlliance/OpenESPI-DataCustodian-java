@@ -23,12 +23,6 @@
     <meta name="author" content="">
 
     <link href="<c:url value='/resources/css/bootstrap.css' />" rel="stylesheet" type="text/css"/>
-    <style type="text/css">
-        body {
-            padding-top: 60px;
-            padding-bottom: 40px;
-        }
-    </style>
     <link href="<c:url value='/resources/css/bootstrap-responsive.css' />" rel="stylesheet" type="text/css"/>
     <link href="<c:url value='/resources/css/application.css' />" rel="stylesheet" type="text/css"/>
 
