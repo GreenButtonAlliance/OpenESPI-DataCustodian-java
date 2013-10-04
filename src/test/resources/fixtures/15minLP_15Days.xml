@@ -63,6 +63,7 @@ permissions and limitations under the License.
         <link rel="up" href="RetailCustomer/9b6c7063/UsagePoint"/>
         <link rel="related" href="RetailCustomer/9b6c7063/UsagePoint/01/MeterReading"/>
         <link rel="related" href="RetailCustomer/9b6c7063/UsagePoint/01/ElectricPowerUsageSummary"/>
+        <link rel="related" href="RetailCustomer/9b6c7063/UsagePoint/01/ElectricPowerQualitySummary"/>
         <link rel="related" href="LocalTimeParameters/01"/>
         <title>Front Electric Meter</title>
         <content>
@@ -12338,6 +12339,35 @@ permissions and limitations under the License.
                 <qualityOfReading>14</qualityOfReading>
                 <statusTimeStamp>1331784000</statusTimeStamp>
             </ElectricPowerUsageSummary>
+        </content>
+        <published>2012-10-24T00:00:00Z</published>
+        <updated>2012-10-24T00:00:00Z</updated>
+    </entry>
+    <entry>
+        <id>urn:uuid:DEB0A337-C1B5-4658-99BA-4688E253A99B</id>
+        <link rel="self" href="RetailCustomer/9b6c7063/ElectricPowerQualitySummary/01"/>
+        <link rel="up" type="" href="RetailCustomer/9b6c7063/UsagePoint/01/ElectricPowerQualitySummary"/>
+        <title>Quality Summary</title>
+        <content>
+            <ElectricPowerQualitySummary xmlns="http://naesb.org/espi">
+                <summaryInterval>
+                    <duration>2119600</duration>
+                    <start>2330578000</start>
+                </summaryInterval>
+                <flickerPlt>1</flickerPlt>
+                <flickerPst>2</flickerPst>
+                <harmonicVoltage>3</harmonicVoltage>
+                <longInterruptions>4</longInterruptions>
+                <mainsVoltage>5</mainsVoltage>
+                <measurementProtocol>6</measurementProtocol>
+                <powerFrequency>7</powerFrequency>
+                <rapidVoltageChanges>8</rapidVoltageChanges>
+                <shortInterruptions>9</shortInterruptions>
+                <supplyVoltageDips>10</supplyVoltageDips>
+                <supplyVoltageImbalance>11</supplyVoltageImbalance>
+                <supplyVoltageVariations>12</supplyVoltageVariations>
+                <tempOvervoltage>13</tempOvervoltage>
+            </ElectricPowerQualitySummary>
         </content>
         <published>2012-10-24T00:00:00Z</published>
         <updated>2012-10-24T00:00:00Z</updated>
