@@ -19,6 +19,7 @@ package org.energyos.espi.datacustodian.utils;
 import com.sun.syndication.feed.atom.Feed;
 import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.atom.*;
+import org.energyos.espi.datacustodian.domain.ElectricPowerQualitySummary;
 import org.energyos.espi.datacustodian.domain.ElectricPowerUsageSummary;
 import org.energyos.espi.datacustodian.domain.MeterReading;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
@@ -65,6 +66,11 @@ public class FeedBuilder {
 
             for(ElectricPowerUsageSummary summary : usagePoint.getElectricPowerUsageSummaries()) {
                 ElectricPowerUsageSummaryEntry entry = new ElectricPowerUsageSummaryEntry(summary);
+                feed.getEntries().add(entry);
+            }
+
+            for(ElectricPowerQualitySummary summary : usagePoint.getElectricPowerQualitySummaries()) {
+                ElectricPowerQualitySummaryEntry entry = new ElectricPowerQualitySummaryEntry(summary);
                 feed.getEntries().add(entry);
             }
         }
