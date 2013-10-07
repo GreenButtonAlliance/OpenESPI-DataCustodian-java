@@ -28,7 +28,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertTrue;
 
 public class StepUtils {
 
