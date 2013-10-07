@@ -68,6 +68,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement(name="ElectricPowerQualitySummary")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ElectricPowerQualitySummary", propOrder = {
     "flickerPlt",
