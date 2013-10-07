@@ -17,15 +17,20 @@
 package org.energyos.espi.datacustodian.domain;
 
 import com.sun.syndication.io.FeedException;
+import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.atom.XMLTest;
 import org.energyos.espi.datacustodian.utils.EspiMarshaller;
 import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.IOException;
 
+import static org.energyos.espi.datacustodian.support.Asserts.assertXpathValue;
 import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newElectricPowerQualitySummaryWithUsagePoint;
 import static org.junit.Assert.assertEquals;
 
 public class ElectricPowerQualitySummaryTests extends XMLTest {
@@ -52,10 +57,12 @@ public class ElectricPowerQualitySummaryTests extends XMLTest {
         "</ElectricPowerQualitySummary>";
 
     private ElectricPowerQualitySummary electricPowerQualitySummary;
+    private String xml;
 
     @Before
     public void before() throws JAXBException, FeedException {
         electricPowerQualitySummary = EspiMarshaller.<ElectricPowerQualitySummary>unmarshal(XML_INPUT).getValue();
+        xml = EspiMarshaller.marshal(newElectricPowerQualitySummaryWithUsagePoint());
     }
 
     @Test
@@ -137,5 +144,76 @@ public class ElectricPowerQualitySummaryTests extends XMLTest {
     @Test
     public void usagePoint_hasTransientAnnotation() {
         assertAnnotationPresent(ElectricPowerQualitySummary.class, "usagePoint", XmlTransient.class);
+    }
+
+    @Test
+    public void marshal_setsFlickerPlt() throws SAXException, IOException, XpathException, FeedException {
+        assertXpathValue("1", "/ElectricPowerQualitySummary/flickerPlt", xml);
+    }
+
+    @Test
+    public void marshal_setsFlickerPst() throws FeedException, SAXException, IOException, XpathException {
+        assertXpathValue("2", "/ElectricPowerQualitySummary/flickerPst", xml);
+    }
+
+    @Test
+    public void marshal_setsHarmonicVoltage() throws SAXException, IOException, XpathException {
+        assertXpathValue("3", "/ElectricPowerQualitySummary/harmonicVoltage", xml);
+    }
+
+    @Test
+    public void marshal_setsLongInterruptions() throws SAXException, IOException, XpathException {
+        assertXpathValue("4", "/ElectricPowerQualitySummary/longInterruptions", xml);
+    }
+
+    @Test
+    public void marshal_setsMainsVoltage() throws SAXException, IOException, XpathException {
+        assertXpathValue("5", "/ElectricPowerQualitySummary/mainsVoltage", xml);
+    }
+
+    @Test
+    public void marshal_setsMeasurementProtocol() throws SAXException, IOException, XpathException {
+        assertXpathValue("6", "/ElectricPowerQualitySummary/measurementProtocol", xml);
+    }
+
+    @Test
+    public void marshal_setsPowerFrequency() throws SAXException, IOException, XpathException {
+        assertXpathValue("7", "/ElectricPowerQualitySummary/powerFrequency", xml);
+    }
+
+    @Test
+    public void marshal_setsRapidVoltageChanges() throws SAXException, IOException, XpathException {
+        assertXpathValue("8", "/ElectricPowerQualitySummary/rapidVoltageChanges", xml);
+    }
+
+    @Test
+    public void marshal_setsShortInterruptions() throws SAXException, IOException, XpathException {
+        assertXpathValue("9", "/ElectricPowerQualitySummary/shortInterruptions", xml);
+    }
+
+    @Test
+    public void marshal_setsSupplyVoltageDips() throws SAXException, IOException, XpathException {
+        assertXpathValue("10", "/ElectricPowerQualitySummary/supplyVoltageDips", xml);
+    }
+
+    @Test
+    public void marshal_setsSupplyVoltageImbalance() throws SAXException, IOException, XpathException {
+        assertXpathValue("11", "/ElectricPowerQualitySummary/supplyVoltageImbalance", xml);
+    }
+
+    @Test
+    public void marshal_setsSupplyVoltageVariations() throws SAXException, IOException, XpathException {
+        assertXpathValue("12", "/ElectricPowerQualitySummary/supplyVoltageVariations", xml);
+    }
+
+    @Test
+    public void marshal_setsTempOvervoltage() throws SAXException, IOException, XpathException {
+        assertXpathValue("13", "/ElectricPowerQualitySummary/tempOvervoltage", xml);
+    }
+
+    @Test
+    public void marshal_setsSummaryInterval() throws SAXException, IOException, XpathException {
+        assertXpathValue("2119600", "/ElectricPowerQualitySummary/summaryInterval/duration", xml);
+        assertXpathValue("2330578000", "/ElectricPowerQualitySummary/summaryInterval/start", xml);
     }
 }

@@ -37,6 +37,7 @@ public class EspiFactory {
         usagePoint.setRetailCustomer(retailCustomer);
         usagePoint.addMeterReading(newMeterReading());
         usagePoint.addElectricPowerUsageSummary(newElectricPowerUsageSummary());
+        usagePoint.addElectricPowerQualitySummary(newElectricPowerQualitySummary());
 
         return usagePoint;
     }
@@ -47,6 +48,10 @@ public class EspiFactory {
 
     public static ElectricPowerUsageSummary newElectricPowerUsageSummaryWithUsagePoint() {
         return newUsagePoint().getElectricPowerUsageSummaries().get(0);
+    }
+
+    public static ElectricPowerQualitySummary newElectricPowerQualitySummaryWithUsagePoint() {
+        return newUsagePoint().getElectricPowerQualitySummaries().get(0);
     }
 
     public static IntervalBlock newIntervalBlockWithUsagePoint() {
@@ -183,6 +188,34 @@ public class EspiFactory {
         summary.setPreviousDayOverallConsumption(summaryMeasurement);
         summary.setRatchetDemand(summaryMeasurement);
         summary.setRatchetDemandPeriod(new DateTimeInterval(1119600L, 1119600L));
+
+        return summary;
+    }
+
+    private static ElectricPowerQualitySummary newElectricPowerQualitySummary() {
+        ElectricPowerQualitySummary summary = new ElectricPowerQualitySummary();
+
+        summary.setMRID("DEB0A337-C1B5-4658-99BA-4688E253A99B");
+        summary.setDescription("Quality Summary");
+        summary.setFlickerPlt(1L);
+        summary.setFlickerPst(2L);
+        summary.setHarmonicVoltage(3L);
+        summary.setLongInterruptions(4L);
+        summary.setMainsVoltage(5L);
+        summary.setMeasurementProtocol((short) 6);
+        summary.setPowerFrequency(7L);
+        summary.setRapidVoltageChanges(8L);
+        summary.setShortInterruptions(9L);
+
+        DateTimeInterval summaryInterval = new DateTimeInterval();
+        summaryInterval.setDuration(2119600L);
+        summaryInterval.setStart(2330578000L);
+
+        summary.setSummaryInterval(summaryInterval);
+        summary.setSupplyVoltageDips(10L);
+        summary.setSupplyVoltageImbalance(11L);
+        summary.setSupplyVoltageVariations(12L);
+        summary.setTempOvervoltage(13L);
 
         return summary;
     }
