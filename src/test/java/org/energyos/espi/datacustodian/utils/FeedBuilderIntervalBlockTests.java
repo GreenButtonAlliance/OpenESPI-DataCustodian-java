@@ -59,7 +59,7 @@ public class FeedBuilderIntervalBlockTests {
     @Before
     public void setup() throws IOException, JAXBException, FeedException {
         XMLUnit.getControlDocumentBuilderFactory().setNamespaceAware(false);
-        ClassPathResource sourceFile = new ClassPathResource("/fixtures/15minLP_15Days.xml");
+        ClassPathResource sourceFile = new ClassPathResource("/fixtures/test_usage_data.xml");
         FeedBuilder builder = new FeedBuilder();
         RetailCustomer customer = new RetailCustomer();
         customer.setId(4L);
