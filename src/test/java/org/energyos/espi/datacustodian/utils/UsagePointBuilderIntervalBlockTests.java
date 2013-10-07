@@ -46,7 +46,7 @@ public class UsagePointBuilderIntervalBlockTests {
 
     @Before
     public void before() throws IOException, JAXBException {
-        ClassPathResource sourceFile = new ClassPathResource("/fixtures/15minLP_15Days.xml");
+        ClassPathResource sourceFile = new ClassPathResource("/fixtures/test_usage_data.xml");
         FeedType feedType = marshaller.unmarshal(sourceFile.getInputStream());
 
         UsagePointBuilder builder = new UsagePointBuilder();
