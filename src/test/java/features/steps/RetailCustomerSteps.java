@@ -204,4 +204,10 @@ public class RetailCustomerSteps {
     public void the_XML_includes_Reading_Qualities() throws Throwable {
         assertXpathValue("quality1", "feed/entry[4]/content/IntervalBlock[1]/IntervalReading[1]/ReadingQuality[1]", xmlResult);
     }
+
+    @Then("^the XML includes Electric Power Quality Summary$")
+    public void the_XML_includes_Electric_Power_Quality_Summary() throws Throwable {
+        assertXpathValue("Quality Summary", "feed/entry/content/ElectricPowerQualitySummary/../../title", xmlResult);
+        assertXpathValue("2119600", "feed/entry[6]/content/ElectricPowerQualitySummary/summaryInterval/duration", xmlResult);
+    }
 }
