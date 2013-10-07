@@ -1,8 +1,6 @@
 OpenESPI-DataCustodian
 ======================
 
-Test Comment: Marty 10/7/2013
-
 The Open Energy Services Provider Interface (ESPI) Data Custodian Repository Providing implementations of the interface used to provide energy usage information to retail customers and third parties.
 
 ## Setup
