@@ -17,40 +17,79 @@
 package org.energyos.espi.datacustodian.utils;
 
 
-import com.sun.syndication.feed.atom.Entry;
 import com.sun.syndication.feed.atom.Feed;
 import com.sun.syndication.io.FeedException;
-import org.energyos.espi.datacustodian.atom.ElectricPowerUsageSummaryEntry;
+import org.energyos.espi.datacustodian.atom.*;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.bind.JAXBException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
-import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
-@Transactional
-public class FeedBuilderElectricPowerUsageSummaryTests {
+public class FeedBuilderTests {
 
-    @Test
-    public void includesElectricPowerUsageSummaryEntry() throws JAXBException, FeedException {
+    private Feed feed;
+
+    @Before
+    public void before() throws FeedException {
         List<UsagePoint> usagePoints = new ArrayList<>();
         usagePoints.add(newUsagePoint());
 
         FeedBuilder builder = new FeedBuilder();
-        Feed feed = builder.buildFeed(usagePoints);
+        feed = builder.buildFeed(usagePoints);
+    }
 
-        assertEquals(ElectricPowerUsageSummaryEntry.class, feed.getEntries().get(4).getClass());
+    @Test
+    public void includesIntervalBlockEntry() {
+        assertHasEntry(feed, IntervalBlocksEntry.class);
+    }
+
+    @Test
+    public void includesMeterReadingEntry() {
+        assertHasEntry(feed, MeterReadingEntry.class);
+    }
+
+    @Test
+    public void includesElectricPowerQualitySummaryEntry() {
+        assertHasEntry(feed, ElectricPowerQualitySummaryEntry.class);
+    }
+
+    @Test
+    public void includesElectricPowerUsageSummaryEntry() {
+        assertHasEntry(feed, ElectricPowerUsageSummaryEntry.class);
+    }
+
+    @Test
+    public void includesReadingTypeEntry() {
+        assertHasEntry(feed, ReadingTypeEntry.class);
+    }
+
+    @Test
+    public void includesUsagePointEntry() {
+        assertHasEntry(feed, UsagePointEntry.class);
+    }
+
+    public void assertHasEntry(Feed feed, Class expected) {
+        assertTrue(hasEntry(feed, expected));
+    }
+
+    private boolean hasEntry(Feed feed, Class expected) {
+        for (Object entry : feed.getEntries()) {
+            if (entry.getClass().equals(expected)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
