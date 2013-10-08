@@ -41,6 +41,13 @@
                 <profile>heroku</profile>
             </properties>
         </profile>
+
+        <profile>
+            <id>ec2</id>
+            <properties>
+                <profile>ec2</profile>
+            </properties>
+        </profile>
     </profiles>
 
     <properties>
