@@ -20,8 +20,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import java.util.List;
-
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -68,6 +66,11 @@ public class SharedSteps {
         WebElement element = driver.findElement(By.cssSelector(".reading-qualities"));
 
         assertThat(element.getText(), containsString("8"));
+    }
+
+    public static void assertLocalTimeParameters() {
+        assertTrue(driver.getPageSource().contains("Local time zone offset from UTCTime"));
+        assertTrue(driver.getPageSource().contains("-18000"));
     }
 
     public static void assertQualitySummary() {

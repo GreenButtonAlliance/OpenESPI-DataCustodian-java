@@ -100,6 +100,7 @@ public class RetailCustomerSteps {
         SharedSteps.assertUsagePoint();
         SharedSteps.assertUsageSummary();
         SharedSteps.assertQualitySummary();
+        SharedSteps.assertLocalTimeParameters();
 
         clickLinkByText("Fifteen Minute Electricity Consumption");
         SharedSteps.assertMeterReading();

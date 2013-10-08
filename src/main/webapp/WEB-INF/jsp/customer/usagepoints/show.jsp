@@ -103,6 +103,21 @@
                 </c:forEach>
                 </tbody>
             </table>
+            <table class="table table-striped">
+                <caption class="text-left">Local Time Parameters:</caption>
+                <thead>
+                <tr>
+                    <th>Local time zone offset from UTCTime</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <c:out value="${usagePoint.localTimeParameters.tzOffset}"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
