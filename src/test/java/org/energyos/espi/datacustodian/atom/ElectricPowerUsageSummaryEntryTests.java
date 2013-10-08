@@ -42,7 +42,7 @@ public class ElectricPowerUsageSummaryEntryTests {
 
     @Test
     public void selfHref() {
-        assertEquals("RetailCustomer/88/ElectricPowerUsageSummary/1", entry.getSelfHref());
+        assertEquals("RetailCustomer/88/UsagePoint/99/ElectricPowerUsageSummary/1", entry.getSelfHref());
     }
 
     @Test

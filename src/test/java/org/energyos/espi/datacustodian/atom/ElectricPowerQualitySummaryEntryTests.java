@@ -42,7 +42,7 @@ public class ElectricPowerQualitySummaryEntryTests {
 
     @Test
     public void selfHref() {
-        assertEquals("RetailCustomer/88/ElectricPowerQualitySummary/1", entry.getSelfHref());
+        assertEquals("RetailCustomer/88/UsagePoint/99/ElectricPowerQualitySummary/1", entry.getSelfHref());
     }
 
     @Test

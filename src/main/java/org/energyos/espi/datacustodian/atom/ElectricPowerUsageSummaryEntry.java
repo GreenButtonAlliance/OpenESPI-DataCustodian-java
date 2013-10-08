@@ -29,6 +29,7 @@ public class ElectricPowerUsageSummaryEntry extends EspiEntry<ElectricPowerUsage
 
     protected String getSelfHref() {
         return "RetailCustomer/" + espiObject.getUsagePoint().getRetailCustomer().getId() +
+                "/UsagePoint/" + espiObject.getUsagePoint().getId() +
                 "/ElectricPowerUsageSummary/" + espiObject.getId();
     }
 

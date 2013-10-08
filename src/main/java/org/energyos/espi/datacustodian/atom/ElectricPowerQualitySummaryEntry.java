@@ -29,6 +29,7 @@ public class ElectricPowerQualitySummaryEntry extends EspiEntry<ElectricPowerQua
 
     protected String getSelfHref() {
         return "RetailCustomer/" + espiObject.getUsagePoint().getRetailCustomer().getId() +
+                "/UsagePoint/" + espiObject.getUsagePoint().getId() +
                 "/ElectricPowerQualitySummary/" + espiObject.getId();
     }
 
