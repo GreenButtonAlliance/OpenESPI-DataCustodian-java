@@ -135,4 +135,9 @@ public class UsagePointTests extends XMLTest {
     public void electricPowerUsageSummaries_hasTransientAnnotation() {
         assertAnnotationPresent(UsagePoint.class, "electricPowerUsageSummaries", XmlTransient.class);
     }
+
+    @Test
+    public void localTimeParameters_hasTransientAnnotation() {
+        assertAnnotationPresent(UsagePoint.class, "localTimeParameters", XmlTransient.class);
+    }
 }

@@ -108,6 +108,11 @@ public class UsagePoint
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<ElectricPowerQualitySummary> electricPowerQualitySummaries = new ArrayList<>();
 
+    @XmlTransient
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "local_time_parameters_id")
+    private TimeConfiguration localTimeParameters;
+
     @Override
     @NotEmpty
     public String getMRID() {
@@ -232,5 +237,13 @@ public class UsagePoint
     public void addElectricPowerQualitySummary(ElectricPowerQualitySummary electricPowerQualitySummary) {
         electricPowerQualitySummary.setUsagePoint(this);
         electricPowerQualitySummaries.add(electricPowerQualitySummary);
+    }
+
+    public TimeConfiguration getLocalTimeParameters() {
+        return localTimeParameters;
+    }
+
+    public void setLocalTimeParameters(TimeConfiguration localTimeParameters) {
+        this.localTimeParameters = localTimeParameters;
     }
 }
