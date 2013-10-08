@@ -38,6 +38,7 @@ public class EspiFactory {
         usagePoint.addMeterReading(newMeterReading());
         usagePoint.addElectricPowerUsageSummary(newElectricPowerUsageSummary());
         usagePoint.addElectricPowerQualitySummary(newElectricPowerQualitySummary());
+        usagePoint.setLocalTimeParameters(newLocalTimeParameters());
 
         return usagePoint;
     }
@@ -52,6 +53,10 @@ public class EspiFactory {
 
     public static ElectricPowerQualitySummary newElectricPowerQualitySummaryWithUsagePoint() {
         return newUsagePoint().getElectricPowerQualitySummaries().get(0);
+    }
+
+    public static TimeConfiguration newTimeConfigurationWithUsagePoint() {
+        return newUsagePoint().getLocalTimeParameters();
     }
 
     public static IntervalBlock newIntervalBlockWithUsagePoint() {
@@ -79,6 +84,17 @@ public class EspiFactory {
         meterReading.setReadingType(newReadingType());
 
         return meterReading;
+    }
+
+    private static TimeConfiguration newLocalTimeParameters() {
+        TimeConfiguration timeConfiguration = new TimeConfiguration();
+
+        timeConfiguration.setDstEndRule("foo".getBytes());
+        timeConfiguration.setDstOffset(1000L);
+        timeConfiguration.setDstStartRule("bar".getBytes());
+        timeConfiguration.setTzOffset(1234L);
+
+        return timeConfiguration;
     }
 
     public static ReadingType newReadingType() {

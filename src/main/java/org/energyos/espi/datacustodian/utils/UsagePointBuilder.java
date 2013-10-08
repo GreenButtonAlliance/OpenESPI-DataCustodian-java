@@ -57,12 +57,16 @@ public class UsagePointBuilder {
                 handle(entry, content.getElectricPowerUsageSummary());
             } else if (content.getElectricPowerQualitySummary() != null) {
                 handle(entry, content.getElectricPowerQualitySummary());
+            } else if (content.getLocalTimeParameters() != null) {
+                handle(entry, content.getLocalTimeParameters());
             }
         }
     }
 
     private void handle(EntryType entry, UsagePoint usagePoint) {
         updateEntity(usagePoint, entry);
+
+        usagePoint.setLocalTimeParameters(findLocalTimeParameters(entry));
 
         usagePoints.add(usagePoint);
     }
@@ -79,6 +83,10 @@ public class UsagePointBuilder {
 
     private void handle(EntryType entry, ReadingType readingType) {
         updateEntity(readingType, entry);
+    }
+
+    private void handle(EntryType entry, TimeConfiguration timeConfiguration) {
+        updateEntity(timeConfiguration, entry);
     }
 
     private void handle(EntryType entry, IntervalBlock intervalBlock) {
@@ -106,6 +114,15 @@ public class UsagePointBuilder {
         for (EntryType relatedEntry : lookup.getRelatedEntries(entry)) {
             if (relatedEntry != entry) {
                 return relatedEntry.getContent().getReadingType();
+            }
+        }
+        return null;
+    }
+
+    private TimeConfiguration findLocalTimeParameters(EntryType entry) {
+        for (EntryType relatedEntry : lookup.getRelatedEntries(entry)) {
+            if (relatedEntry != entry) {
+                return relatedEntry.getContent().getLocalTimeParameters();
             }
         }
         return null;

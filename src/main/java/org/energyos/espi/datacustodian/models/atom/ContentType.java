@@ -70,6 +70,7 @@ import java.util.Map;
         "electricPowerUsageSummary",
         "electricPowerQualitySummary",
         "readingType",
+        "localTimeParameters",
         "content"
 })
 public class ContentType {
@@ -132,6 +133,12 @@ public class ContentType {
     })
     @XmlAnyElement(lax = true)
     protected ReadingType readingType;
+
+    @XmlElementRefs({
+            @XmlElementRef(name = "LocalTimeParameters", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
+    })
+    @XmlAnyElement(lax = true)
+    private TimeConfiguration localTimeParameters;
 
     public UsagePoint getUsagePoint() {
         return usagePoint;
@@ -293,5 +300,13 @@ public class ContentType {
 
     public void setElectricPowerQualitySummary(ElectricPowerQualitySummary electricPowerQualitySummary) {
         this.electricPowerQualitySummary = electricPowerQualitySummary;
+    }
+
+    public TimeConfiguration getLocalTimeParameters() {
+        return localTimeParameters;
+    }
+
+    public void setLocalTimeParameters(TimeConfiguration localTimeParameters) {
+        this.localTimeParameters = localTimeParameters;
     }
 }

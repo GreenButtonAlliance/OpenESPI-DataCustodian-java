@@ -111,6 +111,15 @@ public class ATOMMarshallerTests {
     }
 
     @Test
+    public void unmarshall_TimeConfiguration() throws JAXBException {
+        String espiXml = "<LocalTimeParameters xmlns=\"http://naesb.org/espi\"/>";
+
+        TimeConfiguration timeConfiguration = unmarshalToContentType(espiXml).getLocalTimeParameters();
+
+        assertNotNull(timeConfiguration);
+    }
+
+    @Test
     public void marshal_usagePointContent() throws FeedException, SAXException, IOException, XpathException {
         String xmlResult = marshaller.marshal(newFeed());
 
