@@ -24,21 +24,22 @@
 
 package org.energyos.espi.datacustodian.domain;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import org.energyos.espi.datacustodian.models.atom.adapters.TimeConfigurationAdapter;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
  * Contains attributes related to the configuration of the time service.
- * 
+ *
  * <p>Java class for TimeConfiguration complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="TimeConfiguration">
  *   &lt;complexContent>
@@ -53,8 +54,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TimeConfiguration", propOrder = {
@@ -63,6 +64,10 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "dstStartRule",
     "tzOffset"
 })
+@XmlJavaTypeAdapter(TimeConfigurationAdapter.class)
+@XmlRootElement(name = "TimeConfiguration")
+@Entity
+@Table(name = "time_configurations")
 public class TimeConfiguration
     extends IdentifiedObject
 {
@@ -78,11 +83,11 @@ public class TimeConfiguration
 
     /**
      * Gets the value of the dstEndRule property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public byte[] getDstEndRule() {
         return dstEndRule;
@@ -90,11 +95,11 @@ public class TimeConfiguration
 
     /**
      * Sets the value of the dstEndRule property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setDstEndRule(byte[] value) {
         this.dstEndRule = value;
@@ -102,7 +107,7 @@ public class TimeConfiguration
 
     /**
      * Gets the value of the dstOffset property.
-     * 
+     *
      */
     public long getDstOffset() {
         return dstOffset;
@@ -110,7 +115,7 @@ public class TimeConfiguration
 
     /**
      * Sets the value of the dstOffset property.
-     * 
+     *
      */
     public void setDstOffset(long value) {
         this.dstOffset = value;
@@ -118,11 +123,11 @@ public class TimeConfiguration
 
     /**
      * Gets the value of the dstStartRule property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public byte[] getDstStartRule() {
         return dstStartRule;
@@ -130,11 +135,11 @@ public class TimeConfiguration
 
     /**
      * Sets the value of the dstStartRule property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setDstStartRule(byte[] value) {
         this.dstStartRule = value;
@@ -142,7 +147,7 @@ public class TimeConfiguration
 
     /**
      * Gets the value of the tzOffset property.
-     * 
+     *
      */
     public long getTzOffset() {
         return tzOffset;
@@ -150,7 +155,7 @@ public class TimeConfiguration
 
     /**
      * Sets the value of the tzOffset property.
-     * 
+     *
      */
     public void setTzOffset(long value) {
         this.tzOffset = value;
