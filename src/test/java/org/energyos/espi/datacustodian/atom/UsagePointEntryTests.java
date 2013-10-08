@@ -57,5 +57,6 @@ public class UsagePointEntryTests extends XMLTest {
     public void relatedLinks() {
         assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading", findRelatedHref(entry, "MeterReading"));
         assertEquals("RetailCustomer/88/UsagePoint/99/ElectricPowerUsageSummary", findRelatedHref(entry, "ElectricPowerUsageSummary"));
+        assertEquals("RetailCustomer/88/UsagePoint/99/ElectricPowerQualitySummary", findRelatedHref(entry, "ElectricPowerQualitySummary"));
     }
 }
