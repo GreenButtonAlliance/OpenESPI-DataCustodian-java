@@ -98,7 +98,7 @@
                                     <c:out value="${intervalReading.timePeriod.start}"/>
                                 </td>
                                 <td>
-                                    <ul>
+                                    <ul class="reading-qualities">
                                         <c:forEach var="readingQuality" items="${intervalReading.readingQualities}">
                                             <li>
                                                 <c:out value="${readingQuality.quality}"/>

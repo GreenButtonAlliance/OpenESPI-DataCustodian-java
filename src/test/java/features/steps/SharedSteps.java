@@ -16,8 +16,14 @@
 
 package features.steps;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class SharedSteps {
@@ -59,7 +65,9 @@ public class SharedSteps {
     }
 
     static void assertReadingQualities() {
-        assertTrue(driver.getPageSource().contains("quality1"));
+        WebElement element = driver.findElement(By.cssSelector(".reading-qualities"));
+
+        assertThat(element.getText(), containsString("8"));
     }
 
     public static void assertQualitySummary() {
