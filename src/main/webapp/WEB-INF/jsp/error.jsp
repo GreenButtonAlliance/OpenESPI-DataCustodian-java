@@ -1,3 +1,4 @@
+<%@ page isErrorPage="true" import="java.io.PrintWriter"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   ~ Copyright 2013 EnergyOS.org
@@ -29,7 +30,9 @@
         <div class="span12">
             <h2>Application Error</h2>
 
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquam, tellus a facilisis mattis, nisl nibh volutpat risus, eu dictum nibh magna euismod mi. Aenean id mauris sed quam gravida pharetra eu quis erat. In tincidunt elit quis nisl sollicitudin euismod. Maecenas in auctor lorem. Nunc nec lorem ut ante placerat consectetur. Duis volutpat velit eu faucibus fermentum. Pellentesque tempor arcu at felis scelerisque, sed semper magna hendrerit. Donec at turpis ac magna suscipit pellentesque. Praesent eu hendrerit lectus. Vivamus et ornare turpis. Vivamus bibendum odio in nisi laoreet, eget accumsan nibh posuere. Donec vel nunc placerat, gravida neque nec, vestibulum nibh. Nulla id nisi a mi porta tincidunt hendrerit non ante.</p>
+            <p>Please contact support.</p>
+
+            <pre><% exception.printStackTrace(new PrintWriter(out)); %></pre>
         </div>
     </div>
 
