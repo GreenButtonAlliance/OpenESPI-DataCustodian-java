@@ -34,8 +34,13 @@ import java.util.UUID;
 public class TestUtils {
 
     public static void assertAnnotationPresent(Class clazz, String fieldName, Class annotationClass) {
-        if(getAnnotation(clazz, fieldName, annotationClass) == null)
+        if (getAnnotation(clazz, fieldName, annotationClass) == null)
             throw new AssertionFailedError(String.format("'%s' annotation is missing for field '%s'", annotationClass.getCanonicalName(), fieldName));
+    }
+
+    public static void assertAnnotationPresent(Class clazz, Class annotationClass) {
+        if (getAnnotation(clazz, annotationClass) == null)
+            throw new AssertionFailedError(String.format("'%s' annotation is missing for class '%s'", annotationClass.getCanonicalName(), clazz));
     }
 
     public static void assertSizeValidation(Class clazz, String fieldName, int min, int max) {
@@ -61,9 +66,20 @@ public class TestUtils {
             throw new AssertionFailedError(String.format("'%s' is missing field '%s'", clazz.getCanonicalName(), fieldName));
         }
 
+        Annotation[] annotations = field.getAnnotations();
+        return findAnnotation(annotationClass, annotations);
+    }
+
+    private static Annotation getAnnotation(Class clazz, Class annotationClass) {
+        Annotation[] annotations = clazz.getAnnotations();
+
+        return findAnnotation(annotationClass, annotations);
+    }
+
+    private static Annotation findAnnotation(Class annotationClass, Annotation[] annotations) {
         Annotation foundAnnotation = null;
 
-        for (Annotation annotation : field.getAnnotations()) {
+        for (Annotation annotation : annotations) {
             if (annotation.annotationType().equals(annotationClass)) {
                 foundAnnotation = annotation;
                 break;
