@@ -119,21 +119,21 @@ permissions and limitations under the License.
                 </interval>
                 <IntervalReading>
                     <cost>974</cost>
+                    <ReadingQuality>
+                        <quality>8</quality>
+                    </ReadingQuality>
                     <timePeriod>
                         <duration>900</duration>
                         <start>1330578000</start>
                         <!-- 3/1/2012 5:00:00 AM  -->
                     </timePeriod>
-                    <ReadingQuality>
-                        <quality>quality1</quality>
-                    </ReadingQuality>
-                    <ReadingQuality>
-                        <quality>quality2</quality>
-                    </ReadingQuality>
                     <value>324</value>
                 </IntervalReading>
                 <IntervalReading>
                     <cost>965</cost>
+                    <ReadingQuality>
+                        <quality>7</quality>
+                    </ReadingQuality>
                     <timePeriod>
                         <duration>900</duration>
                         <start>1330578900</start>
@@ -12350,10 +12350,6 @@ permissions and limitations under the License.
         <title>Quality Summary</title>
         <content>
             <ElectricPowerQualitySummary xmlns="http://naesb.org/espi">
-                <summaryInterval>
-                    <duration>2119600</duration>
-                    <start>2330578000</start>
-                </summaryInterval>
                 <flickerPlt>1</flickerPlt>
                 <flickerPst>2</flickerPst>
                 <harmonicVoltage>3</harmonicVoltage>
@@ -12363,6 +12359,10 @@ permissions and limitations under the License.
                 <powerFrequency>7</powerFrequency>
                 <rapidVoltageChanges>8</rapidVoltageChanges>
                 <shortInterruptions>9</shortInterruptions>
+                <summaryInterval>
+                    <duration>2119600</duration>
+                    <start>2330578000</start>
+                </summaryInterval>
                 <supplyVoltageDips>10</supplyVoltageDips>
                 <supplyVoltageImbalance>11</supplyVoltageImbalance>
                 <supplyVoltageVariations>12</supplyVoltageVariations>
