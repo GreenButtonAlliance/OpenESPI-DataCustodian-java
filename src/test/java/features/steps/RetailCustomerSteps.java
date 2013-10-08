@@ -202,7 +202,7 @@ public class RetailCustomerSteps {
 
     @And("^the XML includes Reading Qualities$")
     public void the_XML_includes_Reading_Qualities() throws Throwable {
-        assertXpathValue("quality1", "feed/entry[4]/content/IntervalBlock[1]/IntervalReading[1]/ReadingQuality[1]", xmlResult);
+        assertXpathValue("8", "feed/entry[4]/content/IntervalBlock[1]/IntervalReading[1]/ReadingQuality[1]", xmlResult);
     }
 
     @Then("^the XML includes Electric Power Quality Summary$")
