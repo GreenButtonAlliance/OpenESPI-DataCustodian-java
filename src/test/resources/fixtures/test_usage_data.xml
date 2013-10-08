@@ -12312,7 +12312,7 @@ permissions and limitations under the License.
     </entry>
     <entry>
         <id>urn:uuid:DEB0A337-B1B5-4658-99CA-4688E253A99B</id>
-        <link rel="self" href="RetailCustomer/9b6c7063/ElectricPowerUsageSummary/01"/>
+        <link rel="self" href="RetailCustomer/9b6c7063/UsagePoint/01/ElectricPowerUsageSummary/01"/>
         <link rel="up" type="" href="RetailCustomer/9b6c7063/UsagePoint/01/ElectricPowerUsageSummary"/>
         <title>Usage Summary</title>
         <content>
@@ -12345,7 +12345,7 @@ permissions and limitations under the License.
     </entry>
     <entry>
         <id>urn:uuid:DEB0A337-C1B5-4658-99BA-4688E253A99B</id>
-        <link rel="self" href="RetailCustomer/9b6c7063/ElectricPowerQualitySummary/01"/>
+        <link rel="self" href="RetailCustomer/9b6c7063/UsagePoint/01/ElectricPowerQualitySummary/01"/>
         <link rel="up" type="" href="RetailCustomer/9b6c7063/UsagePoint/01/ElectricPowerQualitySummary"/>
         <title>Quality Summary</title>
         <content>
