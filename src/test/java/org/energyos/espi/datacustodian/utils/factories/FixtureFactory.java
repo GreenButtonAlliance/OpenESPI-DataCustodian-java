@@ -18,7 +18,7 @@ public class FixtureFactory {
     public static String newUsagePointXML(UUID uuid) throws IOException {
         ClassPathResource sourceFile = new ClassPathResource("/fixtures/test_usage_data.xml");
         String xml = FileUtils.readFileToString(sourceFile.getFile());
-        xml = xml.replaceFirst("7BC41774-7190-4864-841C-861AC76D46C2", uuid.toString());
+        xml = xml.replaceFirst("48C2A019-5598-4E16-B0F9-49E4FF27F5FB", uuid.toString());
         return xml;
     }
 }

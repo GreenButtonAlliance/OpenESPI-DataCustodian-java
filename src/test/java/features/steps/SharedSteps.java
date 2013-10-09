@@ -33,7 +33,7 @@ public class SharedSteps {
     }
 
     static void assertReadingType() {
-        assertTrue(driver.getPageSource().contains("Energy Delivered (kWh)"));
+        assertTrue(driver.getPageSource().contains("Type of Meter Reading Data"));
         assertTrue(driver.getPageSource().contains("840"));
         assertTrue(driver.getPageSource().contains("12"));
         assertTrue(driver.getPageSource().contains("1/2"));
