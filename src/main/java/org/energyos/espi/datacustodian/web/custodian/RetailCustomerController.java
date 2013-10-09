@@ -22,14 +22,16 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
+import org.springframework.validation.Validator;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/custodian/retailcustomers")
@@ -41,6 +43,11 @@ public class RetailCustomerController {
 
     public void setService(RetailCustomerService service) {
         this.service = service;
+    }
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(new RetailCustomerValidator());
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -62,11 +69,7 @@ public class RetailCustomerController {
         if (result.hasErrors()) {
             return "retailcustomers/form";
         } else {
-            try {
-                service.persist(retailCustomer);
-            } catch (ConstraintViolationException x) {
-                return "retailcustomers/form";
-            }
+            service.persist(retailCustomer);
             return "redirect:/custodian/retailcustomers";
         }
     }
@@ -76,5 +79,19 @@ public class RetailCustomerController {
         RetailCustomer retailCustomer = service.findById(retailCustomerId);
         model.put("retailCustomer", retailCustomer);
         return "/custodian/retailcustomers/show";
+    }
+
+    public static class RetailCustomerValidator implements Validator {
+
+        public boolean supports(Class clazz) {
+            return RetailCustomer.class.isAssignableFrom(clazz);
+        }
+
+        public void validate(Object target, Errors errors) {
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "field.required", "Username is required");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "field.required", "Password is required");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "field.required", "First name is required");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "field.required", "Last name is required");
+        }
     }
 }
