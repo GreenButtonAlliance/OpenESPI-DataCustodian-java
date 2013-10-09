@@ -18,9 +18,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/spring/test-context.xml")
@@ -41,6 +39,62 @@ public class UsagePointServiceTests {
         assertNotNull(usagePointService.findByUUID(uuid));
         assertEquals(retailCustomer.getId(), usagePointService.findByUUID(uuid).getRetailCustomer().getId());
         assertTrue(usagePointService.findAllByRetailCustomer(retailCustomer).size() > 0);
+    }
+
+    @Test
+    public void associateByUUID_existingUsagePoint() {
+        RetailCustomer retailCustomer = EspiFactory.newRetailCustomer();
+        retailCustomerService.persist(retailCustomer);
+
+        UsagePoint usagePoint = EspiFactory.newUsagePoint(retailCustomer);
+
+        usagePoint.setRetailCustomer(null);
+        usagePointService.persist(usagePoint);
+
+        usagePointService.associateByUUID(retailCustomer, usagePoint.getUUID());
+
+        UsagePoint existingUsagePoint = usagePointService.findByUUID(usagePoint.getUUID());
+
+        assertNotNull(existingUsagePoint.getRetailCustomer());
+        assertEquals(retailCustomer.getId(), existingUsagePoint.getRetailCustomer().getId());
+    }
+
+    @Test
+    public void createOrReplacebyUUID_existingUsagePoint_persistsLocalTimeParameters() {
+        RetailCustomer retailCustomer = EspiFactory.newRetailCustomer();
+        retailCustomerService.persist(retailCustomer);
+
+        UsagePoint usagePoint = EspiFactory.newUsagePoint(null);
+        usagePointService.persist(usagePoint);
+
+        UsagePoint newUsagePoint = EspiFactory.newUsagePoint(retailCustomer);
+        newUsagePoint.setUUID(usagePoint.getUUID());
+        newUsagePoint.setLocalTimeParameters(null);
+
+        usagePointService.createOrReplaceByUUID(newUsagePoint);
+
+        UsagePoint existingUsagePoint = usagePointService.findByUUID(newUsagePoint.getUUID());
+
+        assertNotNull(existingUsagePoint.getLocalTimeParameters());
+    }
+
+    @Test
+    public void createOrReplacebyUUID_existingUsagePoint_associatesRetailCustomer() {
+        RetailCustomer retailCustomer = EspiFactory.newRetailCustomer();
+        retailCustomerService.persist(retailCustomer);
+
+        UsagePoint usagePoint = EspiFactory.newUsagePoint(null);
+        usagePointService.persist(usagePoint);
+
+        UsagePoint newUsagePoint = EspiFactory.newUsagePoint(retailCustomer);
+        newUsagePoint.setUUID(usagePoint.getUUID());
+
+
+        usagePointService.createOrReplaceByUUID(newUsagePoint);
+
+        UsagePoint existingUsagePoint = usagePointService.findByUUID(newUsagePoint.getUUID());
+
+        assertEquals(retailCustomer.getId(), existingUsagePoint.getRetailCustomer().getId());
     }
 
     @Test

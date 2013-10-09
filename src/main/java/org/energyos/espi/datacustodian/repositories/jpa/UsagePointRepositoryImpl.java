@@ -69,8 +69,14 @@ public class UsagePointRepositoryImpl implements UsagePointRepository {
         try {
             UsagePoint existingUsagePoint = findByUUID(usagePoint.getUUID());
             usagePoint.setId(existingUsagePoint.getId());
-            if (usagePoint.getRetailCustomer() == null)
+            if (usagePoint.getRetailCustomer() == null) {
                 usagePoint.setRetailCustomer(existingUsagePoint.getRetailCustomer());
+            }
+
+            if (existingUsagePoint.getLocalTimeParameters() != null) {
+                usagePoint.setLocalTimeParameters(existingUsagePoint.getLocalTimeParameters());
+            }
+
             em.merge(usagePoint);
         } catch (NoResultException e) {
             persist(usagePoint);
