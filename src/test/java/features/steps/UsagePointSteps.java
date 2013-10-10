@@ -54,7 +54,7 @@ public class UsagePointSteps {
         String xmlResult = driver.getPageSource();
 
         assertXpathExists("feed/entry[1]/content/UsagePoint", xmlResult);
-        assertXpathValue("House meter", "feed/entry[1]/title", xmlResult);
+        assertXpathValue("Front Electric Meter", "feed/entry[1]/title", xmlResult);
 
         assertXpathExists("feed/entry[2]/content/UsagePoint", xmlResult);
         assertXpathValue("Gas meter", "feed/entry[2]/title", xmlResult);

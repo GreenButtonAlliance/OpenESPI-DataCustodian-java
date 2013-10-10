@@ -24,6 +24,6 @@ public class APISteps {
     public void I_should_see_Usage_Points() throws Throwable {
         assertXpathExists("/feed", driver.getPageSource());
         assertXpathExists("/feed/entry", driver.getPageSource());
-        assertXpathValue("House meter", "/feed/entry[1]/title", driver.getPageSource());
+        assertXpathValue("Front Electric Meter", "/feed/entry[1]/title", driver.getPageSource());
     }
 }
