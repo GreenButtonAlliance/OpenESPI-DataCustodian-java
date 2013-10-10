@@ -2,6 +2,7 @@ package org.energyos.espi.datacustodian.utils;
 
 import com.sun.syndication.io.FeedException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
+import org.energyos.espi.datacustodian.atom.XMLTest;
 import org.energyos.espi.datacustodian.domain.*;
 import org.energyos.espi.datacustodian.models.atom.ContentType;
 import org.energyos.espi.datacustodian.models.atom.FeedType;
@@ -27,7 +28,7 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
-public class ATOMMarshallerTests {
+public class ATOMMarshallerTests extends XMLTest {
 
     String FEED_PREFIX = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
             "<?xml-stylesheet type=\"text/xsl\" href=\"GreenButtonDataStyleSheet.xslt\"?>" +

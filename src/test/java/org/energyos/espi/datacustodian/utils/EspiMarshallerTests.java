@@ -17,6 +17,7 @@
 package org.energyos.espi.datacustodian.utils;
 
 import org.custommonkey.xmlunit.XMLUnit;
+import org.energyos.espi.datacustodian.atom.XMLTest;
 import org.energyos.espi.datacustodian.domain.ServiceCategory;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.junit.BeforeClass;
@@ -25,12 +26,7 @@ import org.junit.Test;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.energyos.espi.datacustodian.support.Asserts.assertXpathValue;
 
-public class EspiMarshallerTests {
-
-    @BeforeClass
-    public static void before() {
-        XMLUnit.getControlDocumentBuilderFactory().setNamespaceAware(false);
-    }
+public class EspiMarshallerTests extends XMLTest {
 
     @Test
     public void marshal_with_marshallableObject_returnsValidXml() throws Exception {
