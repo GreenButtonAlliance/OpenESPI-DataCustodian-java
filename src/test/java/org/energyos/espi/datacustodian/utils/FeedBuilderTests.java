@@ -20,16 +20,12 @@ package org.energyos.espi.datacustodian.utils;
 import com.sun.syndication.feed.atom.Feed;
 import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.atom.*;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.energyos.espi.datacustodian.utils.factories.FeedFactory.newFeed;
@@ -74,6 +70,11 @@ public class FeedBuilderTests {
     @Test
     public void includesUsagePointEntry() {
         assertHasEntry(feed, UsagePointEntry.class);
+    }
+
+    @Test
+    public void includesTimeConfigurationEntry() {
+        assertHasEntry(feed, TimeConfigurationEntry.class);
     }
 
     public void assertHasEntry(Feed feed, Class expected) {

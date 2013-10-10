@@ -108,6 +108,9 @@ public class EspiFactory {
     private static TimeConfiguration newLocalTimeParameters() {
         TimeConfiguration timeConfiguration = new TimeConfiguration();
 
+        timeConfiguration.setDescription("DST For North America");
+        timeConfiguration.setMRID("54C62EBE-2DB6-4D4F-B6BF-1973A079C841");
+
         timeConfiguration.setDstEndRule("foo".getBytes());
         timeConfiguration.setDstOffset(1000L);
         timeConfiguration.setDstStartRule("bar".getBytes());

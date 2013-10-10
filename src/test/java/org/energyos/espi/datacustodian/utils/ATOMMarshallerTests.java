@@ -122,9 +122,41 @@ public class ATOMMarshallerTests extends XMLTest {
 
     @Test
     public void marshal_usagePointContent() throws FeedException, SAXException, IOException, XpathException {
-        String xmlResult = marshaller.marshal(newFeed());
+        assertXpathExists("/feed/entry/content/UsagePoint", xmlResult());
+    }
 
-        assertXpathExists("/feed/entry[1]/content/UsagePoint", xmlResult);
+    @Test
+    public void marshal_meterReadingContent() throws FeedException, SAXException, IOException, XpathException {
+        assertXpathExists("/feed/entry/content/MeterReading", xmlResult());
+    }
+
+    @Test
+    public void marshal_readingTypeContent() throws FeedException, SAXException, IOException, XpathException {
+        assertXpathExists("/feed/entry/content/ReadingType", xmlResult());
+    }
+
+    @Test
+    public void marshal_electricPowerUsageSummaryContent() throws FeedException, SAXException, IOException, XpathException {
+        assertXpathExists("/feed/entry/content/ElectricPowerUsageSummary", xmlResult());
+    }
+
+    @Test
+    public void marshal_electricPowerQualitySummaryContent() throws FeedException, SAXException, IOException, XpathException {
+        assertXpathExists("/feed/entry/content/ElectricPowerQualitySummary", xmlResult());
+    }
+
+    @Test
+    public void marshal_intervalBlockContent() throws FeedException, SAXException, IOException, XpathException {
+        assertXpathExists("/feed/entry/content/IntervalBlock", xmlResult());
+    }
+
+    @Test
+    public void marshal_localTimeParamatersContent() throws FeedException, SAXException, IOException, XpathException {
+        assertXpathExists("/feed/entry/content/LocalTimeParameters", xmlResult());
+    }
+
+    private String xmlResult() throws FeedException {
+        return marshaller.marshal(newFeed());
     }
 
     private ContentType unmarshalToContentType(String espiXml) throws JAXBException {

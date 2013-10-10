@@ -19,10 +19,7 @@ package org.energyos.espi.datacustodian.utils;
 import com.sun.syndication.feed.atom.Feed;
 import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.atom.*;
-import org.energyos.espi.datacustodian.domain.ElectricPowerQualitySummary;
-import org.energyos.espi.datacustodian.domain.ElectricPowerUsageSummary;
-import org.energyos.espi.datacustodian.domain.MeterReading;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,48 +28,69 @@ import java.util.UUID;
 @Service
 public class FeedBuilder {
 
+    private Feed feed;
+
     @SuppressWarnings("unchecked")
     public Feed buildFeed(List<UsagePoint> usagePointList) throws FeedException {
-        Feed feed = new Feed();
+        feed = new Feed();
 
         feed.setFeedType("atom_1.0");
         feed.setId(UUID.randomUUID().toString());
         feed.setTitle("UsagePoint Feed");
 
-        populateEntries(usagePointList, feed);
+        populateEntries(usagePointList);
 
         return feed;
     }
 
-    private void populateEntries(List<UsagePoint> usagePointList, Feed feed) throws FeedException {
+    private void populateEntries(List<UsagePoint> usagePointList) throws FeedException {
         for (UsagePoint usagePoint : usagePointList) {
-            UsagePointEntry usagePointEntry = new UsagePointEntry(usagePoint);
-            feed.getEntries().add(usagePointEntry);
+            feed.getEntries().add(new UsagePointEntry(usagePoint));
 
-            for(MeterReading meterReading : usagePoint.getMeterReadings()) {
-                MeterReadingEntry meterEntry = new MeterReadingEntry(meterReading);
-                feed.getEntries().add(meterEntry);
+            populateMeterReadingEntries(usagePoint);
+            populateElectricPowerUsageSummaryEntries(usagePoint);
+            populateElectricPowerQualitySummaryEntries(usagePoint);
+            populateTimeConfigurationEntry(usagePoint);
+        }
+    }
 
-                if (meterReading.getReadingType() != null) {
-                    ReadingTypeEntry readingTypeEntry = new ReadingTypeEntry(meterReading.getReadingType());
-                    feed.getEntries().add(readingTypeEntry);
-                }
+    private void populateTimeConfigurationEntry(UsagePoint usagePoint) throws FeedException {
+        TimeConfiguration timeConfiguration = usagePoint.getLocalTimeParameters();
+        if (timeConfiguration != null) {
+            feed.getEntries().add(new TimeConfigurationEntry(timeConfiguration));
+        }
+    }
 
-                if (meterReading.getIntervalBlocks().size() > 0) {
-                    IntervalBlocksEntry intervalBlocksEntry = new IntervalBlocksEntry(meterReading.getIntervalBlocks());
-                    feed.getEntries().add(intervalBlocksEntry);
-                }
-            }
+    private void populateElectricPowerQualitySummaryEntries(UsagePoint usagePoint) throws FeedException {
+        for(ElectricPowerQualitySummary summary : usagePoint.getElectricPowerQualitySummaries()) {
+            feed.getEntries().add(new ElectricPowerQualitySummaryEntry(summary));
+        }
+    }
 
-            for(ElectricPowerUsageSummary summary : usagePoint.getElectricPowerUsageSummaries()) {
-                ElectricPowerUsageSummaryEntry entry = new ElectricPowerUsageSummaryEntry(summary);
-                feed.getEntries().add(entry);
-            }
+    private void populateElectricPowerUsageSummaryEntries(UsagePoint usagePoint) throws FeedException {
+        for(ElectricPowerUsageSummary summary : usagePoint.getElectricPowerUsageSummaries()) {
+            feed.getEntries().add(new ElectricPowerUsageSummaryEntry(summary));
+        }
+    }
 
-            for(ElectricPowerQualitySummary summary : usagePoint.getElectricPowerQualitySummaries()) {
-                ElectricPowerQualitySummaryEntry entry = new ElectricPowerQualitySummaryEntry(summary);
-                feed.getEntries().add(entry);
-            }
+    private void populateMeterReadingEntries(UsagePoint usagePoint) throws FeedException {
+        for(MeterReading meterReading : usagePoint.getMeterReadings()) {
+            feed.getEntries().add(new MeterReadingEntry(meterReading));
+
+            populateReadingTypeEntry(meterReading);
+            populateIntervalBlocksEntry(meterReading);
+        }
+    }
+
+    private void populateIntervalBlocksEntry(MeterReading meterReading) throws FeedException {
+        if (meterReading.getIntervalBlocks().size() > 0) {
+            feed.getEntries().add(new IntervalBlocksEntry(meterReading.getIntervalBlocks()));
+        }
+    }
+
+    private void populateReadingTypeEntry(MeterReading meterReading) throws FeedException {
+        if (meterReading.getReadingType() != null) {
+            feed.getEntries().add(new ReadingTypeEntry(meterReading.getReadingType()));
         }
     }
 }
