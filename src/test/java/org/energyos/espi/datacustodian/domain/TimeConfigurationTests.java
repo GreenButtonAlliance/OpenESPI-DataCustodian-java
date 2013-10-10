@@ -17,17 +17,21 @@
 package org.energyos.espi.datacustodian.domain;
 
 import com.sun.syndication.io.FeedException;
+import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.atom.XMLTest;
 import org.energyos.espi.datacustodian.utils.EspiMarshaller;
-import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
 import javax.persistence.Entity;
 import javax.xml.bind.JAXBException;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
+import static org.energyos.espi.datacustodian.support.Asserts.assertXpathValue;
 import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newTimeConfigurationWithUsagePoint;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -40,11 +44,9 @@ public class TimeConfigurationTests extends XMLTest {
                     "    <dstStartRule>360E2000</dstStartRule>\n" +
                     "    <tzOffset>-18000</tzOffset>\n" +
                     "</LocalTimeParameters>";
-    private TimeConfiguration timeConfiguration;
 
-    @Before
-    public void before() throws JAXBException, FeedException {
-        timeConfiguration = EspiMarshaller.<TimeConfiguration>unmarshal(XML_INPUT).getValue();
+    private TimeConfiguration timeConfiguration() throws JAXBException {
+        return EspiMarshaller.<TimeConfiguration>unmarshal(XML_INPUT).getValue();
     }
 
     @Test
@@ -53,27 +55,51 @@ public class TimeConfigurationTests extends XMLTest {
     }
 
     @Test
-    public void unmarshalsTimeConfiguration() {
-        assertEquals(TimeConfiguration.class, timeConfiguration.getClass());
+    public void unmarshal_timeConfiguration() throws JAXBException {
+        assertEquals(TimeConfiguration.class, timeConfiguration().getClass());
     }
 
     @Test
-    public void unmarshal_setsDstEndRule() throws UnsupportedEncodingException {
-        assertTrue(Arrays.equals(timeConfiguration.getDstEndRule(), new byte[]{-76, 14, 32, 0}));
+    public void unmarshal_setsDstEndRule() throws UnsupportedEncodingException, JAXBException {
+        assertTrue(Arrays.equals(timeConfiguration().getDstEndRule(), new byte[]{-76, 14, 32, 0}));
     }
 
     @Test
-    public void unmarshal_setDstOffset() {
-        assertEquals(3600L, timeConfiguration.getDstOffset());
+    public void unmarshal_setDstOffset() throws JAXBException {
+        assertEquals(3600L, timeConfiguration().getDstOffset());
     }
 
     @Test
-    public void unmarshal_setDstStartRule() {
-        assertTrue(Arrays.equals(timeConfiguration.getDstStartRule(), new byte[]{54, 14, 32, 0}));
+    public void unmarshal_setDstStartRule() throws JAXBException {
+        assertTrue(Arrays.equals(timeConfiguration().getDstStartRule(), new byte[]{54, 14, 32, 0}));
     }
 
     @Test
-    public void unmarshal_setTzOffset() {
-        assertEquals(-18000L, timeConfiguration.getTzOffset());
+    public void unmarshal_setTzOffset() throws JAXBException {
+        assertEquals(-18000L, timeConfiguration().getTzOffset());
+    }
+
+    @Test
+    public void marshal_setsDstEndRule() throws FeedException, SAXException, IOException, XpathException {
+        assertXpathValue("666F6F", "/LocalTimeParameters/dstEndRule", xmlResult());
+    }
+
+    @Test
+    public void marshal_setsDstOffset() throws FeedException, SAXException, IOException, XpathException {
+        assertXpathValue("1000", "/LocalTimeParameters/dstOffset", xmlResult());
+    }
+
+    @Test
+    public void marshal_setsDstStartRule() throws FeedException, SAXException, IOException, XpathException {
+        assertXpathValue("626172", "/LocalTimeParameters/dstStartRule", xmlResult());
+    }
+
+    @Test
+    public void marshal_setsTzOffset() throws FeedException, SAXException, IOException, XpathException {
+       assertXpathValue("1234", "/LocalTimeParameters/tzOffset", xmlResult());
+    }
+
+    private String xmlResult() throws FeedException {
+        return EspiMarshaller.marshal(newTimeConfigurationWithUsagePoint());
     }
 }

@@ -65,7 +65,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "tzOffset"
 })
 @XmlJavaTypeAdapter(TimeConfigurationAdapter.class)
-@XmlRootElement(name = "TimeConfiguration")
+@XmlRootElement(name = "LocalTimeParameters")
 @Entity
 @Table(name = "time_configurations")
 public class TimeConfiguration
