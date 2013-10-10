@@ -26,6 +26,7 @@ public class EspiFactory {
     public static UsagePoint newUsagePointWithId(RetailCustomer retailCustomer) {
         UsagePoint usagePoint = newUsagePoint(retailCustomer);
         usagePoint.setId(2L);
+        usagePoint.getLocalTimeParameters().setId(1L);
 
         return usagePoint;
     }

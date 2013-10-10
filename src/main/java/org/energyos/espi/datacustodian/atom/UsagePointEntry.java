@@ -46,6 +46,10 @@ public class UsagePointEntry extends EspiEntry<UsagePoint> {
         if (espiObject.getElectricPowerQualitySummaries().size() > 0) {
             addRelatedLink(getSelfLink().getHref() + "/ElectricPowerQualitySummary");
         }
+
+        if (espiObject.getLocalTimeParameters() != null) {
+            addRelatedLink("LocalTimeParameters/" + espiObject.getLocalTimeParameters().getId());
+        }
     }
 }
 
