@@ -26,7 +26,7 @@ import javax.xml.bind.JAXBException;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newTimeConfigurationWithUsagePoint;
 import static org.junit.Assert.assertEquals;
 
-public class TimeConfigurationTests {
+public class TimeConfigurationEntryTests {
 
     private TimeConfigurationEntry entry;
 
