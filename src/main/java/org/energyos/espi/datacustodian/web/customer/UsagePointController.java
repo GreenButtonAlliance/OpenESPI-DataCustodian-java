@@ -16,10 +16,12 @@
 
 package org.energyos.espi.datacustodian.web.customer;
 
+import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,6 +29,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -55,5 +59,11 @@ public class UsagePointController extends BaseController {
 
     public void setUsagePointService(UsagePointService usagePointService) {
         this.usagePointService = usagePointService;
+    }
+
+    @RequestMapping(value = "/feed", method = RequestMethod.GET)
+    public void feed(HttpServletResponse response, Principal principal) throws FeedException, IOException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+        response.getWriter().write(usagePointService.exportUsagePoints(currentCustomer(principal)));
     }
 }

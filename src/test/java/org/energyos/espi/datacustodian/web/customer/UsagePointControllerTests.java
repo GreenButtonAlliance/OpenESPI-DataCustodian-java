@@ -22,6 +22,7 @@ import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.energyos.espi.datacustodian.service.impl.UsagePointServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.ModelMap;
 
@@ -30,8 +31,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class UsagePointControllerTests {
 
@@ -61,5 +61,20 @@ public class UsagePointControllerTests {
         when(service.findAllByRetailCustomer(any(RetailCustomer.class))).thenReturn(points);
 
         assertEquals(controller.usagePoints(mock(Authentication.class)), points);
+    }
+
+    @Test
+    public void feed_returnsAtomFeedOfUsagePointsForCurrentUser() throws Exception {
+        String atomFeedResult = "<?xml version=\"1.0\"?><feed></feed>";
+
+        when(service.exportUsagePoints(any(RetailCustomer.class))).thenReturn(atomFeedResult);
+
+        Authentication auth = mock(Authentication.class);
+        when(auth.getPrincipal()).thenReturn(mock(RetailCustomer.class));
+        MockHttpServletResponse response = new MockHttpServletResponse();
+
+        controller.feed(response, auth);
+        assertEquals(atomFeedResult, response.getContentAsString());
+        verify(service).exportUsagePoints(any(RetailCustomer.class));
     }
 }
