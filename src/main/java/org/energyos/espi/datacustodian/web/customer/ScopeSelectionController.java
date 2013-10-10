@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import static org.energyos.espi.datacustodian.utils.URLHelper.newScopeParams;
+
 @Controller
 @RequestMapping("/RetailCustomer")
 @PreAuthorize("hasRole('ROLE_USER')")
@@ -45,13 +47,4 @@ public class ScopeSelectionController {
         this.thirdPartyService = thirdPartyService;
     }
 
-    private String newScopeParams(String[] scopes) {
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < scopes.length; i++) {
-            if(i > 0)
-                sb.append("&");
-            sb.append("scope=" + scopes[i]);
-        }
-        return sb.toString();
-    }
 }

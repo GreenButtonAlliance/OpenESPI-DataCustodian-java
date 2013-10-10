@@ -16,8 +16,10 @@
 
 package org.energyos.espi.datacustodian.integration.customer;
 
+import org.energyos.espi.datacustodian.domain.Configuration;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
+import org.energyos.espi.datacustodian.utils.URLHelper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -74,7 +76,7 @@ public class ThirdPartyTests {
     @Test
     public void selectThirdParty_redirectsToThirdPartyUrl() throws Exception {
         String DataCustodianID = "1";
-        String redirectUrl = THIRD_PARTY_URL + "?scope=all&DataCustodianID=" + DataCustodianID;
+        String redirectUrl = THIRD_PARTY_URL + "?" + URLHelper.newScopeParams(Configuration.SCOPES) + "&DataCustodianID=" + DataCustodianID;
         mockMvc.perform(post("/RetailCustomer/1/ThirdPartyList")
                     .param("Third_party_URL", THIRD_PARTY_URL)
                     .param("Third_party", DataCustodianID)

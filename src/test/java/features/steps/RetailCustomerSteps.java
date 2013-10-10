@@ -168,12 +168,12 @@ public class RetailCustomerSteps {
 
     @Then("^I should see a Select Third Party link$")
     public void I_should_see_a_Select_Third_Party_link() throws Throwable {
-        assertNotNull(driver.findElement(By.linkText("Select Authorized Third Party")));
+        assertNotNull(driver.findElement(By.linkText("Third Parties")));
     }
 
     @When("^I click on the Select Third Party link$")
     public void I_click_on_the_Select_Third_Party_link() throws Throwable {
-        clickLinkByText("Select Authorized Third Party");
+        clickLinkByText("Third Parties");
     }
 
     @Then("^I should see the Third Party list$")
