@@ -211,4 +211,10 @@ public class RetailCustomerSteps {
         assertXpathValue("Quality Summary", "feed/entry/content/ElectricPowerQualitySummary/../../title", xmlResult);
         assertXpathValue("2119600", "feed/entry[6]/content/ElectricPowerQualitySummary/summaryInterval/duration", xmlResult);
     }
+
+    @Then("^the XML includes Local Time Parameters$")
+    public void the_XML_includes_Local_Time_Parameters() throws Throwable {
+        assertXpathValue("DST For North America", "feed/entry/content/LocalTimeParameters/../../title", xmlResult);
+        assertXpathValue("360E2000", "feed/entry/content/LocalTimeParameters/dstStartRule", xmlResult);
+    }
 }

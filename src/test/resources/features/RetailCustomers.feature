@@ -53,3 +53,4 @@ Feature: Retail Customers
     And the XML includes Interval Readings
     And the XML includes Reading Qualities
     And the XML includes Electric Power Quality Summary
+    And the XML includes Local Time Parameters
