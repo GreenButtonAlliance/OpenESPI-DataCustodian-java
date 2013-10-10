@@ -1,7 +1,9 @@
 package org.energyos.espi.datacustodian.web.customer;
 
+import org.energyos.espi.datacustodian.domain.Configuration;
 import org.energyos.espi.datacustodian.domain.ThirdParty;
 import org.energyos.espi.datacustodian.service.ThirdPartyService;
+import org.energyos.espi.datacustodian.utils.URLHelper;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.ui.ModelMap;
@@ -45,9 +47,8 @@ public class ThirdPartyControllerTest {
     @Test
     public void selectThirdParty_redirectsToThirdPartyUrl() {
         String Third_party_URL = "http://example.com";
-        String DataCustodianID = "2";
-        String redirectUrl = "redirect:" + Third_party_URL + "?scope=all&DataCustodianID=" + DataCustodianID;
+        String redirectUrl = "redirect:" + Third_party_URL + "?" + URLHelper.newScopeParams(Configuration.SCOPES) + "&DataCustodianID=" + Configuration.DATA_CUSTODIAN_ID;
 
-        assertEquals(redirectUrl, controller.selectThirdParty(Third_party_URL, DataCustodianID));
+        assertEquals(redirectUrl, controller.selectThirdParty(Third_party_URL));
     }
 }

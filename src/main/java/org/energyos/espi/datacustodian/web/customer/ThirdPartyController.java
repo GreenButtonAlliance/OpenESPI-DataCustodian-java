@@ -1,6 +1,8 @@
 package org.energyos.espi.datacustodian.web.customer;
 
+import org.energyos.espi.datacustodian.domain.Configuration;
 import org.energyos.espi.datacustodian.service.ThirdPartyService;
+import org.energyos.espi.datacustodian.utils.URLHelper;
 import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,8 +26,8 @@ public class ThirdPartyController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String selectThirdParty(@RequestParam String Third_party_URL, @RequestParam String Third_party) {
-        return "redirect:" + Third_party_URL + "?scope=all&DataCustodianID=" + Third_party;
+    public String selectThirdParty(@RequestParam("Third_party_URL") String thirdPartyURL) {
+        return "redirect:" + thirdPartyURL + "?" + URLHelper.newScopeParams(Configuration.SCOPES) + "&DataCustodianID=" + Configuration.DATA_CUSTODIAN_ID;
     }
 
     public void setThirdPartyService(ThirdPartyService thirdPartyService) {
