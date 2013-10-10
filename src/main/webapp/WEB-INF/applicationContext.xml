@@ -13,8 +13,8 @@
         http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
 
 
-    <http pattern="/oauth/2_0/token" create-session="stateless" authentication-manager-ref="clientAuthenticationManager" xmlns="http://www.springframework.org/schema/security">
-        <intercept-url pattern="/oauth/2_0/token" access="IS_AUTHENTICATED_FULLY" />
+    <http pattern="/oauth/token" create-session="stateless" authentication-manager-ref="clientAuthenticationManager" xmlns="http://www.springframework.org/schema/security">
+        <intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />
         <anonymous enabled="false" />
         <http-basic entry-point-ref="clientAuthenticationEntryPoint" />
         <custom-filter ref="clientCredentialsTokenEndpointFilter" after="BASIC_AUTH_FILTER" />
@@ -96,8 +96,8 @@
     </bean>
 
     <oauth:authorization-server client-details-service-ref="clientDetails" token-services-ref="tokenServices"
-                                user-approval-handler-ref="userApprovalHandler" authorization-endpoint-url="/oauth/2_0/authorize"
-                                token-endpoint-url="/oauth/2_0/token">
+                                user-approval-handler-ref="userApprovalHandler" authorization-endpoint-url="/oauth/authorize"
+                                token-endpoint-url="/oauth/token">
         <oauth:authorization-code />
         <oauth:implicit />
         <oauth:refresh-token />
