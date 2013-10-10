@@ -14,17 +14,6 @@ Feature: Retail Customers
     Then I should see Retail Customer home page
     And I should see a Select Third Party link
 
-  @thirdparty
-  Scenario: Retail Customers logs into Third Party
-    Given I have a Retail Customer account
-    And There is a Third Party
-
-    When I log in as Alan Turing
-    And I click on the Select Third Party link
-    And I select the Third Party
-
-    Then I should be taken to the Third Party login page
-
   Scenario: Retail Customer visits Third Party list
     Given I have a Retail Customer account
     And There is a Third Party
