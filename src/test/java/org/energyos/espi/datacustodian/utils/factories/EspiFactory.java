@@ -23,6 +23,23 @@ public class EspiFactory {
        return newUsagePoint(newRetailCustomer());
     }
 
+    public static UsagePoint newUsagePointWithId(RetailCustomer retailCustomer) {
+        UsagePoint usagePoint = newUsagePoint(retailCustomer);
+        usagePoint.setId(2L);
+
+        return usagePoint;
+    }
+
+    public static UsagePoint newUsagePointWithId() {
+        return newUsagePointWithId(newRetailCustomerWithId());
+    }
+
+    private static RetailCustomer newRetailCustomerWithId() {
+        RetailCustomer retailCustomer = newRetailCustomer();
+        retailCustomer.setId(1L);
+        return retailCustomer;
+    }
+
     public static UsagePoint newUsagePoint(RetailCustomer retailCustomer) {
         UsagePoint usagePoint = new UsagePoint();
 
@@ -39,6 +56,8 @@ public class EspiFactory {
         usagePoint.addElectricPowerUsageSummary(newElectricPowerUsageSummary());
         usagePoint.addElectricPowerQualitySummary(newElectricPowerQualitySummary());
         usagePoint.setLocalTimeParameters(newLocalTimeParameters());
+        usagePoint.setCreated(new GregorianCalendar(2012, 10, 15, 0, 0, 0).getTime());
+        usagePoint.setUpdated(new GregorianCalendar(2012, 10, 17, 0, 0, 0).getTime());
 
         return usagePoint;
     }

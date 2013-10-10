@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
-import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
+import static org.energyos.espi.datacustodian.utils.factories.FeedFactory.newFeed;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -43,11 +43,7 @@ public class FeedBuilderTests {
 
     @Before
     public void before() throws FeedException {
-        List<UsagePoint> usagePoints = new ArrayList<>();
-        usagePoints.add(newUsagePoint());
-
-        FeedBuilder builder = new FeedBuilder();
-        feed = builder.buildFeed(usagePoints);
+        feed = newFeed();
     }
 
     @Test

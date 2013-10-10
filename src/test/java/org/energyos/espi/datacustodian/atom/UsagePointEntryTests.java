@@ -19,7 +19,6 @@ package org.energyos.espi.datacustodian.atom;
 
 import com.sun.syndication.io.FeedException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -27,7 +26,7 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 
 import static org.energyos.espi.datacustodian.support.TestUtils.findRelatedHref;
-import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePointWithId;
 import static org.junit.Assert.assertEquals;
 
 public class UsagePointEntryTests extends XMLTest {
@@ -36,27 +35,23 @@ public class UsagePointEntryTests extends XMLTest {
 
     @Before
     public void before() throws FeedException, SAXException, IOException, XpathException {
-        UsagePoint usagePoint = newUsagePoint();
-        usagePoint.setId(99L);
-        usagePoint.getRetailCustomer().setId(88L);
-
-        entry = new UsagePointEntry(usagePoint);
+        entry = new UsagePointEntry(newUsagePointWithId());
     }
 
     @Test
     public void selfHref() {
-        assertEquals("RetailCustomer/88/UsagePoint/99", entry.getSelfHref());
+        assertEquals("RetailCustomer/1/UsagePoint/2", entry.getSelfHref());
     }
 
     @Test
     public void upHref() {
-        assertEquals("RetailCustomer/88/UsagePoint", entry.getUpHref());
+        assertEquals("RetailCustomer/1/UsagePoint", entry.getUpHref());
     }
 
     @Test
     public void relatedLinks() {
-        assertEquals("RetailCustomer/88/UsagePoint/99/MeterReading", findRelatedHref(entry, "MeterReading"));
-        assertEquals("RetailCustomer/88/UsagePoint/99/ElectricPowerUsageSummary", findRelatedHref(entry, "ElectricPowerUsageSummary"));
-        assertEquals("RetailCustomer/88/UsagePoint/99/ElectricPowerQualitySummary", findRelatedHref(entry, "ElectricPowerQualitySummary"));
+        assertEquals("RetailCustomer/1/UsagePoint/2/MeterReading", findRelatedHref(entry, "MeterReading"));
+        assertEquals("RetailCustomer/1/UsagePoint/2/ElectricPowerUsageSummary", findRelatedHref(entry, "ElectricPowerUsageSummary"));
+        assertEquals("RetailCustomer/1/UsagePoint/2/ElectricPowerQualitySummary", findRelatedHref(entry, "ElectricPowerQualitySummary"));
     }
 }

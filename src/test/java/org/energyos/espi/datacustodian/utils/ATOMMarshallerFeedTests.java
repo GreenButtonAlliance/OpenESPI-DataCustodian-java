@@ -158,22 +158,22 @@ public class ATOMMarshallerFeedTests extends XMLTest {
 
     @Test
     public void marshal_setsEntryId() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValue("urn:uuid:7BC41774-7190-4864-841C-861AC76D46C2", "/feed/entry[1]/id", newFeedXML());
+        assertXpathValueStartsWith("urn:uuid:", "/feed/entry[1]/id", newFeedXML());
     }
 
     @Test
     public void marshal_setsEntrySelfLink() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValue("RetailCustomer/9b6c7063/UsagePoint/01", "/feed/entry[1]/link[@rel='self']/@href", newFeedXML());
+        assertXpathValue("RetailCustomer/1/UsagePoint/2", "/feed/entry[1]/link[@rel='self']/@href", newFeedXML());
     }
 
     @Test
     public void marshal_setsEntryUpLink() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValue("RetailCustomer/9b6c7063/UsagePoint", "/feed/entry[1]/link[@rel='up']/@href", newFeedXML());
+        assertXpathValue("RetailCustomer/1/UsagePoint", "/feed/entry[1]/link[@rel='up']/@href", newFeedXML());
     }
 
     @Test
     public void marshal_setsEntryRelatedLink() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValue("RetailCustomer/9b6c7063/UsagePoint/01/MeterReading", "/feed/entry[1]/link[@rel='related']/@href", newFeedXML());
+        assertXpathValue("RetailCustomer/1/UsagePoint/2/MeterReading", "/feed/entry[1]/link[@rel='related']/@href", newFeedXML());
     }
 
     @Test
@@ -188,7 +188,7 @@ public class ATOMMarshallerFeedTests extends XMLTest {
 
     @Test
     public void marshal_setsEntryTitle() throws SAXException, IOException, XpathException, FeedException {
-        assertXpathEvaluatesTo("Front Electric Meter", "/feed/entry[1]/title", newFeedXML());
+        assertXpathEvaluatesTo("Electric meter", "/feed/entry[1]/title", newFeedXML());
     }
 
     @Test
