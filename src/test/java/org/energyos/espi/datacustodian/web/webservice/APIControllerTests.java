@@ -22,33 +22,45 @@ import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.core.Authentication;
 
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class APIControllerTests {
 
     @Test
-    public void feed_returnsFeed() throws FeedException, IOException {
-        UsagePointService  usagePointService = mock(UsagePointService.class);
+    public void feed_returnsFeedForCorrectUser() throws IOException, FeedException {
+        final String EXPECTED_FEED_XML = "<?xml version=\"1.0\"?><feed>Good</feed>";
+        final String WRONG_FEED_XML = "<?xml version=\"1.0\"?><feed>Bad</feed>";
+
+        UsagePointService usagePointService = mock(UsagePointService.class);
         RetailCustomerService retailCustomerService = mock(RetailCustomerService.class);
         APIController controller = new APIController();
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        Authentication authentication = mock(Authentication.class);
 
         controller.setUsagePointService(usagePointService);
         controller.setRetailCustomerService(retailCustomerService);
 
-        RetailCustomer customer = new RetailCustomer();
-        customer.setId(1L);
-        String atomFeedResult = "<?xml version=\"1.0\"?><feed></feed>";
+        RetailCustomer loggedInCustomer = new RetailCustomer();
+        RetailCustomer wrongCustomer = new RetailCustomer();
+        loggedInCustomer.setId(2L);
+        wrongCustomer.setId(1L);
 
-        when(retailCustomerService.findById(customer.getId())).thenReturn(customer);
-        when(usagePointService.exportUsagePoints(customer)).thenReturn(atomFeedResult);
-        MockHttpServletResponse response = new MockHttpServletResponse();
+        when(authentication.getPrincipal()).thenReturn(loggedInCustomer);
+        when(retailCustomerService.findById(loggedInCustomer.getId())).thenReturn(loggedInCustomer);
+        when(retailCustomerService.findById(wrongCustomer.getId())).thenReturn(wrongCustomer);
 
-        controller.feed(response);
-        assertEquals(atomFeedResult, response.getContentAsString());
+        when(usagePointService.exportUsagePoints(any(RetailCustomer.class))).thenReturn(WRONG_FEED_XML);
+        when(usagePointService.exportUsagePoints(loggedInCustomer)).thenReturn(EXPECTED_FEED_XML);
+
+        controller.feed(response, authentication);
+        String resultFeedXml = response.getContentAsString();
+        assertEquals(EXPECTED_FEED_XML, resultFeedXml);
     }
 }

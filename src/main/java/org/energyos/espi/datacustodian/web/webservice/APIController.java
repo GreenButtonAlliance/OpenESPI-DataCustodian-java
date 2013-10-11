@@ -19,6 +19,7 @@ package org.energyos.espi.datacustodian.web.webservice;
 import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
+import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -27,10 +28,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.Principal;
 
 @Controller("apiController")
 @RequestMapping("/api/")
-public class APIController {
+public class APIController extends BaseController {
 
     @Autowired
     private UsagePointService usagePointService;
@@ -46,10 +48,8 @@ public class APIController {
     }
 
     @RequestMapping(value="/feed", method = RequestMethod.GET)
-    public void feed(HttpServletResponse response) throws FeedException, IOException {
+    public void feed(HttpServletResponse response, Principal principal) throws FeedException, IOException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        response.getWriter().write(usagePointService.exportUsagePoints(retailCustomerService.findById(getRetailCustomerId())));
+        response.getWriter().write(usagePointService.exportUsagePoints(retailCustomerService.findById(currentCustomer(principal).getId())));
     }
-
-    private Long getRetailCustomerId() { return 1L; }
 }

@@ -16,10 +16,14 @@
 
 package org.energyos.espi.datacustodian.integration;
 
+import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -41,6 +45,8 @@ public class UsagePointAPITests {
 
     @Autowired
     protected WebApplicationContext wac;
+    @Autowired
+    protected RetailCustomerService retailCustomerService;
 
     @Before
     public void setup() {
@@ -71,7 +77,9 @@ public class UsagePointAPITests {
 
     @Test
     public void feed_returnsAtomFeed() throws Exception {
-        mockMvc.perform(get("/api/feed"))
+        RetailCustomer customer = retailCustomerService.findById(1L);
+        Authentication authentication = new TestingAuthenticationToken(customer, null);
+        mockMvc.perform(get("/api/feed").principal(authentication))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/atom+xml"));
     }
