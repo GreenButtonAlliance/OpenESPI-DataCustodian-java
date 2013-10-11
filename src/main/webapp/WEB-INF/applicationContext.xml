@@ -31,7 +31,7 @@
     <http access-denied-page="/login?authorization_error=true" disable-url-rewriting="true" xmlns="http://www.springframework.org/schema/security">
         <intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
         <form-login authentication-failure-url="/login?authentication_error=true" default-target-url="/default"
-                    login-page="/login" login-processing-url="/login.do" />
+                    login-page="/login"/>
         <logout logout-success-url="/" logout-url="/logout.do" />
         <anonymous />
     </http>
