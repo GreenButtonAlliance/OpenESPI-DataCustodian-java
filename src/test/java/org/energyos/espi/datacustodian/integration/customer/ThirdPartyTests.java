@@ -75,11 +75,10 @@ public class ThirdPartyTests {
 
     @Test
     public void selectThirdParty_redirectsToThirdPartyUrl() throws Exception {
-        String DataCustodianID = "1";
-        String redirectUrl = THIRD_PARTY_URL + "?" + URLHelper.newScopeParams(Configuration.SCOPES) + "&DataCustodianID=" + DataCustodianID;
+        String redirectUrl = THIRD_PARTY_URL + "?" + URLHelper.newScopeParams(Configuration.SCOPES) + "&DataCustodianID=" + Configuration.DATA_CUSTODIAN_ID;
         mockMvc.perform(post("/RetailCustomer/1/ThirdPartyList")
                     .param("Third_party_URL", THIRD_PARTY_URL)
-                    .param("Third_party", DataCustodianID)
+                    .param("Third_party", Configuration.DATA_CUSTODIAN_ID)
                     .principal(authentication))
                 .andExpect(redirectedUrl(redirectUrl));
     }
