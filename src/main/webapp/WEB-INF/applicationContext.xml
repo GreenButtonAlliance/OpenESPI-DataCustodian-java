@@ -75,10 +75,15 @@
 
     <bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.InMemoryTokenStore" />
 
+    <bean id="tokenEnhancer" class="org.energyos.espi.datacustodian.oauth.EspiTokenEnhancer">
+        <property name="baseURL" value="${datacustodian.base.url}"/>
+    </bean>
+
     <bean id="tokenServices" class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
         <property name="tokenStore" ref="tokenStore" />
         <property name="supportRefreshToken" value="true" />
         <property name="clientDetailsService" ref="clientDetails" />
+        <property name="tokenEnhancer" ref="tokenEnhancer"/>
     </bean>
 
     <bean id="requestFactory" class="org.springframework.security.oauth2.provider.DefaultOAuth2RequestFactory">

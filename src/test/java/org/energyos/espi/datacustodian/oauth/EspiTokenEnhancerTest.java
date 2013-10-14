@@ -16,11 +16,14 @@
 
 package org.energyos.espi.datacustodian.oauth;
 
+import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.Subscription;
 import org.energyos.espi.datacustodian.service.SubscriptionService;
+import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.junit.Test;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 
 import java.util.UUID;
 
@@ -35,16 +38,18 @@ public class EspiTokenEnhancerTest {
         Subscription subscription = new Subscription();
         subscription.setUUID(UUID.randomUUID());
         SubscriptionService service = mock(SubscriptionService.class);
-        when(service.createNewSubscription()).thenReturn(subscription);
-
+        RetailCustomer retailCustomer = EspiFactory.newRetailCustomer();
+        when(service.createSubscription(retailCustomer)).thenReturn(subscription);
 
         DefaultOAuth2AccessToken token = new DefaultOAuth2AccessToken("token");
         EspiTokenEnhancer tokenEnhancer = new EspiTokenEnhancer();
         tokenEnhancer.setService(service);
         tokenEnhancer.setBaseURL("http://localhost:8080/DataCustodian");
 
-        OAuth2AccessToken enhancedToken = tokenEnhancer.enhance(token, null);
+        OAuth2Authentication authentication = mock(OAuth2Authentication.class);
+        when(authentication.getPrincipal()).thenReturn(retailCustomer);
 
+        OAuth2AccessToken enhancedToken = tokenEnhancer.enhance(token, authentication);
 
         String expectedResourceURI = "http://localhost:8080/DataCustodian/espi/1_1/resource/Subscription/" + subscription.getUUID().toString();
         assertEquals(expectedResourceURI, enhancedToken.getAdditionalInformation().get("resource"));
