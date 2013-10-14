@@ -402,6 +402,7 @@
                     <include>**/*.xml</include>
                     <include>**/*.properties</include>
                     <include>**/*.sql</include>
+                    <include>**/*.feature</include>
                 </includes>
             </testResource>
         </testResources>
