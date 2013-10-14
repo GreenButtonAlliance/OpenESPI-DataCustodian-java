@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/energyos/OpenESPI-DataCustodian-java.png)](https://travis-ci.org/energyos/OpenESPI-DataCustodian-java)
+
 OpenESPI-DataCustodian
 ======================
 
