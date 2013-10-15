@@ -31,4 +31,8 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
+    <bean id="tokenEnhancer" class="org.energyos.espi.datacustodian.oauth.EspiTokenEnhancer">
+        <property name="baseURL" value="${datacustodian.base.url}"/>
+    </bean>
+
 </beans>
