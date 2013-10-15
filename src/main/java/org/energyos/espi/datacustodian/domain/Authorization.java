@@ -24,10 +24,18 @@
 
 package org.energyos.espi.datacustodian.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+import java.util.UUID;
 
 
 /**
@@ -67,19 +75,31 @@ import javax.xml.bind.annotation.XmlType;
     "status",
     "thirdParty"
 })
+@Entity
+@Table(name = "authorizations")
 public class Authorization
     extends IdentifiedObject
 {
-
+    @Column(name = "access_token")
+    @NotEmpty
     protected String accessToken;
     @XmlSchemaType(name = "anyURI")
     protected String authorizationServer;
+    @Transient
     protected DateTimeInterval authorizedPeriod;
+    @Transient
     protected DateTimeInterval publishedPeriod;
     @XmlSchemaType(name = "anyURI")
+    @NotEmpty
     protected String resource;
     protected String status;
     protected String thirdParty;
+
+    @Override
+    @NotNull
+    public UUID getUUID() {
+        return super.getUUID();
+    }
 
     /**
      * Gets the value of the accessToken property.
