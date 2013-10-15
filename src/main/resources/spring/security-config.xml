@@ -1,56 +1,40 @@
-<!--
-  ~ Copyright 2013 EnergyOS.org
-  ~
-  ~    Licensed under the Apache License, Version 2.0 (the "License");
-  ~    you may not use this file except in compliance with the License.
-  ~    You may obtain a copy of the License at
-  ~
-  ~        http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~    Unless required by applicable law or agreed to in writing, software
-  ~    distributed under the License is distributed on an "AS IS" BASIS,
-  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~    See the License for the specific language governing permissions and
-  ~    limitations under the License.
-  -->
-
+<?xml version="1.0" encoding="UTF-8" ?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:oauth="http://www.springframework.org/schema/security/oauth2" xmlns:sec="http://www.springframework.org/schema/security"
        xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
+        http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
 
-    <security:global-method-security jsr250-annotations="enabled" pre-post-annotations="enabled"
-                                     secured-annotations="enabled"/>
 
-    <security:http use-expressions="true">
+    <http pattern="/oauth/token" create-session="stateless" authentication-manager-ref="clientAuthenticationManager" xmlns="http://www.springframework.org/schema/security">
+        <intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />
+        <anonymous enabled="false" />
+        <http-basic entry-point-ref="clientAuthenticationEntryPoint" />
+        <custom-filter ref="clientCredentialsTokenEndpointFilter" after="BASIC_AUTH_FILTER" />
+        <access-denied-handler ref="oauthAccessDeniedHandler" />
+    </http>
 
-        <security:intercept-url pattern="/home" access="permitAll"/>
-        <security:intercept-url pattern="/css/**" access="permitAll"/>
-        <security:intercept-url pattern="/ico/**" access="permitAll"/>
-        <security:intercept-url pattern="/img/**" access="permitAll"/>
-        <security:intercept-url pattern="/js/**" access="permitAll"/>
+    <http pattern="/api/**" create-session="never" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" xmlns="http://www.springframework.org/schema/security">
+        <anonymous enabled="false" />
+        <intercept-url pattern="/api/feed" access="ROLE_USER" />
+        <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
+        <access-denied-handler ref="oauthAccessDeniedHandler" />
+    </http>
 
-        <security:intercept-url pattern="/api/**" access="permitAll"/>
-
-        <security:intercept-url pattern="/custodian/retailcustomers/**" access="permitAll"/>
-
-        <security:intercept-url pattern="/RetailCustomer/**" access="hasRole('ROLE_CUSTOMER')"/>
-        <security:intercept-url pattern="/custodian/**" access="hasRole('ROLE_CUSTODIAN')"/>
-
-        <security:form-login login-page="/login" default-target-url="/default"/>
-        <security:logout logout-success-url="/" delete-cookies="JSESSIONID"/>
-        <security:remember-me/>
-        <security:session-management invalid-session-url="/">
-            <security:concurrency-control max-sessions="1" error-if-maximum-exceeded="false" expired-url="/login"/>
-        </security:session-management>
-    </security:http>
-
-    <bean id="encoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder"/>
-
-    <security:authentication-manager>
-        <security:authentication-provider user-service-ref="retailCustomerServiceImpl"/>
-    </security:authentication-manager>
+    <http access-denied-page="/login?authorization_error=true" disable-url-rewriting="true" xmlns="http://www.springframework.org/schema/security">
+        <intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <form-login authentication-failure-url="/login?authentication_error=true" default-target-url="/default"
+                    login-page="/login"/>
+        <logout logout-success-url="/" logout-url="/logout.do" />
+        <anonymous />
+    </http>
 
 </beans>
+

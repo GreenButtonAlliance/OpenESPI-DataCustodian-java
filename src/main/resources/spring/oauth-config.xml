@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+
+
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
+        http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
+
+    <bean id="oauthAuthenticationEntryPoint" class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+        <property name="realmName" value="DataCustodian" />
+    </bean>
+
+    <bean id="clientAuthenticationEntryPoint" class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+        <property name="realmName" value="DataCustodian" />
+        <property name="typeName" value="Basic" />
+    </bean>
+
+    <bean id="oauthAccessDeniedHandler" class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler" />
+
+    <bean id="clientCredentialsTokenEndpointFilter" class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">
+        <property name="authenticationManager" ref="clientAuthenticationManager" />
+    </bean>
+
+    <bean id="accessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased" xmlns="http://www.springframework.org/schema/beans">
+        <constructor-arg>
+            <list>
+                <bean class="org.springframework.security.oauth2.provider.vote.ScopeVoter" />
+                <bean class="org.springframework.security.access.vote.RoleVoter" />
+                <bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <authentication-manager id="clientAuthenticationManager" xmlns="http://www.springframework.org/schema/security">
+        <authentication-provider user-service-ref="clientDetailsUserService" />
+    </authentication-manager>
+
+    <authentication-manager alias="authenticationManager" xmlns="http://www.springframework.org/schema/security">
+        <security:authentication-provider user-service-ref="retailCustomerServiceImpl"/>
+    </authentication-manager>
+
+    <bean id="clientDetailsUserService" class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
+        <constructor-arg ref="clientDetails" />
+    </bean>
+
+    <bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.InMemoryTokenStore" />
+
+    <bean id="tokenEnhancer" class="org.energyos.espi.datacustodian.oauth.EspiTokenEnhancer">
+        <property name="baseURL" value="${datacustodian.base.url}"/>
+    </bean>
+
+    <bean id="tokenServices" class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
+        <property name="tokenStore" ref="tokenStore" />
+        <property name="supportRefreshToken" value="true" />
+        <property name="clientDetailsService" ref="clientDetails" />
+        <property name="tokenEnhancer" ref="tokenEnhancer"/>
+    </bean>
+
+    <bean id="requestFactory" class="org.springframework.security.oauth2.provider.DefaultOAuth2RequestFactory">
+        <constructor-arg name="clientDetailsService" ref="clientDetails" />
+    </bean>
+
+    <bean id="userApprovalHandler" class="org.energyos.espi.datacustodian.oauth.UserApprovalHandler">
+        <property name="autoApproveClients">
+            <set>
+                <value>my-less-trusted-autoapprove-client</value>
+            </set>
+        </property>
+        <property name="tokenServices" ref="tokenServices" />
+        <property name="requestFactory" ref="requestFactory" />
+    </bean>
+
+    <oauth:authorization-server client-details-service-ref="clientDetails" token-services-ref="tokenServices"
+                                user-approval-handler-ref="userApprovalHandler" authorization-endpoint-url="/oauth/authorize"
+                                token-endpoint-url="/oauth/token">
+        <oauth:authorization-code />
+        <oauth:implicit />
+        <oauth:refresh-token />
+        <oauth:client-credentials />
+        <oauth:password />
+    </oauth:authorization-server>
+
+    <oauth:resource-server id="resourceServerFilter" resource-id="feed" token-services-ref="tokenServices" />
+
+    <oauth:client-details-service id="clientDetails">
+        <oauth:client client-id="third_party" authorized-grant-types="authorization_code,implicit"
+                      authorities="ROLE_CLIENT" scope="FB_4_5_15_IntervalDuration_3600_BlockDuration_monthly_HistoryLength_13,FB_4_5_16_IntervalDuration_3600_BlockDuration_monthly_HistoryLength_13" secret="secret" />
+    </oauth:client-details-service>
+
+    <sec:global-method-security pre-post-annotations="enabled" proxy-target-class="true">
+        <sec:expression-handler ref="oauthExpressionHandler" />
+    </sec:global-method-security>
+
+    <oauth:expression-handler id="oauthExpressionHandler" />
+
+    <oauth:web-expression-handler id="oauthWebExpressionHandler" />
+
+    <bean id="accessConfirmationController" class="org.energyos.espi.datacustodian.oauth.AccessConfirmationController">
+        <property name="clientDetailsService" ref="clientDetails" />
+    </bean>
+</beans>
