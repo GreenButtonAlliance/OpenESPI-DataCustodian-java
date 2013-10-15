@@ -74,9 +74,6 @@ public class IdentifiedObject
     extends Resource
 {
     @XmlTransient
-    protected String mrid;
-
-    @XmlTransient
     protected String description;
 
     @XmlTransient

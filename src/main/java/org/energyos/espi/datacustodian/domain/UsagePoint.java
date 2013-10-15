@@ -68,7 +68,7 @@ import java.util.List;
     "status"
 })
 @Entity
-@Table(name = "usage_points", uniqueConstraints = {@UniqueConstraint(columnNames={"mrid"})})
+@Table(name = "usage_points", uniqueConstraints = {@UniqueConstraint(columnNames={"uuid"})})
 @NamedQueries(value = {
         @NamedQuery(name = UsagePoint.QUERY_FIND_ALL_BY_RETAIL_CUSTOMER_ID,
                 query = "SELECT point FROM UsagePoint point WHERE point.retailCustomer.id = :retailCustomerId"),

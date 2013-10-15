@@ -44,11 +44,6 @@ public class IdentifiedObjectTests {
     }
 
     @Test
-    public void mrid_hasTransientAnnotation() {
-        assertAnnotationPresent(IdentifiedObject.class, "mrid", XmlTransient.class);
-    }
-
-    @Test
     public void description_hasTransientAnnotation() {
         assertAnnotationPresent(IdentifiedObject.class, "description", XmlTransient.class);
     }
