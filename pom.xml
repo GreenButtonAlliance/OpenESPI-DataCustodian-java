@@ -31,6 +31,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
+                <datacustodian.base.url>http://localhost:8080/DataCustodian</datacustodian.base.url>
                 <profile>dev</profile>
             </properties>
         </profile>
@@ -38,6 +39,7 @@
         <profile>
             <id>heroku</id>
             <properties>
+                <datacustodian.base.url>http://datacustodian-dev.herokuapp.com/DataCustodian</datacustodian.base.url>
                 <profile>heroku</profile>
             </properties>
         </profile>
@@ -45,6 +47,7 @@
         <profile>
             <id>ec2</id>
             <properties>
+                <datacustodian.base.url>http://54.200.90.158:8080/DataCustodian</datacustodian.base.url>
                 <profile>ec2</profile>
             </properties>
         </profile>
@@ -390,6 +393,19 @@
                 </includes>
             </resource>
         </resources>
+
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.sql</include>
+                    <include>**/*.feature</include>
+                </includes>
+            </testResource>
+        </testResources>
 
         <plugins>
             <plugin>

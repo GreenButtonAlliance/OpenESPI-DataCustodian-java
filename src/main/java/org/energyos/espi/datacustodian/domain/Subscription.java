@@ -24,18 +24,24 @@
 
 package org.energyos.espi.datacustodian.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
-
+import java.util.UUID;
 
 /**
  * Defines the parameters of a subscription between Third Party and Data Custodian.
- * 
+ * <p/>
  * <p>Java class for Subscription complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="Subscription">
  *   &lt;complexContent>
@@ -44,14 +50,31 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Subscription")
+@Entity
+@Table(name = "subscriptions")
 public class Subscription
-    extends IdentifiedObject
-{
+        extends IdentifiedObject {
 
+    @ManyToOne
+    @JoinColumn(name = "retail_customer_id")
+    @NotNull
+    @XmlTransient
+    protected RetailCustomer retailCustomer;
 
+    public RetailCustomer getRetailCustomer() {
+        return retailCustomer;
+    }
+
+    public void setRetailCustomer(RetailCustomer retailCustomer) {
+        this.retailCustomer = retailCustomer;
+    }
+
+    @Override
+    @NotNull
+    public UUID getUUID() {
+        return super.getUUID();
+    }
 }

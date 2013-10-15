@@ -266,4 +266,19 @@ public class EspiFactory {
 
         return thirdParty;
     }
+
+    public static Subscription newSubscription(RetailCustomer retailCustomer) {
+        Subscription subscription = new Subscription();
+        subscription.setUUID(UUID.randomUUID());
+        subscription.setRetailCustomer(retailCustomer);
+        return subscription;
+    }
+
+    public static Authorization newAuthorization(Subscription subscription) {
+        Authorization authorization = new Authorization();
+        authorization.setUUID(UUID.randomUUID());
+        authorization.setAccessToken(UUID.randomUUID().toString());
+        authorization.setResource("/Resource/" + UUID.randomUUID().toString());
+        return authorization;
+    }
 }
