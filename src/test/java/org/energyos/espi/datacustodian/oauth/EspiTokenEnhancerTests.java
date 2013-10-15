@@ -16,10 +16,13 @@
 
 package org.energyos.espi.datacustodian.oauth;
 
+import org.energyos.espi.datacustodian.domain.Authorization;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.Subscription;
+import org.energyos.espi.datacustodian.service.AuthorizationService;
 import org.energyos.espi.datacustodian.service.SubscriptionService;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -29,29 +32,65 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class EspiTokenEnhancerTest {
+public class EspiTokenEnhancerTests {
 
-    @Test
-    public void enhance_withResource() throws Exception {
-        Subscription subscription = new Subscription();
+    public Subscription subscription;
+    public Authorization authorization;
+    public SubscriptionService subscriptionService;
+    public AuthorizationService authorizationService;
+    public RetailCustomer retailCustomer;
+    public OAuth2AccessToken enhancedToken;
+
+    @Before
+    public void setup() {
+        subscription = new Subscription();
         subscription.setUUID(UUID.randomUUID());
-        SubscriptionService service = mock(SubscriptionService.class);
-        RetailCustomer retailCustomer = EspiFactory.newRetailCustomer();
-        when(service.createSubscription(retailCustomer)).thenReturn(subscription);
+
+        authorization = new Authorization();
+        authorization.setUUID(UUID.randomUUID());
+
+        subscriptionService = mock(SubscriptionService.class);
+        authorizationService = mock(AuthorizationService.class);
+
+        retailCustomer = EspiFactory.newRetailCustomer();
+
+        when(subscriptionService.createSubscription(retailCustomer)).thenReturn(subscription);
+        when(authorizationService.createAuthorization(subscription, "accessToken")).thenReturn(authorization);
 
         DefaultOAuth2AccessToken token = new DefaultOAuth2AccessToken("token");
         EspiTokenEnhancer tokenEnhancer = new EspiTokenEnhancer();
-        tokenEnhancer.setService(service);
+        tokenEnhancer.setSubscriptionService(subscriptionService);
+        tokenEnhancer.setAuthorizationService(authorizationService);
         tokenEnhancer.setBaseURL("http://localhost:8080/DataCustodian");
 
         OAuth2Authentication authentication = mock(OAuth2Authentication.class);
         when(authentication.getPrincipal()).thenReturn(retailCustomer);
 
-        OAuth2AccessToken enhancedToken = tokenEnhancer.enhance(token, authentication);
+        enhancedToken = tokenEnhancer.enhance(token, authentication);
+    }
 
+    @Test
+    public void enhance_withResource() throws Exception {
         String expectedResourceURI = "http://localhost:8080/DataCustodian/espi/1_1/resource/Subscription/" + subscription.getUUID().toString();
         assertEquals(expectedResourceURI, enhancedToken.getAdditionalInformation().get("resource"));
+    }
+
+    @Test
+    public void enhance_withAuthorization() throws Exception {
+        String expectedResourceURI = "http://localhost:8080/DataCustodian/espi/1_1/resource/Authorization/" + authorization.getUUID().toString();
+        assertEquals(expectedResourceURI, enhancedToken.getAdditionalInformation().get("authorization"));
+    }
+
+    @Test
+    public void enhance_createsSubscription() {
+        verify(subscriptionService).createSubscription(retailCustomer);
+    }
+
+    @Test
+    public void enhance_createsAuthorization() {
+        verify(authorizationService).createAuthorization(subscription, "accessToken");
     }
 }

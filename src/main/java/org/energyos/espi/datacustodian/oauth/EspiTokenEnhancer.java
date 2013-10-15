@@ -1,8 +1,10 @@
 package org.energyos.espi.datacustodian.oauth;
 
+import org.energyos.espi.datacustodian.domain.Authorization;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.Routes;
 import org.energyos.espi.datacustodian.domain.Subscription;
+import org.energyos.espi.datacustodian.service.AuthorizationService;
 import org.energyos.espi.datacustodian.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
@@ -16,7 +18,10 @@ import java.util.Map;
 public class EspiTokenEnhancer implements TokenEnhancer {
 
     @Autowired
-    private SubscriptionService service;
+    private SubscriptionService subscriptionService;
+
+    @Autowired
+    private AuthorizationService authorizationService;
 
     private String baseURL;
 
@@ -26,20 +31,26 @@ public class EspiTokenEnhancer implements TokenEnhancer {
         DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) accessToken;
         Map<String, Object> additionalInformation = new HashMap<>();
 
-        Subscription subscription = service.createSubscription((RetailCustomer) authentication.getPrincipal());
-
+        Subscription subscription = subscriptionService.createSubscription((RetailCustomer) authentication.getPrincipal());
         additionalInformation.put("resource", baseURL + Routes.DataCustodianSubscription.replace("{SubscriptionID}", subscription.getUUID().toString()));
+
+        Authorization authorization = authorizationService.createAuthorization(subscription, "accessToken");
+        additionalInformation.put("authorization", baseURL + Routes.DataCustodianAuthorization.replace("{AuthorizationID}", authorization.getUUID().toString()));
 
         token.setAdditionalInformation(additionalInformation);
 
         return token;
     }
 
-    public void setService(SubscriptionService service) {
-        this.service = service;
+    public void setSubscriptionService(SubscriptionService subscriptionService) {
+        this.subscriptionService = subscriptionService;
     }
 
     public void setBaseURL(String baseURL) {
         this.baseURL = baseURL;
+    }
+
+    public void setAuthorizationService(AuthorizationService authorizationService) {
+        this.authorizationService = authorizationService;
     }
 }

@@ -57,6 +57,22 @@ public class EspiTokenEnhancerTests {
 
         OAuth2AccessToken enhancedToken = tokenEnhancer.enhance(token, authentication);
 
-        assertTrue(((String)enhancedToken.getAdditionalInformation().get("resource")).startsWith("http://localhost:8080/DataCustodian/espi/1_1/resource/Subscription/"));
+        assertTrue(((String)enhancedToken.getAdditionalInformation().get("resource"))
+                .startsWith("http://localhost:8080/DataCustodian/espi/1_1/resource/Subscription/"));
+    }
+
+    @Test
+    public void enhance_withAuthorization() throws Exception {
+        RetailCustomer retailCustomer = EspiFactory.newRetailCustomer();
+        retailCustomerService.persist(retailCustomer);
+        DefaultOAuth2AccessToken token = new DefaultOAuth2AccessToken("token");
+
+        OAuth2Authentication authentication = mock(OAuth2Authentication.class);
+        when(authentication.getPrincipal()).thenReturn(retailCustomer);
+
+        OAuth2AccessToken enhancedToken = tokenEnhancer.enhance(token, authentication);
+
+        assertTrue(((String)enhancedToken.getAdditionalInformation().get("authorization"))
+                .startsWith("http://localhost:8080/DataCustodian/espi/1_1/resource/Authorization/"));
     }
 }
