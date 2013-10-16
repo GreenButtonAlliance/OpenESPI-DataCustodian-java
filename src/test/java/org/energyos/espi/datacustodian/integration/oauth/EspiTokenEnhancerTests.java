@@ -57,7 +57,7 @@ public class EspiTokenEnhancerTests {
 
         OAuth2AccessToken enhancedToken = tokenEnhancer.enhance(token, authentication);
 
-        assertTrue(((String)enhancedToken.getAdditionalInformation().get("resource"))
+        assertTrue(((String)enhancedToken.getAdditionalInformation().get("resourceURI"))
                 .startsWith("http://localhost:8080/DataCustodian/espi/1_1/resource/Subscription/"));
     }
 
@@ -72,7 +72,7 @@ public class EspiTokenEnhancerTests {
 
         OAuth2AccessToken enhancedToken = tokenEnhancer.enhance(token, authentication);
 
-        assertTrue(((String)enhancedToken.getAdditionalInformation().get("authorization"))
+        assertTrue(((String)enhancedToken.getAdditionalInformation().get("authorizationURI"))
                 .startsWith("http://localhost:8080/DataCustodian/espi/1_1/resource/Authorization/"));
     }
 }
