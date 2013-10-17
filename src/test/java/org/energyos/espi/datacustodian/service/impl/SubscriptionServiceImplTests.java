@@ -20,16 +20,22 @@ package org.energyos.espi.datacustodian.service.impl;
 import org.energyos.espi.datacustodian.BaseTest;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.Subscription;
+import org.energyos.espi.datacustodian.repositories.SubscriptionRepository;
 import org.energyos.espi.datacustodian.repositories.jpa.SubscriptionRepositoryImpl;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class SubscriptionServiceImplTests extends BaseTest {
 
@@ -61,5 +67,17 @@ public class SubscriptionServiceImplTests extends BaseTest {
     @Test
     public void createSubscription_setsUUID() {
         assertNotNull(subscription.getUUID());
+    }
+
+    @Test
+    public void findAll() {
+        SubscriptionServiceImpl service = new SubscriptionServiceImpl();
+        SubscriptionRepository repository = mock(SubscriptionRepository.class);
+        List<Subscription> subscriptions = new ArrayList<>();
+
+        service.setRepository(repository);
+        when(repository.findAll()).thenReturn(subscriptions);
+
+        assertEquals(subscriptions, service.findAll());
     }
 }

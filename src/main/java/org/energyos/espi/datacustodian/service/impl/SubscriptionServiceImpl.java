@@ -7,6 +7,7 @@ import org.energyos.espi.datacustodian.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -22,6 +23,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         repository.persist(subscription);
 
         return subscription;
+    }
+
+    @Override
+    public List<Subscription> findAll() {
+        return repository.findAll();
     }
 
     public void setRepository(SubscriptionRepository repository) {
