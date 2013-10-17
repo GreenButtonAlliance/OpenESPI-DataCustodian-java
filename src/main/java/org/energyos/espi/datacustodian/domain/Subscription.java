@@ -24,10 +24,7 @@
 
 package org.energyos.espi.datacustodian.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -55,8 +52,13 @@ import java.util.UUID;
 @XmlType(name = "Subscription")
 @Entity
 @Table(name = "subscriptions")
+@NamedQueries(value = {
+        @NamedQuery(name = Subscription.QUERY_FIND_ALL, query = "SELECT subscription FROM Subscription subscription")
+})
 public class Subscription
         extends IdentifiedObject {
+
+    public final static String QUERY_FIND_ALL = "Subscription.findAll";
 
     @ManyToOne
     @JoinColumn(name = "retail_customer_id")

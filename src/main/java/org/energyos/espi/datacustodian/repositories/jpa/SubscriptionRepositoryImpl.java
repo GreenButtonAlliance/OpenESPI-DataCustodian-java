@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Repository
 public class SubscriptionRepositoryImpl implements SubscriptionRepository {
@@ -17,5 +18,10 @@ public class SubscriptionRepositoryImpl implements SubscriptionRepository {
     @Transactional
     public void persist(Subscription subscription) {
         em.persist(subscription);
+    }
+
+    @Override
+    public List<Subscription> findAll() {
+        return (List<Subscription>)this.em.createNamedQuery(Subscription.QUERY_FIND_ALL).getResultList();
     }
 }
