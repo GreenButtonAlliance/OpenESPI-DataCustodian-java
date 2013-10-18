@@ -22,6 +22,8 @@ mvn tomcat7:run
 
 Now the application should be available at [http://localhost:8080/retailcustomers](http://localhost:8080/retailcustomers).
 
+## IDE Setup
+
 ### Eclipse Setup
 
 Open Eclipse and import a Maven project (File > Import... > Maven > Existing Maven Projects).
@@ -33,3 +35,35 @@ Open Spring Tool Suite and import a Maven project (File > Import... > Maven > Ex
 ### IntelliJ Setup
 
 Open IntelliJ and open the project (File > Open...).
+
+## Testing
+
+### Unit Tests
+
+To run all Unit tests:
+
+```bash
+mvn test
+```
+
+Run a single test class:
+
+```bash
+mvn -Dtest=<TestClassName> test
+mvn -Dtest=HomeControllerTests test
+```
+
+Run a single test in a single class:
+
+```bash
+mvn -Dtest=<TestClassName>#<testMethodName> testMethodName
+mvn -Dtest=HomeControllerTests#index_shouldDisplayHomePage test
+```
+
+### Cucumber Features
+
+To run all Cucumber features:
+
+```bash
+mvn verify
+```
