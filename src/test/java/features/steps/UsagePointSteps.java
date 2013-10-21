@@ -44,11 +44,6 @@ public class UsagePointSteps {
     public void there_exists_a_user_that_has_Usage_Points() throws Throwable {
     }
 
-    @When("^I request the usage points for a user$")
-    public void I_request_the_usage_points_for_a_user() throws Throwable {
-        driver.get(StepUtils.BASE_URL + "/RetailCustomer/6/UsagePoint");
-    }
-
     @Then("^I should receive an xml response with the user's usage points$")
     public void I_should_receive_an_xml_response_with_the_user_s_usage_points() throws Throwable {
         String xmlResult = driver.getPageSource();
