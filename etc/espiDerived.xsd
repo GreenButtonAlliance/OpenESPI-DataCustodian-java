@@ -3,7 +3,7 @@
 	<!-- 
 ==========================================================================
  Schema: espiDerived.xsd
-    Version: 0.7.20131008
+    Version: 0.7.20131021
      Author: Ron Pasquarelli & Marty Burns (Hypertek for NIST), John Teeter (for NIST), Don Coffin (Remi Networks)
 ========================================================================== 
 
@@ -134,7 +134,7 @@ self link to this resource</xs:documentation>
 							<xs:documentation>A URI used by the client to register a Third Party with a Data Custodian via its {AuthorizationServer}{AuthorizationServer}{RegistrationPath}</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="DataCustodianBatchRequestURI" type="xs:anyURI" minOccurs="0">
+					<xs:element name="DataCustodianBulkRequestURI" type="xs:anyURI" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>{DataCustodianBulkRequestURI}  URI of DataCustodian’s Bulk Request endpoint.  The value is provided by the Data Custodian and cannot be modified by the ThirdParty.  The field MUST be a valid URI.</xs:documentation>
 						</xs:annotation>
@@ -263,6 +263,11 @@ self link to this resource</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<!-- OAuth 2.0 fields END -->
+					<xs:element name="registration_access_token" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A credential obtained during Third Party registration with the Data Custodian to enable access to the ApplicationInformation resource. This is persisted in the ApplicationInformation resource structure.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
