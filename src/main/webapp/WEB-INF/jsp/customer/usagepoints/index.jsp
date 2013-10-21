@@ -29,7 +29,7 @@
         <div class="span12">
             <h2>Usage Points</h2>
 
-            <a href="<c:url value='/RetailCustomer/${currentCustomer.id}/usagepoints/feed'/>">Download XML</a>
+            <a href="<c:url value='/RetailCustomer/${currentCustomer.id}/UsagePoint/feed'/>">Download XML</a>
 
             <table class="table table-striped">
                 <thead>
@@ -42,7 +42,7 @@
                 <c:forEach var="usagePoint" items="${usagePointList}">
                     <tr>
                         <td>
-                            <a href="<c:url value='/RetailCustomer/${currentCustomer.id}/usagepoints/${usagePoint.id}/show'/>">
+                            <a href="<c:url value='/RetailCustomer/${currentCustomer.id}/UsagePoint/${usagePoint.id}/show'/>">
                                 <c:out value="${usagePoint.description}"/>
                             </a>
                         </td>

@@ -55,7 +55,7 @@ public class UsagePointTests {
         this.mockMvc = webAppContextSetup(this.wac).build();
         RetailCustomer customer = retailCustomerService.findById(1L);
         authentication = new TestingAuthenticationToken(customer, null);
-        indexPath = "/RetailCustomer/" + customer.getId() + "/usagepoints";
+        indexPath = "/RetailCustomer/" + customer.getId() + "/UsagePoint";
         showPath = indexPath + "/1/show";
         feedPath = indexPath + "/feed";
     }

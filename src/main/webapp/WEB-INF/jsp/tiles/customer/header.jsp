@@ -27,7 +27,7 @@ e ~
 
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li><a href="<c:url value='/RetailCustomer/${currentCustomer.id}/usagepoints'/>">Usage Points</a></li>
+                    <li><a href="<c:url value='/RetailCustomer/${currentCustomer.id}/UsagePoint'/>">Usage Points</a></li>
                     <security:authorize access="isAuthenticated()">
                         <li><a href="<c:url value='/RetailCustomer/${currentCustomer.id}/ThirdPartyList'/>">Third Parties</a></li>
                         <li><a id="logout" href="<c:url value='/logout.do'/>">Logout</a></li>
