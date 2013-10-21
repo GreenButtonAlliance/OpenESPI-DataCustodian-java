@@ -47,24 +47,24 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _IntervalReading_QNAME = new QName("http://naesb.org/espi", "IntervalReading");
-    private final static QName _IntervalBlock_QNAME = new QName("http://naesb.org/espi", "IntervalBlock");
-    private final static QName _Object_QNAME = new QName("http://naesb.org/espi", "Object");
-    private final static QName _ReadingType_QNAME = new QName("http://naesb.org/espi", "ReadingType");
-    private final static QName _SummaryMeasurement_QNAME = new QName("http://naesb.org/espi", "SummaryMeasurement");
-    private final static QName _Authorization_QNAME = new QName("http://naesb.org/espi", "Authorization");
-    private final static QName _ElectricPowerQualitySummary_QNAME = new QName("http://naesb.org/espi", "ElectricPowerQualitySummary");
-    private final static QName _ReadingQuality_QNAME = new QName("http://naesb.org/espi", "ReadingQuality");
-    private final static QName _Subscription_QNAME = new QName("http://naesb.org/espi", "Subscription");
-    private final static QName _LocalTimeParameters_QNAME = new QName("http://naesb.org/espi", "LocalTimeParameters");
-    private final static QName _ApplicationInformation_QNAME = new QName("http://naesb.org/espi", "ApplicationInformation");
-    private final static QName _DateTimeInterval_QNAME = new QName("http://naesb.org/espi", "DateTimeInterval");
-    private final static QName _ServiceStatus_QNAME = new QName("http://naesb.org/espi", "ServiceStatus");
-    private final static QName _IdentifiedObject_QNAME = new QName("http://naesb.org/espi", "IdentifiedObject");
-    private final static QName _MeterReading_QNAME = new QName("http://naesb.org/espi", "MeterReading");
-    private final static QName _UsagePoint_QNAME = new QName("http://naesb.org/espi", "UsagePoint");
-    private final static QName _BatchItemInfo_QNAME = new QName("http://naesb.org/espi", "BatchItemInfo");
-    private final static QName _ElectricPowerUsageSummary_QNAME = new QName("http://naesb.org/espi", "ElectricPowerUsageSummary");
+    public final static QName IntervalReading_QNAME = new QName("http://naesb.org/espi", "IntervalReading");
+    public final static QName IntervalBlock_QNAME = new QName("http://naesb.org/espi", "IntervalBlock");
+    public final static QName Object_QNAME = new QName("http://naesb.org/espi", "Object");
+    public final static QName ReadingType_QNAME = new QName("http://naesb.org/espi", "ReadingType");
+    public final static QName SummaryMeasurement_QNAME = new QName("http://naesb.org/espi", "SummaryMeasurement");
+    public final static QName Authorization_QNAME = new QName("http://naesb.org/espi", "Authorization");
+    public final static QName ElectricPowerQualitySummary_QNAME = new QName("http://naesb.org/espi", "ElectricPowerQualitySummary");
+    public final static QName ReadingQuality_QNAME = new QName("http://naesb.org/espi", "ReadingQuality");
+    public final static QName Subscription_QNAME = new QName("http://naesb.org/espi", "Subscription");
+    public final static QName LocalTimeParameters_QNAME = new QName("http://naesb.org/espi", "LocalTimeParameters");
+    public final static QName ApplicationInformation_QNAME = new QName("http://naesb.org/espi", "ApplicationInformation");
+    public final static QName DateTimeInterval_QNAME = new QName("http://naesb.org/espi", "DateTimeInterval");
+    public final static QName ServiceStatus_QNAME = new QName("http://naesb.org/espi", "ServiceStatus");
+    public final static QName IdentifiedObject_QNAME = new QName("http://naesb.org/espi", "IdentifiedObject");
+    public final static QName MeterReading_QNAME = new QName("http://naesb.org/espi", "MeterReading");
+    public final static QName UsagePoint_QNAME = new QName("http://naesb.org/espi", "UsagePoint");
+    public final static QName BatchItemInfo_QNAME = new QName("http://naesb.org/espi", "BatchItemInfo");
+    public final static QName ElectricPowerUsageSummary_QNAME = new QName("http://naesb.org/espi", "ElectricPowerUsageSummary");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.naesb.espi
@@ -255,7 +255,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://naesb.org/espi", name = "IntervalReading")
     public JAXBElement<IntervalReading> createIntervalReading(IntervalReading value) {
-        return new JAXBElement<IntervalReading>(_IntervalReading_QNAME, IntervalReading.class, null, value);
+        return new JAXBElement<IntervalReading>(IntervalReading_QNAME, IntervalReading.class, null, value);
     }
 
     /**
@@ -264,7 +264,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://naesb.org/espi", name = "IntervalBlock")
     public JAXBElement<IntervalBlock> createIntervalBlock(IntervalBlock value) {
-        return new JAXBElement<IntervalBlock>(_IntervalBlock_QNAME, IntervalBlock.class, null, value);
+        return new JAXBElement<IntervalBlock>(IntervalBlock_QNAME, IntervalBlock.class, null, value);
     }
 
     /**
@@ -273,7 +273,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://naesb.org/espi", name = "Object")
     public JAXBElement<java.lang.Object> createObject(java.lang.Object value) {
-        return new JAXBElement<java.lang.Object>(_Object_QNAME, java.lang.Object.class, null, value);
+        return new JAXBElement<java.lang.Object>(Object_QNAME, java.lang.Object.class, null, value);
     }
 
     /**
@@ -282,7 +282,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://naesb.org/espi", name = "ReadingType")
     public JAXBElement<ReadingType> createReadingType(ReadingType value) {
-        return new JAXBElement<ReadingType>(_ReadingType_QNAME, ReadingType.class, null, value);
+        return new JAXBElement<ReadingType>(ReadingType_QNAME, ReadingType.class, null, value);
     }
 
     /**
@@ -291,7 +291,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://naesb.org/espi", name = "SummaryMeasurement")
     public JAXBElement<SummaryMeasurement> createSummaryMeasurement(SummaryMeasurement value) {
-        return new JAXBElement<SummaryMeasurement>(_SummaryMeasurement_QNAME, SummaryMeasurement.class, null, value);
+        return new JAXBElement<SummaryMeasurement>(SummaryMeasurement_QNAME, SummaryMeasurement.class, null, value);
     }
 
     /**
@@ -300,7 +300,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://naesb.org/espi", name = "Authorization")
     public JAXBElement<Authorization> createAuthorization(Authorization value) {
-        return new JAXBElement<Authorization>(_Authorization_QNAME, Authorization.class, null, value);
+        return new JAXBElement<Authorization>(Authorization_QNAME, Authorization.class, null, value);
     }
 
     /**
@@ -309,7 +309,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://naesb.org/espi", name = "ElectricPowerQualitySummary")
     public JAXBElement<ElectricPowerQualitySummary> createElectricPowerQualitySummary(ElectricPowerQualitySummary value) {
-        return new JAXBElement<ElectricPowerQualitySummary>(_ElectricPowerQualitySummary_QNAME, ElectricPowerQualitySummary.class, null, value);
+        return new JAXBElement<ElectricPowerQualitySummary>(ElectricPowerQualitySummary_QNAME, ElectricPowerQualitySummary.class, null, value);
     }
 
     /**
@@ -318,7 +318,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://naesb.org/espi", name = "ReadingQuality")
     public JAXBElement<ReadingQuality> createReadingQuality(ReadingQuality value) {
-        return new JAXBElement<ReadingQuality>(_ReadingQuality_QNAME, ReadingQuality.class, null, value);
+        return new JAXBElement<ReadingQuality>(ReadingQuality_QNAME, ReadingQuality.class, null, value);
     }
 
     /**
@@ -327,7 +327,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://naesb.org/espi", name = "Subscription")
     public JAXBElement<Subscription> createSubscription(Subscription value) {
-        return new JAXBElement<Subscription>(_Subscription_QNAME, Subscription.class, null, value);
+        return new JAXBElement<Subscription>(Subscription_QNAME, Subscription.class, null, value);
     }
 
     /**
@@ -336,7 +336,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://naesb.org/espi", name = "LocalTimeParameters")
     public JAXBElement<TimeConfiguration> createLocalTimeParameters(TimeConfiguration value) {
-        return new JAXBElement<TimeConfiguration>(_LocalTimeParameters_QNAME, TimeConfiguration.class, null, value);
+        return new JAXBElement<TimeConfiguration>(LocalTimeParameters_QNAME, TimeConfiguration.class, null, value);
     }
 
     /**
@@ -345,7 +345,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://naesb.org/espi", name = "ApplicationInformation")
     public JAXBElement<ApplicationInformation> createApplicationInformation(ApplicationInformation value) {
-        return new JAXBElement<ApplicationInformation>(_ApplicationInformation_QNAME, ApplicationInformation.class, null, value);
+        return new JAXBElement<ApplicationInformation>(ApplicationInformation_QNAME, ApplicationInformation.class, null, value);
     }
 
     /**
@@ -354,7 +354,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://naesb.org/espi", name = "DateTimeInterval")
     public JAXBElement<DateTimeInterval> createDateTimeInterval(DateTimeInterval value) {
-        return new JAXBElement<DateTimeInterval>(_DateTimeInterval_QNAME, DateTimeInterval.class, null, value);
+        return new JAXBElement<DateTimeInterval>(DateTimeInterval_QNAME, DateTimeInterval.class, null, value);
     }
 
     /**
@@ -363,7 +363,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://naesb.org/espi", name = "ServiceStatus")
     public JAXBElement<ServiceStatus> createServiceStatus(ServiceStatus value) {
-        return new JAXBElement<ServiceStatus>(_ServiceStatus_QNAME, ServiceStatus.class, null, value);
+        return new JAXBElement<ServiceStatus>(ServiceStatus_QNAME, ServiceStatus.class, null, value);
     }
 
     /**
@@ -372,7 +372,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://naesb.org/espi", name = "IdentifiedObject")
     public JAXBElement<IdentifiedObject> createIdentifiedObject(IdentifiedObject value) {
-        return new JAXBElement<IdentifiedObject>(_IdentifiedObject_QNAME, IdentifiedObject.class, null, value);
+        return new JAXBElement<IdentifiedObject>(IdentifiedObject_QNAME, IdentifiedObject.class, null, value);
     }
 
     /**
@@ -381,7 +381,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://naesb.org/espi", name = "MeterReading")
     public JAXBElement<MeterReading> createMeterReading(MeterReading value) {
-        return new JAXBElement<MeterReading>(_MeterReading_QNAME, MeterReading.class, null, value);
+        return new JAXBElement<MeterReading>(MeterReading_QNAME, MeterReading.class, null, value);
     }
 
     /**
@@ -390,7 +390,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://naesb.org/espi", name = "UsagePoint")
     public JAXBElement<UsagePoint> createUsagePoint(UsagePoint value) {
-        return new JAXBElement<UsagePoint>(_UsagePoint_QNAME, UsagePoint.class, null, value);
+        return new JAXBElement<UsagePoint>(UsagePoint_QNAME, UsagePoint.class, null, value);
     }
 
     /**
@@ -399,7 +399,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://naesb.org/espi", name = "BatchItemInfo")
     public JAXBElement<BatchItemInfo> createBatchItemInfo(BatchItemInfo value) {
-        return new JAXBElement<BatchItemInfo>(_BatchItemInfo_QNAME, BatchItemInfo.class, null, value);
+        return new JAXBElement<BatchItemInfo>(BatchItemInfo_QNAME, BatchItemInfo.class, null, value);
     }
 
     /**
@@ -408,7 +408,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://naesb.org/espi", name = "ElectricPowerUsageSummary")
     public JAXBElement<ElectricPowerUsageSummary> createElectricPowerUsageSummary(ElectricPowerUsageSummary value) {
-        return new JAXBElement<ElectricPowerUsageSummary>(_ElectricPowerUsageSummary_QNAME, ElectricPowerUsageSummary.class, null, value);
+        return new JAXBElement<ElectricPowerUsageSummary>(ElectricPowerUsageSummary_QNAME, ElectricPowerUsageSummary.class, null, value);
     }
 
 }
