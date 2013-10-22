@@ -27,6 +27,7 @@ import javax.persistence.Column;
 import javax.validation.constraints.Size;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -124,5 +125,9 @@ public class TestUtils {
             }
         }
         return null;
+    }
+
+    public static void assertFieldNotMarshallable(Class clazz, String field) {
+        assertAnnotationPresent(clazz, field, XmlTransient.class);
     }
 }
