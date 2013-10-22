@@ -281,4 +281,8 @@ public class EspiFactory {
         authorization.setResource("/Resource/" + UUID.randomUUID().toString());
         return authorization;
     }
+
+    public static ServiceCategory newServiceCategory() {
+        ServiceCategory serviceCategory = new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE);
+    }
 }

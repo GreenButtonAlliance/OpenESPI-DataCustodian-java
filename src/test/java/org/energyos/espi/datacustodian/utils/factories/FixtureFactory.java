@@ -21,4 +21,9 @@ public class FixtureFactory {
         xml = xml.replaceFirst("48C2A019-5598-4E16-B0F9-49E4FF27F5FB", uuid.toString());
         return xml;
     }
+
+    public static String loadFixture(String path) throws IOException {
+        ClassPathResource sourceFile = new ClassPathResource(path);
+        return FileUtils.readFileToString(sourceFile.getFile());
+    }
 }

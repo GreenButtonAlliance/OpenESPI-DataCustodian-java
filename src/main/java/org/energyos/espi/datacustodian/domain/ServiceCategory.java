@@ -27,10 +27,7 @@ package org.energyos.espi.datacustodian.domain;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,14 +53,11 @@ import java.util.Map;
  * 
  * 
  */
+@XmlRootElement(name = "ServiceCategory")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ServiceCategory", propOrder = {
-    "kind"
-})
 @Entity
 @Table(name = "service_categories")
 public class ServiceCategory
-    extends java.lang.Object
 {
     public final static Long ELECTRICITY_SERVICE = 0L;
     public final static Long GAS_SERVICE = 1L;
