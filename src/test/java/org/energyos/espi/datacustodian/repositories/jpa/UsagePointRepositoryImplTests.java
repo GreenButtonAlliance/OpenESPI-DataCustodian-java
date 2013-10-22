@@ -27,31 +27,21 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.math.BigInteger;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
 @Transactional
 public class UsagePointRepositoryImplTests {
 
     @Autowired
     UsagePointRepository repository;
-
     @Autowired
     RetailCustomerRepository retailCustomerRepository;
-
-    @PersistenceContext
-    protected EntityManager em;
-
     private RetailCustomer customer;
     private UUID uuid;
 
@@ -90,7 +80,7 @@ public class UsagePointRepositoryImplTests {
     }
 
     private UsagePoint getUsagePoint() {
-        UsagePoint usagePoint = newUsagePoint();
+        UsagePoint usagePoint = EspiFactory.newUsagePoint();
         usagePoint.setMRID("urn:uuid:E8E75691-7F9D-49F3-8BE2-3A74EBF6BFC0");
         return usagePoint;
     }
@@ -307,11 +297,10 @@ public class UsagePointRepositoryImplTests {
         assertTrue(usagePoint.getMeterReadings().size() > 0);
     }
 
-
     public void persist_savesReadingTypes() throws Exception {
-        UsagePoint usagePoint = newUsagePoint();
+        UsagePoint usagePoint = EspiFactory.newUsagePoint();
         MeterReading meterReading = new MeterReading();
-        ReadingType readingType = newReadingType();
+        ReadingType readingType = EspiFactory.newReadingType();
 
         usagePoint.addMeterReading(meterReading);
         meterReading.setReadingType(readingType);
@@ -319,22 +308,5 @@ public class UsagePointRepositoryImplTests {
         repository.persist(usagePoint);
 
         assertNotNull("ReadingType id was null", readingType.getId());
-    }
-
-    private ReadingType newReadingType() {
-        ReadingType readingType = new ReadingType();
-        RationalNumber number = new RationalNumber();
-        number.setNumerator(new BigInteger("1"));
-        number.setDenominator(new BigInteger("2"));
-        readingType.setArgument(number);
-        return readingType;
-    }
-
-    private UsagePoint newUsagePoint() {
-        UsagePoint usagePoint = new UsagePoint();
-        usagePoint.setDescription("Electric meter");
-        usagePoint.setRetailCustomer(customer);
-        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
-        return usagePoint;
     }
 }
