@@ -22,6 +22,7 @@ import com.sun.syndication.io.WireFeedOutput;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.energyos.espi.datacustodian.models.atom.FeedType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Component;
 
@@ -34,6 +35,7 @@ import java.io.InputStream;
 public class ATOMMarshaller {
 
     @Autowired
+    @Qualifier("atomMarshaller")
     private Jaxb2Marshaller marshaller;
 
     public FeedType unmarshal(InputStream stream) throws JAXBException {
