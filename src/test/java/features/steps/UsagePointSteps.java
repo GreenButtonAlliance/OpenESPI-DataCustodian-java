@@ -21,6 +21,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.custommonkey.xmlunit.XMLUnit;
+import org.energyos.espi.datacustodian.utils.TestUtils;
 import org.openqa.selenium.WebDriver;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
@@ -33,7 +34,7 @@ public class UsagePointSteps {
 
     @Before
     public void setup() {
-        XMLUnit.getControlDocumentBuilderFactory().setNamespaceAware(false);
+        TestUtils.setupXMLUnit();
     }
 
     @Given("^I am a Third Party$")
@@ -48,11 +49,11 @@ public class UsagePointSteps {
     public void I_should_receive_an_xml_response_with_the_user_s_usage_points() throws Throwable {
         String xmlResult = driver.getPageSource();
 
-        assertXpathExists("feed/entry[1]/content/UsagePoint", xmlResult);
-        assertXpathValue("Front Electric Meter", "feed/entry[1]/title", xmlResult);
+        assertXpathExists("/:feed/:entry[1]/:content/espi:UsagePoint", xmlResult);
+        assertXpathValue("Front Electric Meter", "/:feed/:entry[1]/:title", xmlResult);
 
-        assertXpathExists("feed/entry[2]/content/UsagePoint", xmlResult);
-        assertXpathValue("Gas meter", "feed/entry[2]/title", xmlResult);
+        assertXpathExists("/:feed/:entry[2]/:content/espi:UsagePoint", xmlResult);
+        assertXpathValue("Gas meter", "/:feed/:entry[2]/:title", xmlResult);
     }
 
     @When("^I request a usage point for a user$")
@@ -64,8 +65,8 @@ public class UsagePointSteps {
     public void I_should_receive_an_xml_response_with_the_usage_point() throws Throwable {
         String xmlResult = StepUtils.flattenXml(driver.getPageSource());
 
-        assertXpathExists("feed/entry[1]/content/UsagePoint", xmlResult);
-        assertXpathEvaluatesTo("Gas meter", "feed/entry[1]/title", xmlResult);
+        assertXpathExists("/:feed/:entry[1]/:content/espi:UsagePoint", xmlResult);
+        assertXpathEvaluatesTo("Gas meter", "/:feed/:entry[1]/:title", xmlResult);
     }
 
     @When("^I request the feed for a user$")

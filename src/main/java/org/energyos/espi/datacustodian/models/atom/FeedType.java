@@ -25,7 +25,6 @@
 package org.energyos.espi.datacustodian.models.atom;
 
 import org.energyos.espi.datacustodian.models.atom.adapters.EntryAdapter;
-import org.energyos.espi.datacustodian.models.atom.adapters.GenericAdapter;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.*;
@@ -73,16 +72,40 @@ import java.util.Map;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
+ *
  */
+@XmlRootElement(name = "feed")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "feedType", propOrder = {
-        "entries",
-        "id",
-        "authorOrCategoryOrContributor"
-})
 public class FeedType {
+    private String id;
+    private String title;
+    private DateTimeType updated;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public DateTimeType getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(DateTimeType updated) {
+        this.updated = updated;
+    }
 
     @XmlElementRefs({
             @XmlElementRef(name = "entry", namespace = "http://www.w3.org/2005/Atom", type = JAXBElement.class, required = false)
@@ -90,13 +113,6 @@ public class FeedType {
     @XmlAnyElement(lax = true)
     @XmlJavaTypeAdapter(EntryAdapter.class)
     protected List<EntryType> entries = new ArrayList<EntryType>();
-
-    @XmlElementRefs({
-            @XmlElementRef(name = "id", namespace = "http://www.w3.org/2005/Atom", type = JAXBElement.class, required = false),
-    })
-    @XmlAnyElement(lax = true)
-    @XmlJavaTypeAdapter(GenericAdapter.class)
-    protected IdType id;
 
     @XmlElementRefs({
         @XmlElementRef(name = "subtitle", namespace = "http://www.w3.org/2005/Atom", type = JAXBElement.class, required = false),
@@ -136,13 +152,6 @@ public class FeedType {
         this.entries = entries;
     }
 
-    public IdType getId() {
-        return id;
-    }
-
-    public void setId(IdType id) {
-        this.id = id;
-    }
     /**
      * Gets the value of the authorOrCategoryOrContributor property.
      * 

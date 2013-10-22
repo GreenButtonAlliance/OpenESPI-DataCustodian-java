@@ -14,42 +14,47 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.models;
+package org.energyos.espi.datacustodian.domain;
 
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.junit.Test;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
-import static org.energyos.espi.datacustodian.support.TestUtils.assertSizeValidation;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class RetailCustomerTests {
-
+public class UsagePointValidationTests {
     @Test
-    public void retailCustomer_should_BeValid() throws Exception {
+    public void isValid() throws Exception {
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
-        RetailCustomer customer = new RetailCustomer();
-        customer.setFirstName("First");
-        customer.setLastName("Last");
+        UsagePoint usagePoint = new UsagePoint();
+        usagePoint.setMRID("urn:uuid:E8E75691-7F9D-49F3-8BE2-3A74EBF6BFC0");
+        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
 
-        Set<ConstraintViolation<RetailCustomer>> violations = validator.validate(customer);
+        Set<ConstraintViolation<UsagePoint>> violations = validator.validate(usagePoint);
 
         assertTrue(violations.isEmpty());
     }
 
     @Test
-    public void validations() {
-        assertAnnotationPresent(RetailCustomer.class, "firstName", NotEmpty.class);
-        assertSizeValidation(RetailCustomer.class, "firstName", 0, 30);
+    public void isInvalid() throws Exception {
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
-        assertAnnotationPresent(RetailCustomer.class, "lastName", NotEmpty.class);
-        assertSizeValidation(RetailCustomer.class, "lastName", 0, 30);
+        UsagePoint usagePoint = new UsagePoint();
+
+        Set<ConstraintViolation<UsagePoint>> violations = validator.validate(usagePoint);
+
+        assertFalse(violations.isEmpty());
+    }
+
+    @Test
+    public void validations() {
+        assertAnnotationPresent(UsagePoint.class, "serviceCategory", NotNull.class);
     }
 }

@@ -51,6 +51,7 @@ public class EspiFactory {
         usagePoint.setStatus(new Short("5"));
 
         usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
+        usagePoint.setServiceDeliveryPoint(new ServiceDeliveryPoint());
 
         usagePoint.setRetailCustomer(retailCustomer);
         usagePoint.addMeterReading(newMeterReading());
@@ -280,5 +281,10 @@ public class EspiFactory {
         authorization.setAccessToken(UUID.randomUUID().toString());
         authorization.setResource("/Resource/" + UUID.randomUUID().toString());
         return authorization;
+    }
+
+    public static ServiceCategory newServiceCategory() {
+        ServiceCategory serviceCategory = new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE);
+        return serviceCategory;
     }
 }

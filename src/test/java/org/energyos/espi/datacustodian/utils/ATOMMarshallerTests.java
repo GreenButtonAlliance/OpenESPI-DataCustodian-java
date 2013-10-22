@@ -122,37 +122,37 @@ public class ATOMMarshallerTests extends XMLTest {
 
     @Test
     public void marshal_usagePointContent() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathExists("/feed/entry/content/UsagePoint", xmlResult());
+        assertXpathExists("/:feed/:entry/:content/espi:UsagePoint", xmlResult());
     }
 
     @Test
     public void marshal_meterReadingContent() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathExists("/feed/entry/content/MeterReading", xmlResult());
+        assertXpathExists("/:feed/:entry/:content/espi:MeterReading", xmlResult());
     }
 
     @Test
     public void marshal_readingTypeContent() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathExists("/feed/entry/content/ReadingType", xmlResult());
+        assertXpathExists("/:feed/:entry/:content/espi:ReadingType", xmlResult());
     }
 
     @Test
     public void marshal_electricPowerUsageSummaryContent() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathExists("/feed/entry/content/ElectricPowerUsageSummary", xmlResult());
+        assertXpathExists("/:feed/:entry/:content/espi:ElectricPowerUsageSummary", xmlResult());
     }
 
     @Test
     public void marshal_electricPowerQualitySummaryContent() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathExists("/feed/entry/content/ElectricPowerQualitySummary", xmlResult());
+        assertXpathExists("/:feed/:entry/:content/espi:ElectricPowerQualitySummary", xmlResult());
     }
 
     @Test
     public void marshal_intervalBlockContent() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathExists("/feed/entry/content/IntervalBlock", xmlResult());
+        assertXpathExists("/:feed/:entry/:content/espi:IntervalBlock", xmlResult());
     }
 
     @Test
     public void marshal_localTimeParamatersContent() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathExists("/feed/entry/content/LocalTimeParameters", xmlResult());
+        assertXpathExists("/:feed/:entry/:content/espi:LocalTimeParameters", xmlResult());
     }
 
     private String xmlResult() throws FeedException {

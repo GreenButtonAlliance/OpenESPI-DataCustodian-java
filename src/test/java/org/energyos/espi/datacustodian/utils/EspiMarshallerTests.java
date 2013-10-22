@@ -30,12 +30,12 @@ public class EspiMarshallerTests extends XMLTest {
 
     @Test
     public void marshal_with_marshallableObject_returnsValidXml() throws Exception {
-        assertXpathExists("UsagePoint", EspiMarshaller.marshal(newUsagePoint()));
+        assertXpathExists("espi:UsagePoint", EspiMarshaller.marshal(newUsagePoint()));
     }
 
     @Test
     public void marshal_with_marshallableObject_returnsXmlWithServiceCategory() throws Exception {
-        assertXpathValue("1", "UsagePoint/ServiceCategory/kind", EspiMarshaller.marshal(newUsagePoint()));
+        assertXpathValue("1", "espi:UsagePoint/espi:ServiceCategory/espi:kind", EspiMarshaller.marshal(newUsagePoint()));
     }
 
     private UsagePoint newUsagePoint() {

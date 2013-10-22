@@ -21,7 +21,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.custommonkey.xmlunit.XMLUnit;
+import org.energyos.espi.datacustodian.utils.TestUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -33,12 +33,12 @@ import static org.junit.Assert.assertTrue;
 
 public class RetailCustomerSteps {
 
-    private WebDriver driver = WebDriverSingleton.getInstance();
     String xmlResult;
+    private WebDriver driver = WebDriverSingleton.getInstance();
 
     @Before
-    public void setup() {
-        XMLUnit.getControlDocumentBuilderFactory().setNamespaceAware(false);
+    public static void before() {
+        TestUtils.setupXMLUnit();
     }
 
     @Given("^there is an Alan Turing retail customer$")
@@ -87,7 +87,7 @@ public class RetailCustomerSteps {
 
         xmlResult = driver.getPageSource();
 
-        assertXpathValue("Front Electric Meter", "feed/entry[1]/title", xmlResult);
+        assertXpathValue("Front Electric Meter", "/:feed/:entry[1]/:title", xmlResult);
     }
 
     @Then("^the logged in retail customer can see their usage data$")
@@ -112,38 +112,37 @@ public class RetailCustomerSteps {
 
     @Then("^the XML includes Service categories$")
     public void the_XML_includes_Service_categories() throws Throwable {
-        assertXpathValue("0", "feed/entry[1]/content/UsagePoint/ServiceCategory/kind", xmlResult);
+        assertXpathValue("0", "/:feed/:entry[1]/:content/espi:UsagePoint/espi:ServiceCategory/espi:kind", xmlResult);
     }
 
     @Then("^the XML includes Meter Readings$")
     public void the_XML_includes_Meter_Readings() throws Throwable {
-        assertXpathValue("Fifteen Minute Electricity Consumption", "feed/entry[2]/title", xmlResult);
+        assertXpathValue("Fifteen Minute Electricity Consumption", "/:feed/:entry[2]/:title", xmlResult);
     }
 
     @Then("^the XML includes Reading Types$")
     public void the_XML_includes_Reading_Types() throws Throwable {
-        assertXpathValue("Type of Meter Reading Data", "feed/entry[3]/title", xmlResult);
+        assertXpathValue("Type of Meter Reading Data", "/:feed/:entry[3]/:title", xmlResult);
     }
 
     @Then("^the XML includes Electric Power Usage Summary$")
     public void the_XML_includes_Electric_Power_Usage_Summary() throws Throwable {
-        assertXpathValue("Usage Summary", "feed/entry/content/ElectricPowerUsageSummary/../../title", xmlResult);
-        assertXpathValue("1119600", "feed/entry[5]/content/ElectricPowerUsageSummary/billingPeriod/duration", xmlResult);
+        assertXpathValue("Usage Summary", "/:feed/:entry/:content/espi:ElectricPowerUsageSummary/../../:title", xmlResult);
+        assertXpathValue("1119600", "/:feed/:entry[5]/:content/espi:ElectricPowerUsageSummary/espi:billingPeriod/espi:duration", xmlResult);
     }
 
     @Then("^the XML includes Interval Blocks$")
     public void the_XML_includes_Interval_Blocks() throws Throwable {
-        assertXpathValue("86400", "feed/entry[4]/content/IntervalBlock/interval/duration", xmlResult);
+        assertXpathValue("86400", "/:feed/:entry[4]/:content/espi:IntervalBlock/espi:interval/espi:duration", xmlResult);
     }
 
     @Then("^the XML includes Interval Readings$")
     public void the_XML_includes_Interval_Readings() throws Throwable {
-        assertXpathValue("974", "feed/entry[4]/content/IntervalBlock/IntervalReading[1]/cost", xmlResult);
-        assertXpathValue("900", "feed/entry[4]/content/IntervalBlock/IntervalReading[1]/timePeriod/duration", xmlResult);
-        assertXpathValue("1330578900", "feed/entry[4]/content/IntervalBlock/IntervalReading[2]/timePeriod/start", xmlResult);
-        assertXpathValue("965", "feed/entry[4]/content/IntervalBlock/IntervalReading[2]/cost", xmlResult);
+        assertXpathValue("974", "/:feed/:entry[4]/:content/espi:IntervalBlock/espi:IntervalReading[1]/espi:cost", xmlResult);
+        assertXpathValue("900", "/:feed/:entry[4]/:content/espi:IntervalBlock/espi:IntervalReading[1]/espi:timePeriod/espi:duration", xmlResult);
+        assertXpathValue("1330578900", "/:feed/:entry[4]/:content/espi:IntervalBlock/espi:IntervalReading[2]/espi:timePeriod/espi:start", xmlResult);
+        assertXpathValue("965", "/:feed/:entry[4]/:content/espi:IntervalBlock/espi:IntervalReading[2]/espi:cost", xmlResult);
     }
-
 
     @When("^I visit the home page$")
     public void I_visit_the_home_page() throws Throwable {
@@ -186,7 +185,7 @@ public class RetailCustomerSteps {
 
     @Given("^There is a Third Party$")
     public void There_is_a_Third_Party() throws Throwable {
-       // Defined in seed data
+        // Defined in seed data
     }
 
     @When("^I select the Third Party$")
@@ -203,18 +202,18 @@ public class RetailCustomerSteps {
 
     @And("^the XML includes Reading Qualities$")
     public void the_XML_includes_Reading_Qualities() throws Throwable {
-        assertXpathValue("8", "feed/entry[4]/content/IntervalBlock[1]/IntervalReading[1]/ReadingQuality[1]", xmlResult);
+        assertXpathValue("8", "/:feed/:entry[4]/:content/espi:IntervalBlock[1]/espi:IntervalReading[1]/espi:ReadingQuality[1]", xmlResult);
     }
 
     @Then("^the XML includes Electric Power Quality Summary$")
     public void the_XML_includes_Electric_Power_Quality_Summary() throws Throwable {
-        assertXpathValue("Quality Summary", "feed/entry/content/ElectricPowerQualitySummary/../../title", xmlResult);
-        assertXpathValue("2119600", "feed/entry[6]/content/ElectricPowerQualitySummary/summaryInterval/duration", xmlResult);
+        assertXpathValue("Quality Summary", "/:feed/:entry/:content/espi:ElectricPowerQualitySummary/../../:title", xmlResult);
+        assertXpathValue("2119600", "/:feed/:entry[6]/:content/espi:ElectricPowerQualitySummary/espi:summaryInterval/espi:duration", xmlResult);
     }
 
     @Then("^the XML includes Local Time Parameters$")
     public void the_XML_includes_Local_Time_Parameters() throws Throwable {
-        assertXpathValue("DST For North America", "feed/entry/content/LocalTimeParameters/../../title", xmlResult);
-        assertXpathValue("360E2000", "feed/entry/content/LocalTimeParameters/dstStartRule", xmlResult);
+        assertXpathValue("DST For North America", "/:feed/:entry/:content/espi:LocalTimeParameters/../../:title", xmlResult);
+        assertXpathValue("360E2000", "/:feed/:entry/:content/espi:LocalTimeParameters/espi:dstStartRule", xmlResult);
     }
 }

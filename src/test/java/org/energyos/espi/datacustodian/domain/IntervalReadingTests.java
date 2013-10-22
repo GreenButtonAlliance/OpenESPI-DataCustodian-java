@@ -99,23 +99,23 @@ public class IntervalReadingTests extends XMLTest {
 
     @Test
     public void marshal_setsCost() throws SAXException, IOException, XpathException {
-        assertXpathValue("100", "IntervalReading/cost", xml);
+        assertXpathValue("100", "espi:IntervalReading/espi:cost", xml);
     }
 
     @Test
     public void marshal_setsReadingQualities() throws SAXException, IOException, XpathException {
-        assertXpathValue("quality1", "IntervalReading/ReadingQuality[1]/quality", xml);
-        assertXpathValue("quality2", "IntervalReading/ReadingQuality[2]/quality", xml);
+        assertXpathValue("quality1", "espi:IntervalReading/espi:ReadingQuality[1]/espi:quality", xml);
+        assertXpathValue("quality2", "espi:IntervalReading/espi:ReadingQuality[2]/espi:quality", xml);
     }
 
     @Test
     public void marshal_setsTimePeriod() throws SAXException, IOException, XpathException {
-        assertXpathValue("86401", "IntervalReading/timePeriod/duration", xml);
-        assertXpathValue("1330578001", "IntervalReading/timePeriod/start", xml);
+        assertXpathValue("86401", "espi:IntervalReading/espi:timePeriod/espi:duration", xml);
+        assertXpathValue("1330578001", "espi:IntervalReading/espi:timePeriod/espi:start", xml);
     }
 
     @Test
     public void marshal_setsValue() throws SAXException, IOException, XpathException {
-        assertXpathValue("6", "IntervalReading/value", xml);
+        assertXpathValue("6", "espi:IntervalReading/espi:value", xml);
     }
 }

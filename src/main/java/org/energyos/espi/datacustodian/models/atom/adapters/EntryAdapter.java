@@ -17,6 +17,7 @@
 package org.energyos.espi.datacustodian.models.atom.adapters;
 
 import org.energyos.espi.datacustodian.models.atom.EntryType;
+import org.energyos.espi.datacustodian.models.atom.ObjectFactory;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
@@ -29,6 +30,6 @@ public class EntryAdapter extends XmlAdapter<JAXBElement<EntryType>, EntryType> 
 
     @Override
     public JAXBElement<EntryType> marshal(EntryType v) throws Exception {
-        return null;
+        return new JAXBElement<EntryType>(ObjectFactory.Entry_QNAME, EntryType.class, v);
     }
 }

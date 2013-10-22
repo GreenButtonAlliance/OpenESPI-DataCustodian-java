@@ -63,7 +63,7 @@ public class EspiEntryTests extends XMLTest {
         assertEquals("up", entry.getUpLink().getRel());
 
         Content content = (Content)entry.getContents().get(0);
-        assertXpathExists("UsagePoint", content.getValue());
+        assertXpathExists("espi:UsagePoint", content.getValue());
     }
 
     @Test

@@ -68,6 +68,7 @@ import java.util.Map;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "textType", propOrder = {
     "content"

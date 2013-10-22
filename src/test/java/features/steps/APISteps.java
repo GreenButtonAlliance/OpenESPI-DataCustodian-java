@@ -22,8 +22,8 @@ public class APISteps {
 
     @Then("^I should see Usage Points$")
     public void I_should_see_Usage_Points() throws Throwable {
-        assertXpathExists("/feed", driver.getPageSource());
-        assertXpathExists("/feed/entry", driver.getPageSource());
-        assertXpathValue("Front Electric Meter", "/feed/entry[1]/title", driver.getPageSource());
+        assertXpathExists("/:feed", driver.getPageSource());
+        assertXpathExists("/:feed/:entry", driver.getPageSource());
+        assertXpathValue("Front Electric Meter", "/:feed/:entry[1]/:title", driver.getPageSource());
     }
 }

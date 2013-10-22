@@ -14,19 +14,22 @@
   ~    See the License for the specific language governing permissions and
   ~    limitations under the License.
   -->
-
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <import resource="datasource-config.xml"/>
 
     <context:property-placeholder location="classpath:spring/data-access.properties" system-properties-mode="OVERRIDE"/>
 
-    <tx:annotation-driven />
+    <tx:annotation-driven/>
 
     <beans profile="default">
         <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
@@ -56,12 +59,40 @@
     </beans>
 
     <beans>
-        <bean id="jaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <bean id="domainMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+            <property name="packagesToScan">
+                <list>
+                    <value>org.energyos.espi.datacustodian.domain</value>
+                </list>
+            </property>
+            <property name="marshallerProperties">
+                <map>
+                    <entry>
+                        <key>
+                            <util:constant static-field="javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT"/>
+                        </key>
+                        <value type="java.lang.Boolean">true</value>
+                    </entry>
+                </map>
+            </property>
+        </bean>
+
+        <bean id="atomMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
             <property name="packagesToScan">
                 <list>
                     <value>org.energyos.espi.datacustodian.models.atom</value>
                     <value>org.energyos.espi.datacustodian.domain</value>
                 </list>
+            </property>
+            <property name="marshallerProperties">
+                <map>
+                    <entry>
+                        <key>
+                            <util:constant static-field="javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT"/>
+                        </key>
+                        <value type="java.lang.Boolean">true</value>
+                    </entry>
+                </map>
             </property>
         </bean>
     </beans>

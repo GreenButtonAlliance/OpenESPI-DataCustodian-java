@@ -163,93 +163,93 @@ public class ReadingTypeTests extends XMLTest {
 
     @Test
     public void marshalsReadingType() throws SAXException, IOException, XpathException {
-        assertXpathExists("ReadingType", xml);
+        assertXpathExists("espi:ReadingType", xml);
     }
 
     @Test
     public void marshal_setsAccumulationBehaviour() throws SAXException, IOException, XpathException {
-        assertXpathValue("accumulationBehaviour", "ReadingType/accumulationBehaviour", xml);
+        assertXpathValue("accumulationBehaviour", "espi:ReadingType/espi:accumulationBehaviour", xml);
     }
 
     @Test
     public void marshal_setsCommodity() throws SAXException, IOException, XpathException {
-        assertXpathValue("commodity", "ReadingType/commodity", xml);
+        assertXpathValue("commodity", "espi:ReadingType/espi:commodity", xml);
     }
 
     @Test
     public void marshal_setsDataQualifier() throws SAXException, IOException, XpathException {
-        assertXpathValue("dataQualifier", "ReadingType/dataQualifier", xml);
+        assertXpathValue("dataQualifier", "espi:ReadingType/espi:dataQualifier", xml);
     }
 
     @Test
     public void marshal_setsFlowDirection() throws SAXException, IOException, XpathException {
-        assertXpathValue("flowDirection", "ReadingType/flowDirection", xml);
+        assertXpathValue("flowDirection", "espi:ReadingType/espi:flowDirection", xml);
     }
 
     @Test
     public void marshal_setsIntervalLength() throws SAXException, IOException, XpathException {
-        assertXpathValue("10", "ReadingType/intervalLength", xml);
+        assertXpathValue("10", "espi:ReadingType/espi:intervalLength", xml);
     }
 
     @Test
     public void marshal_setsKind() throws SAXException, IOException, XpathException {
-        assertXpathValue("kind", "ReadingType/kind", xml);
+        assertXpathValue("kind", "espi:ReadingType/espi:kind", xml);
     }
 
     @Test
     public void marshal_setsPhase() throws SAXException, IOException, XpathException {
-        assertXpathValue("phase", "ReadingType/phase", xml);
+        assertXpathValue("phase", "espi:ReadingType/espi:phase", xml);
     }
 
     @Test
     public void marshal_setsPowerOfTenMultiplier() throws SAXException, IOException, XpathException {
-        assertXpathValue("multiplier", "ReadingType/powerOfTenMultiplier", xml);
+        assertXpathValue("multiplier", "espi:ReadingType/espi:powerOfTenMultiplier", xml);
     }
 
     @Test
     public void marshal_setsTimeAttribute() throws SAXException, IOException, XpathException {
-        assertXpathValue("timeAttribute", "ReadingType/timeAttribute", xml);
+        assertXpathValue("timeAttribute", "espi:ReadingType/espi:timeAttribute", xml);
     }
 
     @Test
     public void marshal_setsUom() throws SAXException, IOException, XpathException {
-        assertXpathValue("uom", "ReadingType/uom", xml);
+        assertXpathValue("uom", "espi:ReadingType/espi:uom", xml);
     }
 
     @Test
     public void marshal_setsConsumptionTier() throws SAXException, IOException, XpathException {
-        assertXpathValue("consumptionTier", "ReadingType/consumptionTier", xml);
+        assertXpathValue("consumptionTier", "espi:ReadingType/espi:consumptionTier", xml);
     }
 
     @Test
     public void marshal_setsCpp() throws SAXException, IOException, XpathException {
-        assertXpathValue("cpp", "ReadingType/cpp", xml);
+        assertXpathValue("cpp", "espi:ReadingType/espi:cpp", xml);
     }
 
     @Test
     public void marshal_setsCurrency() throws SAXException, IOException, XpathException {
-        assertXpathValue("currency", "ReadingType/currency", xml);
+        assertXpathValue("currency", "espi:ReadingType/espi:currency", xml);
     }
 
     @Test
     public void marshal_setsInterharmonic() throws SAXException, IOException, XpathException {
-        assertXpathValue("1", "ReadingType/interharmonic/numerator", xml);
-        assertXpathValue("6", "ReadingType/interharmonic/denominator", xml);
+        assertXpathValue("1", "espi:ReadingType/espi:interharmonic/espi:numerator", xml);
+        assertXpathValue("6", "espi:ReadingType/espi:interharmonic/espi:denominator", xml);
     }
 
     @Test
     public void marshal_setsMeasuringPeriod() throws SAXException, IOException, XpathException {
-        assertXpathValue("measuringPeriod", "ReadingType/measuringPeriod", xml);
+        assertXpathValue("measuringPeriod", "espi:ReadingType/espi:measuringPeriod", xml);
     }
 
     @Test
     public void marshal_setsTou() throws SAXException, IOException, XpathException {
-        assertXpathValue("tou", "ReadingType/tou", xml);
+        assertXpathValue("tou", "espi:ReadingType/espi:tou", xml);
     }
 
     @Test
     public void marshal_setsAggregate() throws SAXException, IOException, XpathException {
-        assertXpathValue("aggregate", "ReadingType/aggregate", xml);
+        assertXpathValue("aggregate", "espi:ReadingType/espi:aggregate", xml);
     }
 
     @Test
@@ -258,7 +258,7 @@ public class ReadingTypeTests extends XMLTest {
         number.setNumerator(new BigInteger("1"));
         number.setDenominator(new BigInteger("3"));
 
-        assertXpathValue("1", "ReadingType/argument/numerator", xml);
-        assertXpathValue("3", "ReadingType/argument/denominator", xml);
+        assertXpathValue("1", "espi:ReadingType/espi:argument/espi:numerator", xml);
+        assertXpathValue("3", "espi:ReadingType/espi:argument/espi:denominator", xml);
     }
 }

@@ -60,18 +60,18 @@ public class IntervalBlockTests extends XMLTest {
 
     @Test
     public void marshall_setsIntervalDuration() throws SAXException, IOException, XpathException {
-        assertXpathValue("86400", "IntervalBlock/interval/duration", xml);
+        assertXpathValue("86400", "espi:IntervalBlock/espi:interval/espi:duration", xml);
     }
 
     @Test
     public void marshall_setsIntervalStart() throws SAXException, IOException, XpathException {
-        assertXpathValue("1330578000", "IntervalBlock/interval/start", xml);
+        assertXpathValue("1330578000", "espi:IntervalBlock/espi:interval/espi:start", xml);
     }
 
     @Test
     public void marshall_setsIntervalReadings() throws SAXException, IOException, XpathException {
-        assertXpathExists("IntervalBlock/IntervalReading[1]", xml);
-        assertXpathExists("IntervalBlock/IntervalReading[2]", xml);
+        assertXpathExists("espi:IntervalBlock/espi:IntervalReading[1]", xml);
+        assertXpathExists("espi:IntervalBlock/espi:IntervalReading[2]", xml);
     }
 
     @Test

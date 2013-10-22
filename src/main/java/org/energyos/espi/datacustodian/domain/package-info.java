@@ -21,5 +21,13 @@
 // Generated on: 2013.08.27 at 01:43:57 PM EDT 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://naesb.org/espi", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(
+        namespace = "http://naesb.org/espi",
+        elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED,
+        xmlns = {
+                @XmlNs(prefix = "espi", namespaceURI = "http://naesb.org/espi")
+        }
+)
 package org.energyos.espi.datacustodian.domain;
+
+import javax.xml.bind.annotation.XmlNs;

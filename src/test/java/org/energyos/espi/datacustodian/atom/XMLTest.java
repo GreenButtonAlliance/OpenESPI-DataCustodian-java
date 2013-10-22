@@ -1,13 +1,13 @@
 package org.energyos.espi.datacustodian.atom;
 
 
-import org.custommonkey.xmlunit.XMLUnit;
+import org.energyos.espi.datacustodian.utils.TestUtils;
 import org.junit.BeforeClass;
 
 public class XMLTest {
 
     @BeforeClass
     public static void beforeClass() {
-        XMLUnit.getControlDocumentBuilderFactory().setNamespaceAware(false);
+        TestUtils.setupXMLUnit();
     }
 }

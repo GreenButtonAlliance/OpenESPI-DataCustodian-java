@@ -62,6 +62,7 @@ import java.util.Map;
  * &lt;/complexType>
  * </pre>
  */
+@XmlRootElement(name = "content")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "contentType", propOrder = {
         "usagePoint",
