@@ -24,10 +24,7 @@
 
 package org.energyos.espi.datacustodian.models.atom;
 
-import org.energyos.espi.datacustodian.models.atom.adapters.ContentAdapter;
-import org.energyos.espi.datacustodian.models.atom.adapters.DateTimeAdapter;
-import org.energyos.espi.datacustodian.models.atom.adapters.GenericAdapter;
-import org.energyos.espi.datacustodian.models.atom.adapters.LinkAdapter;
+import org.energyos.espi.datacustodian.models.atom.adapters.*;
 import org.joda.time.DateTime;
 
 import javax.xml.bind.JAXBElement;
@@ -35,10 +32,7 @@ import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -78,6 +72,7 @@ import java.util.Map;
  * 
  * 
  */
+@XmlRootElement(name = "entry")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "entryType", propOrder = {
         "content",
@@ -114,18 +109,11 @@ public class EntryType {
     private String title;
 
     @XmlElementRefs({
-            @XmlElementRef(name = "published", namespace = "http://www.w3.org/2005/Atom", type = JAXBElement.class, required = false)
-    })
-    @XmlAnyElement(lax = true)
-    @XmlJavaTypeAdapter(DateTimeAdapter.class)
-    protected DateTime published;
-
-    @XmlElementRefs({
             @XmlElementRef(name = "updated", namespace = "http://www.w3.org/2005/Atom", type = JAXBElement.class, required = false)
     })
     @XmlAnyElement(lax = true)
-    @XmlJavaTypeAdapter(DateTimeAdapter.class)
-    protected DateTime updated;
+    @XmlJavaTypeAdapter(UpdatedAdapter.class)
+    protected DateTimeType updated;
 
     @XmlElementRefs({
         @XmlElementRef(name = "contributor", namespace = "http://www.w3.org/2005/Atom", type = JAXBElement.class, required = false),
@@ -147,6 +135,13 @@ public class EntryType {
     @XmlAttribute(name = "base", namespace = "http://www.w3.org/XML/1998/namespace")
     @XmlSchemaType(name = "anyURI")
     protected String base;
+
+    @XmlElementRefs({
+            @XmlElementRef(name = "published", namespace = "http://www.w3.org/2005/Atom", type = JAXBElement.class, required = false)
+    })
+    @XmlAnyElement(lax = true)
+    @XmlJavaTypeAdapter(PublishedAdapter.class)
+    protected DateTimeType published;
 
     @XmlAttribute(name = "lang", namespace = "http://www.w3.org/XML/1998/namespace")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -188,19 +183,19 @@ public class EntryType {
         this.title = title;
     }
 
-    public DateTime getPublished() {
+    public DateTimeType getPublished() {
         return published;
     }
 
-    public void setPublished(DateTime published) {
+    public void setPublished(DateTimeType published) {
         this.published = published;
     }
 
-    public DateTime getUpdated() {
+    public DateTimeType getUpdated() {
         return updated;
     }
 
-    public void setUpdated(DateTime updated) {
+    public void setUpdated(DateTimeType updated) {
         this.updated = updated;
     }
     /**

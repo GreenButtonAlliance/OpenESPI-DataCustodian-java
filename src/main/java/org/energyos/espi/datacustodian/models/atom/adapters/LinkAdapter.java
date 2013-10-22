@@ -17,6 +17,7 @@
 package org.energyos.espi.datacustodian.models.atom.adapters;
 
 import org.energyos.espi.datacustodian.models.atom.LinkType;
+import org.energyos.espi.datacustodian.models.atom.ObjectFactory;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
@@ -29,6 +30,6 @@ public class LinkAdapter extends XmlAdapter<JAXBElement<LinkType>, LinkType> {
 
     @Override
     public JAXBElement<LinkType> marshal(LinkType v) throws Exception {
-        return null;
+        return new JAXBElement<LinkType>(ObjectFactory.SourceTypeLink_QNAME, LinkType.class, v);
     }
 }

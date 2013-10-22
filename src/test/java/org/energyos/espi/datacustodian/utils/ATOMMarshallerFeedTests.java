@@ -21,8 +21,6 @@ import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.atom.XMLTest;
 import org.energyos.espi.datacustodian.models.atom.FeedType;
 import org.energyos.espi.datacustodian.models.atom.IdType;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +54,6 @@ public class ATOMMarshallerFeedTests extends XMLTest {
             " xsi:schemaLocation=\"http://naesb.org/espi espiDerived.xsd\"" +
             " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">";
     String FEED_POSTFIX = "</feed>";
-
     @Autowired
     private ATOMMarshaller marshaller;
 
@@ -79,7 +76,7 @@ public class ATOMMarshallerFeedTests extends XMLTest {
                 FEED_POSTFIX;
         FeedType feed = unmarshalToFeed(xml);
 
-        assertEquals(IdType.class, feed.getId().getClass());
+        assertEquals(String.class, feed.getId().getClass());
     }
 
     @Test
@@ -115,7 +112,7 @@ public class ATOMMarshallerFeedTests extends XMLTest {
                 FEED_POSTFIX;
         FeedType feed = unmarshalToFeed(xml);
 
-        assertEquals(new DateTime(2000, 2, 29, 0, 0, 0, 0, DateTimeZone.UTC), feed.getEntries().get(0).getPublished());
+        assertEquals("2000-02-29T00:00:00Z", feed.getEntries().get(0).getPublished().getValue().toString());
     }
 
     @Test
@@ -127,7 +124,7 @@ public class ATOMMarshallerFeedTests extends XMLTest {
                 FEED_POSTFIX;
         FeedType feed = unmarshalToFeed(xml);
 
-        assertEquals(new DateTime(2000, 2, 29, 0, 0, 0, 0, DateTimeZone.UTC), feed.getEntries().get(0).getUpdated());
+        assertEquals("2000-02-29T00:00:00Z", feed.getEntries().get(0).getUpdated().getValue().toString());
     }
 
     @Test
@@ -153,6 +150,7 @@ public class ATOMMarshallerFeedTests extends XMLTest {
     @Test
     public void marshal_setsFeedEntries() throws FeedException, SAXException, IOException, XpathException {
         assertXpathExists("/:feed/:entry[1]", newFeedXML());
+        assertXpathExists("/:feed/:entry[2]", newFeedXML());
     }
 
     @Test
@@ -187,7 +185,6 @@ public class ATOMMarshallerFeedTests extends XMLTest {
 
     @Test
     public void marshal_setsEntryTitle() throws SAXException, IOException, XpathException, FeedException {
-        assertXpathEvaluatesTo("Electric meter", "/feed/entry[1]/title", newFeedXML());
         assertXpathEvaluatesTo("Electric meter", "/:feed/:entry[1]/:title", newFeedXML());
     }
 
