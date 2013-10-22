@@ -14,11 +14,10 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.integration;
+package org.energyos.espi.datacustodian.domain;
 
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.atom.XMLTest;
-import org.energyos.espi.datacustodian.utils.factories.ATOMFactory;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,8 +26,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 import org.xml.sax.SAXException;
 
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -38,11 +35,10 @@ import java.io.IOException;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.energyos.espi.datacustodian.support.Asserts.assertXpathValue;
+import static org.energyos.espi.datacustodian.support.TestUtils.assertFieldNotMarshallable;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
-@Transactional
 public class UsagePointMarshallerTests extends XMLTest {
     @Autowired
     @Qualifier("atomMarshaller")
@@ -61,7 +57,7 @@ public class UsagePointMarshallerTests extends XMLTest {
 
     @Test
     public void roleFlags() throws SAXException, IOException, XpathException, DatatypeConfigurationException {
-        assertXpathExists("/espi:UsagePoint/espi:roleFlags", newXML());
+        assertXpathValue("726F6C6520666C616773", "/espi:UsagePoint/espi:roleFlags", newXML());
     }
 
     @Test
@@ -71,11 +67,36 @@ public class UsagePointMarshallerTests extends XMLTest {
 
     @Test
     public void status() throws SAXException, IOException, XpathException, DatatypeConfigurationException {
-        assertXpathExists("/espi:UsagePoint/espi:status", newXML());
+        assertXpathValue("5", "espi:UsagePoint/espi:status", newXML());
     }
 
     @Test
-    public void serviceDeliveryPoint() throws SAXException, IOException, XpathException, DatatypeConfigurationException {
+    public void ServiceDeliveryPoint() throws SAXException, IOException, XpathException, DatatypeConfigurationException {
         assertXpathExists("/espi:UsagePoint/espi:ServiceDeliveryPoint", newXML());
+    }
+
+    @Test
+    public void ServiceCategory_kind() throws SAXException, IOException, XpathException, DatatypeConfigurationException {
+        assertXpathValue("0", "espi:UsagePoint/espi:ServiceCategory/espi:kind", newXML());
+    }
+
+    @Test
+    public void meterReadings_shouldNotBeMarshaled() {
+        assertFieldNotMarshallable(UsagePoint.class, "meterReadings");
+    }
+
+    @Test
+    public void retailCustomer_shouldNotBeMarshaled() {
+        assertFieldNotMarshallable(UsagePoint.class, "retailCustomer");
+    }
+
+    @Test
+    public void electricPowerUsageSummaries_shouldNotBeMarshaled() {
+        assertFieldNotMarshallable(UsagePoint.class, "electricPowerUsageSummaries");
+    }
+
+    @Test
+    public void localTimeParameters_shouldNotBeMarshaled() {
+        assertFieldNotMarshallable(UsagePoint.class, "localTimeParameters");
     }
 }
