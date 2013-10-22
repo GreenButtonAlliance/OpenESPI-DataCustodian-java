@@ -14,9 +14,8 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.models;
+package org.energyos.espi.datacustodian.domain;
 
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.junit.Test;
 
@@ -29,7 +28,7 @@ import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotation
 import static org.energyos.espi.datacustodian.support.TestUtils.assertSizeValidation;
 import static org.junit.Assert.assertTrue;
 
-public class RetailCustomerTests {
+public class RetailCustomerValidationTests {
 
     @Test
     public void retailCustomer_should_BeValid() throws Exception {
