@@ -38,7 +38,6 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
-@Transactional
 public class EspiTokenEnhancerTests {
     @Autowired
     protected EspiTokenEnhancer tokenEnhancer;

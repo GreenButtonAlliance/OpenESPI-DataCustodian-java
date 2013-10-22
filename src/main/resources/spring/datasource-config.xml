@@ -30,10 +30,5 @@
 
     <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource"
           p:driverClassName="${jdbc.driverClassName}" p:url="${jdbc.url}"
-          p:username="${jdbc.username}" p:password="${jdbc.password}"/>
-
-    <jdbc:initialize-database data-source="dataSource" ignore-failures="ALL">
-        <jdbc:script location="${jdbc.dataLocation}"/>
-        <jdbc:script location="${jdbc.environmentDataLocation}"/>
-    </jdbc:initialize-database>
+          p:username="${jdbc.username}" p:password="${jdbc.password}" p:initialSize="10" p:maxActive="20" p:maxIdle="5" p:minIdle="2"/>
 </beans>

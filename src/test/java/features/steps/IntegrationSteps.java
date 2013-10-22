@@ -8,6 +8,7 @@ import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
+import org.junit.BeforeClass;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -26,7 +27,7 @@ public class IntegrationSteps {
     private RetailCustomer retailCustomer;
     private String xml;
 
-    @Before
+    @Before("@spring")
     public void before() {
         ctx = new ClassPathXmlApplicationContext("/spring/test-service-context.xml");
         usagePointService = ctx.getBean(UsagePointService.class);
