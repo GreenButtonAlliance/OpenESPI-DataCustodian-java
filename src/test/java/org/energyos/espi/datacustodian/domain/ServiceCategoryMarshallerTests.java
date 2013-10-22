@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.integration;
+package org.energyos.espi.datacustodian.domain;
 
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.atom.XMLTest;
@@ -27,7 +27,6 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 import org.xml.sax.SAXException;
 
 import javax.xml.datatype.DatatypeConfigurationException;

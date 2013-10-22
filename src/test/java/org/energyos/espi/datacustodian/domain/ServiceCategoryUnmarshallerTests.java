@@ -14,12 +14,10 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.integration;
+package org.energyos.espi.datacustodian.domain;
 
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.atom.XMLTest;
-import org.energyos.espi.datacustodian.domain.ServiceCategory;
-import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,14 +30,11 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.xml.sax.SAXException;
 
 import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 
 import static junit.framework.Assert.assertEquals;
-import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration

@@ -22,7 +22,7 @@ import javax.persistence.Id;
 
 import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
 
-public class ServiceCategoryTests {
+public class ServiceCategoryPersistenceTests {
 
     @Test
     public void hasId() {
