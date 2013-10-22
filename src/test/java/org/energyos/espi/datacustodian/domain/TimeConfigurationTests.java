@@ -81,22 +81,22 @@ public class TimeConfigurationTests extends XMLTest {
 
     @Test
     public void marshal_setsDstEndRule() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValue("666F6F", "/LocalTimeParameters/dstEndRule", xmlResult());
+        assertXpathValue("666F6F", "/espi:LocalTimeParameters/espi:dstEndRule", xmlResult());
     }
 
     @Test
     public void marshal_setsDstOffset() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValue("1000", "/LocalTimeParameters/dstOffset", xmlResult());
+        assertXpathValue("1000", "/espi:LocalTimeParameters/espi:dstOffset", xmlResult());
     }
 
     @Test
     public void marshal_setsDstStartRule() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValue("626172", "/LocalTimeParameters/dstStartRule", xmlResult());
+        assertXpathValue("626172", "/espi:LocalTimeParameters/espi:dstStartRule", xmlResult());
     }
 
     @Test
     public void marshal_setsTzOffset() throws FeedException, SAXException, IOException, XpathException {
-       assertXpathValue("1234", "/LocalTimeParameters/tzOffset", xmlResult());
+       assertXpathValue("1234", "/espi:LocalTimeParameters/espi:tzOffset", xmlResult());
     }
 
     private String xmlResult() throws FeedException {

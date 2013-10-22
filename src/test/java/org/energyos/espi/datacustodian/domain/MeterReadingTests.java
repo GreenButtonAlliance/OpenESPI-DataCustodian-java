@@ -43,7 +43,7 @@ public class MeterReadingTests extends XMLTest {
 
     @Test
     public void marshalsMeterReading() throws SAXException, IOException, XpathException, FeedException {
-        assertXpathExists("MeterReading", EspiMarshaller.marshal(newMeterReadingWithUsagePoint()));
+        assertXpathExists("espi:MeterReading", EspiMarshaller.marshal(newMeterReadingWithUsagePoint()));
     }
 
     @Test

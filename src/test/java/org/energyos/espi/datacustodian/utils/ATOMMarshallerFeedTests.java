@@ -132,68 +132,68 @@ public class ATOMMarshallerFeedTests extends XMLTest {
 
     @Test
     public void marshal_setsFeedId() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValue("urn:uuid:0071C5A7-91CF-434E-8BCE-C38AC8AF215D", "/feed/id", newFeedXML());
+        assertXpathValue("urn:uuid:0071C5A7-91CF-434E-8BCE-C38AC8AF215D", "/:feed/:id", newFeedXML());
     }
 
     @Test
     public void marshal_setsFeedTitle() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValue("Feed title", "/feed/title", newFeedXML());
+        assertXpathValue("Feed title", "/:feed/:title", newFeedXML());
     }
 
     @Test
     public void marshal_setsFeedUpdated() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValueStartsWith("2013-12-28T", "/feed/updated", newFeedXML());
+        assertXpathValueStartsWith("2013-12-28T", "/:feed/:updated", newFeedXML());
     }
 
     @Test
     public void marshal_setsFeedSelfLink() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValue("/ThirdParty/83e269c1/Batch", "/feed/link[@rel='self']/@href", newFeedXML());
+        assertXpathValue("/ThirdParty/83e269c1/Batch", "/:feed/:link[@rel='self']/@href", newFeedXML());
     }
 
     @Test
     public void marshal_setsFeedEntries() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathExists("/feed/entry[1]", newFeedXML());
-        assertXpathExists("/feed/entry[2]", newFeedXML());
+        assertXpathExists("/:feed/:entry[1]", newFeedXML());
     }
 
     @Test
     public void marshal_setsEntryId() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValueStartsWith("urn:uuid:", "/feed/entry[1]/id", newFeedXML());
+        assertXpathValueStartsWith("urn:uuid:", "/:feed/:entry[1]/:id", newFeedXML());
     }
 
     @Test
     public void marshal_setsEntrySelfLink() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValue("RetailCustomer/1/UsagePoint/2", "/feed/entry[1]/link[@rel='self']/@href", newFeedXML());
+        assertXpathValue("RetailCustomer/1/UsagePoint/2", "/:feed/:entry[1]/:link[@rel='self']/@href", newFeedXML());
     }
 
     @Test
     public void marshal_setsEntryUpLink() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValue("RetailCustomer/1/UsagePoint", "/feed/entry[1]/link[@rel='up']/@href", newFeedXML());
+        assertXpathValue("RetailCustomer/1/UsagePoint", "/:feed/:entry[1]/:link[@rel='up']/@href", newFeedXML());
     }
 
     @Test
     public void marshal_setsEntryRelatedLink() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValue("RetailCustomer/1/UsagePoint/2/MeterReading", "/feed/entry[1]/link[@rel='related']/@href", newFeedXML());
+        assertXpathValue("RetailCustomer/1/UsagePoint/2/MeterReading", "/:feed/:entry[1]/:link[@rel='related']/@href", newFeedXML());
     }
 
     @Test
     public void marshal_setsEntryPublished() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValueStartsWith("2012-11-15T", "/feed/entry[1]/published", newFeedXML());
+        assertXpathValueStartsWith("2012-11-15T", "/:feed/:entry[1]/:published", newFeedXML());
     }
 
     @Test
     public void marshal_setsEntryUpdated() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValueStartsWith("2012-11-17T", "/feed/entry[1]/updated", newFeedXML());
+        assertXpathValueStartsWith("2012-11-17T", "/:feed/:entry[1]/:updated", newFeedXML());
     }
 
     @Test
     public void marshal_setsEntryTitle() throws SAXException, IOException, XpathException, FeedException {
         assertXpathEvaluatesTo("Electric meter", "/feed/entry[1]/title", newFeedXML());
+        assertXpathEvaluatesTo("Electric meter", "/:feed/:entry[1]/:title", newFeedXML());
     }
 
     @Test
     public void marshal_setsEntryContent() throws SAXException, IOException, XpathException, FeedException {
-        assertXpathExists("/feed/entry[1]/content", newFeedXML());
+        assertXpathExists("/:feed/:entry[1]/:content", newFeedXML());
     }
 
     private String newFeedXML() throws FeedException {

@@ -210,116 +210,116 @@ public class ElectricPowerUsageSummaryTests extends XMLTest {
 
     @Test
     public void marshal_setsBillingPeriod() throws JAXBException, SAXException, IOException, XpathException {
-        assertXpathValue("1119600", "/ElectricPowerUsageSummary/billingPeriod/duration", xml);
-        assertXpathValue("1119600", "/ElectricPowerUsageSummary/billingPeriod/start", xml);
+        assertXpathValue("1119600", "/espi:ElectricPowerUsageSummary/espi:billingPeriod/espi:duration", xml);
+        assertXpathValue("1119600", "/espi:ElectricPowerUsageSummary/espi:billingPeriod/espi:start", xml);
     }
 
     @Test
     public void marshal_setsBillLastPeriod() throws JAXBException, SAXException, IOException, XpathException {
-        assertXpathValue("15303000", "/ElectricPowerUsageSummary/billLastPeriod", xml);
+        assertXpathValue("15303000", "/espi:ElectricPowerUsageSummary/espi:billLastPeriod", xml);
     }
 
     @Test
     public void marshal_setsBillToDate() throws JAXBException, SAXException, IOException, XpathException {
-        assertXpathValue("1135000", "/ElectricPowerUsageSummary/billToDate", xml);
+        assertXpathValue("1135000", "/espi:ElectricPowerUsageSummary/espi:billToDate", xml);
     }
 
     @Test
     public void marshal_setsCostAdditionalLastPeriod() throws JAXBException, SAXException, IOException, XpathException {
-        assertXpathValue("1346000", "/ElectricPowerUsageSummary/costAdditionalLastPeriod", xml);
+        assertXpathValue("1346000", "/espi:ElectricPowerUsageSummary/espi:costAdditionalLastPeriod", xml);
     }
 
     @Test
     public void marshal_setsCurrency() throws JAXBException, SAXException, IOException, XpathException {
-        assertXpathValue("840", "/ElectricPowerUsageSummary/currency", xml);
+        assertXpathValue("840", "/espi:ElectricPowerUsageSummary/espi:currency", xml);
     }
 
     @Test
     public void marshal_setsCurrentBillingPeriodOverAllConsumption() throws JAXBException, SAXException, IOException, XpathException {
-        assertXpathValue("0", "/ElectricPowerUsageSummary/currentBillingPeriodOverAllConsumption/powerOfTenMultiplier", xml);
-        assertXpathValue("1331784000", "/ElectricPowerUsageSummary/currentBillingPeriodOverAllConsumption/timeStamp", xml);
-        assertXpathValue("72", "/ElectricPowerUsageSummary/currentBillingPeriodOverAllConsumption/uom", xml);
-        assertXpathValue("93018", "/ElectricPowerUsageSummary/currentBillingPeriodOverAllConsumption/value", xml);
+        assertXpathValue("0", "/espi:ElectricPowerUsageSummary/espi:currentBillingPeriodOverAllConsumption/espi:powerOfTenMultiplier", xml);
+        assertXpathValue("1331784000", "/espi:ElectricPowerUsageSummary/espi:currentBillingPeriodOverAllConsumption/espi:timeStamp", xml);
+        assertXpathValue("72", "/espi:ElectricPowerUsageSummary/espi:currentBillingPeriodOverAllConsumption/espi:uom", xml);
+        assertXpathValue("93018", "/espi:ElectricPowerUsageSummary/espi:currentBillingPeriodOverAllConsumption/espi:value", xml);
     }
 
     @Test
     public void marshal_setsQualityOfReading() throws JAXBException, SAXException, IOException, XpathException {
-        assertXpathValue("14", "/ElectricPowerUsageSummary/qualityOfReading", xml);
+        assertXpathValue("14", "/espi:ElectricPowerUsageSummary/espi:qualityOfReading", xml);
     }
 
     @Test
     public void marshal_setsStatusTimeStamp() throws JAXBException, SAXException, IOException, XpathException {
-        assertXpathValue("1331784000", "/ElectricPowerUsageSummary/statusTimeStamp", xml);
+        assertXpathValue("1331784000", "/espi:ElectricPowerUsageSummary/espi:statusTimeStamp", xml);
     }
 
     @Test
     public void marshal_setsCurrentDayLastYearNetConsumption() throws JAXBException, SAXException, IOException, XpathException {
-        assertXpathValue("0", "/ElectricPowerUsageSummary/currentDayLastYearNetConsumption/powerOfTenMultiplier", xml);
-        assertXpathValue("1331784000", "/ElectricPowerUsageSummary/currentDayLastYearNetConsumption/timeStamp", xml);
-        assertXpathValue("72", "/ElectricPowerUsageSummary/currentDayLastYearNetConsumption/uom", xml);
-        assertXpathValue("93018", "/ElectricPowerUsageSummary/currentDayLastYearNetConsumption/value", xml);
+        assertXpathValue("0", "/espi:ElectricPowerUsageSummary/espi:currentDayLastYearNetConsumption/espi:powerOfTenMultiplier", xml);
+        assertXpathValue("1331784000", "/espi:ElectricPowerUsageSummary/espi:currentDayLastYearNetConsumption/espi:timeStamp", xml);
+        assertXpathValue("72", "/espi:ElectricPowerUsageSummary/espi:currentDayLastYearNetConsumption/espi:uom", xml);
+        assertXpathValue("93018", "/espi:ElectricPowerUsageSummary/espi:currentDayLastYearNetConsumption/espi:value", xml);
     }
 
     @Test
     public void marshal_setsCurrentDayNetConsumption() throws JAXBException, SAXException, IOException, XpathException {
-        assertXpathValue("0", "/ElectricPowerUsageSummary/currentDayNetConsumption/powerOfTenMultiplier", xml);
-        assertXpathValue("1331784000", "/ElectricPowerUsageSummary/currentDayNetConsumption/timeStamp", xml);
-        assertXpathValue("72", "/ElectricPowerUsageSummary/currentDayNetConsumption/uom", xml);
-        assertXpathValue("93018", "/ElectricPowerUsageSummary/currentDayNetConsumption/value", xml);
+        assertXpathValue("0", "/espi:ElectricPowerUsageSummary/espi:currentDayNetConsumption/espi:powerOfTenMultiplier", xml);
+        assertXpathValue("1331784000", "/espi:ElectricPowerUsageSummary/espi:currentDayNetConsumption/espi:timeStamp", xml);
+        assertXpathValue("72", "/espi:ElectricPowerUsageSummary/espi:currentDayNetConsumption/espi:uom", xml);
+        assertXpathValue("93018", "/espi:ElectricPowerUsageSummary/espi:currentDayNetConsumption/espi:value", xml);
     }
 
     @Test
     public void marshal_setsCurrentDayOverallConsumption() throws JAXBException, SAXException, IOException, XpathException {
-        assertXpathValue("0", "/ElectricPowerUsageSummary/currentDayOverallConsumption/powerOfTenMultiplier", xml);
-        assertXpathValue("1331784000", "/ElectricPowerUsageSummary/currentDayOverallConsumption/timeStamp", xml);
-        assertXpathValue("72", "/ElectricPowerUsageSummary/currentDayOverallConsumption/uom", xml);
-        assertXpathValue("93018", "/ElectricPowerUsageSummary/currentDayOverallConsumption/value", xml);
+        assertXpathValue("0", "/espi:ElectricPowerUsageSummary/espi:currentDayOverallConsumption/espi:powerOfTenMultiplier", xml);
+        assertXpathValue("1331784000", "/espi:ElectricPowerUsageSummary/espi:currentDayOverallConsumption/espi:timeStamp", xml);
+        assertXpathValue("72", "/espi:ElectricPowerUsageSummary/espi:currentDayOverallConsumption/espi:uom", xml);
+        assertXpathValue("93018", "/espi:ElectricPowerUsageSummary/espi:currentDayOverallConsumption/espi:value", xml);
     }
 
     @Test
     public void marshal_setsPeakDemand() throws JAXBException, SAXException, IOException, XpathException {
-        assertXpathValue("0", "/ElectricPowerUsageSummary/peakDemand/powerOfTenMultiplier", xml);
-        assertXpathValue("1331784000", "/ElectricPowerUsageSummary/peakDemand/timeStamp", xml);
-        assertXpathValue("72", "/ElectricPowerUsageSummary/peakDemand/uom", xml);
-        assertXpathValue("93018", "/ElectricPowerUsageSummary/peakDemand/value", xml);
+        assertXpathValue("0", "/espi:ElectricPowerUsageSummary/espi:peakDemand/espi:powerOfTenMultiplier", xml);
+        assertXpathValue("1331784000", "/espi:ElectricPowerUsageSummary/espi:peakDemand/espi:timeStamp", xml);
+        assertXpathValue("72", "/espi:ElectricPowerUsageSummary/espi:peakDemand/espi:uom", xml);
+        assertXpathValue("93018", "/espi:ElectricPowerUsageSummary/espi:peakDemand/espi:value", xml);
     }
 
     @Test
     public void marshal_setsPreviousDayLastYearOverallConsumption() throws JAXBException, SAXException, IOException, XpathException {
-        assertXpathValue("0", "/ElectricPowerUsageSummary/previousDayLastYearOverallConsumption/powerOfTenMultiplier", xml);
-        assertXpathValue("1331784000", "/ElectricPowerUsageSummary/previousDayLastYearOverallConsumption/timeStamp", xml);
-        assertXpathValue("72", "/ElectricPowerUsageSummary/previousDayLastYearOverallConsumption/uom", xml);
-        assertXpathValue("93018", "/ElectricPowerUsageSummary/previousDayLastYearOverallConsumption/value", xml);
+        assertXpathValue("0", "/espi:ElectricPowerUsageSummary/espi:previousDayLastYearOverallConsumption/espi:powerOfTenMultiplier", xml);
+        assertXpathValue("1331784000", "/espi:ElectricPowerUsageSummary/espi:previousDayLastYearOverallConsumption/espi:timeStamp", xml);
+        assertXpathValue("72", "/espi:ElectricPowerUsageSummary/espi:previousDayLastYearOverallConsumption/espi:uom", xml);
+        assertXpathValue("93018", "/espi:ElectricPowerUsageSummary/espi:previousDayLastYearOverallConsumption/espi:value", xml);
     }
 
     @Test
     public void marshal_setsPreviousDayNetConsumption() throws JAXBException, SAXException, IOException, XpathException {
-        assertXpathValue("0", "/ElectricPowerUsageSummary/previousDayNetConsumption/powerOfTenMultiplier", xml);
-        assertXpathValue("1331784000", "/ElectricPowerUsageSummary/previousDayNetConsumption/timeStamp", xml);
-        assertXpathValue("72", "/ElectricPowerUsageSummary/previousDayNetConsumption/uom", xml);
-        assertXpathValue("93018", "/ElectricPowerUsageSummary/previousDayNetConsumption/value", xml);
+        assertXpathValue("0", "/espi:ElectricPowerUsageSummary/espi:previousDayNetConsumption/espi:powerOfTenMultiplier", xml);
+        assertXpathValue("1331784000", "/espi:ElectricPowerUsageSummary/espi:previousDayNetConsumption/espi:timeStamp", xml);
+        assertXpathValue("72", "/espi:ElectricPowerUsageSummary/espi:previousDayNetConsumption/espi:uom", xml);
+        assertXpathValue("93018", "/espi:ElectricPowerUsageSummary/espi:previousDayNetConsumption/espi:value", xml);
     }
 
     @Test
     public void marshal_setsPreviousDayOverallConsumption() throws JAXBException, SAXException, IOException, XpathException {
-        assertXpathValue("0", "/ElectricPowerUsageSummary/previousDayOverallConsumption/powerOfTenMultiplier", xml);
-        assertXpathValue("1331784000", "/ElectricPowerUsageSummary/previousDayOverallConsumption/timeStamp", xml);
-        assertXpathValue("72", "/ElectricPowerUsageSummary/previousDayOverallConsumption/uom", xml);
-        assertXpathValue("93018", "/ElectricPowerUsageSummary/previousDayOverallConsumption/value", xml);
+        assertXpathValue("0", "/espi:ElectricPowerUsageSummary/espi:previousDayOverallConsumption/espi:powerOfTenMultiplier", xml);
+        assertXpathValue("1331784000", "/espi:ElectricPowerUsageSummary/espi:previousDayOverallConsumption/espi:timeStamp", xml);
+        assertXpathValue("72", "/espi:ElectricPowerUsageSummary/espi:previousDayOverallConsumption/espi:uom", xml);
+        assertXpathValue("93018", "/espi:ElectricPowerUsageSummary/espi:previousDayOverallConsumption/espi:value", xml);
     }
 
     @Test
     public void marshal_setsRatchetDemand() throws JAXBException, SAXException, IOException, XpathException {
-        assertXpathValue("0", "/ElectricPowerUsageSummary/ratchetDemand/powerOfTenMultiplier", xml);
-        assertXpathValue("1331784000", "/ElectricPowerUsageSummary/ratchetDemand/timeStamp", xml);
-        assertXpathValue("72", "/ElectricPowerUsageSummary/ratchetDemand/uom", xml);
-        assertXpathValue("93018", "/ElectricPowerUsageSummary/ratchetDemand/value", xml);
+        assertXpathValue("0", "/espi:ElectricPowerUsageSummary/espi:ratchetDemand/espi:powerOfTenMultiplier", xml);
+        assertXpathValue("1331784000", "/espi:ElectricPowerUsageSummary/espi:ratchetDemand/espi:timeStamp", xml);
+        assertXpathValue("72", "/espi:ElectricPowerUsageSummary/espi:ratchetDemand/espi:uom", xml);
+        assertXpathValue("93018", "/espi:ElectricPowerUsageSummary/espi:ratchetDemand/espi:value", xml);
     }
 
     @Test
     public void marshal_setsRatchetDemandPeriod() throws JAXBException, SAXException, IOException, XpathException {
-        assertXpathValue("1119600", "/ElectricPowerUsageSummary/ratchetDemandPeriod/duration", xml);
-        assertXpathValue("1119600", "/ElectricPowerUsageSummary/ratchetDemandPeriod/start", xml);
+        assertXpathValue("1119600", "/espi:ElectricPowerUsageSummary/espi:ratchetDemandPeriod/espi:duration", xml);
+        assertXpathValue("1119600", "/espi:ElectricPowerUsageSummary/espi:ratchetDemandPeriod/espi:start", xml);
     }
 
     @Test

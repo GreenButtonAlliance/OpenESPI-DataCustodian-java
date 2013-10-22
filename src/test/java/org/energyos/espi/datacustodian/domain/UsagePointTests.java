@@ -74,22 +74,22 @@ public class UsagePointTests extends XMLTest {
 
     @Test
     public void marshalUsagePoint() throws SAXException, IOException, XpathException {
-        assertXpathExists("UsagePoint", xml);
+        assertXpathExists("espi:UsagePoint", xml);
     }
 
     @Test
     public void marshal_setsRoleFlags() throws SAXException, IOException, XpathException {
-        assertXpathValue("726F6C6520666C616773", "UsagePoint/roleFlags", xml);
+        assertXpathValue("726F6C6520666C616773", "espi:UsagePoint/espi:roleFlags", xml);
     }
 
     @Test
     public void marshal_setsServiceCategory() throws SAXException, IOException, XpathException {
-        assertXpathValue("0", "UsagePoint/ServiceCategory/kind", xml);
+        assertXpathValue("0", "espi:UsagePoint/espi:ServiceCategory/espi:kind", xml);
     }
 
     @Test
     public void marshal_setsStatus() throws SAXException, IOException, XpathException {
-        assertXpathValue("5", "UsagePoint/status", xml);
+        assertXpathValue("5", "espi:UsagePoint/espi:status", xml);
     }
 
     @Test

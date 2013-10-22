@@ -148,72 +148,72 @@ public class ElectricPowerQualitySummaryTests extends XMLTest {
 
     @Test
     public void marshal_setsFlickerPlt() throws SAXException, IOException, XpathException, FeedException {
-        assertXpathValue("1", "/ElectricPowerQualitySummary/flickerPlt", xml);
+        assertXpathValue("1", "/espi:ElectricPowerQualitySummary/espi:flickerPlt", xml);
     }
 
     @Test
     public void marshal_setsFlickerPst() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValue("2", "/ElectricPowerQualitySummary/flickerPst", xml);
+        assertXpathValue("2", "/espi:ElectricPowerQualitySummary/espi:flickerPst", xml);
     }
 
     @Test
     public void marshal_setsHarmonicVoltage() throws SAXException, IOException, XpathException {
-        assertXpathValue("3", "/ElectricPowerQualitySummary/harmonicVoltage", xml);
+        assertXpathValue("3", "/espi:ElectricPowerQualitySummary/espi:harmonicVoltage", xml);
     }
 
     @Test
     public void marshal_setsLongInterruptions() throws SAXException, IOException, XpathException {
-        assertXpathValue("4", "/ElectricPowerQualitySummary/longInterruptions", xml);
+        assertXpathValue("4", "/espi:ElectricPowerQualitySummary/espi:longInterruptions", xml);
     }
 
     @Test
     public void marshal_setsMainsVoltage() throws SAXException, IOException, XpathException {
-        assertXpathValue("5", "/ElectricPowerQualitySummary/mainsVoltage", xml);
+        assertXpathValue("5", "/espi:ElectricPowerQualitySummary/espi:mainsVoltage", xml);
     }
 
     @Test
     public void marshal_setsMeasurementProtocol() throws SAXException, IOException, XpathException {
-        assertXpathValue("6", "/ElectricPowerQualitySummary/measurementProtocol", xml);
+        assertXpathValue("6", "/espi:ElectricPowerQualitySummary/espi:measurementProtocol", xml);
     }
 
     @Test
     public void marshal_setsPowerFrequency() throws SAXException, IOException, XpathException {
-        assertXpathValue("7", "/ElectricPowerQualitySummary/powerFrequency", xml);
+        assertXpathValue("7", "/espi:ElectricPowerQualitySummary/espi:powerFrequency", xml);
     }
 
     @Test
     public void marshal_setsRapidVoltageChanges() throws SAXException, IOException, XpathException {
-        assertXpathValue("8", "/ElectricPowerQualitySummary/rapidVoltageChanges", xml);
+        assertXpathValue("8", "/espi:ElectricPowerQualitySummary/espi:rapidVoltageChanges", xml);
     }
 
     @Test
     public void marshal_setsShortInterruptions() throws SAXException, IOException, XpathException {
-        assertXpathValue("9", "/ElectricPowerQualitySummary/shortInterruptions", xml);
+        assertXpathValue("9", "/espi:ElectricPowerQualitySummary/espi:shortInterruptions", xml);
     }
 
     @Test
     public void marshal_setsSupplyVoltageDips() throws SAXException, IOException, XpathException {
-        assertXpathValue("10", "/ElectricPowerQualitySummary/supplyVoltageDips", xml);
+        assertXpathValue("10", "/espi:ElectricPowerQualitySummary/espi:supplyVoltageDips", xml);
     }
 
     @Test
     public void marshal_setsSupplyVoltageImbalance() throws SAXException, IOException, XpathException {
-        assertXpathValue("11", "/ElectricPowerQualitySummary/supplyVoltageImbalance", xml);
+        assertXpathValue("11", "/espi:ElectricPowerQualitySummary/espi:supplyVoltageImbalance", xml);
     }
 
     @Test
     public void marshal_setsSupplyVoltageVariations() throws SAXException, IOException, XpathException {
-        assertXpathValue("12", "/ElectricPowerQualitySummary/supplyVoltageVariations", xml);
+        assertXpathValue("12", "/espi:ElectricPowerQualitySummary/espi:supplyVoltageVariations", xml);
     }
 
     @Test
     public void marshal_setsTempOvervoltage() throws SAXException, IOException, XpathException {
-        assertXpathValue("13", "/ElectricPowerQualitySummary/tempOvervoltage", xml);
+        assertXpathValue("13", "/espi:ElectricPowerQualitySummary/espi:tempOvervoltage", xml);
     }
 
     @Test
     public void marshal_setsSummaryInterval() throws SAXException, IOException, XpathException {
-        assertXpathValue("2119600", "/ElectricPowerQualitySummary/summaryInterval/duration", xml);
-        assertXpathValue("2330578000", "/ElectricPowerQualitySummary/summaryInterval/start", xml);
+        assertXpathValue("2119600", "/espi:ElectricPowerQualitySummary/espi:summaryInterval/espi:duration", xml);
+        assertXpathValue("2330578000", "/espi:ElectricPowerQualitySummary/espi:summaryInterval/espi:start", xml);
     }
 }

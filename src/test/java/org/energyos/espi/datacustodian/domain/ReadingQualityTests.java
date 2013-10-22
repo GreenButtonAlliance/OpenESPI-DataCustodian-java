@@ -61,7 +61,7 @@ public class ReadingQualityTests extends XMLTest {
 
     @Test
     public void marshal_setsQuality() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValue("100", "IntervalReading/cost", EspiMarshaller.marshal(newIntervalReading()));
+        assertXpathValue("100", "espi:IntervalReading/espi:cost", EspiMarshaller.marshal(newIntervalReading()));
     }
 
     @Test
