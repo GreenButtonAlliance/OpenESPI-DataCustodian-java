@@ -20,7 +20,6 @@ import com.sun.syndication.io.FeedException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.atom.XMLTest;
 import org.energyos.espi.datacustodian.models.atom.FeedType;
-import org.energyos.espi.datacustodian.models.atom.IdType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +87,7 @@ public class ATOMMarshallerFeedTests extends XMLTest {
                 FEED_POSTFIX;
         FeedType feed = unmarshalToFeed(xml);
 
-        assertEquals(IdType.class, feed.getEntries().get(0).getId().getClass());
+        assertEquals(String.class, feed.getEntries().get(0).getId().getClass());
     }
 
     @Test

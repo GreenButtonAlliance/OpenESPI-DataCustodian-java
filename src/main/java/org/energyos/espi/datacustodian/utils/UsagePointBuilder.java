@@ -129,7 +129,7 @@ public class UsagePointBuilder {
     }
 
     private void updateEntity(IdentifiedObject entity, EntryType entry) {
-        entity.setMRID(entry.getId().getValue());
+        entity.setMRID(entry.getId());
         entity.setDescription(entry.getTitle());
     }
 }
