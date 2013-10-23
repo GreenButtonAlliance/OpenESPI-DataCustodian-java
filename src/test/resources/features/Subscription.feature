@@ -1,4 +1,4 @@
-Feature: API
+Feature: Subscription
   As a Third Party
   I want to access Retail Customer data
   So that I can display Retail Customer data

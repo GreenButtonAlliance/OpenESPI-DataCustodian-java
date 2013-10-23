@@ -8,7 +8,7 @@ import org.openqa.selenium.WebDriver;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.energyos.espi.datacustodian.support.Asserts.assertXpathValue;
 
-public class APISteps {
+public class SubscriptionSteps {
     private WebDriver driver = WebDriverSingleton.getInstance();
 
     @Given("^an authorized Third Party$")

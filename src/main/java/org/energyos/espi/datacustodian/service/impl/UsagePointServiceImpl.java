@@ -22,7 +22,7 @@ import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.energyos.espi.datacustodian.utils.ATOMMarshaller;
-import org.energyos.espi.datacustodian.utils.FeedBuilder;
+import org.energyos.espi.datacustodian.utils.SubscriptionBuilder;
 import org.energyos.espi.datacustodian.utils.UsagePointBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,7 +45,7 @@ public class UsagePointServiceImpl implements UsagePointService {
     @Autowired
     private UsagePointBuilder usagePointBuilder;
     @Autowired
-    private FeedBuilder feedBuilder;
+    private SubscriptionBuilder subscriptionBuilder;
 
     public void setRepository(UsagePointRepository repository) {
         this.repository = repository;
@@ -59,8 +59,8 @@ public class UsagePointServiceImpl implements UsagePointService {
         this.usagePointBuilder = usagePointBuilder;
     }
 
-    public void setFeedBuilder(FeedBuilder feedBuilder) {
-        this.feedBuilder = feedBuilder;
+    public void setSubscriptionBuilder(SubscriptionBuilder subscriptionBuilder) {
+        this.subscriptionBuilder = subscriptionBuilder;
     }
 
     public List<UsagePoint> findAllByRetailCustomer(RetailCustomer customer) {
@@ -89,14 +89,14 @@ public class UsagePointServiceImpl implements UsagePointService {
     }
 
     public String exportUsagePoints(RetailCustomer customer) throws FeedException {
-        return marshaller.marshal(feedBuilder.buildFeed(findAllByRetailCustomer(customer)));
+        return marshaller.marshal(subscriptionBuilder.buildFeed(findAllByRetailCustomer(customer)));
     }
 
     public String exportUsagePointById(Long usagePointId) throws FeedException {
         List<UsagePoint> usagePointList = new ArrayList<UsagePoint>();
         usagePointList.add(findById(usagePointId));
 
-        return marshaller.marshal(feedBuilder.buildFeed(usagePointList));
+        return marshaller.marshal(subscriptionBuilder.buildFeed(usagePointList));
     }
 
     @Override
