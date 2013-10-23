@@ -24,13 +24,10 @@
 
 package org.energyos.espi.datacustodian.models.atom;
 
-import javax.xml.bind.annotation.*;
-import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import javax.xml.namespace.QName;
-import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.Map;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlSchemaType;
 
 
 /**
@@ -62,73 +59,15 @@ import java.util.Map;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "linkType", propOrder = {
-    "content"
-})
 public class LinkType {
 
-    @XmlValue
-    protected String content;
     @XmlAttribute(name = "href", required = true)
     @XmlSchemaType(name = "anyURI")
     protected String href;
+
     @XmlAttribute(name = "rel")
     protected String rel;
-    @XmlAttribute(name = "type")
-    protected String type;
-    @XmlAttribute(name = "hreflang")
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    @XmlSchemaType(name = "NMTOKEN")
-    protected String hreflang;
-    @XmlAttribute(name = "title")
-    protected String title;
-    @XmlAttribute(name = "length")
-    @XmlSchemaType(name = "positiveInteger")
-    protected BigInteger length;
-    @XmlAttribute(name = "base", namespace = "http://www.w3.org/XML/1998/namespace")
-    @XmlSchemaType(name = "anyURI")
-    protected String base;
-    @XmlAttribute(name = "lang", namespace = "http://www.w3.org/XML/1998/namespace")
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    @XmlSchemaType(name = "language")
-    protected String lang;
-    @XmlAnyAttribute
-    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
 
-    /**
-     * 
-     * 				The Atom link construct is defined in section 3.4 of the format spec.
-     * 			
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getContent() {
-        return content;
-    }
-
-    /**
-     * Sets the value of the content property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setContent(String value) {
-        this.content = value;
-    }
-
-    /**
-     * Gets the value of the href property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
     public String getHref() {
         return href;
     }
@@ -157,178 +96,28 @@ public class LinkType {
         return rel;
     }
 
-    /**
-     * Sets the value of the rel property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setRel(String value) {
-        this.rel = value;
+    public void setRel(String rel) {
+        this.rel = rel;
     }
 
-    /**
-     * Gets the value of the type property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getType() {
-        return type;
-    }
+    @Override
+    public boolean equals(Object obj) {
+        LinkType other = (LinkType)obj;
 
-    /**
-     * Sets the value of the type property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setType(String value) {
-        this.type = value;
-    }
+        boolean hrefsEqual = false;
+        boolean relsEqual = false;
 
-    /**
-     * Gets the value of the hreflang property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getHreflang() {
-        return hreflang;
-    }
+        if(href != null && other.getHref() != null) {
+            hrefsEqual = href.equals(other.getHref());
+        } else {
+            hrefsEqual = (href == null && other.getHref() == null);
+        }
 
-    /**
-     * Sets the value of the hreflang property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setHreflang(String value) {
-        this.hreflang = value;
+        if(rel != null && other.getRel() != null) {
+            relsEqual = rel.equals(other.getRel());
+        } else {
+            relsEqual = (rel == null && other.getRel() == null);
+        }
+        return hrefsEqual && relsEqual;
     }
-
-    /**
-     * Gets the value of the title property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getTitle() {
-        return title;
-    }
-
-    /**
-     * Sets the value of the title property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setTitle(String value) {
-        this.title = value;
-    }
-
-    /**
-     * Gets the value of the length property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getLength() {
-        return length;
-    }
-
-    /**
-     * Sets the value of the length property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setLength(BigInteger value) {
-        this.length = value;
-    }
-
-    /**
-     * Gets the value of the base property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getBase() {
-        return base;
-    }
-
-    /**
-     * Sets the value of the base property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setBase(String value) {
-        this.base = value;
-    }
-
-    /**
-     * Gets the value of the lang property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getLang() {
-        return lang;
-    }
-
-    /**
-     * Sets the value of the lang property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setLang(String value) {
-        this.lang = value;
-    }
-
-    /**
-     * Gets a map that contains attributes that aren't bound to any typed property on this class.
-     * 
-     * <p>
-     * the map is keyed by the name of the attribute and 
-     * the value is the string value of the attribute.
-     * 
-     * the map returned by this method is live, and you can add new attribute
-     * by updating the map directly. Because of this design, there's no setter.
-     * 
-     * 
-     * @return
-     *     always non-null
-     */
-    public Map<QName, String> getOtherAttributes() {
-        return otherAttributes;
-    }
-
 }
