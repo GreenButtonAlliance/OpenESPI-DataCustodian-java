@@ -68,6 +68,14 @@ public class LinkType {
     @XmlAttribute(name = "rel")
     protected String rel;
 
+    public LinkType() {
+    }
+
+    public LinkType(String rel, String href) {
+        this.href = href;
+        this.rel = rel;
+    }
+
     public String getHref() {
         return href;
     }
@@ -101,23 +109,22 @@ public class LinkType {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        LinkType other = (LinkType)obj;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        boolean hrefsEqual = false;
-        boolean relsEqual = false;
+        LinkType linkType = (LinkType)o;
 
-        if(href != null && other.getHref() != null) {
-            hrefsEqual = href.equals(other.getHref());
-        } else {
-            hrefsEqual = (href == null && other.getHref() == null);
-        }
+        if (href != null ? !href.equals(linkType.href) : linkType.href != null) return false;
+        if (rel != null ? !rel.equals(linkType.rel) : linkType.rel != null) return false;
 
-        if(rel != null && other.getRel() != null) {
-            relsEqual = rel.equals(other.getRel());
-        } else {
-            relsEqual = (rel == null && other.getRel() == null);
-        }
-        return hrefsEqual && relsEqual;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = href != null ? href.hashCode() : 0;
+        result = 31 * result + (rel != null ? rel.hashCode() : 0);
+        return result;
     }
 }
