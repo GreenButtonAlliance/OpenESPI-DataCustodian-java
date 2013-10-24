@@ -17,8 +17,8 @@ public class ATOMFactory {
 
         feed.setId("urn:uuid:0071C5A7-91CF-434E-8BCE-C38AC8AF215D");
         feed.setTitle("ThirdPartyX Batch Feed");
-        feed.setUpdated(newDateTimeType(2012, 8, 14, 00, 00, 00));
-        feed.getEntries().add(newEntryTypeWithUsagePoint());
+        Date date = new GregorianCalendar(2012, Calendar.SEPTEMBER, 14, 00, 00, 00).getTime();
+        feed.setUpdated(DateConverter.toDateTimeType(date));
 
         return feed;
     }
@@ -47,23 +47,9 @@ public class ATOMFactory {
         return link;
     }
 
-    private static DateTimeType newDateTimeType(int year, int month, int date, int hourOfDay, int minute,
-                                                int second) throws DatatypeConfigurationException {
-        DateTimeType dateTime = new DateTimeType();
-        dateTime.setValue(newXMLGregorianCalendar(year, month, date, hourOfDay, minute, second));
 
-        return dateTime;
-    }
-
-    private static XMLGregorianCalendar newXMLGregorianCalendar(int year, int month, int date, int hourOfDay,
-                                                                int minute, int second) throws DatatypeConfigurationException {
         GregorianCalendar gregorianCalendar = (GregorianCalendar) GregorianCalendar.getInstance();
         gregorianCalendar.setTimeZone(TimeZone.getTimeZone("UTC"));
-        gregorianCalendar.set(year, month, date, hourOfDay, minute, second);
 
-        XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar(gregorianCalendar);
-        xmlGregorianCalendar.setFractionalSecond(null);
-
-        return xmlGregorianCalendar;
     }
 }
