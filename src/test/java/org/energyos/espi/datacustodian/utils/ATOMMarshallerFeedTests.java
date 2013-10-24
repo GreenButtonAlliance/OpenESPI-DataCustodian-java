@@ -174,12 +174,12 @@ public class ATOMMarshallerFeedTests extends XMLTest {
 
     @Test
     public void marshal_setsEntryPublished() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValueStartsWith("2012-11-15T", "/:feed/:entry[1]/:published", newFeedXML());
+        assertXpathValue("2012-11-15T00:00:00Z", "/:feed/:entry[1]/:published", newFeedXML());
     }
 
     @Test
     public void marshal_setsEntryUpdated() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValueStartsWith("2012-11-17T", "/:feed/:entry[1]/:updated", newFeedXML());
+        assertXpathValue("2012-10-24T00:00:00Z", "/:feed/:entry[1]/:updated", newFeedXML());
     }
 
     @Test
