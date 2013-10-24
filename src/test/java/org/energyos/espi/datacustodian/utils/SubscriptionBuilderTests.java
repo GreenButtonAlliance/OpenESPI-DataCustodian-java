@@ -33,7 +33,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
-public class FeedBuilderTests {
+public class SubscriptionBuilderTests {
 
     private Feed feed;
 

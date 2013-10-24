@@ -77,9 +77,7 @@ public class UsagePointBuilderTests {
 
         EntryType entryType = new EntryType();
         entryType.setTitle(title);
-        IdType id = new IdType();
-        id.setValue("urn:uuid:0071C5A7-91CF-434E-8BCE-C38AC8AF215D");
-        entryType.setId(id);
+        entryType.setId("urn:uuid:0071C5A7-91CF-434E-8BCE-C38AC8AF215D");
         newUsagePoint(entryType);
         feed.getEntries().add(entryType);
 

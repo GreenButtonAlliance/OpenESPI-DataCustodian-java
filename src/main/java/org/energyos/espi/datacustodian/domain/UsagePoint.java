@@ -23,7 +23,7 @@
 
 package org.energyos.espi.datacustodian.domain;
 
-import org.energyos.espi.datacustodian.models.atom.adapters.GenericAdapter;
+import org.energyos.espi.datacustodian.models.atom.LinkType;
 import org.energyos.espi.datacustodian.models.atom.adapters.UsagePointAdapter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -134,6 +134,14 @@ public class UsagePoint
     @XmlTransient
     @ManyToOne @JoinColumn(name="retail_customer_id")
     protected RetailCustomer retailCustomer;
+
+    public String getSelfHref() {
+        return getUpHref() + "/" + getId();
+    }
+
+    public String getUpHref() {
+        return "RetailCustomer/" + getRetailCustomer().getId() + "/UsagePoint";
+    }
 
     /**
      * Gets the value of the roleFlags property.
@@ -259,5 +267,31 @@ public class UsagePoint
 
     public void setServiceDeliveryPoint(ServiceDeliveryPoint serviceDeliveryPoint) {
         this.serviceDeliveryPoint = serviceDeliveryPoint;
+    }
+
+    public List<LinkType> getRelatedLinks() {
+        List<LinkType> links = new ArrayList<>();
+        addElectricPowerQualitySummaryLinks(links);
+        addElectricPowerUsageSummaryLinks(links);
+        addMeterReadingLinks(links);
+        return links;
+    }
+
+    private void addMeterReadingLinks(List<LinkType> links) {
+        if(meterReadings.size() > 0) {
+            links.add(new LinkType("related", getSelfHref() + "/ElectricPowerUsageSummary"));
+        }
+    }
+
+    private void addElectricPowerUsageSummaryLinks(List<LinkType> links) {
+        if(electricPowerUsageSummaries.size() > 0) {
+            links.add(new LinkType("related", getSelfHref() + "/ElectricPowerUsageSummary"));
+        }
+    }
+
+    private void addElectricPowerQualitySummaryLinks(List<LinkType> links) {
+        if(electricPowerQualitySummaries.size() > 0) {
+            links.add(new LinkType("related", getSelfHref() + "/ElectricPowerQualitySummary"));
+        }
     }
 }

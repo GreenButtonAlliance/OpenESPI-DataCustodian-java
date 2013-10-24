@@ -1,11 +1,9 @@
 Feature: API
-  As a Third Party
-  I want to access Retail Customer data
-  So that I can display Retail Customer data
+  As an API client,
+  I should be able to access the Data Custodian API,
+  So that I can access electric usage data from Data Custodian
 
-  Scenario: Third Party accesses Usage Points
-    Given an authorized Third Party
-
-    When I log in as Alan Turing
-    And I access the Usage Points API
-    Then I should see Usage Points
+Scenario: API client requests a list of Usage Points
+  Given a Retail Customer with Usage Points
+  When I GET /espi/1_1/resource/RetailCustomer/{RetailCustomerID}/UsagePoint
+  Then I should receive the list of Usage Points

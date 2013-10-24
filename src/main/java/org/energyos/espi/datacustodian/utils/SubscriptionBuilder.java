@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class FeedBuilder {
+public class SubscriptionBuilder {
 
     private Feed feed;
 

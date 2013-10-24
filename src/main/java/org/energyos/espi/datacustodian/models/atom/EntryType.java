@@ -25,25 +25,27 @@
 package org.energyos.espi.datacustodian.models.atom;
 
 import org.energyos.espi.datacustodian.models.atom.adapters.*;
-import org.joda.time.DateTime;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.namespace.QName;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
- * 
+ *
  * 				The Atom entry construct is defined in section 4.1.2 of the format spec.
- * 			
- * 
+ *
+ *
  * <p>Java class for entryType complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="entryType">
  *   &lt;complexContent>
@@ -69,34 +71,24 @@ import java.util.*;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlRootElement(name = "entry")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "entryType", propOrder = {
-        "content",
         "id",
         "links",
         "title",
+        "content",
         "published",
         "updated",
         "authorOrCategoryOrContent"
 })
 public class EntryType {
-    @XmlElementRefs({
-            @XmlElementRef(name = "content", namespace = "http://www.w3.org/2005/Atom", type = JAXBElement.class, required = false),
-    })
-    @XmlAnyElement(lax = true)
-    @XmlJavaTypeAdapter(ContentAdapter.class)
-    protected ContentType content;
 
-    @XmlElementRefs({
-            @XmlElementRef(name = "id", namespace = "http://www.w3.org/2005/Atom", type = JAXBElement.class, required = false),
-    })
-    @XmlAnyElement(lax = true)
-    @XmlJavaTypeAdapter(GenericAdapter.class)
-    protected IdType id;
+    @XmlElement
+    protected String id;
 
     @XmlElementRefs({
             @XmlElementRef(name = "link", namespace = "http://www.w3.org/2005/Atom", type = JAXBElement.class, required = false),
@@ -107,6 +99,20 @@ public class EntryType {
 
     @XmlElement
     private String title;
+
+    @XmlElementRefs({
+            @XmlElementRef(name = "content", namespace = "http://www.w3.org/2005/Atom", type = JAXBElement.class, required = false),
+    })
+    @XmlAnyElement(lax = true)
+    @XmlJavaTypeAdapter(ContentAdapter.class)
+    protected ContentType content;
+
+    @XmlElementRefs({
+            @XmlElementRef(name = "published", namespace = "http://www.w3.org/2005/Atom", type = JAXBElement.class, required = false)
+    })
+    @XmlAnyElement(lax = true)
+    @XmlJavaTypeAdapter(PublishedAdapter.class)
+    protected DateTimeType published;
 
     @XmlElementRefs({
             @XmlElementRef(name = "updated", namespace = "http://www.w3.org/2005/Atom", type = JAXBElement.class, required = false)
@@ -132,16 +138,12 @@ public class EntryType {
     @XmlAnyElement(lax = true)
     protected List<Object> authorOrCategoryOrContent;
 
+
+
+
     @XmlAttribute(name = "base", namespace = "http://www.w3.org/XML/1998/namespace")
     @XmlSchemaType(name = "anyURI")
     protected String base;
-
-    @XmlElementRefs({
-            @XmlElementRef(name = "published", namespace = "http://www.w3.org/2005/Atom", type = JAXBElement.class, required = false)
-    })
-    @XmlAnyElement(lax = true)
-    @XmlJavaTypeAdapter(PublishedAdapter.class)
-    protected DateTimeType published;
 
     @XmlAttribute(name = "lang", namespace = "http://www.w3.org/XML/1998/namespace")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -159,11 +161,11 @@ public class EntryType {
         this.content = content;
     }
 
-    public IdType getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(IdType id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -200,20 +202,20 @@ public class EntryType {
     }
     /**
      * Gets the value of the authorOrCategoryOrContent property.
-     * 
+     *
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the authorOrCategoryOrContent property.
-     * 
+     *
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getAuthorOrCategoryOrContent().add(newItem);
      * </pre>
-     * 
-     * 
+     *
+     *
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link JAXBElement }{@code <}{@link PersonType }{@code >}
@@ -229,8 +231,8 @@ public class EntryType {
      * {@link JAXBElement }{@code <}{@link DateTimeType }{@code >}
      * {@link Object }
      * {@link JAXBElement }{@code <}{@link TextType }{@code >}
-     * 
-     * 
+     *
+     *
      */
     public List<Object> getAuthorOrCategoryOrContent() {
         if (authorOrCategoryOrContent == null) {
@@ -241,11 +243,11 @@ public class EntryType {
 
     /**
      * Gets the value of the base property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getBase() {
         return base;
@@ -253,11 +255,11 @@ public class EntryType {
 
     /**
      * Sets the value of the base property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setBase(String value) {
         this.base = value;
@@ -265,11 +267,11 @@ public class EntryType {
 
     /**
      * Gets the value of the lang property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getLang() {
         return lang;
@@ -277,11 +279,11 @@ public class EntryType {
 
     /**
      * Sets the value of the lang property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setLang(String value) {
         this.lang = value;
@@ -289,15 +291,15 @@ public class EntryType {
 
     /**
      * Gets a map that contains attributes that aren't bound to any typed property on this class.
-     * 
+     *
      * <p>
-     * the map is keyed by the name of the attribute and 
+     * the map is keyed by the name of the attribute and
      * the value is the string value of the attribute.
-     * 
+     *
      * the map returned by this method is live, and you can add new attribute
      * by updating the map directly. Because of this design, there's no setter.
-     * 
-     * 
+     *
+     *
      * @return
      *     always non-null
      */

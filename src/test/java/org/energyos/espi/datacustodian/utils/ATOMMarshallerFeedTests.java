@@ -20,7 +20,6 @@ import com.sun.syndication.io.FeedException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.atom.XMLTest;
 import org.energyos.espi.datacustodian.models.atom.FeedType;
-import org.energyos.espi.datacustodian.models.atom.IdType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +87,7 @@ public class ATOMMarshallerFeedTests extends XMLTest {
                 FEED_POSTFIX;
         FeedType feed = unmarshalToFeed(xml);
 
-        assertEquals(IdType.class, feed.getEntries().get(0).getId().getClass());
+        assertEquals(String.class, feed.getEntries().get(0).getId().getClass());
     }
 
     @Test
@@ -175,12 +174,12 @@ public class ATOMMarshallerFeedTests extends XMLTest {
 
     @Test
     public void marshal_setsEntryPublished() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValueStartsWith("2012-11-15T", "/:feed/:entry[1]/:published", newFeedXML());
+        assertXpathValue("2012-11-15T00:00:00Z", "/:feed/:entry[1]/:published", newFeedXML());
     }
 
     @Test
     public void marshal_setsEntryUpdated() throws FeedException, SAXException, IOException, XpathException {
-        assertXpathValueStartsWith("2012-11-17T", "/:feed/:entry[1]/:updated", newFeedXML());
+        assertXpathValue("2012-10-24T00:00:00Z", "/:feed/:entry[1]/:updated", newFeedXML());
     }
 
     @Test

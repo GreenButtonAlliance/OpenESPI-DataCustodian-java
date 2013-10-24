@@ -1,69 +1,36 @@
 package org.energyos.espi.datacustodian.utils.factories;
 
-import org.energyos.espi.datacustodian.models.atom.*;
+import com.sun.syndication.io.FeedException;
+import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.models.atom.FeedType;
+import org.energyos.espi.datacustodian.utils.DateConverter;
+import org.energyos.espi.datacustodian.web.api.FeedBuilder;
 
 import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
+import java.util.*;
+
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
 
 public class ATOMFactory {
     private ATOMFactory() {
     }
 
-    public static FeedType newFeedType() throws DatatypeConfigurationException {
-        FeedType feed = new FeedType();
+    public static FeedType newFeedType() throws DatatypeConfigurationException, FeedException {
+
+        UsagePoint usagePoint = newUsagePoint();
+        List<UsagePoint> usagePoints = new ArrayList<>();
+        usagePoints.add(usagePoint);
+
+        FeedType feed = new FeedBuilder().build(usagePoints);
 
         feed.setId("urn:uuid:0071C5A7-91CF-434E-8BCE-C38AC8AF215D");
         feed.setTitle("ThirdPartyX Batch Feed");
-        feed.setUpdated(newDateTimeType(2012, 8, 14, 00, 00, 00));
-        feed.getEntries().add(newEntryTypeWithUsagePoint());
+        GregorianCalendar gregorianCalendar = new GregorianCalendar(2012, Calendar.SEPTEMBER, 14, 00, 00, 00);
+        gregorianCalendar.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date date = gregorianCalendar.getTime();
+        feed.setUpdated(DateConverter.toDateTimeType(date));
 
         return feed;
     }
 
-    private static EntryType newEntryTypeWithUsagePoint() throws DatatypeConfigurationException {
-        EntryType entry = new EntryType();
-        entry.setTitle("Electric meter");
-        entry.setUpdated(newDateTimeType(2012, 9, 24, 00, 00, 00));
-        entry.setPublished(newDateTimeType(2012, 7, 24, 00, 00, 00));
-        entry.getLinks().add(newLinkType());
-        entry.setContent(newContentTypeWithUsagePoint());
-        return entry;
-    }
-
-    private static ContentType newContentTypeWithUsagePoint() {
-        ContentType content = new ContentType();
-        content.setUsagePoint(EspiFactory.newUsagePoint());
-
-        return content;
-    }
-
-    private static LinkType newLinkType() {
-        LinkType link = new LinkType();
-        link.setRel("self");
-        link.setHref("RetailCustomer/9b6c7063/UsagePoint/01");
-        return link;
-    }
-
-    private static DateTimeType newDateTimeType(int year, int month, int date, int hourOfDay, int minute,
-                                                int second) throws DatatypeConfigurationException {
-        DateTimeType dateTime = new DateTimeType();
-        dateTime.setValue(newXMLGregorianCalendar(year, month, date, hourOfDay, minute, second));
-
-        return dateTime;
-    }
-
-    private static XMLGregorianCalendar newXMLGregorianCalendar(int year, int month, int date, int hourOfDay,
-                                                                int minute, int second) throws DatatypeConfigurationException {
-        GregorianCalendar gregorianCalendar = (GregorianCalendar) GregorianCalendar.getInstance();
-        gregorianCalendar.setTimeZone(TimeZone.getTimeZone("UTC"));
-        gregorianCalendar.set(year, month, date, hourOfDay, minute, second);
-
-        XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar(gregorianCalendar);
-        xmlGregorianCalendar.setFractionalSecond(null);
-
-        return xmlGregorianCalendar;
-    }
 }

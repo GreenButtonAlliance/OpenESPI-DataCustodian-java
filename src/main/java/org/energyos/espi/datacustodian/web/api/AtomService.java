@@ -1,4 +1,4 @@
-/*
+package org.energyos.espi.datacustodian.web.api;/*
  * Copyright 2013 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,12 +14,11 @@
  *    limitations under the License.
  */
 
-package features;
+import com.sun.syndication.io.FeedException;
+import org.energyos.espi.datacustodian.domain.UsagePoint;
 
-import cucumber.api.junit.Cucumber;
-import org.junit.runner.RunWith;
+import java.util.List;
 
-@RunWith(Cucumber.class)
-@Cucumber.Options(features = {"classpath:features/Authentication.feature"})
-public class AuthenticationFeature {
+public interface AtomService {
+    String feedFor(List<UsagePoint> usagePointList) throws FeedException;
 }
