@@ -3,7 +3,9 @@ package org.energyos.espi.datacustodian.utils.factories;
 import org.energyos.espi.datacustodian.domain.*;
 
 import java.math.BigInteger;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 import java.util.UUID;
 
 public class EspiFactory {
@@ -58,8 +60,14 @@ public class EspiFactory {
         usagePoint.addElectricPowerUsageSummary(newElectricPowerUsageSummary());
         usagePoint.addElectricPowerQualitySummary(newElectricPowerQualitySummary());
         usagePoint.setLocalTimeParameters(newLocalTimeParameters());
-        usagePoint.setCreated(new GregorianCalendar(2012, 10, 15, 0, 0, 0).getTime());
-        usagePoint.setUpdated(new GregorianCalendar(2012, 10, 17, 0, 0, 0).getTime());
+
+        GregorianCalendar created = new GregorianCalendar(2012, Calendar.NOVEMBER, 15, 0, 0, 0);
+        created.setTimeZone(TimeZone.getTimeZone("UTC"));
+        usagePoint.setCreated(created.getTime());
+
+        GregorianCalendar updated = new GregorianCalendar(2012, Calendar.OCTOBER, 24, 0, 0, 0);
+        updated.setTimeZone(TimeZone.getTimeZone("UTC"));
+        usagePoint.setUpdated(updated.getTime());
 
         return usagePoint;
     }
