@@ -16,6 +16,7 @@
 
 package org.energyos.espi.datacustodian.models.atom;
 
+import com.sun.syndication.io.FeedException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.atom.XMLTest;
 import org.energyos.espi.datacustodian.utils.factories.ATOMFactory;
@@ -45,69 +46,69 @@ public class FeedTypeMarshallerTests extends XMLTest {
     @Qualifier("atomMarshaller")
     private Jaxb2Marshaller atomMarshaller;
 
-    private String newXML() throws DatatypeConfigurationException {
+    private String newXML() throws DatatypeConfigurationException, FeedException {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         atomMarshaller.marshal(ATOMFactory.newFeedType(), new StreamResult(os));
         return os.toString();
     }
 
     @Test
-    public void feed() throws SAXException, IOException, XpathException, DatatypeConfigurationException {
+    public void feed() throws SAXException, IOException, XpathException, DatatypeConfigurationException, FeedException {
         assertXpathExists("/:feed", newXML());
     }
 
     @Test
-    public void id() throws SAXException, IOException, XpathException, DatatypeConfigurationException {
+    public void id() throws SAXException, IOException, XpathException, DatatypeConfigurationException, FeedException {
         assertXpathValue("urn:uuid:0071C5A7-91CF-434E-8BCE-C38AC8AF215D", "/:feed/:id", newXML());
     }
 
     @Test
-    public void title() throws SAXException, IOException, XpathException, DatatypeConfigurationException {
+    public void title() throws SAXException, IOException, XpathException, DatatypeConfigurationException, FeedException {
         assertXpathValue("ThirdPartyX Batch Feed", "/:feed/:title", newXML());
     }
 
     @Test
-    public void updated() throws SAXException, IOException, XpathException, DatatypeConfigurationException {
+    public void updated() throws SAXException, IOException, XpathException, DatatypeConfigurationException, FeedException {
         assertXpathValue("2012-09-14T00:00:00Z", "/:feed/:updated", newXML());
     }
 
     @Test
-    public void entry() throws SAXException, IOException, XpathException, DatatypeConfigurationException {
+    public void entry() throws SAXException, IOException, XpathException, DatatypeConfigurationException, FeedException {
         assertXpathExists("/:feed/:entry", newXML());
     }
 
     @Test
-    public void entry_id() throws SAXException, IOException, XpathException, DatatypeConfigurationException {
+    public void entry_id() throws SAXException, IOException, XpathException, DatatypeConfigurationException, FeedException {
         assertXpathExists("/:feed/:entry", newXML());
     }
 
     @Test
-    public void entry_link() throws SAXException, IOException, XpathException, DatatypeConfigurationException {
+    public void entry_link() throws SAXException, IOException, XpathException, DatatypeConfigurationException, FeedException {
         assertXpathExists("/:feed/:entry/:link", newXML());
     }
 
     @Test
-    public void entry_title() throws SAXException, IOException, XpathException, DatatypeConfigurationException {
+    public void entry_title() throws SAXException, IOException, XpathException, DatatypeConfigurationException, FeedException {
         assertXpathExists("/:feed/:entry/:title", newXML());
     }
 
     @Test
-    public void entry_published() throws SAXException, IOException, XpathException, DatatypeConfigurationException {
-        assertXpathValue("2012-08-24T00:00:00Z", "/:feed/:entry/:published", newXML());
+    public void entry_published() throws SAXException, IOException, XpathException, DatatypeConfigurationException, FeedException {
+        assertXpathValue("2012-11-15T00:00:00Z", "/:feed/:entry/:published", newXML());
     }
 
     @Test
-    public void entry_updated() throws SAXException, IOException, XpathException, DatatypeConfigurationException {
+    public void entry_updated() throws SAXException, IOException, XpathException, DatatypeConfigurationException, FeedException {
         assertXpathValue("2012-10-24T00:00:00Z", "/:feed/:entry/:updated", newXML());
     }
 
     @Test
-    public void content() throws SAXException, IOException, XpathException, DatatypeConfigurationException {
+    public void content() throws SAXException, IOException, XpathException, DatatypeConfigurationException, FeedException {
         assertXpathExists("/:feed/:entry/:content", newXML());
     }
 
     @Test
-    public void content_UsagePoint() throws SAXException, IOException, XpathException, DatatypeConfigurationException {
+    public void content_UsagePoint() throws SAXException, IOException, XpathException, DatatypeConfigurationException, FeedException {
         assertXpathExists("/:feed/:entry/:content/espi:UsagePoint", newXML());
     }
 }
