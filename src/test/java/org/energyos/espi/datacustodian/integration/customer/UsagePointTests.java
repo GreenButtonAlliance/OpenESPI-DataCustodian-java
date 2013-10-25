@@ -17,7 +17,10 @@
 package org.energyos.espi.datacustodian.integration.customer;
 
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
+import org.energyos.espi.datacustodian.service.UsagePointService;
+import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,8 +47,13 @@ public class UsagePointTests {
 
     @Autowired
     protected WebApplicationContext wac;
+
     @Autowired
     protected RetailCustomerService retailCustomerService;
+
+    @Autowired
+    protected UsagePointService usagePointService;
+
     private String indexPath;
     private String showPath;
     private String feedPath;
@@ -55,8 +63,12 @@ public class UsagePointTests {
         this.mockMvc = webAppContextSetup(this.wac).build();
         RetailCustomer customer = retailCustomerService.findById(1L);
         authentication = new TestingAuthenticationToken(customer, null);
+
+        UsagePoint usagePoint = EspiFactory.newUsagePoint(customer);
+        usagePointService.persist(usagePoint);
+
         indexPath = "/RetailCustomer/" + customer.getId() + "/UsagePoint";
-        showPath = indexPath + "/1/show";
+        showPath = indexPath + "/" + usagePoint.getId() + "/show";
         feedPath = indexPath + "/feed";
     }
 
