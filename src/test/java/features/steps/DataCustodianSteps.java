@@ -77,7 +77,7 @@ public class DataCustodianSteps {
 
     @When("^I upload Usage Points")
     public void I_upload_Usage_Points() throws Throwable {
-        StepUtils.uploadUsagePoints();
+        StepUtils.uploadUsagePoints(CucumberSession.getUUID());
     }
 
     @When("^I login as Alan Turing$")
@@ -123,7 +123,10 @@ public class DataCustodianSteps {
         StepUtils.registerUser(CucumberSession.getUsername(), StepUtils.newFirstName(), StepUtils.newLastName(), StepUtils.PASSWORD);
         CucumberSession.setUUID(UUID.randomUUID());
         StepUtils.addUsagePoint(CucumberSession.getUsername(), CucumberSession.getUUID().toString());
-        StepUtils.importUsagePoint();
+        StepUtils.importUsagePoint(CucumberSession.getUUID());
+        UUID secondUsagePointUUID = UUID.randomUUID();
+        StepUtils.addUsagePoint(CucumberSession.getUsername(), secondUsagePointUUID.toString());
+        StepUtils.importUsagePoint(secondUsagePointUUID);
         StepUtils.login(CucumberSession.getUsername(), StepUtils.PASSWORD);
     }
 

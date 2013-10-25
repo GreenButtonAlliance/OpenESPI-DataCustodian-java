@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -74,9 +75,9 @@ public class StepUtils {
 
     }
 
-    public static void importUsagePoint() throws IOException {
+    public static void importUsagePoint(UUID uuid) throws IOException {
         navigateTo("/custodian/upload");
-        uploadUsagePoints();
+        uploadUsagePoints(uuid);
     }
 
     public static void addUsagePoint(String username, String mrid) throws IOException {
@@ -148,8 +149,8 @@ public class StepUtils {
         return "User" + System.currentTimeMillis();
     }
 
-    public static void uploadUsagePoints() throws IOException {
-        String xml = FixtureFactory.newUsagePointXML(CucumberSession.getUUID());
+    public static void uploadUsagePoints(UUID uuid) throws IOException {
+        String xml = FixtureFactory.newUsagePointXML(uuid);
         File tmpFile = File.createTempFile("usage_point", ".xml");
         Files.copy(new ByteArrayInputStream(xml.getBytes()), Paths.get(tmpFile.getAbsolutePath()), REPLACE_EXISTING);
 
