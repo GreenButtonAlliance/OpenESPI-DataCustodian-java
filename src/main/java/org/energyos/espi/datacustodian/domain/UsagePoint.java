@@ -27,7 +27,6 @@ import org.energyos.espi.datacustodian.models.atom.LinkType;
 import org.energyos.espi.datacustodian.models.atom.adapters.UsagePointAdapter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -118,12 +117,6 @@ public class UsagePoint
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "local_time_parameters_id")
     private TimeConfiguration localTimeParameters;
-
-    @Override
-    @NotEmpty
-    public String getMRID() {
-        return super.getMRID();
-    }
 
     public void addMeterReading(MeterReading meterReading)
     {

@@ -30,7 +30,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
-import java.util.UUID;
 
 /**
  * Defines the parameters of a subscription between Third Party and Data Custodian.
@@ -72,11 +71,5 @@ public class Subscription
 
     public void setRetailCustomer(RetailCustomer retailCustomer) {
         this.retailCustomer = retailCustomer;
-    }
-
-    @Override
-    @NotNull
-    public UUID getUUID() {
-        return super.getUUID();
     }
 }
