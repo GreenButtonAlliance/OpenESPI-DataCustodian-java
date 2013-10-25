@@ -15,6 +15,7 @@ package org.energyos.espi.datacustodian.domain;
  *    limitations under the License.
  */
 
+import org.energyos.espi.datacustodian.atom.XMLTest;
 import org.energyos.espi.datacustodian.models.atom.LinkType;
 import org.junit.Test;
 
@@ -22,7 +23,7 @@ import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsa
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class UsagePointTests {
+public class UsagePointTests extends XMLTest {
 
     @Test
     public void getRelatedLinks() {
