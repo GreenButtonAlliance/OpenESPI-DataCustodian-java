@@ -74,6 +74,18 @@ import java.util.Map;
         "localTimeParameters",
         "content"
 })
+@XmlSeeAlso({
+        MeterReading.class,
+        UsagePoint.class,
+        ElectricPowerUsageSummary.class,
+        TimeConfiguration.class,
+        ApplicationInformation.class,
+        Authorization.class,
+        Subscription.class,
+        ElectricPowerQualitySummary.class,
+        IntervalBlock.class,
+        ReadingType.class
+})
 public class ContentType {
 
     @XmlElementRefs({
