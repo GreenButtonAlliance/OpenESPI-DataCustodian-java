@@ -27,7 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/spring/test-context.xml")
@@ -56,6 +57,6 @@ public class SubscriptionRepositoryTests {
         retailCustomerRepository.persist(retailCustomer);
         repository.persist(EspiFactory.newSubscription(retailCustomer));
 
-        assertTrue(repository.findAll().size() == 1);
+        assertEquals(4, repository.findAll().size());
     }
 }
