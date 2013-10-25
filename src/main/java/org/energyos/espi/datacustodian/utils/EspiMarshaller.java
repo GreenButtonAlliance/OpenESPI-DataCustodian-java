@@ -17,7 +17,6 @@
 package org.energyos.espi.datacustodian.utils;
 
 import com.sun.syndication.io.FeedException;
-import org.energyos.espi.datacustodian.domain.IdentifiedObject;
 
 import javax.xml.bind.*;
 import java.io.ByteArrayInputStream;
@@ -32,11 +31,11 @@ public class EspiMarshaller {
     private static Marshaller marshaller;
     private static Unmarshaller unmarshaller;
 
-    public static <T extends IdentifiedObject> JAXBElement<T> unmarshal(String xml) throws JAXBException {
+    public static <T extends Object> JAXBElement<T> unmarshal(String xml) throws JAXBException {
         return (JAXBElement<T>) getUnmarshaller().unmarshal(new ByteArrayInputStream(xml.getBytes()));
     }
 
-    public static String marshal(IdentifiedObject entity) throws FeedException {
+    public static String marshal(Object entity) throws FeedException {
         StringWriter sw = new StringWriter();
 
         try {
