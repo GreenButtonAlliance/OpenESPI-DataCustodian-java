@@ -26,10 +26,7 @@ package org.energyos.espi.datacustodian.domain;
 
 import org.energyos.espi.datacustodian.models.atom.adapters.ReadingQualityAdapter;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
@@ -64,8 +61,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlJavaTypeAdapter(ReadingQualityAdapter.class)
 @XmlRootElement(name = "ReadingQuality")
 public class ReadingQuality
-    extends IdentifiedObject
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @XmlTransient
+    protected Long id;
 
     @XmlElement(required = true)
     protected String quality;
