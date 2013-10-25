@@ -72,8 +72,11 @@ import java.util.List;
 @XmlJavaTypeAdapter(IntervalReadingAdapter.class)
 @XmlRootElement(name = "IntervalReading")
 public class IntervalReading
-    extends IdentifiedObject
 {
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @XmlTransient
+    protected Long id;
 
     protected Long cost;
 
