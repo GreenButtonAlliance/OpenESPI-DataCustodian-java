@@ -14,3 +14,9 @@ Feature: API
     And I log in as Retail Customer
     When I GET /espi/1_1/resource/RetailCustomer/{RetailCustomerID}/UsagePoint/{UsagePointID}
     Then I should receive the Usage Point
+
+  Scenario: API client uploads a new Usage Point
+    Given a Retail Customer
+    When I POST /espi/1_1/resource/RetailCustomer/{RetailCustomerID}/UsagePoint
+    And I log in as Alan Turing
+    Then I should see a new Usage Point

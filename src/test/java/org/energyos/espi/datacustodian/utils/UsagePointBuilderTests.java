@@ -18,10 +18,15 @@ package org.energyos.espi.datacustodian.utils;
 
 import org.energyos.espi.datacustodian.domain.ServiceCategory;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.models.atom.*;
+import org.energyos.espi.datacustodian.models.atom.ContentType;
+import org.energyos.espi.datacustodian.models.atom.EntryType;
+import org.energyos.espi.datacustodian.models.atom.FeedType;
+import org.energyos.espi.datacustodian.models.atom.LinkType;
+import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
 
+import static junit.framework.Assert.assertNull;
 import static org.junit.Assert.assertEquals;
 
 public class UsagePointBuilderTests {
@@ -34,7 +39,7 @@ public class UsagePointBuilderTests {
     }
 
     @Test
-    public void id() {
+    public void newUsagePoints_id() {
         String title = "Usage Point Title";
         FeedType feed = newFeed(title);
         UsagePoint usagePoint = builder.newUsagePoints(feed).get(0);
@@ -43,7 +48,7 @@ public class UsagePointBuilderTests {
     }
 
     @Test
-    public void title() {
+    public void newUsagePoints_title() {
         String title = "Usage Point Title";
         FeedType feed = newFeed(title);
         UsagePoint usagePoint = builder.newUsagePoints(feed).get(0);
@@ -52,32 +57,63 @@ public class UsagePointBuilderTests {
     }
 
     @Test
-    public void givenFeedWithNoEntries_returnsEmptyList() {
+    public void newUsagePoints_givenFeedWithNoEntries_returnsEmptyList() {
         FeedType feed = new FeedType();
         assertEquals(0, builder.newUsagePoints(feed).size());
     }
 
     @Test
-    public void givenFeedWithUsagePointEntry_returnsUsagePoint() {
+    public void newUsagePoints_givenFeedWithUsagePointEntry_returnsUsagePoint() {
         FeedType feed = newFeed("Usage Point Title");
 
         assertEquals(UsagePoint.class, builder.newUsagePoints(feed).get(0).getClass());
     }
 
     @Test
-    public void givenFeedWithTitledUsagePointEntry_addsEntryTitleToUsagePoint() {
+    public void newUsagePoints_givenFeedWithTitledUsagePointEntry_addsEntryTitleToUsagePoint() {
         String title = "Usage Point Title";
         FeedType feed = newFeed(title);
 
         assertEquals(title, builder.newUsagePoints(feed).get(0).getDescription());
     }
 
-    private FeedType newFeed(String title) {
-        FeedType feed = new FeedType();
+    @Test
+    public void newUsagePoint_title() {
+        String title = "Single Usage Point Title";
+        EntryType entry = newEntry(title);
+        newUsagePoint(entry);
 
+        assertEquals(title, builder.newUsagePoint(entry).getDescription());
+    }
+
+    @Test
+    public void newUsagePoint_givenEntryWithNoContent_returnsNull() {
+        EntryType entry = newEntry("Nothing");
+        assertNull(builder.newUsagePoint(entry));
+    }
+
+    @Test
+    public void newUsagePoint_givenEntryWithNonUsagePoint_returnsNull() {
+        EntryType entryType = newEntry("Wrong Content");
+        ContentType content = new ContentType();
+        content.setReadingType(EspiFactory.newReadingType());
+        entryType.setContent(content);
+
+        assertNull(builder.newUsagePoint(entryType));
+    }
+
+    private EntryType newEntry(String title) {
         EntryType entryType = new EntryType();
         entryType.setTitle(title);
         entryType.setId("urn:uuid:0071C5A7-91CF-434E-8BCE-C38AC8AF215D");
+
+        return entryType;
+    }
+
+    private FeedType newFeed(String title) {
+        FeedType feed = new FeedType();
+
+        EntryType entryType = newEntry(title);
         newUsagePoint(entryType);
         feed.getEntries().add(entryType);
 

@@ -29,13 +29,14 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class UsagePointRESTControllerTests {
     private MockHttpServletResponse response;
@@ -98,5 +99,16 @@ public class UsagePointRESTControllerTests {
         assertThat(response.getStatus(), is(200));
     }
 
+    public void create() throws IOException {
+        InputStream inputStream = mock(InputStream.class);
+        UsagePoint usagePoint = newUsagePoint();
 
+        when(retailCustomerService.findById(1L)).thenReturn(retailCustomer);
+        when(usagePointService.importUsagePoint(inputStream)).thenReturn(usagePoint);
+
+        controller.create(response, 1L, inputStream);
+
+        verify(usagePointService).importUsagePoint(inputStream);
+        verify(usagePointService).associateByUUID(retailCustomer, usagePoint.getUUID());
+    }
 }

@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @Controller
@@ -59,6 +60,18 @@ public class UsagePointRESTController {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 
         response.getWriter().print(atomService.entryFor(usagePoint));
+    }
+
+    @RequestMapping(value = Routes.DataCustodianRESTUsagePointCreate, method = RequestMethod.POST)
+    public void create(HttpServletResponse response, @PathVariable long retailCustomerId, InputStream stream) throws IOException {
+        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
+
+        try {
+            UsagePoint usagePoint = this.usagePointService.importUsagePoint(stream);
+            usagePointService.associateByUUID(retailCustomer, usagePoint.getUUID());
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        }
     }
 
     public void setUsagePointService(UsagePointService usagePointService) {

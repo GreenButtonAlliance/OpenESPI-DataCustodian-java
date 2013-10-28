@@ -10,6 +10,7 @@ public class Routes {
     public static final String CUSTODIAN_RETAILCUSTOMERS = "/custodian/retailcustomers";
 
     public static final String DataCustodianRESTUsagePointCollection = "/espi/1_1/resource/RetailCustomer/{retailCustomerId}/UsagePoint";
+    public static final String DataCustodianRESTUsagePointCreate = "/espi/1_1/resource/RetailCustomer/{retailCustomerId}/UsagePoint";
     public static final String DataCustodianRESTUsagePointMember = "/espi/1_1/resource/RetailCustomer/{retailCustomerHashedId}/UsagePoint/{usagePointHashedId}";
 
     public static final String newDataCustodianRESTUsagePointCollection(String retailCustomerHashedId) {

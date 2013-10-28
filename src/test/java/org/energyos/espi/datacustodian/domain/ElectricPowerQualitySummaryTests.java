@@ -20,8 +20,15 @@ import com.sun.syndication.io.FeedException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.atom.XMLTest;
 import org.energyos.espi.datacustodian.utils.EspiMarshaller;
+import org.energyos.espi.datacustodian.utils.XMLMarshaller;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBException;
@@ -33,6 +40,8 @@ import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotation
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newElectricPowerQualitySummaryWithUsagePoint;
 import static org.junit.Assert.assertEquals;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("/spring/test-context.xml")
 public class ElectricPowerQualitySummaryTests extends XMLTest {
 
     static final String XML_INPUT =
@@ -58,10 +67,16 @@ public class ElectricPowerQualitySummaryTests extends XMLTest {
 
     private ElectricPowerQualitySummary electricPowerQualitySummary;
     private String xml;
+    @Autowired
+    @Qualifier("atomMarshaller")
+    private Jaxb2Marshaller marshaller;
 
     @Before
     public void before() throws JAXBException, FeedException {
-        electricPowerQualitySummary = EspiMarshaller.<ElectricPowerQualitySummary>unmarshal(XML_INPUT).getValue();
+        XMLMarshaller xmlMarshaller = new XMLMarshaller();
+        xmlMarshaller.setMarshaller(marshaller);
+
+        electricPowerQualitySummary = xmlMarshaller.unmarshal(XML_INPUT, ElectricPowerQualitySummary.class);
         xml = EspiMarshaller.marshal(newElectricPowerQualitySummaryWithUsagePoint());
     }
 

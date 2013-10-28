@@ -40,9 +40,25 @@ public class UsagePointBuilder {
         return usagePoints;
     }
 
+    public UsagePoint newUsagePoint(EntryType entry) {
+        UsagePoint usagePoint = null;
+
+        if (entry.getContent() != null) {
+            FeedType feed = new FeedType();
+            feed.getEntries().add(entry);
+            newUsagePoints(feed);
+
+            usagePoint = entry.getContent().getUsagePoint();
+        }
+
+        return usagePoint;
+    }
+
     private void associate(FeedType feed) {
         for (EntryType entry : feed.getEntries()) {
             ContentType content = entry.getContent();
+            if (content == null)
+                continue;
 
             if (content.getUsagePoint() != null) {
                 handle(entry, content.getUsagePoint());

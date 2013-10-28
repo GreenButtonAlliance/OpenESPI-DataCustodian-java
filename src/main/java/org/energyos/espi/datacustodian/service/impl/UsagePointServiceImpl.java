@@ -19,11 +19,14 @@ package org.energyos.espi.datacustodian.service.impl;
 import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.models.atom.EntryType;
+import org.energyos.espi.datacustodian.models.atom.FeedType;
 import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.energyos.espi.datacustodian.utils.ATOMMarshaller;
 import org.energyos.espi.datacustodian.utils.SubscriptionBuilder;
 import org.energyos.espi.datacustodian.utils.UsagePointBuilder;
+import org.energyos.espi.datacustodian.utils.XMLMarshaller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +42,10 @@ import java.util.UUID;
 public class UsagePointServiceImpl implements UsagePointService {
 
     @Autowired
+    private XMLMarshaller xmlMarshaller;
+    @Autowired
     private UsagePointRepository repository;
+
     @Autowired
     private ATOMMarshaller marshaller;
     @Autowired
@@ -53,6 +59,10 @@ public class UsagePointServiceImpl implements UsagePointService {
 
     public void setMarshaller(ATOMMarshaller marshaller) {
         this.marshaller = marshaller;
+    }
+
+    public void setXMLMarshaller(XMLMarshaller xmlMarshaller) {
+        this.xmlMarshaller = xmlMarshaller;
     }
 
     public void setUsagePointBuilder(UsagePointBuilder usagePointBuilder) {
@@ -77,11 +87,19 @@ public class UsagePointServiceImpl implements UsagePointService {
 
     @Override
     public void importUsagePoints(InputStream stream) throws JAXBException {
-        List<UsagePoint> usagePoints = usagePointBuilder.newUsagePoints(marshaller.unmarshal(stream));
+        List<UsagePoint> usagePoints = usagePointBuilder.newUsagePoints(xmlMarshaller.unmarshal(stream, FeedType.class));
 
         for (UsagePoint usagePoint : usagePoints) {
             createOrReplaceByUUID(usagePoint);
         }
+    }
+
+    @Override
+    public UsagePoint importUsagePoint(InputStream stream) {
+        UsagePoint usagePoint = usagePointBuilder.newUsagePoint(xmlMarshaller.unmarshal(stream, EntryType.class));
+        createOrReplaceByUUID(usagePoint);
+
+        return usagePoint;
     }
 
     public void createOrReplaceByUUID(UsagePoint usagePoint) {
@@ -93,7 +111,7 @@ public class UsagePointServiceImpl implements UsagePointService {
     }
 
     public String exportUsagePointById(Long usagePointId) throws FeedException {
-        List<UsagePoint> usagePointList = new ArrayList<UsagePoint>();
+        List<UsagePoint> usagePointList = new ArrayList<>();
         usagePointList.add(findById(usagePointId));
 
         return marshaller.marshal(subscriptionBuilder.buildFeed(usagePointList));
@@ -106,7 +124,7 @@ public class UsagePointServiceImpl implements UsagePointService {
 
     @Override
     public UsagePoint findByUUID(UUID uuid) {
-       return repository.findByUUID(uuid);
+        return repository.findByUUID(uuid);
     }
 
     @Override
