@@ -34,7 +34,9 @@ import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -120,6 +122,11 @@ public class UsagePoint
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "local_time_parameters_id")
     private TimeConfiguration localTimeParameters;
+
+    @XmlTransient
+    @ManyToMany(mappedBy = "usagePoints")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Set<Subscription> subscriptions = new HashSet<>();
 
     public void addMeterReading(MeterReading meterReading)
     {
@@ -289,5 +296,13 @@ public class UsagePoint
         if(electricPowerQualitySummaries.size() > 0) {
             links.add(new LinkType("related", getSelfHref() + "/ElectricPowerQualitySummary"));
         }
+    }
+
+    public Set<Subscription> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(Set<Subscription> subscriptions) {
+        this.subscriptions = subscriptions;
     }
 }
