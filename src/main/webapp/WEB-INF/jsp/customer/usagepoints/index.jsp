@@ -42,7 +42,7 @@
                 <c:forEach var="usagePoint" items="${usagePointList}">
                     <tr>
                         <td>
-                            <a href="<c:url value='/RetailCustomer/${currentCustomer.id}/UsagePoint/${usagePoint.id}/show'/>">
+                            <a href="<c:url value='/RetailCustomer/${currentCustomer.id}/UsagePoint/${usagePoint.id}/show'/>" class="usage-point">
                                 <c:out value="${usagePoint.description}"/>
                             </a>
                         </td>
