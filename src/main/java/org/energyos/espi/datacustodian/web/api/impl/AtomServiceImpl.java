@@ -45,6 +45,13 @@ public class AtomServiceImpl implements AtomService {
         return os.toString();
     }
 
+    @Override
+    public String entryFor(UsagePoint usagePoint) {
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        marshaller.marshal(feedBuilder.buildEntry(usagePoint), new StreamResult(os));
+        return os.toString();
+    }
+
     public void setFeedBuilder(FeedBuilder feedBuilder) {
         this.feedBuilder = feedBuilder;
     }
