@@ -3,6 +3,7 @@ package org.energyos.espi.datacustodian.integration.api;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.Routes;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.energyos.espi.datacustodian.utils.TestUtils;
@@ -19,7 +20,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
@@ -36,6 +40,9 @@ public class UsagePointRESTTests {
 
     @Autowired
     private UsagePointService usagePointService;
+
+    @Autowired
+    private UsagePointRepository usagePointRepository;
 
     @Autowired
     private RetailCustomerService retailCustomerService;
@@ -86,6 +93,67 @@ public class UsagePointRESTTests {
     public void index_returnsUsagePointListXML() throws Exception {
         mockMvc.perform(get(Routes.newDataCustodianRESTUsagePointCollection(retailCustomer.getHashedId())))
                 .andExpect(xpath("/:feed/:entry/:content/espi:UsagePoint", TestUtils.namespaces()).exists());
+    }
+
+    public void create_createsUsagePoint() throws Exception {
+        int beforeCount = usagePointRepository.findAllByRetailCustomerId(1L).size();
+
+        mockMvc.perform(post("/espi/1_1/resource/RetailCustomer/1/UsagePoint").contentType(MediaType.APPLICATION_ATOM_XML)
+                .content("<entry xmlns=\"http://www.w3.org/2005/Atom\">" +
+                "  <id>urn:uuid:97EAEBAD-1214-4A58-A3D4-A16A6DE718E1</id>" +
+                "  <published>2012-10-24T00:00:00Z</published>" +
+                "  <updated>2012-10-24T00:00:00Z</updated>" +
+                "  <link rel=\"self\"" +
+                "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01\"/>" +
+                "  <link rel=\"up\"" +
+                "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint\"/>" +
+                "  <link rel=\"related\"" +
+                "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01/MeterReading\"/>" +
+                "  <link rel=\"related\"" +
+                "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01/ElectricPowerUsageSummary\"/>" +
+                "  <link rel=\"related\"" +
+                "        href=\"/espi/1_1/resource/UsagePoint/01/LocalTimeParameters/01\"/>" +
+                "  <title>my house</title>" +
+                "  <content>" +
+                "    <UsagePoint xmlns=\"http://naesb.org/espi\">" +
+                "      <ServiceCategory>" +
+                "        <kind>0</kind>" +
+                "      </ServiceCategory>" +
+                "    </UsagePoint>" +
+                "  </content>" +
+                "</entry>"))
+                .andExpect(status().isOk());
+
+        assertThat(usagePointRepository.findAllByRetailCustomerId(1L).size(), is(beforeCount + 1));
+    }
+
+    @Test
+    public void create_withInvalidUsagePoint_returns405() throws Exception {
+        mockMvc.perform(post("/espi/1_1/resource/RetailCustomer/1/UsagePoint").contentType(MediaType.APPLICATION_ATOM_XML)
+                .content("<entry xmlns=\"http://www.w3.org/2005/Atom\">" +
+                        "  <id>urn:uuid:97EAEBAD-1214-4A58-A3D4-A16A6DE718E1</id>" +
+                        "  <published>2012-10-24T00:00:00Z</published>" +
+                        "  <updated>2012-10-24T00:00:00Z</updated>" +
+                        "  <link rel=\"self\"" +
+                        "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01\"/>" +
+                        "  <link rel=\"up\"" +
+                        "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint\"/>" +
+                        "  <link rel=\"related\"" +
+                        "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01/MeterReading\"/>" +
+                        "  <link rel=\"related\"" +
+                        "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01/ElectricPowerUsageSummary\"/>" +
+                        "  <link rel=\"related\"" +
+                        "        href=\"/espi/1_1/resource/UsagePoint/01/LocalTimeParameters/01\"/>" +
+                        "  <title>my house</title>" +
+                        "  <content>" +
+                        "    <MeterReading xmlns=\"http://naesb.org/espi\">" +
+                        "      <ServiceCategory>" +
+                        "        <kind>0</kind>" +
+                        "      </ServiceCategory>" +
+                        "    </MeterReading>" +
+                        "  </content>" +
+                        "</entry>"))
+                .andExpect(status().isMethodNotAllowed());
     }
 
     @Test
