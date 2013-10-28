@@ -25,6 +25,7 @@ import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
 import org.energyos.espi.datacustodian.utils.ATOMMarshaller;
 import org.energyos.espi.datacustodian.utils.SubscriptionBuilder;
 import org.energyos.espi.datacustodian.utils.UsagePointBuilder;
+import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,6 +44,8 @@ public class UsagePointServiceImplTests {
     private UsagePointRepository repository;
     private ATOMMarshaller marshaller;
 
+    public UsagePoint usagePoint;
+
     @Before
     public void setup() {
         repository = mock(UsagePointRepository.class);
@@ -51,10 +54,13 @@ public class UsagePointServiceImplTests {
         service = new UsagePointServiceImpl();
         service.setRepository(repository);
         service.setMarshaller(marshaller);
+
+        usagePoint = EspiFactory.newUsagePoint();
+        usagePoint.setId(989879L);
     }
 
     @Test
-    public void findAllByRetailCustomer_returnsUsageDataForRetailCustomer() {
+    public void findAllByRetailCustomer() {
         RetailCustomer customer = new RetailCustomer();
 
         service.findAllByRetailCustomer(customer);
@@ -64,13 +70,20 @@ public class UsagePointServiceImplTests {
 
 
     @Test
-    public void findById_returnsUsagePoint() {
-        service.findById(1L);
-        verify(repository).findById(1L);
+    public void findById() {
+        service.findById(usagePoint.getId());
+
+        verify(repository).findById(usagePoint.getId());
     }
 
     @Test
-    public void persist_persistsUsagePoint() {
+    public void findByHashedId() {
+        service.findByHashedId(usagePoint.getHashedId());
+        verify(repository).findById(usagePoint.getId());
+    }
+
+    @Test
+    public void persist() {
         UsagePoint up = new UsagePoint();
 
         service.persist(up);
@@ -79,7 +92,7 @@ public class UsagePointServiceImplTests {
     }
 
     @Test
-    public void importUsagePoints_persistsUsagePoint() throws JAXBException, FileNotFoundException {
+    public void importUsagePoints() throws JAXBException, FileNotFoundException {
         UsagePoint usagePoint = new UsagePoint();
         List<UsagePoint> usagePoints = new ArrayList<UsagePoint>();
         usagePoints.add(usagePoint);
@@ -96,7 +109,7 @@ public class UsagePointServiceImplTests {
     }
 
     @Test
-    public void exportUsagePoints_returnsFeed() throws Exception {
+    public void exportUsagePoints() throws Exception {
 
         RetailCustomer customer = new RetailCustomer();
         customer.setId(1L);
@@ -120,7 +133,7 @@ public class UsagePointServiceImplTests {
     }
 
     @Test
-    public void exportUsagePointById_returnsFeed() throws Exception {
+    public void exportUsagePointById() throws Exception {
         Long usagePointId = 1L;
         SubscriptionBuilder subscriptionBuilder = mock(SubscriptionBuilder.class);
 

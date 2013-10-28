@@ -29,4 +29,6 @@ public interface RetailCustomerService extends UserDetailsService {
     void persist(RetailCustomer customer);
 
     RetailCustomer findById(Long id);
+
+    RetailCustomer findByHashedId(Long retailCustomerId);
 }

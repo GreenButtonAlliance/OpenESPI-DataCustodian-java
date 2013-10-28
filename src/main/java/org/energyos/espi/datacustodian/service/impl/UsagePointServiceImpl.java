@@ -108,4 +108,9 @@ public class UsagePointServiceImpl implements UsagePointService {
     public UsagePoint findByUUID(UUID uuid) {
        return repository.findByUUID(uuid);
     }
+
+    @Override
+    public UsagePoint findByHashedId(String usagePointHashedId) {
+        return findById(Long.valueOf(usagePointHashedId));
+    }
 }

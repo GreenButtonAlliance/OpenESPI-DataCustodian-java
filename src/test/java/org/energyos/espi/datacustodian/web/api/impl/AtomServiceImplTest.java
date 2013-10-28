@@ -16,7 +16,9 @@ package org.energyos.espi.datacustodian.web.api.impl;
  */
 
 import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.models.atom.EntryType;
 import org.energyos.espi.datacustodian.models.atom.FeedType;
+import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.energyos.espi.datacustodian.web.api.FeedBuilder;
 import org.junit.Before;
 import org.junit.Test;
@@ -57,5 +59,17 @@ public class AtomServiceImplTest {
         atomService.feedFor(usagePointList);
 
         verify(marshaller).marshal(eq(feed), any(Result.class));
+    }
+
+    @Test
+    public void entryFor() throws Exception {
+        EntryType entry = new EntryType();
+        UsagePoint usagePoint = EspiFactory.newUsagePoint();
+
+        when(feedBuilder.buildEntry(usagePoint)).thenReturn(entry);
+
+        atomService.entryFor(usagePoint);
+
+        verify(marshaller).marshal(eq(entry), any(Result.class));
     }
 }

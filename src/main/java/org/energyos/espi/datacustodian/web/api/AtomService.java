@@ -21,4 +21,6 @@ import java.util.List;
 
 public interface AtomService {
     String feedFor(List<UsagePoint> usagePointList) throws FeedException;
+
+    String entryFor(UsagePoint usagePoint);
 }

@@ -17,10 +17,12 @@ package org.energyos.espi.datacustodian.web.api;
 
 import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.datacustodian.domain.Routes;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +33,6 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/espi/1_1/resource/RetailCustomer/{retailCustomerId}/UsagePoint")
 public class UsagePointRESTController {
 
     @Autowired
@@ -43,12 +44,21 @@ public class UsagePointRESTController {
     @Autowired
     private AtomService atomService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = Routes.DataCustodianRESTUsagePointCollection, method = RequestMethod.GET)
     public void index(HttpServletResponse response, @PathVariable long retailCustomerId) throws IOException, FeedException {
         RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(retailCustomer);
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 
         response.getWriter().print(atomService.feedFor(usagePoints));
+    }
+
+    @RequestMapping(value = Routes.DataCustodianRESTUsagePointMember, method = RequestMethod.GET)
+    public void show(HttpServletResponse response, @PathVariable String retailCustomerHashedId, @PathVariable String usagePointHashedId) throws IOException, FeedException {
+        UsagePoint usagePoint = usagePointService.findByHashedId(usagePointHashedId);
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+
+        response.getWriter().print(atomService.entryFor(usagePoint));
     }
 
     public void setUsagePointService(UsagePointService usagePointService) {

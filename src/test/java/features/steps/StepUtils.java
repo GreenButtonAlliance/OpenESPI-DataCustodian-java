@@ -26,8 +26,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class StepUtils {
@@ -108,6 +111,15 @@ public class StepUtils {
         create.click();
 
         assertTrue(driver.getPageSource().contains("Retail Customers"));
+
+        WebElement retailCustomerLink = driver.findElement(By.linkText(username));
+        String href = retailCustomerLink.getAttribute("href");
+        Pattern pattern = Pattern.compile("retailcustomers/(\\d+)");
+        Matcher matcher = pattern.matcher(href);
+        matcher.find();
+        String hashedId = matcher.group(1);
+        assertNotNull(hashedId);
+        CucumberSession.setUserHashedId(hashedId);
     }
 
     public static void associate(String uuid, String description) {
@@ -155,4 +167,19 @@ public class StepUtils {
     public static void selectRadioByLabel(String labelText) {
         driver.findElement(By.xpath("//label[contains(.,'" + labelText + "')]/input")).click();
     }
+
+    public static String getFirstUsagePointHashedId() {
+        clickLinkByText("Usage Points");
+
+        WebElement usagePointLink = driver.findElement(By.className("usage-point"));
+        String href = usagePointLink.getAttribute("href");
+        Pattern pattern = Pattern.compile("UsagePoint/(\\d+)");
+        Matcher matcher = pattern.matcher(href);
+        matcher.find();
+        String hashedId = matcher.group(1);
+        assertNotNull(hashedId);
+
+        return hashedId;
+    }
+
 }

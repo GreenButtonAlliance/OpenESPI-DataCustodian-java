@@ -44,4 +44,6 @@ public interface UsagePointService {
     void associateByUUID(RetailCustomer retailCustomer, UUID uuid);
 
     UsagePoint findByUUID(UUID uuid);
+
+    UsagePoint findByHashedId(String usagePointHashedId);
 }

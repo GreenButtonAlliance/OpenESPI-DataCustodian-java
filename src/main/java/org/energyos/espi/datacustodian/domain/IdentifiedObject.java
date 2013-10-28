@@ -171,4 +171,8 @@ public class IdentifiedObject
             return UUID.fromString(uuid);
         return null;
     }
+
+    public String getHashedId() {
+        return "" + getId();
+    }
 }

@@ -24,7 +24,10 @@
 
 package org.energyos.espi.datacustodian.models.atom;
 
-import org.energyos.espi.datacustodian.models.atom.adapters.*;
+import org.energyos.espi.datacustodian.models.atom.adapters.ContentAdapter;
+import org.energyos.espi.datacustodian.models.atom.adapters.LinkAdapter;
+import org.energyos.espi.datacustodian.models.atom.adapters.PublishedAdapter;
+import org.energyos.espi.datacustodian.models.atom.adapters.UpdatedAdapter;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.*;
@@ -105,7 +108,7 @@ public class EntryType {
     })
     @XmlAnyElement(lax = true)
     @XmlJavaTypeAdapter(ContentAdapter.class)
-    protected ContentType content;
+    protected ContentType content = new ContentType();
 
     @XmlElementRefs({
             @XmlElementRef(name = "published", namespace = "http://www.w3.org/2005/Atom", type = JAXBElement.class, required = false)

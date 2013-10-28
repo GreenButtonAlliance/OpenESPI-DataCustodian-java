@@ -21,6 +21,7 @@ import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
+import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -81,4 +82,21 @@ public class UsagePointRESTControllerTests {
         assertThat(response.getContentAsString(), is(feed));
         assertThat(response.getStatus(), is(200));
     }
+
+    @Test
+    public void show() throws IOException, FeedException {
+        String entry = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><entry></entry>";
+
+        UsagePoint usagePoint = EspiFactory.newUsagePoint();
+
+        when(usagePointService.findByHashedId(usagePoint.getHashedId())).thenReturn(usagePoint);
+        when(atomService.entryFor(usagePoint)).thenReturn(entry);
+
+        controller.show(response, retailCustomer.getHashedId(), usagePoint.getHashedId());
+
+        assertThat(response.getContentAsString(), is(entry));
+        assertThat(response.getStatus(), is(200));
+    }
+
+
 }
