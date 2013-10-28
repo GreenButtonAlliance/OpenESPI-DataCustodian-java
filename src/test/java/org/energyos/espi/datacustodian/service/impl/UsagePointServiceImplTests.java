@@ -19,6 +19,7 @@ package org.energyos.espi.datacustodian.service.impl;
 
 import com.sun.syndication.feed.atom.Feed;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.datacustodian.domain.Subscription;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.models.atom.EntryType;
 import org.energyos.espi.datacustodian.models.atom.FeedType;
@@ -39,6 +40,7 @@ import java.util.List;
 
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
 import static org.hamcrest.CoreMatchers.is;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newSubscription;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
@@ -180,5 +182,12 @@ public class UsagePointServiceImplTests {
         service.createOrReplaceByUUID(usagePoint);
 
         verify(repository).createOrReplaceByUUID(usagePoint);
+    }
+
+    @Test
+    public void findAllUpdatedFor() {
+        Subscription subscription = newSubscription();
+        service.findAllUpdatedFor(subscription);
+        verify(repository).findAllUpdatedFor(subscription);
     }
 }

@@ -19,6 +19,7 @@ package org.energyos.espi.datacustodian.service;
 
 import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.datacustodian.domain.Subscription;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 
 import javax.xml.bind.JAXBException;
@@ -48,4 +49,6 @@ public interface UsagePointService {
     UsagePoint findByHashedId(String usagePointHashedId);
 
     UsagePoint importUsagePoint(InputStream stream);
+
+    List<UsagePoint> findAllUpdatedFor(Subscription subscription);
 }

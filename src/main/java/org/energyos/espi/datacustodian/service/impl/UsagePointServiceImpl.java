@@ -18,6 +18,7 @@ package org.energyos.espi.datacustodian.service.impl;
 
 import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.datacustodian.domain.Subscription;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.models.atom.EntryType;
 import org.energyos.espi.datacustodian.models.atom.FeedType;
@@ -130,5 +131,9 @@ public class UsagePointServiceImpl implements UsagePointService {
     @Override
     public UsagePoint findByHashedId(String usagePointHashedId) {
         return findById(Long.valueOf(usagePointHashedId));
+    }
+
+    public List<UsagePoint> findAllUpdatedFor(Subscription subscription) {
+        return repository.findAllUpdatedFor(subscription);
     }
 }

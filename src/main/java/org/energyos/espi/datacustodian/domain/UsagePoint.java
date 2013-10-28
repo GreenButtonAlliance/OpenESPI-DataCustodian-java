@@ -74,7 +74,9 @@ import java.util.List;
         @NamedQuery(name = UsagePoint.QUERY_FIND_ALL_BY_RETAIL_CUSTOMER_ID,
                 query = "SELECT point FROM UsagePoint point WHERE point.retailCustomer.id = :retailCustomerId"),
         @NamedQuery(name = UsagePoint.QUERY_FIND_BY_UUID,
-                query = "SELECT point FROM UsagePoint point WHERE point.uuid = :uuid")
+                query = "SELECT point FROM UsagePoint point WHERE point.uuid = :uuid"),
+        @NamedQuery(name = UsagePoint.QUERY_FIND_ALL_UPDATED_FOR,
+                query = "SELECT point FROM UsagePoint point WHERE point.updated > :lastUpdate")
 })
 @XmlJavaTypeAdapter(UsagePointAdapter.class)
 public class UsagePoint
@@ -82,6 +84,7 @@ public class UsagePoint
 {
     public static final String QUERY_FIND_ALL_BY_RETAIL_CUSTOMER_ID = "UsagePoint.findUsagePointsByRetailCustomer";
     public static final String QUERY_FIND_BY_UUID = "UsagePoint.findByUUID";
+    public static final String QUERY_FIND_ALL_UPDATED_FOR = "UsagePoint.findAllUpdatedFor";
 
     @XmlElement(type = String.class)
     @XmlJavaTypeAdapter(HexBinaryAdapter.class)
