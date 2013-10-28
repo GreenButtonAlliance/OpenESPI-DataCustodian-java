@@ -267,14 +267,35 @@ public class EspiFactory {
         ThirdParty thirdParty = new ThirdParty();
         thirdParty.setName("Name" + System.currentTimeMillis());
         thirdParty.setClientId("Client" + System.currentTimeMillis());
+        thirdParty.setNotificationURI("http://example.com:8080/ThirdParty/espi/1_1/Notification");
 
         return thirdParty;
+    }
+
+    public static Subscription newSubscription() {
+        Subscription subscription = new Subscription();
+        subscription.setUUID(UUID.randomUUID());
+        subscription.setRetailCustomer(newRetailCustomer());
+        subscription.setThirdParty(newThirdParty());
+
+        return subscription;
+    }
+
+    public static Subscription newSubscription(RetailCustomer retailCustomer, ThirdParty thirdParty) {
+        Subscription subscription = new Subscription();
+        subscription.setUUID(UUID.randomUUID());
+        subscription.setRetailCustomer(retailCustomer);
+        subscription.setThirdParty(thirdParty);
+
+        return subscription;
     }
 
     public static Subscription newSubscription(RetailCustomer retailCustomer) {
         Subscription subscription = new Subscription();
         subscription.setUUID(UUID.randomUUID());
         subscription.setRetailCustomer(retailCustomer);
+        subscription.setThirdParty(newThirdParty());
+
         return subscription;
     }
 
