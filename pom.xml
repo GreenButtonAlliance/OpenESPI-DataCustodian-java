@@ -427,6 +427,7 @@
                 <version>2.6</version>
                 <configuration>
                     <includes>
+                        <include>**/*Features.java</include>
                         <include>**/*Feature.java</include>
                     </includes>
                 </configuration>
