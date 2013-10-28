@@ -22,6 +22,8 @@ import org.energyos.espi.datacustodian.models.atom.LinkType;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
@@ -74,5 +76,26 @@ public class EntryBuilderTest {
         upLink.setHref(usagePoint.getUpHref());
         upLink.setRel("up");
         assertThat(entryType.getLinks(), hasItem(upLink));
+    }
+
+    @Test
+    public void meterReadingRelatedLinks() {
+        List<LinkType> relatedLinks = usagePoint.getRelatedLinks();
+        LinkType link = new LinkType("related", usagePoint.getSelfHref() + "/MeterReading");
+        assertThat(relatedLinks, hasItem(link));
+    }
+
+    @Test
+    public void electricPowerUsageSummaryLinks() {
+        List<LinkType> relatedLinks = usagePoint.getRelatedLinks();
+        LinkType link = new LinkType("related", usagePoint.getSelfHref() + "/ElectricPowerUsageSummary");
+        assertThat(relatedLinks, hasItem(link));
+    }
+    
+    @Test
+    public void electricPowerQualitySummaryLinks() {
+        List<LinkType> relatedLinks = usagePoint.getRelatedLinks();
+        LinkType link = new LinkType("related", usagePoint.getSelfHref() + "/ElectricPowerQualitySummary");
+        assertThat(relatedLinks, hasItem(link));
     }
 }

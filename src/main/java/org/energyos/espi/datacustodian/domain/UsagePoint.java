@@ -279,7 +279,7 @@ public class UsagePoint
 
     private void addMeterReadingLinks(List<LinkType> links) {
         if(meterReadings.size() > 0) {
-            links.add(new LinkType("related", getSelfHref() + "/ElectricPowerUsageSummary"));
+            links.add(new LinkType("related", getSelfHref() + "/MeterReading"));
         }
     }
 
