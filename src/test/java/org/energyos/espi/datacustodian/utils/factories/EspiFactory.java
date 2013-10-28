@@ -3,10 +3,7 @@ package org.energyos.espi.datacustodian.utils.factories;
 import org.energyos.espi.datacustodian.domain.*;
 
 import java.math.BigInteger;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
-import java.util.UUID;
+import java.util.*;
 
 public class EspiFactory {
 
@@ -292,5 +289,16 @@ public class EspiFactory {
     public static ServiceCategory newServiceCategory() {
         ServiceCategory serviceCategory = new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE);
         return serviceCategory;
+    }
+
+    public static Date newDate(int year, int month, int date) {
+        return newCalendar(year, month, date).getTime();
+    }
+
+    public static Calendar newCalendar(int year, int month, int date) {
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.set(year, month, date);
+
+        return calendar;
     }
 }
