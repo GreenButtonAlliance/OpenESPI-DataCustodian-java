@@ -33,6 +33,8 @@ public class ThirdParty extends Resource {
     @NotEmpty @Size(min = 2, max = 64)
     private String clientId;
 
+    private String notificationURI;
+
     public Long getId() {
         return id;
     }
@@ -62,5 +64,13 @@ public class ThirdParty extends Resource {
 
     public void setClientId(String clientId) {
         this.clientId = clientId;
+    }
+
+    public String getNotificationURI() {
+        return notificationURI;
+    }
+
+    public void setNotificationURI(String notificationURI) {
+        this.notificationURI = notificationURI;
     }
 }
