@@ -17,6 +17,7 @@ package org.energyos.espi.datacustodian.web.api;
 
 import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.models.atom.EntryType;
 import org.energyos.espi.datacustodian.models.atom.FeedType;
 import org.springframework.stereotype.Service;
 
@@ -38,5 +39,11 @@ public class FeedBuilder {
         for (UsagePoint usagePoint : usagePointList) {
             feed.getEntries().add(new EntryBuilder().build(usagePoint));
         }
+    }
+
+    public EntryType buildEntry(UsagePoint usagePoint) {
+        EntryType entry = new EntryType();
+        entry.getContent().setUsagePoint(usagePoint);
+        return entry;
     }
 }
