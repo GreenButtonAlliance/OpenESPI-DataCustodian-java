@@ -24,12 +24,17 @@
 
 package org.energyos.espi.datacustodian.domain;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import java.util.Calendar;
+import java.util.Set;
 
 /**
  * Defines the parameters of a subscription between Third Party and Data Custodian.
@@ -65,11 +70,45 @@ public class Subscription
     @XmlTransient
     protected RetailCustomer retailCustomer;
 
+    @OneToOne
+    @NotNull
+    private ThirdParty thirdParty;
+
+    @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Set<UsagePoint> usagePoints;
+
+    public Calendar lastUpdate;
+
     public RetailCustomer getRetailCustomer() {
         return retailCustomer;
     }
 
     public void setRetailCustomer(RetailCustomer retailCustomer) {
         this.retailCustomer = retailCustomer;
+    }
+
+    public ThirdParty getThirdParty() {
+        return thirdParty;
+    }
+
+    public void setThirdParty(ThirdParty thirdParty) {
+        this.thirdParty = thirdParty;
+    }
+
+    public void setLastUpdate(Calendar lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public Calendar getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public Set<UsagePoint> getUsagePoints() {
+        return usagePoints;
+    }
+
+    public void setUsagePoints(Set<UsagePoint> usagePoints) {
+        this.usagePoints = usagePoints;
     }
 }
