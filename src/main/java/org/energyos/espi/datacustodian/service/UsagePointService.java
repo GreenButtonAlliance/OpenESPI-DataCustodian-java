@@ -46,4 +46,6 @@ public interface UsagePointService {
     UsagePoint findByUUID(UUID uuid);
 
     UsagePoint findByHashedId(String usagePointHashedId);
+
+    UsagePoint importUsagePoint(InputStream stream);
 }
