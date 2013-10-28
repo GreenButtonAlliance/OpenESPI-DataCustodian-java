@@ -19,8 +19,14 @@ package org.energyos.espi.datacustodian.domain;
 import com.sun.syndication.io.FeedException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.atom.XMLTest;
-import org.energyos.espi.datacustodian.utils.EspiMarshaller;
+import org.energyos.espi.datacustodian.utils.XMLMarshaller;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
 import javax.persistence.Entity;
@@ -35,7 +41,13 @@ import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newTim
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("/spring/test-context.xml")
 public class TimeConfigurationTests extends XMLTest {
+
+    @Autowired
+    @Qualifier("atomMarshaller")
+    private Jaxb2Marshaller marshaller;
 
     static final String XML_INPUT =
             "<LocalTimeParameters xmlns=\"http://naesb.org/espi\">\n" +
@@ -46,7 +58,10 @@ public class TimeConfigurationTests extends XMLTest {
                     "</LocalTimeParameters>";
 
     private TimeConfiguration timeConfiguration() throws JAXBException {
-        return EspiMarshaller.<TimeConfiguration>unmarshal(XML_INPUT).getValue();
+        XMLMarshaller xmlMarshaller = new XMLMarshaller();
+        xmlMarshaller.setMarshaller(marshaller);
+
+        return xmlMarshaller.unmarshal(XML_INPUT, TimeConfiguration.class);
     }
 
     @Test
@@ -100,6 +115,9 @@ public class TimeConfigurationTests extends XMLTest {
     }
 
     private String xmlResult() throws FeedException {
-        return EspiMarshaller.marshal(newTimeConfigurationWithUsagePoint());
+        XMLMarshaller xmlMarshaller = new XMLMarshaller();
+        xmlMarshaller.setMarshaller(marshaller);
+
+        return xmlMarshaller.marshal(newTimeConfigurationWithUsagePoint());
     }
 }

@@ -41,13 +41,13 @@ import static org.junit.Assert.assertNotNull;
 public class UsagePointBuilderMeterReadingTests {
 
     @Autowired
-    private ATOMMarshaller marshaller;
+    private XMLMarshaller marshaller;
     private MeterReading meterReading;
 
     @Before
     public void before() throws IOException, JAXBException {
         ClassPathResource sourceFile = new ClassPathResource("/fixtures/test_usage_data.xml");
-        FeedType feedType = marshaller.unmarshal(sourceFile.getInputStream());
+        FeedType feedType = marshaller.unmarshal(sourceFile.getInputStream(), FeedType.class);
 
         UsagePointBuilder builder = new UsagePointBuilder();
 

@@ -16,7 +16,6 @@
 
 package org.energyos.espi.datacustodian.utils;
 
-import org.energyos.espi.datacustodian.domain.ElectricPowerUsageSummary;
 import org.energyos.espi.datacustodian.domain.TimeConfiguration;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.models.atom.FeedType;
@@ -41,13 +40,13 @@ import static org.junit.Assert.assertNotNull;
 public class UsagePointBuilderTimeConfigurationTests {
 
     @Autowired
-    private ATOMMarshaller marshaller;
+    private XMLMarshaller marshaller;
     private TimeConfiguration timeConfiguration;
 
     @Before
     public void before() throws IOException, JAXBException {
         ClassPathResource sourceFile = new ClassPathResource("/fixtures/test_usage_data.xml");
-        FeedType feed = marshaller.unmarshal(sourceFile.getInputStream());
+        FeedType feed = marshaller.unmarshal(sourceFile.getInputStream(), FeedType.class);
 
         UsagePointBuilder builder = new UsagePointBuilder();
 

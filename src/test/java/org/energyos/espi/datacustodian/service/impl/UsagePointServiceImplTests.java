@@ -20,11 +20,13 @@ package org.energyos.espi.datacustodian.service.impl;
 import com.sun.syndication.feed.atom.Feed;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.models.atom.EntryType;
 import org.energyos.espi.datacustodian.models.atom.FeedType;
 import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
 import org.energyos.espi.datacustodian.utils.ATOMMarshaller;
 import org.energyos.espi.datacustodian.utils.SubscriptionBuilder;
 import org.energyos.espi.datacustodian.utils.UsagePointBuilder;
+import org.energyos.espi.datacustodian.utils.XMLMarshaller;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,13 +37,18 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
 public class UsagePointServiceImplTests {
 
     private UsagePointServiceImpl service;
     private UsagePointRepository repository;
+    private XMLMarshaller xmlMarshaller;
+    private UsagePointBuilder usagePointBuilder;
     private ATOMMarshaller marshaller;
 
     public UsagePoint usagePoint;
@@ -50,10 +57,14 @@ public class UsagePointServiceImplTests {
     public void setup() {
         repository = mock(UsagePointRepository.class);
         marshaller = mock(ATOMMarshaller.class);
+        xmlMarshaller = mock(XMLMarshaller.class);
+        usagePointBuilder = mock(UsagePointBuilder.class);
 
         service = new UsagePointServiceImpl();
         service.setRepository(repository);
+        service.setUsagePointBuilder(usagePointBuilder);
         service.setMarshaller(marshaller);
+        service.setXMLMarshaller(xmlMarshaller);
 
         usagePoint = EspiFactory.newUsagePoint();
         usagePoint.setId(989879L);
@@ -97,15 +108,26 @@ public class UsagePointServiceImplTests {
         List<UsagePoint> usagePoints = new ArrayList<UsagePoint>();
         usagePoints.add(usagePoint);
 
-        UsagePointBuilder builder = mock(UsagePointBuilder.class);
-
-        when(builder.newUsagePoints(any(FeedType.class))).thenReturn(usagePoints);
-
-        service.setUsagePointBuilder(builder);
+        when(usagePointBuilder.newUsagePoints(any(FeedType.class))).thenReturn(usagePoints);
 
         service.importUsagePoints(mock(InputStream.class));
 
         verify(repository).createOrReplaceByUUID(usagePoint);
+    }
+
+    @Test
+    public void importUsagePoint_returnsMarshalledUsagePoint() {
+        UsagePoint usagePoint = newUsagePoint();
+        InputStream inputStream = mock(InputStream.class);
+        EntryType entryType = new EntryType();
+
+        when(xmlMarshaller.unmarshal(inputStream, EntryType.class)).thenReturn(entryType);
+        when(usagePointBuilder.newUsagePoint(entryType)).thenReturn(usagePoint);
+
+        UsagePoint returnedUsagePoint = service.importUsagePoint(inputStream);
+
+        verify(repository).createOrReplaceByUUID(usagePoint);
+        assertThat(returnedUsagePoint, is(usagePoint));
     }
 
     @Test

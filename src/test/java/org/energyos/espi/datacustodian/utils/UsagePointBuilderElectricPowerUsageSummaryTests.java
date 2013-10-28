@@ -40,14 +40,14 @@ import static org.junit.Assert.assertNotNull;
 public class UsagePointBuilderElectricPowerUsageSummaryTests {
 
     @Autowired
-    private ATOMMarshaller marshaller;
+    private XMLMarshaller marshaller;
     private ElectricPowerUsageSummary electricPowerUsageSummary;
     private UsagePoint usagePoint;
 
     @Before
     public void before() throws IOException, JAXBException {
         ClassPathResource sourceFile = new ClassPathResource("/fixtures/test_usage_data.xml");
-        FeedType feed = marshaller.unmarshal(sourceFile.getInputStream());
+        FeedType feed = marshaller.unmarshal(sourceFile.getInputStream(), FeedType.class);
 
         UsagePointBuilder builder = new UsagePointBuilder();
 

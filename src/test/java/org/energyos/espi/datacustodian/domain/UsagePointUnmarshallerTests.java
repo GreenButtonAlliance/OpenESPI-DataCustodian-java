@@ -18,10 +18,13 @@ package org.energyos.espi.datacustodian.domain;
 
 import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.atom.XMLTest;
-import org.energyos.espi.datacustodian.utils.EspiMarshaller;
+import org.energyos.espi.datacustodian.utils.XMLMarshaller;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -40,10 +43,15 @@ public class UsagePointUnmarshallerTests extends XMLTest {
             "</UsagePoint>";
 
     private UsagePoint usagePoint;
+    @Autowired
+    @Qualifier("atomMarshaller")
+    private Jaxb2Marshaller marshaller;
 
     @Before
     public void before() throws JAXBException, FeedException {
-        usagePoint = EspiMarshaller.<UsagePoint>unmarshal(XML_INPUT).getValue();
+        XMLMarshaller xmlMarshaller = new XMLMarshaller();
+        xmlMarshaller.setMarshaller(marshaller);
+        usagePoint = xmlMarshaller.unmarshal(XML_INPUT, UsagePoint.class);
     }
 
     @Test
