@@ -1,7 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ page import="org.energyos.espi.datacustodian.domain.Routes" %>
 <%--
   ~ Copyright 2013 EnergyOS.org
   ~
@@ -30,10 +29,11 @@
 
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li><a href="<c:url value='/custodian/retailcustomers'/>">Customer List</a></li>
-                    <li><a href="<c:url value='/custodian/upload'/>">Upload</a></li>
-                    <li><a href="<c:url value='/custodian/removealltokens'/>">Remove all OAuth tokens</a></li>
                     <security:authorize access="isAuthenticated()">
+                        <li><a href="<c:url value='/custodian/retailcustomers'/>">Customer List</a></li>
+                        <li><a href="<c:url value='/custodian/upload'/>">Upload</a></li>
+                        <li><a href="<c:url value='/custodian/removealltokens'/>">Remove all OAuth tokens</a></li>
+                        <li><a href="<c:url value='/DataCustodian/NotifyThirdParty'/>">Notify Third Party</a></li>
                         <li class="active"><a id="logout" href="<c:url value='/logout.do'/>">Logout</a></li>
                     </security:authorize>
                     <security:authorize access="isAnonymous()">
