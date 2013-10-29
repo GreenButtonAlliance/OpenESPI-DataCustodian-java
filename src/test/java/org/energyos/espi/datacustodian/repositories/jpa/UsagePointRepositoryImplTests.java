@@ -370,7 +370,6 @@ public class UsagePointRepositoryImplTests {
         subscriptionRepository.persist(subscription);
 
         List<UsagePoint> usagePointList = repository.findAllUpdatedFor(subscription);
-        usagePointList.add(new UsagePoint());
 
         assertThat(usagePointList, isEmpty());
     }

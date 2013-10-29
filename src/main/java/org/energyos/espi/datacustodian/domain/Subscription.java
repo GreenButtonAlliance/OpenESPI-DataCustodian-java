@@ -71,7 +71,6 @@ public class Subscription
     protected RetailCustomer retailCustomer;
 
     @OneToOne
-    @NotNull
     private ThirdParty thirdParty;
 
     @ManyToMany

@@ -52,10 +52,6 @@ public class UsagePointRESTTests {
 
     @Before
     public void setup() {
-        retailCustomer = EspiFactory.newRetailCustomer();
-        retailCustomerService.persist(retailCustomer);
-        UsagePoint usagePoint = EspiFactory.newUsagePoint(retailCustomer);
-        usagePointService.persist(usagePoint);
         this.mockMvc = webAppContextSetup(this.wac).build();
         retailCustomer = EspiFactory.newRetailCustomer();
         retailCustomerService.persist(retailCustomer);

@@ -6,8 +6,6 @@ public class CucumberSession {
     private static String username;
     private static UUID uuid;
     private static String userHashedId;
-
-    private static String userHashedId;
     private static String usagePointHashedId;
 
     private CucumberSession() {}

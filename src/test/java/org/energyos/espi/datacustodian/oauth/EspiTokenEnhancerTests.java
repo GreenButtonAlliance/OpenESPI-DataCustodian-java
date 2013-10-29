@@ -16,6 +16,7 @@
 
 package org.energyos.espi.datacustodian.oauth;
 
+import org.energyos.espi.datacustodian.BaseTest;
 import org.energyos.espi.datacustodian.domain.Authorization;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.Subscription;
@@ -27,6 +28,7 @@ import org.junit.Test;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -35,7 +37,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class EspiTokenEnhancerTests {
+@Transactional
+public class EspiTokenEnhancerTests extends BaseTest {
 
     public Subscription subscription;
     public Authorization authorization;

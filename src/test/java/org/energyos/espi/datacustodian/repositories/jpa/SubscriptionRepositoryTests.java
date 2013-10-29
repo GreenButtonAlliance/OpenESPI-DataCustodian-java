@@ -26,12 +26,14 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/spring/test-context.xml")
+@Transactional
 public class SubscriptionRepositoryTests {
 
     @Autowired
@@ -57,6 +59,6 @@ public class SubscriptionRepositoryTests {
         retailCustomerRepository.persist(retailCustomer);
         repository.persist(EspiFactory.newSubscription(retailCustomer));
 
-        assertEquals(4, repository.findAll().size());
+        assertEquals(1, repository.findAll().size());
     }
 }

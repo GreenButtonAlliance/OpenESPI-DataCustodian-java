@@ -294,7 +294,6 @@ public class EspiFactory {
         Subscription subscription = new Subscription();
         subscription.setUUID(UUID.randomUUID());
         subscription.setRetailCustomer(retailCustomer);
-        subscription.setThirdParty(newThirdParty());
 
         return subscription;
     }

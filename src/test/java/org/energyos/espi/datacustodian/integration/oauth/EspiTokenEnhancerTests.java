@@ -16,6 +16,7 @@
 
 package org.energyos.espi.datacustodian.integration.oauth;
 
+import org.energyos.espi.datacustodian.BaseTest;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.oauth.EspiTokenEnhancer;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
@@ -29,6 +30,7 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -37,7 +39,8 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
-public class EspiTokenEnhancerTests {
+@Transactional
+public class EspiTokenEnhancerTests extends BaseTest {
     @Autowired
     protected EspiTokenEnhancer tokenEnhancer;
 
