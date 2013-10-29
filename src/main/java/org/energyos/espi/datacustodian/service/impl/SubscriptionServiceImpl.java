@@ -30,6 +30,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         return repository.findAll();
     }
 
+    @Override
+    public void persist(Subscription subscription) {
+        repository.persist(subscription);
+    }
+
     public void setRepository(SubscriptionRepository repository) {
         this.repository = repository;
     }

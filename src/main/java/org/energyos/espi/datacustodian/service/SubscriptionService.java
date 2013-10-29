@@ -9,4 +9,6 @@ public interface SubscriptionService {
     Subscription createSubscription(RetailCustomer retailCustomer);
 
     List<Subscription> findAll();
+
+    void persist(Subscription subscription);
 }
