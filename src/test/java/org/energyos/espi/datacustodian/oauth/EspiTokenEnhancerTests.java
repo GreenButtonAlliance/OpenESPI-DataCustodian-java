@@ -25,42 +25,61 @@ import org.energyos.espi.datacustodian.service.SubscriptionService;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration
+@ContextConfiguration("/spring/test-context.xml")
 @Transactional
 public class EspiTokenEnhancerTests extends BaseTest {
 
+    private MockMvc mockMvc;
+
+    @Autowired
+    protected WebApplicationContext wac;
+
     public Subscription subscription;
     public Authorization authorization;
+    @Mock
     public SubscriptionService subscriptionService;
+    @Mock
     public AuthorizationService authorizationService;
     public RetailCustomer retailCustomer;
     public OAuth2AccessToken enhancedToken;
+    @Mock
+    public OAuth2Authentication authentication;
 
     @Before
     public void setup() {
+        this.mockMvc = webAppContextSetup(this.wac).build();
+
         subscription = new Subscription();
         subscription.setUUID(UUID.randomUUID());
 
         authorization = new Authorization();
         authorization.setUUID(UUID.randomUUID());
 
-        subscriptionService = mock(SubscriptionService.class);
-        authorizationService = mock(AuthorizationService.class);
-
         retailCustomer = EspiFactory.newRetailCustomer();
 
-        when(subscriptionService.createSubscription(retailCustomer)).thenReturn(subscription);
+        when(subscriptionService.createSubscription(authentication)).thenReturn(subscription);
         when(authorizationService.createAuthorization(subscription, "accessToken")).thenReturn(authorization);
 
         DefaultOAuth2AccessToken token = new DefaultOAuth2AccessToken("token");
@@ -69,7 +88,6 @@ public class EspiTokenEnhancerTests extends BaseTest {
         tokenEnhancer.setAuthorizationService(authorizationService);
         tokenEnhancer.setBaseURL("http://localhost:8080/DataCustodian");
 
-        OAuth2Authentication authentication = mock(OAuth2Authentication.class);
         when(authentication.getPrincipal()).thenReturn(retailCustomer);
 
         enhancedToken = tokenEnhancer.enhance(token, authentication);
@@ -89,7 +107,7 @@ public class EspiTokenEnhancerTests extends BaseTest {
 
     @Test
     public void enhance_createsSubscription() {
-        verify(subscriptionService).createSubscription(retailCustomer);
+        verify(subscriptionService).createSubscription(authentication);
     }
 
     @Test

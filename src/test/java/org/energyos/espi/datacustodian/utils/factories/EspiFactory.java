@@ -4,6 +4,7 @@ import org.energyos.espi.datacustodian.domain.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.provider.OAuth2Request;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.*;
 
@@ -296,6 +297,7 @@ public class EspiFactory {
         Subscription subscription = new Subscription();
         subscription.setUUID(UUID.randomUUID());
         subscription.setRetailCustomer(retailCustomer);
+        subscription.setThirdParty(newThirdParty());
 
         return subscription;
     }
