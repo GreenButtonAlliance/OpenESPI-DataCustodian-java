@@ -1,6 +1,8 @@
 package org.energyos.espi.datacustodian.utils.factories;
 
 import org.energyos.espi.datacustodian.domain.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.provider.OAuth2Request;
 
 import java.math.BigInteger;
 import java.util.*;
@@ -320,5 +322,22 @@ public class EspiFactory {
         calendar.set(year, month, date);
 
         return calendar;
+    }
+
+    public static OAuth2Request newOAuth2Request(String clientId) {
+        return new OAuth2Request(
+                new HashMap<String, String>(),
+                clientId,
+                new ArrayList<GrantedAuthority>(),
+                true,
+                new HashSet<String>(),
+                new HashSet<String>(),
+                "redirect",
+                new HashMap<String, Serializable>()
+        );
+    }
+
+    public static OAuth2Request newOAuth2Request() {
+        return newOAuth2Request("client");
     }
 }
