@@ -22,7 +22,7 @@ public class UpdateServiceImpl implements UpdateService {
         BatchList batchList = new BatchList();
 
         for(UsagePoint usagePoint: usagePoints) {
-            batchList.getResources().add(usagePoint.getSelfLink());
+            batchList.getResources().add(usagePoint.getSelfHref());
         }
 
         return batchList;

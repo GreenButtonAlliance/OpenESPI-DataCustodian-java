@@ -27,6 +27,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -37,7 +38,7 @@ public class UpdateServiceImplTests extends BaseTest {
         UpdateServiceImpl service = new UpdateServiceImpl();
         UsagePointService usagePointService = mock(UsagePointService.class);
         service.setUsagePointService(usagePointService);
-        UsagePoint resource = new UsagePoint();
+        UsagePoint resource = newUsagePoint();
         List<UsagePoint> usagePoints = new ArrayList<>();
         usagePoints.add(resource);
         Subscription subscription = new Subscription();
@@ -45,6 +46,6 @@ public class UpdateServiceImplTests extends BaseTest {
 
         BatchList batchList = service.updatedResources(subscription);
 
-        assertEquals(resource.getSelfLink(), batchList.getResources().get(0));
+        assertEquals(resource.getSelfHref(), batchList.getResources().get(0));
     }
 }
