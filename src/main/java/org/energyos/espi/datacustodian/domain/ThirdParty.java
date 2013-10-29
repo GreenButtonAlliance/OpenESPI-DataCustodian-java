@@ -33,6 +33,7 @@ public class ThirdParty extends Resource {
     @NotEmpty @Size(min = 2, max = 64)
     private String clientId;
 
+    @Column(name = "notification_uri")
     private String notificationURI;
 
     public Long getId() {
