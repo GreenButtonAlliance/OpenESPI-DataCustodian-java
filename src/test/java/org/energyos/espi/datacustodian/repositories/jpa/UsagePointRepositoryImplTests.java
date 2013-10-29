@@ -23,6 +23,7 @@ import org.energyos.espi.datacustodian.repositories.SubscriptionRepository;
 import org.energyos.espi.datacustodian.repositories.ThirdPartyRepository;
 import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
+import org.energyos.espi.datacustodian.utils.factories.EspiPersistenceFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,6 +55,8 @@ public class UsagePointRepositoryImplTests {
     ThirdPartyRepository thirdPartyRepository;
     @Autowired
     private SubscriptionRepository subscriptionRepository;
+    @Autowired
+    private EspiPersistenceFactory factory;
 
 
     private RetailCustomer customer;
@@ -358,17 +361,8 @@ public class UsagePointRepositoryImplTests {
     }
 
     @Test
-    public void findAllUpdatedFor_giveNoUpdatedResources() {
-        RetailCustomer retailCustomer = EspiFactory.newRetailCustomer();
-        retailCustomerRepository.persist(retailCustomer);
-
-        ThirdParty thirdParty = EspiFactory.newThirdParty();
-        thirdPartyRepository.persist(thirdParty);
-
-        Subscription subscription = newSubscription(retailCustomer, thirdParty);
-        subscription.setLastUpdate(EspiFactory.newCalendar(2013, 11, 15));
-        subscriptionRepository.persist(subscription);
-
+    public void findAllUpdatedFor_givenNoUpdatedResources() {
+        Subscription subscription = factory.createSubscription();
         List<UsagePoint> usagePointList = repository.findAllUpdatedFor(subscription);
 
         assertThat(usagePointList, isEmpty());
