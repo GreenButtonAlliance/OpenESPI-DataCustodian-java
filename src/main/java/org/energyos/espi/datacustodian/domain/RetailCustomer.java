@@ -146,14 +146,6 @@ public class RetailCustomer implements UserDetails, Principal {
         this.enabled = enabled;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     @Override
     public String getName() {
         return getUsername();
@@ -161,5 +153,25 @@ public class RetailCustomer implements UserDetails, Principal {
 
     public String getHashedId() {
         return "" + getId();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RetailCustomer that = (RetailCustomer)o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (username != null ? !username.equals(that.username) : that.username != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        return result;
     }
 }
