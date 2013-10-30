@@ -20,22 +20,35 @@ package org.energyos.espi.datacustodian.service.impl;
 import org.energyos.espi.datacustodian.BaseTest;
 import org.energyos.espi.datacustodian.domain.BatchList;
 import org.energyos.espi.datacustodian.domain.Subscription;
-import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.springframework.web.client.RestTemplate;
 
-import static org.mockito.Mockito.*;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newSubscription;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class NotificationServiceImplTests extends BaseTest {
-    @Test
-    public void notify_notifiesThirdParty() {
-        NotificationServiceImpl service = new NotificationServiceImpl();
 
-        UpdateServiceImpl updateService = mock(UpdateServiceImpl.class);
-        RestTemplate template = mock(RestTemplate.class);
+    @Mock
+    public UpdateServiceImpl updateService;
+
+    @Mock
+    public RestTemplate template;
+
+    public NotificationServiceImpl service;
+
+    @Before
+    public void setup() {
+        service = new NotificationServiceImpl();
         service.setUpdateService(updateService);
         service.setRestTemplate(template);
-        Subscription subscription = EspiFactory.newSubscription();
+    }
+
+    @Test
+    public void notify_notifiesThirdParty() {
+        Subscription subscription = newSubscription();
         BatchList batchList = new BatchList();
         when(updateService.updatedResources(subscription)).thenReturn(batchList);
 

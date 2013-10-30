@@ -1,5 +1,6 @@
 package org.energyos.espi.datacustodian.service.impl;
 
+import org.energyos.espi.datacustodian.domain.BatchList;
 import org.energyos.espi.datacustodian.domain.Subscription;
 import org.energyos.espi.datacustodian.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,9 @@ public class NotificationServiceImpl implements NotificationService {
     private UpdateServiceImpl updateService;
 
     public void notify(Subscription subscription) {
-        restTemplate.postForLocation(subscription.getThirdParty().getNotificationURI(),
-                updateService.updatedResources(subscription));
+        String notificationURI = subscription.getThirdParty().getNotificationURI();
+        BatchList batchList = updateService.updatedResources(subscription);
+        restTemplate.postForLocation(notificationURI, batchList);
     }
 
     public void setUpdateService(UpdateServiceImpl updateService) {
