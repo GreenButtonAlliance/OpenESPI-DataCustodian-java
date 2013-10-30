@@ -20,3 +20,10 @@ Feature: API
     When I POST /espi/1_1/resource/RetailCustomer/{RetailCustomerID}/UsagePoint
     And I log in as Alan Turing
     Then I should see a new Usage Point
+
+  Scenario: API client updates an existing Usage Point
+    Given a Retail Customer with Usage Points
+    When I POST /espi/1_1/resource/RetailCustomer/{RetailCustomerID}/UsagePoint
+    And I PUT /espi/1_1/resource/RetailCustomer/{RetailCustomerID}/UsagePoint/{UsagePointID}
+    And I log in as Alan Turing
+    Then I should see an updated Usage Point

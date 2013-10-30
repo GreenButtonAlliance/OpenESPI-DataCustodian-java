@@ -1,15 +1,22 @@
 package features.steps;
 
 import cucumber.api.java.Before;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.domain.Routes;
+import org.energyos.espi.datacustodian.utils.TestUtils;
 import org.openqa.selenium.WebDriver;
+import org.springframework.http.HttpEntity;
 import org.springframework.web.client.RestTemplate;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathFactory;
 import java.io.IOException;
+import java.io.StringReader;
 
 import static features.steps.StepUtils.assertContains;
 import static features.steps.StepUtils.clickLinkByText;
@@ -67,7 +74,7 @@ public class APISteps {
                 "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01/ElectricPowerUsageSummary\"/>" +
                 "  <link rel=\"related\"" +
                 "        href=\"/espi/1_1/resource/UsagePoint/01/LocalTimeParameters/01\"/>" +
-                "  <title>my house</title>" +
+                "  <title>Created</title>" +
                 "  <content>" +
                 "    <UsagePoint xmlns=\"http://naesb.org/espi\">" +
                 "      <ServiceCategory>" +
@@ -81,9 +88,55 @@ public class APISteps {
         assertThat(response, is(nullValue()));
     }
 
+    @And("^I PUT \\/espi\\/1_1\\/resource\\/RetailCustomer\\/\\{RetailCustomerID\\}\\/UsagePoint\\/\\{UsagePointID\\}$")
+    public void I_PUT_espi__resource_RetailCustomer_RetailCustomerID_UsagePoint_UsagePointID() throws Throwable {
+        driver.get(StepUtils.BASE_URL + "/espi/1_1/resource/RetailCustomer/1/UsagePoint");
+        String xml = driver.getPageSource();
+        XPathFactory xpathFactory = XPathFactory.newInstance();
+        XPath xpath = xpathFactory.newXPath();
+        xpath.setNamespaceContext(TestUtils.getNamespaceContext());
+
+        String id = xpath.evaluate("/:feed/:entry/:title[contains(text(),'Created')]/../:id", new InputSource(new StringReader(xml))).trim();
+        String selfHref = xpath.evaluate("/:feed/:entry/:title[contains(text(),'Created')]/../:link[@rel='self']/@href", new InputSource(new StringReader(xml)));
+
+        String requestBody = "<entry xmlns=\"http://www.w3.org/2005/Atom\">>" +
+                "  <id>" + id + "</id>" +
+                "  <published>2012-10-24T00:00:00Z</published>" +
+                "  <updated>2012-10-24T00:00:00Z</updated>" +
+                "  <link rel=\"self\"" +
+                "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01\"/>" +
+                "  <link rel=\"up\"" +
+                "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint\"/>" +
+                "  <link rel=\"related\"" +
+                "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01/MeterReading\"/>" +
+                "  <link rel=\"related\"" +
+                "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01/ElectricPowerUsageSummary\"/>" +
+                "  <link rel=\"related\"" +
+                "        href=\"/espi/1_1/resource/UsagePoint/01/LocalTimeParameters/01\"/>" +
+                "  <title>Updated</title>" +
+                "  <content>" +
+                "    <UsagePoint xmlns=\"http://naesb.org/espi\">" +
+                "      <ServiceCategory>" +
+                "        <kind>0</kind>" +
+                "      </ServiceCategory>" +
+                "    </UsagePoint>" +
+                "  </content>" +
+                "</entry>";
+        HttpEntity<String> request = new HttpEntity<>(requestBody);
+        RestTemplate rest = new RestTemplate();
+        rest.put(StepUtils.BASE_URL + "/espi/1_1/resource/" + selfHref, request);
+    }
+
     @Then("^I should see a new Usage Point$")
     public void I_should_see_a_new_Usage_Point() throws Throwable {
         clickLinkByText("Usage Points");
-        assertContains("my house", driver.getPageSource());
+        assertContains("Created", driver.getPageSource());
     }
+
+    @Then("^I should see an updated Usage Point$")
+    public void I_should_see_an_updated_Usage_Point() throws Throwable {
+        clickLinkByText("Usage Points");
+        assertContains("Updated", driver.getPageSource());
+    }
+
 }

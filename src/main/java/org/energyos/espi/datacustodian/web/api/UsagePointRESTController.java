@@ -74,6 +74,31 @@ public class UsagePointRESTController {
         }
     }
 
+    @RequestMapping(value = Routes.DataCustodianRESTUsagePointUpdate, method = RequestMethod.PUT)
+    public void update(HttpServletResponse response, @PathVariable long retailCustomerHashedId, @PathVariable String usagePointHashedId, InputStream stream) {
+        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerHashedId);
+        UsagePoint usagePoint;
+
+        usagePoint = usagePointService.findByHashedId(usagePointHashedId);
+
+        if (null != usagePoint) {
+            if (usagePoint.getRetailCustomer().equals(retailCustomer)) {
+                try {
+                    usagePoint = this.usagePointService.importUsagePoint(stream);
+                    usagePointService.associateByUUID(retailCustomer, usagePoint.getUUID());
+                } catch (Exception e) {
+                    response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                }
+            } else {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
+
+        System.out.println(usagePoint);
+    }
+
     public void setUsagePointService(UsagePointService usagePointService) {
         this.usagePointService = usagePointService;
     }
@@ -85,4 +110,5 @@ public class UsagePointRESTController {
     public void setAtomService(AtomService atomService) {
         this.atomService = atomService;
     }
+
 }

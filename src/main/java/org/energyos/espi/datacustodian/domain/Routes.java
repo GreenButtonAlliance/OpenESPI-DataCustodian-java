@@ -12,12 +12,13 @@ public class Routes {
     public static final String DataCustodianRESTUsagePointCollection = "/espi/1_1/resource/RetailCustomer/{retailCustomerId}/UsagePoint";
     public static final String DataCustodianRESTUsagePointCreate = "/espi/1_1/resource/RetailCustomer/{retailCustomerId}/UsagePoint";
     public static final String DataCustodianRESTUsagePointMember = "/espi/1_1/resource/RetailCustomer/{retailCustomerHashedId}/UsagePoint/{usagePointHashedId}";
+    public static final String DataCustodianRESTUsagePointUpdate = "/espi/1_1/resource/RetailCustomer/{retailCustomerHashedId}/UsagePoint/{usagePointHashedId}";
 
-    public static final String newDataCustodianRESTUsagePointCollection(String retailCustomerHashedId) {
+    public static String newDataCustodianRESTUsagePointCollection(String retailCustomerHashedId) {
         return DataCustodianRESTUsagePointCollection.replace("{retailCustomerId}", retailCustomerHashedId);
     }
 
-    public static final String newDataCustodianRESTUsagePointMember(String retailCustomerHashedId, String usagePointHashedId) {
+    public static String newDataCustodianRESTUsagePointMember(String retailCustomerHashedId, String usagePointHashedId) {
         return DataCustodianRESTUsagePointMember.replace("{retailCustomerHashedId}", retailCustomerHashedId).replace("{usagePointHashedId}", usagePointHashedId);
     }
 }

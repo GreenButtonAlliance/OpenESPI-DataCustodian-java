@@ -99,6 +99,7 @@ public class UsagePointRESTControllerTests {
         assertThat(response.getStatus(), is(200));
     }
 
+    @Test
     public void create() throws IOException {
         InputStream inputStream = mock(InputStream.class);
         UsagePoint usagePoint = newUsagePoint();
@@ -107,6 +108,22 @@ public class UsagePointRESTControllerTests {
         when(usagePointService.importUsagePoint(inputStream)).thenReturn(usagePoint);
 
         controller.create(response, 1L, inputStream);
+
+        verify(usagePointService).importUsagePoint(inputStream);
+        verify(usagePointService).associateByUUID(retailCustomer, usagePoint.getUUID());
+    }
+
+    @Test
+    public void update() {
+        InputStream inputStream = mock(InputStream.class);
+        UsagePoint usagePoint = mock(UsagePoint.class);
+
+        when(usagePoint.getRetailCustomer()).thenReturn(retailCustomer);
+        when(retailCustomerService.findById(1L)).thenReturn(retailCustomer);
+        when(usagePointService.findByHashedId("1")).thenReturn(usagePoint);
+        when(usagePointService.importUsagePoint(inputStream)).thenReturn(usagePoint);
+
+        controller.update(response, 1L, "1", inputStream);
 
         verify(usagePointService).importUsagePoint(inputStream);
         verify(usagePointService).associateByUUID(retailCustomer, usagePoint.getUUID());
