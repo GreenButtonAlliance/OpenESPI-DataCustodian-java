@@ -321,6 +321,7 @@ public class UsagePointRepositoryImplTests {
         assertTrue(usagePoint.getMeterReadings().size() > 0);
     }
 
+    @Test
     public void persist_savesReadingTypes() throws Exception {
         UsagePoint usagePoint = newUsagePoint();
         MeterReading meterReading = new MeterReading();
