@@ -27,7 +27,6 @@ import org.energyos.espi.datacustodian.models.atom.LinkType;
 import org.energyos.espi.datacustodian.models.atom.adapters.UsagePointAdapter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -35,7 +34,9 @@ import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -75,7 +76,9 @@ import java.util.List;
         @NamedQuery(name = UsagePoint.QUERY_FIND_ALL_BY_RETAIL_CUSTOMER_ID,
                 query = "SELECT point FROM UsagePoint point WHERE point.retailCustomer.id = :retailCustomerId"),
         @NamedQuery(name = UsagePoint.QUERY_FIND_BY_UUID,
-                query = "SELECT point FROM UsagePoint point WHERE point.uuid = :uuid")
+                query = "SELECT point FROM UsagePoint point WHERE point.uuid = :uuid"),
+        @NamedQuery(name = UsagePoint.QUERY_FIND_ALL_UPDATED_FOR,
+                query = "SELECT point FROM UsagePoint point WHERE point.updated > :lastUpdate")
 })
 @XmlJavaTypeAdapter(UsagePointAdapter.class)
 public class UsagePoint
@@ -83,6 +86,7 @@ public class UsagePoint
 {
     public static final String QUERY_FIND_ALL_BY_RETAIL_CUSTOMER_ID = "UsagePoint.findUsagePointsByRetailCustomer";
     public static final String QUERY_FIND_BY_UUID = "UsagePoint.findByUUID";
+    public static final String QUERY_FIND_ALL_UPDATED_FOR = "UsagePoint.findAllUpdatedFor";
 
     @XmlElement(type = String.class)
     @XmlJavaTypeAdapter(HexBinaryAdapter.class)
@@ -119,11 +123,10 @@ public class UsagePoint
     @JoinColumn(name = "local_time_parameters_id")
     private TimeConfiguration localTimeParameters;
 
-    @Override
-    @NotEmpty
-    public String getMRID() {
-        return super.getMRID();
-    }
+    @XmlTransient
+    @ManyToMany(mappedBy = "usagePoints")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Set<Subscription> subscriptions = new HashSet<>();
 
     public void addMeterReading(MeterReading meterReading)
     {
@@ -293,5 +296,13 @@ public class UsagePoint
         if(electricPowerQualitySummaries.size() > 0) {
             links.add(new LinkType("related", getSelfHref() + "/ElectricPowerQualitySummary"));
         }
+    }
+
+    public Set<Subscription> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(Set<Subscription> subscriptions) {
+        this.subscriptions = subscriptions;
     }
 }

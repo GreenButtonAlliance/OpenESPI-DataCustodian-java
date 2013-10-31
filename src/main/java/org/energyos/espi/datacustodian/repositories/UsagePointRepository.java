@@ -17,6 +17,7 @@
 package org.energyos.espi.datacustodian.repositories;
 
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.datacustodian.domain.Subscription;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 
 import java.util.List;
@@ -34,4 +35,6 @@ public interface UsagePointRepository {
     void associateByUUID(RetailCustomer retailCustomer, UUID uuid);
 
     void createOrReplaceByUUID(UsagePoint usagePoint);
+
+    List<UsagePoint> findAllUpdatedFor(Subscription subscription);
 }

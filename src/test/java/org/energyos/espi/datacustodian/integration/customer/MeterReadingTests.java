@@ -5,6 +5,7 @@ import org.energyos.espi.datacustodian.domain.MeterReading;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.service.MeterReadingService;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
+import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,7 +45,7 @@ public class MeterReadingTests {
         this.mockMvc = webAppContextSetup(this.wac).build();
         RetailCustomer customer = retailCustomerService.findById(1L);
         authentication = new TestingAuthenticationToken(customer, null);
-        meterReading = new MeterReading();
+        meterReading = EspiFactory.newMeterReading();
         meterReadingService.persist(meterReading);
         showPath = "/RetailCustomer/" + customer.getId() + "/meterreadings/" + meterReading.getId() + "/show";
     }

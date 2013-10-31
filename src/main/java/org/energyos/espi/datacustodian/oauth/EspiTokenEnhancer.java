@@ -1,7 +1,6 @@
 package org.energyos.espi.datacustodian.oauth;
 
 import org.energyos.espi.datacustodian.domain.Authorization;
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.Routes;
 import org.energyos.espi.datacustodian.domain.Subscription;
 import org.energyos.espi.datacustodian.service.AuthorizationService;
@@ -31,7 +30,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
         DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) accessToken;
         Map<String, Object> additionalInformation = new HashMap<>();
 
-        Subscription subscription = subscriptionService.createSubscription((RetailCustomer) authentication.getPrincipal());
+        Subscription subscription = subscriptionService.createSubscription(authentication);
         additionalInformation.put("resourceURI", baseURL + Routes.DataCustodianSubscription.replace("{SubscriptionID}", subscription.getUUID().toString()));
 
         Authorization authorization = authorizationService.createAuthorization(subscription, "accessToken");

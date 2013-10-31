@@ -28,6 +28,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.*;
 import java.util.Date;
 import java.util.UUID;
@@ -77,6 +78,7 @@ public class IdentifiedObject
     protected String description;
 
     @XmlTransient
+    @NotNull
     protected String uuid;
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -36,7 +36,7 @@ public class APISteps {
 
     @When("^I GET \\/espi\\/1_1\\/resource\\/RetailCustomer\\/\\{RetailCustomerID\\}\\/UsagePoint$")
     public void I_GET_espi_1_1_resource_RetailCustomer_RetailCustomerID_UsagePoint() throws Throwable {
-        driver.get(StepUtils.BASE_URL + "/espi/1_1/resource/RetailCustomer/1/UsagePoint");
+        driver.get(StepUtils.BASE_URL + "/espi/1_1/resource/RetailCustomer/" + CucumberSession.getUserHashedId() + "/UsagePoint");
     }
 
     @When("^I GET \\/espi\\/1_1\\/resource\\/RetailCustomer\\/\\{RetailCustomerID\\}\\/UsagePoint\\/\\{UsagePointID\\}$")

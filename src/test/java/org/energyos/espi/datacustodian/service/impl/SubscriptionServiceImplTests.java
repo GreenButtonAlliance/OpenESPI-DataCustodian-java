@@ -20,32 +20,56 @@ package org.energyos.espi.datacustodian.service.impl;
 import org.energyos.espi.datacustodian.BaseTest;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.Subscription;
+import org.energyos.espi.datacustodian.repositories.SubscriptionRepository;
 import org.energyos.espi.datacustodian.repositories.jpa.SubscriptionRepositoryImpl;
-import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
+import org.energyos.espi.datacustodian.service.ThirdPartyService;
+import org.energyos.espi.datacustodian.utils.DateConverter;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.OAuth2Request;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class SubscriptionServiceImplTests extends BaseTest {
 
     @Mock
-    public SubscriptionRepositoryImpl repository;
-    public RetailCustomer retailCustomer;
+    private SubscriptionRepositoryImpl repository;
+
+    @Mock
+    private OAuth2Authentication authentication;
+
+    @Mock
+    private ThirdPartyService thirdPartyService;
+
     public SubscriptionServiceImpl service;
+
+    public RetailCustomer retailCustomer;
     public Subscription subscription;
+    public OAuth2Request oAuth2Request;
+
 
     @Before
     public void before() {
-        retailCustomer = EspiFactory.newRetailCustomer();
         service = new SubscriptionServiceImpl();
+        retailCustomer = newRetailCustomer();
+        oAuth2Request = newOAuth2Request("third_party_client");
         service.setRepository(repository);
+        service.setThirdPartyService(thirdPartyService);
 
-        subscription = service.createSubscription(retailCustomer);
+        when(authentication.getPrincipal()).thenReturn(retailCustomer);
+        when(authentication.getOAuth2Request()).thenReturn(oAuth2Request);
+        when(thirdPartyService.findByClientId(oAuth2Request.getClientId())).thenReturn(newThirdParty());
+
+        subscription = service.createSubscription(authentication);
     }
 
     @Test
@@ -61,5 +85,22 @@ public class SubscriptionServiceImplTests extends BaseTest {
     @Test
     public void createSubscription_setsUUID() {
         assertNotNull(subscription.getUUID());
+    }
+
+    @Test
+    public void createSubscription_setsLastUpdateToEpoch() {
+        assertThat(subscription.getLastUpdate(), is(DateConverter.epoch()));
+    }
+
+    @Test
+    public void findAll() {
+        SubscriptionServiceImpl service = new SubscriptionServiceImpl();
+        SubscriptionRepository repository = mock(SubscriptionRepository.class);
+        List<Subscription> subscriptions = new ArrayList<>();
+
+        service.setRepository(repository);
+        when(repository.findAll()).thenReturn(subscriptions);
+
+        assertEquals(subscriptions, service.findAll());
     }
 }

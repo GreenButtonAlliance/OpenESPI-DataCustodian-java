@@ -1,28 +1,16 @@
 package org.energyos.espi.datacustodian.web.custodian;
 
-import org.energyos.espi.datacustodian.domain.*;
-import org.energyos.espi.datacustodian.service.RetailCustomerService;
-import org.energyos.espi.datacustodian.service.UsagePointService;
+import org.energyos.espi.datacustodian.domain.Routes;
+import org.energyos.espi.datacustodian.domain.Subscription;
+import org.energyos.espi.datacustodian.service.NotificationService;
+import org.energyos.espi.datacustodian.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.*;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.ConstraintViolationException;
-import javax.validation.Valid;
-import java.nio.file.AccessDeniedException;
-import java.security.Principal;
-import java.util.Collection;
-import java.util.UUID;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @PreAuthorize("hasRole('ROLE_CUSTODIAN')")
@@ -30,6 +18,19 @@ public class AdminController {
 
     @Autowired
     private ConsumerTokenServices tokenServices;
+    @Autowired
+    private SubscriptionService subscriptionService;
+    @Autowired
+    private NotificationService notificationService;
+
+    @RequestMapping(value = Routes.DataCustodianNotifyThirdParty, method = RequestMethod.GET)
+    public String notifyThirdParty() throws Exception {
+        for(Subscription subscription : subscriptionService.findAll()) {
+           notificationService.notify(subscription);
+        }
+
+        return "redirect:" + Routes.DataCustodianHome;
+    }
 
     @RequestMapping(value = Routes.DataCustodianRemoveAllOAuthTokens, method = RequestMethod.GET)
     public String revokeToken() throws Exception {

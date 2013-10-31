@@ -96,4 +96,8 @@
             </property>
         </bean>
     </beans>
+
+    <beans>
+        <bean id="restTemplate" name="restTemplate" class="org.springframework.web.client.RestTemplate" autowire-candidate="true"/>
+    </beans>
 </beans>

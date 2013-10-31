@@ -18,6 +18,7 @@ package org.energyos.espi.datacustodian.repositories.jpa;
 
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.ServiceCategory;
+import org.energyos.espi.datacustodian.domain.Subscription;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
 import org.springframework.stereotype.Repository;
@@ -81,6 +82,13 @@ public class UsagePointRepositoryImpl implements UsagePointRepository {
         } catch (NoResultException e) {
             persist(usagePoint);
         }
+    }
+
+    @Override
+    public List<UsagePoint> findAllUpdatedFor(Subscription subscription) {
+        return (List<UsagePoint>)this.em.createNamedQuery(UsagePoint.QUERY_FIND_ALL_UPDATED_FOR)
+                .setParameter("lastUpdate", subscription.getLastUpdate().getTime())
+                .getResultList();
     }
 
     public UsagePoint findByUUID(UUID uuid) {

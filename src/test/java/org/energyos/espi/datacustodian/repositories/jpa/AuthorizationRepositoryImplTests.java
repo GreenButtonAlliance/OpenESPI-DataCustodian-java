@@ -17,42 +17,26 @@
 package org.energyos.espi.datacustodian.repositories.jpa;
 
 import org.energyos.espi.datacustodian.domain.Authorization;
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.domain.Subscription;
-import org.energyos.espi.datacustodian.repositories.AuthorizationRepository;
-import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
-import org.energyos.espi.datacustodian.repositories.SubscriptionRepository;
-import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
+import org.energyos.espi.datacustodian.utils.factories.EspiPersistenceFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/spring/test-context.xml")
+@Transactional
 public class AuthorizationRepositoryImplTests {
-
     @Autowired
-    private AuthorizationRepository repository;
-
-    @Autowired
-    private RetailCustomerRepository retailCustomerRepository;
-
-    @Autowired
-    private SubscriptionRepository subscriptionRepository;
+    private EspiPersistenceFactory factory;
 
     @Test
     public void persist() {
-        RetailCustomer retailCustomer = EspiFactory.newRetailCustomer();
-        retailCustomerRepository.persist(retailCustomer);
-        Subscription subscription = EspiFactory.newSubscription(retailCustomer);
-        subscriptionRepository.persist(subscription);
-        Authorization authorization = EspiFactory.newAuthorization(subscription);
-
-        repository.persist(authorization);
+        Authorization authorization = factory.createAuthorization();
 
         assertNotNull(authorization.getId());
     }

@@ -16,37 +16,40 @@
 
 package org.energyos.espi.datacustodian.repositories.jpa;
 
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.Subscription;
-import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
 import org.energyos.espi.datacustodian.repositories.SubscriptionRepository;
-import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
+import org.energyos.espi.datacustodian.utils.factories.EspiPersistenceFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/spring/test-context.xml")
+@Transactional
 public class SubscriptionRepositoryTests {
+    @Autowired
+    private EspiPersistenceFactory factory;
 
     @Autowired
     private SubscriptionRepository repository;
 
-    @Autowired
-    private RetailCustomerRepository retailCustomerRepository;
-
     @Test
     public void persist() {
-        RetailCustomer retailCustomer = EspiFactory.newRetailCustomer();
-        retailCustomerRepository.persist(retailCustomer);
-        Subscription subscription = EspiFactory.newSubscription(retailCustomer);
-
-        repository.persist(subscription);
+        Subscription subscription = factory.createSubscription();
 
         assertNotNull(subscription.getId());
+    }
+
+    @Test
+    public void findAll() throws Exception {
+        factory.createSubscription();
+
+        assertEquals(1, repository.findAll().size());
     }
 }

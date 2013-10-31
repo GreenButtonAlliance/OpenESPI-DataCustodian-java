@@ -28,6 +28,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -43,8 +45,16 @@ public class IntervalBlockRepositoryImplTests {
     @Test
     public void findByMeterReadingId_returnsIntervalBlocks() {
         MeterReading meterReading = new MeterReading();
-        meterReading.addIntervalBlock(new IntervalBlock());
-        meterReading.addIntervalBlock(new IntervalBlock());
+        meterReading.setUUID(UUID.randomUUID());
+
+        IntervalBlock intervalBlock = new IntervalBlock();
+        intervalBlock.setUUID(UUID.randomUUID());
+
+        IntervalBlock intervalBlock1 = new IntervalBlock();
+        intervalBlock1.setUUID(UUID.randomUUID());
+
+        meterReading.addIntervalBlock(intervalBlock);
+        meterReading.addIntervalBlock(intervalBlock1);
 
         meterReadingRepository.persist(meterReading);
 

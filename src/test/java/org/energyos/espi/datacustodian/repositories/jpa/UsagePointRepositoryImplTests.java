@@ -19,8 +19,11 @@ package org.energyos.espi.datacustodian.repositories.jpa;
 
 import org.energyos.espi.datacustodian.domain.*;
 import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
+import org.energyos.espi.datacustodian.repositories.SubscriptionRepository;
+import org.energyos.espi.datacustodian.repositories.ThirdPartyRepository;
 import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
+import org.energyos.espi.datacustodian.utils.factories.EspiPersistenceFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,8 +32,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
+import static org.energyos.espi.datacustodian.support.IsEmpty.isEmpty;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newSubscription;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -42,6 +51,14 @@ public class UsagePointRepositoryImplTests {
     UsagePointRepository repository;
     @Autowired
     RetailCustomerRepository retailCustomerRepository;
+    @Autowired
+    ThirdPartyRepository thirdPartyRepository;
+    @Autowired
+    private SubscriptionRepository subscriptionRepository;
+    @Autowired
+    private EspiPersistenceFactory factory;
+
+
     private RetailCustomer customer;
     private UUID uuid;
 
@@ -57,7 +74,7 @@ public class UsagePointRepositoryImplTests {
         RetailCustomer customer1 = EspiFactory.newRetailCustomer();
         retailCustomerRepository.persist(customer1);
 
-        UsagePoint usagePoint = EspiFactory.newUsagePoint(customer1);
+        UsagePoint usagePoint = newUsagePoint(customer1);
         repository.persist(usagePoint);
 
         assertEquals(1, repository.findAllByRetailCustomerId(customer1.getId()).size());
@@ -65,8 +82,11 @@ public class UsagePointRepositoryImplTests {
 
     @Test
     public void findById_returnsUsagePoint() {
-        UsagePoint usagePoint = repository.findById(1L);
-        assertNotNull("The usage point was null.", usagePoint);
+        UsagePoint usagePoint = newUsagePoint();
+        repository.persist(usagePoint);
+
+        UsagePoint retrievedUsagePoint = repository.findById(usagePoint.getId());
+        assertNotNull("The usage point was null.", retrievedUsagePoint);
     }
 
     @Test
@@ -80,7 +100,7 @@ public class UsagePointRepositoryImplTests {
     }
 
     private UsagePoint getUsagePoint() {
-        UsagePoint usagePoint = EspiFactory.newUsagePoint();
+        UsagePoint usagePoint = newUsagePoint();
         usagePoint.setMRID("urn:uuid:E8E75691-7F9D-49F3-8BE2-3A74EBF6BFC0");
         return usagePoint;
     }
@@ -88,7 +108,7 @@ public class UsagePointRepositoryImplTests {
     @Test
     public void persist_savesMeterReading() {
         UsagePoint usagePoint = getUsagePoint();
-        MeterReading meterReading = new MeterReading();
+        MeterReading meterReading = EspiFactory.newMeterReading();
 
         usagePoint.addMeterReading(meterReading);
 
@@ -101,8 +121,9 @@ public class UsagePointRepositoryImplTests {
     @Test
     public void persist_savesIntervalBlocks() {
         UsagePoint usagePoint = getUsagePoint();
-        MeterReading meterReading = new MeterReading();
+        MeterReading meterReading = EspiFactory.newMeterReading();
         IntervalBlock intervalBlock = new IntervalBlock();
+        intervalBlock.setUUID(UUID.randomUUID());
 
         meterReading.getIntervalBlocks().add(intervalBlock);
         usagePoint.getMeterReadings().add(meterReading);
@@ -149,7 +170,7 @@ public class UsagePointRepositoryImplTests {
     public void createOrReplaceByUUID_givenUsagePointWithNoCustomer_doesNotUpdateRetailCustomer() {
         RetailCustomer retailCustomer = EspiFactory.newRetailCustomer();
         retailCustomerRepository.persist(retailCustomer);
-        UsagePoint usagePoint = EspiFactory.newUsagePoint(retailCustomer);
+        UsagePoint usagePoint = newUsagePoint(retailCustomer);
         repository.persist(usagePoint);
 
         UsagePoint updatedUsagePoint = new UsagePoint();
@@ -165,12 +186,12 @@ public class UsagePointRepositoryImplTests {
     public void createOrReplaceByUUID_givenUsagePointWithCustomer_updatesRetailCustomer() {
         RetailCustomer retailCustomer = EspiFactory.newRetailCustomer();
         retailCustomerRepository.persist(retailCustomer);
-        UsagePoint usagePoint = EspiFactory.newUsagePoint(retailCustomer);
+        UsagePoint usagePoint = newUsagePoint(retailCustomer);
         repository.createOrReplaceByUUID(usagePoint);
 
         RetailCustomer newRetailCustomer = EspiFactory.newRetailCustomer();
         retailCustomerRepository.persist(newRetailCustomer);
-        UsagePoint updatedUsagePoint = EspiFactory.newUsagePoint(newRetailCustomer);
+        UsagePoint updatedUsagePoint = newUsagePoint(newRetailCustomer);
         updatedUsagePoint.setUUID(usagePoint.getUUID());
 
         repository.createOrReplaceByUUID(updatedUsagePoint);
@@ -214,15 +235,16 @@ public class UsagePointRepositoryImplTests {
     @Test
     public void createOrReplaceByUUID_replacesMeterReadings() {
         UsagePoint usagePoint = EspiFactory.newUsagePointOnly(uuid);
-        usagePoint.addMeterReading(new MeterReading());
+        MeterReading meterReading = EspiFactory.newMeterReading();
+        usagePoint.addMeterReading(meterReading);
 
         assertTrue(usagePoint.getMeterReadings().size() > 0);
 
         repository.persist(usagePoint);
 
         UsagePoint updatedUsagePoint = EspiFactory.newUsagePointOnly(uuid);
-        updatedUsagePoint.addMeterReading(new MeterReading());
-        updatedUsagePoint.addMeterReading(new MeterReading());
+        updatedUsagePoint.addMeterReading(EspiFactory.newMeterReading());
+        updatedUsagePoint.addMeterReading(EspiFactory.newMeterReading());
 
         repository.createOrReplaceByUUID(updatedUsagePoint);
 
@@ -238,7 +260,9 @@ public class UsagePointRepositoryImplTests {
         repository.persist(usagePoint);
 
         UsagePoint updatedUsagePoint = EspiFactory.newUsagePointOnly(uuid);
-        updatedUsagePoint.addElectricPowerUsageSummary(new ElectricPowerUsageSummary());
+        ElectricPowerUsageSummary electricPowerUsageSummary = new ElectricPowerUsageSummary();
+        electricPowerUsageSummary.setUUID(UUID.randomUUID());
+        updatedUsagePoint.addElectricPowerUsageSummary(electricPowerUsageSummary);
 
         repository.createOrReplaceByUUID(updatedUsagePoint);
 
@@ -290,7 +314,7 @@ public class UsagePointRepositoryImplTests {
         retailCustomerRepository.persist(retailCustomer);
 
         UsagePoint usagePoint = EspiFactory.newUsagePointOnly(uuid);
-        usagePoint.addMeterReading(new MeterReading());
+        usagePoint.addMeterReading(EspiFactory.newMeterReading());
         repository.persist(usagePoint);
 
         repository.associateByUUID(retailCustomer, uuid);
@@ -298,7 +322,7 @@ public class UsagePointRepositoryImplTests {
     }
 
     public void persist_savesReadingTypes() throws Exception {
-        UsagePoint usagePoint = EspiFactory.newUsagePoint();
+        UsagePoint usagePoint = newUsagePoint();
         MeterReading meterReading = new MeterReading();
         ReadingType readingType = EspiFactory.newReadingType();
 
@@ -308,5 +332,39 @@ public class UsagePointRepositoryImplTests {
         repository.persist(usagePoint);
 
         assertNotNull("ReadingType id was null", readingType.getId());
+    }
+
+    @Test
+    public void findAllUpdatedFor() {
+        RetailCustomer retailCustomer = EspiFactory.newRetailCustomer();
+        retailCustomerRepository.persist(retailCustomer);
+
+        UsagePoint usagePoint = newUsagePoint(retailCustomer);
+        usagePoint.setUpdated(EspiFactory.newDate(2013, 11, 13));
+        repository.persist(usagePoint);
+
+        UsagePoint updatedUsagePoint = newUsagePoint(retailCustomer);
+        updatedUsagePoint.setUpdated(EspiFactory.newDate(2013, 11, 23));
+        repository.persist(updatedUsagePoint);
+
+        ThirdParty thirdParty = EspiFactory.newThirdParty();
+        thirdPartyRepository.persist(thirdParty);
+
+        Subscription subscription = newSubscription(retailCustomer, thirdParty);
+        subscription.setLastUpdate(EspiFactory.newCalendar(2013, 11, 15));
+        subscriptionRepository.persist(subscription);
+
+        List<UsagePoint> usagePointList = repository.findAllUpdatedFor(subscription);
+
+        assertThat(usagePointList, hasItem(updatedUsagePoint));
+        assertThat(usagePointList, not(hasItem(usagePoint)));
+    }
+
+    @Test
+    public void findAllUpdatedFor_givenNoUpdatedResources() {
+        Subscription subscription = factory.createSubscription();
+        List<UsagePoint> usagePointList = repository.findAllUpdatedFor(subscription);
+
+        assertThat(usagePointList, isEmpty());
     }
 }

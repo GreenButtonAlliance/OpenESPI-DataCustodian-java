@@ -1,12 +1,12 @@
 package org.energyos.espi.datacustodian.utils.factories;
 
 import org.energyos.espi.datacustodian.domain.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.provider.OAuth2Request;
 
+import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
-import java.util.UUID;
+import java.util.*;
 
 public class EspiFactory {
 
@@ -100,10 +100,10 @@ public class EspiFactory {
         return retailCustomer;
     }
 
-    private static MeterReading newMeterReading() {
+    public static MeterReading newMeterReading() {
         MeterReading meterReading = new MeterReading();
 
-        meterReading.setMRID("E8B19EF0-6833-41CE-A28B-A5E7F9F193AE");
+        meterReading.setUUID(UUID.randomUUID());
         meterReading.setDescription("Electricity consumption");
 
         meterReading.addIntervalBlock(newIntervalBlock());
@@ -119,7 +119,7 @@ public class EspiFactory {
         TimeConfiguration timeConfiguration = new TimeConfiguration();
 
         timeConfiguration.setDescription("DST For North America");
-        timeConfiguration.setMRID("54C62EBE-2DB6-4D4F-B6BF-1973A079C841");
+        timeConfiguration.setUUID(UUID.randomUUID());
 
         timeConfiguration.setDstEndRule("foo".getBytes());
         timeConfiguration.setDstOffset(1000L);
@@ -133,7 +133,7 @@ public class EspiFactory {
         ReadingType readingType = new ReadingType();
 
         readingType.setDescription("Energy Delivered (kWh)");
-        readingType.setMRID("82B3E74B-DFC0-4DD4-8651-91A67B40374D");
+        readingType.setUUID(UUID.randomUUID());
 
         RationalNumber argument = new RationalNumber();
         argument.setNumerator(new BigInteger("1"));
@@ -175,7 +175,7 @@ public class EspiFactory {
         intervalBlock.addIntervalReading(newIntervalReading());
         intervalBlock.addIntervalReading(newIntervalReading());
 
-        intervalBlock.setMRID("E8E75691-7F9D-49F3-8BE2-3A74EBF6BFC0");
+        intervalBlock.setUUID(UUID.randomUUID());
         intervalBlock.setInterval(interval);
 
         return intervalBlock;
@@ -194,8 +194,6 @@ public class EspiFactory {
         intervalReading.addReadingQuality(_readingQuality("quality1"));
         intervalReading.addReadingQuality(_readingQuality("quality2"));
 
-        intervalReading.setMRID("E8E75691-7F9D-49F3-8BE2-3A74EBF6BFC0");
-
         intervalReading.setTimePeriod(timePeriod);
 
 
@@ -209,10 +207,10 @@ public class EspiFactory {
         return readingQuality;
     }
 
-    private static ElectricPowerUsageSummary newElectricPowerUsageSummary() {
+    public static ElectricPowerUsageSummary newElectricPowerUsageSummary() {
         ElectricPowerUsageSummary summary = new ElectricPowerUsageSummary();
 
-        summary.setMRID("DEB0A337-B1B5-4658-99CA-4688E253A99B");
+        summary.setUUID(UUID.randomUUID());
         summary.setDescription("Usage Summary");
         summary.setBillingPeriod(new DateTimeInterval(1119600L, 1119600L));
         summary.setCreated(new GregorianCalendar(2012, 10, 24, 0, 0, 0).getTime());
@@ -240,10 +238,10 @@ public class EspiFactory {
         return summary;
     }
 
-    private static ElectricPowerQualitySummary newElectricPowerQualitySummary() {
+    public static ElectricPowerQualitySummary newElectricPowerQualitySummary() {
         ElectricPowerQualitySummary summary = new ElectricPowerQualitySummary();
 
-        summary.setMRID("DEB0A337-C1B5-4658-99BA-4688E253A99B");
+        summary.setUUID(UUID.randomUUID());
         summary.setDescription("Quality Summary");
         summary.setFlickerPlt(1L);
         summary.setFlickerPst(2L);
@@ -272,14 +270,35 @@ public class EspiFactory {
         ThirdParty thirdParty = new ThirdParty();
         thirdParty.setName("Name" + System.currentTimeMillis());
         thirdParty.setClientId("Client" + System.currentTimeMillis());
+        thirdParty.setNotificationURI("http://example.com:8080/ThirdParty/espi/1_1/Notification");
 
         return thirdParty;
+    }
+
+    public static Subscription newSubscription() {
+        Subscription subscription = new Subscription();
+        subscription.setUUID(UUID.randomUUID());
+        subscription.setRetailCustomer(newRetailCustomer());
+        subscription.setThirdParty(newThirdParty());
+
+        return subscription;
+    }
+
+    public static Subscription newSubscription(RetailCustomer retailCustomer, ThirdParty thirdParty) {
+        Subscription subscription = new Subscription();
+        subscription.setUUID(UUID.randomUUID());
+        subscription.setRetailCustomer(retailCustomer);
+        subscription.setThirdParty(thirdParty);
+
+        return subscription;
     }
 
     public static Subscription newSubscription(RetailCustomer retailCustomer) {
         Subscription subscription = new Subscription();
         subscription.setUUID(UUID.randomUUID());
         subscription.setRetailCustomer(retailCustomer);
+        subscription.setThirdParty(newThirdParty());
+
         return subscription;
     }
 
@@ -294,5 +313,33 @@ public class EspiFactory {
     public static ServiceCategory newServiceCategory() {
         ServiceCategory serviceCategory = new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE);
         return serviceCategory;
+    }
+
+    public static Date newDate(int year, int month, int date) {
+        return newCalendar(year, month, date).getTime();
+    }
+
+    public static Calendar newCalendar(int year, int month, int date) {
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.set(year, month, date);
+
+        return calendar;
+    }
+
+    public static OAuth2Request newOAuth2Request(String clientId) {
+        return new OAuth2Request(
+                new HashMap<String, String>(),
+                clientId,
+                new ArrayList<GrantedAuthority>(),
+                true,
+                new HashSet<String>(),
+                new HashSet<String>(),
+                "redirect",
+                new HashMap<String, Serializable>()
+        );
+    }
+
+    public static OAuth2Request newOAuth2Request() {
+        return newOAuth2Request("client");
     }
 }

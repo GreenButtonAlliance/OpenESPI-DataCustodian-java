@@ -1,1 +1,1 @@
-INSERT INTO third_parties (client_id, name, url) VALUES('third_party', 'Third Party (localhost)', 'http://localhost:8080/ThirdParty/RetailCustomer/ScopeSelection')
+INSERT INTO third_parties (client_id, name, url, notification_uri) VALUES('third_party', 'Third Party (localhost)', 'http://localhost:8080/ThirdParty/espi/1_1/RetailCustomer/ScopeSelectionList', 'http://localhost:8080/ThirdParty/espi/1_1/Notification')

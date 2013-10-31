@@ -29,4 +29,9 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
         return authorization;
     }
+
+    @Override
+    public void persist(Authorization authorization) {
+        repository.persist(authorization);
+    }
 }

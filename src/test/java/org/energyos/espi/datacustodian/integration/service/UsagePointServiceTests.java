@@ -23,6 +23,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/spring/test-context.xml")
+@Transactional
 public class UsagePointServiceTests {
     @Autowired
     private UsagePointService usagePointService;

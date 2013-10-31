@@ -7,6 +7,8 @@ import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
+import org.energyos.espi.datacustodian.utils.TestUtils;
+import org.energyos.espi.datacustodian.utils.factories.EspiPersistenceFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,16 +49,17 @@ public class UsagePointRESTTests {
     @Autowired
     private RetailCustomerService retailCustomerService;
 
-    public RetailCustomer retailCustomer;
+    @Autowired
+    protected EspiPersistenceFactory factory;
 
+    public RetailCustomer retailCustomer;
     public UsagePoint usagePoint;
 
     @Before
     public void setup() {
         this.mockMvc = webAppContextSetup(this.wac).build();
-        retailCustomer = EspiFactory.newRetailCustomer();
-        retailCustomerService.persist(retailCustomer);
-        usagePoint = createUsagePoint();
+        usagePoint = factory.createUsagePoint();
+        retailCustomer = usagePoint.getRetailCustomer();
     }
 
     @Test
@@ -292,11 +295,5 @@ public class UsagePointRESTTests {
         mockMvc.perform(get(Routes.newDataCustodianRESTUsagePointCollection(retailCustomer.getHashedId())))
                 .andExpect(xpath("/:feed/:entry/:content/espi:UsagePoint", namespaces()).exists())
                 .andExpect(xpath("//espi:ElectricPowerQualitySummary", namespaces()).doesNotExist());
-    }
-
-    private UsagePoint createUsagePoint() {
-        UsagePoint usagePoint = EspiFactory.newUsagePoint(retailCustomer);
-        usagePointService.persist(usagePoint);
-        return usagePoint;
     }
 }

@@ -24,16 +24,17 @@
 
 package org.energyos.espi.datacustodian.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
-import java.util.UUID;
+import java.util.Calendar;
+import java.util.Set;
 
 /**
  * Defines the parameters of a subscription between Third Party and Data Custodian.
@@ -55,14 +56,29 @@ import java.util.UUID;
 @XmlType(name = "Subscription")
 @Entity
 @Table(name = "subscriptions")
+@NamedQueries(value = {
+        @NamedQuery(name = Subscription.QUERY_FIND_ALL, query = "SELECT subscription FROM Subscription subscription")
+})
 public class Subscription
         extends IdentifiedObject {
+
+    public final static String QUERY_FIND_ALL = "Subscription.findAll";
 
     @ManyToOne
     @JoinColumn(name = "retail_customer_id")
     @NotNull
     @XmlTransient
     protected RetailCustomer retailCustomer;
+
+    @OneToOne
+    @NotNull
+    private ThirdParty thirdParty;
+
+    @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Set<UsagePoint> usagePoints;
+
+    public Calendar lastUpdate;
 
     public RetailCustomer getRetailCustomer() {
         return retailCustomer;
@@ -72,9 +88,27 @@ public class Subscription
         this.retailCustomer = retailCustomer;
     }
 
-    @Override
-    @NotNull
-    public UUID getUUID() {
-        return super.getUUID();
+    public ThirdParty getThirdParty() {
+        return thirdParty;
+    }
+
+    public void setThirdParty(ThirdParty thirdParty) {
+        this.thirdParty = thirdParty;
+    }
+
+    public void setLastUpdate(Calendar lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public Calendar getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public Set<UsagePoint> getUsagePoints() {
+        return usagePoints;
+    }
+
+    public void setUsagePoints(Set<UsagePoint> usagePoints) {
+        this.usagePoints = usagePoints;
     }
 }
