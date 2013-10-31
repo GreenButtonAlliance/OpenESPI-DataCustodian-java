@@ -42,8 +42,6 @@ public class FeedBuilder {
     }
 
     public EntryType buildEntry(UsagePoint usagePoint) {
-        EntryType entry = new EntryType();
-        entry.getContent().setUsagePoint(usagePoint);
-        return entry;
+        return new EntryBuilder().build(usagePoint);
     }
 }

@@ -6,7 +6,6 @@ import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
-import org.energyos.espi.datacustodian.utils.TestUtils;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.energyos.espi.datacustodian.utils.TestUtils.namespaces;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -74,7 +74,9 @@ public class UsagePointRESTTests {
     @Test
     public void show_returnsUsagePointXML() throws Exception {
         mockMvc.perform(get(Routes.newDataCustodianRESTUsagePointMember(retailCustomer.getHashedId(), usagePoint.getHashedId())))
-                .andExpect(xpath("/:entry/:content/espi:UsagePoint", TestUtils.namespaces()).exists());
+                .andExpect(xpath("/:entry/:content/espi:UsagePoint", namespaces()).exists())
+                .andExpect(xpath("/:entry/:link[@rel='self']", namespaces()).exists());;
+
     }
 
     @Test
@@ -92,7 +94,8 @@ public class UsagePointRESTTests {
     @Test
     public void index_returnsUsagePointListXML() throws Exception {
         mockMvc.perform(get(Routes.newDataCustodianRESTUsagePointCollection(retailCustomer.getHashedId())))
-                .andExpect(xpath("/:feed/:entry/:content/espi:UsagePoint", TestUtils.namespaces()).exists());
+                .andExpect(xpath("/:feed/:entry/:content/espi:UsagePoint", namespaces()).exists())
+                .andExpect(xpath("/:feed/:entry/:link[@rel='self']", namespaces()).exists());
     }
 
     public void create_createsAndReturnsOKForValidUsagePoint() throws Exception {
@@ -287,8 +290,8 @@ public class UsagePointRESTTests {
     @Test
     public void isOneLevelDeep() throws Exception {
         mockMvc.perform(get(Routes.newDataCustodianRESTUsagePointCollection(retailCustomer.getHashedId())))
-                .andExpect(xpath("/:feed/:entry/:content/espi:UsagePoint", TestUtils.namespaces()).exists())
-                .andExpect(xpath("//espi:ElectricPowerQualitySummary", TestUtils.namespaces()).doesNotExist());
+                .andExpect(xpath("/:feed/:entry/:content/espi:UsagePoint", namespaces()).exists())
+                .andExpect(xpath("//espi:ElectricPowerQualitySummary", namespaces()).doesNotExist());
     }
 
     private UsagePoint createUsagePoint() {
