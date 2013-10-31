@@ -15,8 +15,6 @@ import org.xml.sax.SAXException;
 import javax.xml.transform.stream.StreamResult;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
@@ -31,10 +29,8 @@ public class BatchListMarshallerTest extends XMLTest {
 
     public String newXML() {
         BatchList batchList = new BatchList();
-        List<String> list = new LinkedList<>();
-        list.add("foo");
-        list.add("bar");
-        batchList.setResources(list);
+        batchList.getResources().add("foo");
+        batchList.getResources().add("bar");
 
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         jaxb2Marshaller.marshal(batchList, new StreamResult(os));
@@ -48,7 +44,7 @@ public class BatchListMarshallerTest extends XMLTest {
     }
     @Test
     public void resources() throws SAXException, IOException, XpathException {
-        assertXpathEvaluatesTo("foo", "/espi:BatchList/espi:resources[1]", newXML());
-        assertXpathEvaluatesTo("bar", "/espi:BatchList/espi:resources[2]", newXML());
+        assertXpathEvaluatesTo("foo", "/espi:BatchList/espi:resource[1]", newXML());
+        assertXpathEvaluatesTo("bar", "/espi:BatchList/espi:resource[2]", newXML());
     }
 }
