@@ -51,4 +51,6 @@ public interface UsagePointService {
     UsagePoint importUsagePoint(InputStream stream);
 
     List<UsagePoint> findAllUpdatedFor(Subscription subscription);
+
+    void deleteByHashedId(String usagePointHashedId);
 }

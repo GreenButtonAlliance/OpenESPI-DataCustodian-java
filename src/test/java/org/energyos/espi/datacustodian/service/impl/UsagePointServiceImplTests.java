@@ -38,22 +38,21 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newSubscription;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
 import static org.hamcrest.CoreMatchers.is;
-import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newSubscription;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
 public class UsagePointServiceImplTests {
 
+    public UsagePoint usagePoint;
     private UsagePointServiceImpl service;
     private UsagePointRepository repository;
     private XMLMarshaller xmlMarshaller;
     private UsagePointBuilder usagePointBuilder;
     private ATOMMarshaller marshaller;
-
-    public UsagePoint usagePoint;
 
     @Before
     public void setup() {
@@ -80,7 +79,6 @@ public class UsagePointServiceImplTests {
 
         verify(repository, times(1)).findAllByRetailCustomerId(customer.getId());
     }
-
 
     @Test
     public void findById() {
@@ -189,5 +187,25 @@ public class UsagePointServiceImplTests {
         Subscription subscription = newSubscription();
         service.findAllUpdatedFor(subscription);
         verify(repository).findAllUpdatedFor(subscription);
+    }
+
+    @Test
+    public void deleteByHashedId() {
+        Long id = usagePoint.getId();
+        when(repository.findById(id)).thenReturn(usagePoint);
+
+        service.deleteByHashedId(usagePoint.getHashedId());
+
+        verify(repository).deleteById(id);
+    }
+
+    @Test
+    public void deleteByHashedId_withUnknownUsagePoint() {
+        Long id = usagePoint.getId();
+        when(repository.findById(id)).thenReturn(null);
+
+        service.deleteByHashedId(usagePoint.getHashedId());
+
+        verify(repository, never()).deleteById(id);
     }
 }

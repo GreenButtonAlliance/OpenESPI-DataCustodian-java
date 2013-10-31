@@ -46,7 +46,6 @@ public class UsagePointServiceImpl implements UsagePointService {
     private XMLMarshaller xmlMarshaller;
     @Autowired
     private UsagePointRepository repository;
-
     @Autowired
     private ATOMMarshaller marshaller;
     @Autowired
@@ -133,7 +132,16 @@ public class UsagePointServiceImpl implements UsagePointService {
         return findById(Long.valueOf(usagePointHashedId));
     }
 
+    @Override
     public List<UsagePoint> findAllUpdatedFor(Subscription subscription) {
         return repository.findAllUpdatedFor(subscription);
+    }
+
+    @Override
+    public void deleteByHashedId(String usagePointHashedId) {
+        UsagePoint usagePoint = findByHashedId(usagePointHashedId);
+        if (usagePoint != null) {
+            repository.deleteById(usagePoint.getId());
+        }
     }
 }
