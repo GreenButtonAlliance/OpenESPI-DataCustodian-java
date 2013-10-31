@@ -14,6 +14,7 @@ public class Routes {
     public static final String DataCustodianRESTUsagePointCreate = "/espi/1_1/resource/RetailCustomer/{retailCustomerId}/UsagePoint";
     public static final String DataCustodianRESTUsagePointMember = "/espi/1_1/resource/RetailCustomer/{retailCustomerHashedId}/UsagePoint/{usagePointHashedId}";
     public static final String DataCustodianRESTUsagePointUpdate = "/espi/1_1/resource/RetailCustomer/{retailCustomerHashedId}/UsagePoint/{usagePointHashedId}";
+    public static final String DataCustodianRESTUsagePointDelete = "/espi/1_1/resource/RetailCustomer/{retailCustomerHashedId}/UsagePoint/{usagePointHashedId}";
 
     public static String newDataCustodianRESTUsagePointCollection(String retailCustomerHashedId) {
         return DataCustodianRESTUsagePointCollection.replace("{retailCustomerId}", retailCustomerHashedId);

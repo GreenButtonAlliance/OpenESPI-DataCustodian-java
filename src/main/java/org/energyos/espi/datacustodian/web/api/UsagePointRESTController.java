@@ -101,6 +101,17 @@ public class UsagePointRESTController {
         this.atomService = atomService;
     }
 
+    @RequestMapping(value = Routes.DataCustodianRESTUsagePointUpdate, method = RequestMethod.DELETE)
+    public void delete(HttpServletResponse response, @PathVariable long retailCustomerHashedId, @PathVariable String usagePointHashedId) {
+        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerHashedId);
+
+        UsagePoint existingUsagePoint = loadUsagePoint(response, retailCustomer, usagePointHashedId);
+
+        if (existingUsagePoint != null) {
+            this.usagePointService.deleteByHashedId(usagePointHashedId);
+        }
+    }
+
     private UsagePoint loadUsagePoint(HttpServletResponse response, RetailCustomer retailCustomer, String usagePointHashedId) {
         UsagePoint usagePoint;
         UsagePoint existingUsagePoint = null;

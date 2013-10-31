@@ -40,16 +40,12 @@ import static org.mockito.Mockito.*;
 
 public class UsagePointRESTControllerTests {
     private MockHttpServletResponse response;
-
     @Mock
     private UsagePointService usagePointService;
-
     @Mock
     private RetailCustomerService retailCustomerService;
-
     @Mock
     private AtomService atomService;
-
     private UsagePointRESTController controller;
     private RetailCustomer retailCustomer;
 
@@ -127,5 +123,19 @@ public class UsagePointRESTControllerTests {
 
         verify(usagePointService).importUsagePoint(inputStream);
         verify(usagePointService).associateByUUID(retailCustomer, usagePoint.getUUID());
+    }
+
+    @Test
+    public void delete() {
+        String hashedId = "1";
+        UsagePoint usagePoint = mock(UsagePoint.class);
+
+        when(usagePoint.getRetailCustomer()).thenReturn(retailCustomer);
+        when(retailCustomerService.findById(1L)).thenReturn(retailCustomer);
+        when(usagePointService.findByHashedId(hashedId)).thenReturn(usagePoint);
+
+        controller.delete(response, 1L, hashedId);
+
+        verify(usagePointService).deleteByHashedId(hashedId);
     }
 }
