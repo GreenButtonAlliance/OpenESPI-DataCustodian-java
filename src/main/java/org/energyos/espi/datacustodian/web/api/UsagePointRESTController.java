@@ -95,8 +95,6 @@ public class UsagePointRESTController {
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
-
-        System.out.println(usagePoint);
     }
 
     public void setUsagePointService(UsagePointService usagePointService) {
