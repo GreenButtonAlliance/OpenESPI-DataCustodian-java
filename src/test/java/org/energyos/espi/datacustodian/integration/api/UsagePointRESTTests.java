@@ -100,28 +100,28 @@ public class UsagePointRESTTests {
 
         mockMvc.perform(post("/espi/1_1/resource/RetailCustomer/1/UsagePoint").contentType(MediaType.APPLICATION_ATOM_XML)
                 .content("<entry xmlns=\"http://www.w3.org/2005/Atom\">" +
-                "  <id>urn:uuid:97EAEBAD-1214-4A58-A3D4-A16A6DE718E1</id>" +
-                "  <published>2012-10-24T00:00:00Z</published>" +
-                "  <updated>2012-10-24T00:00:00Z</updated>" +
-                "  <link rel=\"self\"" +
-                "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01\"/>" +
-                "  <link rel=\"up\"" +
-                "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint\"/>" +
-                "  <link rel=\"related\"" +
-                "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01/MeterReading\"/>" +
-                "  <link rel=\"related\"" +
-                "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01/ElectricPowerUsageSummary\"/>" +
-                "  <link rel=\"related\"" +
-                "        href=\"/espi/1_1/resource/UsagePoint/01/LocalTimeParameters/01\"/>" +
-                "  <title>my house</title>" +
-                "  <content>" +
-                "    <UsagePoint xmlns=\"http://naesb.org/espi\">" +
-                "      <ServiceCategory>" +
-                "        <kind>0</kind>" +
-                "      </ServiceCategory>" +
-                "    </UsagePoint>" +
-                "  </content>" +
-                "</entry>"))
+                        "  <id>urn:uuid:97EAEBAD-1214-4A58-A3D4-A16A6DE718E1</id>" +
+                        "  <published>2012-10-24T00:00:00Z</published>" +
+                        "  <updated>2012-10-24T00:00:00Z</updated>" +
+                        "  <link rel=\"self\"" +
+                        "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01\"/>" +
+                        "  <link rel=\"up\"" +
+                        "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint\"/>" +
+                        "  <link rel=\"related\"" +
+                        "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01/MeterReading\"/>" +
+                        "  <link rel=\"related\"" +
+                        "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01/ElectricPowerUsageSummary\"/>" +
+                        "  <link rel=\"related\"" +
+                        "        href=\"/espi/1_1/resource/UsagePoint/01/LocalTimeParameters/01\"/>" +
+                        "  <title>my house</title>" +
+                        "  <content>" +
+                        "    <UsagePoint xmlns=\"http://naesb.org/espi\">" +
+                        "      <ServiceCategory>" +
+                        "        <kind>0</kind>" +
+                        "      </ServiceCategory>" +
+                        "    </UsagePoint>" +
+                        "  </content>" +
+                        "</entry>"))
                 .andExpect(status().isOk());
 
         assertThat(usagePointRepository.findAllByRetailCustomerId(1L).size(), is(beforeCount + 1));
@@ -163,7 +163,7 @@ public class UsagePointRESTTests {
 
         mockMvc.perform(put("/espi/1_1/resource/RetailCustomer/" + retailCustomer.getId() + "/UsagePoint/" + usagePoint.getHashedId()).contentType(MediaType.APPLICATION_ATOM_XML)
                 .content("<entry xmlns=\"http://www.w3.org/2005/Atom\">" +
-                        "  <id>urn:uuid:"+ usagePoint.getUUID() + "</id>" +
+                        "  <id>urn:uuid:" + usagePoint.getUUID() + "</id>" +
                         "  <published>2012-10-24T00:00:00Z</published>" +
                         "  <updated>2012-10-24T00:00:00Z</updated>" +
                         "  <link rel=\"self\"" +
@@ -197,9 +197,9 @@ public class UsagePointRESTTests {
         UsagePoint otherUsagePoint = EspiFactory.newUsagePoint(otherCustomer);
         usagePointService.persist(otherUsagePoint);
 
-        mockMvc.perform(put("/espi/1_1/resource/RetailCustomer/" +retailCustomer.getId() + "/UsagePoint/" + otherUsagePoint.getHashedId()).contentType(MediaType.APPLICATION_ATOM_XML)
+        mockMvc.perform(put("/espi/1_1/resource/RetailCustomer/" + retailCustomer.getId() + "/UsagePoint/" + otherUsagePoint.getHashedId()).contentType(MediaType.APPLICATION_ATOM_XML)
                 .content("<entry xmlns=\"http://www.w3.org/2005/Atom\">" +
-                        "  <id>urn:uuid:"+ otherUsagePoint.getUUID() + "</id>" +
+                        "  <id>urn:uuid:" + otherUsagePoint.getUUID() + "</id>" +
                         "  <published>2012-10-24T00:00:00Z</published>" +
                         "  <updated>2012-10-24T00:00:00Z</updated>" +
                         "  <link rel=\"self\"" +

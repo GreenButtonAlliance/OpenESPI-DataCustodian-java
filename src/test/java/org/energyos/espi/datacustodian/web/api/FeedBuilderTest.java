@@ -45,6 +45,7 @@ public class FeedBuilderTest {
     public void buildEntry() throws Exception {
         FeedBuilder feedBuilder = new FeedBuilder();
         UsagePoint usagePoint = newUsagePoint();
+
         EntryType entry = feedBuilder.buildEntry(usagePoint);
 
         assertThat(entry.getContent().getUsagePoint(), is(usagePoint));
