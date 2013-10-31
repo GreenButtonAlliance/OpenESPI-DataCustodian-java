@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.energyos.espi.datacustodian.support.IsEmpty.isEmpty;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newMeterReading;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newSubscription;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
 import static org.hamcrest.CoreMatchers.hasItem;
@@ -108,7 +109,7 @@ public class UsagePointRepositoryImplTests {
     @Test
     public void persist_savesMeterReading() {
         UsagePoint usagePoint = getUsagePoint();
-        MeterReading meterReading = EspiFactory.newMeterReading();
+        MeterReading meterReading = newMeterReading();
 
         usagePoint.addMeterReading(meterReading);
 
@@ -121,7 +122,7 @@ public class UsagePointRepositoryImplTests {
     @Test
     public void persist_savesIntervalBlocks() {
         UsagePoint usagePoint = getUsagePoint();
-        MeterReading meterReading = EspiFactory.newMeterReading();
+        MeterReading meterReading = newMeterReading();
         IntervalBlock intervalBlock = new IntervalBlock();
         intervalBlock.setUUID(UUID.randomUUID());
 
@@ -235,7 +236,7 @@ public class UsagePointRepositoryImplTests {
     @Test
     public void createOrReplaceByUUID_replacesMeterReadings() {
         UsagePoint usagePoint = EspiFactory.newUsagePointOnly(uuid);
-        MeterReading meterReading = EspiFactory.newMeterReading();
+        MeterReading meterReading = newMeterReading();
         usagePoint.addMeterReading(meterReading);
 
         assertTrue(usagePoint.getMeterReadings().size() > 0);
@@ -243,8 +244,8 @@ public class UsagePointRepositoryImplTests {
         repository.persist(usagePoint);
 
         UsagePoint updatedUsagePoint = EspiFactory.newUsagePointOnly(uuid);
-        updatedUsagePoint.addMeterReading(EspiFactory.newMeterReading());
-        updatedUsagePoint.addMeterReading(EspiFactory.newMeterReading());
+        updatedUsagePoint.addMeterReading(newMeterReading());
+        updatedUsagePoint.addMeterReading(newMeterReading());
 
         repository.createOrReplaceByUUID(updatedUsagePoint);
 
@@ -314,7 +315,7 @@ public class UsagePointRepositoryImplTests {
         retailCustomerRepository.persist(retailCustomer);
 
         UsagePoint usagePoint = EspiFactory.newUsagePointOnly(uuid);
-        usagePoint.addMeterReading(EspiFactory.newMeterReading());
+        usagePoint.addMeterReading(newMeterReading());
         repository.persist(usagePoint);
 
         repository.associateByUUID(retailCustomer, uuid);
@@ -324,7 +325,7 @@ public class UsagePointRepositoryImplTests {
     @Test
     public void persist_savesReadingTypes() throws Exception {
         UsagePoint usagePoint = newUsagePoint();
-        MeterReading meterReading = new MeterReading();
+        MeterReading meterReading = newMeterReading();
         ReadingType readingType = EspiFactory.newReadingType();
 
         usagePoint.addMeterReading(meterReading);
