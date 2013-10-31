@@ -6,7 +6,6 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.datacustodian.domain.Routes;
-import org.energyos.espi.datacustodian.utils.TestUtils;
 import org.openqa.selenium.WebDriver;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.client.RestTemplate;
@@ -18,8 +17,7 @@ import static features.steps.StepUtils.assertContains;
 import static features.steps.StepUtils.clickLinkByText;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.energyos.espi.datacustodian.utils.TestUtils.getXPathValue;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
 public class APISteps {
@@ -58,28 +56,28 @@ public class APISteps {
         RestTemplate rest = new RestTemplate();
         String response = rest.postForObject(StepUtils.BASE_URL + "/espi/1_1/resource/RetailCustomer/1/UsagePoint",
                 "<entry xmlns=\"http://www.w3.org/2005/Atom\">>" +
-                "  <id>urn:uuid:97EAEBAD-1214-4A58-A3D4-A16A6DE718E1</id>" +
-                "  <published>2012-10-24T00:00:00Z</published>" +
-                "  <updated>2012-10-24T00:00:00Z</updated>" +
-                "  <link rel=\"self\"" +
-                "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01\"/>" +
-                "  <link rel=\"up\"" +
-                "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint\"/>" +
-                "  <link rel=\"related\"" +
-                "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01/MeterReading\"/>" +
-                "  <link rel=\"related\"" +
-                "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01/ElectricPowerUsageSummary\"/>" +
-                "  <link rel=\"related\"" +
-                "        href=\"/espi/1_1/resource/UsagePoint/01/LocalTimeParameters/01\"/>" +
-                "  <title>Created</title>" +
-                "  <content>" +
-                "    <UsagePoint xmlns=\"http://naesb.org/espi\">" +
-                "      <ServiceCategory>" +
-                "        <kind>0</kind>" +
-                "      </ServiceCategory>" +
-                "    </UsagePoint>" +
-                "  </content>" +
-                "</entry>"
+                        "  <id>urn:uuid:97EAEBAD-1214-4A58-A3D4-A16A6DE718E1</id>" +
+                        "  <published>2012-10-24T00:00:00Z</published>" +
+                        "  <updated>2012-10-24T00:00:00Z</updated>" +
+                        "  <link rel=\"self\"" +
+                        "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01\"/>" +
+                        "  <link rel=\"up\"" +
+                        "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint\"/>" +
+                        "  <link rel=\"related\"" +
+                        "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01/MeterReading\"/>" +
+                        "  <link rel=\"related\"" +
+                        "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01/ElectricPowerUsageSummary\"/>" +
+                        "  <link rel=\"related\"" +
+                        "        href=\"/espi/1_1/resource/UsagePoint/01/LocalTimeParameters/01\"/>" +
+                        "  <title>Created</title>" +
+                        "  <content>" +
+                        "    <UsagePoint xmlns=\"http://naesb.org/espi\">" +
+                        "      <ServiceCategory>" +
+                        "        <kind>0</kind>" +
+                        "      </ServiceCategory>" +
+                        "    </UsagePoint>" +
+                        "  </content>" +
+                        "</entry>"
                 , String.class);
 
         assertThat(response, is(nullValue()));
@@ -133,4 +131,17 @@ public class APISteps {
         assertContains("Updated", driver.getPageSource());
     }
 
+    @And("^I DELETE \\/espi\\/1_1\\/resource\\/RetailCustomer\\/\\{RetailCustomerID\\}\\/UsagePoint\\/\\{UsagePointID\\}$")
+    public void I_DELETE_espi__resource_RetailCustomer_RetailCustomerID_UsagePoint_UsagePointID() throws Throwable {
+        RestTemplate rest = new RestTemplate();
+        rest.delete(StepUtils.BASE_URL + "/espi/1_1/resource/RetailCustomer/" + CucumberSession.getUserHashedId() + "/UsagePoint/" + CucumberSession.getUsagePointHashedId());
+    }
+
+    @Then("^the Usage Point should be deleted$")
+    public void the_Usage_Point_should_be_deleted() throws Throwable {
+        driver.get(StepUtils.BASE_URL + "/espi/1_1/resource/RetailCustomer/1/UsagePoint");
+        String xml = driver.getPageSource();
+
+        assertThat(getXPathValue("/:feed/:entry/:link[@rel='self']/@href", xml), is(not("RetailCustomer/" + CucumberSession.getUserHashedId() + "/UsagePoint/" + CucumberSession.getUsagePointHashedId())));
+    }
 }

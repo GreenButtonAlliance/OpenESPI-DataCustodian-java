@@ -27,3 +27,8 @@ Feature: API
     And I PUT /espi/1_1/resource/RetailCustomer/{RetailCustomerID}/UsagePoint/{UsagePointID}
     And I log in as Alan Turing
     Then I should see an updated Usage Point
+
+  Scenario: API client deletes an existing Usage Point
+    Given a Retail Customer with Usage Points
+    And I DELETE /espi/1_1/resource/RetailCustomer/{RetailCustomerID}/UsagePoint/{UsagePointID}
+    Then the Usage Point should be deleted
