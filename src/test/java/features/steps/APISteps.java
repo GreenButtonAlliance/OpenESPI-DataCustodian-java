@@ -10,17 +10,14 @@ import org.energyos.espi.datacustodian.utils.TestUtils;
 import org.openqa.selenium.WebDriver;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.client.RestTemplate;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathFactory;
 import java.io.IOException;
-import java.io.StringReader;
 
 import static features.steps.StepUtils.assertContains;
 import static features.steps.StepUtils.clickLinkByText;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
+import static org.energyos.espi.datacustodian.utils.TestUtils.getXPathValue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
@@ -92,12 +89,9 @@ public class APISteps {
     public void I_PUT_espi__resource_RetailCustomer_RetailCustomerID_UsagePoint_UsagePointID() throws Throwable {
         driver.get(StepUtils.BASE_URL + "/espi/1_1/resource/RetailCustomer/1/UsagePoint");
         String xml = driver.getPageSource();
-        XPathFactory xpathFactory = XPathFactory.newInstance();
-        XPath xpath = xpathFactory.newXPath();
-        xpath.setNamespaceContext(TestUtils.getNamespaceContext());
 
-        String id = xpath.evaluate("/:feed/:entry/:title[contains(text(),'Created')]/../:id", new InputSource(new StringReader(xml))).trim();
-        String selfHref = xpath.evaluate("/:feed/:entry/:title[contains(text(),'Created')]/../:link[@rel='self']/@href", new InputSource(new StringReader(xml)));
+        String id = getXPathValue("/:feed/:entry/:title[contains(text(),'Created')]/../:id", xml);
+        String selfHref = getXPathValue("/:feed/:entry/:title[contains(text(),'Created')]/../:link[@rel='self']/@href", xml);
 
         String requestBody = "<entry xmlns=\"http://www.w3.org/2005/Atom\">>" +
                 "  <id>" + id + "</id>" +

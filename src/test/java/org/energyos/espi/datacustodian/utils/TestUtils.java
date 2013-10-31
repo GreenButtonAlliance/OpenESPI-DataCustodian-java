@@ -2,8 +2,13 @@ package org.energyos.espi.datacustodian.utils;
 
 import org.custommonkey.xmlunit.SimpleNamespaceContext;
 import org.custommonkey.xmlunit.XMLUnit;
+import org.xml.sax.InputSource;
 
 import javax.xml.namespace.NamespaceContext;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -40,5 +45,15 @@ public class TestUtils {
                 return null;
             }
         };
+    }
+
+    public static String getXPathValue(String expression, String xml) throws XPathExpressionException {
+        String value;
+        XPathFactory xpathFactory = XPathFactory.newInstance();
+        XPath xpath = xpathFactory.newXPath();
+        xpath.setNamespaceContext(getNamespaceContext());
+
+        value = xpath.evaluate(expression, new InputSource(new StringReader(xml))).trim();
+        return value;
     }
 }
