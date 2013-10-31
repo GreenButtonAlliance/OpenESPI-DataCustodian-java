@@ -7,7 +7,6 @@ import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
-import org.energyos.espi.datacustodian.utils.TestUtils;
 import org.energyos.espi.datacustodian.utils.factories.EspiPersistenceFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,8 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.energyos.espi.datacustodian.utils.TestUtils.namespaces;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -35,25 +33,19 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @Transactional
 public class UsagePointRESTTests {
 
-    private MockMvc mockMvc;
-
-    @Autowired
-    protected WebApplicationContext wac;
-
-    @Autowired
-    private UsagePointService usagePointService;
-
-    @Autowired
-    private UsagePointRepository usagePointRepository;
-
-    @Autowired
-    private RetailCustomerService retailCustomerService;
-
-    @Autowired
-    protected EspiPersistenceFactory factory;
-
     public RetailCustomer retailCustomer;
     public UsagePoint usagePoint;
+    @Autowired
+    protected WebApplicationContext wac;
+    @Autowired
+    protected EspiPersistenceFactory factory;
+    private MockMvc mockMvc;
+    @Autowired
+    private UsagePointService usagePointService;
+    @Autowired
+    private UsagePointRepository usagePointRepository;
+    @Autowired
+    private RetailCustomerService retailCustomerService;
 
     @Before
     public void setup() {
@@ -78,7 +70,8 @@ public class UsagePointRESTTests {
     public void show_returnsUsagePointXML() throws Exception {
         mockMvc.perform(get(Routes.newDataCustodianRESTUsagePointMember(retailCustomer.getHashedId(), usagePoint.getHashedId())))
                 .andExpect(xpath("/:entry/:content/espi:UsagePoint", namespaces()).exists())
-                .andExpect(xpath("/:entry/:link[@rel='self']", namespaces()).exists());;
+                .andExpect(xpath("/:entry/:link[@rel='self']", namespaces()).exists());
+        ;
 
     }
 
@@ -288,6 +281,34 @@ public class UsagePointRESTTests {
                         "  </content>" +
                         "</entry>"))
                 .andExpect(status().isMethodNotAllowed());
+    }
+
+    @Test
+    public void delete_returnsOK_forValidUsagePoint() throws Exception {
+        UsagePoint usagePoint = EspiFactory.newUsagePoint(retailCustomer);
+        usagePointService.persist(usagePoint);
+
+        mockMvc.perform(delete("/espi/1_1/resource/RetailCustomer/" + retailCustomer.getId() + "/UsagePoint/" + usagePoint.getHashedId()))
+                .andExpect(status().isOk());
+
+        assertThat(usagePointService.findByHashedId(usagePoint.getHashedId()), is(nullValue()));
+    }
+
+    @Test
+    public void delete_returns404_forMissingUsagePoint() throws Exception {
+        mockMvc.perform(delete("/espi/1_1/resource/RetailCustomer/1/UsagePoint/12345"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void delete_returns400_forBadId() throws Exception {
+        RetailCustomer otherCustomer = EspiFactory.newRetailCustomer();
+        retailCustomerService.persist(otherCustomer);
+        UsagePoint otherUsagePoint = EspiFactory.newUsagePoint(otherCustomer);
+        usagePointService.persist(otherUsagePoint);
+
+        mockMvc.perform(delete("/espi/1_1/resource/RetailCustomer/" + retailCustomer.getHashedId() + "/UsagePoint/" + otherUsagePoint.getHashedId()))
+                .andExpect(status().isBadRequest());
     }
 
     @Test

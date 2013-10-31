@@ -39,8 +39,7 @@ import static org.energyos.espi.datacustodian.support.IsEmpty.isEmpty;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newMeterReading;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newSubscription;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -58,8 +57,6 @@ public class UsagePointRepositoryImplTests {
     private SubscriptionRepository subscriptionRepository;
     @Autowired
     private EspiPersistenceFactory factory;
-
-
     private RetailCustomer customer;
     private UUID uuid;
 
@@ -320,6 +317,16 @@ public class UsagePointRepositoryImplTests {
 
         repository.associateByUUID(retailCustomer, uuid);
         assertTrue(usagePoint.getMeterReadings().size() > 0);
+    }
+
+    @Test
+    public void deleteById() {
+        UsagePoint usagePoint = EspiFactory.newUsagePointOnly(uuid);
+        repository.persist(usagePoint);
+
+        repository.deleteById(usagePoint.getId());
+
+        assertThat(repository.findById(usagePoint.getId()), is(nullValue()));
     }
 
     @Test

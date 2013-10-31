@@ -128,6 +128,7 @@ public class DataCustodianSteps {
         StepUtils.addUsagePoint(CucumberSession.getUsername(), secondUsagePointUUID.toString());
         StepUtils.importUsagePoint(secondUsagePointUUID);
         StepUtils.login(CucumberSession.getUsername(), StepUtils.PASSWORD);
+        CucumberSession.setUsagePointHashedId(StepUtils.getFirstUsagePointHashedId());
     }
 
     @And("^I associate \"([^\"]*)\" Usage Point with Retail Customer$")

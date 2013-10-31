@@ -38,10 +38,8 @@ public class UsagePointRESTController {
 
     @Autowired
     private UsagePointService usagePointService;
-
     @Autowired
     private RetailCustomerService retailCustomerService;
-
     @Autowired
     private AtomService atomService;
 
@@ -77,23 +75,17 @@ public class UsagePointRESTController {
     @RequestMapping(value = Routes.DataCustodianRESTUsagePointUpdate, method = RequestMethod.PUT)
     public void update(HttpServletResponse response, @PathVariable long retailCustomerHashedId, @PathVariable String usagePointHashedId, InputStream stream) {
         RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerHashedId);
-        UsagePoint usagePoint;
+        UsagePoint existingUsagePoint;
 
-        usagePoint = usagePointService.findByHashedId(usagePointHashedId);
+        existingUsagePoint = loadUsagePoint(response, retailCustomer, usagePointHashedId);
 
-        if (null != usagePoint) {
-            if (usagePoint.getRetailCustomer().equals(retailCustomer)) {
-                try {
-                    usagePoint = this.usagePointService.importUsagePoint(stream);
-                    usagePointService.associateByUUID(retailCustomer, usagePoint.getUUID());
-                } catch (Exception e) {
-                    response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-                }
-            } else {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        if (existingUsagePoint != null) {
+            try {
+                UsagePoint usagePoint = this.usagePointService.importUsagePoint(stream);
+                usagePointService.associateByUUID(retailCustomer, usagePoint.getUUID());
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
             }
-        } else {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
     }
 
@@ -109,4 +101,33 @@ public class UsagePointRESTController {
         this.atomService = atomService;
     }
 
+    @RequestMapping(value = Routes.DataCustodianRESTUsagePointUpdate, method = RequestMethod.DELETE)
+    public void delete(HttpServletResponse response, @PathVariable long retailCustomerHashedId, @PathVariable String usagePointHashedId) {
+        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerHashedId);
+
+        UsagePoint existingUsagePoint = loadUsagePoint(response, retailCustomer, usagePointHashedId);
+
+        if (existingUsagePoint != null) {
+            this.usagePointService.deleteByHashedId(usagePointHashedId);
+        }
+    }
+
+    private UsagePoint loadUsagePoint(HttpServletResponse response, RetailCustomer retailCustomer, String usagePointHashedId) {
+        UsagePoint usagePoint;
+        UsagePoint existingUsagePoint = null;
+
+        usagePoint = usagePointService.findByHashedId(usagePointHashedId);
+
+        if (null != usagePoint) {
+            if (usagePoint.getRetailCustomer().equals(retailCustomer)) {
+                existingUsagePoint = usagePoint;
+            } else {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
+
+        return existingUsagePoint;
+    }
 }

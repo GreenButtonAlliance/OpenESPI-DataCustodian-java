@@ -46,7 +46,6 @@ public class UsagePointServiceImpl implements UsagePointService {
     private XMLMarshaller xmlMarshaller;
     @Autowired
     private UsagePointRepository repository;
-
     @Autowired
     private ATOMMarshaller marshaller;
     @Autowired
@@ -74,14 +73,17 @@ public class UsagePointServiceImpl implements UsagePointService {
         this.subscriptionBuilder = subscriptionBuilder;
     }
 
+    @Override
     public List<UsagePoint> findAllByRetailCustomer(RetailCustomer customer) {
         return repository.findAllByRetailCustomerId(customer.getId());
     }
 
+    @Override
     public UsagePoint findById(Long id) {
         return this.repository.findById(id);
     }
 
+    @Override
     public void persist(UsagePoint up) {
         this.repository.persist(up);
     }
@@ -103,14 +105,17 @@ public class UsagePointServiceImpl implements UsagePointService {
         return usagePoint;
     }
 
+    @Override
     public void createOrReplaceByUUID(UsagePoint usagePoint) {
         repository.createOrReplaceByUUID(usagePoint);
     }
 
+    @Override
     public String exportUsagePoints(RetailCustomer customer) throws FeedException {
         return marshaller.marshal(subscriptionBuilder.buildFeed(findAllByRetailCustomer(customer)));
     }
 
+    @Override
     public String exportUsagePointById(Long usagePointId) throws FeedException {
         List<UsagePoint> usagePointList = new ArrayList<>();
         usagePointList.add(findById(usagePointId));
@@ -133,7 +138,16 @@ public class UsagePointServiceImpl implements UsagePointService {
         return findById(Long.valueOf(usagePointHashedId));
     }
 
+    @Override
     public List<UsagePoint> findAllUpdatedFor(Subscription subscription) {
         return repository.findAllUpdatedFor(subscription);
+    }
+
+    @Override
+    public void deleteByHashedId(String usagePointHashedId) {
+        UsagePoint usagePoint = findByHashedId(usagePointHashedId);
+        if (usagePoint != null) {
+            repository.deleteById(usagePoint.getId());
+        }
     }
 }

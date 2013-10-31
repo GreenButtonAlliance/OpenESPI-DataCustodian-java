@@ -38,7 +38,7 @@ public class UsagePointRepositoryImpl implements UsagePointRepository {
     protected EntityManager em;
 
     @SuppressWarnings("unchecked")
-	public List<UsagePoint> findAllByRetailCustomerId(Long id) {
+    public List<UsagePoint> findAllByRetailCustomerId(Long id) {
         return (List<UsagePoint>)this.em.createNamedQuery(UsagePoint.QUERY_FIND_ALL_BY_RETAIL_CUSTOMER_ID)
                 .setParameter("retailCustomerId", id)
                 .getResultList();
@@ -48,7 +48,7 @@ public class UsagePointRepositoryImpl implements UsagePointRepository {
         return this.em.find(UsagePoint.class, id);
     }
 
-    public void persist(UsagePoint up){
+    public void persist(UsagePoint up) {
         this.em.persist(up);
     }
 
@@ -91,9 +91,13 @@ public class UsagePointRepositoryImpl implements UsagePointRepository {
                 .getResultList();
     }
 
+    public void deleteById(Long id) {
+        em.remove(findById(id));
+    }
+
     public UsagePoint findByUUID(UUID uuid) {
         return (UsagePoint)this.em.createNamedQuery(UsagePoint.QUERY_FIND_BY_UUID)
-                .setParameter("uuid",  uuid.toString().toUpperCase())
+                .setParameter("uuid", uuid.toString().toUpperCase())
                 .getSingleResult();
     }
 }
