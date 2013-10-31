@@ -37,4 +37,6 @@ public interface UsagePointRepository {
     void createOrReplaceByUUID(UsagePoint usagePoint);
 
     List<UsagePoint> findAllUpdatedFor(Subscription subscription);
+
+    void deleteById(Long id);
 }
