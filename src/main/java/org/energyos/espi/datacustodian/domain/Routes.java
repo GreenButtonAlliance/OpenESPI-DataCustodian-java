@@ -4,7 +4,7 @@ public class Routes {
     public static final String DataCustodianHome = "/custodian/home";
     public static final String DataCustodianNotifyThirdParty = "/espi/1_1/NotifyThirdParty";
     public static final String DataCustodianRemoveAllOAuthTokens = "/custodian/removealltokens";
-    public static final String DataCustodianSubscription = "/espi/1_1/resource/Subscription/{SubscriptionID}";
+    public static final String DataCustodianSubscription = "/espi/1_1/resource/Subscription/{subscriptionId}";
     public static final String DataCustodianAuthorization = "/espi/1_1/resource/Authorization/{AuthorizationID}";
 
     public static final String CUSTODIAN_RETAILCUSTOMERS_USAGEPOINTS_FORM = "/custodian/retailcustomers/usagepoints/form";
@@ -23,4 +23,9 @@ public class Routes {
     public static String newDataCustodianRESTUsagePointMember(String retailCustomerHashedId, String usagePointHashedId) {
         return DataCustodianRESTUsagePointMember.replace("{retailCustomerHashedId}", retailCustomerHashedId).replace("{usagePointHashedId}", usagePointHashedId);
     }
+
+    public static String subscriptionEndpoint(String subscriptionHashedId) {
+        return DataCustodianSubscription.replace("{subscriptionId}", subscriptionHashedId);
+    }
 }
+
