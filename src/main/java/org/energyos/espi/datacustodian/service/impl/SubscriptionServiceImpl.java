@@ -43,6 +43,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         repository.persist(subscription);
     }
 
+    @Override
+    public Subscription findByHashedId(String hashedId) {
+        return repository.findByHashedId(hashedId);
+    }
+
     public void setRepository(SubscriptionRepository repository) {
         this.repository = repository;
     }

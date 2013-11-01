@@ -20,7 +20,6 @@ package org.energyos.espi.datacustodian.service.impl;
 import org.energyos.espi.datacustodian.BaseTest;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.Subscription;
-import org.energyos.espi.datacustodian.repositories.SubscriptionRepository;
 import org.energyos.espi.datacustodian.repositories.jpa.SubscriptionRepositoryImpl;
 import org.energyos.espi.datacustodian.service.ThirdPartyService;
 import org.energyos.espi.datacustodian.utils.DateConverter;
@@ -94,13 +93,18 @@ public class SubscriptionServiceImplTests extends BaseTest {
 
     @Test
     public void findAll() {
-        SubscriptionServiceImpl service = new SubscriptionServiceImpl();
-        SubscriptionRepository repository = mock(SubscriptionRepository.class);
         List<Subscription> subscriptions = new ArrayList<>();
 
-        service.setRepository(repository);
         when(repository.findAll()).thenReturn(subscriptions);
 
         assertEquals(subscriptions, service.findAll());
     }
+
+    @Test
+    public void findByHashedId() {
+        when(repository.findByHashedId("foo")).thenReturn(subscription);
+
+        assertEquals(subscription, service.findByHashedId("foo"));
+    }
+
 }

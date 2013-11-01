@@ -11,4 +11,6 @@ public interface SubscriptionService {
     List<Subscription> findAll();
 
     void persist(Subscription subscription);
+
+    Subscription findByHashedId(String hashedId);
 }
