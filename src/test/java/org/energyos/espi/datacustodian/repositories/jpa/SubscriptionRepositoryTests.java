@@ -52,4 +52,11 @@ public class SubscriptionRepositoryTests {
 
         assertEquals(1, repository.findAll().size());
     }
+
+    @Test
+    public void findByHashedId() {
+        Subscription subscription = factory.createSubscription();
+
+        assertEquals(subscription.getId(), repository.findByHashedId(subscription.getHashedId()).getId());
+    }
 }

@@ -8,4 +8,6 @@ public interface SubscriptionRepository {
     void persist(Subscription subscription);
 
     List<Subscription> findAll();
+
+    Subscription findByHashedId(String hashedId);
 }
