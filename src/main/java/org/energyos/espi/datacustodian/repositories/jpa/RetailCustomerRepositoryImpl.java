@@ -49,6 +49,7 @@ public class RetailCustomerRepositoryImpl implements RetailCustomerRepository {
 
     @Override
     public UserDetails findByUsername(String username) {
-       return (UserDetails)this.em.createNamedQuery(RetailCustomer.QUERY_FIND_BY_USERNAME).setParameter("username", username).getSingleResult();
+       return (UserDetails)this.em.createNamedQuery(RetailCustomer.QUERY_FIND_BY_USERNAME)
+               .setParameter("username", username).getSingleResult();
     }
 }
