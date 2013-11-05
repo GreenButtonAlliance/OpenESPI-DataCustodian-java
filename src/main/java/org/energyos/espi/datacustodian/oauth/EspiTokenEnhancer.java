@@ -31,7 +31,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
         Map<String, Object> additionalInformation = new HashMap<>();
 
         Subscription subscription = subscriptionService.createSubscription(authentication);
-        additionalInformation.put("resourceURI", baseURL + Routes.subscriptionEndpoint(subscription.getUUID().toString()));
+        additionalInformation.put("resourceURI", baseURL + Routes.newDataCustodianSubscription(subscription.getHashedId()));
 
         Authorization authorization = authorizationService.createAuthorization(subscription, "accessToken");
         additionalInformation.put("authorizationURI", baseURL + Routes.DataCustodianAuthorization.replace("{AuthorizationID}", authorization.getUUID().toString()));

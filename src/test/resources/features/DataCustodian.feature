@@ -30,7 +30,7 @@ Feature: Data Custodian
 
   Scenario: Data Custodian views customer list
     Given I am a Data Custodian
-    And there is an Alan Turing retail customer
+    And Alan Turing is a Retail Customer
     And I log in as a Data Custodian
 
     When I navigate to customer list page
@@ -38,7 +38,7 @@ Feature: Data Custodian
 
   Scenario: Unauthenticated Data Custodian views customer list
     Given I am a Data Custodian
-    And there is an Alan Turing retail customer
+    And Alan Turing is a Retail Customer
     And I am not logged in
 
     When I navigate to customer list page
@@ -50,7 +50,7 @@ Feature: Data Custodian
     And I select "Alan Turing" from customer list
     Then I should see "Alan Turing" profile page
 
-  Scenario: Data Custodian associates an Usage Point with Retail Customer
+  Scenario: Data Custodian associates a Usage Point with Retail Customer
     Given a Retail Customer
 
     When I log in as a Data Custodian

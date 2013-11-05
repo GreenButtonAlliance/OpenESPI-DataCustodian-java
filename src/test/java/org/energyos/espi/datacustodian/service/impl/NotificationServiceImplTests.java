@@ -26,8 +26,9 @@ import org.mockito.Mock;
 import org.springframework.web.client.RestTemplate;
 
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newSubscription;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 public class NotificationServiceImplTests extends BaseTest {
 
@@ -49,11 +50,9 @@ public class NotificationServiceImplTests extends BaseTest {
     @Test
     public void notify_notifiesThirdParty() {
         Subscription subscription = newSubscription();
-        BatchList batchList = new BatchList();
-        when(updateService.updatedResources(subscription)).thenReturn(batchList);
 
         service.notify(subscription);
 
-        verify(template).postForLocation(subscription.getThirdParty().getNotificationURI(), batchList);
+        verify(template).postForLocation(eq(subscription.getThirdParty().getNotificationURI()), any(BatchList.class));
     }
 }

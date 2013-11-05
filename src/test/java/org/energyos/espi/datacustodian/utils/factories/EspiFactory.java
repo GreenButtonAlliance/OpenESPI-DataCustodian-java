@@ -278,6 +278,7 @@ public class EspiFactory {
     public static Subscription newSubscription() {
         Subscription subscription = new Subscription();
         subscription.setUUID(UUID.randomUUID());
+        subscription.setHashedId(UUID.randomUUID().toString());
         subscription.setRetailCustomer(newRetailCustomer());
         subscription.setThirdParty(newThirdParty());
 

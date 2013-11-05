@@ -32,7 +32,7 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/spring/test-context.xml")
 @Transactional
-public class SubscriptionRepositoryTests {
+public class SubscriptionRepositoryImplTests {
     @Autowired
     private EspiPersistenceFactory factory;
 

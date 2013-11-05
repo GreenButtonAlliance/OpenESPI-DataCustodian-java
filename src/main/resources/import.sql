@@ -17,9 +17,3 @@ INSERT INTO retail_customers (username, first_name, last_name, password, enabled
 INSERT INTO retail_customers (username, first_name, last_name, password, enabled, role) VALUES ('john',    'John',    'von Neumann', 'koala', 1, 'ROLE_USER');
 INSERT INTO retail_customers (username, first_name, last_name, password, enabled, role) VALUES ('marian',  'Marian',  'Rejewski',    'koala', 1, 'ROLE_USER');
 INSERT INTO retail_customers (username, first_name, last_name, password, enabled, role) VALUES ('grace',   'Grace',   'Hopper',      'koala', 1, 'ROLE_CUSTODIAN');
-
-INSERT INTO usage_points (description, serviceCategory_kind, retail_customer_id, uuid) VALUES ('Front Electric Meter', 1, 1, '7BC41774-7190-4864-841C-861AC76D46C2');
-INSERT INTO usage_points (description, serviceCategory_kind, retail_customer_id, uuid) VALUES ('Gas meter', 1, 1, '7BC41774-7190-4864-841C-861AC76D46C3');
-INSERT INTO usage_points (description, serviceCategory_kind, retail_customer_id, uuid) VALUES ('Front Electric Meter', 1, 2, '7BC41774-7190-4864-841C-861AC76D46C4');
-INSERT INTO usage_points (description, serviceCategory_kind, retail_customer_id, uuid) VALUES ('Front Electric Meter', 1, 6, '7BC41774-7190-4864-841C-861AC76D46C5');
-INSERT INTO usage_points (description, serviceCategory_kind, retail_customer_id, uuid) VALUES ('Gas meter', 1, 6, '7BC41774-7190-4864-841C-861AC76D46C6');

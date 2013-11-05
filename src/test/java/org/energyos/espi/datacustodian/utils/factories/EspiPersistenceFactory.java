@@ -21,10 +21,15 @@ public class EspiPersistenceFactory {
     private UsagePointService usagePointService;
 
     public Subscription createSubscription() {
-        ThirdParty thirdParty = EspiFactory.newThirdParty();
-        thirdPartyService.persist(thirdParty);
         RetailCustomer retailCustomer = EspiFactory.newRetailCustomer();
         retailCustomerService.persist(retailCustomer);
+
+        return createSubscription(retailCustomer);
+    }
+
+    public Subscription createSubscription(RetailCustomer retailCustomer) {
+        ThirdParty thirdParty = EspiFactory.newThirdParty();
+        thirdPartyService.persist(thirdParty);
 
         Subscription subscription = EspiFactory.newSubscription(retailCustomer, thirdParty);
         subscription.setLastUpdate(Calendar.getInstance());

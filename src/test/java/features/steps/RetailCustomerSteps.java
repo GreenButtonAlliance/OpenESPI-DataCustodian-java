@@ -41,8 +41,8 @@ public class RetailCustomerSteps {
         TestUtils.setupXMLUnit();
     }
 
-    @Given("^there is an Alan Turing retail customer$")
-    public void there_is_an_Alan_Turing_retail_customer() throws Throwable {
+    @Given("^Alan Turing is a Retail Customer$")
+    public void Alan_Turing_is_a_Retail_Customer() throws Throwable {
     }
 
     @When("^I navigate to customer list page$")
