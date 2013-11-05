@@ -43,19 +43,19 @@ public class SubscriptionRESTTests {
 
     @Test
     public void show_returnsOk() throws Exception {
-        mockMvc.perform(get(Routes.subscriptionEndpoint(subscription.getHashedId())))
+        mockMvc.perform(get(Routes.newDataCustodianSubscription(subscription.getHashedId())))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void show_returnsATOMContentType() throws Exception {
-        mockMvc.perform(get(Routes.subscriptionEndpoint(subscription.getHashedId())))
+        mockMvc.perform(get(Routes.newDataCustodianSubscription(subscription.getHashedId())))
                 .andExpect(content().contentType(MediaType.APPLICATION_ATOM_XML));
     }
 
     @Test
     public void show_returnsSubscriptionXML() throws Exception {
-        mockMvc.perform(get(Routes.subscriptionEndpoint(subscription.getHashedId())))
+        mockMvc.perform(get(Routes.newDataCustodianSubscription(subscription.getHashedId())))
             .andExpect(xpath("/:feed", namespaces()).exists());
     }
 }

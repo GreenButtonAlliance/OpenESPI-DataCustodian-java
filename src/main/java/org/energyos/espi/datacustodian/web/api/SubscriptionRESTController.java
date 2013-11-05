@@ -24,7 +24,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -40,8 +43,8 @@ public class SubscriptionRESTController {
 
     @RequestMapping(value = Routes.DataCustodianSubscription, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public void show(HttpServletResponse response, @PathVariable String subscriptionId) throws FeedException, IOException {
-        Subscription subscription = subscriptionService.findByHashedId(subscriptionId);
+    public void show(HttpServletResponse response, @PathVariable String subscriptionHashedId) throws FeedException, IOException {
+        Subscription subscription = subscriptionService.findByHashedId(subscriptionHashedId);
         String xml = usagePointService.exportUsagePoints(subscription.getRetailCustomer());
 
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);

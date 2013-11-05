@@ -73,6 +73,7 @@ public class EspiTokenEnhancerTests extends BaseTest {
 
         subscription = new Subscription();
         subscription.setUUID(UUID.randomUUID());
+        subscription.setHashedId(UUID.randomUUID().toString());
 
         authorization = new Authorization();
         authorization.setUUID(UUID.randomUUID());
@@ -95,7 +96,7 @@ public class EspiTokenEnhancerTests extends BaseTest {
 
     @Test
     public void enhance_withResource() throws Exception {
-        String expectedResourceURI = "http://localhost:8080/DataCustodian/espi/1_1/resource/Subscription/" + subscription.getUUID().toString();
+        String expectedResourceURI = "http://localhost:8080/DataCustodian/espi/1_1/resource/Subscription/" + subscription.getHashedId();
         assertEquals(expectedResourceURI, enhancedToken.getAdditionalInformation().get("resourceURI"));
     }
 
