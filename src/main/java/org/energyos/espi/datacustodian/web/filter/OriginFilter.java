@@ -13,7 +13,7 @@ public class OriginFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-        response.addHeader("Access-Control-Allow-Headers", "Content-Type");
+        response.addHeader("Access-Control-Allow-Headers", request.getHeader("Access-Control-Allow-Headers"));
         response.addHeader("Access-Control-Max-Age", "1800");
         filterChain.doFilter(request, response);
     }
