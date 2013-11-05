@@ -7,17 +7,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
+@Transactional
 public class SubscriptionRepositoryImpl implements SubscriptionRepository {
 
     @PersistenceContext
     protected EntityManager em;
 
-    @Transactional
+    @Override
     public void persist(Subscription subscription) {
+        if (subscription.getHashedId() == null) subscription.setHashedId(UUID.randomUUID().toString());
         em.persist(subscription);
     }
 
@@ -28,8 +30,8 @@ public class SubscriptionRepositoryImpl implements SubscriptionRepository {
 
     @Override
     public Subscription findByHashedId(String hashedId) {
-        Query query = em.createQuery("SELECT sub FROM Subscription sub WHERE sub.id = :hashedId");
-        query.setParameter("hashedId", Long.valueOf(hashedId));
-        return (Subscription)query.getSingleResult();
+        return (Subscription)em.createNamedQuery(Subscription.QUERY_FIND_BY_HASHED_ID)
+                .setParameter("hashedId", hashedId)
+                .getSingleResult();
     }
 }

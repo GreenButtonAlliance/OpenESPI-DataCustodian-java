@@ -57,12 +57,16 @@ import java.util.Set;
 @Entity
 @Table(name = "subscriptions")
 @NamedQueries(value = {
-        @NamedQuery(name = Subscription.QUERY_FIND_ALL, query = "SELECT subscription FROM Subscription subscription")
+        @NamedQuery(name = Subscription.QUERY_FIND_ALL, query = "SELECT subscription FROM Subscription subscription"),
+        @NamedQuery(name = Subscription.QUERY_FIND_BY_HASHED_ID, query = "SELECT subscription FROM Subscription subscription WHERE subscription.hashedId = :hashedId")
 })
 public class Subscription
         extends IdentifiedObject {
 
     public final static String QUERY_FIND_ALL = "Subscription.findAll";
+    public final static String QUERY_FIND_BY_HASHED_ID = "Subscription.findByHashedID";
+
+    private String hashedId;
 
     @ManyToOne
     @JoinColumn(name = "retail_customer_id")
@@ -79,6 +83,14 @@ public class Subscription
     private Set<UsagePoint> usagePoints;
 
     public Calendar lastUpdate;
+
+    public String getHashedId() {
+        return hashedId;
+    }
+
+    public void setHashedId(String hashedId) {
+        this.hashedId = hashedId;
+    }
 
     public RetailCustomer getRetailCustomer() {
         return retailCustomer;
