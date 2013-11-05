@@ -78,6 +78,7 @@ public class Subscription
     @NotNull
     private ThirdParty thirdParty;
 
+    @XmlTransient
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     private Set<UsagePoint> usagePoints;
