@@ -35,4 +35,5 @@
         <property name="baseURL" value="${datacustodian.base.url}"/>
     </bean>
 
+    <bean id="seedDataGenerator" class="org.energyos.espi.datacustodian.SeedDataGenerator" init-method="init"/>
 </beans>
