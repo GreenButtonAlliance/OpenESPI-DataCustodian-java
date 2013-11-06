@@ -22,11 +22,11 @@ import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -89,18 +89,6 @@ public class UsagePointRESTController {
         }
     }
 
-    public void setUsagePointService(UsagePointService usagePointService) {
-        this.usagePointService = usagePointService;
-    }
-
-    public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
-        this.retailCustomerService = retailCustomerService;
-    }
-
-    public void setAtomService(AtomService atomService) {
-        this.atomService = atomService;
-    }
-
     @RequestMapping(value = Routes.DataCustodianRESTUsagePointUpdate, method = RequestMethod.DELETE)
     public void delete(HttpServletResponse response, @PathVariable long retailCustomerHashedId, @PathVariable String usagePointHashedId) {
         RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerHashedId);
@@ -110,6 +98,12 @@ public class UsagePointRESTController {
         if (existingUsagePoint != null) {
             this.usagePointService.deleteByHashedId(usagePointHashedId);
         }
+    }
+
+    @ExceptionHandler(EmptyResultDataAccessException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleEmptyResultDataAccessException() {
+        return "400";
     }
 
     private UsagePoint loadUsagePoint(HttpServletResponse response, RetailCustomer retailCustomer, String usagePointHashedId) {
@@ -129,5 +123,17 @@ public class UsagePointRESTController {
         }
 
         return existingUsagePoint;
+    }
+
+    public void setUsagePointService(UsagePointService usagePointService) {
+        this.usagePointService = usagePointService;
+    }
+
+    public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
+        this.retailCustomerService = retailCustomerService;
+    }
+
+    public void setAtomService(AtomService atomService) {
+        this.atomService = atomService;
     }
 }

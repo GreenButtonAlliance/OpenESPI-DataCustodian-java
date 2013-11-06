@@ -26,6 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 import java.io.IOException;
@@ -93,6 +94,13 @@ public class UsagePointRESTControllerTests {
 
         assertThat(response.getContentAsString(), is(entry));
         assertThat(response.getStatus(), is(200));
+    }
+
+    @Test(expected = EmptyResultDataAccessException.class)
+    public void show_givenInvalidUsagePoint_returns400Status() throws IOException, FeedException {
+        when(usagePointService.findByHashedId(anyString())).thenThrow(new EmptyResultDataAccessException(1));
+
+        controller.show(response, String.valueOf(System.nanoTime()));
     }
 
     @Test

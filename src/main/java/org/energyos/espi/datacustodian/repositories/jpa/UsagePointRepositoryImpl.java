@@ -45,7 +45,9 @@ public class UsagePointRepositoryImpl implements UsagePointRepository {
     }
 
     public UsagePoint findById(Long id) {
-        return this.em.find(UsagePoint.class, id);
+        return (UsagePoint)this.em.createNamedQuery(UsagePoint.QUERY_FIND_BY_ID)
+                .setParameter("id", id)
+                .getSingleResult();
     }
 
     public void persist(UsagePoint up) {

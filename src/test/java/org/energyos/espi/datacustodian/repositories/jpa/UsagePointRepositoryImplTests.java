@@ -28,6 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,9 +81,7 @@ public class UsagePointRepositoryImplTests {
 
     @Test
     public void findById_returnsUsagePoint() {
-        UsagePoint usagePoint = newUsagePoint();
-        repository.persist(usagePoint);
-
+        UsagePoint usagePoint = factory.createUsagePoint();
         UsagePoint retrievedUsagePoint = repository.findById(usagePoint.getId());
         assertNotNull("The usage point was null.", retrievedUsagePoint);
     }
@@ -319,14 +318,13 @@ public class UsagePointRepositoryImplTests {
         assertTrue(usagePoint.getMeterReadings().size() > 0);
     }
 
-    @Test
+    @Test(expected = EmptyResultDataAccessException.class)
     public void deleteById() {
-        UsagePoint usagePoint = EspiFactory.newUsagePointOnly(uuid);
-        repository.persist(usagePoint);
+        UsagePoint usagePoint = factory.createUsagePoint();
 
         repository.deleteById(usagePoint.getId());
 
-        assertThat(repository.findById(usagePoint.getId()), is(nullValue()));
+        repository.findById(usagePoint.getId());
     }
 
     @Test
