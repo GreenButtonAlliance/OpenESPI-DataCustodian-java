@@ -53,7 +53,7 @@ public class UsagePointRESTController {
     }
 
     @RequestMapping(value = Routes.DataCustodianRESTUsagePointMember, method = RequestMethod.GET)
-    public void show(HttpServletResponse response, @PathVariable String retailCustomerHashedId, @PathVariable String usagePointHashedId) throws IOException, FeedException {
+    public void show(HttpServletResponse response, @PathVariable String usagePointHashedId) throws IOException, FeedException {
         UsagePoint usagePoint = usagePointService.findByHashedId(usagePointHashedId);
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 

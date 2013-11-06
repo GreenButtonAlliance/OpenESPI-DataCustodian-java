@@ -89,7 +89,7 @@ public class UsagePointRESTControllerTests {
         when(usagePointService.findByHashedId(usagePoint.getHashedId())).thenReturn(usagePoint);
         when(atomService.entryFor(usagePoint)).thenReturn(entry);
 
-        controller.show(response, retailCustomer.getHashedId(), usagePoint.getHashedId());
+        controller.show(response, usagePoint.getHashedId());
 
         assertThat(response.getContentAsString(), is(entry));
         assertThat(response.getStatus(), is(200));

@@ -71,7 +71,6 @@ public class UsagePointRESTTests {
         mockMvc.perform(get(Routes.newDataCustodianRESTUsagePointMember(retailCustomer.getHashedId(), usagePoint.getHashedId())))
                 .andExpect(xpath("/:entry/:content/espi:UsagePoint", namespaces()).exists())
                 .andExpect(xpath("/:entry/:link[@rel='self']", namespaces()).exists());
-        ;
 
     }
 
