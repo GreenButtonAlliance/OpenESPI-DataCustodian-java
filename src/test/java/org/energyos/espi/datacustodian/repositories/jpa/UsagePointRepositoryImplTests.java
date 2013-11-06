@@ -37,10 +37,9 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.energyos.espi.datacustodian.support.IsEmpty.isEmpty;
-import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newMeterReading;
-import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newSubscription;
-import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
-import static org.hamcrest.CoreMatchers.*;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.*;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -170,7 +169,7 @@ public class UsagePointRepositoryImplTests {
         UsagePoint usagePoint = newUsagePoint(retailCustomer);
         repository.persist(usagePoint);
 
-        UsagePoint updatedUsagePoint = new UsagePoint();
+        UsagePoint updatedUsagePoint = newUsagePoint(null);
         updatedUsagePoint.setUUID(usagePoint.getUUID());
         repository.createOrReplaceByUUID(updatedUsagePoint);
 

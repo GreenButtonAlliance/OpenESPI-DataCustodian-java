@@ -138,7 +138,8 @@ public class UsagePoint
     }
 
     @XmlTransient
-    @ManyToOne @JoinColumn(name="retail_customer_id")
+    @ManyToOne
+    @JoinColumn(name="retail_customer_id")
     protected RetailCustomer retailCustomer;
 
     public String getSelfHref() {

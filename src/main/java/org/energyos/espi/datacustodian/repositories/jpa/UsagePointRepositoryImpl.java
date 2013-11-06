@@ -80,10 +80,6 @@ public class UsagePointRepositoryImpl implements UsagePointRepository {
                 usagePoint.setLocalTimeParameters(existingUsagePoint.getLocalTimeParameters());
             }
 
-            if(usagePoint.getServiceCategory() == null) {
-                usagePoint.setServiceCategory(existingUsagePoint.getServiceCategory());
-            }
-
             em.merge(usagePoint);
         } catch (NoResultException e) {
             persist(usagePoint);
