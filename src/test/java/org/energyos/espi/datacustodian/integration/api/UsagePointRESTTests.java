@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -71,8 +72,13 @@ public class UsagePointRESTTests {
         mockMvc.perform(get(Routes.newDataCustodianRESTUsagePointMember(retailCustomer.getHashedId(), usagePoint.getHashedId())))
                 .andExpect(xpath("/:entry/:content/espi:UsagePoint", namespaces()).exists())
                 .andExpect(xpath("/:entry/:link[@rel='self']", namespaces()).exists());
-        ;
 
+    }
+
+    @Test
+    public void show_givenAnInvalidUsagePoint_returns400Status() throws Exception {
+        mockMvc.perform(get(Routes.newDataCustodianRESTUsagePointMember(retailCustomer.getHashedId(), String.valueOf(System.nanoTime()))))
+                .andExpect(status().is(400));
     }
 
     @Test
@@ -94,6 +100,7 @@ public class UsagePointRESTTests {
                 .andExpect(xpath("/:feed/:entry/:link[@rel='self']", namespaces()).exists());
     }
 
+    @Test
     public void create_createsAndReturnsOKForValidUsagePoint() throws Exception {
         int beforeCount = usagePointRepository.findAllByRetailCustomerId(1L).size();
 
@@ -224,7 +231,7 @@ public class UsagePointRESTTests {
     }
 
     @Test
-    public void update_returnsNotFoundForUnknownUsagePointId() throws Exception {
+    public void update_returnsBadRequestForUnknownUsagePointId() throws Exception {
         mockMvc.perform(put("/espi/1_1/resource/RetailCustomer/" + retailCustomer.getId() + "/UsagePoint/42").contentType(MediaType.APPLICATION_ATOM_XML)
                 .content("<entry xmlns=\"http://www.w3.org/2005/Atom\">" +
                         "  <id>urn:uuid:97EAEBAD-1214-4A58-A3D4-A16A6DE718E1</id>" +
@@ -249,7 +256,7 @@ public class UsagePointRESTTests {
                         "    </UsagePoint>" +
                         "  </content>" +
                         "</entry>"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().is(400));
     }
 
     @Test
@@ -283,7 +290,7 @@ public class UsagePointRESTTests {
                 .andExpect(status().isMethodNotAllowed());
     }
 
-    @Test
+    @Test(expected = EmptyResultDataAccessException.class)
     public void delete_returnsOK_forValidUsagePoint() throws Exception {
         UsagePoint usagePoint = EspiFactory.newUsagePoint(retailCustomer);
         usagePointService.persist(usagePoint);
@@ -291,13 +298,13 @@ public class UsagePointRESTTests {
         mockMvc.perform(delete("/espi/1_1/resource/RetailCustomer/" + retailCustomer.getId() + "/UsagePoint/" + usagePoint.getHashedId()))
                 .andExpect(status().isOk());
 
-        assertThat(usagePointService.findByHashedId(usagePoint.getHashedId()), is(nullValue()));
+        usagePointService.findByHashedId(usagePoint.getHashedId());
     }
 
     @Test
-    public void delete_returns404_forMissingUsagePoint() throws Exception {
+    public void delete_returns400_forMissingUsagePoint() throws Exception {
         mockMvc.perform(delete("/espi/1_1/resource/RetailCustomer/1/UsagePoint/12345"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().is(400));
     }
 
     @Test
