@@ -68,6 +68,7 @@ public class StepUtils {
         passwordInput.clear();
         passwordInput.sendKeys(password);
         WebElement login = driver.findElement(By.name("submit"));
+
         login.click();
     }
 

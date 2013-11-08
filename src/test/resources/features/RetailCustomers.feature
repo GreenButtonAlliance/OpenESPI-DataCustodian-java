@@ -3,6 +3,14 @@ Feature: Retail Customers
   I want to be able to view my usage point in my browser
   So that I can see my UsagePoints
 
+  Scenario: Logged in Retail Customer access unauthorized page
+    Given I have a Retail Customer account
+    And I log in as Alan Turing
+
+    When I attempt to view custodian/home
+
+    Then I should see an unauthorized screen
+
   Scenario: Retail Customer visits home page
     When I visit the home page
     Then I should see the option to login

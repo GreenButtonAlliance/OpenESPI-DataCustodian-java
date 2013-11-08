@@ -28,7 +28,9 @@ import org.openqa.selenium.WebElement;
 
 import static features.steps.StepUtils.*;
 import static org.energyos.espi.datacustodian.support.Asserts.assertXpathValue;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class RetailCustomerSteps {
@@ -215,5 +217,15 @@ public class RetailCustomerSteps {
     public void the_XML_includes_Local_Time_Parameters() throws Throwable {
         assertXpathValue("DST For North America", "/:feed/:entry/:content/espi:LocalTimeParameters/../../:title", xmlResult);
         assertXpathValue("360E2000", "/:feed/:entry/:content/espi:LocalTimeParameters/espi:dstStartRule", xmlResult);
+    }
+
+    @When("^I attempt to view custodian/home$")
+    public void I_attempt_to_view_custodian_home() throws Throwable {
+        navigateTo("/custodian/home");
+    }
+
+    @Then("^I should see an unauthorized screen$")
+    public void I_should_see_an_unauthorized_screen() throws Throwable {
+        assertThat(driver.getPageSource(), containsString("You don't have permission to view this page"));
     }
 }
