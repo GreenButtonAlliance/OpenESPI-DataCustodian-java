@@ -8,7 +8,7 @@ Feature: Import Usage Point
 
     When I log in as a Data Custodian
     And I associate "Front Electric Meter" Usage Point with Retail Customer
-    And I import Usage Point from XML
+    And I upload Usage Points
 
     When I log in as Retail Customer
     Then the logged in retail customer can see their usage data
