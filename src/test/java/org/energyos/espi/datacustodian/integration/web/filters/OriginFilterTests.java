@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
 @Profile("test")
-public class OriginFilterTest {
+public class OriginFilterTests {
 
     @Autowired
     protected OriginFilter filter;
@@ -43,7 +43,7 @@ public class OriginFilterTest {
         mockMvc.perform(options("/"))
                 .andExpect(header().string("Access-Control-Allow-Origin", is("*")))
                 .andExpect(header().string("Access-Control-Allow-Methods", is("GET, POST, PUT, DELETE")))
-                .andExpect(header().string("Access-Control-Allow-Headers", is("Authorization")))
+                .andExpect(header().string("Access-Control-Allow-Headers", is("Content-Type, Authorization")))
                 .andExpect(header().string("Access-Control-Max-Age", is("1800")));
     }
 }

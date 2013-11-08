@@ -9,7 +9,7 @@ import javax.servlet.FilterChain;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public class OriginFilterTest {
+public class OriginFilterTests {
     @Test
     public void testDoFilterInternal() throws Exception {
         OriginFilter originFilter = new OriginFilter();
