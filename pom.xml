@@ -43,7 +43,14 @@
                 <profile>heroku</profile>
             </properties>
         </profile>
-
+        
+        <profile>
+            <id>greenbuttondata</id>
+            <properties>
+                <datacustodian.base.url>http://services.greenbuttondata.org/DataCustodian</datacustodian.base.url>
+                <profile>greenbuttondata</profile>
+            </properties>
+        </profile>
         <profile>
             <id>ec2</id>
             <properties>
