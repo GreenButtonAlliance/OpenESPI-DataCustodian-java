@@ -226,18 +226,18 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 20px;
-  color: #333333;
-  background-color: #ffffff;
+  color: #2c9e53;
+  background-color: #eef1ef;
 }
 
 a {
-  color: #0088cc;
+  color: #21b74d;
   text-decoration: none;
 }
 
 a:hover,
 a:focus {
-  color: #005580;
+  color: #157632;
   text-decoration: underline;
 }
 
@@ -896,8 +896,8 @@ dd {
 hr {
   margin: 20px 0;
   border: 0;
-  border-top: 1px solid #eeeeee;
-  border-bottom: 1px solid #ffffff;
+  border-top: 1px solid Green;
+  border-bottom: 1px solid LightGreen;
 }
 
 abbr[title],
@@ -3360,17 +3360,18 @@ input[type="button"].btn-block {
 .btn-primary {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #006dcc;
+  *background-color: #006dcc;
   *background-color: #0044cc;
-  background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0044cc));
-  background-image: -webkit-linear-gradient(top, #0088cc, #0044cc);
-  background-image: -o-linear-gradient(top, #0088cc, #0044cc);
-  background-image: linear-gradient(to bottom, #0088cc, #0044cc);
+  background-color: Green;
+  background-image: -moz-linear-gradient(top, Green, LightGreen);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(Green), to(LightGreen));
+  background-image: -webkit-linear-gradient(top, Green, LightGreen);
+  background-image: -o-linear-gradient(top, Green, LightGreen);
+  background-image: linear-gradient(to bottom, Green, LightGreen);
   background-repeat: repeat-x;
-  border-color: #0044cc #0044cc #002a80;
+  border-color: LightGreen LightGreen #002a80;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0044cc', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff00cc88', endColorstr='#ff00cc44', GradientType=0);
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
 
@@ -3381,13 +3382,15 @@ input[type="button"].btn-block {
 .btn-primary.disabled,
 .btn-primary[disabled] {
   color: #ffffff;
-  background-color: #0044cc;
+  background-color: LightGreen;
+  *background-color: #0044cc;
   *background-color: #003bb3;
 }
 
 .btn-primary:active,
 .btn-primary.active {
-  background-color: #003399 \9;
+  *background-color: #003399 \9;
+  background-color: #009933 \9;
 }
 
 .btn-warning {
@@ -4791,15 +4794,15 @@ input[type="submit"].btn.btn-mini {
 }
 
 .navbar-inverse .navbar-inner {
-  background-color: #1b1b1b;
-  background-image: -moz-linear-gradient(top, #222222, #111111);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#222222), to(#111111));
-  background-image: -webkit-linear-gradient(top, #222222, #111111);
-  background-image: -o-linear-gradient(top, #222222, #111111);
-  background-image: linear-gradient(to bottom, #222222, #111111);
+  background-color: Green;
+  background-image: -moz-linear-gradient(top, Green, DarkGreen);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(Green), to(DarkGreen));
+  background-image: -webkit-linear-gradient(top, Green, DarkGreen);
+  background-image: -o-linear-gradient(top, Green, DarkGreen);
+  background-image: linear-gradient(to bottom, Green, DarkGreen);
   background-repeat: repeat-x;
-  border-color: #252525;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff222222', endColorstr='#ff111111', GradientType=0);
+  border-color: Green;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff00cc99', endColorstr='#ff009944', GradientType=0);
 }
 
 .navbar-inverse .brand,
@@ -4833,7 +4836,7 @@ input[type="submit"].btn.btn-mini {
 .navbar-inverse .nav .active > a:hover,
 .navbar-inverse .nav .active > a:focus {
   color: #ffffff;
-  background-color: #111111;
+  background-color: transparent	;
 }
 
 .navbar-inverse .navbar-link {
@@ -4854,7 +4857,7 @@ input[type="submit"].btn.btn-mini {
 .navbar-inverse .nav li.dropdown.active > .dropdown-toggle,
 .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle {
   color: #ffffff;
-  background-color: #111111;
+  background-color: Red;
 }
 
 .navbar-inverse .nav li.dropdown > a:hover .caret,
