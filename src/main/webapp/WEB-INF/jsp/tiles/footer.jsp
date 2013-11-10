@@ -18,6 +18,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="<c:url value='/resources/js/jquery.min.js'/>"></script>
 <footer>
+<hr>
 <div style="float:left;">
   <img src="<c:url value='/resources/ico/favicon.png'/>" width="20"/>&nbsp;<a href="http://www.greenbuttondata.org">Green Button for America</a>
 </div>
