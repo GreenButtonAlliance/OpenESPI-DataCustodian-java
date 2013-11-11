@@ -27,7 +27,7 @@
 
     <import resource="datasource-config.xml"/>
 
-    <context:property-placeholder location="classpath:spring/data-access.properties" system-properties-mode="OVERRIDE"/>
+    <context:property-placeholder location="classpath:spring/${database}-data-access.properties" system-properties-mode="OVERRIDE"/>
 
     <tx:annotation-driven/>
 
