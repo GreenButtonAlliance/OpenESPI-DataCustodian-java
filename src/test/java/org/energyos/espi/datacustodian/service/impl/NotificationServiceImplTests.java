@@ -33,9 +33,6 @@ import static org.mockito.Mockito.verify;
 public class NotificationServiceImplTests extends BaseTest {
 
     @Mock
-    public UpdateServiceImpl updateService;
-
-    @Mock
     public RestTemplate template;
 
     public NotificationServiceImpl service;
@@ -43,7 +40,6 @@ public class NotificationServiceImplTests extends BaseTest {
     @Before
     public void setup() {
         service = new NotificationServiceImpl();
-        service.setUpdateService(updateService);
         service.setRestTemplate(template);
     }
 

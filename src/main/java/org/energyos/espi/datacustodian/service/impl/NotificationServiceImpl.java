@@ -13,18 +13,11 @@ public class NotificationServiceImpl implements NotificationService {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Autowired
-    private UpdateServiceImpl updateService;
-
     public void notify(Subscription subscription) {
         String notificationURI = subscription.getThirdParty().getNotificationURI();
         BatchList batchList = new BatchList();
         batchList.getResources().add(Routes.buildDataCustodianSubscription(subscription.getHashedId()));
         restTemplate.postForLocation(notificationURI, batchList);
-    }
-
-    public void setUpdateService(UpdateServiceImpl updateService) {
-        this.updateService = updateService;
     }
 
     public void setRestTemplate(RestTemplate restTemplate) {

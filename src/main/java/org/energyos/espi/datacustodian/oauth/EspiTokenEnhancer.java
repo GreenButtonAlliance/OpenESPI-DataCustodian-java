@@ -1,7 +1,7 @@
 package org.energyos.espi.datacustodian.oauth;
 
-import org.energyos.espi.datacustodian.domain.Authorization;
 import org.energyos.espi.common.domain.Routes;
+import org.energyos.espi.datacustodian.domain.Authorization;
 import org.energyos.espi.datacustodian.domain.Subscription;
 import org.energyos.espi.datacustodian.service.AuthorizationService;
 import org.energyos.espi.datacustodian.service.SubscriptionService;
