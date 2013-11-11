@@ -1,7 +1,7 @@
 package org.energyos.espi.datacustodian.web.custodian;
 
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.domain.Routes;
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.datacustodian.domain.ServiceCategory;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
@@ -41,13 +41,13 @@ public class AssociateUsagePointController {
         model.put("usagePointForm", new UsagePointForm());
         model.put("retailCustomerId", retailCustomerId);
 
-        return Routes.CUSTODIAN_RETAILCUSTOMERS_USAGEPOINTS_FORM;
+        return Routes.CUSTODIAN_RETAIL_CUSTOMERS_USAGE_POINTS_FORM;
     }
 
     @RequestMapping(value = "/{retailCustomerId}/usagepoints/create", method = RequestMethod.POST)
     public String create(@PathVariable Long retailCustomerId, @ModelAttribute("usagePointForm") @Valid UsagePointForm usagePointForm, BindingResult result) {
         if (result.hasErrors())
-            return Routes.CUSTODIAN_RETAILCUSTOMERS_USAGEPOINTS_FORM;
+            return Routes.CUSTODIAN_RETAIL_CUSTOMERS_USAGE_POINTS_FORM;
 
         UsagePoint usagePoint = new UsagePoint();
         usagePoint.setUUID(UUID.fromString(usagePointForm.getUUID()));
@@ -58,7 +58,7 @@ public class AssociateUsagePointController {
         usagePoint.setRetailCustomer(retailCustomer);
         service.createOrReplaceByUUID(usagePoint);
 
-        return "redirect:" + Routes.CUSTODIAN_RETAILCUSTOMERS;
+        return "redirect:" + Routes.CUSTODIAN_RETAIL_CUSTOMERS;
     }
 
     public void setRetailCustomerService(RetailCustomerService retailCustomerService) {

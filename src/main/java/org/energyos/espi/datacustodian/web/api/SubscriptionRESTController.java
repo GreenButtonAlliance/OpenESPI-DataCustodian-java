@@ -16,7 +16,7 @@ package org.energyos.espi.datacustodian.web.api;
  */
 
 import com.sun.syndication.io.FeedException;
-import org.energyos.espi.datacustodian.domain.Routes;
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.datacustodian.domain.Subscription;
 import org.energyos.espi.datacustodian.service.SubscriptionService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
@@ -41,7 +41,7 @@ public class SubscriptionRESTController {
     @Autowired
     private UsagePointService usagePointService;
 
-    @RequestMapping(value = Routes.DataCustodianSubscription, method = RequestMethod.GET)
+    @RequestMapping(value = Routes.DATA_CUSTODIAN_SUBSCRIPTION, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public void show(HttpServletResponse response, @PathVariable String subscriptionHashedId) throws FeedException, IOException {
         Subscription subscription = subscriptionService.findByHashedId(subscriptionHashedId);

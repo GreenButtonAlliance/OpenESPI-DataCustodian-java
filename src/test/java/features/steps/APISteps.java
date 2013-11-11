@@ -5,7 +5,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.custommonkey.xmlunit.exceptions.XpathException;
-import org.energyos.espi.datacustodian.domain.Routes;
+import org.energyos.espi.common.domain.Routes;
 import org.openqa.selenium.WebDriver;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.client.RestTemplate;
@@ -37,7 +37,7 @@ public class APISteps {
     @When("^I GET \\/espi\\/1_1\\/resource\\/RetailCustomer\\/\\{RetailCustomerID\\}\\/UsagePoint\\/\\{UsagePointID\\}$")
     public void I_GET_espi_1_1_resource_RetailCustomer_RetailCustomerID_UsagePoint_UsagePointID() throws Throwable {
         CucumberSession.setUsagePointHashedId(StepUtils.getFirstUsagePointHashedId());
-        driver.get(StepUtils.BASE_URL + Routes.newDataCustodianRESTUsagePointMember(CucumberSession.getUserHashedId(), CucumberSession.getUsagePointHashedId()));
+        driver.get(StepUtils.BASE_URL + Routes.buildDataCustodianRESTUsagePointMember(CucumberSession.getUserHashedId(), CucumberSession.getUsagePointHashedId()));
     }
 
     @Then("^I should receive the list of Usage Points$")

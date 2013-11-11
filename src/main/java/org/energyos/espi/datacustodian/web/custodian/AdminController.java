@@ -1,6 +1,6 @@
 package org.energyos.espi.datacustodian.web.custodian;
 
-import org.energyos.espi.datacustodian.domain.Routes;
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.datacustodian.domain.Subscription;
 import org.energyos.espi.datacustodian.service.NotificationService;
 import org.energyos.espi.datacustodian.service.SubscriptionService;
@@ -23,22 +23,22 @@ public class AdminController {
     @Autowired
     private NotificationService notificationService;
 
-    @RequestMapping(value = Routes.DataCustodianNotifyThirdParty, method = RequestMethod.GET)
+    @RequestMapping(value = Routes.DATA_CUSTODIAN_NOTIFY_THIRD_PARTY, method = RequestMethod.GET)
     public String notifyThirdParty() throws Exception {
         for(Subscription subscription : subscriptionService.findAll()) {
            notificationService.notify(subscription);
         }
 
-        return "redirect:" + Routes.DataCustodianHome;
+        return "redirect:" + Routes.DATA_CUSTODIAN_HOME;
     }
 
-    @RequestMapping(value = Routes.DataCustodianRemoveAllOAuthTokens, method = RequestMethod.GET)
+    @RequestMapping(value = Routes.DATA_CUSTODIAN_REMOVE_ALL_OAUTH_TOKENS, method = RequestMethod.GET)
     public String revokeToken() throws Exception {
 
         for(OAuth2AccessToken t: tokenServices.findTokensByClientId("third_party")) {
             tokenServices.revokeToken(t.getValue());
         }
 
-        return "redirect:" + Routes.DataCustodianHome;
+        return "redirect:" + Routes.DATA_CUSTODIAN_HOME;
     }
 }

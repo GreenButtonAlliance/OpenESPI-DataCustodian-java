@@ -17,7 +17,7 @@ package org.energyos.espi.datacustodian.web.api;
 
 import com.sun.syndication.io.FeedException;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.domain.Routes;
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
@@ -43,7 +43,7 @@ public class UsagePointRESTController {
     @Autowired
     private AtomService atomService;
 
-    @RequestMapping(value = Routes.DataCustodianRESTUsagePointCollection, method = RequestMethod.GET)
+    @RequestMapping(value = Routes.DATA_CUSTODIAN_REST_USAGE_POINT_COLLECTION, method = RequestMethod.GET)
     public void index(HttpServletResponse response, @PathVariable long retailCustomerId) throws IOException, FeedException {
         RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(retailCustomer);
@@ -52,7 +52,7 @@ public class UsagePointRESTController {
         response.getWriter().print(atomService.feedFor(usagePoints));
     }
 
-    @RequestMapping(value = Routes.DataCustodianRESTUsagePointMember, method = RequestMethod.GET)
+    @RequestMapping(value = Routes.DATA_CUSTODIAN_REST_USAGE_POINT_MEMBER, method = RequestMethod.GET)
     public void show(HttpServletResponse response, @PathVariable String usagePointHashedId) throws IOException, FeedException {
         UsagePoint usagePoint = usagePointService.findByHashedId(usagePointHashedId);
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
@@ -60,7 +60,7 @@ public class UsagePointRESTController {
         response.getWriter().print(atomService.entryFor(usagePoint));
     }
 
-    @RequestMapping(value = Routes.DataCustodianRESTUsagePointCreate, method = RequestMethod.POST)
+    @RequestMapping(value = Routes.DATA_CUSTODIAN_REST_USAGE_POINT_CREATE, method = RequestMethod.POST)
     public void create(HttpServletResponse response, @PathVariable long retailCustomerId, InputStream stream) throws IOException {
         RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
 
@@ -72,7 +72,7 @@ public class UsagePointRESTController {
         }
     }
 
-    @RequestMapping(value = Routes.DataCustodianRESTUsagePointUpdate, method = RequestMethod.PUT)
+    @RequestMapping(value = Routes.DATA_CUSTODIAN_REST_USAGE_POINT_UPDATE, method = RequestMethod.PUT)
     public void update(HttpServletResponse response, @PathVariable long retailCustomerHashedId, @PathVariable String usagePointHashedId, InputStream stream) {
         RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerHashedId);
         UsagePoint existingUsagePoint;
@@ -89,7 +89,7 @@ public class UsagePointRESTController {
         }
     }
 
-    @RequestMapping(value = Routes.DataCustodianRESTUsagePointUpdate, method = RequestMethod.DELETE)
+    @RequestMapping(value = Routes.DATA_CUSTODIAN_REST_USAGE_POINT_UPDATE, method = RequestMethod.DELETE)
     public void delete(HttpServletResponse response, @PathVariable long retailCustomerHashedId, @PathVariable String usagePointHashedId) {
         RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerHashedId);
 

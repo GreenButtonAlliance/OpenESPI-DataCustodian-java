@@ -1,7 +1,7 @@
 package org.energyos.espi.datacustodian.integration.api;
 
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.domain.Routes;
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
@@ -59,19 +59,19 @@ public class UsagePointRESTTests {
 
     @Test
     public void show_returnsOkStatus() throws Exception {
-        mockMvc.perform(get(Routes.newDataCustodianRESTUsagePointMember(retailCustomer.getHashedId(), usagePoint.getHashedId())))
+        mockMvc.perform(get(Routes.buildDataCustodianRESTUsagePointMember(retailCustomer.getHashedId(), usagePoint.getHashedId())))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void show_returnsATOMContentType() throws Exception {
-        mockMvc.perform(get(Routes.newDataCustodianRESTUsagePointMember(retailCustomer.getHashedId(), usagePoint.getHashedId())))
+        mockMvc.perform(get(Routes.buildDataCustodianRESTUsagePointMember(retailCustomer.getHashedId(), usagePoint.getHashedId())))
                 .andExpect(content().contentType(MediaType.APPLICATION_ATOM_XML));
     }
 
     @Test
     public void show_returnsUsagePointXML() throws Exception {
-        mockMvc.perform(get(Routes.newDataCustodianRESTUsagePointMember(retailCustomer.getHashedId(), usagePoint.getHashedId())))
+        mockMvc.perform(get(Routes.buildDataCustodianRESTUsagePointMember(retailCustomer.getHashedId(), usagePoint.getHashedId())))
                 .andExpect(xpath("/:entry/:content/espi:UsagePoint", namespaces()).exists())
                 .andExpect(xpath("/:entry/:link[@rel='self']", namespaces()).exists());
 
@@ -79,25 +79,25 @@ public class UsagePointRESTTests {
 
     @Test
     public void show_givenAnInvalidUsagePoint_returns400Status() throws Exception {
-        mockMvc.perform(get(Routes.newDataCustodianRESTUsagePointMember(retailCustomer.getHashedId(), String.valueOf(System.nanoTime()))))
+        mockMvc.perform(get(Routes.buildDataCustodianRESTUsagePointMember(retailCustomer.getHashedId(), String.valueOf(System.nanoTime()))))
                 .andExpect(status().is(400));
     }
 
     @Test
     public void index_returnsOkStatus() throws Exception {
-        mockMvc.perform(get(Routes.newDataCustodianRESTUsagePointCollection(retailCustomer.getHashedId())))
+        mockMvc.perform(get(Routes.buildDataCustodianRESTUsagePointCollection(retailCustomer.getHashedId())))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void index_returnsATOMContentType() throws Exception {
-        mockMvc.perform(get(Routes.newDataCustodianRESTUsagePointCollection(retailCustomer.getHashedId())))
+        mockMvc.perform(get(Routes.buildDataCustodianRESTUsagePointCollection(retailCustomer.getHashedId())))
                 .andExpect(content().contentType(MediaType.APPLICATION_ATOM_XML));
     }
 
     @Test
     public void index_returnsUsagePointListXML() throws Exception {
-        mockMvc.perform(get(Routes.newDataCustodianRESTUsagePointCollection(retailCustomer.getHashedId())))
+        mockMvc.perform(get(Routes.buildDataCustodianRESTUsagePointCollection(retailCustomer.getHashedId())))
                 .andExpect(xpath("/:feed/:entry/:content/espi:UsagePoint", namespaces()).exists())
                 .andExpect(xpath("/:feed/:entry/:link[@rel='self']", namespaces()).exists());
     }
@@ -323,7 +323,7 @@ public class UsagePointRESTTests {
 
     @Test
     public void isOneLevelDeep() throws Exception {
-        mockMvc.perform(get(Routes.newDataCustodianRESTUsagePointCollection(retailCustomer.getHashedId())))
+        mockMvc.perform(get(Routes.buildDataCustodianRESTUsagePointCollection(retailCustomer.getHashedId())))
                 .andExpect(xpath("/:feed/:entry/:content/espi:UsagePoint", namespaces()).exists())
                 .andExpect(xpath("//espi:ElectricPowerQualitySummary", namespaces()).doesNotExist());
     }

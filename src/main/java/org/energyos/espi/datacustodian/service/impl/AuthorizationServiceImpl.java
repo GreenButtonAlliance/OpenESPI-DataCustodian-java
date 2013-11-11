@@ -1,7 +1,7 @@
 package org.energyos.espi.datacustodian.service.impl;
 
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.datacustodian.domain.Authorization;
-import org.energyos.espi.datacustodian.domain.Routes;
 import org.energyos.espi.datacustodian.domain.Subscription;
 import org.energyos.espi.datacustodian.repositories.AuthorizationRepository;
 import org.energyos.espi.datacustodian.service.AuthorizationService;
@@ -24,7 +24,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         Authorization authorization = new Authorization();
         authorization.setUUID(UUID.randomUUID());
         authorization.setAccessToken(accessToken);
-        authorization.setResource(Routes.DataCustodianSubscription.replace("{SubscriptionID}", subscription.getUUID().toString()));
+        authorization.setResource(Routes.DATA_CUSTODIAN_SUBSCRIPTION.replace("{SubscriptionID}", subscription.getUUID().toString()));
         repository.persist(authorization);
 
         return authorization;

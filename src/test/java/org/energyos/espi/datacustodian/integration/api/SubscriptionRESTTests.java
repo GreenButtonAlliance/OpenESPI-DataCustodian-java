@@ -1,6 +1,6 @@
 package org.energyos.espi.datacustodian.integration.api;
 
-import org.energyos.espi.datacustodian.domain.Routes;
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.datacustodian.domain.Subscription;
 import org.energyos.espi.datacustodian.utils.factories.EspiPersistenceFactory;
 import org.junit.Before;
@@ -43,19 +43,19 @@ public class SubscriptionRESTTests {
 
     @Test
     public void show_returnsOk() throws Exception {
-        mockMvc.perform(get(Routes.newDataCustodianSubscription(subscription.getHashedId())))
+        mockMvc.perform(get(Routes.buildDataCustodianSubscription(subscription.getHashedId())))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void show_returnsATOMContentType() throws Exception {
-        mockMvc.perform(get(Routes.newDataCustodianSubscription(subscription.getHashedId())))
+        mockMvc.perform(get(Routes.buildDataCustodianSubscription(subscription.getHashedId())))
                 .andExpect(content().contentType(MediaType.APPLICATION_ATOM_XML));
     }
 
     @Test
     public void show_returnsSubscriptionXML() throws Exception {
-        mockMvc.perform(get(Routes.newDataCustodianSubscription(subscription.getHashedId())))
+        mockMvc.perform(get(Routes.buildDataCustodianSubscription(subscription.getHashedId())))
             .andExpect(xpath("/:feed", namespaces()).exists());
     }
 }

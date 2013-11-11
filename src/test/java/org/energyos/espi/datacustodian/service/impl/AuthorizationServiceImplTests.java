@@ -19,10 +19,9 @@ package org.energyos.espi.datacustodian.service.impl;
 
 import org.energyos.espi.datacustodian.BaseTest;
 import org.energyos.espi.datacustodian.domain.Authorization;
-import org.energyos.espi.datacustodian.domain.Routes;
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.datacustodian.domain.Subscription;
 import org.energyos.espi.datacustodian.repositories.AuthorizationRepository;
-import org.energyos.espi.datacustodian.repositories.jpa.AuthorizationRepositoryImpl;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -57,7 +56,7 @@ public class AuthorizationServiceImplTests extends BaseTest {
 
     @Test
     public void createAuthorization_setsResource() {
-        assertEquals(Routes.DataCustodianSubscription.replace("{SubscriptionID}", subscription.getUUID().toString()), authorization.getResource());
+        assertEquals(Routes.DATA_CUSTODIAN_SUBSCRIPTION.replace("{SubscriptionID}", subscription.getUUID().toString()), authorization.getResource());
     }
 
     @Test

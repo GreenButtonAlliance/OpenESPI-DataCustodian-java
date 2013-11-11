@@ -1,7 +1,7 @@
 package org.energyos.espi.datacustodian.web.custodian;
 
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.domain.Routes;
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
@@ -55,7 +55,7 @@ public class AssociateUsagePointControllerTests {
         when(bindingResult.hasErrors()).thenReturn(true);
 
         String route = controller.create(null, null, bindingResult);
-        assertThat(route, is(Routes.CUSTODIAN_RETAILCUSTOMERS_USAGEPOINTS_FORM));
+        assertThat(route, is(Routes.CUSTODIAN_RETAIL_CUSTOMERS_USAGE_POINTS_FORM));
     }
 
     @Test
@@ -75,7 +75,7 @@ public class AssociateUsagePointControllerTests {
         long retailCustomerId = 5;
 
         String route = controller.create(retailCustomerId, newUsagePointForm(), bindingResult);
-        assertThat(route, is("redirect:" + Routes.CUSTODIAN_RETAILCUSTOMERS));
+        assertThat(route, is("redirect:" + Routes.CUSTODIAN_RETAIL_CUSTOMERS));
     }
 
 
