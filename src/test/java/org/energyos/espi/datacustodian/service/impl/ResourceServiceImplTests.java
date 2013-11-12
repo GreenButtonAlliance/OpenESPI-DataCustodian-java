@@ -37,4 +37,16 @@ public class ResourceServiceImplTests {
 
         verify(repository).persist(usagePoint);
     }
+
+    @Test
+    public void findByRelatedHref_findsRelatedResource() {
+        ResourceServiceImpl service = new ResourceServiceImpl();
+        ResourceRepository repository = mock(ResourceRepository.class);
+        service.setRepository(repository);
+        UsagePoint usagePoint = mock(UsagePoint.class);
+
+        service.findByRelatedHref("href", usagePoint);
+
+        verify(repository).findByRelatedHref("href", usagePoint);
+    }
 }
