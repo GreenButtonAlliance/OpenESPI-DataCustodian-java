@@ -322,4 +322,13 @@ public class ContentType {
     public void setLocalTimeParameters(TimeConfiguration localTimeParameters) {
         this.localTimeParameters = localTimeParameters;
     }
+
+    public IdentifiedObject getResource() {
+        if (getUsagePoint() != null) {
+            return getUsagePoint();
+        } else if (getMeterReading() != null) {
+            return getMeterReading();
+        }
+        return null;
+    }
 }
