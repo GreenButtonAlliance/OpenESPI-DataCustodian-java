@@ -310,4 +310,11 @@ public class EntryType {
         return otherAttributes;
     }
 
+    public void addRelatedLink(String href) {
+        getLinks().add(new LinkType("related", href));
+    }
+
+    public void addUpLink(String href) {
+        getLinks().add(new LinkType("up", href));
+    }
 }
