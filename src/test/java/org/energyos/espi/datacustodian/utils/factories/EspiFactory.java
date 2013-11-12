@@ -72,6 +72,21 @@ public class EspiFactory {
         return usagePoint;
     }
 
+    public static UsagePoint newSimpleUsagePoint() {
+        UsagePoint usagePoint = new UsagePoint();
+
+        usagePoint.setUUID(UUID.randomUUID());
+        usagePoint.setDescription("Electric meter");
+
+        usagePoint.setRoleFlags("role flags".getBytes());
+        usagePoint.setStatus(new Short("5"));
+
+        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
+        usagePoint.setServiceDeliveryPoint(new ServiceDeliveryPoint());
+
+        return usagePoint;
+    }
+
     public static MeterReading newMeterReadingWithUsagePoint() {
         return newUsagePoint().getMeterReadings().get(0);
     }
