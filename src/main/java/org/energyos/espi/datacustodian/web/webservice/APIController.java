@@ -17,6 +17,7 @@
 package org.energyos.espi.datacustodian.web.webservice;
 
 import com.sun.syndication.io.FeedException;
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.energyos.espi.datacustodian.web.BaseController;
@@ -31,7 +32,6 @@ import java.io.IOException;
 import java.security.Principal;
 
 @Controller("apiController")
-@RequestMapping("/api/")
 public class APIController extends BaseController {
 
     @Autowired
@@ -47,7 +47,7 @@ public class APIController extends BaseController {
         this.retailCustomerService = retailCustomerService;
     }
 
-    @RequestMapping(value="/feed", method = RequestMethod.GET)
+    @RequestMapping(value = Routes.DATA_CUSTODIAN_API_FEED, method = RequestMethod.GET)
     public void feed(HttpServletResponse response, Principal principal) throws FeedException, IOException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         response.getWriter().write(usagePointService.exportUsagePoints(retailCustomerService.findById(currentCustomer(principal).getId())));

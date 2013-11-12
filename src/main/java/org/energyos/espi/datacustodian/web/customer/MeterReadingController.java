@@ -16,6 +16,7 @@
 
 package org.energyos.espi.datacustodian.web.customer;
 
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.datacustodian.service.MeterReadingService;
 import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +27,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/RetailCustomer/{retailCustomerId}/meterreadings")
+@RequestMapping()
 public class MeterReadingController extends BaseController {
 
     @Autowired
     protected MeterReadingService meterReadingService;
 
-    @RequestMapping(value = "{meterReadingId}/show", method = RequestMethod.GET)
+    @RequestMapping(value = Routes.METER_READINGS_SHOW, method = RequestMethod.GET)
     public String show(@PathVariable Long meterReadingId, ModelMap model) {
         model.put("meterReading", meterReadingService.findById(meterReadingId));
         return "/customer/meterreadings/show";

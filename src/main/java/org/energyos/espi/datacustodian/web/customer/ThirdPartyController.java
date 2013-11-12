@@ -1,5 +1,6 @@
 package org.energyos.espi.datacustodian.web.customer;
 
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.datacustodian.domain.Configuration;
 import org.energyos.espi.datacustodian.service.ThirdPartyService;
 import org.energyos.espi.datacustodian.utils.URLHelper;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
-@RequestMapping("/RetailCustomer/{retailCustomerId}/ThirdPartyList")
+@RequestMapping(Routes.THIRD_PARTY_LIST)
 public class ThirdPartyController extends BaseController {
 
     @Autowired

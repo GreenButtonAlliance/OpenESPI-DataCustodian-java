@@ -16,6 +16,7 @@
 
 package org.energyos.espi.datacustodian.web;
 
+import org.energyos.espi.common.domain.Routes;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -25,7 +26,7 @@ import java.security.Principal;
 @Controller
 public class DefaultController extends BaseController {
 
-    @RequestMapping("/default")
+    @RequestMapping(Routes.DEFAULT)
     public String defaultAfterLogin(HttpServletRequest request, Principal principal) {
         if (request.isUserInRole("ROLE_CUSTODIAN")) {
             return "redirect:/custodian/home";

@@ -1,7 +1,7 @@
 package org.energyos.espi.datacustodian.web.custodian;
 
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
+import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.ServiceCategory;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
@@ -21,7 +21,6 @@ import javax.validation.Valid;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/custodian/retailcustomers")
 @PreAuthorize("hasRole('ROLE_CUSTODIAN')")
 public class AssociateUsagePointController {
 
@@ -36,18 +35,18 @@ public class AssociateUsagePointController {
         binder.setValidator(new UsagePointFormValidator());
     }
 
-    @RequestMapping(value = "/{retailCustomerId}/usagepoints/form", method = RequestMethod.GET)
+    @RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_USAGE_POINTS_FORM, method = RequestMethod.GET)
     public String form(@PathVariable Long retailCustomerId, ModelMap model) {
         model.put("usagePointForm", new UsagePointForm());
         model.put("retailCustomerId", retailCustomerId);
 
-        return Routes.CUSTODIAN_RETAIL_CUSTOMERS_USAGE_POINTS_FORM;
+        return "/custodian/retailcustomers/usagepoints/form";
     }
 
-    @RequestMapping(value = "/{retailCustomerId}/usagepoints/create", method = RequestMethod.POST)
+    @RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_USAGE_POINTS_CREATE, method = RequestMethod.POST)
     public String create(@PathVariable Long retailCustomerId, @ModelAttribute("usagePointForm") @Valid UsagePointForm usagePointForm, BindingResult result) {
         if (result.hasErrors())
-            return Routes.CUSTODIAN_RETAIL_CUSTOMERS_USAGE_POINTS_FORM;
+            return "/custodian/retailcustomers/usagepoints/form";
 
         UsagePoint usagePoint = new UsagePoint();
         usagePoint.setUUID(UUID.fromString(usagePointForm.getUUID()));
@@ -58,7 +57,7 @@ public class AssociateUsagePointController {
         usagePoint.setRetailCustomer(retailCustomer);
         service.createOrReplaceByUUID(usagePoint);
 
-        return "redirect:" + Routes.CUSTODIAN_RETAIL_CUSTOMERS;
+        return "redirect:/custodian/retailcustomers";
     }
 
     public void setRetailCustomerService(RetailCustomerService retailCustomerService) {

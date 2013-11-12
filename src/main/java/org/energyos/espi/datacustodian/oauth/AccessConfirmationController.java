@@ -1,5 +1,6 @@
 package org.energyos.espi.datacustodian.oauth;
 
+import org.energyos.espi.common.domain.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.provider.AuthorizationRequest;
 import org.springframework.security.oauth2.provider.ClientDetails;
@@ -22,7 +23,7 @@ public class AccessConfirmationController {
 
 	private ClientDetailsService clientDetailsService;
 
-	@RequestMapping("/oauth/confirm_access")
+	@RequestMapping(Routes.OAUTH_ACCESS)
 	public ModelAndView getAccessConfirmation(Map<String, Object> model) throws Exception {
 		AuthorizationRequest clientAuth = (AuthorizationRequest) model.remove("authorizationRequest");
 		ClientDetails client = clientDetailsService.loadClientByClientId(clientAuth.getClientId());
@@ -31,7 +32,7 @@ public class AccessConfirmationController {
 		return new ModelAndView("access_confirmation", model);
 	}
 
-	@RequestMapping("/oauth/error")
+	@RequestMapping(Routes.OAUTH_ERROR)
 	public String handleError(Map<String,Object> model) throws Exception {
 		// We can add more stuff to the model here for JSP rendering.  If the client was a machine then
 		// the JSON will already have been rendered.

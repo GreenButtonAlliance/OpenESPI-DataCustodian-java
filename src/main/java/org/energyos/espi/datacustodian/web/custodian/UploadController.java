@@ -16,6 +16,7 @@
 
 package org.energyos.espi.datacustodian.web.custodian;
 
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,6 @@ import javax.xml.bind.JAXBException;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("/custodian/")
 public class UploadController {
 
     @Autowired
@@ -44,12 +44,12 @@ public class UploadController {
         return new UploadForm();
     }
 
-    @RequestMapping(value = "/upload", method = RequestMethod.GET)
+    @RequestMapping(value = Routes.DATA_CUSTODIAN_UPLOAD, method = RequestMethod.GET)
     public String upload() {
         return "/custodian/upload";
     }
 
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @RequestMapping(value = Routes.DATA_CUSTODIAN_UPLOAD, method = RequestMethod.POST)
     public String uploadPost(@ModelAttribute UploadForm uploadForm, BindingResult result) throws IOException, JAXBException {
         try {
             usagePointService.importUsagePoints(uploadForm.getFile().getInputStream());

@@ -16,6 +16,7 @@
 
 package org.energyos.espi.datacustodian.web.custodian;
 
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,12 +30,9 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
-import java.util.UUID;
 
 @Controller
-@RequestMapping("/custodian/retailcustomers")
 @PreAuthorize("hasRole('ROLE_CUSTODIAN')")
 public class RetailCustomerController {
 
@@ -50,21 +48,21 @@ public class RetailCustomerController {
         binder.setValidator(new RetailCustomerValidator());
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_INDEX, method = RequestMethod.GET)
     public String index(ModelMap model) {
         model.put("customers", service.findAll());
 
         return "retailcustomers/index";
     }
 
-    @RequestMapping(value = "form", method = RequestMethod.GET)
+    @RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_FORM, method = RequestMethod.GET)
     public String form(ModelMap model) {
         model.put("retailCustomer", new RetailCustomer());
 
         return "retailcustomers/form";
     }
 
-    @RequestMapping(value = "create", method = RequestMethod.POST)
+    @RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_CREATE, method = RequestMethod.POST)
     public String create(@ModelAttribute("retailCustomer") @Valid RetailCustomer retailCustomer, BindingResult result) {
         if (result.hasErrors()) {
             return "retailcustomers/form";
@@ -74,7 +72,7 @@ public class RetailCustomerController {
         }
     }
 
-    @RequestMapping(value = "/{retailCustomerId}/show", method = RequestMethod.GET)
+    @RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_SHOW, method = RequestMethod.GET)
     public String show(@PathVariable Long retailCustomerId, ModelMap model) {
         RetailCustomer retailCustomer = service.findById(retailCustomerId);
         model.put("retailCustomer", retailCustomer);

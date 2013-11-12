@@ -39,7 +39,7 @@ public class UsagePointControllerTests {
     private UsagePointService service;
 
     @Before
-    public void setupUp() {
+    public void before() {
         controller = new UsagePointController();
         service = mock(UsagePointServiceImpl.class);
         controller.setUsagePointService(service);
