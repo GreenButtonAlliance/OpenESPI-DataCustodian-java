@@ -25,4 +25,13 @@ public class EntryTypeTests {
         assertThat(entry.getLinks().get(0).getHref(), equalTo("href"));
         assertThat(entry.getLinks().get(0).getRel(), equalTo("up"));
     }
+
+    @Test
+    public void getUpHref() throws Exception {
+        EntryType entry = new EntryType();
+
+        entry.addUpLink("href");
+
+        assertThat(entry.getUpHref(), equalTo("href"));
+    }
 }

@@ -90,6 +90,9 @@ import java.util.Map;
 })
 public class EntryType {
 
+    public static final String UP = "up";
+    public static final String RELATED = "related";
+
     @XmlElement
     protected String id;
 
@@ -140,9 +143,6 @@ public class EntryType {
     })
     @XmlAnyElement(lax = true)
     protected List<Object> authorOrCategoryOrContent;
-
-
-
 
     @XmlAttribute(name = "base", namespace = "http://www.w3.org/XML/1998/namespace")
     @XmlSchemaType(name = "anyURI")
@@ -311,10 +311,21 @@ public class EntryType {
     }
 
     public void addRelatedLink(String href) {
-        getLinks().add(new LinkType("related", href));
+        getLinks().add(new LinkType(RELATED, href));
     }
 
     public void addUpLink(String href) {
-        getLinks().add(new LinkType("up", href));
+        getLinks().add(new LinkType(UP, href));
+    }
+
+    public String getUpHref() {
+        String upHref = null;
+        for(LinkType link : getLinks()) {
+            if (link.getRel().equals(UP)) {
+                upHref = link.getHref();
+                break;
+            }
+        }
+        return upHref;
     }
 }
