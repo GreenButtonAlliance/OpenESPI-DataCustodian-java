@@ -17,7 +17,7 @@
 package org.energyos.espi.datacustodian.web.custodian;
 
 import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.datacustodian.service.UsagePointService;
+import org.energyos.espi.common.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;

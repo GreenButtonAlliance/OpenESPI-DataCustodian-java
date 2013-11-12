@@ -16,8 +16,8 @@
 
 package org.energyos.espi.datacustodian.integration.customer;
 
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.service.impl.RetailCustomerServiceImpl;
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.service.impl.RetailCustomerServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -18,8 +18,8 @@
     <import resource="classpath:spring/data-config.xml"/>
 
     <context:component-scan base-package="org.energyos.espi.datacustodian.web"/>
-    <context:component-scan base-package="org.energyos.espi.datacustodian.repositories"/>
-    <context:component-scan base-package="org.energyos.espi.datacustodian.service"/>
+    <context:component-scan base-package="org.energyos.espi.common.repositories"/>
+    <context:component-scan base-package="org.energyos.espi.common.service"/>
     <context:component-scan base-package="org.energyos.espi.datacustodian.utils"/>
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">

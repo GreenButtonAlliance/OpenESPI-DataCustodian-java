@@ -16,10 +16,10 @@
 
 package org.energyos.espi.datacustodian.web.customer;
 
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.service.UsagePointService;
-import org.energyos.espi.datacustodian.service.impl.UsagePointServiceImpl;
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.service.UsagePointService;
+import org.energyos.espi.common.service.impl.UsagePointServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletResponse;

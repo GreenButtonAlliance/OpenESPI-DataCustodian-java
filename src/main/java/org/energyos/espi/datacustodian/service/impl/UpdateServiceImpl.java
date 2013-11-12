@@ -1,10 +1,10 @@
-package org.energyos.espi.datacustodian.service.impl;
+package org.energyos.espi.common.service.impl;
 
-import org.energyos.espi.datacustodian.domain.BatchList;
-import org.energyos.espi.datacustodian.domain.Subscription;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.service.UpdateService;
-import org.energyos.espi.datacustodian.service.UsagePointService;
+import org.energyos.espi.common.domain.BatchList;
+import org.energyos.espi.common.domain.Subscription;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.service.UpdateService;
+import org.energyos.espi.common.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -16,7 +16,7 @@
 
 package features.steps;
 
-import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
+import org.energyos.espi.common.test.FixtureFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

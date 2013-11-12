@@ -16,12 +16,12 @@
 
 package org.energyos.espi.datacustodian.integration.oauth;
 
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.domain.ThirdParty;
+import org.energyos.espi.common.service.RetailCustomerService;
+import org.energyos.espi.common.test.EspiPersistenceFactory;
 import org.energyos.espi.datacustodian.BaseTest;
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.domain.ThirdParty;
 import org.energyos.espi.datacustodian.oauth.EspiTokenEnhancer;
-import org.energyos.espi.datacustodian.service.RetailCustomerService;
-import org.energyos.espi.datacustodian.utils.factories.EspiPersistenceFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,9 +35,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newOAuth2Request;
-import static org.hamcrest.CoreMatchers.startsWith;
+import static org.energyos.espi.common.test.EspiFactory.newOAuth2Request;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.startsWith;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)

@@ -16,7 +16,7 @@ import java.io.IOException;
 import static features.steps.StepUtils.assertContains;
 import static features.steps.StepUtils.clickLinkByText;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
-import static org.energyos.espi.datacustodian.utils.TestUtils.getXPathValue;
+import static org.energyos.espi.common.test.TestUtils.getXPathValue;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 

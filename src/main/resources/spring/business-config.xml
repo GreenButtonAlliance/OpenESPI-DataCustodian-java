@@ -45,7 +45,7 @@
                 </props>
             </property>
             <property name="persistenceUnitName" value="energy"/>
-            <property name="packagesToScan" value="org.energyos.espi.datacustodian.domain"/>
+            <property name="packagesToScan" value="org.energyos.espi.common.domain"/>
         </bean>
 
         <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
@@ -55,14 +55,15 @@
     </beans>
 
     <beans profile="default">
-        <context:component-scan base-package="org.energyos.espi.datacustodian.repositories.jpa"/>
+        <context:component-scan base-package="org.energyos.espi.common.repositories.jpa"/>
+        <context:component-scan base-package="org.energyos.espi.common.utils"/>
     </beans>
 
     <beans>
         <bean id="domainMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
             <property name="packagesToScan">
                 <list>
-                    <value>org.energyos.espi.datacustodian.domain</value>
+                    <value>org.energyos.espi.common.domain</value>
                 </list>
             </property>
             <property name="marshallerProperties">
@@ -80,8 +81,8 @@
         <bean id="atomMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
             <property name="packagesToScan">
                 <list>
-                    <value>org.energyos.espi.datacustodian.models.atom</value>
-                    <value>org.energyos.espi.datacustodian.domain</value>
+                    <value>org.energyos.espi.common.models.atom</value>
+                    <value>org.energyos.espi.common.domain</value>
                 </list>
             </property>
             <property name="marshallerProperties">

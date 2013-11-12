@@ -16,10 +16,10 @@
 
 package org.energyos.espi.datacustodian.integration.web;
 
-import org.energyos.espi.datacustodian.domain.Configuration;
-import org.energyos.espi.datacustodian.domain.ThirdParty;
-import org.energyos.espi.datacustodian.service.ThirdPartyService;
-import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
+import org.energyos.espi.common.domain.Configuration;
+import org.energyos.espi.common.domain.ThirdParty;
+import org.energyos.espi.common.service.ThirdPartyService;
+import org.energyos.espi.common.test.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

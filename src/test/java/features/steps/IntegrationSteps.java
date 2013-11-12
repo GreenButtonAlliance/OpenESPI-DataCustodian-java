@@ -3,12 +3,11 @@ package features.steps;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.energyos.espi.datacustodian.domain.*;
-import org.energyos.espi.datacustodian.service.RetailCustomerService;
-import org.energyos.espi.datacustodian.service.UsagePointService;
-import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
-import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
-import org.junit.BeforeClass;
+import org.energyos.espi.common.domain.*;
+import org.energyos.espi.common.service.RetailCustomerService;
+import org.energyos.espi.common.service.UsagePointService;
+import org.energyos.espi.common.test.EspiFactory;
+import org.energyos.espi.common.test.FixtureFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

@@ -14,20 +14,20 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.service.impl;
+package org.energyos.espi.common.service.impl;
 
 
+import org.energyos.espi.common.domain.BatchList;
+import org.energyos.espi.common.domain.Subscription;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.datacustodian.BaseTest;
-import org.energyos.espi.datacustodian.domain.BatchList;
-import org.energyos.espi.datacustodian.domain.Subscription;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
+import static org.energyos.espi.common.test.EspiFactory.newUsagePoint;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

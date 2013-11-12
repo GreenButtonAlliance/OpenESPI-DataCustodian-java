@@ -15,7 +15,7 @@ package org.energyos.espi.datacustodian.web.api;/*
  */
 
 import com.sun.syndication.io.FeedException;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.common.domain.UsagePoint;
 
 import java.util.List;
 

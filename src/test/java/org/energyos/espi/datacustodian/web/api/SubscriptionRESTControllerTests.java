@@ -1,16 +1,16 @@
 package org.energyos.espi.datacustodian.web.api;
 
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.domain.Subscription;
+import org.energyos.espi.common.service.SubscriptionService;
+import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.datacustodian.BaseTest;
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.domain.Subscription;
-import org.energyos.espi.datacustodian.service.SubscriptionService;
-import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newSubscription;
+import static org.energyos.espi.common.test.EspiFactory.newSubscription;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.when;

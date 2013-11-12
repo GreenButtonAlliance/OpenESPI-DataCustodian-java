@@ -1,7 +1,7 @@
-package org.energyos.espi.datacustodian.service;
+package org.energyos.espi.common.service;
 
-import org.energyos.espi.datacustodian.domain.BatchList;
-import org.energyos.espi.datacustodian.domain.Subscription;
+import org.energyos.espi.common.domain.BatchList;
+import org.energyos.espi.common.domain.Subscription;
 
 public interface UpdateService {
     BatchList updatedResources(Subscription subscription);

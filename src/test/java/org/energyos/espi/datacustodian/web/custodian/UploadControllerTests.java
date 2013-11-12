@@ -16,7 +16,7 @@
 
 package org.energyos.espi.datacustodian.web.custodian;
 
-import org.energyos.espi.datacustodian.service.UsagePointService;
+import org.energyos.espi.common.service.UsagePointService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;

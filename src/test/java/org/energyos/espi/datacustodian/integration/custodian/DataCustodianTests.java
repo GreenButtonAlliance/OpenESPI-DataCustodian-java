@@ -29,7 +29,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.UUID;
 
-import static org.energyos.espi.datacustodian.utils.factories.FixtureFactory.newUsagePointXML;
+import static org.energyos.espi.common.test.FixtureFactory.newUsagePointXML;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
