@@ -80,7 +80,9 @@ import java.util.Set;
         @NamedQuery(name = UsagePoint.QUERY_FIND_BY_ID,
                 query = "SELECT point FROM UsagePoint point WHERE point.id = :id"),
         @NamedQuery(name = UsagePoint.QUERY_FIND_ALL_UPDATED_FOR,
-                query = "SELECT point FROM UsagePoint point WHERE point.updated > :lastUpdate")
+                query = "SELECT point FROM UsagePoint point WHERE point.updated > :lastUpdate"),
+        @NamedQuery(name = UsagePoint.QUERY_FIND_BY_RELATED_HREF,
+                query = "SELECT point FROM UsagePoint point join point.relatedLinks link WHERE link.href = :href")
 })
 @XmlJavaTypeAdapter(UsagePointAdapter.class)
 public class UsagePoint
@@ -90,6 +92,7 @@ public class UsagePoint
     public static final String QUERY_FIND_BY_UUID = "UsagePoint.findByUUID";
     public static final String QUERY_FIND_BY_ID = "UsagePoint.findById";
     public static final String QUERY_FIND_ALL_UPDATED_FOR = "UsagePoint.findAllUpdatedFor";
+    public static final String QUERY_FIND_BY_RELATED_HREF = "UsagePoint.findByRelatedHref";
 
     @XmlElement(type = String.class)
     @XmlJavaTypeAdapter(HexBinaryAdapter.class)
@@ -130,6 +133,12 @@ public class UsagePoint
     @ManyToMany(mappedBy = "usagePoints")
     @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Subscription> subscriptions = new HashSet<>();
+
+    @XmlTransient
+    @ElementCollection
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @CollectionTable(name="usage_point_related_links", joinColumns=@JoinColumn(name="usage_point_id"))
+    private List<LinkType> relatedLinks = new ArrayList<>();
 
     public void addMeterReading(MeterReading meterReading)
     {
@@ -276,13 +285,6 @@ public class UsagePoint
         this.serviceDeliveryPoint = serviceDeliveryPoint;
     }
 
-    public List<LinkType> getRelatedLinks() {
-        List<LinkType> links = new ArrayList<>();
-        addElectricPowerQualitySummaryLinks(links);
-        addElectricPowerUsageSummaryLinks(links);
-        addMeterReadingLinks(links);
-        return links;
-    }
 
     private void addMeterReadingLinks(List<LinkType> links) {
         if(meterReadings.size() > 0) {
@@ -308,5 +310,22 @@ public class UsagePoint
 
     public void setSubscriptions(Set<Subscription> subscriptions) {
         this.subscriptions = subscriptions;
+    }
+
+    public void setRelatedLinks(List<LinkType> relatedLinks) {
+        this.relatedLinks = relatedLinks;
+    }
+
+    public List<LinkType> getRelatedLinks() {
+        return relatedLinks;
+    }
+
+    @Override
+    public void setUpResource(IdentifiedObject resource) {
+    }
+
+    @Override
+    public String getRelatedLinkQuery() {
+        return QUERY_FIND_BY_RELATED_HREF;
     }
 }

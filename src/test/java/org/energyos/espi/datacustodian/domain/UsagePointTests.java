@@ -31,14 +31,17 @@ public class UsagePointTests extends XMLTest {
         LinkType electricPowerQualitySummaryLink = new LinkType();
         electricPowerQualitySummaryLink.setHref(usagePoint.getSelfHref() + "/ElectricPowerQualitySummary");
         electricPowerQualitySummaryLink.setRel("related");
+        usagePoint.getRelatedLinks().add(electricPowerQualitySummaryLink);
 
         LinkType electricPowerUsageSummaryLink = new LinkType();
         electricPowerUsageSummaryLink.setHref(usagePoint.getSelfHref() + "/ElectricPowerUsageSummary");
         electricPowerUsageSummaryLink.setRel("related");
+        usagePoint.getRelatedLinks().add(electricPowerUsageSummaryLink);
 
         LinkType meterReadingLink = new LinkType();
         meterReadingLink.setHref(usagePoint.getSelfHref() + "/ElectricPowerUsageSummary");
         meterReadingLink.setRel("related");
+        usagePoint.getRelatedLinks().add(meterReadingLink);
 
         assertThat(usagePoint.getRelatedLinks(), hasItem(electricPowerQualitySummaryLink));
         assertThat(usagePoint.getRelatedLinks(), hasItem(electricPowerUsageSummaryLink));

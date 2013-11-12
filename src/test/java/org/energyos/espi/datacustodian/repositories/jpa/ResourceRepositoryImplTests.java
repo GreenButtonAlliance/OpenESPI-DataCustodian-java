@@ -17,27 +17,21 @@
 package org.energyos.espi.datacustodian.repositories.jpa;
 
 
-import org.energyos.espi.datacustodian.domain.*;
-import org.energyos.espi.datacustodian.repositories.*;
+import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.models.atom.LinkType;
+import org.energyos.espi.datacustodian.repositories.ResourceRepository;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.UUID;
-
-import static org.energyos.espi.datacustodian.support.IsEmpty.isEmpty;
-import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.*;
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/spring/test-context.xml")
@@ -54,5 +48,18 @@ public class ResourceRepositoryImplTests {
         repository.persist(usagePoint);
 
         assertThat(usagePoint.getId(), is(notNullValue()));
+    }
+
+    @Test
+    public void findByRelatedHref() {
+        UsagePoint usagePoint = EspiFactory.newSimpleUsagePoint();
+        LinkType relatedLink = new LinkType();
+        relatedLink.setRel("related");
+        relatedLink.setHref("href");
+        usagePoint.getRelatedLinks().add(relatedLink);
+
+        repository.persist(usagePoint);
+
+        assertThat(repository.findByRelatedHref("href", usagePoint).getId(), equalTo(usagePoint.getId()));
     }
 }

@@ -71,9 +71,7 @@ import java.util.UUID;
     ReadingType.class
 })
 @MappedSuperclass
-public class IdentifiedObject
-    extends Resource
-{
+public class IdentifiedObject extends Resource implements Linkable {
     @XmlTransient
     protected String description;
 
@@ -176,5 +174,14 @@ public class IdentifiedObject
 
     public String getHashedId() {
         return "" + getId();
+    }
+
+    @Override
+    public void setUpResource(IdentifiedObject resource) {
+    }
+
+    @Override
+    public String getRelatedLinkQuery() {
+        return null;
     }
 }

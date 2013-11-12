@@ -24,6 +24,7 @@
 
 package org.energyos.espi.datacustodian.models.atom;
 
+import javax.persistence.Embeddable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -59,6 +60,7 @@ import javax.xml.bind.annotation.XmlSchemaType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
+@Embeddable
 public class LinkType {
 
     @XmlAttribute(name = "href", required = true)
