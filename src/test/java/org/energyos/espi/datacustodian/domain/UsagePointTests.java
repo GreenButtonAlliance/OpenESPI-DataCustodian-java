@@ -17,11 +17,16 @@ package org.energyos.espi.datacustodian.domain;
 
 import org.energyos.espi.datacustodian.atom.XMLTest;
 import org.energyos.espi.datacustodian.models.atom.LinkType;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
 
 public class UsagePointTests extends XMLTest {
 
@@ -46,5 +51,20 @@ public class UsagePointTests extends XMLTest {
         assertThat(usagePoint.getRelatedLinks(), hasItem(electricPowerQualitySummaryLink));
         assertThat(usagePoint.getRelatedLinks(), hasItem(electricPowerUsageSummaryLink));
         assertThat(usagePoint.getRelatedLinks(), hasItem(meterReadingLink));
+    }
+
+    @Test
+    public void getRelatedLinkHrefs() throws Exception {
+        UsagePoint usagePoint = new UsagePoint();
+        LinkType link1 = new LinkType();
+        link1.setHref("href1");
+        usagePoint.getRelatedLinks().add(link1);
+        LinkType link2 = new LinkType();
+        link2.setHref("href2");
+        usagePoint.getRelatedLinks().add(link2);
+
+        List<String> relatedLinkHrefs = usagePoint.getRelatedLinkHrefs();
+
+        assertThat(relatedLinkHrefs, allOf(Matchers.hasItem("href1"), Matchers.hasItem("href2")));
     }
 }

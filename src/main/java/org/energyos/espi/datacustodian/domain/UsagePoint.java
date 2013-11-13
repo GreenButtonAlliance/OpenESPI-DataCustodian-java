@@ -23,6 +23,7 @@
 
 package org.energyos.espi.datacustodian.domain;
 
+import org.apache.commons.lang.StringUtils;
 import org.energyos.espi.datacustodian.models.atom.LinkType;
 import org.energyos.espi.datacustodian.models.atom.adapters.UsagePointAdapter;
 import org.hibernate.annotations.LazyCollection;
@@ -327,5 +328,14 @@ public class UsagePoint
     @Override
     public String getRelatedLinkQuery() {
         return QUERY_FIND_BY_RELATED_HREF;
+    }
+
+    @Override
+    public List<String> getRelatedLinkHrefs() {
+        List<String> hrefs = new ArrayList<>();
+        for(LinkType link : getRelatedLinks()) {
+            hrefs.add(link.getHref());
+        }
+        return hrefs;
     }
 }

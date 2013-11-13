@@ -31,6 +31,7 @@ import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.*;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -182,6 +183,16 @@ public class IdentifiedObject extends Resource implements Linkable {
 
     @Override
     public String getRelatedLinkQuery() {
+        return null;
+    }
+
+    @Override
+    public String getAllRelatedQuery() {
+        return null;
+    }
+
+    @Override
+    public List<String> getRelatedLinkHrefs() {
         return null;
     }
 }
