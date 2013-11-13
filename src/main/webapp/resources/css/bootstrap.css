@@ -676,7 +676,7 @@ cite {
 }
 
 .muted {
-  color: #999999;
+  color: #cccccc;
 }
 
 a.muted:hover,
@@ -754,7 +754,7 @@ h5 small,
 h6 small {
   font-weight: normal;
   line-height: 1;
-  color: #999999;
+  color: #cccccc;
 }
 
 h1,
@@ -903,7 +903,7 @@ hr {
 abbr[title],
 abbr[data-original-title] {
   cursor: help;
-  border-bottom: 1px dotted #999999;
+  border-bottom: 1px dotted #cccccc;
 }
 
 abbr.initialism {
@@ -927,7 +927,7 @@ blockquote p {
 blockquote small {
   display: block;
   line-height: 20px;
-  color: #999999;
+  color: #cccccc;
 }
 
 blockquote small:before {
@@ -1048,7 +1048,7 @@ legend {
 
 legend small {
   font-size: 15px;
-  color: #999999;
+  color: #cccccc;
 }
 
 label,
@@ -1217,7 +1217,7 @@ input[type="checkbox"]:focus {
 
 .uneditable-input,
 .uneditable-textarea {
-  color: #999999;
+  color: #cccccc;
   cursor: not-allowed;
   background-color: #fcfcfc;
   border-color: #cccccc;
@@ -1238,17 +1238,17 @@ input[type="checkbox"]:focus {
 
 input:-moz-placeholder,
 textarea:-moz-placeholder {
-  color: #999999;
+  color: #cccccc;
 }
 
 input:-ms-input-placeholder,
 textarea:-ms-input-placeholder {
-  color: #999999;
+  color: #cccccc;
 }
 
 input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
-  color: #999999;
+  color: #cccccc;
 }
 
 .radio,
@@ -2989,7 +2989,7 @@ table th[class*="span"],
 .dropdown-menu > .disabled > a,
 .dropdown-menu > .disabled > a:hover,
 .dropdown-menu > .disabled > a:focus {
-  color: #999999;
+  color: #cccccc;
 }
 
 .dropdown-menu > .disabled > a:hover,
@@ -3245,7 +3245,7 @@ button.close {
 
 .btn:active,
 .btn.active {
-  background-color: #cccccc \9;
+  background-color: #999999 \9;
 }
 
 .btn:first-child {
@@ -3979,7 +3979,7 @@ input[type="submit"].btn.btn-mini {
   font-size: 11px;
   font-weight: bold;
   line-height: 20px;
-  color: #999999;
+  color: #cccccc;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
   text-transform: uppercase;
 }
@@ -4227,7 +4227,7 @@ input[type="submit"].btn.btn-mini {
 
 .tabs-stacked .open > a:hover,
 .tabs-stacked .open > a:focus {
-  border-color: #999999;
+  border-color: #cccccc;
 }
 
 .tabbable {
@@ -4355,7 +4355,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 .nav > .disabled > a {
-  color: #999999;
+  color: #cccccc;
 }
 
 .nav > .disabled > a:hover,
@@ -4681,7 +4681,7 @@ input[type="submit"].btn.btn-mini {
 
 .navbar .btn-navbar:active,
 .navbar .btn-navbar.active {
-  background-color: #cccccc \9;
+  background-color: #999999 \9;
 }
 
 .navbar .btn-navbar .icon-bar {
@@ -4807,7 +4807,8 @@ input[type="submit"].btn.btn-mini {
 
 .navbar-inverse .brand,
 .navbar-inverse .nav > li > a {
-  color: #999999;
+  *color: #cccccc;
+ color: #bb0000;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
 
@@ -4819,11 +4820,11 @@ input[type="submit"].btn.btn-mini {
 }
 
 .navbar-inverse .brand {
-  color: #999999;
+  color: #cccccc;
 }
 
 .navbar-inverse .navbar-text {
-  color: #999999;
+  color: #cccccc;
 }
 
 .navbar-inverse .nav > li > a:focus,
@@ -4840,7 +4841,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 .navbar-inverse .navbar-link {
-  color: #999999;
+  color: #cccccc;
 }
 
 .navbar-inverse .navbar-link:hover,
@@ -4867,8 +4868,8 @@ input[type="submit"].btn.btn-mini {
 }
 
 .navbar-inverse .nav li.dropdown > .dropdown-toggle .caret {
-  border-top-color: #999999;
-  border-bottom-color: #999999;
+  border-top-color: #cccccc;
+  border-bottom-color: #cccccc;
 }
 
 .navbar-inverse .nav li.dropdown.open > .dropdown-toggle .caret,
@@ -4972,7 +4973,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 .breadcrumb > .active {
-  color: #999999;
+  color: #cccccc;
 }
 
 .pagination {
@@ -5017,7 +5018,7 @@ input[type="submit"].btn.btn-mini {
 
 .pagination ul > .active > a,
 .pagination ul > .active > span {
-  color: #999999;
+  color: #cccccc;
   cursor: default;
 }
 
@@ -5025,7 +5026,7 @@ input[type="submit"].btn.btn-mini {
 .pagination ul > .disabled > a,
 .pagination ul > .disabled > a:hover,
 .pagination ul > .disabled > a:focus {
-  color: #999999;
+  color: #cccccc;
   cursor: default;
   background-color: transparent;
 }
@@ -5174,7 +5175,7 @@ input[type="submit"].btn.btn-mini {
 .pager .disabled > a:hover,
 .pager .disabled > a:focus,
 .pager .disabled > span {
-  color: #999999;
+  color: #cccccc;
   cursor: default;
   background-color: #fff;
 }
