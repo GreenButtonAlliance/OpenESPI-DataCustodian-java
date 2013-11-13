@@ -14,8 +14,7 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.common.service.impl;
-
+package org.energyos.espi.datacustodian.service.impl;
 
 import org.energyos.espi.common.domain.BatchList;
 import org.energyos.espi.common.domain.Subscription;

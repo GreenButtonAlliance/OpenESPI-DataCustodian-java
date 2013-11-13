@@ -1,4 +1,4 @@
-package org.energyos.espi.common.service;
+package org.energyos.espi.datacustodian.service;
 
 import org.energyos.espi.common.domain.Subscription;
 import org.springframework.stereotype.Service;
