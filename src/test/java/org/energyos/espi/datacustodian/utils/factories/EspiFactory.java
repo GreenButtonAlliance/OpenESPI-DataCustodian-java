@@ -1,6 +1,7 @@
 package org.energyos.espi.datacustodian.utils.factories;
 
 import org.energyos.espi.datacustodian.domain.*;
+import org.energyos.espi.datacustodian.models.atom.LinkType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.provider.OAuth2Request;
 
@@ -44,16 +45,7 @@ public class EspiFactory {
     }
 
     public static UsagePoint newUsagePoint(RetailCustomer retailCustomer) {
-        UsagePoint usagePoint = new UsagePoint();
-
-        usagePoint.setUUID(UUID.randomUUID());
-        usagePoint.setDescription("Electric meter");
-
-        usagePoint.setRoleFlags("role flags".getBytes());
-        usagePoint.setStatus(new Short("5"));
-
-        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
-        usagePoint.setServiceDeliveryPoint(new ServiceDeliveryPoint());
+        UsagePoint usagePoint = newSimpleUsagePoint();
 
         usagePoint.setRetailCustomer(retailCustomer);
         usagePoint.addMeterReading(newMeterReading());
@@ -61,13 +53,17 @@ public class EspiFactory {
         usagePoint.addElectricPowerQualitySummary(newElectricPowerQualitySummary());
         usagePoint.setLocalTimeParameters(newLocalTimeParameters());
 
-        GregorianCalendar created = new GregorianCalendar(2012, Calendar.NOVEMBER, 15, 0, 0, 0);
-        created.setTimeZone(TimeZone.getTimeZone("UTC"));
-        usagePoint.setCreated(created.getTime());
+        usagePoint.getRelatedLinks().add(new LinkType("related", usagePoint.getSelfHref() + "/MeterReading"));
+        usagePoint.getRelatedLinks().add(new LinkType("related", usagePoint.getSelfHref() + "/ElectricPowerUsageSummary"));
+        usagePoint.getRelatedLinks().add(new LinkType("related", usagePoint.getSelfHref() + "/ElectricPowerQualitySummary"));
+
+        GregorianCalendar published = new GregorianCalendar(2012, Calendar.NOVEMBER, 15, 0, 0, 0);
+        published.setTimeZone(TimeZone.getTimeZone("UTC"));
+        usagePoint.setPublished(published);
 
         GregorianCalendar updated = new GregorianCalendar(2012, Calendar.OCTOBER, 24, 0, 0, 0);
         updated.setTimeZone(TimeZone.getTimeZone("UTC"));
-        usagePoint.setUpdated(updated.getTime());
+        usagePoint.setUpdated(updated);
 
         return usagePoint;
     }
@@ -126,6 +122,8 @@ public class EspiFactory {
         meterReading.addIntervalBlock(newIntervalBlock());
 
         meterReading.setReadingType(newReadingType());
+        meterReading.setPublished(newCalendar(2012, 10, 21));
+        meterReading.setUpdated(newCalendar(2012, 10, 28));
 
         return meterReading;
     }
@@ -140,6 +138,8 @@ public class EspiFactory {
         timeConfiguration.setDstOffset(1000L);
         timeConfiguration.setDstStartRule("bar".getBytes());
         timeConfiguration.setTzOffset(1234L);
+        timeConfiguration.setPublished(newCalendar(2012, 10, 21));
+        timeConfiguration.setUpdated(newCalendar(2012, 10, 28));
 
         return timeConfiguration;
     }
@@ -176,6 +176,8 @@ public class EspiFactory {
         readingType.setArgument(argument);
         readingType.setInterharmonic(interharmonic);
         readingType.setMeasuringPeriod("measuringPeriod");
+        readingType.setPublished(newCalendar(2012, 10, 21));
+        readingType.setUpdated(newCalendar(2012, 10, 28));
 
         return readingType;
     }
@@ -192,6 +194,9 @@ public class EspiFactory {
 
         intervalBlock.setUUID(UUID.randomUUID());
         intervalBlock.setInterval(interval);
+
+        intervalBlock.setPublished(newCalendar(2012, 10, 21));
+        intervalBlock.setUpdated(newCalendar(2012, 10, 28));
 
         return intervalBlock;
     }
@@ -228,8 +233,8 @@ public class EspiFactory {
         summary.setUUID(UUID.randomUUID());
         summary.setDescription("Usage Summary");
         summary.setBillingPeriod(new DateTimeInterval(1119600L, 1119600L));
-        summary.setCreated(new GregorianCalendar(2012, 10, 24, 0, 0, 0).getTime());
-        summary.setUpdated(new GregorianCalendar(2012, 10, 24, 0, 0, 0).getTime());
+        summary.setPublished(new GregorianCalendar(2012, 10, 24, 0, 0, 0));
+        summary.setUpdated(new GregorianCalendar(2012, 10, 24, 0, 0, 0));
         summary.setBillLastPeriod(15303000L);
         summary.setBillToDate(1135000L);
         summary.setCostAdditionalLastPeriod(1346000L);
@@ -249,6 +254,8 @@ public class EspiFactory {
         summary.setPreviousDayOverallConsumption(summaryMeasurement);
         summary.setRatchetDemand(summaryMeasurement);
         summary.setRatchetDemandPeriod(new DateTimeInterval(1119600L, 1119600L));
+        summary.setPublished(newCalendar(2012, 10, 21));
+        summary.setUpdated(newCalendar(2012, 10, 28));
 
         return summary;
     }
@@ -277,6 +284,8 @@ public class EspiFactory {
         summary.setSupplyVoltageImbalance(11L);
         summary.setSupplyVoltageVariations(12L);
         summary.setTempOvervoltage(13L);
+        summary.setPublished(newCalendar(2012, 10, 21));
+        summary.setUpdated(newCalendar(2012, 10, 28));
 
         return summary;
     }
@@ -335,11 +344,8 @@ public class EspiFactory {
         return newCalendar(year, month, date).getTime();
     }
 
-    public static Calendar newCalendar(int year, int month, int date) {
-        Calendar calendar = GregorianCalendar.getInstance();
-        calendar.set(year, month, date);
-
-        return calendar;
+    public static GregorianCalendar newCalendar(int year, int month, int date) {
+        return new GregorianCalendar(year, month, date);
     }
 
     public static OAuth2Request newOAuth2Request(String clientId) {

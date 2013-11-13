@@ -32,7 +32,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.*;
-import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -87,9 +87,9 @@ public class IdentifiedObject extends Resource implements Linkable {
     protected Long id;
 
     @XmlTransient
-    protected Date created = new Date();
+    protected GregorianCalendar updated = new GregorianCalendar();
     @XmlTransient
-    protected Date updated = new Date();
+    protected GregorianCalendar published = new GregorianCalendar();
 
     public Long getId() {
         return id;
@@ -149,20 +149,20 @@ public class IdentifiedObject extends Resource implements Linkable {
         this.description = value;
     }
 
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public Date getUpdated() {
+    public GregorianCalendar getUpdated() {
         return updated;
     }
 
-    public void setUpdated(Date updated) {
+    public void setUpdated(GregorianCalendar updated) {
         this.updated = updated;
+    }
+
+    public GregorianCalendar getPublished() {
+        return published;
+    }
+
+    public void setPublished(GregorianCalendar published) {
+        this.published = published;
     }
 
     public void setUUID(UUID uuid) {
@@ -201,5 +201,12 @@ public class IdentifiedObject extends Resource implements Linkable {
     @Override
     public List<String> getRelatedLinkHrefs() {
         return null;
+    }
+
+    public List<LinkType> getRelatedLinks() {
+        return null;
+    }
+
+    public void setUpLink(LinkType upLink) {
     }
 }

@@ -147,5 +147,7 @@ public class UsagePointBuilder {
     private void updateEntity(IdentifiedObject entity, EntryType entry) {
         entity.setMRID(entry.getId());
         entity.setDescription(entry.getTitle());
+        entity.setPublished(entry.getPublished().getValue().toGregorianCalendar());
+        entity.setUpdated(entry.getUpdated().getValue().toGregorianCalendar());
     }
 }

@@ -16,12 +16,10 @@
 
 package org.energyos.espi.datacustodian.utils;
 
+import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import org.energyos.espi.datacustodian.domain.ServiceCategory;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.models.atom.ContentType;
-import org.energyos.espi.datacustodian.models.atom.EntryType;
-import org.energyos.espi.datacustodian.models.atom.FeedType;
-import org.energyos.espi.datacustodian.models.atom.LinkType;
+import org.energyos.espi.datacustodian.models.atom.*;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -98,6 +96,10 @@ public class UsagePointBuilderTests {
         ContentType content = new ContentType();
         content.setReadingType(EspiFactory.newReadingType());
         entryType.setContent(content);
+        DateTimeType date = new DateTimeType();
+        date.setValue(new XMLGregorianCalendarImpl());
+        entryType.setPublished(date);
+        entryType.setUpdated(date);
 
         assertNull(builder.newUsagePoint(entryType));
     }
@@ -128,6 +130,10 @@ public class UsagePointBuilderTests {
         entryType.setContent(usagePointContentType);
         entryType.getLinks().add(newLinkType("self", "RetailCustomer/9b6c7063/UsagePoint/01"));
         entryType.getLinks().add(newLinkType("related", "RetailCustomer/9b6c7063/UsagePoint/01/MeterReading"));
+        DateTimeType date = new DateTimeType();
+        date.setValue(new XMLGregorianCalendarImpl());
+        entryType.setPublished(date);
+        entryType.setUpdated(date);
     }
 
     private LinkType newLinkType(String rel, String href) {

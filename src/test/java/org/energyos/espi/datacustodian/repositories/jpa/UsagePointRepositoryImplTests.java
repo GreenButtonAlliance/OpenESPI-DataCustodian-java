@@ -346,11 +346,11 @@ public class UsagePointRepositoryImplTests {
         retailCustomerRepository.persist(retailCustomer);
 
         UsagePoint usagePoint = newUsagePoint(retailCustomer);
-        usagePoint.setUpdated(EspiFactory.newDate(2013, 11, 13));
+        usagePoint.setUpdated(EspiFactory.newCalendar(2013, 11, 13));
         repository.persist(usagePoint);
 
         UsagePoint updatedUsagePoint = newUsagePoint(retailCustomer);
-        updatedUsagePoint.setUpdated(EspiFactory.newDate(2013, 11, 23));
+        updatedUsagePoint.setUpdated(EspiFactory.newCalendar(2013, 11, 23));
         repository.persist(updatedUsagePoint);
 
         ThirdParty thirdParty = EspiFactory.newThirdParty();

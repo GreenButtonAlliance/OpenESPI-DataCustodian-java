@@ -164,7 +164,10 @@ public class UsagePoint
     }
 
     public String getUpHref() {
-        return "RetailCustomer/" + getRetailCustomer().getId() + "/UsagePoint";
+        if (getRetailCustomer() != null) {
+            return "RetailCustomer/" + getRetailCustomer().getId() + "/UsagePoint";
+        }
+        return null;
     }
 
     /**

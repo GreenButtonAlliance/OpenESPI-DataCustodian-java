@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -82,6 +83,8 @@ public class UsagePointRepositoryImpl implements UsagePointRepository {
 
             em.merge(usagePoint);
         } catch (NoResultException e) {
+            usagePoint.setPublished(new GregorianCalendar());
+            usagePoint.setUpdated(new GregorianCalendar());
             persist(usagePoint);
         }
     }
@@ -89,7 +92,7 @@ public class UsagePointRepositoryImpl implements UsagePointRepository {
     @Override
     public List<UsagePoint> findAllUpdatedFor(Subscription subscription) {
         return (List<UsagePoint>)this.em.createNamedQuery(UsagePoint.QUERY_FIND_ALL_UPDATED_FOR)
-                .setParameter("lastUpdate", subscription.getLastUpdate().getTime())
+                .setParameter("lastUpdate", subscription.getLastUpdate())
                 .getResultList();
     }
 

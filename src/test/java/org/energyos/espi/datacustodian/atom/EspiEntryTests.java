@@ -30,6 +30,7 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newCalendar;
 import static org.junit.Assert.*;
 
 public class EspiEntryTests extends XMLTest {
@@ -42,6 +43,8 @@ public class EspiEntryTests extends XMLTest {
         usagePoint.setId(1L);
         usagePoint.setMRID("E8E75691-7F9D-49F3-8BE2-3A74EBF6BFC0");
         usagePoint.setDescription("Electric Meter");
+        usagePoint.setPublished(newCalendar(2012, 10, 21));
+        usagePoint.setUpdated(newCalendar(2012, 10, 28));
         RetailCustomer customer = new RetailCustomer();
         customer.setId(3L);
         usagePoint.setRetailCustomer(customer);
