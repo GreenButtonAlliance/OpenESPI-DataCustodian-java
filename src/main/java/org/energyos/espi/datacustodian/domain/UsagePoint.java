@@ -83,7 +83,9 @@ import java.util.Set;
         @NamedQuery(name = UsagePoint.QUERY_FIND_ALL_UPDATED_FOR,
                 query = "SELECT point FROM UsagePoint point WHERE point.updated > :lastUpdate"),
         @NamedQuery(name = UsagePoint.QUERY_FIND_BY_RELATED_HREF,
-                query = "SELECT point FROM UsagePoint point join point.relatedLinks link WHERE link.href = :href")
+                query = "SELECT point FROM UsagePoint point join point.relatedLinks link WHERE link.href = :href"),
+        @NamedQuery(name = UsagePoint.QUERY_FIND_ALL_RELATED,
+                query = "SELECT meterReading FROM MeterReading meterReading WHERE meterReading.upLink.href in (:relatedLinkHrefs)")
 })
 @XmlJavaTypeAdapter(UsagePointAdapter.class)
 public class UsagePoint
@@ -94,6 +96,7 @@ public class UsagePoint
     public static final String QUERY_FIND_BY_ID = "UsagePoint.findById";
     public static final String QUERY_FIND_ALL_UPDATED_FOR = "UsagePoint.findAllUpdatedFor";
     public static final String QUERY_FIND_BY_RELATED_HREF = "UsagePoint.findByRelatedHref";
+    public static final String QUERY_FIND_ALL_RELATED = "UsagePoint.findAllRelated";
 
     @XmlElement(type = String.class)
     @XmlJavaTypeAdapter(HexBinaryAdapter.class)
@@ -328,6 +331,11 @@ public class UsagePoint
     @Override
     public String getRelatedLinkQuery() {
         return QUERY_FIND_BY_RELATED_HREF;
+    }
+
+    @Override
+    public String getAllRelatedQuery() {
+        return QUERY_FIND_ALL_RELATED;
     }
 
     @Override

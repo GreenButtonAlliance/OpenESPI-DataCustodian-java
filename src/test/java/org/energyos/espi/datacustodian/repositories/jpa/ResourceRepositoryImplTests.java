@@ -17,6 +17,7 @@
 package org.energyos.espi.datacustodian.repositories.jpa;
 
 
+import org.energyos.espi.datacustodian.domain.MeterReading;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.models.atom.LinkType;
 import org.energyos.espi.datacustodian.repositories.ResourceRepository;
@@ -28,8 +29,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -53,13 +53,23 @@ public class ResourceRepositoryImplTests {
     @Test
     public void findByRelatedHref() {
         UsagePoint usagePoint = EspiFactory.newSimpleUsagePoint();
-        LinkType relatedLink = new LinkType();
-        relatedLink.setRel("related");
-        relatedLink.setHref("href");
-        usagePoint.getRelatedLinks().add(relatedLink);
+        usagePoint.getRelatedLinks().add(new LinkType(LinkType.RELATED, LinkType.HREF));
 
         repository.persist(usagePoint);
 
-        assertThat(repository.findByRelatedHref("href", usagePoint).getId(), equalTo(usagePoint.getId()));
+        assertThat(repository.findByRelatedHref(LinkType.HREF, usagePoint).getId(), equalTo(usagePoint.getId()));
+    }
+
+    @Test
+    public void findAllRelated() throws Exception {
+        MeterReading meterReading = EspiFactory.newMeterReading();
+        meterReading.setUpLink(new LinkType(LinkType.UP, LinkType.HREF));
+        repository.persist(meterReading);
+
+        UsagePoint usagePoint = EspiFactory.newSimpleUsagePoint();
+        usagePoint.getRelatedLinks().add(new LinkType(LinkType.RELATED, LinkType.HREF));
+        repository.persist(usagePoint);
+
+        assertThat(repository.findAllRelated(usagePoint), hasItem(meterReading));
     }
 }

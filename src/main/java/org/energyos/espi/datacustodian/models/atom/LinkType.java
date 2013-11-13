@@ -63,7 +63,11 @@ import javax.xml.bind.annotation.XmlSchemaType;
 @Embeddable
 public class LinkType {
 
-    @XmlAttribute(name = "href", required = true)
+    public static final String UP = "up";
+    public static final String RELATED = "related";
+    public static final String HREF = "href";
+
+    @XmlAttribute(name = HREF, required = true)
     @XmlSchemaType(name = "anyURI")
     protected String href;
 

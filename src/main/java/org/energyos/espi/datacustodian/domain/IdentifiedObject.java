@@ -24,6 +24,8 @@
 
 package org.energyos.espi.datacustodian.domain;
 
+import org.energyos.espi.datacustodian.models.atom.LinkType;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -175,6 +177,11 @@ public class IdentifiedObject extends Resource implements Linkable {
 
     public String getHashedId() {
         return "" + getId();
+    }
+
+    @Override
+    public LinkType getUpLink() {
+        return null;
     }
 
     @Override

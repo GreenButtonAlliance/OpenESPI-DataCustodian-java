@@ -24,6 +24,7 @@
 
 package org.energyos.espi.datacustodian.domain;
 
+import org.energyos.espi.datacustodian.models.atom.LinkType;
 import org.energyos.espi.datacustodian.models.atom.adapters.GenericAdapter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -83,6 +84,10 @@ public class MeterReading
     @JoinColumn(name = "reading_type_id")
     private ReadingType readingType;
 
+    @XmlTransient
+    @Embedded
+    private LinkType upLink;
+
     public UsagePoint getUsagePoint() {
         return usagePoint;
     }
@@ -103,4 +108,14 @@ public class MeterReading
     public void setReadingType(ReadingType readingType) {
         this.readingType = readingType;
     }
+
+    @Override
+    public LinkType getUpLink() {
+        return upLink;
+    }
+
+    public void setUpLink(LinkType upLink) {
+        this.upLink = upLink;
+    }
+
 }
