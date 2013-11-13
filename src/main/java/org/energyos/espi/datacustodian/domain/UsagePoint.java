@@ -144,6 +144,10 @@ public class UsagePoint
     @CollectionTable(name="usage_point_related_links", joinColumns=@JoinColumn(name="usage_point_id"))
     private List<LinkType> relatedLinks = new ArrayList<>();
 
+    @XmlTransient
+    @Embedded
+    private LinkType upLink;
+
     public void addMeterReading(MeterReading meterReading)
     {
         meterReading.setUsagePoint(this);
@@ -345,5 +349,13 @@ public class UsagePoint
             hrefs.add(link.getHref());
         }
         return hrefs;
+    }
+
+    public LinkType getUpLink() {
+        return upLink;
+    }
+
+    public void setUpLink(LinkType upLink) {
+        this.upLink = upLink;
     }
 }
