@@ -65,6 +65,11 @@ public class MeterReading extends IdentifiedObject
     @XmlTransient
     private List<IntervalBlock> intervalBlocks = new ArrayList<>();
 
+    @XmlTransient
+    @ElementCollection
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @CollectionTable(name="meter_reading_related_links", joinColumns=@JoinColumn(name="meter_reading_id"))
+    private List<LinkType> relatedLinks = new ArrayList<>();
 
     @XmlTransient
     @ManyToOne
@@ -118,4 +123,12 @@ public class MeterReading extends IdentifiedObject
         this.upLink = upLink;
     }
 
+
+    public List<LinkType> getRelatedLinks() {
+        return relatedLinks;
+    }
+
+    public void setRelatedLinks(List<LinkType> relatedLinks) {
+        this.relatedLinks = relatedLinks;
+    }
 }
