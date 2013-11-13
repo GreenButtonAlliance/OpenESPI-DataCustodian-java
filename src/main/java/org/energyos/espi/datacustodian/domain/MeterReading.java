@@ -123,6 +123,10 @@ public class MeterReading extends IdentifiedObject
         this.upLink = upLink;
     }
 
+    @Override
+    public void setUpResource(IdentifiedObject resource) {
+        setUsagePoint((UsagePoint)resource);
+    }
 
     public List<LinkType> getRelatedLinks() {
         return relatedLinks;

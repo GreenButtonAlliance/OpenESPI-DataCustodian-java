@@ -30,7 +30,9 @@ import java.io.IOException;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newMeterReadingWithUsagePoint;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class MeterReadingTests extends XMLTest {
 
@@ -59,5 +61,14 @@ public class MeterReadingTests extends XMLTest {
     @Test
     public void readingType_hasTransientAnnotation() {
         assertAnnotationPresent(MeterReading.class, "readingType", XmlTransient.class);
+    }
+
+    @Test
+    public void setUpResource() {
+        MeterReading meterReading = new MeterReading();
+        UsagePoint usagePoint = new UsagePoint();
+        meterReading.setUpResource(usagePoint);
+
+        assertThat(meterReading.getUsagePoint(), equalTo(usagePoint));
     }
 }
