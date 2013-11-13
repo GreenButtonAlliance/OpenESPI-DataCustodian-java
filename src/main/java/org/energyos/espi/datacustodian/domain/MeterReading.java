@@ -58,21 +58,13 @@ import java.util.List;
 @Entity
 @Table(name = "meter_readings")
 @XmlJavaTypeAdapter(GenericAdapter.class)
-public class MeterReading
-    extends IdentifiedObject
+public class MeterReading extends IdentifiedObject
 {
     @OneToMany(mappedBy = "meterReading", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     @XmlTransient
     private List<IntervalBlock> intervalBlocks = new ArrayList<>();
 
-    public List<IntervalBlock> getIntervalBlocks() {
-        return intervalBlocks;
-    }
-
-    public void setIntervalBlocks(List<IntervalBlock> intervalBlocks) {
-        this.intervalBlocks = intervalBlocks;
-    }
 
     @XmlTransient
     @ManyToOne
@@ -107,6 +99,14 @@ public class MeterReading
 
     public void setReadingType(ReadingType readingType) {
         this.readingType = readingType;
+    }
+
+    public List<IntervalBlock> getIntervalBlocks() {
+        return intervalBlocks;
+    }
+
+    public void setIntervalBlocks(List<IntervalBlock> intervalBlocks) {
+        this.intervalBlocks = intervalBlocks;
     }
 
     @Override
