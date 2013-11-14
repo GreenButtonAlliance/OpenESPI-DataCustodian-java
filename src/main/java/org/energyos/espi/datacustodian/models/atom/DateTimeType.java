@@ -71,6 +71,13 @@ public class DateTimeType {
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<QName, String>();
 
+    public DateTimeType() {
+    }
+
+    public DateTimeType(XMLGregorianCalendar value) {
+        this.value = value;
+    }
+
     /**
      * Gets the value of the value property.
      * 
