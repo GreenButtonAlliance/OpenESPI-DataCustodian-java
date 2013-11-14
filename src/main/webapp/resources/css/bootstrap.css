@@ -226,18 +226,18 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 20px;
-  color: #2c9e53;
+  color: #118811;
   background-color: #eef1ef;
 }
 
 a {
-  color: #21b74d;
+  color: #226622;
   text-decoration: none;
 }
 
 a:hover,
 a:focus {
-  color: #157632;
+  color: #114411;
   text-decoration: underline;
 }
 
@@ -3363,13 +3363,13 @@ input[type="button"].btn-block {
   *background-color: #006dcc;
   *background-color: #0044cc;
   background-color: Green;
-  background-image: -moz-linear-gradient(top, Green, LightGreen);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(Green), to(LightGreen));
-  background-image: -webkit-linear-gradient(top, Green, LightGreen);
-  background-image: -o-linear-gradient(top, Green, LightGreen);
-  background-image: linear-gradient(to bottom, Green, LightGreen);
+  background-image: -moz-linear-gradient(top, Green, #44ff44);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(Green), to(#44ff44));
+  background-image: -webkit-linear-gradient(top, Green, #44ff44);
+  background-image: -o-linear-gradient(top, Green, #44ff44);
+  background-image: linear-gradient(to bottom, Green, #44ff44);
   background-repeat: repeat-x;
-  border-color: LightGreen LightGreen #002a80;
+  border-color: #44ff44 #44ff44 #002a80;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff00cc88', endColorstr='#ff00cc44', GradientType=0);
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
@@ -3382,7 +3382,7 @@ input[type="button"].btn-block {
 .btn-primary.disabled,
 .btn-primary[disabled] {
   color: #ffffff;
-  background-color: LightGreen;
+  background-color: #44ff44;
   *background-color: #0044cc;
   *background-color: #003bb3;
 }
