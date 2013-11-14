@@ -63,6 +63,7 @@ import javax.xml.bind.annotation.XmlSchemaType;
 @Embeddable
 public class LinkType {
 
+    public static final String SELF = "self";
     public static final String UP = "up";
     public static final String RELATED = "related";
     public static final String HREF = "href";
