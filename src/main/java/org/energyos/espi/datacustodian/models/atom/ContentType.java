@@ -118,6 +118,18 @@ public class ContentType {
     @XmlAnyElement(lax = true)
     private ElectricPowerQualitySummary electricPowerQualitySummary;
 
+    @XmlElementRefs({
+            @XmlElementRef(name = "ReadingType", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
+    })
+    @XmlAnyElement(lax = true)
+    protected ReadingType readingType;
+
+    @XmlElementRefs({
+            @XmlElementRef(name = "LocalTimeParameters", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
+    })
+    @XmlAnyElement(lax = true)
+    private TimeConfiguration localTimeParameters;
+
     @XmlMixed
     @XmlAnyElement(lax = true)
     protected List<Object> content;
@@ -140,18 +152,6 @@ public class ContentType {
 
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<QName, String>();
-
-    @XmlElementRefs({
-            @XmlElementRef(name = "ReadingType", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
-    })
-    @XmlAnyElement(lax = true)
-    protected ReadingType readingType;
-
-    @XmlElementRefs({
-            @XmlElementRef(name = "LocalTimeParameters", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
-    })
-    @XmlAnyElement(lax = true)
-    private TimeConfiguration localTimeParameters;
 
     public UsagePoint getUsagePoint() {
         return usagePoint;
@@ -307,6 +307,10 @@ public class ContentType {
         return electricPowerUsageSummary;
     }
 
+    public void setElectricPowerUsageSummary(ElectricPowerUsageSummary electricPowerUsageSummary) {
+        this.electricPowerUsageSummary = electricPowerUsageSummary;
+    }
+
     public ElectricPowerQualitySummary getElectricPowerQualitySummary() {
         return electricPowerQualitySummary;
     }
@@ -328,6 +332,14 @@ public class ContentType {
             return getUsagePoint();
         } else if (getMeterReading() != null) {
             return getMeterReading();
+        } else if (getLocalTimeParameters() != null) {
+            return getLocalTimeParameters();
+        } else if (getElectricPowerUsageSummary() != null) {
+            return getElectricPowerUsageSummary();
+        } else if (getElectricPowerQualitySummary() != null) {
+            return getElectricPowerQualitySummary();
+        } else if (getReadingType() != null) {
+            return getReadingType();
         }
         return null;
     }
