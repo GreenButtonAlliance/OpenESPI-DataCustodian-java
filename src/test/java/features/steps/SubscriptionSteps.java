@@ -3,6 +3,7 @@ package features.steps;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.energyos.espi.common.test.WebDriverSingleton;
 import org.openqa.selenium.WebDriver;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
@@ -17,7 +18,7 @@ public class SubscriptionSteps {
 
     @When("^I access the Usage Points API$")
     public void I_access_the_Usage_Points_API() throws Throwable {
-        driver.get(StepUtils.BASE_URL + "/api/feed");
+        driver.get(StepUtils.DATA_CUSTODIAN_BASE_URL + "/api/feed");
     }
 
     @Then("^I should see Usage Points$")

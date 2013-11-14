@@ -21,6 +21,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.energyos.espi.common.test.TestUtils;
+import org.energyos.espi.common.test.WebDriverSingleton;
 import org.openqa.selenium.WebDriver;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
@@ -57,7 +58,7 @@ public class UsagePointSteps {
 
     @When("^I request a usage point for a user$")
     public void I_request_a_usage_point_for_a_user() throws Throwable {
-        driver.get(StepUtils.BASE_URL + "/RetailCustomer/1/UsagePoint/2");
+        driver.get(StepUtils.DATA_CUSTODIAN_BASE_URL + "/RetailCustomer/1/UsagePoint/2");
     }
 
     @Then("^I should receive an xml response with the usage point$")
@@ -70,6 +71,6 @@ public class UsagePointSteps {
 
     @When("^I request the feed for a user$")
     public void I_request_the_feed_for_a_user() throws Throwable {
-        driver.get(StepUtils.BASE_URL + "/api/feed");
+        driver.get(StepUtils.DATA_CUSTODIAN_BASE_URL + "/api/feed");
     }
 }
