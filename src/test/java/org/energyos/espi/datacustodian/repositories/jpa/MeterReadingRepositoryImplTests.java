@@ -47,4 +47,14 @@ public class MeterReadingRepositoryImplTests {
 
         assertNotNull(repository.findById(meterReading.getId()));
     }
+
+    @Test
+    public void findByUUID() {
+        MeterReading meterReading = new MeterReading();
+        meterReading.setUUID(UUID.randomUUID());
+
+        repository.persist(meterReading);
+
+        assertNotNull(repository.findByUUID(meterReading.getUUID()));
+    }
 }

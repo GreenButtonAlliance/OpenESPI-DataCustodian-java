@@ -23,6 +23,8 @@ import org.energyos.espi.datacustodian.service.MeterReadingService;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.UUID;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -51,5 +53,12 @@ public class MeterReadingServiceImplTests {
     public void findById_returnsMeterReading() {
         service.findById(1L);
         verify(repository).findById(1L);
+    }
+
+    @Test
+    public void findByUUID() {
+        UUID uuid = UUID.randomUUID();
+        service.findByUUID(uuid);
+        verify(repository).findByUUID(uuid);
     }
 }

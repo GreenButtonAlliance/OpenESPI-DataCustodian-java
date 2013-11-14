@@ -58,8 +58,14 @@ import java.util.List;
 @Entity
 @Table(name = "meter_readings")
 @XmlJavaTypeAdapter(GenericAdapter.class)
+@NamedQueries(value = {
+        @NamedQuery(name = MeterReading.QUERY_FIND_BY_UUID,
+                query = "SELECT meterReading FROM MeterReading meterReading WHERE meterReading.uuid = :uuid")
+
+})
 public class MeterReading extends IdentifiedObject
 {
+    public static final String QUERY_FIND_BY_UUID = "MeterReading.findByUUID";
     @OneToMany(mappedBy = "meterReading", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     @XmlTransient
