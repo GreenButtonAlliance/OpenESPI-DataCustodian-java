@@ -7,6 +7,8 @@ import org.energyos.espi.datacustodian.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ResourceServiceImpl implements ResourceService {
     @Autowired
@@ -20,6 +22,11 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     public IdentifiedObject findByRelatedHref(String relatedHref, Linkable linkable) {
         return repository.findByRelatedHref(relatedHref, linkable);
+    }
+
+    @Override
+    public List<IdentifiedObject> findAllRelated(Linkable linkable) {
+        return repository.findAllRelated(linkable);
     }
 
     public void setRepository(ResourceRepository repository) {
