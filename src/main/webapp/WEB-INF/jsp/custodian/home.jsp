@@ -23,37 +23,50 @@
 
 <body>
 
-<jsp:include page="/WEB-INF/jsp/tiles/custodian/header.jsp"/>
+<jsp:include page="/WEB-INF/jsp/tiles/header.jsp"/>
 
 <div class="container">
 
     <!-- Main hero unit for a primary marketing message or call to action -->
     <div class="hero-unit">
-        <h1>Welcome Data Custodian</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a href="#" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+	<h2>Welcome to the <a href="http://www.energyos.org">EnergyOS</a> Green Button Data Custodian</h2>
+	<p><a href="http://www.energyos.org">EnergyOS</a> has, with the support of <a href="http://pivotallabscom/">Pivotal Labs</a>, prepared a reference Green Button 
+	Data Custodian implementation. This implementation supports a full complement of Green Button facilities and, as an 
+	<a href="https://github.com/energyos">Open Source project</a>, is freely available for download by any interested parties.</p>
+	<p>
+
+	<span class="inline pull-left"><a href="http://www.greenbuttondata.org" class="btn btn-primary btn-large">Learn more about Green Button &raquo;</a></span>
+    <span class="inline pull-right"><a href="http://www.greenbuttondata.org" class="btn btn-primary btn-large">Learn more about EnergyOS Open Source &raquo;</a></span>
+
+    </p>
     </div>
 
     <!-- Example row of columns -->
     <div class="row">
         <div class="span4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+            <h3>Data Custodian Services</h3>
+            <p>Green Button Data Custodians may, with the authorization of the Retail Customer, publish energy and resource usage information 
+            to registered <a href="/DataCustodian">Green Button Third Party Service Providers</a>. These published information streams allow
+            Third Party to provide new and innovative services to energy consumers!</p>
             <p><a class="btn" href="#">View details &raquo;</a></p>
         </div>
         <div class="span4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn" href="#">View details &raquo;</a></p>
+            <h3>Developers Guide</h3>
+            <p>The Green Button Developers Guide provides both overview and detailed information on the mechanisms of Green Button.
+               You can learn about Atom feeds and the OData standard from which Green Button was derived, as well as the details
+               of the Energy Usage Information contained in Green Button feeds. 
+               </p>
+            <p><a class="btn" href="http://energyos.github.io/OpenESPI-GreenButton-API-Documentation/">View details &raquo;</a></p>
         </div>
         <div class="span4">
-            <h2>Heading</h2>
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-            <p><a class="btn" href="#">View details &raquo;</a></p>
+            <h3>API Reference</h3>
+            <p>Green Button services are also available via RESTful APIs. APIs allow the developer to use the EnergyOS Data Custodian and
+               Third Party servers, hosted at GreenButtonData.org, to develop new applications, providing services and features to better engage the Retail Customer
+               to understand their energy usage.
+               </p>
+            <p><a class="btn" href="http://energyos.github.io/OpenESPI-GreenButton-API-Documentation/API/">View details &raquo;</a></p>
         </div>
     </div>
-
-    <hr>
 
     <jsp:include page="/WEB-INF/jsp/tiles/footer.jsp"/>
 
