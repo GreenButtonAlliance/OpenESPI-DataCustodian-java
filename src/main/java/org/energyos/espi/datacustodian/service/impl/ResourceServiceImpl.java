@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ResourceServiceImpl implements ResourceService {
@@ -27,6 +28,11 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     public List<IdentifiedObject> findAllRelated(Linkable linkable) {
         return repository.findAllRelated(linkable);
+    }
+
+    @Override
+    public <T> T findByUUID(UUID uuid, Class<T> clazz) {
+        return repository.findByUUID(uuid, clazz);
     }
 
     public void setRepository(ResourceRepository repository) {

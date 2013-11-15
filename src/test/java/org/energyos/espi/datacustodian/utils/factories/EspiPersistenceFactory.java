@@ -19,6 +19,8 @@ public class EspiPersistenceFactory {
     private AuthorizationService authorizationService;
     @Autowired
     private UsagePointService usagePointService;
+    @Autowired
+    private MeterReadingService meterReadingService;
 
     public Subscription createSubscription() {
         RetailCustomer retailCustomer = EspiFactory.newRetailCustomer();
@@ -58,6 +60,13 @@ public class EspiPersistenceFactory {
         usagePointService.persist(usagePoint);
 
         return usagePoint;
+    }
+
+    public MeterReading createMeterReading() {
+        MeterReading meterReading = EspiFactory.newMeterReading();
+        meterReadingService.persist(meterReading);
+
+        return meterReading;
     }
 
     public ThirdParty createThirdParty() {

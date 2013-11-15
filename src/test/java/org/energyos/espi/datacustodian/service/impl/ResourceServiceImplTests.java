@@ -61,4 +61,16 @@ public class ResourceServiceImplTests {
 
         verify(repository).findAllRelated(usagePoint);
     }
+
+    @Test
+    public void findByUUID() {
+        ResourceServiceImpl service = new ResourceServiceImpl();
+        ResourceRepository repository = mock(ResourceRepository.class);
+        service.setRepository(repository);
+        UsagePoint usagePoint = mock(UsagePoint.class);
+
+        service.findByUUID(usagePoint.getUUID(), usagePoint.getClass());
+
+        verify(repository).findByUUID(usagePoint.getUUID(), usagePoint.getClass());
+    }
 }

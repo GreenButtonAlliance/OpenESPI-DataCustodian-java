@@ -22,6 +22,7 @@ import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.models.atom.LinkType;
 import org.energyos.espi.datacustodian.repositories.ResourceRepository;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
+import org.energyos.espi.datacustodian.utils.factories.EspiPersistenceFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,8 @@ import static org.junit.Assert.assertThat;
 @ContextConfiguration("/spring/test-context.xml")
 @Transactional
 public class ResourceRepositoryImplTests {
+    @Autowired
+    public EspiPersistenceFactory factory;
 
     @Autowired
     public ResourceRepository repository;
@@ -71,5 +74,19 @@ public class ResourceRepositoryImplTests {
         repository.persist(usagePoint);
 
         assertThat(repository.findAllRelated(usagePoint), hasItem(meterReading));
+    }
+
+    @Test
+    public void findByUUID_returnsUsagePoint() throws Exception {
+        UsagePoint usagePoint = factory.createUsagePoint();
+
+        assertThat(usagePoint, equalTo(repository.findByUUID(usagePoint.getUUID(), UsagePoint.class)));
+    }
+
+    @Test
+    public void findByUUID_returnsMeterReading() throws Exception {
+        MeterReading meterReading = factory.createMeterReading();
+
+        assertThat(meterReading, equalTo(repository.findByUUID(meterReading.getUUID(), MeterReading.class)));
     }
 }

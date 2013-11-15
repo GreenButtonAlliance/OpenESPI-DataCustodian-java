@@ -7,7 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 class ResourceRepositoryImpl implements ResourceRepository {
@@ -27,5 +29,12 @@ class ResourceRepositoryImpl implements ResourceRepository {
     @Override
     public List<IdentifiedObject> findAllRelated(Linkable linkable) {
         return em.createNamedQuery(linkable.getAllRelatedQuery()).setParameter("relatedLinkHrefs", linkable.getRelatedLinkHrefs()).getResultList();
+    }
+
+    @Override
+    public <T> T findByUUID(UUID uuid, Class<T> clazz) {
+        return (T)em.createQuery("SELECT resource FROM " + clazz.getCanonicalName() + " resource WHERE resource.uuid = :uuid")
+                .setParameter("uuid", uuid.toString().toUpperCase())
+                .getSingleResult();
     }
 }
