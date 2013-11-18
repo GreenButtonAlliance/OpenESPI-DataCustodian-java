@@ -52,7 +52,7 @@ public class UsagePointControllerTests {
 
     @Test
     public void show_displaysShowView() throws Exception {
-        assertEquals("/customer/usagepoints/show", controller.show(1L, mock(ModelMap.class)));
+        assertEquals("/customer/usagepoints/show", controller.show("hashed id", mock(ModelMap.class)));
     }
 
     @Test

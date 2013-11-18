@@ -143,7 +143,7 @@ public class StepUtils extends BaseStepUtils {
 
         WebElement usagePointLink = driver.findElement(By.className("usage-point"));
         String href = usagePointLink.getAttribute("href");
-        Pattern pattern = Pattern.compile("UsagePoint/(\\d+)");
+        Pattern pattern = Pattern.compile("UsagePoint/(.+)/show");
         Matcher matcher = pattern.matcher(href);
         matcher.find();
         String hashedId = matcher.group(1);

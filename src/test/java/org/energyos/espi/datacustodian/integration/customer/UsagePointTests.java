@@ -68,7 +68,7 @@ public class UsagePointTests {
         usagePointService.persist(usagePoint);
 
         indexPath = "/RetailCustomer/" + customer.getId() + "/UsagePoint";
-        showPath = indexPath + "/" + usagePoint.getId() + "/show";
+        showPath = indexPath + "/" + usagePoint.getHashedId() + "/show";
         feedPath = indexPath + "/feed";
     }
 

@@ -52,8 +52,8 @@ public class UsagePointController extends BaseController {
     }
 
     @RequestMapping(value = Routes.USAGE_POINT_SHOW, method = RequestMethod.GET)
-    public String show(@PathVariable Long usagePointId, ModelMap model) {
-        model.put("usagePoint", usagePointService.findById(usagePointId));
+    public String show(@PathVariable String usagePointId, ModelMap model) {
+        model.put("usagePoint", usagePointService.findByHashedId(usagePointId));
         return "/customer/usagepoints/show";
     }
 
