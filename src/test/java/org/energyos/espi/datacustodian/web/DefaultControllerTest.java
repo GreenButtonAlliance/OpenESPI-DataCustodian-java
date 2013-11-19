@@ -1,6 +1,6 @@
 package org.energyos.espi.datacustodian.web;
 
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.common.domain.RetailCustomer;
 import org.junit.Test;
 import org.springframework.security.core.Authentication;
 

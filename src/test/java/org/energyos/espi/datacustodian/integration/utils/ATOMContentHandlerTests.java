@@ -1,9 +1,9 @@
 package org.energyos.espi.datacustodian.integration.utils;
 
+import org.energyos.espi.common.models.atom.EntryType;
+import org.energyos.espi.common.utils.ATOMContentHandler;
+import org.energyos.espi.common.utils.EntryProcessor;
 import org.energyos.espi.datacustodian.BaseTest;
-import org.energyos.espi.datacustodian.models.atom.EntryType;
-import org.energyos.espi.datacustodian.utils.ATOMContentHandler;
-import org.energyos.espi.datacustodian.utils.EntryProcessor;
 import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;

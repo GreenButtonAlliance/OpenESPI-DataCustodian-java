@@ -17,9 +17,10 @@
 package org.energyos.espi.datacustodian.service.impl;
 
 
-import org.energyos.espi.datacustodian.domain.MeterReading;
-import org.energyos.espi.datacustodian.repositories.MeterReadingRepository;
-import org.energyos.espi.datacustodian.service.MeterReadingService;
+import org.energyos.espi.common.domain.MeterReading;
+import org.energyos.espi.common.repositories.MeterReadingRepository;
+import org.energyos.espi.common.service.MeterReadingService;
+import org.energyos.espi.common.service.impl.MeterReadingServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 

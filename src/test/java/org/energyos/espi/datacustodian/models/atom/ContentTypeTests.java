@@ -1,6 +1,7 @@
 package org.energyos.espi.datacustodian.models.atom;
 
-import org.energyos.espi.datacustodian.domain.*;
+import org.energyos.espi.common.domain.*;
+import org.energyos.espi.common.models.atom.ContentType;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;

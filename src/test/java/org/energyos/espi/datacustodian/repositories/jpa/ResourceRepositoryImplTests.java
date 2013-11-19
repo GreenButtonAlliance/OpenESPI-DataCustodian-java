@@ -17,12 +17,12 @@
 package org.energyos.espi.datacustodian.repositories.jpa;
 
 
-import org.energyos.espi.datacustodian.domain.MeterReading;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.models.atom.LinkType;
-import org.energyos.espi.datacustodian.repositories.ResourceRepository;
+import org.energyos.espi.common.domain.MeterReading;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.models.atom.LinkType;
+import org.energyos.espi.common.repositories.ResourceRepository;
+import org.energyos.espi.common.test.EspiPersistenceFactory;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
-import org.energyos.espi.datacustodian.utils.factories.EspiPersistenceFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

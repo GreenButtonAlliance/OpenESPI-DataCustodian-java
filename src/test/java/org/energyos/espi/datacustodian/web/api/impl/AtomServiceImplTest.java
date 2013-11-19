@@ -15,11 +15,11 @@ package org.energyos.espi.datacustodian.web.api.impl;
  *    limitations under the License.
  */
 
-import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.models.atom.EntryType;
-import org.energyos.espi.datacustodian.models.atom.FeedType;
-import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
-import org.energyos.espi.datacustodian.web.api.FeedBuilder;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.models.atom.EntryType;
+import org.energyos.espi.common.models.atom.FeedType;
+import org.energyos.espi.common.test.EspiFactory;
+import org.energyos.espi.common.utils.FeedBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

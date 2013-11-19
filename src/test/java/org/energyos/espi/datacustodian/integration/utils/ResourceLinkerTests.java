@@ -1,14 +1,14 @@
 package org.energyos.espi.datacustodian.integration.utils;
 
+import org.energyos.espi.common.domain.ElectricPowerUsageSummary;
+import org.energyos.espi.common.domain.MeterReading;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.models.atom.LinkType;
+import org.energyos.espi.common.service.ResourceService;
+import org.energyos.espi.common.test.EspiPersistenceFactory;
+import org.energyos.espi.common.utils.ResourceLinker;
 import org.energyos.espi.datacustodian.BaseTest;
-import org.energyos.espi.datacustodian.domain.ElectricPowerUsageSummary;
-import org.energyos.espi.datacustodian.domain.MeterReading;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.models.atom.LinkType;
-import org.energyos.espi.datacustodian.service.ResourceService;
-import org.energyos.espi.datacustodian.utils.ResourceLinker;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
-import org.energyos.espi.datacustodian.utils.factories.EspiPersistenceFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

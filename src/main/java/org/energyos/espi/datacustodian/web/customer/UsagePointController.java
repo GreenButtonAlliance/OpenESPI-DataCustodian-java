@@ -17,8 +17,9 @@
 package org.energyos.espi.datacustodian.web.customer;
 
 import com.sun.syndication.io.FeedException;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.service.UsagePointService;
+import org.energyos.espi.common.domain.Routes;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -35,7 +36,6 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-@RequestMapping("/RetailCustomer/{retailCustomerId}/UsagePoint")
 public class UsagePointController extends BaseController {
 
     @Autowired
@@ -46,24 +46,24 @@ public class UsagePointController extends BaseController {
         return usagePointService.findAllByRetailCustomer(currentCustomer(principal));
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = Routes.USAGE_POINT_INDEX, method = RequestMethod.GET)
     public String index() {
         return "/customer/usagepoints/index";
     }
 
-    @RequestMapping(value = "{usagePointId}/show", method = RequestMethod.GET)
-    public String show(@PathVariable Long usagePointId, ModelMap model) {
-        model.put("usagePoint", usagePointService.findById(usagePointId));
+    @RequestMapping(value = Routes.USAGE_POINT_SHOW, method = RequestMethod.GET)
+    public String show(@PathVariable String usagePointId, ModelMap model) {
+        model.put("usagePoint", usagePointService.findByHashedId(usagePointId));
         return "/customer/usagepoints/show";
+    }
+
+    @RequestMapping(value = Routes.USAGE_POINT_FEED, method = RequestMethod.GET)
+    public void feed(HttpServletResponse response, Principal principal) throws FeedException, IOException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+        response.getWriter().write(usagePointService.exportUsagePoints(currentCustomer(principal)));
     }
 
     public void setUsagePointService(UsagePointService usagePointService) {
         this.usagePointService = usagePointService;
-    }
-
-    @RequestMapping(value = "/feed", method = RequestMethod.GET)
-    public void feed(HttpServletResponse response, Principal principal) throws FeedException, IOException {
-        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        response.getWriter().write(usagePointService.exportUsagePoints(currentCustomer(principal)));
     }
 }

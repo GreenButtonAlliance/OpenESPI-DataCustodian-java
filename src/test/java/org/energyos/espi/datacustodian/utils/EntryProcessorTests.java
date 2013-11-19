@@ -1,9 +1,12 @@
 package org.energyos.espi.datacustodian.utils;
 
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.models.atom.EntryType;
+import org.energyos.espi.common.service.ResourceService;
+import org.energyos.espi.common.utils.EntryProcessor;
+import org.energyos.espi.common.utils.ResourceConverter;
+import org.energyos.espi.common.utils.ResourceLinker;
 import org.energyos.espi.datacustodian.BaseTest;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.models.atom.EntryType;
-import org.energyos.espi.datacustodian.service.ResourceService;
 import org.energyos.espi.datacustodian.utils.factories.ATOMFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;

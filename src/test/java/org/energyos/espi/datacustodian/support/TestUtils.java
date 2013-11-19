@@ -17,10 +17,10 @@
 package org.energyos.espi.datacustodian.support;
 
 import com.sun.syndication.feed.atom.Link;
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.service.ImportService;
+import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.datacustodian.atom.EspiEntry;
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.service.ImportService;
-import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
 import org.xml.sax.SAXException;
 

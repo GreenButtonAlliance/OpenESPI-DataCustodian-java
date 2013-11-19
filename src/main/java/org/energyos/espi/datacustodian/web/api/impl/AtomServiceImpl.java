@@ -16,9 +16,9 @@ package org.energyos.espi.datacustodian.web.api.impl;
  */
 
 import com.sun.syndication.io.FeedException;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.utils.FeedBuilder;
 import org.energyos.espi.datacustodian.web.api.AtomService;
-import org.energyos.espi.datacustodian.web.api.FeedBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;

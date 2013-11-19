@@ -16,13 +16,14 @@
 
 package org.energyos.espi.datacustodian.web.customer;
 
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/RetailCustomer/{retailCustomerId}/home")
+@RequestMapping(Routes.RETAIL_CUSTOMER_HOME)
 public class CustomerHomeController extends BaseController {
 
     @RequestMapping(method = RequestMethod.GET)

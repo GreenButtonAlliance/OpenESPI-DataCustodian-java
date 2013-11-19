@@ -1,11 +1,11 @@
 package org.energyos.espi.datacustodian.integration.service;
 
-import org.energyos.espi.datacustodian.domain.*;
-import org.energyos.espi.datacustodian.service.ImportService;
-import org.energyos.espi.datacustodian.service.MeterReadingService;
-import org.energyos.espi.datacustodian.service.ResourceService;
-import org.energyos.espi.datacustodian.service.UsagePointService;
-import org.energyos.espi.datacustodian.utils.factories.EspiPersistenceFactory;
+import org.energyos.espi.common.domain.*;
+import org.energyos.espi.common.service.ImportService;
+import org.energyos.espi.common.service.MeterReadingService;
+import org.energyos.espi.common.service.ResourceService;
+import org.energyos.espi.common.service.UsagePointService;
+import org.energyos.espi.common.test.EspiPersistenceFactory;
 import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;

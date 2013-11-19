@@ -1,10 +1,9 @@
 package org.energyos.espi.datacustodian.web.custodian;
 
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.service.RetailCustomerService;
-import org.energyos.espi.datacustodian.service.UsagePointService;
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.service.RetailCustomerService;
+import org.energyos.espi.common.service.UsagePointService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -55,7 +54,7 @@ public class AssociateUsagePointControllerTests {
         when(bindingResult.hasErrors()).thenReturn(true);
 
         String route = controller.create(null, null, bindingResult);
-        assertThat(route, is(Routes.CUSTODIAN_RETAIL_CUSTOMERS_USAGE_POINTS_FORM));
+        assertThat(route, is("/custodian/retailcustomers/usagepoints/form"));
     }
 
     @Test
@@ -75,7 +74,7 @@ public class AssociateUsagePointControllerTests {
         long retailCustomerId = 5;
 
         String route = controller.create(retailCustomerId, newUsagePointForm(), bindingResult);
-        assertThat(route, is("redirect:" + Routes.CUSTODIAN_RETAIL_CUSTOMERS));
+        assertThat(route, is("redirect:" + "/custodian/retailcustomers"));
     }
 
 

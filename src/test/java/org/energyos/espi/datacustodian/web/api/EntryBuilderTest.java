@@ -15,10 +15,10 @@ package org.energyos.espi.datacustodian.web.api;
  *    limitations under the License.
  */
 
-import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.models.atom.DateTimeType;
-import org.energyos.espi.datacustodian.models.atom.EntryType;
-import org.energyos.espi.datacustodian.models.atom.LinkType;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.models.atom.DateTimeType;
+import org.energyos.espi.common.models.atom.EntryType;
+import org.energyos.espi.common.models.atom.LinkType;
 import org.junit.Before;
 import org.junit.Test;
 

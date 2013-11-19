@@ -1,7 +1,6 @@
-package org.energyos.espi.datacustodian.atom;
+package org.energyos.espi.datacustodian.domain;
 
-
-import org.energyos.espi.datacustodian.utils.TestUtils;
+import org.energyos.espi.common.test.TestUtils;
 import org.junit.BeforeClass;
 
 public class XMLTest {

@@ -17,8 +17,8 @@
 package org.energyos.espi.datacustodian.repositories.jpa;
 
 
-import org.energyos.espi.datacustodian.domain.MeterReading;
-import org.energyos.espi.datacustodian.repositories.MeterReadingRepository;
+import org.energyos.espi.common.domain.MeterReading;
+import org.energyos.espi.common.repositories.MeterReadingRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,9 @@
 package org.energyos.espi.datacustodian.web.custodian;
 
 import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.datacustodian.domain.Subscription;
+import org.energyos.espi.common.domain.Subscription;
+import org.energyos.espi.common.service.SubscriptionService;
 import org.energyos.espi.datacustodian.service.NotificationService;
-import org.energyos.espi.datacustodian.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;

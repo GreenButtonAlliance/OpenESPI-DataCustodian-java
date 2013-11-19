@@ -1,5 +1,6 @@
 package org.energyos.espi.datacustodian.domain;
 
+import org.energyos.espi.common.domain.IdentifiedObject;
 import org.junit.Test;
 
 import javax.persistence.Embedded;

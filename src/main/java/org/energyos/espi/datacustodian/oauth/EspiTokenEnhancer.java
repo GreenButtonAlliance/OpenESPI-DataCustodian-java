@@ -1,10 +1,10 @@
 package org.energyos.espi.datacustodian.oauth;
 
+import org.energyos.espi.common.domain.Authorization;
 import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.datacustodian.domain.Authorization;
-import org.energyos.espi.datacustodian.domain.Subscription;
-import org.energyos.espi.datacustodian.service.AuthorizationService;
-import org.energyos.espi.datacustodian.service.SubscriptionService;
+import org.energyos.espi.common.domain.Subscription;
+import org.energyos.espi.common.service.AuthorizationService;
+import org.energyos.espi.common.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;

@@ -21,8 +21,11 @@ import com.sun.syndication.feed.atom.Content;
 import com.sun.syndication.feed.atom.Link;
 import com.sun.syndication.io.FeedException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.common.atom.UsagePointEntry;
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.models.atom.LinkType;
+import org.energyos.espi.datacustodian.domain.XMLTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -72,7 +75,10 @@ public class EspiEntryTests extends XMLTest {
     @Test
     public void addRelatedLink() {
         String relatedHref = "related href";
-        entry.addRelatedLink(relatedHref);
+        Link link = new Link();
+        link.setRel(LinkType.RELATED);
+        link.setHref(relatedHref);
+        entry.getRelatedLinks().add(link);
         assertTrue(containsRelatedLink(relatedHref));
     }
 
@@ -87,13 +93,19 @@ public class EspiEntryTests extends XMLTest {
 
     @Test
     public void setUpLinkHref() {
-        entry.setUpLinkHref("up href");
+        Link link = new Link();
+        link.setRel(LinkType.UP);
+        link.setHref("up href");
+        entry.setUpLink(link);
         assertEquals("up href", entry.getUpLink().getHref());
     }
 
     @Test
     public void setSelfLinkHref() {
-        entry.setSelfLinkHref("self href");
+        Link link = new Link();
+        link.setRel(LinkType.UP);
+        link.setHref("self href");
+        entry.setSelfLink(link);
         assertEquals("self href", entry.getSelfLink().getHref());
     }
 }

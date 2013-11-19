@@ -2,6 +2,8 @@ language: java
 
 script: ./bin/run_tests.sh
 
+before_install: ./bin/install_common.sh
+
 notifications:
   email:
     recipients:

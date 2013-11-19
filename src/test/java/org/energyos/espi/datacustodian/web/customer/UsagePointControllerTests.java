@@ -16,10 +16,10 @@
 
 package org.energyos.espi.datacustodian.web.customer;
 
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.service.UsagePointService;
-import org.energyos.espi.datacustodian.service.impl.UsagePointServiceImpl;
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.service.UsagePointService;
+import org.energyos.espi.common.service.impl.UsagePointServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -39,7 +39,7 @@ public class UsagePointControllerTests {
     private UsagePointService service;
 
     @Before
-    public void setupUp() {
+    public void before() {
         controller = new UsagePointController();
         service = mock(UsagePointServiceImpl.class);
         controller.setUsagePointService(service);
@@ -52,7 +52,7 @@ public class UsagePointControllerTests {
 
     @Test
     public void show_displaysShowView() throws Exception {
-        assertEquals("/customer/usagepoints/show", controller.show(1L, mock(ModelMap.class)));
+        assertEquals("/customer/usagepoints/show", controller.show("hashed id", mock(ModelMap.class)));
     }
 
     @Test

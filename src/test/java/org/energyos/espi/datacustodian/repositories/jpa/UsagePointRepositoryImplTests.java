@@ -17,14 +17,14 @@
 package org.energyos.espi.datacustodian.repositories.jpa;
 
 
-import org.energyos.espi.datacustodian.domain.*;
-import org.energyos.espi.datacustodian.models.atom.LinkType;
-import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
-import org.energyos.espi.datacustodian.repositories.SubscriptionRepository;
-import org.energyos.espi.datacustodian.repositories.ThirdPartyRepository;
-import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
+import org.energyos.espi.common.domain.*;
+import org.energyos.espi.common.models.atom.LinkType;
+import org.energyos.espi.common.repositories.RetailCustomerRepository;
+import org.energyos.espi.common.repositories.SubscriptionRepository;
+import org.energyos.espi.common.repositories.ThirdPartyRepository;
+import org.energyos.espi.common.repositories.UsagePointRepository;
+import org.energyos.espi.common.test.EspiPersistenceFactory;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
-import org.energyos.espi.datacustodian.utils.factories.EspiPersistenceFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,7 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
 
-import static org.energyos.espi.datacustodian.support.IsEmpty.isEmpty;
+import static org.energyos.espi.common.test.IsEmpty.isEmpty;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;

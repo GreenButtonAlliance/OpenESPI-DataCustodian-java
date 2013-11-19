@@ -1,16 +1,16 @@
 package org.energyos.espi.datacustodian.integration.utils;
 
+import org.energyos.espi.common.domain.*;
+import org.energyos.espi.common.models.atom.EntryType;
+import org.energyos.espi.common.models.atom.LinkType;
+import org.energyos.espi.common.service.ResourceService;
+import org.energyos.espi.common.test.EspiPersistenceFactory;
+import org.energyos.espi.common.utils.EntryProcessor;
+import org.energyos.espi.common.utils.ResourceConverter;
+import org.energyos.espi.common.utils.ResourceLinker;
 import org.energyos.espi.datacustodian.BaseTest;
-import org.energyos.espi.datacustodian.domain.*;
-import org.energyos.espi.datacustodian.models.atom.EntryType;
-import org.energyos.espi.datacustodian.models.atom.LinkType;
-import org.energyos.espi.datacustodian.service.ResourceService;
-import org.energyos.espi.datacustodian.utils.EntryProcessor;
-import org.energyos.espi.datacustodian.utils.ResourceConverter;
-import org.energyos.espi.datacustodian.utils.ResourceLinker;
 import org.energyos.espi.datacustodian.utils.factories.ATOMFactory;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
-import org.energyos.espi.datacustodian.utils.factories.EspiPersistenceFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

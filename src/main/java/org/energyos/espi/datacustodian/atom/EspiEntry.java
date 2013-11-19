@@ -20,8 +20,8 @@ import com.sun.syndication.feed.atom.Content;
 import com.sun.syndication.feed.atom.Entry;
 import com.sun.syndication.feed.atom.Link;
 import com.sun.syndication.io.FeedException;
-import org.energyos.espi.datacustodian.domain.IdentifiedObject;
-import org.energyos.espi.datacustodian.utils.EspiMarshaller;
+import org.energyos.espi.common.domain.IdentifiedObject;
+import org.energyos.espi.common.utils.EspiMarshaller;
 
 import java.util.ArrayList;
 import java.util.List;

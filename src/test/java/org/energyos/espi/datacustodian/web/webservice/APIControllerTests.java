@@ -17,9 +17,9 @@
 package org.energyos.espi.datacustodian.web.webservice;
 
 import com.sun.syndication.io.FeedException;
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.service.RetailCustomerService;
-import org.energyos.espi.datacustodian.service.UsagePointService;
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.service.RetailCustomerService;
+import org.energyos.espi.common.service.UsagePointService;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.Authentication;

@@ -1,7 +1,7 @@
 package org.energyos.espi.datacustodian.web.customer;
 
-import org.energyos.espi.datacustodian.domain.MeterReading;
-import org.energyos.espi.datacustodian.service.MeterReadingService;
+import org.energyos.espi.common.domain.MeterReading;
+import org.energyos.espi.common.service.MeterReadingService;
 import org.junit.Test;
 import org.springframework.ui.ModelMap;
 

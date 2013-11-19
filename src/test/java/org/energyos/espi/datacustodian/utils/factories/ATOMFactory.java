@@ -2,15 +2,15 @@ package org.energyos.espi.datacustodian.utils.factories;
 
 import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import com.sun.syndication.io.FeedException;
-import org.energyos.espi.datacustodian.domain.MeterReading;
-import org.energyos.espi.datacustodian.domain.ServiceCategory;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.models.atom.DateTimeType;
-import org.energyos.espi.datacustodian.models.atom.EntryType;
-import org.energyos.espi.datacustodian.models.atom.FeedType;
-import org.energyos.espi.datacustodian.models.atom.LinkType;
-import org.energyos.espi.datacustodian.utils.DateConverter;
-import org.energyos.espi.datacustodian.web.api.FeedBuilder;
+import org.energyos.espi.common.domain.MeterReading;
+import org.energyos.espi.common.domain.ServiceCategory;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.models.atom.DateTimeType;
+import org.energyos.espi.common.models.atom.EntryType;
+import org.energyos.espi.common.models.atom.FeedType;
+import org.energyos.espi.common.models.atom.LinkType;
+import org.energyos.espi.common.utils.DateConverter;
+import org.energyos.espi.common.utils.FeedBuilder;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import java.util.*;

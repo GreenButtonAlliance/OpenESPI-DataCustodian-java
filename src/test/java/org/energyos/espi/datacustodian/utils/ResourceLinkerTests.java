@@ -1,9 +1,10 @@
 package org.energyos.espi.datacustodian.utils;
 
+import org.energyos.espi.common.domain.*;
+import org.energyos.espi.common.models.atom.LinkType;
+import org.energyos.espi.common.service.ResourceService;
+import org.energyos.espi.common.utils.ResourceLinker;
 import org.energyos.espi.datacustodian.BaseTest;
-import org.energyos.espi.datacustodian.domain.*;
-import org.energyos.espi.datacustodian.models.atom.LinkType;
-import org.energyos.espi.datacustodian.service.ResourceService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

@@ -16,15 +16,15 @@
 
 package features.steps;
 
-import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
+import org.energyos.espi.common.test.BaseStepUtils;
+import org.energyos.espi.common.test.CucumberSession;
+import org.energyos.espi.common.test.FixtureFactory;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import java.awt.*;
-import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.UUID;
@@ -35,25 +35,9 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class StepUtils {
-
-    public final static String BASE_URL = "http://localhost:8080/DataCustodian";
-    public final static String PASSWORD = "koala";
-
-    private static WebDriver driver = WebDriverSingleton.getInstance();
-
+public class StepUtils extends BaseStepUtils {
     public static void navigateTo(String path) {
-        driver.get(StepUtils.BASE_URL + path);
-    }
-
-    public static void clickLinkByText(String linkText) {
-        WebElement link = driver.findElement(By.linkText(linkText));
-        link.click();
-    }
-
-    public static void clickLinkByPartialText(String linkText) {
-        WebElement link = driver.findElement(By.partialLinkText(linkText));
-        link.click();
+        driver.get(StepUtils.DATA_CUSTODIAN_BASE_URL + path);
     }
 
     public static void login(String username, String password) {
@@ -74,7 +58,6 @@ public class StepUtils {
 
     public static String flattenXml(String xml) {
         return xml.replace("\n", "").replaceAll("\\s+<", "<").replaceAll(">\\s+", ">");
-
     }
 
     public static void importUsagePoint(UUID uuid) throws IOException {
@@ -139,18 +122,6 @@ public class StepUtils {
         create.click();
     }
 
-    public static String newLastName() {
-        return "Doe" + System.currentTimeMillis();
-    }
-
-    public static String newFirstName() {
-        return "John" + System.currentTimeMillis();
-    }
-
-    public static String newUsername() {
-        return "User" + System.currentTimeMillis();
-    }
-
     public static void uploadUsagePoints(UUID uuid) throws IOException {
         String xml = FixtureFactory.newFeedXML(uuid);
         File tmpFile = File.createTempFile("usage_point", ".xml");
@@ -167,16 +138,12 @@ public class StepUtils {
         assertTrue("Missing content '" + s + "'", pageSource.contains(s));
     }
 
-    public static void selectRadioByLabel(String labelText) {
-        driver.findElement(By.xpath("//label[contains(.,'" + labelText + "')]/input")).click();
-    }
-
     public static String getFirstUsagePointHashedId() {
         clickLinkByText("Usage Points");
 
         WebElement usagePointLink = driver.findElement(By.className("usage-point"));
         String href = usagePointLink.getAttribute("href");
-        Pattern pattern = Pattern.compile("UsagePoint/(\\d+)");
+        Pattern pattern = Pattern.compile("UsagePoint/(.+)/show");
         Matcher matcher = pattern.matcher(href);
         matcher.find();
         String hashedId = matcher.group(1);
@@ -185,23 +152,6 @@ public class StepUtils {
         return hashedId;
     }
 
-    static void openPage() throws URISyntaxException, IOException {
-        Desktop.getDesktop().browse(new URI(driver.getCurrentUrl()));
-    }
 
-    static void saveAndOpenPage() throws IOException, URISyntaxException {
-        File file = new File("/tmp/cucumber.html");
-
-        if (!file.exists()) {
-            file.createNewFile();
-        }
-
-        FileWriter fw = new FileWriter(file.getAbsoluteFile());
-        BufferedWriter bw = new BufferedWriter(fw);
-        bw.write(driver.getPageSource());
-        bw.close();
-
-        Desktop.getDesktop().browse(new URI("file:///tmp/cucumber.html"));
-    }
 
 }

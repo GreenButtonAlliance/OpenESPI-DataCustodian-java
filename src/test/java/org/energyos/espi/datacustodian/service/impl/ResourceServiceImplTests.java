@@ -17,9 +17,10 @@
 package org.energyos.espi.datacustodian.service.impl;
 
 
-import org.energyos.espi.datacustodian.domain.MeterReading;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.repositories.ResourceRepository;
+import org.energyos.espi.common.domain.MeterReading;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.repositories.ResourceRepository;
+import org.energyos.espi.common.service.impl.ResourceServiceImpl;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;

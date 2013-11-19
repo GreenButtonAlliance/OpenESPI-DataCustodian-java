@@ -18,15 +18,16 @@ package org.energyos.espi.datacustodian.service.impl;
 
 
 import com.sun.syndication.feed.atom.Feed;
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.domain.Subscription;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.models.atom.EntryType;
-import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
-import org.energyos.espi.datacustodian.utils.ATOMMarshaller;
-import org.energyos.espi.datacustodian.utils.SubscriptionBuilder;
-import org.energyos.espi.datacustodian.utils.UsagePointBuilder;
-import org.energyos.espi.datacustodian.utils.XMLMarshaller;
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.domain.Subscription;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.models.atom.EntryType;
+import org.energyos.espi.common.repositories.UsagePointRepository;
+import org.energyos.espi.common.service.impl.UsagePointServiceImpl;
+import org.energyos.espi.common.utils.ATOMMarshaller;
+import org.energyos.espi.common.utils.SubscriptionBuilder;
+import org.energyos.espi.common.utils.UsagePointBuilder;
+import org.energyos.espi.common.utils.XMLMarshaller;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -87,7 +88,7 @@ public class UsagePointServiceImplTests {
     @Test
     public void findByHashedId() {
         service.findByHashedId(usagePoint.getHashedId());
-        verify(repository).findById(usagePoint.getId());
+        verify(repository).findByUUID(usagePoint.getUUID());
     }
 
     @Test
@@ -177,7 +178,7 @@ public class UsagePointServiceImplTests {
     @Test
     public void deleteByHashedId() {
         Long id = usagePoint.getId();
-        when(repository.findById(id)).thenReturn(usagePoint);
+        when(repository.findByUUID(usagePoint.getUUID())).thenReturn(usagePoint);
 
         service.deleteByHashedId(usagePoint.getHashedId());
 

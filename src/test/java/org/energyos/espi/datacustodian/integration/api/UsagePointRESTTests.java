@@ -1,13 +1,14 @@
 package org.energyos.espi.datacustodian.integration.api;
 
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
-import org.energyos.espi.datacustodian.service.RetailCustomerService;
-import org.energyos.espi.datacustodian.service.UsagePointService;
-import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
-import org.energyos.espi.datacustodian.utils.factories.EspiPersistenceFactory;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.repositories.UsagePointRepository;
+import org.energyos.espi.common.service.RetailCustomerService;
+import org.energyos.espi.common.service.UsagePointService;
+import org.energyos.espi.common.test.EspiFactory;
+import org.energyos.espi.common.test.EspiPersistenceFactory;
+import org.energyos.espi.common.test.TestUtils;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -19,15 +20,18 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.energyos.espi.datacustodian.utils.TestUtils.namespaces;
+import java.util.UUID;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -72,14 +76,14 @@ public class UsagePointRESTTests {
     @Test
     public void show_returnsUsagePointXML() throws Exception {
         mockMvc.perform(get(Routes.buildDataCustodianRESTUsagePointMember(retailCustomer.getHashedId(), usagePoint.getHashedId())))
-                .andExpect(xpath("/:entry/:content/espi:UsagePoint", namespaces()).exists())
-                .andExpect(xpath("/:entry/:link[@rel='self']", namespaces()).exists());
+                .andExpect(MockMvcResultMatchers.xpath("/:entry/:content/espi:UsagePoint", TestUtils.namespaces()).exists())
+                .andExpect(MockMvcResultMatchers.xpath("/:entry/:link[@rel='self']", TestUtils.namespaces()).exists());
 
     }
 
     @Test
     public void show_givenAnInvalidUsagePoint_returns400Status() throws Exception {
-        mockMvc.perform(get(Routes.buildDataCustodianRESTUsagePointMember(retailCustomer.getHashedId(), String.valueOf(System.nanoTime()))))
+        mockMvc.perform(get(Routes.buildDataCustodianRESTUsagePointMember(retailCustomer.getHashedId(), UUID.randomUUID().toString())))
                 .andExpect(status().is(400));
     }
 
@@ -98,8 +102,8 @@ public class UsagePointRESTTests {
     @Test
     public void index_returnsUsagePointListXML() throws Exception {
         mockMvc.perform(get(Routes.buildDataCustodianRESTUsagePointCollection(retailCustomer.getHashedId())))
-                .andExpect(xpath("/:feed/:entry/:content/espi:UsagePoint", namespaces()).exists())
-                .andExpect(xpath("/:feed/:entry/:link[@rel='self']", namespaces()).exists());
+                .andExpect(MockMvcResultMatchers.xpath("/:feed/:entry/:content/espi:UsagePoint", TestUtils.namespaces()).exists())
+                .andExpect(MockMvcResultMatchers.xpath("/:feed/:entry/:link[@rel='self']", TestUtils.namespaces()).exists());
     }
 
     @Test
@@ -235,7 +239,7 @@ public class UsagePointRESTTests {
     @Test
     @Ignore("Consistently fails only on GreenButton VM for unknown reasons. Ignoring for now.")
     public void update_returnsBadRequestForUnknownUsagePointId() throws Exception {
-        mockMvc.perform(put("/espi/1_1/resource/RetailCustomer/" + retailCustomer.getId() + "/UsagePoint/42").contentType(MediaType.APPLICATION_ATOM_XML)
+        mockMvc.perform(put("/espi/1_1/resource/RetailCustomer/" + retailCustomer.getId() + "/UsagePoint/" + UUID.randomUUID()).contentType(MediaType.APPLICATION_ATOM_XML)
                 .content("<entry xmlns=\"http://www.w3.org/2005/Atom\">" +
                         "  <id>urn:uuid:97EAEBAD-1214-4A58-A3D4-A16A6DE718E1</id>" +
                         "  <published>2012-10-24T00:00:00Z</published>" +
@@ -306,7 +310,7 @@ public class UsagePointRESTTests {
 
     @Test
     public void delete_returns400_forMissingUsagePoint() throws Exception {
-        mockMvc.perform(delete("/espi/1_1/resource/RetailCustomer/1/UsagePoint/12345"))
+        mockMvc.perform(delete("/espi/1_1/resource/RetailCustomer/1/UsagePoint/"+ UUID.randomUUID()))
                 .andExpect(status().is(400));
     }
 
@@ -324,7 +328,7 @@ public class UsagePointRESTTests {
     @Test
     public void isOneLevelDeep() throws Exception {
         mockMvc.perform(get(Routes.buildDataCustodianRESTUsagePointCollection(retailCustomer.getHashedId())))
-                .andExpect(xpath("/:feed/:entry/:content/espi:UsagePoint", namespaces()).exists())
-                .andExpect(xpath("//espi:ElectricPowerQualitySummary", namespaces()).doesNotExist());
+                .andExpect(MockMvcResultMatchers.xpath("/:feed/:entry/:content/espi:UsagePoint", TestUtils.namespaces()).exists())
+                .andExpect(MockMvcResultMatchers.xpath("//espi:ElectricPowerQualitySummary", TestUtils.namespaces()).doesNotExist());
     }
 }

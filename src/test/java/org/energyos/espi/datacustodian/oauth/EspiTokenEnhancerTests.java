@@ -16,13 +16,13 @@
 
 package org.energyos.espi.datacustodian.oauth;
 
+import org.energyos.espi.common.domain.Authorization;
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.domain.Subscription;
+import org.energyos.espi.common.service.AuthorizationService;
+import org.energyos.espi.common.service.SubscriptionService;
+import org.energyos.espi.common.test.EspiFactory;
 import org.energyos.espi.datacustodian.BaseTest;
-import org.energyos.espi.datacustodian.domain.Authorization;
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.domain.Subscription;
-import org.energyos.espi.datacustodian.service.AuthorizationService;
-import org.energyos.espi.datacustodian.service.SubscriptionService;
-import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

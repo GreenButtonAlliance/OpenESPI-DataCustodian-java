@@ -17,9 +17,10 @@
 package org.energyos.espi.datacustodian.utils;
 
 import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
-import org.energyos.espi.datacustodian.domain.ServiceCategory;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
-import org.energyos.espi.datacustodian.models.atom.*;
+import org.energyos.espi.common.domain.ServiceCategory;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.models.atom.*;
+import org.energyos.espi.common.utils.UsagePointBuilder;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
