@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface ResourceRepository {
     void persist(IdentifiedObject resource);
 
-    IdentifiedObject findByRelatedHref(String href, Linkable linkable);
+    List<IdentifiedObject> findAllParentsByRelatedHref(String href, Linkable linkable);
 
     List<IdentifiedObject> findAllRelated(Linkable linkable);
 

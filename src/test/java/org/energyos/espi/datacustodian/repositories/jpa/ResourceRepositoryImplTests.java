@@ -60,7 +60,7 @@ public class ResourceRepositoryImplTests {
 
         repository.persist(usagePoint);
 
-        assertThat(repository.findByRelatedHref(LinkType.HREF, usagePoint).getId(), equalTo(usagePoint.getId()));
+        assertThat(repository.findAllParentsByRelatedHref(LinkType.HREF, usagePoint).get(0).getId(), equalTo(usagePoint.getId()));
     }
 
     @Test

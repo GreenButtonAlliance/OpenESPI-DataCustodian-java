@@ -22,12 +22,15 @@ class ResourceRepositoryImpl implements ResourceRepository {
     }
 
     @Override
-    public IdentifiedObject findByRelatedHref(String href, Linkable linkable) {
-        return (IdentifiedObject)em.createNamedQuery(linkable.getRelatedLinkQuery()).setParameter("href", href).getSingleResult();
+    public List<IdentifiedObject> findAllParentsByRelatedHref(String href, Linkable linkable) {
+        return em.createNamedQuery(linkable.getParentQuery()).setParameter("href", href).getResultList();
     }
 
     @Override
     public List<IdentifiedObject> findAllRelated(Linkable linkable) {
+        if (linkable.getRelatedLinkHrefs().isEmpty()) {
+            return new ArrayList<>();
+        }
         return em.createNamedQuery(linkable.getAllRelatedQuery()).setParameter("relatedLinkHrefs", linkable.getRelatedLinkHrefs()).getResultList();
     }
 
