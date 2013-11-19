@@ -21,7 +21,6 @@ import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.Subscription;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.models.atom.EntryType;
-import org.energyos.espi.datacustodian.models.atom.FeedType;
 import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.energyos.espi.datacustodian.utils.ATOMMarshaller;
@@ -32,7 +31,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.bind.JAXBException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,15 +84,6 @@ public class UsagePointServiceImpl implements UsagePointService {
     @Override
     public void persist(UsagePoint up) {
         this.repository.persist(up);
-    }
-
-    @Override
-    public void importUsagePoints(InputStream stream) throws JAXBException {
-        List<UsagePoint> usagePoints = usagePointBuilder.newUsagePoints(xmlMarshaller.unmarshal(stream, FeedType.class));
-
-        for (UsagePoint usagePoint : usagePoints) {
-            createOrReplaceByUUID(usagePoint);
-        }
     }
 
     @Override

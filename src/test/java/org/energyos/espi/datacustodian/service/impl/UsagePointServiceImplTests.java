@@ -22,7 +22,6 @@ import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.Subscription;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
 import org.energyos.espi.datacustodian.models.atom.EntryType;
-import org.energyos.espi.datacustodian.models.atom.FeedType;
 import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
 import org.energyos.espi.datacustodian.utils.ATOMMarshaller;
 import org.energyos.espi.datacustodian.utils.SubscriptionBuilder;
@@ -32,8 +31,6 @@ import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.xml.bind.JAXBException;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,18 +99,6 @@ public class UsagePointServiceImplTests {
         verify(repository).persist(up);
     }
 
-    @Test
-    public void importUsagePoints() throws JAXBException, FileNotFoundException {
-        UsagePoint usagePoint = new UsagePoint();
-        List<UsagePoint> usagePoints = new ArrayList<UsagePoint>();
-        usagePoints.add(usagePoint);
-
-        when(usagePointBuilder.newUsagePoints(any(FeedType.class))).thenReturn(usagePoints);
-
-        service.importUsagePoints(mock(InputStream.class));
-
-        verify(repository).createOrReplaceByUUID(usagePoint);
-    }
 
     @Test
     public void importUsagePoint_returnsMarshalledUsagePoint() {
