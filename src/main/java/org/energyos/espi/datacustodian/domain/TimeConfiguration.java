@@ -28,6 +28,7 @@ import org.energyos.espi.datacustodian.models.atom.adapters.TimeConfigurationAda
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -67,7 +68,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlJavaTypeAdapter(TimeConfigurationAdapter.class)
 @XmlRootElement(name = "LocalTimeParameters")
 @Entity
-@Table(name = "time_configurations")
+@Table(name = "time_configurations", uniqueConstraints = {@UniqueConstraint(columnNames={"uuid"})})
 public class TimeConfiguration
     extends IdentifiedObject
 {
@@ -161,4 +162,8 @@ public class TimeConfiguration
         this.tzOffset = value;
     }
 
+    @Override
+    public String getParentQuery() {
+        return UsagePoint.QUERY_FIND_BY_RELATED_HREF;
+    }
 }

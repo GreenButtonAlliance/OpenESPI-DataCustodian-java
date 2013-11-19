@@ -64,7 +64,7 @@ import java.util.List;
     "intervalReadings"
 })
 @Entity
-@Table(name = "interval_blocks")
+@Table(name = "interval_blocks", uniqueConstraints = {@UniqueConstraint(columnNames={"uuid"})})
 @NamedQueries(value = {
         @NamedQuery(name = IntervalBlock.QUERY_ALL_BY_METER_READING_ID,
                 query = "SELECT block FROM IntervalBlock block WHERE block.meterReading.id = :meterReadingId")
@@ -157,5 +157,16 @@ public class IntervalBlock
     public void addIntervalReading(IntervalReading intervalReading) {
         this.intervalReadings.add(intervalReading);
         intervalReading.setIntervalBlock(this);
+    }
+
+    @Override
+    public String getParentQuery() {
+        return MeterReading.QUERY_FIND_BY_RELATED_HREF;
+    }
+
+    @Override
+    public void setUpResource(IdentifiedObject resource) {
+        MeterReading meterReading = (MeterReading) resource;
+        meterReading.addIntervalBlock(this);
     }
 }

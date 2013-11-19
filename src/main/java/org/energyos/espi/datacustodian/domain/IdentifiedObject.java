@@ -26,12 +26,10 @@ package org.energyos.espi.datacustodian.domain;
 
 import org.energyos.espi.datacustodian.models.atom.LinkType;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.*;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
@@ -90,6 +88,10 @@ public class IdentifiedObject extends Resource implements Linkable {
     protected GregorianCalendar updated = new GregorianCalendar();
     @XmlTransient
     protected GregorianCalendar published = new GregorianCalendar();
+
+    @XmlTransient
+    @Embedded
+    private LinkType upLink;
 
     public Long getId() {
         return id;
@@ -180,16 +182,11 @@ public class IdentifiedObject extends Resource implements Linkable {
     }
 
     @Override
-    public LinkType getUpLink() {
-        return null;
-    }
-
-    @Override
     public void setUpResource(IdentifiedObject resource) {
     }
 
     @Override
-    public String getRelatedLinkQuery() {
+    public String getParentQuery() {
         return null;
     }
 
@@ -200,13 +197,30 @@ public class IdentifiedObject extends Resource implements Linkable {
 
     @Override
     public List<String> getRelatedLinkHrefs() {
-        return null;
+        List<String> hrefs = new ArrayList<>();
+        for(LinkType link : getRelatedLinks()) {
+            hrefs.add(link.getHref());
+        }
+        return hrefs;
     }
 
     public List<LinkType> getRelatedLinks() {
-        return null;
+        return new ArrayList<>();
+    }
+
+    public LinkType getUpLink() {
+        return upLink;
     }
 
     public void setUpLink(LinkType upLink) {
+        this.upLink = upLink;
+    }
+
+    public void merge(IdentifiedObject resource) {
+        this.setSelfLink(resource.getSelfLink());
+        this.setUpLink(resource.getUpLink());
+        this.setDescription(resource.getDescription());
+        this.setUpdated(resource.getUpdated());
+        this.setPublished(resource.getPublished());
     }
 }

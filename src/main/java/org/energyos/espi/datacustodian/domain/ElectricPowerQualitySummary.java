@@ -26,10 +26,7 @@ package org.energyos.espi.datacustodian.domain;
 
 import org.energyos.espi.datacustodian.models.atom.adapters.GenericAdapter;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
@@ -87,7 +84,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "tempOvervoltage"
 })
 @Entity
-@Table(name = "electric_power_quality_summaries")
+@Table(name = "electric_power_quality_summaries", uniqueConstraints = {@UniqueConstraint(columnNames={"uuid"})})
 @XmlJavaTypeAdapter(GenericAdapter.class)
 public class ElectricPowerQualitySummary
     extends IdentifiedObject
@@ -456,5 +453,17 @@ public class ElectricPowerQualitySummary
 
     public void setUsagePoint(UsagePoint usagePoint) {
         this.usagePoint = usagePoint;
+    }
+
+    @Override
+    public String getParentQuery() {
+        return UsagePoint.QUERY_FIND_BY_RELATED_HREF;
+    }
+
+    @Override
+    public void setUpResource(IdentifiedObject resource) {
+        UsagePoint usagePoint = (UsagePoint) resource;
+        usagePoint.addElectricPowerQualitySummary(this);
+        setUsagePoint(usagePoint);
     }
 }

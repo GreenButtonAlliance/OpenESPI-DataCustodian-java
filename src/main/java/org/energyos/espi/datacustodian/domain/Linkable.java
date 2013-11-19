@@ -9,7 +9,7 @@ public interface Linkable {
 
     void setUpResource(IdentifiedObject resource);
 
-    String getRelatedLinkQuery();
+    String getParentQuery();
 
     String getAllRelatedQuery();
 

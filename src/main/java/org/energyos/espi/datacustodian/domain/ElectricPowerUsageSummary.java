@@ -90,7 +90,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "statusTimeStamp"
 })
 @Entity
-@Table(name = "electric_power_usage_summaries")
+@Table(name = "electric_power_usage_summaries", uniqueConstraints = {@UniqueConstraint(columnNames={"uuid"})})
 @XmlJavaTypeAdapter(GenericAdapter.class)
 public class ElectricPowerUsageSummary
     extends IdentifiedObject
@@ -608,5 +608,27 @@ public class ElectricPowerUsageSummary
      */
     public void setStatusTimeStamp(long value) {
         this.statusTimeStamp = value;
+    }
+
+    @Override
+    public String getParentQuery() {
+        return UsagePoint.QUERY_FIND_BY_RELATED_HREF;
+    }
+
+    @Override
+    public void setUpResource(IdentifiedObject resource) {
+        UsagePoint usagePoint = (UsagePoint) resource;
+        usagePoint.addElectricPowerUsageSummary(this);
+        setUsagePoint((UsagePoint) resource);
+    }
+
+    @Override
+    public void merge(IdentifiedObject resource) {
+        ElectricPowerUsageSummary newUsagePoint = (ElectricPowerUsageSummary)resource;
+        this.setSelfLink(newUsagePoint.getSelfLink());
+        this.setUpLink(newUsagePoint.getUpLink());
+        this.setDescription(newUsagePoint.getDescription());
+        this.setUpdated(newUsagePoint.getUpdated());
+        this.setPublished(newUsagePoint.getPublished());
     }
 }

@@ -56,16 +56,22 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MeterReading")
 @Entity
-@Table(name = "meter_readings")
+@Table(name = "meter_readings", uniqueConstraints = {@UniqueConstraint(columnNames={"uuid"})})
 @XmlJavaTypeAdapter(GenericAdapter.class)
 @NamedQueries(value = {
         @NamedQuery(name = MeterReading.QUERY_FIND_BY_UUID,
-                query = "SELECT meterReading FROM MeterReading meterReading WHERE meterReading.uuid = :uuid")
+                query = "SELECT meterReading FROM MeterReading meterReading WHERE meterReading.uuid = :uuid"),
+        @NamedQuery(name = MeterReading.QUERY_FIND_BY_RELATED_HREF,
+                query = "SELECT reading FROM MeterReading reading join reading.relatedLinks link WHERE link.href = :href"),
+        @NamedQuery(name = MeterReading.QUERY_FIND_ALL_RELATED,
+                query = "SELECT readingType FROM ReadingType readingType WHERE readingType.upLink.href in (:relatedLinkHrefs)")
 
 })
 public class MeterReading extends IdentifiedObject
 {
     public static final String QUERY_FIND_BY_UUID = "MeterReading.findByUUID";
+    public static final String QUERY_FIND_BY_RELATED_HREF = "MeterReading.findByAllParentsHref";
+    public static final String QUERY_FIND_ALL_RELATED = "MeterReading.findAllRelated";
     @OneToMany(mappedBy = "meterReading", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     @XmlTransient
@@ -83,13 +89,9 @@ public class MeterReading extends IdentifiedObject
     private UsagePoint usagePoint;
 
     @XmlTransient
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name = "reading_type_id")
     private ReadingType readingType;
-
-    @XmlTransient
-    @Embedded
-    private LinkType upLink;
 
     public UsagePoint getUsagePoint() {
         return usagePoint;
@@ -121,17 +123,19 @@ public class MeterReading extends IdentifiedObject
     }
 
     @Override
-    public LinkType getUpLink() {
-        return upLink;
-    }
-
-    public void setUpLink(LinkType upLink) {
-        this.upLink = upLink;
+    public void setUpResource(IdentifiedObject resource) {
+        UsagePoint usagePoint = (UsagePoint)resource;
+        usagePoint.addMeterReading(this);
     }
 
     @Override
-    public void setUpResource(IdentifiedObject resource) {
-        setUsagePoint((UsagePoint)resource);
+    public String getParentQuery() {
+        return UsagePoint.QUERY_FIND_BY_RELATED_HREF;
+    }
+
+    @Override
+    public String getAllRelatedQuery() {
+        return MeterReading.QUERY_FIND_ALL_RELATED;
     }
 
     public List<LinkType> getRelatedLinks() {
