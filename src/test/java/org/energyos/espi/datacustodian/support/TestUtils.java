@@ -19,14 +19,17 @@ package org.energyos.espi.datacustodian.support;
 import com.sun.syndication.feed.atom.Link;
 import org.energyos.espi.datacustodian.atom.EspiEntry;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
+import org.energyos.espi.datacustodian.service.ImportService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
+import org.xml.sax.SAXException;
 
 import javax.persistence.Column;
 import javax.validation.constraints.Size;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -112,8 +115,8 @@ public class TestUtils {
         return foundAnnotation;
     }
 
-    public static void importUsagePoint(UsagePointService usagePointService, RetailCustomer customer, UUID uuid) throws JAXBException, IOException {
-        usagePointService.importUsagePoints(FixtureFactory.newUsagePointInputStream(uuid));
+    public static void importUsagePoint(ImportService importService, UsagePointService usagePointService, RetailCustomer customer, UUID uuid) throws JAXBException, IOException, ParserConfigurationException, SAXException {
+        importService.importData(FixtureFactory.newFeedInputStream(uuid));
         usagePointService.associateByUUID(customer, uuid);
     }
 

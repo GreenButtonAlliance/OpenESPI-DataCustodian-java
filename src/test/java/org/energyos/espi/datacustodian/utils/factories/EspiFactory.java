@@ -128,7 +128,7 @@ public class EspiFactory {
         return meterReading;
     }
 
-    private static TimeConfiguration newLocalTimeParameters() {
+    public static TimeConfiguration newLocalTimeParameters() {
         TimeConfiguration timeConfiguration = new TimeConfiguration();
 
         timeConfiguration.setDescription("DST For North America");
@@ -345,7 +345,11 @@ public class EspiFactory {
     }
 
     public static GregorianCalendar newCalendar(int year, int month, int date) {
-        return new GregorianCalendar(year, month, date);
+        GregorianCalendar calendar = new GregorianCalendar(TimeZone.getTimeZone("GMT+00:00"));
+        calendar.set(year, month, date, 0, 0, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.getTime();
+        return calendar;
     }
 
     public static OAuth2Request newOAuth2Request(String clientId) {

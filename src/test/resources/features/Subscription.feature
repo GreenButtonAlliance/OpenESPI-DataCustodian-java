@@ -4,8 +4,7 @@ Feature: Subscription
   So that I can display Retail Customer data
 
   Scenario: Third Party accesses Usage Points
-    Given an authorized Third Party
+    Given a Retail Customer with Usage Points
 
-    When I log in as Alan Turing
-    And I access the Usage Points API
+    When I access the Usage Points API
     Then I should see Usage Points

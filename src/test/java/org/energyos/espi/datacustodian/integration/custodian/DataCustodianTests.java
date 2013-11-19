@@ -25,11 +25,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.UUID;
 
-import static org.energyos.espi.datacustodian.utils.factories.FixtureFactory.newUsagePointXML;
+import static org.energyos.espi.datacustodian.utils.factories.FixtureFactory.newFeedXML;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
@@ -37,6 +38,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
+@Transactional
 public class DataCustodianTests {
     private MockMvc mockMvc;
 
@@ -181,13 +183,13 @@ public class DataCustodianTests {
 
     @Test
     public void upload_givenValidFile_returnsRedirectStatus() throws Exception {
-        mockMvc.perform(fileUpload("/custodian/upload").file("file", newUsagePointXML(UUID.randomUUID()).getBytes()))
+        mockMvc.perform(fileUpload("/custodian/upload").file("file", newFeedXML(UUID.randomUUID()).getBytes()))
                 .andExpect(status().is(302));
     }
 
     @Test
     public void upload_givenValidFile_displaysCustomerListView() throws Exception {
-        mockMvc.perform(fileUpload("/custodian/upload").file("file", newUsagePointXML(UUID.randomUUID()).getBytes()))
+        mockMvc.perform(fileUpload("/custodian/upload").file("file", newFeedXML(UUID.randomUUID()).getBytes()))
                 .andExpect(redirectedUrl("/custodian/retailcustomers"));
     }
 }

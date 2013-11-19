@@ -16,7 +16,7 @@
 
 package org.energyos.espi.datacustodian.web.custodian;
 
-import org.energyos.espi.datacustodian.service.UsagePointService;
+import org.energyos.espi.datacustodian.service.ImportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -33,10 +33,10 @@ import java.io.IOException;
 public class UploadController {
 
     @Autowired
-    private UsagePointService usagePointService;
+    private ImportService importService;
 
-    public void setUsagePointService(UsagePointService usagePointService) {
-        this.usagePointService = usagePointService;
+    public void setImportService(ImportService importService) {
+        this.importService = importService;
     }
 
     @ModelAttribute("uploadForm")
@@ -52,7 +52,7 @@ public class UploadController {
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public String uploadPost(@ModelAttribute UploadForm uploadForm, BindingResult result) throws IOException, JAXBException {
         try {
-            usagePointService.importUsagePoints(uploadForm.getFile().getInputStream());
+            importService.importData(uploadForm.getFile().getInputStream());
             return "redirect:/custodian/retailcustomers";
         } catch (Exception e) {
             result.addError(new ObjectError("uploadForm", "Unable to process file"));

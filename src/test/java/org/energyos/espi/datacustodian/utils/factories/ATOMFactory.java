@@ -1,8 +1,14 @@
 package org.energyos.espi.datacustodian.utils.factories;
 
+import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import com.sun.syndication.io.FeedException;
+import org.energyos.espi.datacustodian.domain.MeterReading;
+import org.energyos.espi.datacustodian.domain.ServiceCategory;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.models.atom.DateTimeType;
+import org.energyos.espi.datacustodian.models.atom.EntryType;
 import org.energyos.espi.datacustodian.models.atom.FeedType;
+import org.energyos.espi.datacustodian.models.atom.LinkType;
 import org.energyos.espi.datacustodian.utils.DateConverter;
 import org.energyos.espi.datacustodian.web.api.FeedBuilder;
 
@@ -33,4 +39,42 @@ public class ATOMFactory {
         return feed;
     }
 
+    public static EntryType newUsagePointEntryType(UUID retailCustomerUUID, UUID usagePointUUID) {
+        EntryType entryType = new EntryType();
+        entryType.setId("urn:uuid:" + UUID.randomUUID().toString());
+        entryType.getLinks().add(new LinkType(LinkType.SELF, "/espi/1_1/resource/RetailCustomer/" + retailCustomerUUID + "/UsagePoint/" + usagePointUUID.toString()));
+        entryType.getLinks().add(new LinkType(LinkType.UP, "/espi/1_1/resource/RetailCustomer/" + retailCustomerUUID + "/UsagePoint"));
+        entryType.getLinks().add(new LinkType(LinkType.RELATED, "/espi/1_1/resource/RetailCustomer/" + retailCustomerUUID + "/UsagePoint/" + usagePointUUID.toString() + "/MeterReading"));
+        entryType.getLinks().add(new LinkType(LinkType.RELATED, "/espi/1_1/resource/RetailCustomer/" + retailCustomerUUID + "/UsagePoint/" + usagePointUUID.toString() + "/ElectricPowerUsageSummary"));
+        entryType.getLinks().add(new LinkType(LinkType.RELATED, "/espi/1_1/resource/RetailCustomer/" + retailCustomerUUID + "/UsagePoint/" + usagePointUUID.toString() + "/ElectricPowerQualitySummary"));
+        entryType.getLinks().add(new LinkType(LinkType.RELATED, "/espi/1_1/resource/LocalTimeParameters/01"));
+        entryType.setTitle("Usage Point " + usagePointUUID.toString());
+        entryType.setPublished(newDateTimeType());
+        entryType.setUpdated(newDateTimeType());
+
+        UsagePoint usagePoint = new UsagePoint();
+        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
+        entryType.getContent().setUsagePoint(usagePoint);
+
+        return entryType;
+    }
+
+    public static EntryType newUsagePointEntryType() {
+        UUID retailCustomerUUID = UUID.randomUUID();
+        UUID usagePointUUID = UUID.randomUUID();
+        return newUsagePointEntryType(retailCustomerUUID, usagePointUUID);
+    }
+
+    public static DateTimeType newDateTimeType() {
+        return new DateTimeType(new XMLGregorianCalendarImpl());
+    }
+
+    public static EntryType newMeterReadingEntryType() {
+        EntryType entryType = new EntryType();
+
+        MeterReading meterReading = new MeterReading();
+        entryType.getContent().setMeterReading(meterReading);
+
+        return entryType;
+    }
 }

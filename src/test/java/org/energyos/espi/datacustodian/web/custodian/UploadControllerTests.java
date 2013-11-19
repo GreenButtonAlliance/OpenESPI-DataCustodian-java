@@ -16,15 +16,15 @@
 
 package org.energyos.espi.datacustodian.web.custodian;
 
-import org.energyos.espi.datacustodian.service.UsagePointService;
+import org.energyos.espi.datacustodian.service.ImportService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.multipart.MultipartFile;
+import org.xml.sax.SAXException;
 
-import javax.xml.bind.JAXBException;
 import java.io.InputStream;
 
 import static org.junit.Assert.assertEquals;
@@ -32,7 +32,7 @@ import static org.mockito.Mockito.*;
 
 public class UploadControllerTests {
 
-    private UsagePointService usagePointService;
+    private ImportService importService;
     private UploadController controller;
     private BindingResult result;
     private UploadForm form;
@@ -41,8 +41,8 @@ public class UploadControllerTests {
     public void before() {
         controller = new UploadController();
 
-        usagePointService = mock(UsagePointService.class);
-        controller.setUsagePointService(usagePointService);
+        importService = mock(ImportService.class);
+        controller.setImportService(importService);
 
         form = new UploadForm();
         form.setFile(mock(MultipartFile.class));
@@ -59,14 +59,14 @@ public class UploadControllerTests {
     public void uploadPost_givenValidFile_importsUsagePointWithNoErrors() throws Exception {
         String view = controller.uploadPost(form, result);
 
-        verify(usagePointService).importUsagePoints(any(InputStream.class));
+        verify(importService).importData(any(InputStream.class));
         assertEquals(false, result.hasErrors());
         assertEquals("redirect:/custodian/retailcustomers", view);
     }
 
     @Test
     public void uploadPost_givenInvalidFile_displaysUploadViewWithErrors() throws Exception {
-        Mockito.doThrow(new JAXBException("Unable to process file")).when(usagePointService).importUsagePoints(any(InputStream.class));
+        Mockito.doThrow(new SAXException("Unable to process file")).when(importService).importData(any(InputStream.class));
 
         String view = controller.uploadPost(form, result);
 

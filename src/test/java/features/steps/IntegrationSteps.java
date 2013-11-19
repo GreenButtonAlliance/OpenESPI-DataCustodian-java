@@ -4,11 +4,12 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.energyos.espi.datacustodian.domain.*;
+import org.energyos.espi.datacustodian.service.ImportService;
+import org.energyos.espi.datacustodian.service.ResourceService;
 import org.energyos.espi.datacustodian.service.RetailCustomerService;
 import org.energyos.espi.datacustodian.service.UsagePointService;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
-import org.junit.BeforeClass;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -23,8 +24,10 @@ public class IntegrationSteps {
 
     private ApplicationContext ctx;
     private UsagePointService usagePointService;
+    private ImportService importService;
     private RetailCustomerService retailCustomerService;
     private RetailCustomer retailCustomer;
+    private ResourceService resourceService;
     private String xml;
 
     @Before("@spring")
@@ -32,6 +35,8 @@ public class IntegrationSteps {
         ctx = new ClassPathXmlApplicationContext("/spring/test-service-context.xml");
         usagePointService = ctx.getBean(UsagePointService.class);
         retailCustomerService = ctx.getBean(RetailCustomerService.class);
+        importService = ctx.getBean(ImportService.class);
+        resourceService = ctx.getBean(ResourceService.class);
     }
 
     @When("^I import Usage Point$")
@@ -42,7 +47,7 @@ public class IntegrationSteps {
         UsagePoint usagePoint = EspiFactory.newUsagePoint(retailCustomer);
         usagePointService.createOrReplaceByUUID(usagePoint);
 
-        usagePointService.importUsagePoints(FixtureFactory.newUsagePointInputStream(UUID.randomUUID()));
+        importService.importData(FixtureFactory.newFeedInputStream(UUID.randomUUID()));
     }
 
     @When("^I export Usage Point$")

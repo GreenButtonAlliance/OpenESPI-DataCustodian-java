@@ -152,7 +152,7 @@ public class StepUtils {
     }
 
     public static void uploadUsagePoints(UUID uuid) throws IOException {
-        String xml = FixtureFactory.newUsagePointXML(uuid);
+        String xml = FixtureFactory.newFeedXML(uuid);
         File tmpFile = File.createTempFile("usage_point", ".xml");
         Files.copy(new ByteArrayInputStream(xml.getBytes()), Paths.get(tmpFile.getAbsolutePath()), REPLACE_EXISTING);
 

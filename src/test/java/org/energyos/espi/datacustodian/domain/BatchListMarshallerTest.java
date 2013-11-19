@@ -39,7 +39,6 @@ public class BatchListMarshallerTest extends XMLTest {
 
     @Test
     public void batchList() throws SAXException, IOException, XpathException {
-        System.out.println(newXML());
         assertXpathExists("/espi:BatchList", newXML());
     }
     @Test
