@@ -2,6 +2,7 @@ package org.energyos.espi.datacustodian.domain;
 
 import org.junit.Test;
 
+import javax.persistence.Embedded;
 import javax.xml.bind.annotation.XmlTransient;
 import java.util.UUID;
 
@@ -60,5 +61,11 @@ public class IdentifiedObjectTests {
     @Test
     public void updated_hasTransientAnnotation() {
         assertAnnotationPresent(IdentifiedObject.class, "updated", XmlTransient.class);
+    }
+
+    @Test
+    public void upLink() {
+        assertAnnotationPresent(IdentifiedObject.class, "upLink", XmlTransient.class);
+        assertAnnotationPresent(IdentifiedObject.class, "upLink", Embedded.class);
     }
 }
