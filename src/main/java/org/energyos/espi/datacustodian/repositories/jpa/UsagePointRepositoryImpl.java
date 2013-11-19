@@ -16,10 +16,7 @@
 
 package org.energyos.espi.datacustodian.repositories.jpa;
 
-import org.energyos.espi.datacustodian.domain.RetailCustomer;
-import org.energyos.espi.datacustodian.domain.ServiceCategory;
-import org.energyos.espi.datacustodian.domain.Subscription;
-import org.energyos.espi.datacustodian.domain.UsagePoint;
+import org.energyos.espi.datacustodian.domain.*;
 import org.energyos.espi.datacustodian.repositories.UsagePointRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,6 +74,10 @@ public class UsagePointRepositoryImpl implements UsagePointRepository {
                 usagePoint.setRetailCustomer(existingUsagePoint.getRetailCustomer());
             }
 
+            if (existingUsagePoint.getMeterReadings() != null) {
+                usagePoint.setMeterReadings(existingUsagePoint.getMeterReadings());
+            }
+
             if (existingUsagePoint.getLocalTimeParameters() != null) {
                 usagePoint.setLocalTimeParameters(existingUsagePoint.getLocalTimeParameters());
             }
@@ -98,6 +99,13 @@ public class UsagePointRepositoryImpl implements UsagePointRepository {
 
     public void deleteById(Long id) {
         em.remove(findById(id));
+    }
+
+    @Override
+    public IdentifiedObject findByRelatedHref(String href) {
+    return (UsagePoint)this.em.createNamedQuery(UsagePoint.QUERY_FIND_BY_RELATED_HREF)
+                .setParameter("href", href)
+                .getSingleResult();
     }
 
     public UsagePoint findByUUID(UUID uuid) {

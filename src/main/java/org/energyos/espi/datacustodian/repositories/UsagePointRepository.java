@@ -16,6 +16,7 @@
 
 package org.energyos.espi.datacustodian.repositories;
 
+import org.energyos.espi.datacustodian.domain.IdentifiedObject;
 import org.energyos.espi.datacustodian.domain.RetailCustomer;
 import org.energyos.espi.datacustodian.domain.Subscription;
 import org.energyos.espi.datacustodian.domain.UsagePoint;
@@ -39,4 +40,6 @@ public interface UsagePointRepository {
     List<UsagePoint> findAllUpdatedFor(Subscription subscription);
 
     void deleteById(Long id);
+
+    IdentifiedObject findByRelatedHref(String href);
 }

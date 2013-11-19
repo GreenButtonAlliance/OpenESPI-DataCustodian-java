@@ -18,6 +18,7 @@ package org.energyos.espi.datacustodian.repositories.jpa;
 
 
 import org.energyos.espi.datacustodian.domain.*;
+import org.energyos.espi.datacustodian.models.atom.LinkType;
 import org.energyos.espi.datacustodian.repositories.RetailCustomerRepository;
 import org.energyos.espi.datacustodian.repositories.SubscriptionRepository;
 import org.energyos.espi.datacustodian.repositories.ThirdPartyRepository;
@@ -38,8 +39,7 @@ import java.util.UUID;
 
 import static org.energyos.espi.datacustodian.support.IsEmpty.isEmpty;
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.*;
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -246,7 +246,7 @@ public class UsagePointRepositoryImplTests {
 
         usagePoint = repository.findByUUID(uuid);
 
-        assertTrue(usagePoint.getMeterReadings().size() == 2);
+        assertTrue(usagePoint.getMeterReadings().size() == 1);
     }
 
     @Test
@@ -372,5 +372,15 @@ public class UsagePointRepositoryImplTests {
         List<UsagePoint> usagePointList = repository.findAllUpdatedFor(subscription);
 
         assertThat(usagePointList, isEmpty());
+    }
+
+    @Test
+    public void findByRelatedHref() {
+        UsagePoint usagePoint = factory.createUsagePoint();
+        String relatedLink = UUID.randomUUID().toString();
+        usagePoint.getRelatedLinks().add(new LinkType(LinkType.RELATED, relatedLink));
+        repository.persist(usagePoint);
+
+        assertThat(repository.findByRelatedHref(relatedLink), equalTo((IdentifiedObject) usagePoint));
     }
 }
