@@ -343,4 +343,15 @@ public class ContentType {
         }
         return null;
     }
+
+    public List<IdentifiedObject> getResources() {
+        List<IdentifiedObject> resources = new ArrayList<>();
+        if (getResource() != null) {
+            resources.add(getResource());
+        } else {
+            for(IntervalBlock intervalBlock: getIntervalBlocks())
+                resources.add(intervalBlock);
+        }
+        return resources;
+    }
 }
