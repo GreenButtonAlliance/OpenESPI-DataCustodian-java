@@ -25,7 +25,7 @@
 
     <http pattern="/espi/1_1/resource/Subscription/**" create-session="never" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager">
         <anonymous enabled="false" />
-        <intercept-url pattern="/espi/1_1/resource/Subscription/**" access="ROLE_CUSTOMER" />
+        <intercept-url pattern="/espi/1_1/resource/Subscription/**" access="ROLE_USER" />
         <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
         <access-denied-handler ref="oauthAccessDeniedHandler" />
     </http>

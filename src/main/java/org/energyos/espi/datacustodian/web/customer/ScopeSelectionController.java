@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import static org.energyos.espi.datacustodian.utils.URLHelper.newScopeParams;
 
 @Controller
-@PreAuthorize("hasRole('ROLE_CUSTOMER')")
+@PreAuthorize("hasRole('ROLE_USER')")
 public class ScopeSelectionController {
 
     @Autowired

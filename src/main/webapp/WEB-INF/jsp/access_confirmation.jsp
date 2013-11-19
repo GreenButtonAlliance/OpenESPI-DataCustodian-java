@@ -44,7 +44,7 @@
 
     <c:remove scope="session" var="SPRING_SECURITY_LAST_EXCEPTION"/>
 
-    <authz:authorize ifAllGranted="ROLE_CUSTOMER">
+    <authz:authorize ifAllGranted="ROLE_USER">
 
         <h2>Please Confirm</h2>
 

@@ -31,7 +31,7 @@ public class DefaultController extends BaseController {
     public String defaultAfterLogin(HttpServletRequest request, Principal principal) {
         if (request.isUserInRole(RetailCustomer.ROLE_CUSTODIAN)) {
             return "redirect:/custodian/home";
-        } else if (request.isUserInRole(RetailCustomer.ROLE_CUSTOMER)) {
+        } else if (request.isUserInRole(RetailCustomer.ROLE_USER)) {
             return "redirect:/RetailCustomer/" + currentCustomer(principal).getId() + "/home";
         }
         return "redirect:/home";
