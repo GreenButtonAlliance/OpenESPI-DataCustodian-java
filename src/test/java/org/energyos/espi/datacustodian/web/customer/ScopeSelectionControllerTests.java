@@ -18,7 +18,7 @@ package org.energyos.espi.datacustodian.web.customer;
 
 import org.energyos.espi.common.domain.Configuration;
 import org.energyos.espi.common.domain.ThirdParty;
-import org.energyos.espi.common.service.ThirdPartyService;
+import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.test.EspiFactory;
 import org.junit.Test;
 
@@ -35,9 +35,9 @@ public class ScopeSelectionControllerTests {
         ThirdParty thirdParty = EspiFactory.newThirdParty();
         thirdParty.setUrl("http://localhost:8080/ThirdParty/RetailCustomer/ScopeSelection");
 
-        ThirdPartyService thirdPartyService = mock(ThirdPartyService.class);
-        controller.setThirdPartyService(thirdPartyService);
-        when(thirdPartyService.findByClientId(thirdParty.getClientId())).thenReturn(thirdParty);
+        ApplicationInformationService applicationInformationService = mock(ApplicationInformationService.class);
+        controller.setApplicationInformationService(applicationInformationService);
+        when(applicationInformationService.findByClientId(thirdParty.getClientId())).thenReturn(thirdParty);
 
         String redirectURL = controller.scopeSelection(new String[]{"scope1", "scope2"}, thirdParty.getClientId());
 

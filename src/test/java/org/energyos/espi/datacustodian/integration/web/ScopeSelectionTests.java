@@ -18,7 +18,7 @@ package org.energyos.espi.datacustodian.integration.web;
 
 import org.energyos.espi.common.domain.Configuration;
 import org.energyos.espi.common.domain.ThirdParty;
-import org.energyos.espi.common.service.ThirdPartyService;
+import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.test.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,7 +48,7 @@ public class ScopeSelectionTests {
     protected WebApplicationContext wac;
 
     @Autowired
-    protected ThirdPartyService thirdPartyService;
+    protected ApplicationInformationService applicationInformationService;
     private ThirdParty thirdParty;
 
     @Before
@@ -57,7 +57,7 @@ public class ScopeSelectionTests {
         thirdParty = EspiFactory.newThirdParty();
         thirdParty.setName("ThirdParty");
         thirdParty.setUrl("http://localhost:8080/ThirdParty/RetailCustomer/ScopeSelection");
-        thirdPartyService.persist(thirdParty);
+        applicationInformationService.persist(thirdParty);
     }
 
     @Test

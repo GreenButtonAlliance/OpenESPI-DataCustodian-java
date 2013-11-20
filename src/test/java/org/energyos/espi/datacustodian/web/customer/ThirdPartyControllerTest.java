@@ -2,7 +2,7 @@ package org.energyos.espi.datacustodian.web.customer;
 
 import org.energyos.espi.common.domain.Configuration;
 import org.energyos.espi.common.domain.ThirdParty;
-import org.energyos.espi.common.service.ThirdPartyService;
+import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.datacustodian.utils.URLHelper;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,13 +17,13 @@ import static org.mockito.Mockito.*;
 public class ThirdPartyControllerTest {
     private ThirdPartyController controller;
     private ModelMap model;
-    private ThirdPartyService thirdPartyService;
+    private ApplicationInformationService applicationInformationService;
 
     @Before
     public void before() {
         controller = new ThirdPartyController();
-        thirdPartyService = mock(ThirdPartyService.class);
-        controller.setThirdPartyService(thirdPartyService);
+        applicationInformationService = mock(ApplicationInformationService.class);
+        controller.setApplicationInformationService(applicationInformationService);
         model = new ModelMap();
     }
 
@@ -36,12 +36,12 @@ public class ThirdPartyControllerTest {
     public void index_setsThirdPartiesModel() {
         List<ThirdParty> thirdParties = new ArrayList<>();
 
-        when(thirdPartyService.findAll()).thenReturn(thirdParties);
+        when(applicationInformationService.findAll()).thenReturn(thirdParties);
 
         controller.index(model);
 
         assertEquals(thirdParties, model.get("thirdParties"));
-        verify(thirdPartyService).findAll();
+        verify(applicationInformationService).findAll();
     }
 
     @Test
