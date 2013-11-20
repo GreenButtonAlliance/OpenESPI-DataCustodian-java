@@ -16,6 +16,7 @@
 
 package org.energyos.espi.datacustodian.web;
 
+import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,9 +29,9 @@ public class DefaultController extends BaseController {
 
     @RequestMapping(Routes.DEFAULT)
     public String defaultAfterLogin(HttpServletRequest request, Principal principal) {
-        if (request.isUserInRole("ROLE_CUSTODIAN")) {
+        if (request.isUserInRole(RetailCustomer.ROLE_CUSTODIAN)) {
             return "redirect:/custodian/home";
-        } else if (request.isUserInRole("ROLE_USER")) {
+        } else if (request.isUserInRole(RetailCustomer.ROLE_USER)) {
             return "redirect:/RetailCustomer/" + currentCustomer(principal).getId() + "/home";
         }
         return "redirect:/home";

@@ -19,8 +19,8 @@ public class DefaultControllerTest {
         customer.setId(99L);
         HttpServletRequest request = mock(HttpServletRequest.class);
 
-        when(request.isUserInRole("ROLE_USER")).thenReturn(true);
-        when(request.isUserInRole("ROLE_CUSTODIAN")).thenReturn(false);
+        when(request.isUserInRole(RetailCustomer.ROLE_USER)).thenReturn(true);
+        when(request.isUserInRole(RetailCustomer.ROLE_CUSTODIAN)).thenReturn(false);
 
         Authentication principal = mock(Authentication.class);
         when(principal.getPrincipal()).thenReturn(customer);

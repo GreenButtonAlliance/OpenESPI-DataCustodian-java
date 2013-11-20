@@ -30,7 +30,7 @@
     <!-- Main hero unit for a primary marketing message or call to action -->
     <div class="hero-unit">
 	<h2>Welcome to the <a href="http://www.energyos.org">EnergyOS</a> Green Button Data Custodian</h2>
-	<p><a href="http://www.energyos.org">EnergyOS</a> has, with the support of <a href="http://pivotallabscom/">Pivotal Labs</a>, prepared a reference Green Button 
+	<p><a href="http://www.energyos.org">EnergyOS</a> has, with the support of <a href="http://pivotallabs.com/">Pivotal Labs</a>, prepared a reference Green Button
 	Data Custodian implementation. This implementation supports a full complement of Green Button facilities and, as an 
 	<a href="https://github.com/energyos">Open Source project</a>, is freely available for download by any interested parties.</p>
 	<p>
