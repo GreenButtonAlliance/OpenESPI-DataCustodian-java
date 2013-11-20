@@ -22,7 +22,6 @@ import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -42,6 +41,10 @@ public class UsagePointRESTController {
     private RetailCustomerService retailCustomerService;
     @Autowired
     private AtomService atomService;
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handleGenericException() {}
 
     @RequestMapping(value = Routes.DATA_CUSTODIAN_REST_USAGE_POINT_COLLECTION, method = RequestMethod.GET)
     public void index(HttpServletResponse response, @PathVariable long retailCustomerId) throws IOException, FeedException {
@@ -98,12 +101,6 @@ public class UsagePointRESTController {
         if (existingUsagePoint != null) {
             this.usagePointService.deleteByHashedId(usagePointHashedId);
         }
-    }
-
-    @ExceptionHandler(EmptyResultDataAccessException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleEmptyResultDataAccessException() {
-        return "400";
     }
 
     private UsagePoint loadUsagePoint(HttpServletResponse response, RetailCustomer retailCustomer, String usagePointHashedId) {
