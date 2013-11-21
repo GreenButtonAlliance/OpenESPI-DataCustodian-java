@@ -16,8 +16,8 @@
 
 package org.energyos.espi.datacustodian.integration.oauth;
 
+import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.RetailCustomer;
-import org.energyos.espi.common.domain.ThirdParty;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.test.EspiPersistenceFactory;
 import org.energyos.espi.datacustodian.BaseTest;
@@ -63,10 +63,10 @@ public class EspiTokenEnhancerTests extends BaseTest {
 
     @Before
     public void setup() {
-        ThirdParty thirdParty = factory.createThirdParty();
+        ApplicationInformation applicationInformation = factory.createApplicationInformation();
         retailCustomer = factory.createRetailCustomer();
         token = new DefaultOAuth2AccessToken("token");
-        oAuth2Request = newOAuth2Request(thirdParty.getClientId());
+        oAuth2Request = newOAuth2Request(applicationInformation.getDataCustodianThirdPartyId());
     }
 
     @Test

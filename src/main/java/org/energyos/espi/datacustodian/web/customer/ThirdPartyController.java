@@ -22,7 +22,7 @@ public class ThirdPartyController extends BaseController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String index(ModelMap model) {
-        model.put("thirdParties", applicationInformationService.findAll());
+        model.put("applicationInformationList", applicationInformationService.findAll());
         return "/customer/thirdparties/index";
     }
 

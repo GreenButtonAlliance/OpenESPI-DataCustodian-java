@@ -1,7 +1,7 @@
 package org.energyos.espi.datacustodian.web.customer;
 
+import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Configuration;
-import org.energyos.espi.common.domain.ThirdParty;
 import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.datacustodian.utils.URLHelper;
 import org.junit.Before;
@@ -34,13 +34,13 @@ public class ThirdPartyControllerTest {
 
     @Test
     public void index_setsThirdPartiesModel() {
-        List<ThirdParty> thirdParties = new ArrayList<>();
+        List<ApplicationInformation> applicationInformationList = new ArrayList<>();
 
-        when(applicationInformationService.findAll()).thenReturn(thirdParties);
+        when(applicationInformationService.findAll()).thenReturn(applicationInformationList);
 
         controller.index(model);
 
-        assertEquals(thirdParties, model.get("thirdParties"));
+        assertEquals(applicationInformationList, model.get("applicationInformationList"));
         verify(applicationInformationService).findAll();
     }
 

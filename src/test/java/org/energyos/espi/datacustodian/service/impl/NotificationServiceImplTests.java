@@ -48,6 +48,6 @@ public class NotificationServiceImplTests extends BaseTest {
 
         service.notify(subscription);
 
-        verify(template).postForLocation(eq(subscription.getThirdParty().getNotificationURI()), any(BatchList.class));
+        verify(template).postForLocation(eq(subscription.getApplicationInformation().getThirdPartyDefaultNotifyResource()), any(BatchList.class));
     }
 }

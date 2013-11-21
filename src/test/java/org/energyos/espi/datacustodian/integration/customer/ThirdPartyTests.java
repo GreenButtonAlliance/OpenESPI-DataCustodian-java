@@ -70,7 +70,7 @@ public class ThirdPartyTests {
     public void index_setsThirdPartiesModel() throws Exception {
         mockMvc.perform(get("/RetailCustomer/" + customer.getId() + "/ThirdPartyList").principal(authentication))
                 .andExpect(status().isOk())
-                .andExpect(model().attributeExists("thirdParties"));
+                .andExpect(model().attributeExists("applicationInformationList"));
     }
 
     @Test
