@@ -96,4 +96,26 @@ public class ResourceServiceImplTests extends BaseTest {
 
         verify(repository).findById(usagePoint.getId(), usagePoint.getClass());
     }
+
+    @Test
+    public void findAllIds_givenUsagePoint() {
+        service.findAllIds(UsagePoint.class);
+
+        verify(repository).findAllIds(UsagePoint.class);
+    }
+
+    @Test
+    public void findAllIds_givenMeterReading() {
+        service.findAllIds(MeterReading.class);
+
+        verify(repository).findAllIds(MeterReading.class);
+    }
+
+    @Test
+    public void findAllIdsByUsagePointId_givenMeterReading() {
+        service.findAllIdsByUsagePointId(1L, MeterReading.class);
+
+        verify(repository).findAllIdsByUsagePointId(1l, MeterReading.class);
+    }
+
 }
