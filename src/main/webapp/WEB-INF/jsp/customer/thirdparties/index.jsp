@@ -47,15 +47,15 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="thirdParty" items="${thirdParties}">
+            <c:forEach var="applicationInformation" items="${applicationInformationList}">
                 <tr>
                     <td>
                         <label>
-                            <input type="radio" name="Third_party" value="${thirdParty.id}" data-third-party-url="${thirdParty.url}" class="third-party" />
-                            <c:out value="${thirdParty.name}"/>
+                            <input type="radio" name="Third_party" value="${applicationInformation.id}" data-third-party-url="${applicationInformation.thirdPartyDefaultScopeResource}" class="third-party" />
+                            <c:out value="${applicationInformation.thirdPartyApplicationName}"/>
                         </label>
                     </td>
-                    <td><c:out value="${thirdParty.url}"/></td>
+                    <td><c:out value="${applicationInformation.thirdPartyDefaultScopeResource}"/></td>
                 </tr>
             </c:forEach>
             </tbody>

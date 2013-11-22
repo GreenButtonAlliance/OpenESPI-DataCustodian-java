@@ -1,2 +1,2 @@
-INSERT INTO third_parties (id, client_id, name, url, notification_uri) VALUES(1, 'third_party', 'Third Party (GreenButtonData)', 'http://services.greenbuttondata.org/ThirdParty/RetailCustomer/ScopeSelection', 'http://services.greenbuttondata.org/ThirdParty/espi/1_1/Notification')
+INSERT INTO application_information (id, uuid, dataCustodianThirdPartyId, thirdPartyApplicationName, thirdPartyDefaultScopeResource, thirdPartyDefaultNotifyResource) VALUES(1, '550e8400-e29b-41d4-a716-4466554413a0', 'third_party', 'Third Party (GreenButtonData)', 'http://services.greenbuttondata.org/ThirdParty/RetailCustomer/ScopeSelection', 'http://services.greenbuttondata.org/ThirdParty/espi/1_1/Notification')
 

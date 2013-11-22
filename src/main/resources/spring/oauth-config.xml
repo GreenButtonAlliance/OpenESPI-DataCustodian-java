@@ -87,10 +87,7 @@
 
     <oauth:resource-server id="resourceServerFilter" resource-id="feed" token-services-ref="tokenServices" />
 
-    <oauth:client-details-service id="clientDetails">
-        <oauth:client client-id="third_party" authorized-grant-types="authorization_code"
-                      authorities="ROLE_CLIENT" scope="FB=4_5_15;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13,FB=4_5_16;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13" secret="secret" />
-    </oauth:client-details-service>
+    <bean id="clientDetails" class="org.energyos.espi.datacustodian.oauth.ClientDetailsServiceImpl"/>
 
     <sec:global-method-security pre-post-annotations="enabled" proxy-target-class="true">
         <sec:expression-handler ref="oauthExpressionHandler" />

@@ -16,9 +16,9 @@
 
 package org.energyos.espi.datacustodian.web.customer;
 
+import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Configuration;
-import org.energyos.espi.common.domain.ThirdParty;
-import org.energyos.espi.common.service.ThirdPartyService;
+import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.test.EspiFactory;
 import org.junit.Test;
 
@@ -32,17 +32,18 @@ public class ScopeSelectionControllerTests {
     public void scopeSelection() throws Exception {
         ScopeSelectionController controller = new ScopeSelectionController();
 
-        ThirdParty thirdParty = EspiFactory.newThirdParty();
-        thirdParty.setUrl("http://localhost:8080/ThirdParty/RetailCustomer/ScopeSelection");
+        ApplicationInformation applicationInformation = EspiFactory.newApplicationInformation();
+        applicationInformation.setThirdPartyDefaultScopeResource("http://localhost:8080/ThirdParty/RetailCustomer/ScopeSelection");
 
-        ThirdPartyService thirdPartyService = mock(ThirdPartyService.class);
-        controller.setThirdPartyService(thirdPartyService);
-        when(thirdPartyService.findByClientId(thirdParty.getClientId())).thenReturn(thirdParty);
+        ApplicationInformationService applicationInformationService = mock(ApplicationInformationService.class);
+        controller.setApplicationInformationService(applicationInformationService);
+        when(applicationInformationService.findByClientId(applicationInformation.getDataCustodianThirdPartyId())).thenReturn(applicationInformation);
 
-        String redirectURL = controller.scopeSelection(new String[]{"scope1", "scope2"}, thirdParty.getClientId());
+        String redirectURL = controller.scopeSelection(new String[]{"scope1", "scope2"}, applicationInformation.getDataCustodianThirdPartyId());
+        String[] scopes = applicationInformation.getScope().toArray(new String[applicationInformation.getScope().size()]);
 
-        assertEquals(String.format("redirect:%s?scope=%s&scope=%s&DataCustodianID=%s", thirdParty.getUrl(),
-                Configuration.SCOPES[0], Configuration.SCOPES[1], Configuration.DATA_CUSTODIAN_ID),
+        assertEquals(String.format("redirect:%s?scope=%s&scope=%s&DataCustodianID=%s", applicationInformation.getThirdPartyDefaultScopeResource(),
+                scopes[0], scopes[1], Configuration.DATA_CUSTODIAN_ID),
                 redirectURL);
     }
 }

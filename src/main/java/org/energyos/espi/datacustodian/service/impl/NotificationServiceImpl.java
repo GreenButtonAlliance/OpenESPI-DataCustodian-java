@@ -14,7 +14,7 @@ public class NotificationServiceImpl implements NotificationService {
     private RestTemplate restTemplate;
 
     public void notify(Subscription subscription) {
-        String notificationURI = subscription.getThirdParty().getNotificationURI();
+        String notificationURI = subscription.getApplicationInformation().getThirdPartyDefaultNotifyResource();
         BatchList batchList = new BatchList();
         batchList.getResources().add(Routes.buildDataCustodianSubscription(subscription.getHashedId()));
         restTemplate.postForLocation(notificationURI, batchList);

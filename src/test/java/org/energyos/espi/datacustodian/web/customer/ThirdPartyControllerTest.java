@@ -1,8 +1,9 @@
 package org.energyos.espi.datacustodian.web.customer;
 
+import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Configuration;
-import org.energyos.espi.common.domain.ThirdParty;
-import org.energyos.espi.common.service.ThirdPartyService;
+import org.energyos.espi.common.service.ApplicationInformationService;
+import org.energyos.espi.common.test.EspiFactory;
 import org.energyos.espi.datacustodian.utils.URLHelper;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,13 +18,13 @@ import static org.mockito.Mockito.*;
 public class ThirdPartyControllerTest {
     private ThirdPartyController controller;
     private ModelMap model;
-    private ThirdPartyService thirdPartyService;
+    private ApplicationInformationService applicationInformationService;
 
     @Before
     public void before() {
         controller = new ThirdPartyController();
-        thirdPartyService = mock(ThirdPartyService.class);
-        controller.setThirdPartyService(thirdPartyService);
+        applicationInformationService = mock(ApplicationInformationService.class);
+        controller.setApplicationInformationService(applicationInformationService);
         model = new ModelMap();
     }
 
@@ -34,21 +35,25 @@ public class ThirdPartyControllerTest {
 
     @Test
     public void index_setsThirdPartiesModel() {
-        List<ThirdParty> thirdParties = new ArrayList<>();
+        List<ApplicationInformation> applicationInformationList = new ArrayList<>();
 
-        when(thirdPartyService.findAll()).thenReturn(thirdParties);
+        when(applicationInformationService.findAll()).thenReturn(applicationInformationList);
 
         controller.index(model);
 
-        assertEquals(thirdParties, model.get("thirdParties"));
-        verify(thirdPartyService).findAll();
+        assertEquals(applicationInformationList, model.get("applicationInformationList"));
+        verify(applicationInformationService).findAll();
     }
 
     @Test
     public void selectThirdParty_redirectsToThirdPartyUrl() {
-        String Third_party_URL = "http://example.com";
-        String redirectUrl = "redirect:" + Third_party_URL + "?" + URLHelper.newScopeParams(Configuration.SCOPES) + "&DataCustodianID=" + Configuration.DATA_CUSTODIAN_ID;
+        ApplicationInformation applicationInformation = EspiFactory.newApplicationInformation();
 
-        assertEquals(redirectUrl, controller.selectThirdParty(Third_party_URL));
+        String redirectUrl = "redirect:" + applicationInformation.getThirdPartyDefaultOAuthCallback() + "?" +
+                URLHelper.newScopeParams(applicationInformation.getScope()) + "&DataCustodianID=" + Configuration.DATA_CUSTODIAN_ID;
+
+        when(applicationInformationService.findById(anyLong())).thenReturn(applicationInformation);
+
+        assertEquals(redirectUrl, controller.selectThirdParty(1L, applicationInformation.getThirdPartyDefaultOAuthCallback()));
     }
 }

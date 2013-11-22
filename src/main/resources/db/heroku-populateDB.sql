@@ -1,1 +1,1 @@
-INSERT INTO third_parties (id, client_id, name, url) VALUES(1, 'third_party', 'Third Party (Heroku)', 'http://thirdparty-dev.herokuapp.com/ThirdParty/espi/1_1/RetailCustomer/ScopeSelectionList')
+INSERT INTO application_information (id, uuid, dataCustodianThirdPartyId, thirdPartyApplicationName, thirdPartyDefaultScopeResource, thirdPartyDefaultNotifyResource) VALUES(1, '550e8400-e29b-41d4-a716-4466554413a0', 'third_party', 'Third Party (Heroku)', 'http://thirdparty-dev.herokuapp.com/ThirdParty/espi/1_1/RetailCustomer/ScopeSelectionList')
