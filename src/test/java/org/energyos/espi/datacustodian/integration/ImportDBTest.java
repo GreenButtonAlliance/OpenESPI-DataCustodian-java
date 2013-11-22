@@ -1,6 +1,6 @@
 package org.energyos.espi.datacustodian.integration;
 
-import org.energyos.espi.common.service.ApplicationInformationService;
+import org.energyos.espi.common.service.RetailCustomerService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +16,13 @@ import static org.hamcrest.Matchers.equalTo;
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
 @Transactional
-public class PopulateDBTest {
+public class ImportDBTest {
     @Autowired
-    private ApplicationInformationService applicationInformationService;
+    private RetailCustomerService retailCustomerService;
 
     @Test
     public void populateDB() throws Exception {
-        assertThat(applicationInformationService.findAll().size(), equalTo(1));
-        assertThat(applicationInformationService.findAll().get(0).getScope().size(), equalTo(2));
+        assertThat(retailCustomerService.findAll().size(), equalTo(8));
+        assertThat(retailCustomerService.findById(1L).getFirstName(), equalTo("Alan"));
     }
 }

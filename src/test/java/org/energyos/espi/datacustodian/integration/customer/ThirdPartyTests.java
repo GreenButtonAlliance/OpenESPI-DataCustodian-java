@@ -16,8 +16,10 @@
 
 package org.energyos.espi.datacustodian.integration.customer;
 
+import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Configuration;
 import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.datacustodian.utils.URLHelper;
 import org.junit.Before;
@@ -51,6 +53,8 @@ public class ThirdPartyTests {
     protected WebApplicationContext wac;
     @Autowired
     protected RetailCustomerService retailCustomerService;
+    @Autowired
+    protected ApplicationInformationService applicationInformationService;
 
     @Before
     public void setup() {
@@ -75,10 +79,11 @@ public class ThirdPartyTests {
 
     @Test
     public void selectThirdParty_redirectsToThirdPartyUrl() throws Exception {
-        String redirectUrl = THIRD_PARTY_URL + "?" + URLHelper.newScopeParams(Configuration.SCOPES) + "&DataCustodianID=" + Configuration.DATA_CUSTODIAN_ID;
+        ApplicationInformation applicationInformation = applicationInformationService.findById(1L);
+        String redirectUrl = THIRD_PARTY_URL + "?" + URLHelper.newScopeParams(applicationInformation.getScope()) + "&DataCustodianID=" + Configuration.DATA_CUSTODIAN_ID;
         mockMvc.perform(post("/RetailCustomer/1/ThirdPartyList")
                     .param("Third_party_URL", THIRD_PARTY_URL)
-                    .param("Third_party", Configuration.DATA_CUSTODIAN_ID)
+                    .param("Third_party", "1")
                     .principal(authentication))
                 .andExpect(redirectedUrl(redirectUrl));
     }

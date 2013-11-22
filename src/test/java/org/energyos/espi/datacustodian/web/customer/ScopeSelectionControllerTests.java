@@ -40,9 +40,10 @@ public class ScopeSelectionControllerTests {
         when(applicationInformationService.findByClientId(applicationInformation.getDataCustodianThirdPartyId())).thenReturn(applicationInformation);
 
         String redirectURL = controller.scopeSelection(new String[]{"scope1", "scope2"}, applicationInformation.getDataCustodianThirdPartyId());
+        String[] scopes = applicationInformation.getScope().toArray(new String[applicationInformation.getScope().size()]);
 
         assertEquals(String.format("redirect:%s?scope=%s&scope=%s&DataCustodianID=%s", applicationInformation.getThirdPartyDefaultScopeResource(),
-                Configuration.SCOPES[0], Configuration.SCOPES[1], Configuration.DATA_CUSTODIAN_ID),
+                scopes[0], scopes[1], Configuration.DATA_CUSTODIAN_ID),
                 redirectURL);
     }
 }

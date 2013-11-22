@@ -51,7 +51,7 @@
             <properties>
                 <datacustodian.base.url>http://datacustodian-dev.herokuapp.com/DataCustodian</datacustodian.base.url>
                 <profile>heroku</profile>
-                <database>postgrsql</database>
+                <database>postgresql</database>
             </properties>
         </profile>
         

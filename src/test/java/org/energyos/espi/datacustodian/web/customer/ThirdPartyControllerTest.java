@@ -3,6 +3,7 @@ package org.energyos.espi.datacustodian.web.customer;
 import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Configuration;
 import org.energyos.espi.common.service.ApplicationInformationService;
+import org.energyos.espi.common.test.EspiFactory;
 import org.energyos.espi.datacustodian.utils.URLHelper;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,9 +47,13 @@ public class ThirdPartyControllerTest {
 
     @Test
     public void selectThirdParty_redirectsToThirdPartyUrl() {
-        String Third_party_URL = "http://example.com";
-        String redirectUrl = "redirect:" + Third_party_URL + "?" + URLHelper.newScopeParams(Configuration.SCOPES) + "&DataCustodianID=" + Configuration.DATA_CUSTODIAN_ID;
+        ApplicationInformation applicationInformation = EspiFactory.newApplicationInformation();
 
-        assertEquals(redirectUrl, controller.selectThirdParty(Third_party_URL));
+        String redirectUrl = "redirect:" + applicationInformation.getThirdPartyDefaultOAuthCallback() + "?" +
+                URLHelper.newScopeParams(applicationInformation.getScope()) + "&DataCustodianID=" + Configuration.DATA_CUSTODIAN_ID;
+
+        when(applicationInformationService.findById(anyLong())).thenReturn(applicationInformation);
+
+        assertEquals(redirectUrl, controller.selectThirdParty(1L, applicationInformation.getThirdPartyDefaultOAuthCallback()));
     }
 }

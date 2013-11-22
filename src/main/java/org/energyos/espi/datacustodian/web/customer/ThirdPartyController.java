@@ -1,5 +1,6 @@
 package org.energyos.espi.datacustodian.web.customer;
 
+import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Configuration;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.service.ApplicationInformationService;
@@ -27,8 +28,9 @@ public class ThirdPartyController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String selectThirdParty(@RequestParam("Third_party_URL") String thirdPartyURL) {
-        return "redirect:" + thirdPartyURL + "?" + URLHelper.newScopeParams(Configuration.SCOPES) + "&DataCustodianID=" + Configuration.DATA_CUSTODIAN_ID;
+    public String selectThirdParty(@RequestParam("Third_party") Long thirdPartyId, @RequestParam("Third_party_URL") String thirdPartyURL) {
+        ApplicationInformation applicationInformation = applicationInformationService.findById(thirdPartyId);
+        return "redirect:" + thirdPartyURL + "?" + URLHelper.newScopeParams(applicationInformation.getScope()) + "&DataCustodianID=" + Configuration.DATA_CUSTODIAN_ID;
     }
 
     public void setApplicationInformationService(ApplicationInformationService applicationInformationService) {

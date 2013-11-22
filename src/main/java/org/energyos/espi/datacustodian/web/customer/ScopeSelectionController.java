@@ -39,7 +39,7 @@ public class ScopeSelectionController {
     @RequestMapping(value = Routes.DATA_CUSTODIAN_SCOPE_SELECTION_SCREEN, method = RequestMethod.GET)
     public String scopeSelection(String[] scopes, @RequestParam("ThirdPartyID") String thirdPartyClientId) {
         ApplicationInformation applicationInformation = applicationInformationService.findByClientId(thirdPartyClientId);
-        return "redirect:" + applicationInformation.getThirdPartyDefaultScopeResource() + "?" + newScopeParams(Configuration.SCOPES) +
+        return "redirect:" + applicationInformation.getThirdPartyDefaultScopeResource() + "?" + newScopeParams(applicationInformation.getScope()) +
                 "&DataCustodianID=" + Configuration.DATA_CUSTODIAN_ID;
     }
 
