@@ -14,29 +14,40 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.service.impl;
+package org.energyos.espi.common.service.impl;
 
 
 import org.energyos.espi.common.domain.MeterReading;
 import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.repositories.ResourceRepository;
-import org.energyos.espi.common.service.impl.ResourceServiceImpl;
+import org.energyos.espi.datacustodian.BaseTest;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
+import static org.energyos.espi.common.test.EspiFactory.newMeterReading;
+import static org.energyos.espi.common.test.EspiFactory.newUsagePoint;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public class ResourceServiceImplTests {
+public class ResourceServiceImplTests extends BaseTest {
+
+    @Mock
+    private ResourceRepository repository;
+
+    private ResourceServiceImpl service;
+
+    @Before
+    public void before() throws Exception {
+        service = new ResourceServiceImpl();
+        service.setRepository(repository);
+    }
 
     @Test
     public void persist_persistsUsagePoint() {
-        ResourceServiceImpl service = new ResourceServiceImpl();
-        ResourceRepository repository = mock(ResourceRepository.class);
-        service.setRepository(repository);
-        UsagePoint usagePoint = new UsagePoint();
+        UsagePoint usagePoint = newUsagePoint();
 
         service.persist(usagePoint);
 
@@ -45,20 +56,14 @@ public class ResourceServiceImplTests {
 
     @Test
     public void findByRelatedHref_givenUsagePoint() {
-        ResourceServiceImpl service = new ResourceServiceImpl();
-        ResourceRepository repository = mock(ResourceRepository.class);
-        service.setRepository(repository);
-        UsagePoint usagePoint = mock(UsagePoint.class);
+        UsagePoint usagePoint = newUsagePoint();
 
         assertThat(service.findByAllParentsHref("href", usagePoint), is(empty()));
     }
 
     @Test
     public void findByRelatedHref_givenMeterReading() {
-        ResourceServiceImpl service = new ResourceServiceImpl();
-        ResourceRepository repository = mock(ResourceRepository.class);
-        service.setRepository(repository);
-        MeterReading meterReading = mock(MeterReading.class);
+        MeterReading meterReading = newMeterReading();
 
         service.findByAllParentsHref("href", meterReading);
 
@@ -67,10 +72,7 @@ public class ResourceServiceImplTests {
 
     @Test
     public void findAllRelated() {
-        ResourceServiceImpl service = new ResourceServiceImpl();
-        ResourceRepository repository = mock(ResourceRepository.class);
-        service.setRepository(repository);
-        UsagePoint usagePoint = mock(UsagePoint.class);
+        UsagePoint usagePoint = newUsagePoint();
 
         service.findAllRelated(usagePoint);
 
@@ -79,13 +81,19 @@ public class ResourceServiceImplTests {
 
     @Test
     public void findByUUID() {
-        ResourceServiceImpl service = new ResourceServiceImpl();
-        ResourceRepository repository = mock(ResourceRepository.class);
-        service.setRepository(repository);
-        UsagePoint usagePoint = mock(UsagePoint.class);
+        UsagePoint usagePoint = newUsagePoint();
 
         service.findByUUID(usagePoint.getUUID(), usagePoint.getClass());
 
         verify(repository).findByUUID(usagePoint.getUUID(), usagePoint.getClass());
+    }
+
+    @Test
+    public void findById() throws Exception {
+        UsagePoint usagePoint = newUsagePoint();
+
+        service.findById(usagePoint.getId(), usagePoint.getClass());
+
+        verify(repository).findById(usagePoint.getId(), usagePoint.getClass());
     }
 }

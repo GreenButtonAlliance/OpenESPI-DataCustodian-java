@@ -17,8 +17,7 @@
 package org.energyos.espi.datacustodian.repositories.jpa;
 
 
-import org.energyos.espi.common.domain.MeterReading;
-import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.domain.*;
 import org.energyos.espi.common.models.atom.LinkType;
 import org.energyos.espi.common.repositories.ResourceRepository;
 import org.energyos.espi.common.test.EspiPersistenceFactory;
@@ -89,4 +88,56 @@ public class ResourceRepositoryImplTests {
 
         assertThat(meterReading, equalTo(repository.findByUUID(meterReading.getUUID(), MeterReading.class)));
     }
+    
+    
+
+    @Test
+    public void findById_returnsUsagePoint() throws Exception {
+        UsagePoint usagePoint = factory.createUsagePoint();
+
+        assertThat(repository.findById(usagePoint.getId(), UsagePoint.class), equalTo(usagePoint));
+    }
+
+    @Test
+    public void findById_returnsMeterReading() throws Exception {
+        MeterReading meterReading = factory.createMeterReading();
+
+        assertThat(repository.findById(meterReading.getId(), MeterReading.class), equalTo(meterReading));
+    }
+
+    @Test
+    public void findById_returnsElectricPowerUsageSummary() throws Exception {
+        ElectricPowerUsageSummary electricPowerUsageSummary = factory.createUsagePoint().getElectricPowerUsageSummaries().get(0);
+
+        assertThat(repository.findById(electricPowerUsageSummary.getId(), ElectricPowerUsageSummary.class), equalTo(electricPowerUsageSummary));
+    }
+
+    @Test
+    public void findById_returnsElectricPowerQualitySummary() throws Exception {
+        ElectricPowerQualitySummary electricPowerQualitySummary = factory.createUsagePoint().getElectricPowerQualitySummaries().get(0);
+
+        assertThat(repository.findById(electricPowerQualitySummary.getId(), ElectricPowerQualitySummary.class), equalTo(electricPowerQualitySummary));
+    }
+
+    @Test
+    public void findById_returnsReadingType() throws Exception {
+        ReadingType readingType = factory.createMeterReading().getReadingType();
+
+        assertThat(repository.findById(readingType.getId(), ReadingType.class), equalTo(readingType));
+    }
+
+    @Test
+    public void findById_returnsIntervalBlock() throws Exception {
+        IntervalBlock intervalBlock = factory.createMeterReading().getIntervalBlocks().get(0);
+
+        assertThat(repository.findById(intervalBlock.getId(), IntervalBlock.class), equalTo(intervalBlock));
+    }
+
+    @Test
+    public void findById_returnsTimeConfiguration() throws Exception {
+        TimeConfiguration localTimeParameters = factory.createUsagePoint().getLocalTimeParameters();
+
+        assertThat(repository.findById(localTimeParameters.getId(), TimeConfiguration.class), equalTo(localTimeParameters));
+    }
+
 }
