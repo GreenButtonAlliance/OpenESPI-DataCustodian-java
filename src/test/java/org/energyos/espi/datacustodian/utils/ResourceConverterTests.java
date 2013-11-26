@@ -50,7 +50,7 @@ public class ResourceConverterTests extends BaseTest {
 
     @Test
     public void convert_setsSelfLink() throws Exception {
-        assertThat(usagePointEntry.getContent().getResource().getSelfLink(), is(equalTo("self")));
+        assertThat(usagePointEntry.getContent().getResource().getSelfLink(), is(equalTo(new LinkType(LinkType.SELF, "self"))));
     }
 
     @Test
