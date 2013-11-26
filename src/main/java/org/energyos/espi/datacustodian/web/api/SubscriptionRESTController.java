@@ -17,9 +17,6 @@ package org.energyos.espi.datacustodian.web.api;
 
 import com.sun.syndication.io.FeedException;
 import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.common.domain.Subscription;
-import org.energyos.espi.common.service.SubscriptionService;
-import org.energyos.espi.common.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,33 +27,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.JAXBException;
+import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 
 @Controller
 public class SubscriptionRESTController {
 
     @Autowired
-    private SubscriptionService subscriptionService;
-
-    @Autowired
-    private UsagePointService usagePointService;
+    private ExportService exportService;
 
     @RequestMapping(value = Routes.DATA_CUSTODIAN_SUBSCRIPTION, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public void show(HttpServletResponse response, @PathVariable String subscriptionHashedId) throws FeedException, IOException {
-        Subscription subscription = subscriptionService.findByHashedId(subscriptionHashedId);
-        String xml = usagePointService.exportUsagePoints(subscription.getRetailCustomer());
-
+    public void show(HttpServletResponse response, @PathVariable String subscriptionHashedId) throws FeedException, IOException, InterruptedException, JAXBException, XMLStreamException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        response.getWriter().print(xml);
 
+        exportService.exportSubscription(subscriptionHashedId, response.getOutputStream());
     }
 
-    public void setSubscriptionService(SubscriptionService subscriptionService) {
-        this.subscriptionService = subscriptionService;
-    }
-
-    public void setUsagePointService(UsagePointService usagePointService) {
-        this.usagePointService = usagePointService;
+    public void setExportService(ExportService exportService) {
+        this.exportService = exportService;
     }
 }
