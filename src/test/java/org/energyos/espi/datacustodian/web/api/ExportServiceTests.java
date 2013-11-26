@@ -5,6 +5,7 @@ import org.energyos.espi.common.service.SubscriptionService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.EntryTypeIterator;
 import org.energyos.espi.datacustodian.domain.XMLTest;
+import org.energyos.espi.datacustodian.service.impl.ExportServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -20,7 +21,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
 
-public class ExportServiceTest extends XMLTest {
+public class ExportServiceTests extends XMLTest {
     @Mock
     private UsagePointService usagePointService;
     @Mock
@@ -30,13 +31,13 @@ public class ExportServiceTest extends XMLTest {
     @Mock
     private EntryTypeIterator entries;
 
-    private ExportService exportService;
+    private ExportServiceImpl exportService;
     private Subscription subscription;
     private ByteArrayOutputStream stream;
 
     @Before
     public void before() {
-        exportService = new ExportService();
+        exportService = new ExportServiceImpl();
         subscription = newSubscription();
         subscription.setRetailCustomer(newRetailCustomer());
 
