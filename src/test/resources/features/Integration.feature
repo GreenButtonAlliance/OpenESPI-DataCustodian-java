@@ -1,4 +1,4 @@
-Feature: System Integration
+Feature: Integration
 
   @spring
   Scenario: Data Custodian should be able to create a Retail Customer

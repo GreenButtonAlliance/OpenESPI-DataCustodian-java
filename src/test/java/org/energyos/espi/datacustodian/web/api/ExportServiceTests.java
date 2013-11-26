@@ -71,4 +71,15 @@ public class ExportServiceTests extends XMLTest {
 
         verify(entries, times(2)).next();
     }
+
+    @Test
+    public void exportUsagePoints() throws Exception {
+        Long retailCustomerId = 1L;
+
+        when(subscriptionService.findEntriesByRetailCustomerId(retailCustomerId)).thenReturn(mock(EntryTypeIterator.class));
+
+        exportService.exportUsagePoints(retailCustomerId, new ByteArrayOutputStream());
+
+        verify(subscriptionService).findEntriesByRetailCustomerId(retailCustomerId);
+    }
 }

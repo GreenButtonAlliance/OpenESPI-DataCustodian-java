@@ -20,29 +20,35 @@ import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.service.impl.UsagePointServiceImpl;
+import org.energyos.espi.datacustodian.service.ExportService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.ModelMap;
 
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.*;
 
 public class UsagePointControllerTests {
 
     private UsagePointController controller;
     private UsagePointService service;
+    private ExportService exportService;
 
     @Before
     public void before() {
         controller = new UsagePointController();
         service = mock(UsagePointServiceImpl.class);
+        exportService = mock(ExportService.class);
         controller.setUsagePointService(service);
+        controller.setExportService(exportService);
     }
 
     @Test
@@ -65,16 +71,12 @@ public class UsagePointControllerTests {
 
     @Test
     public void feed_returnsAtomFeedOfUsagePointsForCurrentUser() throws Exception {
-        String atomFeedResult = "<?xml version=\"1.0\"?><feed></feed>";
-
-        when(service.exportUsagePoints(any(RetailCustomer.class))).thenReturn(atomFeedResult);
-
         Authentication auth = mock(Authentication.class);
         when(auth.getPrincipal()).thenReturn(mock(RetailCustomer.class));
         MockHttpServletResponse response = new MockHttpServletResponse();
 
         controller.feed(response, auth);
-        assertEquals(atomFeedResult, response.getContentAsString());
-        verify(service).exportUsagePoints(any(RetailCustomer.class));
+
+        verify(exportService).exportUsagePoints(anyLong(), any(OutputStream.class));
     }
 }

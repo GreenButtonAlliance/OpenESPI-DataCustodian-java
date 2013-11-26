@@ -5,14 +5,15 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.energyos.espi.common.domain.*;
 import org.energyos.espi.common.service.ImportService;
-import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.UsagePointService;
+import org.energyos.espi.datacustodian.service.ExportService;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,7 +28,7 @@ public class IntegrationSteps {
     private ImportService importService;
     private RetailCustomerService retailCustomerService;
     private RetailCustomer retailCustomer;
-    private ResourceService resourceService;
+    private ExportService exportService;
     private String xml;
 
     @Before("@spring")
@@ -36,7 +37,7 @@ public class IntegrationSteps {
         usagePointService = ctx.getBean(UsagePointService.class);
         retailCustomerService = ctx.getBean(RetailCustomerService.class);
         importService = ctx.getBean(ImportService.class);
-        resourceService = ctx.getBean(ResourceService.class);
+        exportService = ctx.getBean(ExportService.class);
     }
 
     @When("^I import Usage Point$")
@@ -52,7 +53,9 @@ public class IntegrationSteps {
 
     @When("^I export Usage Point$")
     public void I_export_Usage_Point() throws Throwable {
-        xml = usagePointService.exportUsagePoints(retailCustomer);
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        exportService.exportUsagePoints(retailCustomer.getId(), os);
+        xml = os.toString();
     }
 
     @Then("^Usage Point should be saved in the database$")

@@ -119,12 +119,12 @@ public class RetailCustomerSteps {
 
     @Then("^the XML includes Meter Readings$")
     public void the_XML_includes_Meter_Readings() throws Throwable {
-        assertXpathValue("Fifteen Minute Electricity Consumption", "/:feed/:entry[2]/:title", xmlResult);
+        assertXpathValue("Fifteen Minute Electricity Consumption", "/:feed/:entry/:content/espi:MeterReading/../../:title", xmlResult);
     }
 
     @Then("^the XML includes Reading Types$")
     public void the_XML_includes_Reading_Types() throws Throwable {
-        assertXpathValue("Type of Meter Reading Data", "/:feed/:entry[3]/:title", xmlResult);
+        assertXpathValue("Type of Meter Reading Data", "/:feed/:entry/:content/espi:ReadingType/../../:title", xmlResult);
     }
 
     @Then("^the XML includes Electric Power Usage Summary$")

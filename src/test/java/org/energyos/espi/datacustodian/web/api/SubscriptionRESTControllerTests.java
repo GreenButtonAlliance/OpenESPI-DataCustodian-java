@@ -3,6 +3,7 @@ package org.energyos.espi.datacustodian.web.api;
 import com.sun.syndication.io.FeedException;
 import org.energyos.espi.common.domain.Subscription;
 import org.energyos.espi.datacustodian.BaseTest;
+import org.energyos.espi.datacustodian.service.ExportService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

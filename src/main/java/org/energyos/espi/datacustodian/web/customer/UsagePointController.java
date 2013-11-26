@@ -20,6 +20,7 @@ import com.sun.syndication.io.FeedException;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.UsagePointService;
+import org.energyos.espi.datacustodian.service.ExportService;
 import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -40,6 +41,8 @@ public class UsagePointController extends BaseController {
 
     @Autowired
     private UsagePointService usagePointService;
+    @Autowired
+    private ExportService exportService;
 
     @ModelAttribute
     public List<UsagePoint> usagePoints(Principal principal) {
@@ -60,10 +63,14 @@ public class UsagePointController extends BaseController {
     @RequestMapping(value = Routes.USAGE_POINT_FEED, method = RequestMethod.GET)
     public void feed(HttpServletResponse response, Principal principal) throws FeedException, IOException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        response.getWriter().write(usagePointService.exportUsagePoints(currentCustomer(principal)));
+        exportService.exportUsagePoints(currentCustomer(principal).getId(), response.getOutputStream());
     }
 
     public void setUsagePointService(UsagePointService usagePointService) {
         this.usagePointService = usagePointService;
+    }
+
+    public void setExportService(ExportService exportService) {
+        this.exportService = exportService;
     }
 }
