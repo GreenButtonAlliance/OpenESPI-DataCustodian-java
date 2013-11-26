@@ -1,5 +1,6 @@
 package org.energyos.espi.datacustodian.integration.api;
 
+import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.Subscription;
 import org.energyos.espi.common.test.EspiPersistenceFactory;
@@ -40,7 +41,9 @@ public class SubscriptionRESTTests {
     @Before
     public void setup() {
         this.mockMvc = webAppContextSetup(this.wac).build();
-        subscription = factory.createSubscription();
+        RetailCustomer retailCustomer = factory.createRetailCustomer();
+        subscription = factory.createSubscription(retailCustomer);
+        factory.createUsagePoint(retailCustomer);
     }
 
     @Test

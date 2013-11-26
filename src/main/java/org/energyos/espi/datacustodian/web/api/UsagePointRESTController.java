@@ -84,7 +84,7 @@ public class UsagePointRESTController {
 
         if (existingUsagePoint != null) {
             try {
-                UsagePoint usagePoint = this.usagePointService.importUsagePoint(stream);
+                UsagePoint usagePoint = usagePointService.importUsagePoint(stream);
                 usagePointService.associateByUUID(retailCustomer, usagePoint.getUUID());
             } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);

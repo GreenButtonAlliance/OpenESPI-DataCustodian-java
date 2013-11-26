@@ -39,9 +39,9 @@ public class ResourceLinkerTests extends BaseTest {
         usagePoint = new UsagePoint();
         usagePoint.setUpLink(new LinkType(LinkType.UP, "usagePointUpLink"));
         localTimeParameters = new TimeConfiguration();
-        localTimeParameters.setSelfLink("/espi/1_1/resource/LocalTimeParameters/01");
+        localTimeParameters.setSelfLink(new LinkType(LinkType.SELF, "/espi/1_1/resource/LocalTimeParameters/01"));
         readingType = new ReadingType();
-        readingType.setSelfLink("/espi/1_1/resource/ReadingType/07");
+        readingType.setSelfLink(new LinkType(LinkType.SELF, "/espi/1_1/resource/ReadingType/07"));
         intervalBlock = new IntervalBlock();
         intervalBlock.setUpLink(new LinkType(LinkType.UP, "/espi/1_1/resource/RetailCustomer/9B6C7066/UsagePoint/5446AF3F/MeterReading/01/IntervalBlock"));
         electricPowerQualitySummary = new ElectricPowerQualitySummary();

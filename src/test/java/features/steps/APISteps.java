@@ -62,13 +62,13 @@ public class APISteps {
                         "  <published>2012-10-24T00:00:00Z</published>" +
                         "  <updated>2012-10-24T00:00:00Z</updated>" +
                         "  <link rel=\"self\"" +
-                        "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01\"/>" +
+                        "        href=\"/espi/1_1/resource/RetailCustomer/1/UsagePoint/97EAEBAD-1214-4A58-A3D4-A16A6DE718E1\"/>" +
                         "  <link rel=\"up\"" +
-                        "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint\"/>" +
+                        "        href=\"/espi/1_1/resource/RetailCustomer/1/UsagePoint\"/>" +
                         "  <link rel=\"related\"" +
-                        "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01/MeterReading\"/>" +
+                        "        href=\"/espi/1_1/resource/RetailCustomer/1/UsagePoint/97EAEBAD-1214-4A58-A3D4-A16A6DE718E1/MeterReading\"/>" +
                         "  <link rel=\"related\"" +
-                        "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01/ElectricPowerUsageSummary\"/>" +
+                        "        href=\"/espi/1_1/resource/RetailCustomer/1/UsagePoint/97EAEBAD-1214-4A58-A3D4-A16A6DE718E1/ElectricPowerUsageSummary\"/>" +
                         "  <link rel=\"related\"" +
                         "        href=\"/espi/1_1/resource/UsagePoint/01/LocalTimeParameters/01\"/>" +
                         "  <title>Created</title>" +
@@ -90,21 +90,22 @@ public class APISteps {
         driver.get(StepUtils.DATA_CUSTODIAN_BASE_URL + "/espi/1_1/resource/RetailCustomer/1/UsagePoint");
         String xml = driver.getPageSource();
 
-        String id = getXPathValue("/:feed/:entry/:title[contains(text(),'Created')]/../:id", xml);
+        String idWithPrefix = getXPathValue("/:feed/:entry/:title[contains(text(),'Created')]/../:id", xml);
+        String id = idWithPrefix.replace("urn:uuid:", "");
         String selfHref = getXPathValue("/:feed/:entry/:title[contains(text(),'Created')]/../:link[@rel='self']/@href", xml);
 
         String requestBody = "<entry xmlns=\"http://www.w3.org/2005/Atom\">>" +
-                "  <id>" + id + "</id>" +
+                "  <id>" + idWithPrefix + "</id>" +
                 "  <published>2012-10-24T00:00:00Z</published>" +
                 "  <updated>2012-10-24T00:00:00Z</updated>" +
                 "  <link rel=\"self\"" +
-                "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01\"/>" +
+                "        href=\"/espi/1_1/resource/RetailCustomer/1/UsagePoint/"+id+"\"/>" +
                 "  <link rel=\"up\"" +
-                "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint\"/>" +
+                "        href=\"/espi/1_1/resource/RetailCustomer/1/UsagePoint\"/>" +
                 "  <link rel=\"related\"" +
-                "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01/MeterReading\"/>" +
+                "        href=\"/espi/1_1/resource/RetailCustomer/1/UsagePoint/"+id+"/MeterReading\"/>" +
                 "  <link rel=\"related\"" +
-                "        href=\"/espi/1_1/resource/RetailCustomer/9b6c7063/UsagePoint/01/ElectricPowerUsageSummary\"/>" +
+                "        href=\"/espi/1_1/resource/RetailCustomer/1/UsagePoint/"+id+"/ElectricPowerUsageSummary\"/>" +
                 "  <link rel=\"related\"" +
                 "        href=\"/espi/1_1/resource/UsagePoint/01/LocalTimeParameters/01\"/>" +
                 "  <title>Updated</title>" +
@@ -118,7 +119,7 @@ public class APISteps {
                 "</entry>";
         HttpEntity<String> request = new HttpEntity<>(requestBody);
         RestTemplate rest = new RestTemplate();
-        rest.put(StepUtils.DATA_CUSTODIAN_BASE_URL + "/espi/1_1/resource/" + selfHref, request);
+        rest.put(StepUtils.DATA_CUSTODIAN_BASE_URL + selfHref, request);
     }
 
     @Then("^I should see a new Usage Point$")
