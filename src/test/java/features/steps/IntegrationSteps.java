@@ -10,10 +10,12 @@ import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.datacustodian.service.ExportService;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
+import org.energyos.espi.datacustodian.web.ExportFilter;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,7 +56,7 @@ public class IntegrationSteps {
     @When("^I export Usage Point$")
     public void I_export_Usage_Point() throws Throwable {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        exportService.exportUsagePoints(retailCustomer.getId(), os);
+        exportService.exportUsagePoints(retailCustomer.getId(), os, new ExportFilter(new HashMap<String, String>()));
         xml = os.toString();
     }
 

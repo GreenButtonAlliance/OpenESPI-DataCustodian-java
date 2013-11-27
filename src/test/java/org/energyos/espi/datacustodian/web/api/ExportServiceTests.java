@@ -1,17 +1,28 @@
 package org.energyos.espi.datacustodian.web.api;
 
 import org.energyos.espi.common.domain.Subscription;
+import org.energyos.espi.common.models.atom.EntryType;
 import org.energyos.espi.common.service.SubscriptionService;
 import org.energyos.espi.common.service.UsagePointService;
+import org.energyos.espi.common.utils.DateConverter;
 import org.energyos.espi.common.utils.EntryTypeIterator;
 import org.energyos.espi.datacustodian.domain.XMLTest;
 import org.energyos.espi.datacustodian.service.impl.ExportServiceImpl;
+import org.energyos.espi.datacustodian.web.ExportFilter;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.transform.Result;
 import java.io.ByteArrayOutputStream;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TimeZone;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.energyos.espi.common.test.EspiFactory.newRetailCustomer;
@@ -35,6 +46,8 @@ public class ExportServiceTests extends XMLTest {
     private Subscription subscription;
     private ByteArrayOutputStream stream;
 
+    private ExportFilter exportFilter = new ExportFilter(new HashMap<String, String>());
+
     @Before
     public void before() {
         exportService = new ExportServiceImpl();
@@ -51,14 +64,14 @@ public class ExportServiceTests extends XMLTest {
 
     @Test
     public void exportSubscription_addsTheXMLProlog() throws Exception {
-        exportService.exportSubscription(subscription.getHashedId(), stream);
+        exportService.exportSubscription(subscription.getHashedId(), stream, exportFilter);
 
         assertThat(stream.toString(), containsString("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"));
     }
 
     @Test
     public void exportSubscription_addsTheFeed() throws Exception {
-        exportService.exportSubscription(subscription.getHashedId(), stream);
+        exportService.exportSubscription(subscription.getHashedId(), stream, exportFilter);
 
         assertXpathExists("/:feed", stream.toString());
     }
@@ -67,7 +80,7 @@ public class ExportServiceTests extends XMLTest {
     public void exportSubscription_addsEntries() throws Exception {
         when(entries.hasNext()).thenReturn(true).thenReturn(true).thenReturn(false);
 
-        exportService.exportSubscription(subscription.getHashedId(), stream);
+        exportService.exportSubscription(subscription.getHashedId(), stream, exportFilter);
 
         verify(entries, times(2)).next();
     }
@@ -78,8 +91,55 @@ public class ExportServiceTests extends XMLTest {
 
         when(subscriptionService.findEntriesByRetailCustomerId(retailCustomerId)).thenReturn(mock(EntryTypeIterator.class));
 
-        exportService.exportUsagePoints(retailCustomerId, new ByteArrayOutputStream());
+        exportService.exportUsagePoints(retailCustomerId, new ByteArrayOutputStream(), new ExportFilter(new HashMap<String, String>()));
 
         verify(subscriptionService).findEntriesByRetailCustomerId(retailCustomerId);
+    }
+
+    @Test
+    public void exportSubscription_filtersEntries() throws Exception {
+        EntryType goodEntry = getEntry(50);
+        EntryType badEntry = getEntry(100);
+
+        when(subscriptionService.findEntriesByHashedId(subscription.getHashedId())).thenReturn(entries);
+
+        when(entries.hasNext())
+                .thenReturn(true)
+                .thenReturn(true)
+                .thenReturn(false);
+
+        when(entries.next())
+                .thenReturn(badEntry)
+                .thenReturn(goodEntry);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("published-min", getXMLTime(50));
+        params.put("published-max", getXMLTime(51));
+
+        exportService.exportSubscription(subscription.getHashedId(), stream, new ExportFilter(params));
+
+        verify(fragmentMarshaller).marshal(eq(goodEntry), any(Result.class));
+        verify(fragmentMarshaller, never()).marshal(eq(badEntry), any(Result.class));
+    }
+
+    private String getXMLTime(int millis) throws DatatypeConfigurationException {
+        DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
+        GregorianCalendar cal = getGregorianCalendar(millis);
+        XMLGregorianCalendar xmlGregorianCalendar = datatypeFactory.newXMLGregorianCalendar(cal);
+        xmlGregorianCalendar.setFractionalSecond(null);
+        return xmlGregorianCalendar.toXMLFormat();
+    }
+
+    private EntryType getEntry(int secondsFromEpoch) {
+        EntryType entry = new EntryType();
+        entry.setPublished(DateConverter.toDateTimeType(getGregorianCalendar(secondsFromEpoch)));
+        return entry;
+    }
+
+    private GregorianCalendar getGregorianCalendar(int secondsFromEpoch) {
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTimeZone(TimeZone.getTimeZone("UTC"));
+        cal.setTimeInMillis(secondsFromEpoch * 1000);
+        return cal;
     }
 }

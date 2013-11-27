@@ -18,19 +18,18 @@ package org.energyos.espi.datacustodian.web.api;
 import com.sun.syndication.io.FeedException;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.datacustodian.service.ExportService;
+import org.energyos.espi.datacustodian.web.ExportFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
+import java.util.Map;
 
 @Controller
 public class SubscriptionRESTController {
@@ -40,10 +39,10 @@ public class SubscriptionRESTController {
 
     @RequestMapping(value = Routes.DATA_CUSTODIAN_SUBSCRIPTION, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public void show(HttpServletResponse response, @PathVariable String subscriptionHashedId) throws FeedException, IOException, InterruptedException, JAXBException, XMLStreamException {
+    public void show(HttpServletResponse response, @PathVariable String subscriptionHashedId, @RequestParam Map<String, String> params) throws FeedException, IOException, InterruptedException, JAXBException, XMLStreamException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 
-        exportService.exportSubscription(subscriptionHashedId, response.getOutputStream());
+        exportService.exportSubscription(subscriptionHashedId, response.getOutputStream(), new ExportFilter(params));
     }
 
     public void setExportService(ExportService exportService) {

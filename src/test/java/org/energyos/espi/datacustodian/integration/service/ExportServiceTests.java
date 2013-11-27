@@ -9,6 +9,7 @@ import org.energyos.espi.common.test.EspiPersistenceFactory;
 import org.energyos.espi.datacustodian.domain.XMLTest;
 import org.energyos.espi.datacustodian.service.ExportService;
 import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
+import org.energyos.espi.datacustodian.web.ExportFilter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.UUID;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
@@ -37,6 +39,8 @@ public class ExportServiceTests extends XMLTest {
     @Autowired
     private UsagePointService usagePointService;
 
+    private ExportFilter exportFilter = new ExportFilter(new HashMap<String, String>());
+
     @Test
     public void export_exportsUsagePoint() throws IOException, ParserConfigurationException, SAXException, XpathException {
         Subscription subscription = factory.createSubscription();
@@ -44,7 +48,8 @@ public class ExportServiceTests extends XMLTest {
 
         ByteArrayOutputStream os = new ByteArrayOutputStream();
 
-        exportService.exportSubscription(subscription.getHashedId(), os);
+        exportService.exportSubscription(subscription.getHashedId(), os, exportFilter);
+
 
         assertXpathExists("/:feed/:entry/:content/espi:UsagePoint", os.toString());
     }
@@ -63,7 +68,7 @@ public class ExportServiceTests extends XMLTest {
 
         ByteArrayOutputStream os = new ByteArrayOutputStream();
 
-        exportService.exportSubscription(subscription.getHashedId(), os);
+        exportService.exportSubscription(subscription.getHashedId(), os, exportFilter);
 
         assertXpathExists("/:feed/:entry/:link[@rel]", os.toString());
     }

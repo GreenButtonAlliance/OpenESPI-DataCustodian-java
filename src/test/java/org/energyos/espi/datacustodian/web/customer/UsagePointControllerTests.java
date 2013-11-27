@@ -21,6 +21,7 @@ import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.service.impl.UsagePointServiceImpl;
 import org.energyos.espi.datacustodian.service.ExportService;
+import org.energyos.espi.datacustodian.web.ExportFilter;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -29,6 +30,7 @@ import org.springframework.ui.ModelMap;
 
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -63,7 +65,7 @@ public class UsagePointControllerTests {
 
     @Test
     public void usagePoints_returnsUsagePointList() throws Exception {
-        List<UsagePoint> points = new ArrayList<UsagePoint>();
+        List<UsagePoint> points = new ArrayList<>();
         when(service.findAllByRetailCustomer(any(RetailCustomer.class))).thenReturn(points);
 
         assertEquals(controller.usagePoints(mock(Authentication.class)), points);
@@ -75,8 +77,9 @@ public class UsagePointControllerTests {
         when(auth.getPrincipal()).thenReturn(mock(RetailCustomer.class));
         MockHttpServletResponse response = new MockHttpServletResponse();
 
-        controller.feed(response, auth);
+        HashMap<String, String> params = new HashMap<>();
+        controller.feed(response, auth, params);
 
-        verify(exportService).exportUsagePoints(anyLong(), any(OutputStream.class));
+        verify(exportService).exportUsagePoints(anyLong(), any(OutputStream.class), eq(new ExportFilter(params)));
     }
 }

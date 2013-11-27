@@ -22,19 +22,18 @@ import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.datacustodian.service.ExportService;
 import org.energyos.espi.datacustodian.web.BaseController;
+import org.energyos.espi.datacustodian.web.ExportFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class UsagePointController extends BaseController {
@@ -61,9 +60,9 @@ public class UsagePointController extends BaseController {
     }
 
     @RequestMapping(value = Routes.USAGE_POINT_FEED, method = RequestMethod.GET)
-    public void feed(HttpServletResponse response, Principal principal) throws FeedException, IOException {
+    public void feed(HttpServletResponse response, Principal principal, @RequestParam Map<String, String> params) throws FeedException, IOException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        exportService.exportUsagePoints(currentCustomer(principal).getId(), response.getOutputStream());
+        exportService.exportUsagePoints(currentCustomer(principal).getId(), response.getOutputStream(), new ExportFilter(params));
     }
 
     public void setUsagePointService(UsagePointService usagePointService) {
