@@ -11,7 +11,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -25,6 +25,6 @@ public class SeedDataGeneratorTest {
 
     @Test
     public void init() throws Exception {
-        assertThat(usagePointService.findAllByRetailCustomer(retailCustomerService.findById(1L)).size(), equalTo(2));
+        assertThat(usagePointService.findAllByRetailCustomer(retailCustomerService.findById(1L)), hasSize(2));
     }
 }
