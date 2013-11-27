@@ -4,41 +4,49 @@ import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl
 import org.energyos.espi.common.models.atom.DateTimeType;
 import org.energyos.espi.common.models.atom.EntryType;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class ExportFilter {
     private Map<String, String> params;
+    private int matchedCounter = 0, emittedCounter = 0;
 
     public ExportFilter(Map<String, String> params) {
         this.params = params;
     }
 
     public boolean matches(EntryType entry) {
-        List<Boolean> matchers = new ArrayList<>();
 
-        if (params.get("published-max") != null) {
-            boolean publishedMax = toTime("published-max") >= toTime(entry.getPublished());
-            matchers.add(publishedMax);
+        if (hasParam("max-results") && emittedCounter >= Integer.valueOf(params.get("max-results"))) {
+            return false;
         }
 
-        if (params.get("published-min") != null) {
-            boolean publishedMin = toTime("published-min") <= toTime(entry.getPublished());
-            matchers.add(publishedMin);
+        if (hasParam("published-max") && toTime("published-max") < toTime(entry.getPublished())) {
+            return false;
         }
 
-        if (params.get("updated-max") != null) {
-            boolean udpatedMax = toTime("updated-max") >= toTime(entry.getUpdated());
-            matchers.add(udpatedMax);
+        if (hasParam("published-min") && toTime("published-min") > toTime(entry.getPublished())) {
+            return false;
         }
 
-        if (params.get("updated-min") != null) {
-            boolean updatedMin = toTime("updated-min") <= toTime(entry.getUpdated());
-            matchers.add(updatedMin);
+        if (hasParam("updated-max") && toTime("updated-max") < toTime(entry.getUpdated())) {
+            return false;
         }
 
-        return !matchers.contains(false);
+        if (hasParam("updated-min") && toTime("updated-min") > toTime(entry.getUpdated())) {
+            return false;
+        }
+
+        if (hasParam("start-index") && matchedCounter < Integer.valueOf(params.get("start-index"))) {
+            matchedCounter++;
+            return false;
+        }
+
+        emittedCounter++;
+        return true;
+    }
+
+    private boolean hasParam(String paramName) {
+        return params.get(paramName) != null;
     }
 
     private long toTime(String key) {

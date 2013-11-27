@@ -2,6 +2,7 @@ package org.energyos.espi.datacustodian.web;
 
 import org.energyos.espi.common.models.atom.EntryType;
 import org.energyos.espi.common.utils.DateConverter;
+import org.junit.Before;
 import org.junit.Test;
 
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -17,8 +18,13 @@ import static org.junit.Assert.assertThat;
 
 public class ExportFilterTests {
 
-    private Map<String,String> params = new HashMap<>();
+    private Map<String,String> params;
     private ExportFilter exportFilter;
+
+    @Before
+    public void setUp() {
+        params = new HashMap<>();
+    }
 
     @Test
     public void matches() throws Exception {
@@ -57,6 +63,55 @@ public class ExportFilterTests {
         exportFilter = new ExportFilter(params);
         assertThat(exportFilter.matches(getEntry(50)), is(true));
         assertThat(exportFilter.matches(getEntry(52)), is(false));
+    }
+
+    @Test
+    public void matches_givenMaxResults() throws Exception {
+        params.put("max-results", "1");
+        exportFilter = new ExportFilter(params);
+
+        assertThat(exportFilter.matches(getEntry(0)), is(true));
+        assertThat(exportFilter.matches(getEntry(0)), is(false));
+    }
+
+    @Test
+    public void matches_givenStartIndex_zeroBased() throws Exception {
+        params.put("start-index", "1");
+        exportFilter = new ExportFilter(params);
+
+        assertThat(exportFilter.matches(getEntry(0)), is(false));
+        assertThat(exportFilter.matches(getEntry(0)), is(true));
+        assertThat(exportFilter.matches(getEntry(0)), is(true));
+    }
+
+    @Test
+    public void matches_givenStartIndex_andMaxResults() throws Exception {
+        params.put("start-index", "1");
+        params.put("max-results", "1");
+
+        exportFilter = new ExportFilter(params);
+
+        assertThat(exportFilter.matches(getEntry(0)), is(false));
+        assertThat(exportFilter.matches(getEntry(0)), is(true));
+        assertThat(exportFilter.matches(getEntry(0)), is(false));
+    }
+
+    @Test
+    public void matches_givenStartIndex_andMaxResults_andPublishedRange() throws Exception {
+        params.put("start-index", "1");
+        params.put("max-results", "2");
+        params.put("published-min", getXMLTime(50));
+        params.put("published-max", getXMLTime(50));
+
+
+        exportFilter = new ExportFilter(params);
+
+        assertThat(exportFilter.matches(getEntry(0)), is(false));
+        assertThat(exportFilter.matches(getEntry(50)), is(false));
+        assertThat(exportFilter.matches(getEntry(50)), is(true));
+        assertThat(exportFilter.matches(getEntry(0)), is(false));
+        assertThat(exportFilter.matches(getEntry(50)), is(true));
+        assertThat(exportFilter.matches(getEntry(50)), is(false));
     }
 
     private EntryType getEntry(int secondsFromEpoch) {
