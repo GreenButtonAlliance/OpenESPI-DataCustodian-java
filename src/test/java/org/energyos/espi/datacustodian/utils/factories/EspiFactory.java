@@ -172,7 +172,7 @@ public class EspiFactory {
         readingType.setCpp("cpp");
         readingType.setCurrency("currency");
         readingType.setTou("tou");
-        readingType.setAggregate("aggregate");
+        readingType.setDefaultQuality("DefaultQuality");
         readingType.setArgument(argument);
         readingType.setInterharmonic(interharmonic);
         readingType.setMeasuringPeriod("measuringPeriod");
