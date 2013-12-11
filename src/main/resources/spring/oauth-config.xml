@@ -11,20 +11,19 @@
         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
         http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
 
-    <bean id="oauthAuthenticationEntryPoint" class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+    <bean id="oauthAuthenticationEntryPoint" 
+    	class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
         <property name="realmName" value="DataCustodian" />
     </bean>
 
-    <bean id="clientAuthenticationEntryPoint" class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+    <bean id="clientAuthenticationEntryPoint" 
+    	class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
         <property name="realmName" value="DataCustodian" />
         <property name="typeName" value="Basic" />
     </bean>
 
-    <bean id="oauthAccessDeniedHandler" class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler" />
-
-    <bean id="clientCredentialsTokenEndpointFilter" class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">
-        <property name="authenticationManager" ref="clientAuthenticationManager" />
-    </bean>
+    <bean id="oauthAccessDeniedHandler" 
+    	class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler" />
 
     <bean id="accessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased" xmlns="http://www.springframework.org/schema/beans">
         <constructor-arg>
