@@ -12,7 +12,6 @@
         <intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />
         <anonymous enabled="false" />
         <http-basic entry-point-ref="clientAuthenticationEntryPoint" />
-        <custom-filter ref="clientCredentialsTokenEndpointFilter" after="BASIC_AUTH_FILTER" />
         <access-denied-handler ref="oauthAccessDeniedHandler" />
     </http>
 
