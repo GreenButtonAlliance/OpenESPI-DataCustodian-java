@@ -3,13 +3,13 @@ package org.energyos.espi.datacustodian.integration.service;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Subscription;
+import org.energyos.espi.common.service.ExportService;
 import org.energyos.espi.common.service.ImportService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.test.EspiPersistenceFactory;
+import org.energyos.espi.common.utils.ExportFilter;
 import org.energyos.espi.datacustodian.domain.XMLTest;
-import org.energyos.espi.datacustodian.service.ExportService;
 import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
-import org.energyos.espi.datacustodian.web.ExportFilter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
