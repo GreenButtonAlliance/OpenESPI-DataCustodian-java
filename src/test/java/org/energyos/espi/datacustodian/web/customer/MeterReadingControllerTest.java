@@ -17,7 +17,7 @@ public class MeterReadingControllerTest {
         MeterReadingController controller = new MeterReadingController();
         controller.setMeterReadingService(mock(MeterReadingService.class));
 
-        assertEquals("/customer/meterreadings/show", controller.show(1L, new ModelMap()));
+        assertEquals("/customer/meterreadings/show", controller.show(1L, 1L, 1L, new ModelMap()));
     }
 
     @Test
@@ -26,10 +26,10 @@ public class MeterReadingControllerTest {
         MeterReadingService meterReadingService = mock(MeterReadingService.class);
         MeterReadingController controller = new MeterReadingController();
         controller.setMeterReadingService(meterReadingService);
-        when(meterReadingService.findById(anyLong())).thenReturn(meterReading);
+        when(meterReadingService.findById(1L, 1L, anyLong())).thenReturn(meterReading);
         ModelMap model = new ModelMap();
 
-        controller.show(1L, model);
+        controller.show(1L, 1L, 1L, model);
 
         assertEquals(meterReading, model.get("meterReading"));
     }

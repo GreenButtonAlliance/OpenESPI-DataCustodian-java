@@ -68,7 +68,7 @@ public class UsagePointRESTController {
         RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
 
         try {
-            UsagePoint usagePoint = this.usagePointService.importUsagePoint(stream);
+            UsagePoint usagePoint = this.usagePointService.importResource(stream);
             usagePointService.associateByUUID(retailCustomer, usagePoint.getUUID());
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
@@ -84,7 +84,7 @@ public class UsagePointRESTController {
 
         if (existingUsagePoint != null) {
             try {
-                UsagePoint usagePoint = usagePointService.importUsagePoint(stream);
+                UsagePoint usagePoint = usagePointService.importResource(stream);
                 usagePointService.associateByUUID(retailCustomer, usagePoint.getUUID());
             } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);

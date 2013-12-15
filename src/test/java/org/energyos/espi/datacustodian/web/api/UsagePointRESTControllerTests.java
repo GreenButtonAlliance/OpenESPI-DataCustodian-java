@@ -109,11 +109,11 @@ public class UsagePointRESTControllerTests {
         UsagePoint usagePoint = newUsagePoint();
 
         when(retailCustomerService.findById(1L)).thenReturn(retailCustomer);
-        when(usagePointService.importUsagePoint(inputStream)).thenReturn(usagePoint);
+        when(usagePointService.importResource(inputStream)).thenReturn(usagePoint);
 
         controller.create(response, 1L, inputStream);
 
-        verify(usagePointService).importUsagePoint(inputStream);
+        verify(usagePointService).importResource(inputStream);
         verify(usagePointService).associateByUUID(retailCustomer, usagePoint.getUUID());
     }
 
@@ -125,11 +125,11 @@ public class UsagePointRESTControllerTests {
         when(usagePoint.getRetailCustomer()).thenReturn(retailCustomer);
         when(retailCustomerService.findById(1L)).thenReturn(retailCustomer);
         when(usagePointService.findByHashedId("1")).thenReturn(usagePoint);
-        when(usagePointService.importUsagePoint(inputStream)).thenReturn(usagePoint);
+        when(usagePointService.importResource(inputStream)).thenReturn(usagePoint);
 
         controller.update(response, 1L, "1", inputStream);
 
-        verify(usagePointService).importUsagePoint(inputStream);
+        verify(usagePointService).importResource(inputStream);
         verify(usagePointService).associateByUUID(retailCustomer, usagePoint.getUUID());
     }
 
