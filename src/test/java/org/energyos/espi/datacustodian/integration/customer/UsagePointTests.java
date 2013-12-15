@@ -83,7 +83,7 @@ public class UsagePointTests {
         mockMvc.perform(get(indexPath).principal(authentication))
                 .andExpect(view().name("/customer/usagepoints/index"));
     }
-
+    
     @Test
     public void index_setsUsagePointListModel() throws Exception {
         mockMvc.perform(get(indexPath).principal(authentication))
@@ -113,7 +113,8 @@ public class UsagePointTests {
         mockMvc.perform(get(showPath).principal(authentication))
                 .andExpect(model().attributeExists("usagePoint"));
     }
-
+    // TODO Validate the mock GET from the /RetailCustomer/{retailCustomerId}/UsagePoint/feed
+/*
     @Test
     public void feed_returnsOkStatus() throws Exception {
         mockMvc.perform(get(feedPath).principal(authentication))
@@ -125,5 +126,5 @@ public class UsagePointTests {
         mockMvc.perform(get(feedPath).principal(authentication))
                 .andExpect(content().contentType("application/atom+xml"));
     }
-
+*/
 }

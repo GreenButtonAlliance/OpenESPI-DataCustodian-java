@@ -34,8 +34,8 @@ public class MeterReadingController extends BaseController {
     protected MeterReadingService meterReadingService;
 
     @RequestMapping(value = Routes.METER_READINGS_SHOW, method = RequestMethod.GET)
-    public String show(@PathVariable Long meterReadingId, ModelMap model) {
-        model.put("meterReading", meterReadingService.findById(meterReadingId));
+    public String show(@PathVariable Long retailCustomerId, @PathVariable Long usagePointId, @PathVariable Long meterReadingId, ModelMap model) {
+        model.put("meterReading", meterReadingService.findById(retailCustomerId, usagePointId, meterReadingId));
         return "/customer/meterreadings/show";
     }
 
