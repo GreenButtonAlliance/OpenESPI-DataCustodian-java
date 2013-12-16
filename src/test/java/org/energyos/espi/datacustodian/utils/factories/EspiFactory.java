@@ -294,8 +294,8 @@ public class EspiFactory {
         ApplicationInformation applicationInformation = new ApplicationInformation();
         applicationInformation.setUUID(UUID.randomUUID());
         applicationInformation.setThirdPartyApplicationName("Name" + UUID.randomUUID().toString());
-        applicationInformation.setDataCustodianThirdPartyId("ClientId" + UUID.randomUUID().toString());
-        applicationInformation.setThirdPartyDefaultNotifyResource("http://example.com:8080/ThirdParty/espi/1_1/Notification");
+        applicationInformation.setClientId("ClientId" + UUID.randomUUID().toString());
+        applicationInformation.setThirdPartyNotifyUri("http://example.com:8080/ThirdParty/espi/1_1/Notification");
 
         return applicationInformation;
     }
@@ -332,7 +332,7 @@ public class EspiFactory {
         Authorization authorization = new Authorization();
         authorization.setUUID(UUID.randomUUID());
         authorization.setAccessToken(UUID.randomUUID().toString());
-        authorization.setResource("/Resource/" + UUID.randomUUID().toString());
+        authorization.setResourceURI("/Resource/" + UUID.randomUUID().toString());
         return authorization;
     }
 

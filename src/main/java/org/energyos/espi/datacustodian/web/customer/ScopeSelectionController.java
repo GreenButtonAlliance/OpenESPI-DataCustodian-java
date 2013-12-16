@@ -16,6 +16,8 @@
 
 package org.energyos.espi.datacustodian.web.customer;
 
+import java.util.Set;
+
 import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Configuration;
 import org.energyos.espi.common.domain.Routes;
@@ -29,6 +31,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import static org.energyos.espi.datacustodian.utils.URLHelper.newScopeParams;
 
+///DataCustodian/src/main/java/org/energyos/espi/datacustodian/utils/URLHelper.java
+
 @Controller
 @PreAuthorize("hasRole('ROLE_USER')")
 public class ScopeSelectionController {
@@ -39,11 +43,15 @@ public class ScopeSelectionController {
     @RequestMapping(value = Routes.DATA_CUSTODIAN_SCOPE_SELECTION_SCREEN, method = RequestMethod.GET)
     public String scopeSelection(String[] scopes, @RequestParam("ThirdPartyID") String thirdPartyClientId) {
         ApplicationInformation applicationInformation = applicationInformationService.findByClientId(thirdPartyClientId);
-        return "redirect:" + applicationInformation.getThirdPartyDefaultScopeResource() + "?" + newScopeParams(applicationInformation.getScope()) +
+        return "redirect:" + 
+        		applicationInformation.getThirdPartyScopeSelectionScreenURI() + 
+        		"?" + 
+        		newScopeParams(applicationInformation.getScope()) +
                 "&DataCustodianID=" + Configuration.DATA_CUSTODIAN_ID;
     }
 
-    public void setApplicationInformationService(ApplicationInformationService applicationInformationService) {
+
+	public void setApplicationInformationService(ApplicationInformationService applicationInformationService) {
         this.applicationInformationService = applicationInformationService;
     }
 }
