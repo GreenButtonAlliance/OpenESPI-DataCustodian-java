@@ -66,7 +66,7 @@ public class EspiTokenEnhancerTests extends BaseTest {
         ApplicationInformation applicationInformation = factory.createApplicationInformation();
         retailCustomer = factory.createRetailCustomer();
         token = new DefaultOAuth2AccessToken("token");
-        oAuth2Request = newOAuth2Request(applicationInformation.getDataCustodianThirdPartyId());
+        oAuth2Request = newOAuth2Request(applicationInformation.getClientId());
     }
 
     @Test
