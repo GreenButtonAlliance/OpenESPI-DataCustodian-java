@@ -75,7 +75,7 @@ public class UsagePointRESTControllerTests {
         when(usagePointService.findAllByRetailCustomer(retailCustomer)).thenReturn(usagePointList);
         when(atomService.feedFor(usagePointList)).thenReturn(feed);
 
-        controller.index(response, 1L);
+        controller.index(response, 1L, null);
 
         assertThat(response.getContentAsString(), is(feed));
         assertThat(response.getStatus(), is(200));
@@ -90,7 +90,7 @@ public class UsagePointRESTControllerTests {
         when(usagePointService.findByHashedId(usagePoint.getHashedId())).thenReturn(usagePoint);
         when(atomService.entryFor(usagePoint)).thenReturn(entry);
 
-        controller.show(response, usagePoint.getHashedId());
+        controller.show(response, 1L, usagePoint.getId(), null);
 
         assertThat(response.getContentAsString(), is(entry));
         assertThat(response.getStatus(), is(200));
@@ -100,7 +100,7 @@ public class UsagePointRESTControllerTests {
     public void show_givenInvalidUsagePoint_returns400Status() throws IOException, FeedException {
         when(usagePointService.findByHashedId(anyString())).thenThrow(new EmptyResultDataAccessException(1));
 
-        controller.show(response, String.valueOf(System.nanoTime()));
+        controller.show(response, 100L, 200L, null);
     }
 
     @Test
@@ -111,7 +111,7 @@ public class UsagePointRESTControllerTests {
         when(retailCustomerService.findById(1L)).thenReturn(retailCustomer);
         when(usagePointService.importResource(inputStream)).thenReturn(usagePoint);
 
-        controller.create(response, 1L, inputStream);
+        controller.create(response, 1L, null, inputStream);
 
         verify(usagePointService).importResource(inputStream);
         verify(usagePointService).associateByUUID(retailCustomer, usagePoint.getUUID());
@@ -127,7 +127,7 @@ public class UsagePointRESTControllerTests {
         when(usagePointService.findByHashedId("1")).thenReturn(usagePoint);
         when(usagePointService.importResource(inputStream)).thenReturn(usagePoint);
 
-        controller.update(response, 1L, "1", inputStream);
+        controller.update(response, 1L, 1L, null, inputStream);
 
         verify(usagePointService).importResource(inputStream);
         verify(usagePointService).associateByUUID(retailCustomer, usagePoint.getUUID());
@@ -142,7 +142,7 @@ public class UsagePointRESTControllerTests {
         when(retailCustomerService.findById(1L)).thenReturn(retailCustomer);
         when(usagePointService.findByHashedId(hashedId)).thenReturn(usagePoint);
 
-        controller.delete(response, 1L, hashedId);
+        controller.delete(response, 1L, 1L, null);
 
         verify(usagePointService).deleteByHashedId(hashedId);
     }
