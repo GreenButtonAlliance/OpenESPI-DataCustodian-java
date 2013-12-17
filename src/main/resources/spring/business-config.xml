@@ -66,6 +66,7 @@
     </beans>
 
     <beans>
+
         <bean id="domainMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
             <property name="packagesToScan">
                 <list>

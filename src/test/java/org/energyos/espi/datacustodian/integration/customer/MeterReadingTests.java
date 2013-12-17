@@ -3,8 +3,10 @@ package org.energyos.espi.datacustodian.integration.customer;
 
 import org.energyos.espi.common.domain.MeterReading;
 import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.MeterReadingService;
 import org.energyos.espi.common.service.RetailCustomerService;
+import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.test.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,6 +35,10 @@ public class MeterReadingTests {
     protected WebApplicationContext wac;
     @Autowired
     protected RetailCustomerService retailCustomerService;
+    
+    @Autowired
+    protected UsagePointService usagePointService;
+    
     @Autowired
     protected MeterReadingService meterReadingService;
 
@@ -44,10 +50,15 @@ public class MeterReadingTests {
     public void setup() {
         this.mockMvc = webAppContextSetup(this.wac).build();
         RetailCustomer customer = retailCustomerService.findById(1L);
+       
+        UsagePoint usagePoint = EspiFactory.newUsagePoint();
+        usagePointService.persist(usagePoint);
+        
         authentication = new TestingAuthenticationToken(customer, null);
+        
         meterReading = EspiFactory.newMeterReading();
         meterReadingService.persist(meterReading);
-        showPath = "/RetailCustomer/" + customer.getId() + "/meterreadings/" + meterReading.getId() + "/show";
+        showPath = "/RetailCustomer/" + customer.getId() + "/UsagePoint/" + usagePoint.getId() + "/MeterReading/" + meterReading.getId() + "/show";
     }
 
     @Test
