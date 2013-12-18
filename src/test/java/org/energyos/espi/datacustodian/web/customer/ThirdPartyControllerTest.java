@@ -49,11 +49,11 @@ public class ThirdPartyControllerTest {
     public void selectThirdParty_redirectsToThirdPartyUrl() {
         ApplicationInformation applicationInformation = EspiFactory.newApplicationInformation();
 
-        String redirectUrl = "redirect:" + applicationInformation.getThirdPartyDefaultOAuthCallback() + "?" +
+        String redirectUrl = "redirect:" + applicationInformation.getRedirectUri() + "?" +
                 URLHelper.newScopeParams(applicationInformation.getScope()) + "&DataCustodianID=" + Configuration.DATA_CUSTODIAN_ID;
 
         when(applicationInformationService.findById(anyLong())).thenReturn(applicationInformation);
 
-        assertEquals(redirectUrl, controller.selectThirdParty(1L, applicationInformation.getThirdPartyDefaultOAuthCallback()));
+        assertEquals(redirectUrl, controller.selectThirdParty(1L, applicationInformation.getRedirectUri()));
     }
 }

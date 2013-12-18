@@ -51,11 +51,11 @@
                 <tr>
                     <td>
                         <label>
-                            <input type="radio" name="Third_party" value="${applicationInformation.id}" data-third-party-url="${applicationInformation.thirdPartyDefaultScopeResource}" class="third-party" />
+                            <input type="radio" name="Third_party" value="${applicationInformation.id}" data-third-party-url="${applicationInformation.thirdPartyScopeSelectionScreenURI}" class="third-party" />
                             <c:out value="${applicationInformation.thirdPartyApplicationName}"/>
                         </label>
                     </td>
-                    <td><c:out value="${applicationInformation.thirdPartyDefaultScopeResource}"/></td>
+                    <td><c:out value="${applicationInformation.thirdPartyScopeSelectionScreenURI}"/></td>
                 </tr>
             </c:forEach>
             </tbody>

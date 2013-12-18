@@ -56,21 +56,21 @@ public class ScopeSelectionTests {
         this.mockMvc = webAppContextSetup(this.wac).build();
         applicationInformation = EspiFactory.newApplicationInformation();
         applicationInformation.setThirdPartyApplicationName("ThirdParty");
-        applicationInformation.setThirdPartyDefaultScopeResource("http://localhost:8080/ThirdParty/RetailCustomer/ScopeSelection");
+        applicationInformation.setThirdPartyScopeSelectionScreenURI("http://localhost:8080/ThirdParty/RetailCustomer/ScopeSelection");
         applicationInformationService.persist(applicationInformation);
     }
 
     @Test
     public void index_returnsRedirectStatus() throws Exception {
-        mockMvc.perform(get("/RetailCustomer/ScopeSelectionList").param("scope", "scope1").param("scope", "scope2").param("ThirdPartyID", applicationInformation.getDataCustodianThirdPartyId()))
+        mockMvc.perform(get("/RetailCustomer/ScopeSelectionList").param("scope", "scope1").param("scope", "scope2").param("ThirdPartyID", applicationInformation.getClientId()))
                 .andExpect(status().is(302));
     }
 
     @Test
     public void index_redirectsToThirdParty() throws Exception {
         String[] scopes = applicationInformation.getScope().toArray(new String[applicationInformation.getScope().size()]);
-        mockMvc.perform(get("/RetailCustomer/ScopeSelectionList").param("scope", "scope1").param("scope", "scope2").param("ThirdPartyID", applicationInformation.getDataCustodianThirdPartyId()))
-                .andExpect(redirectedUrl(String.format("%s?scope=%s&scope=%s&DataCustodianID=%s", applicationInformation.getThirdPartyDefaultScopeResource(),
+        mockMvc.perform(get("/RetailCustomer/ScopeSelectionList").param("scope", "scope1").param("scope", "scope2").param("ThirdPartyID", applicationInformation.getClientId()))
+                .andExpect(redirectedUrl(String.format("%s?scope=%s&scope=%s&DataCustodianID=%s", applicationInformation.getThirdPartyScopeSelectionScreenURI(),
                         scopes[0], scopes[1], Configuration.DATA_CUSTODIAN_ID)));
     }
 }
