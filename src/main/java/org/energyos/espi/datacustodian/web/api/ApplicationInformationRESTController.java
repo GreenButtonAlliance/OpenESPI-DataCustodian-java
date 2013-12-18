@@ -50,7 +50,7 @@ public class ApplicationInformationRESTController {
 
     // 
     //
-    @RequestMapping(value = Routes.APPLICATION_INFORMATION_COLLECTION, method = RequestMethod.GET)
+    @RequestMapping(value = Routes.ROOT_APPLICATION_INFORMATION_COLLECTION, method = RequestMethod.GET)
 	public void index(HttpServletResponse response,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         exportService.exportApplicationInformations(response.getOutputStream(), new ExportFilter(params));
@@ -58,7 +58,7 @@ public class ApplicationInformationRESTController {
 
     // 
     //
-    @RequestMapping(value = Routes.APPLICATION_INFORMATION_MEMBER, method = RequestMethod.GET)
+    @RequestMapping(value = Routes.ROOT_APPLICATION_INFORMATION_MEMBER, method = RequestMethod.GET)
     public void show(HttpServletResponse response, 
     		@PathVariable long applicationInformationId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
@@ -67,7 +67,7 @@ public class ApplicationInformationRESTController {
 
     // 
     //
-    @RequestMapping(value = Routes.APPLICATION_INFORMATION_COLLECTION, method = RequestMethod.POST)
+    @RequestMapping(value = Routes.ROOT_APPLICATION_INFORMATION_COLLECTION, method = RequestMethod.POST)
     public void create(HttpServletResponse response,
     		@RequestParam Map<String, String> params, 
     		InputStream stream) throws IOException {
@@ -80,7 +80,7 @@ public class ApplicationInformationRESTController {
     }
     //
 
-    @RequestMapping(value = Routes.APPLICATION_INFORMATION_MEMBER, method = RequestMethod.PUT)
+    @RequestMapping(value = Routes.ROOT_APPLICATION_INFORMATION_MEMBER, method = RequestMethod.PUT)
     public void update(HttpServletResponse response, 
     		@PathVariable long applicationInformationId,
     		@RequestParam Map<String, String> params,
@@ -98,7 +98,7 @@ public class ApplicationInformationRESTController {
         }
     }
 
-    @RequestMapping(value = Routes.APPLICATION_INFORMATION_MEMBER, method = RequestMethod.DELETE)
+    @RequestMapping(value = Routes.ROOT_APPLICATION_INFORMATION_MEMBER, method = RequestMethod.DELETE)
     public void delete(HttpServletResponse response, 
     		@PathVariable long applicationInformationId,
     		@RequestParam Map<String, String> params,

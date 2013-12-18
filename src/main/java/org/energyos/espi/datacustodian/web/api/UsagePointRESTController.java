@@ -46,14 +46,64 @@ public class UsagePointRESTController {
     @Autowired
     private RetailCustomerService retailCustomerService;
     @Autowired
-    private AtomService atomService;
-    @Autowired
     private ExportService exportService;
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleGenericException() {}
 
+    // first the RESTful Interface to the ROOT Objects
+    @RequestMapping(value = Routes.ROOT_USAGE_POINT_COLLECTION, method = RequestMethod.GET)
+    public void index(HttpServletResponse response, @RequestParam Map<String, String> params) throws IOException, FeedException {
+        exportService.exportUsagePoints(response.getOutputStream(), new ExportFilter(params));
+    }
+
+    @RequestMapping(value = Routes.ROOT_USAGE_POINT_MEMBER, method = RequestMethod.GET)
+    public void show(HttpServletResponse response, @PathVariable Long usagePointId,
+    		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        exportService.exportUsagePoint(usagePointId, response.getOutputStream(), new ExportFilter(params));
+    }
+
+    @RequestMapping(value = Routes.ROOT_USAGE_POINT_COLLECTION, method = RequestMethod.POST)
+    public void create(HttpServletResponse response, @RequestParam Map<String, String> params, InputStream stream) throws IOException {
+        try {
+            UsagePoint usagePoint = this.usagePointService.importResource(stream);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        }
+    }
+
+
+    @RequestMapping(value = Routes.ROOT_USAGE_POINT_MEMBER, method = RequestMethod.PUT)
+    public void update(HttpServletResponse response, @PathVariable Long usagePointId,
+    		@RequestParam Map<String, String> params, InputStream stream) {
+    	UsagePoint usagePoint = usagePointService.findObject(usagePointId, new ExportFilter(params));
+    	 
+        if (usagePoint != null) {
+            try {
+            	
+                UsagePoint newUsagePoint = usagePointService.importResource(stream);
+                usagePoint.merge(newUsagePoint);
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            }
+        }
+    }
+
+    @RequestMapping(value = Routes.ROOT_USAGE_POINT_MEMBER, method = RequestMethod.DELETE)
+    public void delete(HttpServletResponse response, @PathVariable Long usagePointId,
+    		@RequestParam Map<String, String> params) {
+    	UsagePoint usagePoint = usagePointService.findObject(usagePointId, new ExportFilter(params));
+
+        if (usagePoint != null) {
+        	usagePointService.delete(usagePoint);
+        }
+    }
+
+
+
+    // now the RESTful Interface to the XPath Objects
+    //
     @RequestMapping(value = Routes.USAGE_POINT_COLLECTION, method = RequestMethod.GET)
     public void index(HttpServletResponse response, @PathVariable Long retailCustomerId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
@@ -86,7 +136,7 @@ public class UsagePointRESTController {
     		@RequestParam Map<String, String> params, InputStream stream) {
 
     	RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
-    	UsagePoint usagePoint = usagePointService.findObject(retailCustomerId, usagePointId, params);
+    	UsagePoint usagePoint = usagePointService.findObject(retailCustomerId, usagePointId, new ExportFilter(params));
     	 
         if (usagePoint != null) {
             try {
@@ -102,7 +152,7 @@ public class UsagePointRESTController {
     @RequestMapping(value = Routes.USAGE_POINT_MEMBER, method = RequestMethod.DELETE)
     public void delete(HttpServletResponse response, @PathVariable Long retailCustomerId, @PathVariable Long usagePointId,
     		@RequestParam Map<String, String> params) {
-    	UsagePoint usagePoint = usagePointService.findObject(retailCustomerId, usagePointId, params);
+    	UsagePoint usagePoint = usagePointService.findObject(retailCustomerId, usagePointId, new ExportFilter(params));
 
         if (usagePoint != null) {
         	usagePointService.delete(usagePoint);
@@ -119,8 +169,5 @@ public class UsagePointRESTController {
 
     public void setExportService(ExportService exportService) {
     	this.exportService = exportService;
-    }
-    public void setAtomService(AtomService atomService) {
-        this.atomService = atomService;
     }
 }
