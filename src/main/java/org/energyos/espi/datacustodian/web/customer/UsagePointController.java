@@ -64,6 +64,7 @@ public class UsagePointController extends BaseController {
     @RequestMapping(value = Routes.USAGE_POINT_FEED, method = RequestMethod.GET)
     public void feed(HttpServletResponse response, Principal principal, @RequestParam Map<String, String> params) throws FeedException, IOException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+        response.addHeader("Content-Disposition", "attachment; filename=GreenButtonDownload.xml");
         exportService.exportUsagePoints(currentCustomer(principal).getId(), response.getOutputStream(), new ExportFilter(params));
     }
 
