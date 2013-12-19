@@ -1,5 +1,6 @@
 package org.energyos.espi.datacustodian.web.filter;
 
+import org.energyos.espi.common.utils.CORSFilter;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
