@@ -27,6 +27,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 import javax.xml.transform.Result;
+
 import java.util.LinkedList;
 
 import static org.mockito.Mockito.*;
