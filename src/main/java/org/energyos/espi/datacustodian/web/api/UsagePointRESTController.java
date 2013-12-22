@@ -1,4 +1,3 @@
-package org.energyos.espi.datacustodian.web.api;
 /*
  * Copyright 2013, 2014 EnergyOS.org
  *
@@ -14,6 +13,7 @@ package org.energyos.espi.datacustodian.web.api;
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+package org.energyos.espi.datacustodian.web.api;
 
 import com.sun.syndication.io.FeedException;
 
@@ -52,15 +52,19 @@ public class UsagePointRESTController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleGenericException() {}
 
-    // first the RESTful Interface to the ROOT Objects
+    // ROOT RESTful APIs
     @RequestMapping(value = Routes.ROOT_USAGE_POINT_COLLECTION, method = RequestMethod.GET)
     public void index(HttpServletResponse response, @RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         exportService.exportUsagePoints(response.getOutputStream(), new ExportFilter(params));
     }
 
     @RequestMapping(value = Routes.ROOT_USAGE_POINT_MEMBER, method = RequestMethod.GET)
-    public void show(HttpServletResponse response, @PathVariable Long usagePointId,
-    		@RequestParam Map<String, String> params) throws IOException, FeedException {
+    public void show(HttpServletResponse response,
+		     @PathVariable Long usagePointId,
+    		     @RequestParam Map<String, String> params)
+	throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         exportService.exportUsagePoint(usagePointId, response.getOutputStream(), new ExportFilter(params));
     }
 
@@ -77,7 +81,7 @@ public class UsagePointRESTController {
     @RequestMapping(value = Routes.ROOT_USAGE_POINT_MEMBER, method = RequestMethod.PUT)
     public void update(HttpServletResponse response, @PathVariable Long usagePointId,
     		@RequestParam Map<String, String> params, InputStream stream) {
-    	UsagePoint usagePoint = usagePointService.findObject(usagePointId, new ExportFilter(params));
+    	UsagePoint usagePoint = usagePointService.findById(usagePointId);
     	 
         if (usagePoint != null) {
             try {
@@ -93,7 +97,7 @@ public class UsagePointRESTController {
     @RequestMapping(value = Routes.ROOT_USAGE_POINT_MEMBER, method = RequestMethod.DELETE)
     public void delete(HttpServletResponse response, @PathVariable Long usagePointId,
     		@RequestParam Map<String, String> params) {
-    	UsagePoint usagePoint = usagePointService.findObject(usagePointId, new ExportFilter(params));
+    	UsagePoint usagePoint = usagePointService.findById(usagePointId);
 
         if (usagePoint != null) {
         	usagePointService.delete(usagePoint);
@@ -102,17 +106,19 @@ public class UsagePointRESTController {
 
 
 
-    // now the RESTful Interface to the XPath Objects
+    // XPath RESTful APIs
     //
     @RequestMapping(value = Routes.USAGE_POINT_COLLECTION, method = RequestMethod.GET)
     public void index(HttpServletResponse response, @PathVariable Long retailCustomerId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         exportService.exportUsagePoints(retailCustomerId, response.getOutputStream(), new ExportFilter(params));
     }
 
     @RequestMapping(value = Routes.USAGE_POINT_MEMBER, method = RequestMethod.GET)
     public void show(HttpServletResponse response, @PathVariable Long retailCustomerId, @PathVariable Long usagePointId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         exportService.exportUsagePoint(retailCustomerId, usagePointId, response.getOutputStream(), new ExportFilter(params));
     }
 
@@ -136,7 +142,7 @@ public class UsagePointRESTController {
     		@RequestParam Map<String, String> params, InputStream stream) {
 
     	RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
-    	UsagePoint usagePoint = usagePointService.findObject(retailCustomerId, usagePointId, new ExportFilter(params));
+    	UsagePoint usagePoint = usagePointService.findById(retailCustomerId, usagePointId);
     	 
         if (usagePoint != null) {
             try {
@@ -152,7 +158,7 @@ public class UsagePointRESTController {
     @RequestMapping(value = Routes.USAGE_POINT_MEMBER, method = RequestMethod.DELETE)
     public void delete(HttpServletResponse response, @PathVariable Long retailCustomerId, @PathVariable Long usagePointId,
     		@RequestParam Map<String, String> params) {
-    	UsagePoint usagePoint = usagePointService.findObject(retailCustomerId, usagePointId, new ExportFilter(params));
+    	UsagePoint usagePoint = usagePointService.findById(retailCustomerId, usagePointId);
 
         if (usagePoint != null) {
         	usagePointService.delete(usagePoint);

@@ -59,13 +59,75 @@ public class ElectricPowerUsageSummaryRESTController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleGenericException() {}
 
+    // ROOT RESTful forms
+    //
+    @RequestMapping(value = Routes.ROOT_ELECTRIC_POWER_USAGE_SUMMARY_COLLECTION, method = RequestMethod.GET)
+    public void index(HttpServletResponse response,
+    		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+        exportService.exportElectricPowerUsageSummarys(response.getOutputStream(), new ExportFilter(params));
+    }
+
     // 
+    //
+    @RequestMapping(value = Routes.ROOT_ELECTRIC_POWER_USAGE_SUMMARY_MEMBER, method = RequestMethod.GET)
+    public void show(HttpServletResponse response, 
+    		@PathVariable long electricPowerUsageSummaryId,
+    		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+        exportService.exportElectricPowerUsageSummary(electricPowerUsageSummaryId, response.getOutputStream(), new ExportFilter(params));
+    }
+
+    // 
+    //
+    @RequestMapping(value = Routes.ROOT_ELECTRIC_POWER_USAGE_SUMMARY_COLLECTION, method = RequestMethod.POST)
+    public void create(HttpServletResponse response, 
+    		@RequestParam Map<String, String> params,
+    		InputStream stream) throws IOException {
+        try {
+            ElectricPowerUsageSummary electricPowerUsageSummary = this.electricPowerUsageSummaryService.importResource(stream);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        }
+    }
+    //
+
+    @RequestMapping(value = Routes.ROOT_ELECTRIC_POWER_USAGE_SUMMARY_MEMBER, method = RequestMethod.PUT)
+    public void update(HttpServletResponse response, 
+    		@PathVariable long electricPowerUsageSummaryId,
+    		@RequestParam Map<String, String> params,
+    		InputStream stream) throws IOException, FeedException {
+    	ElectricPowerUsageSummary electricPowerUsageSummary = electricPowerUsageSummaryService.findById(electricPowerUsageSummaryId);
+        if (electricPowerUsageSummary != null) {
+            try {
+                ElectricPowerUsageSummary newElectricPowerUsageSummary = electricPowerUsageSummaryService.importResource(stream);
+                electricPowerUsageSummary.merge(newElectricPowerUsageSummary);
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            }
+        }
+    }
+
+    @RequestMapping(value = Routes.ROOT_ELECTRIC_POWER_USAGE_SUMMARY_MEMBER, method = RequestMethod.DELETE)
+    public void delete(HttpServletResponse response, 
+    		@PathVariable long electricPowerUsageSummaryId,
+    		@RequestParam Map<String, String> params,
+    		InputStream stream) throws IOException, FeedException {
+    	ElectricPowerUsageSummary electricPowerUsageSummary = electricPowerUsageSummaryService.findById(electricPowerUsageSummaryId);
+
+        if (electricPowerUsageSummary != null) {
+        	electricPowerUsageSummaryService.delete(electricPowerUsageSummary);
+        }
+    }    		
+
+    // XPath RESTful forms
     //
     @RequestMapping(value = Routes.ELECTRIC_POWER_USAGE_SUMMARY_COLLECTION, method = RequestMethod.GET)
     public void index(HttpServletResponse response,
     		@PathVariable long retailCustomerId,
     		@PathVariable long usagePointId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         exportService.exportElectricPowerUsageSummarys(retailCustomerId, usagePointId, response.getOutputStream(), new ExportFilter(params));
     }
 
@@ -77,6 +139,7 @@ public class ElectricPowerUsageSummaryRESTController {
     		@PathVariable long usagePointId,
     		@PathVariable long electricPowerUsageSummaryId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         exportService.exportElectricPowerUsageSummary(retailCustomerId, usagePointId, electricPowerUsageSummaryId, response.getOutputStream(), new ExportFilter(params));
     }
 

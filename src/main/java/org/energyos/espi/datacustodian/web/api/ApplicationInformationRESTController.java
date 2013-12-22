@@ -48,11 +48,12 @@ public class ApplicationInformationRESTController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleGenericException() {}
 
-    // 
+    // ROOT and XPath are the same for this one.
     //
     @RequestMapping(value = Routes.ROOT_APPLICATION_INFORMATION_COLLECTION, method = RequestMethod.GET)
 	public void index(HttpServletResponse response,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         exportService.exportApplicationInformations(response.getOutputStream(), new ExportFilter(params));
     }
 
@@ -62,6 +63,7 @@ public class ApplicationInformationRESTController {
     public void show(HttpServletResponse response, 
     		@PathVariable long applicationInformationId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         exportService.exportApplicationInformation(applicationInformationId, response.getOutputStream(), new ExportFilter(params));
     }
 
@@ -104,7 +106,6 @@ public class ApplicationInformationRESTController {
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException, FeedException {
     	ApplicationInformation applicationInformation = applicationInformationService.findById(applicationInformationId);
-
         if (applicationInformation != null) {
         	applicationInformationService.delete(applicationInformation);
         }
