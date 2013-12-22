@@ -13,7 +13,7 @@
 	
     <filter>
         <filter-name>CORSFilter</filter-name>
-        <filter-class>org.energyos.espi.datacustodian.web.filter.OriginFilter</filter-class>
+        <filter-class>org.energyos.espi.common.utils.CORSFilter</filter-class>
     </filter>
     
     <filter>
