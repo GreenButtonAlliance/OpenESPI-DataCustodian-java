@@ -59,7 +59,69 @@ public class IntervalBlockRESTController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleGenericException() {}
 
+    // ROOT RESTful forms
+    //
+    @RequestMapping(value = Routes.ROOT_INTERVAL_BLOCK_COLLECTION, method = RequestMethod.GET)
+    public void index(HttpServletResponse response, 
+    		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+        exportService.exportIntervalBlocks(response.getOutputStream(), new ExportFilter(params));
+    }
+
     // 
+    //
+    @RequestMapping(value = Routes.ROOT_INTERVAL_BLOCK_MEMBER, method = RequestMethod.GET)
+    public void show(HttpServletResponse response, 
+    		@PathVariable long intervalBlockId,
+    		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+        exportService.exportIntervalBlock(intervalBlockId, response.getOutputStream(), new ExportFilter(params));
+    }
+
+    // 
+    //
+    @RequestMapping(value = Routes.ROOT_INTERVAL_BLOCK_COLLECTION, method = RequestMethod.POST)
+    public void create(HttpServletResponse response, 
+    		@RequestParam Map<String, String> params,
+    		InputStream stream) throws IOException {
+        try {
+            IntervalBlock newIntervalBlock = this.intervalBlockService.importResource(stream);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        }
+    }
+
+    //
+    @RequestMapping(value = Routes.ROOT_INTERVAL_BLOCK_MEMBER, method = RequestMethod.PUT)
+    public void update(HttpServletResponse response, 
+    		@PathVariable long intervalBlockId,
+    		@RequestParam Map<String, String> params,
+    		InputStream stream) throws IOException, FeedException {
+        IntervalBlock intervalBlock = intervalBlockService.findById(intervalBlockId);
+ 
+        if (intervalBlock != null) {
+            try {
+                intervalBlock.merge(intervalBlockService.importResource(stream));
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            }
+        }
+    }
+
+    @RequestMapping(value = Routes.ROOT_INTERVAL_BLOCK_MEMBER, method = RequestMethod.DELETE)
+    public void delete(HttpServletResponse response, 
+    		@PathVariable long intervalBlockId,
+    		@RequestParam Map<String, String> params,
+    		InputStream stream) throws IOException, FeedException {
+        IntervalBlock intervalBlock = intervalBlockService.findById(intervalBlockId);
+        if (intervalBlock != null) {
+        	intervalBlockService.delete(intervalBlock);
+        }
+    }
+
+
+
+    // XPath RESTful forms 
     //
     @RequestMapping(value = Routes.INTERVAL_BLOCK_COLLECTION, method = RequestMethod.GET)
     public void index(HttpServletResponse response, 
@@ -67,6 +129,7 @@ public class IntervalBlockRESTController {
     		@PathVariable long usagePointId,
     		@PathVariable long meterReadingId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         exportService.exportIntervalBlocks(retailCustomerId, usagePointId, meterReadingId, response.getOutputStream(), new ExportFilter(params));
     }
 
@@ -79,6 +142,7 @@ public class IntervalBlockRESTController {
     		@PathVariable long meterReadingId,
     		@PathVariable long intervalBlockId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         exportService.exportIntervalBlock(retailCustomerId, usagePointId, meterReadingId, intervalBlockId, response.getOutputStream(), new ExportFilter(params));
     }
 

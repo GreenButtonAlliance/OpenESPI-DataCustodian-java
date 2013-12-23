@@ -60,13 +60,77 @@ public class ElectricPowerQualitySummaryRESTController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleGenericException() {}
 
+    // ROOT RESTful forms
+    //
+    @RequestMapping(value = Routes.ROOT_ELECTRIC_POWER_QUALITY_SUMMARY_COLLECTION, method = RequestMethod.GET)
+    public void index(HttpServletResponse response,
+    		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+        exportService.exportElectricPowerQualitySummarys(response.getOutputStream(), new ExportFilter(params));
+    }
+
     // 
+    //
+    @RequestMapping(value = Routes.ROOT_ELECTRIC_POWER_QUALITY_SUMMARY_MEMBER, method = RequestMethod.GET)
+    public void show(HttpServletResponse response, 
+    		@PathVariable long electricPowerQualitySummaryId,
+    		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+        exportService.exportElectricPowerQualitySummary(electricPowerQualitySummaryId, response.getOutputStream(), new ExportFilter(params));
+    }
+
+    // 
+    //
+    @RequestMapping(value = Routes.ROOT_ELECTRIC_POWER_QUALITY_SUMMARY_COLLECTION, method = RequestMethod.POST)
+    public void create(HttpServletResponse response, 
+    		@RequestParam Map<String, String> params,
+    		InputStream stream) throws IOException {
+        try {
+            ElectricPowerQualitySummary electricPowerQualitySummary = this.electricPowerQualitySummaryService.importResource(stream);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        }
+    }
+    //
+
+    @RequestMapping(value = Routes.ROOT_ELECTRIC_POWER_QUALITY_SUMMARY_MEMBER, method = RequestMethod.PUT)
+    public void update(HttpServletResponse response, 
+    		@PathVariable long electricPowerQualitySummaryId,
+    		@RequestParam Map<String, String> params,
+    		InputStream stream) throws IOException, FeedException {
+    	ElectricPowerQualitySummary electricPowerQualitySummary = electricPowerQualitySummaryService.findById(electricPowerQualitySummaryId);
+ 
+        if (electricPowerQualitySummary != null) {
+            try {
+            	
+                ElectricPowerQualitySummary newElectricPowerQualitySummary = electricPowerQualitySummaryService.importResource(stream);
+                electricPowerQualitySummary.merge(newElectricPowerQualitySummary);
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            }
+        }
+    }
+
+    @RequestMapping(value = Routes.ROOT_ELECTRIC_POWER_QUALITY_SUMMARY_MEMBER, method = RequestMethod.DELETE)
+    public void delete(HttpServletResponse response, 
+    		@PathVariable long electricPowerQualitySummaryId,
+    		@RequestParam Map<String, String> params,
+    		InputStream stream) throws IOException, FeedException {
+    	ElectricPowerQualitySummary electricPowerQualitySummary = electricPowerQualitySummaryService.findById(electricPowerQualitySummaryId);
+
+        if (electricPowerQualitySummary != null) {
+        	electricPowerQualitySummaryService.delete(electricPowerQualitySummary);
+        }
+    }    		
+
+    // XPath RESTful forms
     //
     @RequestMapping(value = Routes.ELECTRIC_POWER_QUALITY_SUMMARY_COLLECTION, method = RequestMethod.GET)
     public void index(HttpServletResponse response,
     		@PathVariable long retailCustomerId,
     		@PathVariable long usagePointId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         exportService.exportElectricPowerQualitySummarys(retailCustomerId, usagePointId, response.getOutputStream(), new ExportFilter(params));
     }
 
@@ -78,6 +142,7 @@ public class ElectricPowerQualitySummaryRESTController {
     		@PathVariable long usagePointId,
     		@PathVariable long electricPowerQualitySummaryId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         exportService.exportElectricPowerQualitySummary(retailCustomerId, usagePointId, electricPowerQualitySummaryId,
         		response.getOutputStream(), new ExportFilter(params));
     }

@@ -1,7 +1,7 @@
 package org.energyos.espi.datacustodian.integration.web.filters;
 
 
-import org.energyos.espi.common.utils.CORSFilter;
+import org.energyos.espi.datacustodian.web.filter.CORSFilter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,7 +43,7 @@ public class CORSFilterTests {
         mockMvc.perform(options("/"))
                 .andExpect(header().string("Access-Control-Allow-Origin", is("*")))
                 .andExpect(header().string("Access-Control-Allow-Methods", is("GET, POST, PUT, DELETE")))
-                .andExpect(header().string("Access-Control-Allow-Headers", is("content-type, authorization")))
+                .andExpect(header().string("Access-Control-Allow-Headers", is("Content-Type, Authorization")))
                 .andExpect(header().string("Access-Control-Max-Age", is("1800")));
     }
 }

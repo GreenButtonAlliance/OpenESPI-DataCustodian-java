@@ -1,6 +1,6 @@
 package org.energyos.espi.datacustodian.web.api;
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.Authorization;
 import org.energyos.espi.common.service.AuthorizationService;
 import org.energyos.espi.common.service.ExportService;
+import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.utils.ExportFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,32 +43,37 @@ public class AuthorizationRESTController {
     private AuthorizationService authorizationService;
     
     @Autowired
+    private RetailCustomerService retailCustomerService;
+    
+    @Autowired
     private ExportService exportService;
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleGenericException() {}
 
-    // 
+    // ROOT RESTful Forms
     //
-    @RequestMapping(value = Routes.AUTHORIZATION_COLLECTION, method = RequestMethod.GET)
+    @RequestMapping(value = Routes.ROOT_AUTHORIZATION_COLLECTION, method = RequestMethod.GET)
 	public void index(HttpServletResponse response,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         exportService.exportApplicationInformations(response.getOutputStream(), new ExportFilter(params));
     }
 
     // 
     //
-    @RequestMapping(value = Routes.AUTHORIZATION_MEMBER, method = RequestMethod.GET)
+    @RequestMapping(value = Routes.ROOT_AUTHORIZATION_MEMBER, method = RequestMethod.GET)
     public void show(HttpServletResponse response, 
     		@PathVariable long authorizationId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         exportService.exportApplicationInformation(authorizationId, response.getOutputStream(), new ExportFilter(params));
     }
 
     // 
     //
-    @RequestMapping(value = Routes.AUTHORIZATION_COLLECTION, method = RequestMethod.POST)
+    @RequestMapping(value = Routes.ROOT_AUTHORIZATION_COLLECTION, method = RequestMethod.POST)
     public void create(HttpServletResponse response,
     		@RequestParam Map<String, String> params, 
     		InputStream stream) throws IOException {
@@ -80,7 +86,7 @@ public class AuthorizationRESTController {
     }
     //
 
-    @RequestMapping(value = Routes.AUTHORIZATION_MEMBER, method = RequestMethod.PUT)
+    @RequestMapping(value = Routes.ROOT_AUTHORIZATION_MEMBER, method = RequestMethod.PUT)
     public void update(HttpServletResponse response, 
     		@PathVariable long authorizationId,
     		@RequestParam Map<String, String> params,
@@ -98,12 +104,81 @@ public class AuthorizationRESTController {
         }
     }
 
-    @RequestMapping(value = Routes.AUTHORIZATION_MEMBER, method = RequestMethod.DELETE)
+    @RequestMapping(value = Routes.ROOT_AUTHORIZATION_MEMBER, method = RequestMethod.DELETE)
     public void delete(HttpServletResponse response, 
     		@PathVariable long authorizationId,
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException, FeedException {
     	Authorization authorization = authorizationService.findById(authorizationId);
+
+        if (authorization != null) {
+        	authorizationService.delete(authorization);
+        }
+    }    		
+   
+    // XPath RESTful forms
+    //
+    @RequestMapping(value = Routes.AUTHORIZATION_COLLECTION, method = RequestMethod.GET)
+	public void index(HttpServletResponse response,
+			  @PathVariable Long retailCustomerId,
+    		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+        exportService.exportApplicationInformations(retailCustomerId, response.getOutputStream(), new ExportFilter(params));
+    }
+
+    // 
+    //
+    @RequestMapping(value = Routes.AUTHORIZATION_MEMBER, method = RequestMethod.GET)
+    public void show(HttpServletResponse response, 
+			  @PathVariable Long retailCustomerId,
+    		@PathVariable long authorizationId,
+    		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+        exportService.exportApplicationInformation(retailCustomerId, authorizationId, response.getOutputStream(), new ExportFilter(params));
+    }
+
+    // 
+    //
+    @RequestMapping(value = Routes.AUTHORIZATION_COLLECTION, method = RequestMethod.POST)
+        public void create(HttpServletResponse response,
+			   @PathVariable Long retailCustomerid,
+    		@RequestParam Map<String, String> params, 
+    		InputStream stream) throws IOException {
+        try {
+            Authorization authorization = this.authorizationService.importResource(stream);
+            retailCustomerService.associateByUUID(authorization.getUUID());
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        }
+    }
+    //
+
+    @RequestMapping(value = Routes.AUTHORIZATION_MEMBER, method = RequestMethod.PUT)
+    public void update(HttpServletResponse response, 
+		       @PathVariable Long retailCustomerId,
+    		@PathVariable long authorizationId,
+    		@RequestParam Map<String, String> params,
+    		InputStream stream) throws IOException, FeedException {
+    	Authorization authorization = authorizationService.findById(retailCustomerId, authorizationId);
+ 
+        if (authorization != null) {
+            try {
+            	
+                Authorization newAuthorization = authorizationService.importResource(stream);
+                authorization.merge(newAuthorization);
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            }
+        }
+    }
+
+    @RequestMapping(value = Routes.AUTHORIZATION_MEMBER, method = RequestMethod.DELETE)
+    public void delete(HttpServletResponse response, 
+			  @PathVariable Long retailCustomerId,
+    		@PathVariable long authorizationId,
+    		@RequestParam Map<String, String> params,
+    		InputStream stream) throws IOException, FeedException {
+    	Authorization authorization = authorizationService.findById(retailCustomerId, authorizationId);
 
         if (authorization != null) {
         	authorizationService.delete(authorization);

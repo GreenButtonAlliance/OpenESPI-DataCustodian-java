@@ -61,7 +61,67 @@ public class ReadingTypeRESTController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleGenericException() {}
 
+    // ROOT RESTful Forms
+    //
+    @RequestMapping(value = Routes.ROOT_READING_TYPE_COLLECTION, method = RequestMethod.GET)
+    public void index(HttpServletResponse response, 
+    		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+        exportService.exportReadingTypes(response.getOutputStream(), new ExportFilter(params));
+    }
+
     // 
+    //
+    @RequestMapping(value = Routes.ROOT_READING_TYPE_MEMBER, method = RequestMethod.GET)
+    public void show(HttpServletResponse response,
+    		@PathVariable long readingTypeId,
+    		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+        exportService.exportReadingType(readingTypeId, response.getOutputStream(), new ExportFilter(params));
+    }
+
+    // 
+    //
+    @RequestMapping(value = Routes.ROOT_READING_TYPE_COLLECTION, method = RequestMethod.POST)
+    public void create(HttpServletResponse response, 
+    		@RequestParam Map<String, String> params,
+    		InputStream stream) throws IOException {
+        try {
+            ReadingType readingType = this.readingTypeService.importResource(stream);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        }
+    }
+
+    //
+    @RequestMapping(value = Routes.ROOT_READING_TYPE_MEMBER, method = RequestMethod.PUT)
+    public void update(HttpServletResponse response, 
+    		@PathVariable long readingTypeId,
+    		@RequestParam Map<String, String> params,
+    	    InputStream stream) throws IOException {
+        ReadingType existingReadingType = readingTypeService.findById(readingTypeId);
+        
+        if (existingReadingType != null) {
+            try {
+                ReadingType readingType = readingTypeService.importResource(stream);
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            }
+        }
+    }
+
+    @RequestMapping(value = Routes.ROOT_READING_TYPE_MEMBER, method = RequestMethod.DELETE)
+    public void delete(HttpServletResponse response, 
+    		@PathVariable long readingTypeId,
+    		@RequestParam Map<String, String> params) throws IOException {
+        ReadingType readingType = readingTypeService.findById(readingTypeId);
+
+        if (readingType != null) {
+            this.readingTypeService.deleteById(readingTypeId);
+        }
+    }
+
+    // xpath RESTful forms
     //
     @RequestMapping(value = Routes.READING_TYPE_COLLECTION, method = RequestMethod.GET)
     public void index(HttpServletResponse response, 
@@ -69,6 +129,7 @@ public class ReadingTypeRESTController {
     		@PathVariable long usagePointId,
     		@PathVariable long meterReadingId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         exportService.exportReadingTypes(retailCustomerId, usagePointId, response.getOutputStream(), new ExportFilter(params));
     }
 
@@ -81,6 +142,7 @@ public class ReadingTypeRESTController {
     		@PathVariable long meterReadingId,
     		@PathVariable long readingTypeId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         exportService.exportReadingType(retailCustomerId, usagePointId, readingTypeId, response.getOutputStream(), new ExportFilter(params));
     }
 

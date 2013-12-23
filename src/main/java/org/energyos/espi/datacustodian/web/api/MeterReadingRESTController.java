@@ -23,6 +23,7 @@ import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.domain.MeterReading;
 import org.energyos.espi.common.service.ExportService;
 import org.energyos.espi.common.service.MeterReadingService;
+import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.EntryTypeIterator;
@@ -56,19 +57,72 @@ public class MeterReadingRESTController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleGenericException() {}
 
-    // 
+    // ROOT RESTFul APIs
+    //
+    @RequestMapping(value = Routes.ROOT_METER_READING_COLLECTION, method = RequestMethod.GET)
+    public void index(HttpServletResponse response, @RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+        exportService.exportMeterReadings(response.getOutputStream(), new ExportFilter(params));
+    }
+
+    @RequestMapping(value = Routes.ROOT_METER_READING_MEMBER, method = RequestMethod.GET)
+    public void show(HttpServletResponse response, 
+		     @PathVariable long meterReadingId,
+		     @RequestParam Map<String, String> params)
+        throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+        exportService.exportMeterReading(meterReadingId, response.getOutputStream(), new ExportFilter(params));
+    }
+
+    @RequestMapping(value = Routes.ROOT_METER_READING_COLLECTION, method = RequestMethod.POST)
+    public void create(HttpServletResponse response, 
+		@RequestParam Map<String, String> params,
+    		InputStream stream) throws IOException {
+        try {
+            MeterReading meterReading = this.meterReadingService.importResource(stream);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        }
+    }
+
+    @RequestMapping(value = Routes.ROOT_METER_READING_MEMBER, method = RequestMethod.PUT)
+    public void update(HttpServletResponse response,
+		       @PathVariable long meterReadingId,
+		       @RequestParam Map<String, String> params,
+		       InputStream stream) {
+        MeterReading meterReading = meterReadingService.findById(meterReadingId);
+        if (meterReading != null) {
+            try {
+                MeterReading newMeterReading = meterReadingService.importResource(stream);
+		meterReading.merge(newMeterReading);
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            }
+        }
+    }
+
+    @RequestMapping(value = Routes.ROOT_METER_READING_MEMBER, method = RequestMethod.DELETE)
+    public void delete(HttpServletResponse response, 
+    		@PathVariable long meterReadingId    		
+    		) {
+        MeterReading meterReading = meterReadingService.findById(meterReadingId);
+       
+        if (meterReading != null) {
+            this.meterReadingService.delete(meterReading);
+        }
+    }
+
+    // XPath RESTFul APIs
     //
     @RequestMapping(value = Routes.METER_READING_COLLECTION, method = RequestMethod.GET)
     public void index(HttpServletResponse response, 
     		@PathVariable long retailCustomerId, 
     		@PathVariable long usagePointId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
-
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         exportService.exportMeterReadings(retailCustomerId, usagePointId, response.getOutputStream(), new ExportFilter(params));
     }
 
-    // 
-    //
     @RequestMapping(value = Routes.METER_READING_MEMBER, method = RequestMethod.GET)
     public void show(HttpServletResponse response, 
 		     @PathVariable long retailCustomerId,
@@ -76,6 +130,7 @@ public class MeterReadingRESTController {
 		     @PathVariable long meterReadingId,
 		     @RequestParam Map<String, String> params)
         throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         exportService.exportMeterReading(retailCustomerId, usagePointId, meterReadingId, response.getOutputStream(), new ExportFilter(params));
     }
 
@@ -148,4 +203,5 @@ public class MeterReadingRESTController {
     public void setExportService(ExportService exportService) {
     	this.exportService = exportService;
     }
+
 }

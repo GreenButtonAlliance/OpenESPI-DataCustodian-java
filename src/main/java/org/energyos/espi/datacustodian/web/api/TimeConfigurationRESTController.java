@@ -55,11 +55,74 @@ public class TimeConfigurationRESTController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleGenericException() {}
 
+    // ROOT RESTFul Forms
+    //
+    @RequestMapping(value = Routes.ROOT_TIME_CONFIGURATION_COLLECTION, method = RequestMethod.GET)
+    public void index(HttpServletResponse response,
+ 		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+        exportService.exportTimeConfigurations( response.getOutputStream(), new ExportFilter(params));
+    }
+
     // 
+    //
+    @RequestMapping(value = Routes.ROOT_TIME_CONFIGURATION_MEMBER, method = RequestMethod.GET)
+    public void show(HttpServletResponse response, @PathVariable long timeConfigurationId,
+    		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+        exportService.exportTimeConfiguration(timeConfigurationId, response.getOutputStream(), new ExportFilter(params));
+    }
+
+    // 
+    //
+    @RequestMapping(value = Routes.ROOT_TIME_CONFIGURATION_COLLECTION, method = RequestMethod.POST)
+    public void create(HttpServletResponse response, 
+    		@RequestParam Map<String, String> params,
+    		InputStream stream) throws IOException {
+        try {
+            TimeConfiguration timeConfiguration = this.timeConfigurationService.importResource(stream);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        }
+    }
+
+    //
+    @RequestMapping(value = Routes.ROOT_TIME_CONFIGURATION_MEMBER, method = RequestMethod.PUT)
+    public void update(HttpServletResponse response, 
+    		@PathVariable long timeConfigurationId,
+    		@RequestParam Map<String, String> params, 
+    		InputStream stream) {
+        TimeConfiguration existingTimeConfiguration;
+        existingTimeConfiguration = timeConfigurationService.findById(timeConfigurationId);
+
+        if (existingTimeConfiguration != null) {
+            try {
+                TimeConfiguration timeConfiguration = timeConfigurationService.importResource(stream);
+		// todo need to merge or persist
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            }
+        }
+    }
+
+    @RequestMapping(value = Routes.ROOT_TIME_CONFIGURATION_MEMBER, method = RequestMethod.DELETE)
+    public void delete(HttpServletResponse response, 
+    		@PathVariable long timeConfigurationId,
+    		@RequestParam Map<String, String> params, 
+    		InputStream stream) {
+        TimeConfiguration existingTimeConfiguration = timeConfigurationService.findById(timeConfigurationId);
+
+        if (existingTimeConfiguration != null) {
+            this.timeConfigurationService.deleteById(timeConfigurationId);
+        }
+    }
+
+    // XPath RESTful Forms
     //
     @RequestMapping(value = Routes.TIME_CONFIGURATION_COLLECTION, method = RequestMethod.GET)
     public void index(HttpServletResponse response, @PathVariable long retailCustomerId, @PathVariable long usagePointId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         exportService.exportTimeConfigurations(retailCustomerId, usagePointId, response.getOutputStream(), new ExportFilter(params));
     }
 
@@ -68,6 +131,7 @@ public class TimeConfigurationRESTController {
     @RequestMapping(value = Routes.TIME_CONFIGURATION_MEMBER, method = RequestMethod.GET)
     public void show(HttpServletResponse response, @PathVariable long retailCustomerId, @PathVariable long usagePointId, @PathVariable long timeConfigurationId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         exportService.exportTimeConfiguration(retailCustomerId, usagePointId, timeConfigurationId, response.getOutputStream(), new ExportFilter(params));
     }
 
