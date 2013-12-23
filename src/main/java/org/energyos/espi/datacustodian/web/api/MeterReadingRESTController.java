@@ -23,6 +23,7 @@ import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.domain.MeterReading;
 import org.energyos.espi.common.service.ExportService;
 import org.energyos.espi.common.service.MeterReadingService;
+import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.EntryTypeIterator;
@@ -202,4 +203,5 @@ public class MeterReadingRESTController {
     public void setExportService(ExportService exportService) {
     	this.exportService = exportService;
     }
+
 }
