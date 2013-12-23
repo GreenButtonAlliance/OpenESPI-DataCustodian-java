@@ -94,7 +94,7 @@ public class UsagePointRESTControllerTests {
         when(usagePointService.findByHashedId(usagePoint.getHashedId())).thenReturn(usagePoint);
         when(atomService.entryFor(usagePoint)).thenReturn(entry);
 
-        controller.show(response, 1L, usagePoint.getId(), null);
+        controller.show(response, 1L, null);
 
         assertThat(response.getContentAsString(), is(entry));
         assertThat(response.getStatus(), is(200));
@@ -105,7 +105,7 @@ public class UsagePointRESTControllerTests {
     public void show_givenInvalidUsagePoint_returns400Status() throws IOException, FeedException {
         when(usagePointService.findByHashedId(anyString())).thenThrow(new EmptyResultDataAccessException(1));
 
-        controller.show(response, 100L, 200L, null);
+        controller.show(response, 100L, null);
     }
 
     @Test
