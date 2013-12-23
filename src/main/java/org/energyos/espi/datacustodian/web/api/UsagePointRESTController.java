@@ -55,16 +55,26 @@ public class UsagePointRESTController {
     // ROOT RESTful APIs
     @RequestMapping(value = Routes.ROOT_USAGE_POINT_COLLECTION, method = RequestMethod.GET)
     public void index(HttpServletResponse response, @RequestParam Map<String, String> params) throws IOException, FeedException {
+<<<<<<< HEAD
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+=======
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);    	
+>>>>>>> upstream/master
         exportService.exportUsagePoints(response.getOutputStream(), new ExportFilter(params));
     }
 
     @RequestMapping(value = Routes.ROOT_USAGE_POINT_MEMBER, method = RequestMethod.GET)
+<<<<<<< HEAD
     public void show(HttpServletResponse response,
 		     @PathVariable Long usagePointId,
     		     @RequestParam Map<String, String> params)
 	throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+=======
+    public void show(HttpServletResponse response, @PathVariable Long usagePointId,
+    		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);    	
+>>>>>>> upstream/master
         exportService.exportUsagePoint(usagePointId, response.getOutputStream(), new ExportFilter(params));
     }
 
@@ -111,14 +121,22 @@ public class UsagePointRESTController {
     @RequestMapping(value = Routes.USAGE_POINT_COLLECTION, method = RequestMethod.GET)
     public void index(HttpServletResponse response, @PathVariable Long retailCustomerId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
+<<<<<<< HEAD
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+=======
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);    	
+>>>>>>> upstream/master
         exportService.exportUsagePoints(retailCustomerId, response.getOutputStream(), new ExportFilter(params));
     }
 
     @RequestMapping(value = Routes.USAGE_POINT_MEMBER, method = RequestMethod.GET)
     public void show(HttpServletResponse response, @PathVariable Long retailCustomerId, @PathVariable Long usagePointId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
+<<<<<<< HEAD
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+=======
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);    	
+>>>>>>> upstream/master
         exportService.exportUsagePoint(retailCustomerId, usagePointId, response.getOutputStream(), new ExportFilter(params));
     }
 
