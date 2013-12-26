@@ -19,6 +19,7 @@ import com.sun.syndication.io.FeedException;
 
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.ApplicationInformation;
+import org.energyos.espi.common.domain.Subscription;
 import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.service.ExportService;
 import org.energyos.espi.common.utils.ExportFilter;
@@ -64,7 +65,12 @@ public class ApplicationInformationRESTController {
     		@PathVariable long applicationInformationId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        exportService.exportApplicationInformation(applicationInformationId, response.getOutputStream(), new ExportFilter(params));
+        try {
+            exportService.exportApplicationInformation(applicationInformationId, response.getOutputStream(), new ExportFilter(params));
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        }
+ 
     }
 
     // 

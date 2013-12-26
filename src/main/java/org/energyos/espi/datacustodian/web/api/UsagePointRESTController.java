@@ -66,8 +66,12 @@ public class UsagePointRESTController {
    		@PathVariable Long usagePointId,
    		@RequestParam Map<String, String> params) throws IOException, FeedException {
        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);    	
-       exportService.exportUsagePoint(usagePointId, response.getOutputStream(), new ExportFilter(params));
-   }
+       try {
+           exportService.exportUsagePoint(usagePointId, response.getOutputStream(), new ExportFilter(params));
+       } catch (Exception e) {
+           response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+       }  
+       }
 
    @RequestMapping(value = Routes.ROOT_USAGE_POINT_COLLECTION, method = RequestMethod.POST)
    public void create(HttpServletResponse response, @RequestParam Map<String, String> params, InputStream stream) throws IOException {
@@ -123,8 +127,12 @@ public class UsagePointRESTController {
 		   @PathVariable Long usagePointId,
    		   @RequestParam Map<String, String> params) throws IOException, FeedException {
        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);    	
-       exportService.exportUsagePoint(retailCustomerId, usagePointId, response.getOutputStream(), new ExportFilter(params));
-   }
+       try {
+           exportService.exportUsagePoint(retailCustomerId, usagePointId, response.getOutputStream(), new ExportFilter(params));
+       } catch (Exception e) {
+           response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+       }  
+       }
 
    @RequestMapping(value = Routes.USAGE_POINT_COLLECTION, method = RequestMethod.POST)
    public void create(HttpServletResponse response, 

@@ -75,8 +75,13 @@ public class ElectricPowerUsageSummaryRESTController {
     		@PathVariable long electricPowerUsageSummaryId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        exportService.exportElectricPowerUsageSummary(electricPowerUsageSummaryId, response.getOutputStream(), new ExportFilter(params));
-    }
+
+        try {
+              exportService.exportElectricPowerUsageSummary(electricPowerUsageSummaryId, response.getOutputStream(), new ExportFilter(params));
+                    } catch (Exception e) {
+              response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+          }     
+        }
 
     // 
     //
@@ -140,8 +145,12 @@ public class ElectricPowerUsageSummaryRESTController {
     		@PathVariable long electricPowerUsageSummaryId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        exportService.exportElectricPowerUsageSummary(retailCustomerId, usagePointId, electricPowerUsageSummaryId, response.getOutputStream(), new ExportFilter(params));
-    }
+        try {
+            exportService.exportElectricPowerUsageSummary(retailCustomerId, usagePointId, electricPowerUsageSummaryId, response.getOutputStream(), new ExportFilter(params));
+                    } catch (Exception e) {
+              response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+          } 
+        }
 
     // 
     //

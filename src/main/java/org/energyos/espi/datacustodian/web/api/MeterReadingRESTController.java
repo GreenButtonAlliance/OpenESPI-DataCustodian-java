@@ -71,7 +71,11 @@ public class MeterReadingRESTController {
 		     @RequestParam Map<String, String> params)
         throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        exportService.exportMeterReading(meterReadingId, response.getOutputStream(), new ExportFilter(params));
+        try {
+            exportService.exportMeterReading(meterReadingId, response.getOutputStream(), new ExportFilter(params));   
+                    } catch (Exception e) {
+              response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+          } 
     }
 
     @RequestMapping(value = Routes.ROOT_METER_READING_COLLECTION, method = RequestMethod.POST)
@@ -131,7 +135,11 @@ public class MeterReadingRESTController {
 		     @RequestParam Map<String, String> params)
         throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        exportService.exportMeterReading(retailCustomerId, usagePointId, meterReadingId, response.getOutputStream(), new ExportFilter(params));
+        try {
+            exportService.exportMeterReading(retailCustomerId, usagePointId, meterReadingId, response.getOutputStream(), new ExportFilter(params));
+                    } catch (Exception e) {
+              response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+          } 
     }
 
     // 

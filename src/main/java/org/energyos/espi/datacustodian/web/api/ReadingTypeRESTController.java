@@ -143,7 +143,7 @@ public class ReadingTypeRESTController {
     		@PathVariable long readingTypeId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        exportService.exportReadingType(retailCustomerId, usagePointId, readingTypeId, response.getOutputStream(), new ExportFilter(params));
+        exportService.exportReadingType(retailCustomerId, usagePointId, meterReadingId, readingTypeId, response.getOutputStream(), new ExportFilter(params));
     }
 
     // 

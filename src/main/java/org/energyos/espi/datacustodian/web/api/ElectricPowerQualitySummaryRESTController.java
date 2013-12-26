@@ -76,7 +76,11 @@ public class ElectricPowerQualitySummaryRESTController {
     		@PathVariable long electricPowerQualitySummaryId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        exportService.exportElectricPowerQualitySummary(electricPowerQualitySummaryId, response.getOutputStream(), new ExportFilter(params));
+        try {
+            exportService.exportElectricPowerQualitySummary(electricPowerQualitySummaryId, response.getOutputStream(), new ExportFilter(params));
+                    } catch (Exception e) {
+              response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+          }  
     }
 
     // 
@@ -143,9 +147,14 @@ public class ElectricPowerQualitySummaryRESTController {
     		@PathVariable long electricPowerQualitySummaryId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        exportService.exportElectricPowerQualitySummary(retailCustomerId, usagePointId, electricPowerQualitySummaryId,
-        		response.getOutputStream(), new ExportFilter(params));
-    }
+
+        try {
+            exportService.exportElectricPowerQualitySummary(retailCustomerId, usagePointId, electricPowerQualitySummaryId,
+            		response.getOutputStream(), new ExportFilter(params));
+                    } catch (Exception e) {
+              response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+          }  
+        }
 
     // 
     //
