@@ -41,9 +41,9 @@ public class CORSFilterTests {
     @Test
     public void optionsRequest_hasCorrectFilters() throws Exception {
         mockMvc.perform(options("/"))
-                .andExpect(header().string("Access-Control-Allow-Origin", is("*")))
-                .andExpect(header().string("Access-Control-Allow-Methods", is("GET, POST, PUT, DELETE")))
-                .andExpect(header().string("Access-Control-Allow-Headers", is("Content-Type, Authorization")))
+                .andExpect(header().string("Access-Control-Allow-Methods", is("GET, POST, PUT, DELETE, OPTIONS")))
+                .andExpect(header().string("Access-Control-Allow-Headers", is("origin, authorization, accept, content-type")))
+                .andExpect(header().string("Access-Control-Allow-Credentials", is("true")))
                 .andExpect(header().string("Access-Control-Max-Age", is("1800")));
     }
 }

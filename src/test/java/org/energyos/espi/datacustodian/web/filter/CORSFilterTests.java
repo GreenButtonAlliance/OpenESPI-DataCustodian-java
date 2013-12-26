@@ -18,7 +18,7 @@ public class CORSFilterTests {
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
 
-        corsFilter.doFilterInternal(request, response, filterChain);
+        corsFilter.doFilter(request, response, filterChain);
 
         verify(filterChain).doFilter(request, response);
     }

@@ -17,8 +17,8 @@
     </filter>
     
     <filter>
-    	<filter-name>LongToStringFilter</filter-name>
-    	<filter-class>org.energyos.espi.common.utils.LongToStringFilter</filter-class>	
+    	<filter-name>StringToLongFilter</filter-name>
+    	<filter-class>org.energyos.espi.common.utils.StringToLongFilter</filter-class>	
     </filter>
 
     <filter-mapping>
@@ -27,7 +27,7 @@
     </filter-mapping>
     
     <filter-mapping>
-    	<filter-name>LongToStringFilter</filter-name>
+    	<filter-name>StringToLongFilter</filter-name>
     	<url-pattern>/*</url-pattern>
     </filter-mapping>
     
