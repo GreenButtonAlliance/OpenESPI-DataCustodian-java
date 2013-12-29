@@ -79,7 +79,7 @@ public class ElectricPowerUsageSummaryRESTController {
         try {
               exportService.exportElectricPowerUsageSummary(electricPowerUsageSummaryId, response.getOutputStream(), new ExportFilter(params));
                     } catch (Exception e) {
-              response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+              response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
           }     
         }
 
@@ -92,7 +92,7 @@ public class ElectricPowerUsageSummaryRESTController {
         try {
             ElectricPowerUsageSummary electricPowerUsageSummary = this.electricPowerUsageSummaryService.importResource(stream);
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
     //
@@ -108,7 +108,7 @@ public class ElectricPowerUsageSummaryRESTController {
                 ElectricPowerUsageSummary newElectricPowerUsageSummary = electricPowerUsageSummaryService.importResource(stream);
                 electricPowerUsageSummary.merge(newElectricPowerUsageSummary);
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
     }
@@ -148,7 +148,7 @@ public class ElectricPowerUsageSummaryRESTController {
         try {
             exportService.exportElectricPowerUsageSummary(retailCustomerId, usagePointId, electricPowerUsageSummaryId, response.getOutputStream(), new ExportFilter(params));
                     } catch (Exception e) {
-              response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+              response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
           } 
         }
 
@@ -166,7 +166,7 @@ public class ElectricPowerUsageSummaryRESTController {
             ElectricPowerUsageSummary electricPowerUsageSummary = this.electricPowerUsageSummaryService.importResource(stream);
             electricPowerUsageSummaryService.associateByUUID(usagePoint, electricPowerUsageSummary.getUUID());
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
     //
@@ -188,7 +188,7 @@ public class ElectricPowerUsageSummaryRESTController {
                 ElectricPowerUsageSummary newElectricPowerUsageSummary = electricPowerUsageSummaryService.importResource(stream);
                 electricPowerUsageSummary.merge(newElectricPowerUsageSummary);
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
     }

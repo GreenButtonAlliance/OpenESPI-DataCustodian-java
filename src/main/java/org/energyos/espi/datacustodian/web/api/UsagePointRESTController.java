@@ -70,7 +70,7 @@ public class UsagePointRESTController {
        try {
            exportService.exportUsagePoint(usagePointId, response.getOutputStream(), new ExportFilter(params));
        } catch (Exception e) {
-           response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
        }  
        }
 
@@ -79,7 +79,7 @@ public class UsagePointRESTController {
        try {
            UsagePoint usagePoint = this.usagePointService.importResource(stream);
        } catch (Exception e) {
-           response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
        }
    }
 
@@ -95,7 +95,7 @@ public class UsagePointRESTController {
                UsagePoint newUsagePoint = usagePointService.importResource(stream);
                usagePoint.merge(newUsagePoint);
            } catch (Exception e) {
-               response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+               response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
            }
        }
    }
@@ -131,7 +131,7 @@ public class UsagePointRESTController {
        try {
            exportService.exportUsagePoint(retailCustomerId, usagePointId, response.getOutputStream(), new ExportFilter(params));
        } catch (Exception e) {
-           response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
        }  
        }
 
@@ -149,7 +149,7 @@ public class UsagePointRESTController {
            // retailCustomerService.add(usagePoint);
            usagePointService.associateByUUID(retailCustomer, usagePoint.getUUID());
        } catch (Exception e) {
-           response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
        }
    }
 
@@ -168,7 +168,7 @@ public class UsagePointRESTController {
                UsagePoint newUsagePoint = usagePointService.importResource(stream);
                usagePoint.merge(newUsagePoint);
            } catch (Exception e) {
-               response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+               response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
            }
        }
    }

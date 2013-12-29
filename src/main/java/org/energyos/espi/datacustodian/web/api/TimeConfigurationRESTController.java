@@ -73,7 +73,7 @@ public class TimeConfigurationRESTController {
         try {
             exportService.exportTimeConfiguration(timeConfigurationId, response.getOutputStream(), new ExportFilter(params));
                     } catch (Exception e) {
-              response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+              response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
           } 
         }
 
@@ -86,7 +86,7 @@ public class TimeConfigurationRESTController {
         try {
             TimeConfiguration timeConfiguration = this.timeConfigurationService.importResource(stream);
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
@@ -104,7 +104,7 @@ public class TimeConfigurationRESTController {
                 TimeConfiguration timeConfiguration = timeConfigurationService.importResource(stream);
 		// todo need to merge or persist
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
     }
@@ -140,7 +140,7 @@ public class TimeConfigurationRESTController {
         try {
             exportService.exportTimeConfiguration(retailCustomerId, usagePointId, timeConfigurationId, response.getOutputStream(), new ExportFilter(params));
                     } catch (Exception e) {
-              response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+              response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
           } 
     }
 
@@ -159,7 +159,7 @@ public class TimeConfigurationRESTController {
             TimeConfiguration timeConfiguration = this.timeConfigurationService.importResource(stream);
             timeConfigurationService.associateByUUID(usagePoint, timeConfiguration.getUUID());
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
@@ -182,7 +182,7 @@ public class TimeConfigurationRESTController {
                 TimeConfiguration timeConfiguration = timeConfigurationService.importResource(stream);
                 timeConfigurationService.associateByUUID(usagePoint, timeConfiguration.getUUID());
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
     }

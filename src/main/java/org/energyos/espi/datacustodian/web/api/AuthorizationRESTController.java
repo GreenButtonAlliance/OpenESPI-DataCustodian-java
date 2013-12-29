@@ -71,7 +71,7 @@ public class AuthorizationRESTController {
       try {
           exportService.exportApplicationInformation(authorizationId, response.getOutputStream(), new ExportFilter(params));
                   } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
@@ -85,7 +85,7 @@ public class AuthorizationRESTController {
             Authorization authorization = this.authorizationService.importResource(stream);
             authorizationService.add(authorization);
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
     //
@@ -103,7 +103,7 @@ public class AuthorizationRESTController {
                 Authorization newAuthorization = authorizationService.importResource(stream);
                 authorization.merge(newAuthorization);
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
     }
@@ -141,7 +141,7 @@ public class AuthorizationRESTController {
         try {
             exportService.exportAuthorization(retailCustomerId, authorizationId, response.getOutputStream(), new ExportFilter(params));
                     } catch (Exception e) {
-              response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+              response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
           }    
         }
 
@@ -156,7 +156,7 @@ public class AuthorizationRESTController {
             Authorization authorization = this.authorizationService.importResource(stream);
             retailCustomerService.associateByUUID(authorization.getUUID());
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
     //
@@ -175,7 +175,7 @@ public class AuthorizationRESTController {
                 Authorization newAuthorization = authorizationService.importResource(stream);
                 authorization.merge(newAuthorization);
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
     }

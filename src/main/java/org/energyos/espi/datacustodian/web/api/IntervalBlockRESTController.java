@@ -79,7 +79,7 @@ public class IntervalBlockRESTController {
         try {
             exportService.exportIntervalBlock(intervalBlockId, response.getOutputStream(), new ExportFilter(params));
                     } catch (Exception e) {
-              response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+              response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
           } 
         }
 
@@ -92,7 +92,7 @@ public class IntervalBlockRESTController {
         try {
             IntervalBlock newIntervalBlock = this.intervalBlockService.importResource(stream);
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
@@ -108,7 +108,7 @@ public class IntervalBlockRESTController {
             try {
                 intervalBlock.merge(intervalBlockService.importResource(stream));
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
     }
@@ -152,7 +152,7 @@ public class IntervalBlockRESTController {
             exportService.exportIntervalBlock(retailCustomerId, usagePointId, meterReadingId, intervalBlockId, response.getOutputStream(), new ExportFilter(params));
             
                     } catch (Exception e) {
-              response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+              response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
           } 
        }
 
@@ -170,7 +170,7 @@ public class IntervalBlockRESTController {
             IntervalBlock newIntervalBlock = this.intervalBlockService.importResource(stream);
             intervalBlockService.associateByUUID(meterReading, newIntervalBlock.getUUID());
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
@@ -189,7 +189,7 @@ public class IntervalBlockRESTController {
             try {
                 intervalBlock.merge(intervalBlockService.importResource(stream));
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
     }

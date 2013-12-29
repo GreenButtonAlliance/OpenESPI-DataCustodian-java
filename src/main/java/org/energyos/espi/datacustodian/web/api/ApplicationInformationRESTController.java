@@ -67,7 +67,7 @@ public class ApplicationInformationRESTController {
         try {
             exportService.exportApplicationInformation(applicationInformationId, response.getOutputStream(), new ExportFilter(params));
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
  
     }
@@ -82,7 +82,7 @@ public class ApplicationInformationRESTController {
             ApplicationInformation applicationInformation = this.applicationInformationService.importResource(stream);
             applicationInformationService.add(applicationInformation);
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
     //
@@ -100,7 +100,7 @@ public class ApplicationInformationRESTController {
                 ApplicationInformation newApplicationInformation = applicationInformationService.importResource(stream);
                 applicationInformation.merge(newApplicationInformation);
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
     }

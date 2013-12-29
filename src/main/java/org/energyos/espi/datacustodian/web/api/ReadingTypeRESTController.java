@@ -89,7 +89,7 @@ public class ReadingTypeRESTController {
         try {
             ReadingType readingType = this.readingTypeService.importResource(stream);
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
@@ -105,7 +105,7 @@ public class ReadingTypeRESTController {
             try {
                 ReadingType readingType = readingTypeService.importResource(stream);
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
     }
@@ -162,7 +162,7 @@ public class ReadingTypeRESTController {
             ReadingType readingType = this.readingTypeService.importResource(stream);
             readingTypeService.associateByUUID(meterReading, readingType.getUUID());
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
@@ -185,7 +185,7 @@ public class ReadingTypeRESTController {
                 ReadingType readingType = readingTypeService.importResource(stream);
                 readingTypeService.associateByUUID(meterReading, readingType.getUUID());
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
     }

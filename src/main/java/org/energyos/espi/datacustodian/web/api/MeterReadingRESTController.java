@@ -74,7 +74,7 @@ public class MeterReadingRESTController {
         try {
             exportService.exportMeterReading(meterReadingId, response.getOutputStream(), new ExportFilter(params));   
                     } catch (Exception e) {
-              response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+              response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
           } 
     }
 
@@ -85,7 +85,7 @@ public class MeterReadingRESTController {
         try {
             MeterReading meterReading = this.meterReadingService.importResource(stream);
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
@@ -100,7 +100,7 @@ public class MeterReadingRESTController {
                 MeterReading newMeterReading = meterReadingService.importResource(stream);
 		meterReading.merge(newMeterReading);
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
     }
@@ -138,7 +138,7 @@ public class MeterReadingRESTController {
         try {
             exportService.exportMeterReading(retailCustomerId, usagePointId, meterReadingId, response.getOutputStream(), new ExportFilter(params));
                     } catch (Exception e) {
-              response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+              response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
           } 
     }
 
@@ -155,7 +155,7 @@ public class MeterReadingRESTController {
             MeterReading meterReading = this.meterReadingService.importResource(stream);
             meterReadingService.associateByUUID(usagePoint, meterReading.getUUID());
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
@@ -176,7 +176,7 @@ public class MeterReadingRESTController {
                 MeterReading newmeterReading = meterReadingService.importResource(stream);
                 meterReadingService.associateByUUID(usagePoint, newmeterReading.getUUID());
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
     }
