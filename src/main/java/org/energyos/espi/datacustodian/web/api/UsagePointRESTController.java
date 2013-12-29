@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -135,12 +136,15 @@ public class UsagePointRESTController {
        }
 
    @RequestMapping(value = Routes.USAGE_POINT_COLLECTION, method = RequestMethod.POST)
-   public void create(HttpServletResponse response, 
+   public void create(HttpServletResponse response,
 		   @PathVariable Long retailCustomerId,
-   		   @RequestParam Map<String, String> params, InputStream stream) throws IOException {
+   		   @RequestParam Map<String, String> params, 
+   		   InputStream stream) throws IOException {
+	   
        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
        try {
            UsagePoint usagePoint = this.usagePointService.importResource(stream);
+    	   
            // TODO would like to just do a .add
            // retailCustomerService.add(usagePoint);
            usagePointService.associateByUUID(retailCustomer, usagePoint.getUUID());
