@@ -34,6 +34,7 @@
                 <datacustodian.base.url>http://localhost:8080/DataCustodian</datacustodian.base.url>
                 <profile>dev</profile>
                 <database>hsql</database>
+                <hbm2ddl_auto>create-drop</hbm2ddl_auto>
             </properties>
         </profile>
 
@@ -43,6 +44,7 @@
                 <datacustodian.base.url>http://localhost:8080/DataCustodian</datacustodian.base.url>
                 <profile>dev</profile>
                 <database>mysql</database>
+                <hbm2ddl_auto>validate</hbm2ddl_auto>
             </properties>
         </profile>
 
@@ -61,6 +63,7 @@
                 <datacustodian.base.url>http://services.greenbuttondata.org/DataCustodian</datacustodian.base.url>
                 <profile>greenbuttondata</profile>
                 <database>mysql</database>
+                <hbm2ddl_auto>validate</hbm2ddl_auto>
             </properties>
         </profile>
 

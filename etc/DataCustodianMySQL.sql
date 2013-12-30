@@ -532,7 +532,7 @@ DROP TABLE IF EXISTS `retail_customers`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `retail_customers` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `enabled` tinyint(1) NOT NULL,
+  `enabled` boolean NOT NULL,
   `first_name` varchar(30) NOT NULL,
   `last_name` varchar(30) NOT NULL,
   `password` varchar(100) DEFAULT NULL,
