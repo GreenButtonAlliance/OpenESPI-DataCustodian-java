@@ -102,7 +102,7 @@ public class TimeConfigurationRESTController {
         if (existingTimeConfiguration != null) {
             try {
                 TimeConfiguration timeConfiguration = timeConfigurationService.importResource(stream);
-		// todo need to merge or persist
+	            existingTimeConfiguration.merge(timeConfiguration);
             } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
@@ -180,7 +180,7 @@ public class TimeConfigurationRESTController {
         if (existingTimeConfiguration != null) {
             try {
                 TimeConfiguration timeConfiguration = timeConfigurationService.importResource(stream);
-                timeConfigurationService.associateByUUID(usagePoint, timeConfiguration.getUUID());
+                existingTimeConfiguration.merge(timeConfiguration);
             } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }

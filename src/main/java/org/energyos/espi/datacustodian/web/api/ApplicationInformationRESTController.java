@@ -80,7 +80,7 @@ public class ApplicationInformationRESTController {
     		InputStream stream) throws IOException {
         try {
             ApplicationInformation applicationInformation = this.applicationInformationService.importResource(stream);
-            applicationInformationService.add(applicationInformation);
+            applicationInformationService.persist(applicationInformation);
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
