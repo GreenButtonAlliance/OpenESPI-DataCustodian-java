@@ -42,9 +42,9 @@
             <id>devmysql</id>
             <properties>
                 <datacustodian.base.url>http://localhost:8080/DataCustodian</datacustodian.base.url>
-                <profile>dev</profile>
+                <profile>devmysql</profile>
                 <database>mysql</database>
-                <hbm2ddl_auto>validate</hbm2ddl_auto>
+                <hbm2ddl_auto>none</hbm2ddl_auto>
             </properties>
         </profile>
 
@@ -54,6 +54,7 @@
                 <datacustodian.base.url>http://datacustodian-dev.herokuapp.com/DataCustodian</datacustodian.base.url>
                 <profile>heroku</profile>
                 <database>postgresql</database>
+                <hbm2ddl_auto>create-drop</hbm2ddl_auto>
             </properties>
         </profile>
         
@@ -63,7 +64,7 @@
                 <datacustodian.base.url>http://services.greenbuttondata.org/DataCustodian</datacustodian.base.url>
                 <profile>greenbuttondata</profile>
                 <database>mysql</database>
-                <hbm2ddl_auto>validate</hbm2ddl_auto>
+                <hbm2ddl_auto>none</hbm2ddl_auto>
             </properties>
         </profile>
 
@@ -73,6 +74,7 @@
                 <datacustodian.base.url>http://54.200.90.158:8080/DataCustodian</datacustodian.base.url>
                 <profile>ec2</profile>
                 <database>hsql</database>
+                <hbm2ddl_auto>create-drop</hbm2ddl_auto>
             </properties>
         </profile>
     </profiles>
