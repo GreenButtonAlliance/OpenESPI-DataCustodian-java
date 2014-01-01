@@ -83,8 +83,10 @@ public class TimeConfigurationRESTController {
     public void create(HttpServletResponse response, 
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         try {
             TimeConfiguration timeConfiguration = this.timeConfigurationService.importResource(stream);
+            exportService.exportTimeConfiguration(timeConfiguration.getId(), response.getOutputStream(), new ExportFilter(null));
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
@@ -96,6 +98,18 @@ public class TimeConfigurationRESTController {
     		@PathVariable long timeConfigurationId,
     		@RequestParam Map<String, String> params, 
     		InputStream stream) {
+    	
+    	// NOTE: that import is going to do the put action IF there is an existing UUID equivalence. That overrides
+    	// the timeConfiguraitonId used above. I don't think that is the right behavior ... 
+    	// this would be the behavior of /DataCustodian/Import.  The RESTful PUT should possibly fail if there 
+    	// is a missmatch of UUID and ID. 
+
+    	try {
+    		timeConfigurationService.importResource(stream);
+    	} catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+    	}
+    	/*
         TimeConfiguration existingTimeConfiguration;
         existingTimeConfiguration = timeConfigurationService.findById(timeConfigurationId);
 
@@ -107,6 +121,7 @@ public class TimeConfigurationRESTController {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
+        */
     }
 
     @RequestMapping(value = Routes.ROOT_TIME_CONFIGURATION_MEMBER, method = RequestMethod.DELETE)
@@ -114,11 +129,7 @@ public class TimeConfigurationRESTController {
     		@PathVariable long timeConfigurationId,
     		@RequestParam Map<String, String> params, 
     		InputStream stream) {
-        TimeConfiguration existingTimeConfiguration = timeConfigurationService.findById(timeConfigurationId);
-
-        if (existingTimeConfiguration != null) {
-            this.timeConfigurationService.deleteById(timeConfigurationId);
-        }
+        this.timeConfigurationService.deleteById(timeConfigurationId);
     }
 
     // XPath RESTful Forms
@@ -197,11 +208,7 @@ public class TimeConfigurationRESTController {
         RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerHashedId);
         UsagePoint usagePoint = usagePointService.findById(usagePointHashedId);
 
-        TimeConfiguration existingTimeConfiguration = loadTimeConfiguration(response, usagePoint, timeConfigurationId);
-
-        if (existingTimeConfiguration != null) {
-            this.timeConfigurationService.deleteById(timeConfigurationId);
-        }
+        this.timeConfigurationService.deleteById(timeConfigurationId);
     }
 
     private TimeConfiguration loadTimeConfiguration(HttpServletResponse response, UsagePoint usagePoint, long timeConfigurationId) {
