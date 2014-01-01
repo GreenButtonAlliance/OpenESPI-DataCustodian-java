@@ -177,16 +177,16 @@ public class TimeConfigurationRESTController {
     //
     @RequestMapping(value = Routes.TIME_CONFIGURATION_MEMBER, method = RequestMethod.PUT)
     public void update(HttpServletResponse response, 
-    		@PathVariable long retailCustomerHashedId,
-    		@PathVariable long usagePointHashedId,
+    		@PathVariable long retailCustomerId,
+    		@PathVariable long usagePointId,
     		@PathVariable long timeConfigurationId,
     		@RequestParam Map<String, String> params, 
     		InputStream stream) {
-        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerHashedId);
-        UsagePoint usagePoint = usagePointService.findById(usagePointHashedId);
+        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
+        UsagePoint usagePoint = usagePointService.findById(usagePointId);
         TimeConfiguration existingTimeConfiguration;
 
-        existingTimeConfiguration = loadTimeConfiguration(response, usagePoint, timeConfigurationId);
+        existingTimeConfiguration = timeConfigurationService.findById(timeConfigurationId);
 
         if (existingTimeConfiguration != null) {
             try {
@@ -200,34 +200,15 @@ public class TimeConfigurationRESTController {
 
     @RequestMapping(value = Routes.TIME_CONFIGURATION_MEMBER, method = RequestMethod.DELETE)
     public void delete(HttpServletResponse response, 
-    		@PathVariable long retailCustomerHashedId,
-    		@PathVariable long usagePointHashedId,
+    		@PathVariable long retailCustomerId,
+    		@PathVariable long usagePointId,
     		@PathVariable long timeConfigurationId,
     		@RequestParam Map<String, String> params, 
     		InputStream stream) {
-        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerHashedId);
-        UsagePoint usagePoint = usagePointService.findById(usagePointHashedId);
+        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
+        UsagePoint usagePoint = usagePointService.findById(usagePointId);
 
         this.timeConfigurationService.deleteById(timeConfigurationId);
-    }
-
-    private TimeConfiguration loadTimeConfiguration(HttpServletResponse response, UsagePoint usagePoint, long timeConfigurationId) {
-        TimeConfiguration timeConfiguration;
-        TimeConfiguration existingTimeConfiguration = null;
-
-        timeConfiguration = timeConfigurationService.findById(timeConfigurationId);
-
-        if (null != timeConfiguration) {
-            if (timeConfigurationService.getUsagePoint().equals(usagePoint)) {
-                existingTimeConfiguration = timeConfiguration;
-            } else {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            }
-        } else {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-        }
-
-        return existingTimeConfiguration;
     }
 
     public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
