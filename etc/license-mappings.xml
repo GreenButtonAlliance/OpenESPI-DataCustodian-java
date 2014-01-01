@@ -26,4 +26,9 @@
         <artifactId>DataCustodian</artifactId>
         <license>Apache License, Version 2.0</license>
     </artifact>
+    <artifact>
+    	<groupId>BrandsEye</groupId>
+    	<artifactId>CORSFilter</artifactId>
+    	<license>Apache License, Version 2.0</license>
+    </artifact>    
 </license-lookup>
