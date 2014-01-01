@@ -11,10 +11,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
@@ -25,25 +27,31 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 public class CORSFilterTests {
 
     @Autowired
-    protected CORSFilter filter;
+    private CORSFilter filter;
 
     @Autowired
     private WebApplicationContext wac;
 
     private MockMvc mockMvc;
 
-    @Before
-    public void setup() {
+    @Before   
+    public void setup() {  	
         this.mockMvc = webAppContextSetup(this.wac)
                 .addFilters(filter).build();
     }
-
-    @Test
-    public void optionsRequest_hasCorrectFilters() throws Exception {
-        mockMvc.perform(options("/"))
-                .andExpect(header().string("Access-Control-Allow-Origin", is("*")))
-                .andExpect(header().string("Access-Control-Allow-Methods", is("GET, POST, PUT, DELETE")))
-                .andExpect(header().string("Access-Control-Allow-Headers", is("Content-Type, Authorization")))
-                .andExpect(header().string("Access-Control-Max-Age", is("1800")));
+    
+	@Test
+    public void optionsResponse_hasCorrectFilters() throws Exception {
+    	RequestBuilder requestBuilder = MockMvcRequestBuilders.options("/ThirdParty")
+    			.header("Origin", "JUnit_Test");
+		
+    	MvcResult result = mockMvc.perform(requestBuilder)
+        		.andExpect(header().string("Access-Control-Allow-Origin", is("*")))
+        		.andExpect(header().string("Access-Control-Allow-Methods", is("GET, POST, PUT, DELETE, OPTIONS")))
+        		.andExpect(header().string("Access-Control-Allow-Headers", is("Origin, Authorization, Accept, Content-Type")))
+        		.andExpect(header().string("Access-Control-Max-Age", is("1800")))
+        		.andReturn();
     }
+
+
 }
