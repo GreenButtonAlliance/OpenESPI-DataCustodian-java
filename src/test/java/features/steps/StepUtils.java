@@ -19,6 +19,7 @@ package features.steps;
 import org.energyos.espi.common.test.BaseStepUtils;
 import org.energyos.espi.common.test.CucumberSession;
 import org.energyos.espi.common.test.FixtureFactory;
+import org.junit.Ignore;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -34,6 +35,7 @@ import java.util.regex.Pattern;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
 
 public class StepUtils extends BaseStepUtils {
     public static void navigateTo(String path) {

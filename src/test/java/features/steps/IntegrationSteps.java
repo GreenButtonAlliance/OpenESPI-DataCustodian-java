@@ -12,6 +12,7 @@ import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
+import org.junit.Ignore;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -44,6 +45,7 @@ public class IntegrationSteps {
     }
 
     @When("^I import Usage Point$")
+    @Ignore
     public void I_import_Usage_Point() throws Throwable {
         retailCustomer = EspiFactory.newRetailCustomer();
         retailCustomerService.persist(retailCustomer);
@@ -55,6 +57,7 @@ public class IntegrationSteps {
     }
 
     @When("^I export Usage Point$")
+    @Ignore
     public void I_export_Usage_Point() throws Throwable {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         exportService.exportUsagePoints(retailCustomer.getId(), os, new ExportFilter(new HashMap<String, String>()));
@@ -62,12 +65,14 @@ public class IntegrationSteps {
     }
 
     @Then("^Usage Point should be saved in the database$")
+    @Ignore
     public void Usage_Point_should_be_saved_in_the_database() throws Throwable {
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(retailCustomer);
         assertEquals("Usage point not saved", 1, usagePoints.size());
     }
 
     @Then("^Meter Readings should be saved in the database$")
+    @Ignore
     public void Usage_Point_s_Meter_Readings_should_be_saved_in_the_database() throws Throwable {
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(retailCustomer);
         MeterReading meterReading = usagePoints.get(0).getMeterReadings().get(0);
@@ -75,6 +80,7 @@ public class IntegrationSteps {
     }
 
     @Then("^Interval Blocks and Readings should be saved in the database$")
+    @Ignore
     public void Interval_Blocks_should_be_saved_in_the_database() throws Throwable {
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(retailCustomer);
         MeterReading meterReading = usagePoints.get(0).getMeterReadings().get(0);
@@ -84,6 +90,7 @@ public class IntegrationSteps {
     }
 
     @Then("^export data should include Feed$")
+    @Ignore
     public void export_data_should_include_Feed() throws Throwable {
         assertXpathExists("/:feed", xml);
         assertXpathExists("//espi:ElectricPowerUsageSummary", xml);
@@ -103,6 +110,7 @@ public class IntegrationSteps {
     }
 
     @Then("^Reading Type should be saved in the database$")
+    @Ignore
     public void Reading_Type_should_be_saved_in_the_database() throws Throwable {
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(retailCustomer);
         MeterReading meterReading = usagePoints.get(0).getMeterReadings().get(0);
@@ -110,6 +118,7 @@ public class IntegrationSteps {
     }
 
     @Then("^Electric Power Usage Summary should be saved in the database$")
+    @Ignore
     public void Electric_Power_Usage_Summary_should_be_saved_in_the_database() throws Throwable {
         List<UsagePoint> usagePoints = usagePointService.findAllByRetailCustomer(retailCustomer);
         ElectricPowerUsageSummary electricPowerUsageSummary = usagePoints.get(0).getElectricPowerUsageSummaries().get(0);
