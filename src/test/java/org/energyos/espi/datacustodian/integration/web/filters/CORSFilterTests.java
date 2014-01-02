@@ -42,7 +42,7 @@ public class CORSFilterTests {
     
 	@Test
     public void optionsResponse_hasCorrectFilters() throws Exception {
-    	RequestBuilder requestBuilder = MockMvcRequestBuilders.options("/ThirdParty")
+    	RequestBuilder requestBuilder = MockMvcRequestBuilders.options("/DataCustodian")
     			.header("Origin", "JUnit_Test");
 		
     	MvcResult result = mockMvc.perform(requestBuilder)
