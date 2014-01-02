@@ -1,6 +1,4 @@
-package org.energyos.espi.datacustodian.web.api;
-/*
- * Copyright 2013, 2014 EnergyOS.org
+/*Copyright 2013, 2014 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -14,6 +12,7 @@ package org.energyos.espi.datacustodian.web.api;
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+package org.energyos.espi.datacustodian.web.api;
 
 import com.sun.syndication.io.FeedException;
 
