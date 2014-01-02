@@ -76,7 +76,11 @@ public class ElectricPowerQualitySummaryRESTController {
     		@PathVariable long electricPowerQualitySummaryId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        exportService.exportElectricPowerQualitySummary(electricPowerQualitySummaryId, response.getOutputStream(), new ExportFilter(params));
+        try {
+            exportService.exportElectricPowerQualitySummary(electricPowerQualitySummaryId, response.getOutputStream(), new ExportFilter(params));
+                    } catch (Exception e) {
+              response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+          }  
     }
 
     // 
@@ -88,7 +92,7 @@ public class ElectricPowerQualitySummaryRESTController {
         try {
             ElectricPowerQualitySummary electricPowerQualitySummary = this.electricPowerQualitySummaryService.importResource(stream);
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
     //
@@ -106,7 +110,7 @@ public class ElectricPowerQualitySummaryRESTController {
                 ElectricPowerQualitySummary newElectricPowerQualitySummary = electricPowerQualitySummaryService.importResource(stream);
                 electricPowerQualitySummary.merge(newElectricPowerQualitySummary);
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
     }
@@ -143,9 +147,14 @@ public class ElectricPowerQualitySummaryRESTController {
     		@PathVariable long electricPowerQualitySummaryId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        exportService.exportElectricPowerQualitySummary(retailCustomerId, usagePointId, electricPowerQualitySummaryId,
-        		response.getOutputStream(), new ExportFilter(params));
-    }
+
+        try {
+            exportService.exportElectricPowerQualitySummary(retailCustomerId, usagePointId, electricPowerQualitySummaryId,
+            		response.getOutputStream(), new ExportFilter(params));
+                    } catch (Exception e) {
+              response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+          }  
+        }
 
     // 
     //
@@ -161,7 +170,7 @@ public class ElectricPowerQualitySummaryRESTController {
             ElectricPowerQualitySummary electricPowerQualitySummary = this.electricPowerQualitySummaryService.importResource(stream);
             electricPowerQualitySummaryService.associateByUUID(usagePoint, electricPowerQualitySummary.getUUID());
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
     //
@@ -183,7 +192,7 @@ public class ElectricPowerQualitySummaryRESTController {
                 ElectricPowerQualitySummary newElectricPowerQualitySummary = electricPowerQualitySummaryService.importResource(stream);
                 electricPowerQualitySummary.merge(newElectricPowerQualitySummary);
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
     }

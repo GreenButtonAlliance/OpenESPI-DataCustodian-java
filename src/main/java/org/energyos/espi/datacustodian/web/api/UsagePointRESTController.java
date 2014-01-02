@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -66,15 +67,19 @@ public class UsagePointRESTController {
    		@PathVariable Long usagePointId,
    		@RequestParam Map<String, String> params) throws IOException, FeedException {
        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);    	
-       exportService.exportUsagePoint(usagePointId, response.getOutputStream(), new ExportFilter(params));
-   }
+       try {
+           exportService.exportUsagePoint(usagePointId, response.getOutputStream(), new ExportFilter(params));
+       } catch (Exception e) {
+           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+       }  
+       }
 
    @RequestMapping(value = Routes.ROOT_USAGE_POINT_COLLECTION, method = RequestMethod.POST)
    public void create(HttpServletResponse response, @RequestParam Map<String, String> params, InputStream stream) throws IOException {
        try {
            UsagePoint usagePoint = this.usagePointService.importResource(stream);
        } catch (Exception e) {
-           response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
        }
    }
 
@@ -90,7 +95,7 @@ public class UsagePointRESTController {
                UsagePoint newUsagePoint = usagePointService.importResource(stream);
                usagePoint.merge(newUsagePoint);
            } catch (Exception e) {
-               response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+               response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
            }
        }
    }
@@ -123,21 +128,28 @@ public class UsagePointRESTController {
 		   @PathVariable Long usagePointId,
    		   @RequestParam Map<String, String> params) throws IOException, FeedException {
        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);    	
-       exportService.exportUsagePoint(retailCustomerId, usagePointId, response.getOutputStream(), new ExportFilter(params));
-   }
+       try {
+           exportService.exportUsagePoint(retailCustomerId, usagePointId, response.getOutputStream(), new ExportFilter(params));
+       } catch (Exception e) {
+           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+       }  
+       }
 
    @RequestMapping(value = Routes.USAGE_POINT_COLLECTION, method = RequestMethod.POST)
-   public void create(HttpServletResponse response, 
+   public void create(HttpServletResponse response,
 		   @PathVariable Long retailCustomerId,
-   		   @RequestParam Map<String, String> params, InputStream stream) throws IOException {
+   		   @RequestParam Map<String, String> params, 
+   		   InputStream stream) throws IOException {
+	   
        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
        try {
            UsagePoint usagePoint = this.usagePointService.importResource(stream);
+    	   
            // TODO would like to just do a .add
            // retailCustomerService.add(usagePoint);
            usagePointService.associateByUUID(retailCustomer, usagePoint.getUUID());
        } catch (Exception e) {
-           response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
        }
    }
 
@@ -156,7 +168,7 @@ public class UsagePointRESTController {
                UsagePoint newUsagePoint = usagePointService.importResource(stream);
                usagePoint.merge(newUsagePoint);
            } catch (Exception e) {
-               response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+               response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
            }
        }
    }

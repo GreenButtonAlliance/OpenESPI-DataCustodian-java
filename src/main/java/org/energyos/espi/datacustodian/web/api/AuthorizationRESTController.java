@@ -68,7 +68,11 @@ public class AuthorizationRESTController {
     		@PathVariable long authorizationId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        exportService.exportApplicationInformation(authorizationId, response.getOutputStream(), new ExportFilter(params));
+      try {
+          exportService.exportApplicationInformation(authorizationId, response.getOutputStream(), new ExportFilter(params));
+                  } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
     }
 
     // 
@@ -81,7 +85,7 @@ public class AuthorizationRESTController {
             Authorization authorization = this.authorizationService.importResource(stream);
             authorizationService.add(authorization);
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
     //
@@ -99,7 +103,7 @@ public class AuthorizationRESTController {
                 Authorization newAuthorization = authorizationService.importResource(stream);
                 authorization.merge(newAuthorization);
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
     }
@@ -123,7 +127,7 @@ public class AuthorizationRESTController {
 			  @PathVariable Long retailCustomerId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        exportService.exportApplicationInformations(retailCustomerId, response.getOutputStream(), new ExportFilter(params));
+        exportService.exportAuthorizations(retailCustomerId, response.getOutputStream(), new ExportFilter(params));
     }
 
     // 
@@ -133,9 +137,13 @@ public class AuthorizationRESTController {
 			  @PathVariable Long retailCustomerId,
     		@PathVariable long authorizationId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
-        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        exportService.exportApplicationInformation(retailCustomerId, authorizationId, response.getOutputStream(), new ExportFilter(params));
-    }
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE); 
+        try {
+            exportService.exportAuthorization(retailCustomerId, authorizationId, response.getOutputStream(), new ExportFilter(params));
+                    } catch (Exception e) {
+              response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+          }    
+        }
 
     // 
     //
@@ -148,7 +156,7 @@ public class AuthorizationRESTController {
             Authorization authorization = this.authorizationService.importResource(stream);
             retailCustomerService.associateByUUID(authorization.getUUID());
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
     //
@@ -167,7 +175,7 @@ public class AuthorizationRESTController {
                 Authorization newAuthorization = authorizationService.importResource(stream);
                 authorization.merge(newAuthorization);
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
     }

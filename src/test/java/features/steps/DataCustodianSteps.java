@@ -21,8 +21,10 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+
 import org.energyos.espi.common.test.CucumberSession;
 import org.energyos.espi.common.test.WebDriverSingleton;
+import org.junit.Ignore;
 import org.openqa.selenium.WebDriver;
 
 import java.util.UUID;
@@ -78,6 +80,7 @@ public class DataCustodianSteps {
     }
 
     @When("^I upload Usage Points")
+    @Ignore
     public void I_upload_Usage_Points() throws Throwable {
         StepUtils.uploadUsagePoints(CucumberSession.getUUID());
     }
@@ -119,6 +122,7 @@ public class DataCustodianSteps {
     }
 
     @Given("^a Retail Customer with Usage Points$")
+    @Ignore
     public void a_Retail_Customer_with_Usage_Points() throws Throwable {
         CucumberSession.setUsername(StepUtils.newUsername());
 
@@ -134,6 +138,7 @@ public class DataCustodianSteps {
     }
 
     @And("^I associate \"([^\"]*)\" Usage Point with Retail Customer$")
+    @Ignore
     public void I_associate_Usage_Point_with_Retail_Customer(String usagePointDescription) throws Throwable {
         navigateTo("/custodian/retailcustomers");
         clickLinkByText(CucumberSession.getUsername());
@@ -142,6 +147,7 @@ public class DataCustodianSteps {
     }
 
     @Then("^I should see \"([^\"]*)\"$")
+    @Ignore
     public void I_should_see(String content) throws Throwable {
         assertTrue("Page should contain '" + content + "'", driver.getPageSource().contains(content));
     }

@@ -34,6 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
@@ -84,7 +85,7 @@ public class SubscriptionRESTController {
             Subscription subscription = this.subscriptionService.importResource(stream);
             subscriptionService.add(subscription);
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
     //
@@ -102,7 +103,7 @@ public class SubscriptionRESTController {
                 Subscription newSubscription = subscriptionService.importResource(stream);
                 subscription.merge(newSubscription);
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
     }
@@ -146,12 +147,12 @@ public class SubscriptionRESTController {
         public void create(HttpServletResponse response, 
 			   @PathVariable Long retailCustomerId,
     		@RequestParam Map<String, String> params, 
-    		InputStream stream) throws IOException {
+    		@RequestBody ByteArrayInputStream stream) throws IOException {
         try {
             Subscription subscription = this.subscriptionService.importResource(stream);
             retailCustomerService.associateByUUID(subscription.getUUID());
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
     //
@@ -170,7 +171,7 @@ public class SubscriptionRESTController {
              Subscription newSubscription = subscriptionService.importResource(stream);
              subscription.merge(newSubscription);
          } catch (Exception e) {
-             response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
          }
      }
  }

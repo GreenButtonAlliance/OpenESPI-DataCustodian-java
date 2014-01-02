@@ -17,10 +17,11 @@ package org.energyos.espi.datacustodian.web.api;
 import com.sun.syndication.io.FeedException;
 
 import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.common.domain.ApplicationInformation;
+import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Subscription;
 import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.service.ExportService;
+import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.utils.ExportFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,10 +37,10 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class ApplicationInformationRESTController {
+public class RetailCustomerRESTController {
 
     @Autowired
-    private ApplicationInformationService applicationInformationService;
+    private RetailCustomerService retailCustomerService;
     
     @Autowired
     private ExportService exportService;
@@ -50,74 +51,74 @@ public class ApplicationInformationRESTController {
 
     // ROOT and XPath are the same for this one.
     //
-    @RequestMapping(value = Routes.ROOT_APPLICATION_INFORMATION_COLLECTION, method = RequestMethod.GET)
+    @RequestMapping(value = Routes.ROOT_RETAIL_CUSTOMER_COLLECTION, method = RequestMethod.GET)
 	public void index(HttpServletResponse response,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        exportService.exportApplicationInformations(response.getOutputStream(), new ExportFilter(params));
+        exportService.exportRetailCustomers(response.getOutputStream(), new ExportFilter(params));
     }
 
     // 
     //
-    @RequestMapping(value = Routes.ROOT_APPLICATION_INFORMATION_MEMBER, method = RequestMethod.GET)
+    @RequestMapping(value = Routes.ROOT_RETAIL_CUSTOMER_MEMBER, method = RequestMethod.GET)
     public void show(HttpServletResponse response, 
-    		@PathVariable long applicationInformationId,
+    		@PathVariable long retailCustomerId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         try {
-            exportService.exportApplicationInformation(applicationInformationId, response.getOutputStream(), new ExportFilter(params));
+            exportService.exportRetailCustomer(retailCustomerId, response.getOutputStream(), new ExportFilter(params));
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
  
     }
 
-    // 
-    //
-    @RequestMapping(value = Routes.ROOT_APPLICATION_INFORMATION_COLLECTION, method = RequestMethod.POST)
+    @RequestMapping(value = Routes.ROOT_RETAIL_CUSTOMER_COLLECTION, method = RequestMethod.POST)
     public void create(HttpServletResponse response,
     		@RequestParam Map<String, String> params, 
     		InputStream stream) throws IOException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         try {
-            ApplicationInformation applicationInformation = this.applicationInformationService.importResource(stream);
-            applicationInformationService.persist(applicationInformation);
+        	RetailCustomer retailCustomer = this.retailCustomerService.importResource(stream);
+            //retailCustomerService.add(retailCustomer);
+            exportService.exportTimeConfiguration(retailCustomer.getId(), response.getOutputStream(), new ExportFilter(null));
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
     //
 
-    @RequestMapping(value = Routes.ROOT_APPLICATION_INFORMATION_MEMBER, method = RequestMethod.PUT)
+    @RequestMapping(value = Routes.ROOT_RETAIL_CUSTOMER_MEMBER, method = RequestMethod.PUT)
     public void update(HttpServletResponse response, 
     		@PathVariable long applicationInformationId,
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException, FeedException {
-    	ApplicationInformation applicationInformation = applicationInformationService.findById(applicationInformationId);
+    	RetailCustomer retailCustomer = retailCustomerService.findById(applicationInformationId);
  
-        if (applicationInformation != null) {
+        if (retailCustomer != null) {
             try {
             	
-                ApplicationInformation newApplicationInformation = applicationInformationService.importResource(stream);
-                applicationInformation.merge(newApplicationInformation);
+            	RetailCustomer newRetailCustomer = retailCustomerService.importResource(stream);
+            	retailCustomer.merge(newRetailCustomer);
             } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
     }
 
-    @RequestMapping(value = Routes.ROOT_APPLICATION_INFORMATION_MEMBER, method = RequestMethod.DELETE)
+    @RequestMapping(value = Routes.ROOT_RETAIL_CUSTOMER_MEMBER, method = RequestMethod.DELETE)
     public void delete(HttpServletResponse response, 
     		@PathVariable long applicationInformationId,
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException, FeedException {
-    	ApplicationInformation applicationInformation = applicationInformationService.findById(applicationInformationId);
-        if (applicationInformation != null) {
-        	applicationInformationService.delete(applicationInformation);
+    	RetailCustomer retailCustomer = retailCustomerService.findById(applicationInformationId);
+        if (retailCustomer != null) {
+        	retailCustomerService.delete(retailCustomer);
         }
     }    		
    
-    public void setApplicationInformationService(ApplicationInformationService applicationInformationService) {
-        this.applicationInformationService = applicationInformationService;
+    public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
+        this.retailCustomerService = retailCustomerService;
     }
 
     public void setExportService(ExportService exportService) {
