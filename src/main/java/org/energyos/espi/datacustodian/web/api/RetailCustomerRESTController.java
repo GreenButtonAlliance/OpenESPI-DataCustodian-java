@@ -73,15 +73,15 @@ public class RetailCustomerRESTController {
  
     }
 
-    // 
-    //
     @RequestMapping(value = Routes.ROOT_RETAIL_CUSTOMER_COLLECTION, method = RequestMethod.POST)
     public void create(HttpServletResponse response,
     		@RequestParam Map<String, String> params, 
     		InputStream stream) throws IOException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         try {
         	RetailCustomer retailCustomer = this.retailCustomerService.importResource(stream);
-            retailCustomerService.add(retailCustomer);
+            //retailCustomerService.add(retailCustomer);
+            exportService.exportTimeConfiguration(retailCustomer.getId(), response.getOutputStream(), new ExportFilter(null));
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
