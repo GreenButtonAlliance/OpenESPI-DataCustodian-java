@@ -432,10 +432,10 @@
                 <directory>src/test/resources</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>**/*x.xml</include>
-                    <include>**/*x.properties</include>
-                    <include>**/*x.sql</include>
-                    <include>**/*x.feature</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.sql</include>
+                    <include>**/*.feature</include>
                 </includes>
             </testResource>
         </testResources>
@@ -455,7 +455,7 @@
                 <version>2.12.4</version>
                 <configuration>
                     <includes>
-                        <include>**/*Testsx.java</include>
+                        <include>**/*Tests.java</include>
                     </includes>
                 </configuration>
             </plugin>
