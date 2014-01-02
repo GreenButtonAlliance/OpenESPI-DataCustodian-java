@@ -70,8 +70,12 @@ public class TimeConfigurationRESTController {
     public void show(HttpServletResponse response, @PathVariable long timeConfigurationId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        exportService.exportTimeConfiguration(timeConfigurationId, response.getOutputStream(), new ExportFilter(params));
-    }
+        try {
+            exportService.exportTimeConfiguration(timeConfigurationId, response.getOutputStream(), new ExportFilter(params));
+                    } catch (Exception e) {
+              response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+          } 
+        }
 
     // 
     //
@@ -79,10 +83,12 @@ public class TimeConfigurationRESTController {
     public void create(HttpServletResponse response, 
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         try {
             TimeConfiguration timeConfiguration = this.timeConfigurationService.importResource(stream);
+            exportService.exportTimeConfiguration(timeConfiguration.getId(), response.getOutputStream(), new ExportFilter(null));
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
@@ -92,17 +98,30 @@ public class TimeConfigurationRESTController {
     		@PathVariable long timeConfigurationId,
     		@RequestParam Map<String, String> params, 
     		InputStream stream) {
+    	
+    	// NOTE: that import is going to do the put action IF there is an existing UUID equivalence. That overrides
+    	// the timeConfiguraitonId used above. I don't think that is the right behavior ... 
+    	// this would be the behavior of /DataCustodian/Import.  The RESTful PUT should possibly fail if there 
+    	// is a missmatch of UUID and ID. 
+
+    	try {
+    		timeConfigurationService.importResource(stream);
+    	} catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+    	}
+    	/*
         TimeConfiguration existingTimeConfiguration;
         existingTimeConfiguration = timeConfigurationService.findById(timeConfigurationId);
 
         if (existingTimeConfiguration != null) {
             try {
                 TimeConfiguration timeConfiguration = timeConfigurationService.importResource(stream);
-		// todo need to merge or persist
+	            existingTimeConfiguration.merge(timeConfiguration);
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
+        */
     }
 
     @RequestMapping(value = Routes.ROOT_TIME_CONFIGURATION_MEMBER, method = RequestMethod.DELETE)
@@ -110,11 +129,7 @@ public class TimeConfigurationRESTController {
     		@PathVariable long timeConfigurationId,
     		@RequestParam Map<String, String> params, 
     		InputStream stream) {
-        TimeConfiguration existingTimeConfiguration = timeConfigurationService.findById(timeConfigurationId);
-
-        if (existingTimeConfiguration != null) {
-            this.timeConfigurationService.deleteById(timeConfigurationId);
-        }
+        this.timeConfigurationService.deleteById(timeConfigurationId);
     }
 
     // XPath RESTful Forms
@@ -132,7 +147,12 @@ public class TimeConfigurationRESTController {
     public void show(HttpServletResponse response, @PathVariable long retailCustomerId, @PathVariable long usagePointId, @PathVariable long timeConfigurationId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        exportService.exportTimeConfiguration(retailCustomerId, usagePointId, timeConfigurationId, response.getOutputStream(), new ExportFilter(params));
+
+        try {
+            exportService.exportTimeConfiguration(retailCustomerId, usagePointId, timeConfigurationId, response.getOutputStream(), new ExportFilter(params));
+                    } catch (Exception e) {
+              response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+          } 
     }
 
     // 
@@ -150,68 +170,45 @@ public class TimeConfigurationRESTController {
             TimeConfiguration timeConfiguration = this.timeConfigurationService.importResource(stream);
             timeConfigurationService.associateByUUID(usagePoint, timeConfiguration.getUUID());
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
     //
     @RequestMapping(value = Routes.TIME_CONFIGURATION_MEMBER, method = RequestMethod.PUT)
     public void update(HttpServletResponse response, 
-    		@PathVariable long retailCustomerHashedId,
-    		@PathVariable long usagePointHashedId,
+    		@PathVariable long retailCustomerId,
+    		@PathVariable long usagePointId,
     		@PathVariable long timeConfigurationId,
     		@RequestParam Map<String, String> params, 
     		InputStream stream) {
-        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerHashedId);
-        UsagePoint usagePoint = usagePointService.findById(usagePointHashedId);
+        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
+        UsagePoint usagePoint = usagePointService.findById(usagePointId);
         TimeConfiguration existingTimeConfiguration;
 
-        existingTimeConfiguration = loadTimeConfiguration(response, usagePoint, timeConfigurationId);
+        existingTimeConfiguration = timeConfigurationService.findById(timeConfigurationId);
 
         if (existingTimeConfiguration != null) {
             try {
                 TimeConfiguration timeConfiguration = timeConfigurationService.importResource(stream);
-                timeConfigurationService.associateByUUID(usagePoint, timeConfiguration.getUUID());
+                existingTimeConfiguration.merge(timeConfiguration);
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
     }
 
     @RequestMapping(value = Routes.TIME_CONFIGURATION_MEMBER, method = RequestMethod.DELETE)
     public void delete(HttpServletResponse response, 
-    		@PathVariable long retailCustomerHashedId,
-    		@PathVariable long usagePointHashedId,
+    		@PathVariable long retailCustomerId,
+    		@PathVariable long usagePointId,
     		@PathVariable long timeConfigurationId,
     		@RequestParam Map<String, String> params, 
     		InputStream stream) {
-        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerHashedId);
-        UsagePoint usagePoint = usagePointService.findById(usagePointHashedId);
+        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
+        UsagePoint usagePoint = usagePointService.findById(usagePointId);
 
-        TimeConfiguration existingTimeConfiguration = loadTimeConfiguration(response, usagePoint, timeConfigurationId);
-
-        if (existingTimeConfiguration != null) {
-            this.timeConfigurationService.deleteById(timeConfigurationId);
-        }
-    }
-
-    private TimeConfiguration loadTimeConfiguration(HttpServletResponse response, UsagePoint usagePoint, long timeConfigurationId) {
-        TimeConfiguration timeConfiguration;
-        TimeConfiguration existingTimeConfiguration = null;
-
-        timeConfiguration = timeConfigurationService.findById(timeConfigurationId);
-
-        if (null != timeConfiguration) {
-            if (timeConfigurationService.getUsagePoint().equals(usagePoint)) {
-                existingTimeConfiguration = timeConfiguration;
-            } else {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            }
-        } else {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-        }
-
-        return existingTimeConfiguration;
+        this.timeConfigurationService.deleteById(timeConfigurationId);
     }
 
     public void setRetailCustomerService(RetailCustomerService retailCustomerService) {

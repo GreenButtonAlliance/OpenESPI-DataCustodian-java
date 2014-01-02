@@ -1,6 +1,6 @@
 package org.energyos.espi.datacustodian.web.api;
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -70,8 +70,6 @@ public class ReadingTypeRESTController {
         exportService.exportReadingTypes(response.getOutputStream(), new ExportFilter(params));
     }
 
-    // 
-    //
     @RequestMapping(value = Routes.ROOT_READING_TYPE_MEMBER, method = RequestMethod.GET)
     public void show(HttpServletResponse response,
     		@PathVariable long readingTypeId,
@@ -80,20 +78,19 @@ public class ReadingTypeRESTController {
         exportService.exportReadingType(readingTypeId, response.getOutputStream(), new ExportFilter(params));
     }
 
-    // 
-    //
     @RequestMapping(value = Routes.ROOT_READING_TYPE_COLLECTION, method = RequestMethod.POST)
     public void create(HttpServletResponse response, 
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         try {
             ReadingType readingType = this.readingTypeService.importResource(stream);
+            exportService.exportReadingType(readingType.getId(), response.getOutputStream(), new ExportFilter(params));
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
-    //
     @RequestMapping(value = Routes.ROOT_READING_TYPE_MEMBER, method = RequestMethod.PUT)
     public void update(HttpServletResponse response, 
     		@PathVariable long readingTypeId,
@@ -105,7 +102,7 @@ public class ReadingTypeRESTController {
             try {
                 ReadingType readingType = readingTypeService.importResource(stream);
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
     }
@@ -133,8 +130,6 @@ public class ReadingTypeRESTController {
         exportService.exportReadingTypes(retailCustomerId, usagePointId, response.getOutputStream(), new ExportFilter(params));
     }
 
-    // 
-    //
     @RequestMapping(value = Routes.READING_TYPE_MEMBER, method = RequestMethod.GET)
     public void show(HttpServletResponse response,
     		@PathVariable long retailCustomerId,
@@ -143,11 +138,9 @@ public class ReadingTypeRESTController {
     		@PathVariable long readingTypeId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        exportService.exportReadingType(retailCustomerId, usagePointId, readingTypeId, response.getOutputStream(), new ExportFilter(params));
+        exportService.exportReadingType(retailCustomerId, usagePointId, meterReadingId, readingTypeId, response.getOutputStream(), new ExportFilter(params));
     }
 
-    // 
-    //
     @RequestMapping(value = Routes.READING_TYPE_COLLECTION, method = RequestMethod.POST)
     public void create(HttpServletResponse response, 
     		@PathVariable long retailCustomerId,
@@ -155,18 +148,20 @@ public class ReadingTypeRESTController {
     		@PathVariable long meterReadingId,
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
         UsagePoint usagePoint = usagePointService.findById(usagePointId);
         MeterReading meterReading = meterReadingService.findById(retailCustomerId, usagePointId, meterReadingId);
         try {
-            ReadingType readingType = this.readingTypeService.importResource(stream);
-            readingTypeService.associateByUUID(meterReading, readingType.getUUID());
+            ReadingType readingType = readingTypeService.importResource(stream);
+            // TODO - uncomment after we decouple importResource from New-Or-Merge
+            //        readingTypeService.associateByUUID(meterReading, readingType.getUUID());
+            exportService.exportReadingType(retailCustomerId, usagePointId, meterReadingId, readingType.getId(), response.getOutputStream(), new ExportFilter(params));
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
-    //
     @RequestMapping(value = Routes.READING_TYPE_MEMBER, method = RequestMethod.PUT)
     public void update(HttpServletResponse response, 
     		@PathVariable long retailCustomerId,
@@ -179,15 +174,24 @@ public class ReadingTypeRESTController {
         UsagePoint usagePoint = usagePointService.findById(usagePointId);
         MeterReading meterReading = meterReadingService.findById(retailCustomerId, usagePointId, meterReadingId);
         ReadingType existingReadingType = readingTypeService.findById(readingTypeId);
-        
-        if (existingReadingType != null) {
+        try {
+            ReadingType readingType = readingTypeService.importResource(stream);
+        } catch (Exception e) {
+        	response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
+        // semantics are that you can only PUT to the currently associated ReadingType
+        // so uncomment the following once that gets sorted out.
+        /*
+        if ((existingReadingType != null) & meterReading.getReadingType().equals(existingReadingType)){
             try {
                 ReadingType readingType = readingTypeService.importResource(stream);
-                readingTypeService.associateByUUID(meterReading, readingType.getUUID());
+                // TODO - uncomment after we decouple importResource from New-Or-Merge
+                //        readingTypeService.associateByUUID(meterReading, readingType.getUUID());
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
+        */
     }
 
     @RequestMapping(value = Routes.READING_TYPE_MEMBER, method = RequestMethod.DELETE)
@@ -200,13 +204,8 @@ public class ReadingTypeRESTController {
         RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
         UsagePoint usagePoint = usagePointService.findById(usagePointId);
         MeterReading meterReading = meterReadingService.findById(retailCustomerId, usagePointId, meterReadingId);
-        ReadingType readingType = readingTypeService.findById(readingTypeId);
-
-        
-
-        if (readingType != null) {
-            this.readingTypeService.deleteById(readingTypeId);
-        }
+        ReadingType readingType = meterReading.getReadingType();
+        this.readingTypeService.deleteById(readingTypeId);
     }
 
     public void setReadingTypeService(ReadingTypeService readingTypeService) {
