@@ -19,20 +19,26 @@ import com.sun.syndication.io.FeedException;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Subscription;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.models.atom.EntryType;
 import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.service.ExportService;
+import org.energyos.espi.common.service.ImportService;
 import org.energyos.espi.common.service.RetailCustomerService;
+import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +46,13 @@ import java.util.Map;
 public class RetailCustomerRESTController {
 
     @Autowired
+    private ImportService importService;
+    
+    @Autowired
     private RetailCustomerService retailCustomerService;
+    
+    @Autowired
+    private UsagePointService usagePointService;
     
     @Autowired
     private ExportService exportService;
@@ -51,7 +63,7 @@ public class RetailCustomerRESTController {
 
     // ROOT and XPath are the same for this one.
     //
-    @RequestMapping(value = Routes.ROOT_RETAIL_CUSTOMER_COLLECTION, method = RequestMethod.GET)
+    @RequestMapping(value = Routes.RETAIL_CUSTOMER_COLLECTION, method = RequestMethod.GET)
 	public void index(HttpServletResponse response,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
@@ -60,7 +72,7 @@ public class RetailCustomerRESTController {
 
     // 
     //
-    @RequestMapping(value = Routes.ROOT_RETAIL_CUSTOMER_MEMBER, method = RequestMethod.GET)
+    @RequestMapping(value = Routes.RETAIL_CUSTOMER_MEMBER, method = RequestMethod.GET)
     public void show(HttpServletResponse response, 
     		@PathVariable long retailCustomerId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
@@ -73,7 +85,7 @@ public class RetailCustomerRESTController {
  
     }
 
-    @RequestMapping(value = Routes.ROOT_RETAIL_CUSTOMER_COLLECTION, method = RequestMethod.POST)
+    @RequestMapping(value = Routes.RETAIL_CUSTOMER_COLLECTION, method = RequestMethod.POST)
     public void create(HttpServletResponse response,
     		@RequestParam Map<String, String> params, 
     		InputStream stream) throws IOException {
@@ -88,7 +100,7 @@ public class RetailCustomerRESTController {
     }
     //
 
-    @RequestMapping(value = Routes.ROOT_RETAIL_CUSTOMER_MEMBER, method = RequestMethod.PUT)
+    @RequestMapping(value = Routes.RETAIL_CUSTOMER_MEMBER, method = RequestMethod.PUT)
     public void update(HttpServletResponse response, 
     		@PathVariable long applicationInformationId,
     		@RequestParam Map<String, String> params,
@@ -106,7 +118,7 @@ public class RetailCustomerRESTController {
         }
     }
 
-    @RequestMapping(value = Routes.ROOT_RETAIL_CUSTOMER_MEMBER, method = RequestMethod.DELETE)
+    @RequestMapping(value = Routes.RETAIL_CUSTOMER_MEMBER, method = RequestMethod.DELETE)
     public void delete(HttpServletResponse response, 
     		@PathVariable long applicationInformationId,
     		@RequestParam Map<String, String> params,
@@ -116,12 +128,59 @@ public class RetailCustomerRESTController {
         	retailCustomerService.delete(retailCustomer);
         }
     }    		
-   
+ 
+    @RequestMapping(value = Routes.RETAIL_CUSTOMER_MEMBER_UPLOAD_MY_DATA, method = RequestMethod.POST)
+    public void upload(HttpServletResponse response, 
+    		@PathVariable long retailCustomerId,
+    		@RequestParam Map<String, String> params,
+    		InputStream stream) throws IOException, FeedException {
+        try {
+        	RetailCustomer rc = retailCustomerService.findById(retailCustomerId);
+        	importService.importData(stream);
+       
+            List<EntryType> entries = importService.getEntries();
+            Iterator<EntryType> its = entries.iterator();
+            while (its.hasNext()) {
+            	EntryType entry = its.next();
+            	UsagePoint usagePoint = entry.getContent().getUsagePoint();
+            	if ( usagePoint != null)
+                usagePointService.associateByUUID(rc, usagePoint.getUUID());
+            }
+            
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
+ 
+    }
+
+    @RequestMapping(value = Routes.RETAIL_CUSTOMER_MEMBER_DOWNLOAD_MY_DATA, method = RequestMethod.GET)
+    public void download(HttpServletResponse response, 
+    		@PathVariable long retailCustomerId,
+    		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+        response.addHeader("Content-Disposition", "attachment; filename=GreenButtonDownload.xml");
+          try {
+              exportService.exportUsagePointsFull(retailCustomerId, response.getOutputStream(), new ExportFilter(params));
+              
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
+ 
+    }
+    
     public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
         this.retailCustomerService = retailCustomerService;
     }
 
+    public void setUsagePointService(UsagePointService usagePointService) {
+        this.usagePointService = usagePointService;
+    }
+    
     public void setExportService(ExportService exportService) {
         this.exportService = exportService;
+    }
+    
+    public void setImportService(ImportService importService) {
+    	this.importService = importService;
     }
 }
