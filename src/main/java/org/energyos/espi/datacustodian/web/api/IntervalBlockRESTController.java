@@ -107,6 +107,7 @@ public class IntervalBlockRESTController {
         if (intervalBlock != null) {
             try {
                 intervalBlock.merge(intervalBlockService.importResource(stream));
+                intervalBlockService.persist(intervalBlock);
             } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
@@ -188,6 +189,7 @@ public class IntervalBlockRESTController {
         if (intervalBlock != null) {
             try {
                 intervalBlock.merge(intervalBlockService.importResource(stream));
+                intervalBlockService.persist(intervalBlock);
             } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
