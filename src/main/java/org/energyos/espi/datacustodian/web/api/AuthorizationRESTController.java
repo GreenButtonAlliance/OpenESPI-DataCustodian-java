@@ -57,7 +57,7 @@ public class AuthorizationRESTController {
 	public void index(HttpServletResponse response,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        exportService.exportApplicationInformations(response.getOutputStream(), new ExportFilter(params));
+        exportService.exportAuthorizations(response.getOutputStream(), new ExportFilter(params));
     }
 
     // 
@@ -68,7 +68,7 @@ public class AuthorizationRESTController {
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
       try {
-          exportService.exportApplicationInformation(authorizationId, response.getOutputStream(), new ExportFilter(params));
+          exportService.exportAuthorization(authorizationId, response.getOutputStream(), new ExportFilter(params));
                   } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
