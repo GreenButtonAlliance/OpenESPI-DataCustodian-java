@@ -89,8 +89,10 @@ public class IntervalBlockRESTController {
     public void create(HttpServletResponse response, 
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         try {
-            IntervalBlock newIntervalBlock = this.intervalBlockService.importResource(stream);
+            IntervalBlock intervalBlock = this.intervalBlockService.importResource(stream);
+            exportService.exportIntervalBlock(intervalBlock.getId(), response.getOutputStream(), new ExportFilter(params));
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
@@ -166,10 +168,13 @@ public class IntervalBlockRESTController {
     		@PathVariable long meterReadingId,
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
     	MeterReading meterReading = meterReadingService.findById(new Long(retailCustomerId), new Long(usagePointId), new Long(meterReadingId));
         try {
-            IntervalBlock newIntervalBlock = this.intervalBlockService.importResource(stream);
-            intervalBlockService.associateByUUID(meterReading, newIntervalBlock.getUUID());
+            IntervalBlock intervalBlock = this.intervalBlockService.importResource(stream);
+            intervalBlockService.associateByUUID(meterReading, intervalBlock.getUUID());
+            exportService.exportIntervalBlock(retailCustomerId, usagePointId, meterReadingId, intervalBlock.getId(), response.getOutputStream(), new ExportFilter(params));
+
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }

@@ -81,9 +81,10 @@ public class SubscriptionRESTController {
     public void create(HttpServletResponse response,
     		@RequestParam Map<String, String> params, 
     		InputStream stream) throws IOException {
+        // response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         try {
             Subscription subscription = this.subscriptionService.importResource(stream);
-            subscriptionService.add(subscription);
+            // TODO put in the export once pivotal solution is obsoleted
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }

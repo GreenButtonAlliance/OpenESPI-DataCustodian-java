@@ -80,9 +80,10 @@ public class AuthorizationRESTController {
     public void create(HttpServletResponse response,
     		@RequestParam Map<String, String> params, 
     		InputStream stream) throws IOException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         try {
             Authorization authorization = this.authorizationService.importResource(stream);
-            authorizationService.add(authorization);
+            exportService.exportAuthorization(authorization.getId(), response.getOutputStream(), new ExportFilter(params));
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
@@ -148,12 +149,15 @@ public class AuthorizationRESTController {
     //
     @RequestMapping(value = Routes.AUTHORIZATION_COLLECTION, method = RequestMethod.POST)
         public void create(HttpServletResponse response,
-			   @PathVariable Long retailCustomerid,
+			   @PathVariable Long retailCustomerId,
     		@RequestParam Map<String, String> params, 
     		InputStream stream) throws IOException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE); 
         try {
             Authorization authorization = this.authorizationService.importResource(stream);
             retailCustomerService.associateByUUID(authorization.getUUID());
+            exportService.exportAuthorization(retailCustomerId, authorization.getId(), response.getOutputStream(), new ExportFilter(params));
+
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }

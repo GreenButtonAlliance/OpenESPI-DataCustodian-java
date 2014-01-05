@@ -78,9 +78,10 @@ public class ApplicationInformationRESTController {
     public void create(HttpServletResponse response,
     		@RequestParam Map<String, String> params, 
     		InputStream stream) throws IOException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         try {
             ApplicationInformation applicationInformation = this.applicationInformationService.importResource(stream);
-            applicationInformationService.persist(applicationInformation);
+            exportService.exportApplicationInformation(applicationInformation.getId(), response.getOutputStream(), new ExportFilter(params));            
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
