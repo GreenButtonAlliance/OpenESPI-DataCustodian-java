@@ -92,7 +92,6 @@ public class RetailCustomerRESTController {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         try {
         	RetailCustomer retailCustomer = this.retailCustomerService.importResource(stream);
-            //retailCustomerService.add(retailCustomer);
             exportService.exportTimeConfiguration(retailCustomer.getId(), response.getOutputStream(), new ExportFilter(null));
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

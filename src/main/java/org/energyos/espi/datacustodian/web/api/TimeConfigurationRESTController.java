@@ -163,12 +163,15 @@ public class TimeConfigurationRESTController {
     		@PathVariable long usagePointId,
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException {
-        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
+    	
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+    	RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
         UsagePoint usagePoint = usagePointService.findById(usagePointId);
 
         try {
             TimeConfiguration timeConfiguration = this.timeConfigurationService.importResource(stream);
             timeConfigurationService.associateByUUID(usagePoint, timeConfiguration.getUUID());
+            exportService.exportTimeConfiguration(retailCustomerId, usagePointId, timeConfiguration.getId(), response.getOutputStream(), new ExportFilter(params));
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }

@@ -76,8 +76,10 @@ public class UsagePointRESTController {
 
    @RequestMapping(value = Routes.ROOT_USAGE_POINT_COLLECTION, method = RequestMethod.POST)
    public void create(HttpServletResponse response, @RequestParam Map<String, String> params, InputStream stream) throws IOException {
-       try {
+       response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE); 
+	   try {
            UsagePoint usagePoint = this.usagePointService.importResource(stream);
+           exportService.exportUsagePoint(usagePoint.getId(), response.getOutputStream(), new ExportFilter(params));
        } catch (Exception e) {
            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
        }
@@ -140,6 +142,7 @@ public class UsagePointRESTController {
 		   @PathVariable Long retailCustomerId,
    		   @RequestParam Map<String, String> params, 
    		   InputStream stream) throws IOException {
+       response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE); 
 	   
        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
        try {
@@ -148,6 +151,8 @@ public class UsagePointRESTController {
            // TODO would like to just do a .add
            // retailCustomerService.add(usagePoint);
            usagePointService.associateByUUID(retailCustomer, usagePoint.getUUID());
+           exportService.exportUsagePoint(retailCustomerId, usagePoint.getId(), response.getOutputStream(), new ExportFilter(params));
+
        } catch (Exception e) {
            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
        }

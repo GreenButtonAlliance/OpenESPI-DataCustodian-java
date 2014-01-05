@@ -82,8 +82,10 @@ public class MeterReadingRESTController {
     public void create(HttpServletResponse response, 
 		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         try {
             MeterReading meterReading = this.meterReadingService.importResource(stream);
+            exportService.exportMeterReading(meterReading.getId(), response.getOutputStream(), new ExportFilter(params)); 
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
@@ -144,20 +146,26 @@ public class MeterReadingRESTController {
 
     // 
     //
-    @RequestMapping(value = Routes.METER_READING_COLLECTION, method = RequestMethod.POST)
-    public void create(HttpServletResponse response, 
-    		@PathVariable long retailCustomerId,
-    		@PathVariable long usagePointId,
-		@RequestParam Map<String, String> params,
-    		InputStream stream) throws IOException {
-              UsagePoint usagePoint = usagePointService.findById(new Long(retailCustomerId), new Long(usagePointId));
-        try {
-            MeterReading meterReading = this.meterReadingService.importResource(stream);
-            meterReadingService.associateByUUID(usagePoint, meterReading.getUUID());
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        }
-    }
+	@RequestMapping(value = Routes.METER_READING_COLLECTION, method = RequestMethod.POST)
+	public void create(HttpServletResponse response,
+			@PathVariable long retailCustomerId,
+			@PathVariable long usagePointId,
+			@RequestParam Map<String, String> params, InputStream stream)
+			throws IOException {
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+		UsagePoint usagePoint = usagePointService.findById(new Long(
+				retailCustomerId), new Long(usagePointId));
+		try {
+			MeterReading meterReading = this.meterReadingService
+					.importResource(stream);
+			meterReadingService.associateByUUID(usagePoint,
+					meterReading.getUUID());
+	           exportService.exportMeterReading(retailCustomerId, usagePointId, meterReading.getId(), response.getOutputStream(), new ExportFilter(params));
+	           
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+	}
 
     //
     @RequestMapping(value = Routes.METER_READING_MEMBER, method = RequestMethod.PUT)

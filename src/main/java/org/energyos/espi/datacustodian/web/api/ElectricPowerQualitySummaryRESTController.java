@@ -89,8 +89,11 @@ public class ElectricPowerQualitySummaryRESTController {
     public void create(HttpServletResponse response, 
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         try {
             ElectricPowerQualitySummary electricPowerQualitySummary = this.electricPowerQualitySummaryService.importResource(stream);
+            exportService.exportElectricPowerQualitySummary(electricPowerQualitySummary.getId(), response.getOutputStream(), new ExportFilter(params));
+            
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
@@ -164,11 +167,15 @@ public class ElectricPowerQualitySummaryRESTController {
     		@PathVariable long usagePointId,
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
     	UsagePoint usagePoint = usagePointService.findById(usagePointId);
         try {
             ElectricPowerQualitySummary electricPowerQualitySummary = this.electricPowerQualitySummaryService.importResource(stream);
             electricPowerQualitySummaryService.associateByUUID(usagePoint, electricPowerQualitySummary.getUUID());
+            exportService.exportElectricPowerQualitySummary(retailCustomerId, usagePointId, electricPowerQualitySummary.getId(),
+            		response.getOutputStream(), new ExportFilter(params));
+
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
