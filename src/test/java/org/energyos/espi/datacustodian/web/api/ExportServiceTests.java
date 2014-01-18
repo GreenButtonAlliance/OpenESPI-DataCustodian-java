@@ -119,11 +119,12 @@ public class ExportServiceTests extends XMLTest {
     public void exportUsagePoints() throws Exception {
         Long retailCustomerId = 1L;
 
-        when(subscriptionService.findEntriesByRetailCustomerId(retailCustomerId)).thenReturn(mock(EntryTypeIterator.class));
+        when(subscriptionService.findEntryTypeIterator(retailCustomerId)).thenReturn(mock(EntryTypeIterator.class));
 
         exportService.exportUsagePoints(retailCustomerId, new ByteArrayOutputStream(), new ExportFilter(new HashMap<String, String>()));
 
-        verify(subscriptionService).findEntriesByRetailCustomerId(retailCustomerId);
+        verify(subscriptionService).findEntryTypeIterator(retailCustomerId);
+
     }
 
     @Ignore("TODO - put back in later.")
