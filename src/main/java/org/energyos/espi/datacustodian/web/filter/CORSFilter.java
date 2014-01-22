@@ -42,42 +42,41 @@ public class CORSFilter implements Filter {
 
     private Pattern allowOriginRegex;
     private String allowOrigin;
+    private String allowCredentials;
     private String exposeHeaders;
 
     public void init(FilterConfig cfg) throws ServletException {
+    	
+    	// Process origin parameters
         String regex = cfg.getInitParameter("allow.origin.regex");
         if (regex != null) {
             allowOriginRegex = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         } else {
-            optionsHeaders.put("Access-Control-Allow-Origin", "*");
+        	allowOrigin = cfg.getInitParameter("allow.origin");
+        	if (allowOrigin != null) {
+        		optionsHeaders.put("Access-Control-Allow-Origin", allowOrigin);
+        	}
         }
-
-        optionsHeaders.put("Access-Control-Allow-Headers", "Origin, Authorization, Accept, Content-Type");
-        optionsHeaders.put("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        optionsHeaders.put("Access-Control-Max-Age", "1800");
+        
+        // Process optional header parameters
         for (Enumeration<String> i = cfg.getInitParameterNames(); i.hasMoreElements(); ) {
             String name = i.nextElement();
             if (name.startsWith("header:")) {
                 optionsHeaders.put(name.substring(7), cfg.getInitParameter(name));
             }
         }
+        
+        // Process Credential support parameter
+        allowCredentials = cfg.getInitParameter("allow.credentials");
 
-        //*
-        //*
-        //*  The following code has been commented out since all methods now use checkOrigin()
-        //*  Therefore there is no need to create and then delete the "Access-Control-Allow-Origin" 
-        //*  header
-        //*
-        //*
-//        maintained for backward compatibility on how to set allowOrigin if not
-//        using a regex
-//        allowOrigin = optionsHeaders.get("Access-Control-Allow-Origin");
-//        since all methods now go through checkOrigin() to apply the Access-Control-Allow-Origin
-//        header, and that header should have a single value of the requesting Origin since
-//        Access-Control-Allow-Credentials is always true, we remove it from the options headers
-//        optionsHeaders.remove("Access-Control-Allow-Origin");
+        // Process Expose header parameter
+        exposeHeaders = cfg.getInitParameter("expose.headers");        
+        
+        // Initialize default header values
+        optionsHeaders.put("Access-Control-Allow-Headers", "Origin, Authorization, Accept, Content-Type");
+        optionsHeaders.put("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        optionsHeaders.put("Access-Control-Max-Age", "1800");
 
-        exposeHeaders = cfg.getInitParameter("expose.headers");
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
@@ -96,13 +95,13 @@ public class CORSFilter implements Filter {
                     	
                         resp.setHeader(e.getKey(), e.getValue());
                     }
-
-                    // We need to return here since we don't want the chain to further process
-                    // a preflight request since this can lead to unexpected processing of the preflighted
-                    // request or a 40x - Response Code
-                    return;
-
                 }
+
+                // We need to return here since we don't want the chain to further process
+                // a preflight request since this can lead to unexpected processing of the preflighted
+                // request or a 40x - Response Code
+                return;
+                
             } else if (checkOrigin(req, resp)) {
                 if (exposeHeaders != null) {
                     resp.setHeader("Access-Control-Expose-Headers", exposeHeaders);
@@ -136,11 +135,14 @@ public class CORSFilter implements Filter {
 
         if (matches) {
         	
-        	// Activate next two lines and comment out third line if Credential Support is required
-//          resp.addHeader("Access-Control-Allow-Origin", origin);
-//          resp.addHeader("Access-Control-Allow-Credentials", "true");      	
-        	resp.addHeader("Access-Control-Allow-Origin", "*");
+        	if (allowCredentials != null) {
+        		resp.addHeader("Access-Control-Allow-Origin", origin);
+        		resp.addHeader("Access-Control-Allow-Credentials", "true");
+        	} else {
+            	resp.addHeader("Access-Control-Allow-Origin", "*");
+        	}
             return true;
+            
         } else {
             return false;
         }
