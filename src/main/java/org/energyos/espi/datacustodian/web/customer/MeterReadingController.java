@@ -16,11 +16,18 @@
 
 package org.energyos.espi.datacustodian.web.customer;
 
+import java.util.Iterator;
+import java.util.List;
+
+import org.energyos.espi.common.domain.IntervalBlock;
+import org.energyos.espi.common.domain.IntervalReading;
+import org.energyos.espi.common.domain.MeterReading;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.service.MeterReadingService;
 import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,10 +39,25 @@ public class MeterReadingController extends BaseController {
 
     @Autowired
     protected MeterReadingService meterReadingService;
-
+    
+    @Transactional (readOnly = true)
     @RequestMapping(value = Routes.METER_READINGS_SHOW, method = RequestMethod.GET)
     public String show(@PathVariable Long retailCustomerId, @PathVariable Long usagePointId, @PathVariable Long meterReadingId, ModelMap model) {
-        model.put("meterReading", meterReadingService.findById(retailCustomerId, usagePointId, meterReadingId));
+    	// TODO need to walk the subtree to force the load (for now)
+    	MeterReading mr = meterReadingService.findById(retailCustomerId, usagePointId, meterReadingId);
+        MeterReading newMeterReading = new MeterReading();
+        newMeterReading.merge(mr);
+        Iterator <IntervalBlock> it = newMeterReading.getIntervalBlocks().iterator();
+        while (it.hasNext()) {
+        	IntervalBlock temp = it.next();
+            Iterator <IntervalReading> it1 = temp.getIntervalReadings().iterator();
+            while (it1.hasNext()) {
+            	IntervalReading temp1 = it1.next();
+            	temp1.getCost();
+            }
+        	
+        }
+        model.put("meterReading", newMeterReading);
         return "/customer/meterreadings/show";
     }
 

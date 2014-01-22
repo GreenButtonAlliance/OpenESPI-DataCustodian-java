@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -18,8 +18,12 @@ package org.energyos.espi.datacustodian.web.customer;
 
 import com.sun.syndication.io.FeedException;
 
+import org.energyos.espi.common.domain.ElectricPowerQualitySummary;
+import org.energyos.espi.common.domain.ElectricPowerUsageSummary;
+import org.energyos.espi.common.domain.MeterReading;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.service.ExportService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
@@ -27,6 +31,7 @@ import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +39,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +52,9 @@ public class UsagePointController extends BaseController {
     private UsagePointService usagePointService;
     @Autowired
     private ExportService exportService;
+    
+    @Autowired
+    private ApplicationInformationService applicationInformationService;
 
     @ModelAttribute
     public List<UsagePoint> usagePoints(Principal principal) {
@@ -54,10 +65,38 @@ public class UsagePointController extends BaseController {
     public String index() {
         return "/customer/usagepoints/index";
     }
-
+    
+    @Transactional ( readOnly = true )
     @RequestMapping(value = Routes.USAGE_POINT_SHOW, method = RequestMethod.GET)
-    public String show(@PathVariable String usagePointId, ModelMap model) {
-        model.put("usagePoint", usagePointService.findByHashedId(usagePointId));
+    public String show(@PathVariable Long retailCustomerId, @PathVariable Long usagePointId, ModelMap model) {
+    	UsagePoint usagePoint = usagePointService.findById(usagePointId);
+    	// because of the lazy loading from DB it's easier to build a bag and hand it off
+    	HashMap<String, Object> displayBag = new HashMap<String, Object> ();
+    	displayBag.put("Description", usagePoint.getDescription());
+    	displayBag.put("ServiceCategory", usagePoint.getServiceCategory());
+    	displayBag.put("Uri", usagePoint.getSelfHref());
+    	// put the meterReadings
+    	List<HashMap> meterReadings = new ArrayList<HashMap> ();
+    	Iterator <MeterReading> it = usagePoint.getMeterReadings().iterator();
+    	while (it.hasNext()) {
+    		HashMap<String, Object> mrBag = new HashMap<String, Object> ();
+    		MeterReading mr = it.next();
+    		mrBag.put("Description", mr.getDescription());
+    		// TODO build the real IntervalBlocks URI
+    		String uriTail = "/RetailCustomer/" + retailCustomerId + "/UsagePoint/" + usagePointId + "/MeterReading/" + mr.getId() + "/show";
+    		mrBag.put("Uri", applicationInformationService.getDataCustodianResourceEndpoint().replace("/espi/1_1/resource","") + uriTail);
+    		mrBag.put("ReadingType", mr.getReadingType().getDescription());
+    		meterReadings.add(mrBag);
+    	}
+    	displayBag.put("MeterReadings", meterReadings);	
+    	// find the summary rollups
+    	List<ElectricPowerQualitySummary> qualitySummaryList = usagePoint.getElectricPowerQualitySummaries();
+    	List <ElectricPowerUsageSummary> usageSummaryList = usagePoint.getElectricPowerUsageSummaries();
+    	displayBag.put("QualitySummaryList", qualitySummaryList);
+    	displayBag.put("UsageSummaryList", usageSummaryList);
+    	
+        model.put("displayBag", displayBag);
+        
         return "/customer/usagepoints/show";
     }
 
