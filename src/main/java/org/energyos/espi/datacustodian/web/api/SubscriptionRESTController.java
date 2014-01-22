@@ -49,12 +49,14 @@ public class SubscriptionRESTController {
 
     // original Pivotal Code
     //
+	/*
     @RequestMapping(value = Routes.DATA_CUSTODIAN_SUBSCRIPTION, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public void show(HttpServletResponse response, @PathVariable String subscriptionHashedId, @RequestParam Map<String, String> params) throws FeedException, IOException, InterruptedException, JAXBException, XMLStreamException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         exportService.exportSubscription(subscriptionHashedId, response.getOutputStream(), new ExportFilter(params));
     }
+    */
 
     // ROOT RESTful Forms
     //
@@ -65,16 +67,14 @@ public class SubscriptionRESTController {
         exportService.exportSubscriptions(response.getOutputStream(), new ExportFilter(params));
     }
 
-    // 
-    // TODO Put the following back in once the original Pivotal Version is obsoleted
-    /*
+
     @RequestMapping(value = Routes.ROOT_SUBSCRIPTION_MEMBER, method = RequestMethod.GET)
     public void show(HttpServletResponse response, 
     		@PathVariable long subscriptionId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         exportService.exportSubscription(subscriptionId, response.getOutputStream(), new ExportFilter(params));
     }
-*/
+
     // 
     //
     @RequestMapping(value = Routes.ROOT_SUBSCRIPTION_COLLECTION, method = RequestMethod.POST)

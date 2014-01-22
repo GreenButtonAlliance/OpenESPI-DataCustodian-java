@@ -41,7 +41,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
         
         // Create Subscription and add resourceURI to /oath/token response
         Subscription subscription = subscriptionService.createSubscription(authentication);   
-        additionalInformation.put("resourceURI", baseURL + Routes.DATA_CUSTODIAN_SUBSCRIPTION.replace("{subscriptionHashedId}", subscription.getId().toString()));        
+        additionalInformation.put("resourceURI", baseURL + Routes.BATCH_SUBSCRIPTION.replace("{subscriptionId}", subscription.getId().toString()));        
 
         // Create Authorization and add authorizationURI to /oath/token response        
         Authorization authorization = authorizationService.createAuthorization(subscription, token.getValue());           
@@ -67,7 +67,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 		// Remove "[" and "]" surrounding Scope in accessToken structure
         authorization.setScope(accessToken.getScope().toString().substring(1, (accessToken.getScope().toString().length()-1)));
         authorization.setAuthorizationURI(baseURL + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("{AuthorizationID}", authorization.getId().toString()));
-        authorization.setResourceURI(baseURL + Routes.DATA_CUSTODIAN_SUBSCRIPTION.replace("{subscriptionHashedId}", subscription.getId().toString()));
+        authorization.setResourceURI(baseURL + Routes.BATCH_SUBSCRIPTION.replace("{subscriptionId}", subscription.getId().toString()));
 		authorization.setUpdated(new GregorianCalendar());
 		authorization.setStatus("1"); 	// Set authorization record status as "Active"
         authorizationService.merge(authorization);
