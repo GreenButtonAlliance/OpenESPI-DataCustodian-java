@@ -69,6 +69,7 @@ public class UsagePointController extends BaseController {
     @Transactional ( readOnly = true )
     @RequestMapping(value = Routes.USAGE_POINT_SHOW, method = RequestMethod.GET)
     public String show(@PathVariable Long retailCustomerId, @PathVariable Long usagePointId, ModelMap model) {
+     try {
     	UsagePoint usagePoint = usagePointService.findById(usagePointId);
     	// because of the lazy loading from DB it's easier to build a bag and hand it off
     	HashMap<String, Object> displayBag = new HashMap<String, Object> ();
@@ -98,6 +99,10 @@ public class UsagePointController extends BaseController {
         model.put("displayBag", displayBag);
         
         return "/customer/usagepoints/show";
+     } catch (Exception e) {
+    	 System.out.printf("UX Error: %s\n", e.toString());
+         return "/customer/usagepoints/index";
+     }
     }
 
     @RequestMapping(value = Routes.USAGE_POINTS_FEED, method = RequestMethod.GET)
