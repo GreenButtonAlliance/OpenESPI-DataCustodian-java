@@ -67,7 +67,13 @@ public class RetailCustomerRESTController {
 	public void index(HttpServletResponse response,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        exportService.exportRetailCustomers(response.getOutputStream(), new ExportFilter(params));
+        // TODO - - Integration of RetailCustomer with Identified Object Engine is needed
+        try {
+            exportService.exportRetailCustomers(response.getOutputStream(), new ExportFilter(params));
+        } catch (Exception e) {
+        	System.out.printf("***** Error Caused by RetailCustomer.x.IndentifiedObject need: %s", e.toString());
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
     }
 
     // 
@@ -80,6 +86,7 @@ public class RetailCustomerRESTController {
         try {
             exportService.exportRetailCustomer(retailCustomerId, response.getOutputStream(), new ExportFilter(params));
         } catch (Exception e) {
+        	System.out.printf("***** Error Caused by RetailCustomer.x.IndentifiedObject need: %s", e.toString());
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
  
@@ -94,6 +101,7 @@ public class RetailCustomerRESTController {
         	RetailCustomer retailCustomer = this.retailCustomerService.importResource(stream);
             exportService.exportTimeConfiguration(retailCustomer.getId(), response.getOutputStream(), new ExportFilter(null));
         } catch (Exception e) {
+        	System.out.printf("***** Error Caused by RetailCustomer.x.IndentifiedObject need: %s", e.toString());
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
@@ -112,6 +120,7 @@ public class RetailCustomerRESTController {
             	RetailCustomer newRetailCustomer = retailCustomerService.importResource(stream);
             	retailCustomer.merge(newRetailCustomer);
             } catch (Exception e) {
+            	System.out.printf("***** Error Caused by RetailCustomer.x.IndentifiedObject need: %s", e.toString());
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
@@ -147,6 +156,7 @@ public class RetailCustomerRESTController {
             }
             
         } catch (Exception e) {
+        	System.out.printf("***** Error Caused by RetailCustomer.x.IndentifiedObject need: %s", e.toString());
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
  
@@ -162,6 +172,7 @@ public class RetailCustomerRESTController {
               exportService.exportUsagePointsFull(retailCustomerId, response.getOutputStream(), new ExportFilter(params));
               
         } catch (Exception e) {
+        	System.out.printf("***** Error Caused by RetailCustomer.x.IndentifiedObject need: %s", e.toString());
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
  
