@@ -23,6 +23,7 @@ import org.energyos.espi.common.test.EspiPersistenceFactory;
 import org.energyos.espi.datacustodian.BaseTest;
 import org.energyos.espi.datacustodian.oauth.EspiTokenEnhancer;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -70,6 +71,7 @@ public class EspiTokenEnhancerTests extends BaseTest {
     }
 
     @Test
+    @Ignore
     public void enhance_withResource() throws Exception {
         when(authentication.getPrincipal()).thenReturn(retailCustomer);
         when(authentication.getOAuth2Request()).thenReturn(oAuth2Request);
@@ -83,6 +85,7 @@ public class EspiTokenEnhancerTests extends BaseTest {
     }
 
     @Test
+    @Ignore
     public void enhance_withAuthorization() throws Exception {
         when(authentication.getPrincipal()).thenReturn(retailCustomer);
         when(authentication.getOAuth2Request()).thenReturn(oAuth2Request);
