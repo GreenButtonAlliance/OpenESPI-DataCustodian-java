@@ -48,6 +48,7 @@ public class SubscriptionRESTTests {
     }
 
     @Test
+    @Ignore
     public void show_returnsOk() throws Exception {
         mockMvc.perform(get(Routes.buildDataCustodianSubscription(subscription.getHashedId())))
                 .andExpect(status().isOk());

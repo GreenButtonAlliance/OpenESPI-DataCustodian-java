@@ -19,6 +19,7 @@ import org.energyos.espi.common.service.ExportService;
 import org.energyos.espi.common.utils.ExportFilter;
 import org.energyos.espi.datacustodian.BaseTest;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.http.MediaType;
@@ -47,36 +48,40 @@ public class SubscriptionRESTControllerTests extends BaseTest {
         subscription.setHashedId("hashedId");
     }
 
-//    @Test
-//    public void show_streamsEntries() throws IOException, FeedException, InterruptedException, JAXBException, XMLStreamException {
-//        controller.show(response, subscription.getHashedId(), params);
-//
-//        verify(exportService).exportSubscription(eq(subscription.getHashedId()), eq(response.getOutputStream()), isA(ExportFilter.class));
-//    }
+    @Test
+    @Ignore
+    public void show_streamsEntries() throws IOException, FeedException, InterruptedException, JAXBException, XMLStreamException {
+        controller.show(response, subscription.getId(), params);
 
-//    @Test
-//    public void show_respondsWithATOM() throws InterruptedException, XMLStreamException, FeedException, JAXBException, IOException {
-//        controller.show(response, subscription.getHashedId(), params);
-//
-//        assertThat(response.getContentType(), is(MediaType.APPLICATION_ATOM_XML_VALUE));
-//    }
+        verify(exportService).exportSubscription(eq(subscription.getId()), eq(response.getOutputStream()), isA(ExportFilter.class));
+    }
 
-//    @Test
-//    public void show_responds200OK() throws InterruptedException, XMLStreamException, FeedException, JAXBException, IOException {
-//        controller.show(response, subscription.getHashedId(), params);
-//
-//        assertThat(response.getStatus(), is(200));
-//    }
+    @Test
+    @Ignore
+    public void show_respondsWithATOM() throws InterruptedException, XMLStreamException, FeedException, JAXBException, IOException {
+        controller.show(response, subscription.getId(), params);
 
-//    @Test
-//    public void show_usesPublishedFilters() throws InterruptedException, XMLStreamException, FeedException, JAXBException, IOException {
-//        params = new HashMap<>();
-//        params.put("published-min", "2012-10-24T00:00:00Z");
-//        params.put("published-max", "2012-10-25T00:00:00Z");
-//
-//        controller.show(response, subscription.getHashedId(), params);
-//
-//        verify(exportService).exportSubscription(subscription.getHashedId(), response.getOutputStream(), new ExportFilter(params));
-//    }
+        assertThat(response.getContentType(), is(MediaType.APPLICATION_ATOM_XML_VALUE));
+    }
+
+    @Test
+    @Ignore
+    public void show_responds200OK() throws InterruptedException, XMLStreamException, FeedException, JAXBException, IOException {
+        controller.show(response, subscription.getId(), params);
+
+        assertThat(response.getStatus(), is(200));
+    }
+
+    @Test
+    @Ignore
+    public void show_usesPublishedFilters() throws InterruptedException, XMLStreamException, FeedException, JAXBException, IOException {
+        params = new HashMap<>();
+        params.put("published-min", "2012-10-24T00:00:00Z");
+        params.put("published-max", "2012-10-25T00:00:00Z");
+
+        controller.show(response, subscription.getId(), params);
+
+        verify(exportService).exportSubscription(subscription.getId(), response.getOutputStream(), new ExportFilter(params));
+    }
 
 }

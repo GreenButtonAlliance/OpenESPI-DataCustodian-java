@@ -62,10 +62,11 @@ public class UsagePointControllerTests {
         assertEquals("/customer/usagepoints/index", controller.index());
     }
 
-//    @Test
-//    public void show_displaysShowView() throws Exception {
-//        assertEquals("/customer/usagepoints/show", controller.show("hashed id", mock(ModelMap.class)));
-//    }
+    @Test
+    @Ignore
+    public void show_displaysShowView() throws Exception {
+        assertEquals("/customer/usagepoints/show", controller.show(1L, 1L, mock(ModelMap.class)));
+    }
 
     @Test
     public void usagePoints_returnsUsagePointList() throws Exception {
