@@ -1,14 +1,14 @@
 package org.energyos.espi.datacustodian.web.customer;
 
-import org.energyos.espi.common.domain.MeterReading;
-import org.energyos.espi.common.service.MeterReadingService;
-import org.junit.Test;
-import org.springframework.ui.ModelMap;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import org.energyos.espi.common.domain.MeterReading;
+import org.energyos.espi.common.service.MeterReadingService;
+import org.junit.Test;
+import org.springframework.ui.ModelMap;
 
 public class MeterReadingControllerTest {
 

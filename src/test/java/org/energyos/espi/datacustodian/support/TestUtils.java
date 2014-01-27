@@ -16,13 +16,10 @@
 
 package org.energyos.espi.datacustodian.support;
 
-import com.sun.syndication.feed.atom.Link;
-import org.energyos.espi.common.domain.RetailCustomer;
-import org.energyos.espi.common.service.ImportService;
-import org.energyos.espi.common.service.UsagePointService;
-import org.energyos.espi.datacustodian.atom.EspiEntry;
-import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
-import org.xml.sax.SAXException;
+import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.validation.constraints.Size;
@@ -30,10 +27,15 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.util.UUID;
+
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.service.ImportService;
+import org.energyos.espi.common.service.UsagePointService;
+import org.energyos.espi.datacustodian.atom.EspiEntry;
+import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
+import org.xml.sax.SAXException;
+
+import com.sun.syndication.feed.atom.Link;
 
 @SuppressWarnings("rawtypes")
 public class TestUtils {

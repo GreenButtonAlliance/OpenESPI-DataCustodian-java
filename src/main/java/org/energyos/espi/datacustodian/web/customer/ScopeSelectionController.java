@@ -16,7 +16,7 @@
 
 package org.energyos.espi.datacustodian.web.customer;
 
-import java.util.Set;
+import static org.energyos.espi.datacustodian.utils.URLHelper.newScopeParams;
 
 import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Configuration;
@@ -28,8 +28,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import static org.energyos.espi.datacustodian.utils.URLHelper.newScopeParams;
 
 ///DataCustodian/src/main/java/org/energyos/espi/datacustodian/utils/URLHelper.java
 

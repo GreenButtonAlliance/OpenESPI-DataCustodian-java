@@ -12,8 +12,8 @@
 
     <mvc:default-servlet-handler />
 
-    <import resource="classpath:spring/security-config.xml"/>
-    <import resource="classpath:spring/oauth-config.xml"/>
+    <import resource="classpath:spring/oauth-AS-config.xml"/>
+    <import resource="classpath:spring/oauth-RS-config.xml"/>
     <import resource="classpath:spring/business-config.xml"/>
     <import resource="classpath:spring/data-config.xml"/>
 

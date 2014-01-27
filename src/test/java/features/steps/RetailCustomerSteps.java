@@ -16,11 +16,18 @@
 
 package features.steps;
 
-import cucumber.api.java.Before;
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
+import static features.steps.StepUtils.assertContains;
+import static features.steps.StepUtils.navigateTo;
+import static org.energyos.espi.common.test.Asserts.assertXpathValue;
+import static org.energyos.espi.common.test.BaseStepUtils.clickLinkByText;
+import static org.energyos.espi.common.test.BaseStepUtils.newFirstName;
+import static org.energyos.espi.common.test.BaseStepUtils.newLastName;
+import static org.energyos.espi.common.test.BaseStepUtils.newUsername;
+import static org.energyos.espi.common.test.BaseStepUtils.selectRadioByLabel;
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import org.energyos.espi.common.test.CucumberSession;
 import org.energyos.espi.common.test.TestUtils;
@@ -30,10 +37,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import static features.steps.StepUtils.*;
-import static org.energyos.espi.common.test.Asserts.assertXpathValue;
-import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.*;
+import cucumber.api.java.Before;
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 public class RetailCustomerSteps {
 

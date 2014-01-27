@@ -1,15 +1,17 @@
 package org.energyos.espi.datacustodian.integration.service;
 
+import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
+import java.util.HashMap;
+
 import org.custommonkey.xmlunit.exceptions.XpathException;
-import org.energyos.espi.common.domain.RetailCustomer;
-import org.energyos.espi.common.domain.Subscription;
 import org.energyos.espi.common.service.ExportService;
 import org.energyos.espi.common.service.ImportService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.test.EspiPersistenceFactory;
 import org.energyos.espi.common.utils.ExportFilter;
 import org.energyos.espi.datacustodian.domain.XMLTest;
-import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +19,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.UUID;
-
-import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
-import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/spring/test-context.xml")

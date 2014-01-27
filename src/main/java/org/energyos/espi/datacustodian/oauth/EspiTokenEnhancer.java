@@ -1,6 +1,9 @@
 package org.energyos.espi.datacustodian.oauth;
 
-import org.energyos.espi.common.domain.ApplicationInformation;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.energyos.espi.common.domain.Authorization;
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
@@ -8,17 +11,11 @@ import org.energyos.espi.common.domain.Subscription;
 import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.service.AuthorizationService;
 import org.energyos.espi.common.service.SubscriptionService;
-import org.energyos.espi.common.utils.DateConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
-
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Map;
 
 public class EspiTokenEnhancer implements TokenEnhancer {
 
@@ -31,7 +28,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
     @Autowired
     private AuthorizationService authorizationService;
 
-    private String baseURL;  // "baseURL" is a "tokenEnhancer" bean property defined in the oauth-config.xml file 
+    private String baseURL;  // "baseURL" is a "tokenEnhancer" bean property defined in the oauth-AS-config.xml file 
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {

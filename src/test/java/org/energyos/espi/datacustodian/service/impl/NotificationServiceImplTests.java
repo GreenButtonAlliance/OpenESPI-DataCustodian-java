@@ -16,6 +16,11 @@
 
 package org.energyos.espi.datacustodian.service.impl;
 
+import static org.energyos.espi.common.test.EspiFactory.newSubscription;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.verify;
+
 import org.energyos.espi.common.domain.BatchList;
 import org.energyos.espi.common.domain.Subscription;
 import org.energyos.espi.datacustodian.BaseTest;
@@ -23,11 +28,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.web.client.RestTemplate;
-
-import static org.energyos.espi.common.test.EspiFactory.newSubscription;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.verify;
 
 public class NotificationServiceImplTests extends BaseTest {
 

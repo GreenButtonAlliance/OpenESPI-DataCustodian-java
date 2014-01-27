@@ -1,5 +1,14 @@
 package org.energyos.espi.datacustodian.integration.utils;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+import java.util.UUID;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.parsers.SAXParserFactory;
+
 import org.energyos.espi.common.models.atom.EntryType;
 import org.energyos.espi.common.utils.ATOMContentHandler;
 import org.energyos.espi.common.utils.EntryProcessor;
@@ -16,14 +25,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.parsers.SAXParserFactory;
-import java.util.UUID;
-
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration

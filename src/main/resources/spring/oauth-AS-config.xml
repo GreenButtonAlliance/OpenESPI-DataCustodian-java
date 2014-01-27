@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
+        http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
+ 
+        
+	<!--**************************************     OAuth Access Token Support Configuration (Start)     **************************************-->    
+	<!-- Uncomment the following line and comment the other "tokenStore" and "jdbcTemplate" beans to activate the
+		 InMemory Token Store -->
+	<!-- <bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.InMemoryTokenStore" /> -->
+        
+    <bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.JdbcTokenStore" >
+    	<constructor-arg ref="jdbcTemplate" />
+    </bean>
+    
+    <bean id="jdbcTemplate"
+    	class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    	<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+    	<property name="url" value="jdbc:mysql://localhost:3306/tokenstore" />
+    	<property name="username" value="root" />
+    	<property name="password" value="password" />   
+    </bean>
+        
+    <bean id="tokenServices" 
+    	class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
+        <property name="tokenStore" ref="tokenStore" />
+        <property name="tokenEnhancer" ref="tokenEnhancer"/>        
+        <property name="supportRefreshToken" value="true" />
+        <property name="clientDetailsService" ref="clientDetails" />
+    </bean>    
+
+    <bean id="tokenEnhancer" class="org.energyos.espi.datacustodian.oauth.EspiTokenEnhancer">
+        <property name="baseURL" value="${datacustodian.base.url}"/>
+    </bean>
+
+	<bean id="requestFactory"
+		class="org.springframework.security.oauth2.provider.DefaultOAuth2RequestFactory">
+		<constructor-arg name="clientDetailsService" ref="clientDetails" />
+	</bean>
+
+	<bean id="userApprovalHandler"
+		class="org.energyos.espi.datacustodian.oauth.UserApprovalHandler">
+		<property name="approvalStore" ref="approvalStore" />
+		<property name="clientDetailsService" ref="clientDetails" />
+		<property name="requestFactory" ref="requestFactory" />
+	</bean>    
+
+	<bean id="approvalStore"
+		class="org.springframework.security.oauth2.provider.approval.TokenApprovalStore">
+		<property name="tokenStore" ref="tokenStore" />
+	</bean>           
+	<!--**************************************     OAuth Access Token Support Configuration (End)     **************************************-->        
+        
+	<!--**************************************       Authorization Server Configuration (Start)       **************************************-->
+    
+    <http pattern="oauth/token" create-session="stateless"
+    	authentication-manager-ref="clientAuthenticationManager"
+    	xmlns="http://www.springframework.org/schema/security">
+    	<intercept-url pattern="/**" method="GET" access="ROLE_DENY" />
+    	<intercept-url pattern="/**" method="PUT" access="ROLE_DENY" />
+    	<intercept-url pattern="/**" method="DELETE" access="ROLE_DENY" />
+    	<intercept-url pattern="/**" access="IS_AUTHENTICATED_FULLY" />
+    	<anonymous enabled="false" />
+    	<http-basic entry-point-ref="clientAuthenticationEntryPoint" />
+    	<access-denied-handler ref="oauthAccessDeniedHandler" />
+    </http>
+		        
+    <oauth:authorization-server 
+    	client-details-service-ref="clientDetails"
+    	token-services-ref="tokenServices"
+        user-approval-handler-ref="userApprovalHandler"    	    	
+        token-endpoint-url="/oauth/token"    	
+        authorization-endpoint-url="/oauth/authorize" >
+        <oauth:authorization-code 
+        	authorization-code-services-ref="codes" />           	
+        <oauth:refresh-token />
+        <oauth:client-credentials />      	    	
+    </oauth:authorization-server>
+        
+    <!-- Select the appropriate bean based on the location whether the system is InMemory or Jdbc based -->	
+	<!-- <bean id="codes" class="org.springframework.security.oauth2.provider.code.InMemoryAuthorizationCodeServices"/>	 -->
+	<bean id="codes" class="org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices"/>
+	   	
+	<bean id="clientCredentialsTokenEndpointFilter"
+		class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">
+		<property name="authenticationManager" ref="clientAuthenticationManager" />
+	</bean>
+
+	<!-- Override the default mappings for approval and error pages -->
+    <bean id="accessConfirmationController" 
+    	class="org.energyos.espi.datacustodian.oauth.AccessConfirmationController">
+        <property name="clientDetailsService" ref="clientDetails" />
+        <property name="approvalStore" ref="approvalStore" />
+    </bean>
+	
+	<bean id="adminController"
+		class="org.energyos.espi.datacustodian.oauth.AdminController">
+		<property name="tokenServices" ref="tokenServices" />
+		<property name="tokenStore" ref="tokenStore" />
+		<property name="userApprovalHandler" ref="userApprovalHandler" />	
+	</bean> 	    	    
+
+	<!-- Original Pivotal entry -->
+<!--     <oauth:resource-server id="resourceServerFilter"  -->
+<!--     	resource-id="feed" token-services-ref="tokenServices" />	 -->
+
+    <oauth:resource-server id="resourceServerFilter" 
+    	resource-id="DataCustodian" token-services-ref="tokenServices" />
+
+    <bean id="oauthAuthenticationEntryPoint" 
+    	class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+        <property name="realmName" value="DataCustodian" />
+    </bean>
+
+    <bean id="clientAuthenticationEntryPoint" 
+    	class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+        <property name="realmName" value="DataCustodian" />
+        <property name="typeName" value="Basic" />
+    </bean>
+
+    <bean id="oauthAccessDeniedHandler" 
+    	class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler" />	
+
+    <bean id="accessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased" 
+    	xmlns="http://www.springframework.org/schema/beans">
+        <constructor-arg>
+            <list>
+                <bean class="org.springframework.security.oauth2.provider.vote.ScopeVoter" />
+                <bean class="org.springframework.security.access.vote.RoleVoter" />
+                <bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <authentication-manager id="clientAuthenticationManager" 
+    	xmlns="http://www.springframework.org/schema/security">
+        <authentication-provider user-service-ref="clientDetailsUserService" />
+    </authentication-manager>
+
+    <authentication-manager alias="authenticationManager" 
+    	xmlns="http://www.springframework.org/schema/security">
+        <security:authentication-provider user-service-ref="retailCustomerServiceImpl"/>
+    </authentication-manager>
+    	    
+    <bean id="clientDetails" class="org.springframework.security.oauth2.provider.ClientDetailsService"/>    
+
+    <bean id="clientDetailsUserService" 
+    	class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
+        <constructor-arg ref="clientDetails" />
+    </bean>
+    
+    <sec:global-method-security 
+    	pre-post-annotations="enabled" proxy-target-class="true">
+        <sec:expression-handler ref="oauthExpressionHandler" />
+    </sec:global-method-security>
+
+    <oauth:expression-handler id="oauthExpressionHandler" />
+
+    <oauth:web-expression-handler id="oauthWebExpressionHandler" />    	    	
+	<!--**************************************        Authorization Server Configuration (End)        **************************************-->    
+
+	<!--**************************************         Development Only Configuration (Start)         **************************************-->	
+	<http pattern="/oauth/cache_approvals" security="none"
+		xmlns="http://www.springframework.org/schema/security" />
+	<http pattern="/oauth/uncache_approvals" security="none"
+		xmlns="http://www.springframework.org/schema/security" />
+	<!--**************************************          Development Only Configuration (End)          **************************************-->			
+		
+</beans>

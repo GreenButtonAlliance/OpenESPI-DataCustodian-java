@@ -15,7 +15,11 @@ package org.energyos.espi.datacustodian.web.api.impl;
  *    limitations under the License.
  */
 
-import com.sun.syndication.io.FeedException;
+import java.io.ByteArrayOutputStream;
+import java.util.List;
+
+import javax.xml.transform.stream.StreamResult;
+
 import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.utils.FeedBuilder;
 import org.energyos.espi.datacustodian.web.api.AtomService;
@@ -24,9 +28,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Service;
 
-import javax.xml.transform.stream.StreamResult;
-import java.io.ByteArrayOutputStream;
-import java.util.List;
+import com.sun.syndication.io.FeedException;
 
 @Service
 public class AtomServiceImpl implements AtomService {

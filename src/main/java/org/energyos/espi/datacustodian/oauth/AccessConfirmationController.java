@@ -4,15 +4,13 @@ import java.security.Principal;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.security.oauth2.common.util.OAuth2Utils;
 import org.springframework.security.oauth2.provider.AuthorizationRequest;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
-//import org.springframework.security.oauth2.provider.approval.Approval;				****|
-//import org.springframework.security.oauth2.provider.approval.Approval.ApprovalStatus;		> Requires Spring Security OAuth2 2.0.0.M2 support
-//import org.springframework.security.oauth2.provider.approval.ApprovalStore;			****|
+import org.springframework.security.oauth2.provider.approval.Approval;
+import org.springframework.security.oauth2.provider.approval.Approval.ApprovalStatus;
+import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -29,7 +27,7 @@ public class AccessConfirmationController {
 
 	private ClientDetailsService clientDetailsService;
 	
-//	private ApprovalStore approvalStore;	//Requires Spring Security OAuth2 2.0.0.M2 support
+	private ApprovalStore approvalStore;	//Requires Spring Security OAuth2 2.0.0.M2 support
 
 	@RequestMapping("/oauth/confirm_access")
 	public ModelAndView getAccessConfirmation(Map<String, Object> model, Principal principal) throws Exception {
@@ -39,17 +37,17 @@ public class AccessConfirmationController {
 		model.put("client", client);
 		Map<String, String> scopes = new LinkedHashMap<String, String>();
 		for (String scope : clientAuth.getScope()) {
-//			scopes.put(OAuth2Utils.SCOPE_PREFIX + scope, "false");  //Requires Spring Security OAuth2 2.0.0.M2 support
-			scopes.put(scope, "false");		//Temporary fix until Spring Security OAuth2 2.0.0.M2 upgrade
+			scopes.put(OAuth2Utils.SCOPE_PREFIX + scope, "false");  //Requires Spring Security OAuth2 2.0.0.M2 support
+//			scopes.put(scope, "false");		//Temporary fix until Spring Security OAuth2 2.0.0.M2 upgrade
 		}
 		
 		//Requires Spring Security OAuth2 2.0.0.M2 support
-//		for (Approval approval : approvalStore.getApprovals(principal.getName(), client.getClientId())) {
-//			if (clientAuth.getScope().contains(approval.getScope())) {
-//				scopes.put(OAuth2Utils.SCOPE_PREFIX + approval.getScope(),
-//						approval.getStatus() == ApprovalStatus.APPROVED ? "true" : "false");
-//			}
-//		}
+		for (Approval approval : approvalStore.getApprovals(principal.getName(), client.getClientId())) {
+			if (clientAuth.getScope().contains(approval.getScope())) {
+				scopes.put(OAuth2Utils.SCOPE_PREFIX + approval.getScope(),
+						approval.getStatus() == ApprovalStatus.APPROVED ? "true" : "false");
+			}
+		}
 		model.put("scopes", scopes);
 		return new ModelAndView("access_confirmation", model);
 	}
@@ -68,7 +66,7 @@ public class AccessConfirmationController {
 	}
 
 	//Requires Spring Security OAuth2 2.0.0.M2 support	
-//	public void setApprovalStore(ApprovalStore approvalStore) {
-//		this.approvalStore = approvalStore;
-//	}
+	public void setApprovalStore(ApprovalStore approvalStore) {
+		this.approvalStore = approvalStore;
+	}
 }

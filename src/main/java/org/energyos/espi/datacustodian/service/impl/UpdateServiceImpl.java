@@ -1,5 +1,7 @@
 package org.energyos.espi.datacustodian.service.impl;
 
+import java.util.List;
+
 import org.energyos.espi.common.domain.BatchList;
 import org.energyos.espi.common.domain.Subscription;
 import org.energyos.espi.common.domain.UsagePoint;
@@ -7,8 +9,6 @@ import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.datacustodian.service.UpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class UpdateServiceImpl implements UpdateService {

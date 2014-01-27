@@ -58,7 +58,7 @@
         		</c:forEach>            
             </ul>
             <label>
-                <input name="authorize" value="Authorize" type="submit" class="btn btn-primary">
+                <input name="authorize" value="Submit" type="submit" class="btn btn-primary">
             </label>
         </form>
     </authz:authorize>

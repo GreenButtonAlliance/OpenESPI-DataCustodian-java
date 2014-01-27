@@ -15,17 +15,17 @@ package org.energyos.espi.datacustodian.domain;
  *    limitations under the License.
  */
 
-import org.energyos.espi.common.domain.UsagePoint;
-import org.energyos.espi.common.models.atom.LinkType;
-import org.hamcrest.Matchers;
-import org.junit.Test;
-
-import java.util.List;
-
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
+
+import java.util.List;
+
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.models.atom.LinkType;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 public class UsagePointTests {
 

@@ -1,14 +1,15 @@
 package org.energyos.espi.datacustodian.domain;
 
-import org.energyos.espi.common.domain.IdentifiedObject;
-import org.junit.Test;
+import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
+import static org.junit.Assert.assertEquals;
+
+import java.util.UUID;
 
 import javax.persistence.Embedded;
 import javax.xml.bind.annotation.XmlTransient;
-import java.util.UUID;
 
-import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
-import static org.junit.Assert.assertEquals;
+import org.energyos.espi.common.domain.IdentifiedObject;
+import org.junit.Test;
 
 public class IdentifiedObjectTests {
     @Test

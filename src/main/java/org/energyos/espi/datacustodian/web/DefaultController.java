@@ -16,13 +16,14 @@
 
 package org.energyos.espi.datacustodian.web;
 
+import java.security.Principal;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 
 @Controller
 public class DefaultController extends BaseController {
