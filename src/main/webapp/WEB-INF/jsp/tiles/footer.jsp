@@ -22,5 +22,5 @@
 <div style="float:left;">
   <img src="<c:url value='/resources/ico/favicon.png'/>" width="20"/>&nbsp;<a href="http://www.greenbuttondata.org">Green Button for America</a>
 </div>
-<div style="float:right; margin-top:5px;">&copy; <a href="http://www.EnergyOS.org/">EnergyOS.org</a> 2013</div>
+<div style="float:right; margin-top:5px;">&copy; <a href="http://www.EnergyOS.org/">EnergyOS.org</a> 2013, 2014</div>
 </footer>

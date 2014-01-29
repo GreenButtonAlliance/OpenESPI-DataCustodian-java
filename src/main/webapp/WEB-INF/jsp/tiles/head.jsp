@@ -25,6 +25,7 @@
     <link href="<c:url value='/resources/css/bootstrap.css' />" rel="stylesheet" type="text/css"/>
     <link href="<c:url value='/resources/css/bootstrap-responsive.css' />" rel="stylesheet" type="text/css"/>
     <link href="<c:url value='/resources/css/application.css' />" rel="stylesheet" type="text/css"/>
+   <link href="<c:url value='/resources/css/bootstrap-datetimepicker.min.css' />" rel="stylesheet" type="text/css"/>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -32,6 +33,9 @@
     <![endif]-->
 
     <script src="<c:url value='/resources/js/jquery.min.js'/>"></script>
+    <script src="<c:url value='/resources/js/bootstrap-datetimepicker.min.js'/>"></script>
+    <!--  US DatePicker calendar -->
+    <script src="<c:url value='/resources/js/bootstrap-datetimepicker.pt-US.js'/>"></script>
     <script src="<c:url value='/resources/js/application.js'/>"></script>
 
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<c:url value='/resources/ico/apple-touch-icon-144-precomposed.png'/>">
