@@ -25,7 +25,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="brand" href="<c:url value='/home'/>"><img src="<c:url value='/resources/ico/favicon.png'/>" width="20"/>&nbsp;Data Custodian</a>
-
+           
             <div class="nav-collapse collapse">
                 <ul class="nav">
                     <security:authorize access="isAuthenticated()">

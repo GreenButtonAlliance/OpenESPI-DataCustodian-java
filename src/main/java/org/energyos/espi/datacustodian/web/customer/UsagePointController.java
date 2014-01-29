@@ -76,6 +76,7 @@ public class UsagePointController extends BaseController {
     	displayBag.put("Description", usagePoint.getDescription());
     	displayBag.put("ServiceCategory", usagePoint.getServiceCategory());
     	displayBag.put("Uri", usagePoint.getSelfHref());
+    	displayBag.put("usagePointId", usagePoint.getId());
     	// put the meterReadings
     	List<HashMap> meterReadings = new ArrayList<HashMap> ();
     	Iterator <MeterReading> it = usagePoint.getMeterReadings().iterator();
