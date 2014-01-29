@@ -87,14 +87,30 @@ public class BatchRESTController {
  
     }
 
-    @RequestMapping(value = Routes.BATCH_DOWNLOAD_MY_DATA, method = RequestMethod.GET)
-    public void download(HttpServletResponse response, 
+    @RequestMapping(value = Routes.BATCH_DOWNLOAD_MY_DATA_COLLECTION, method = RequestMethod.GET)
+    public void download_collection(HttpServletResponse response, 
     		@PathVariable Long retailCustomerId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         response.addHeader("Content-Disposition", "attachment; filename=GreenButtonDownload.xml");
           try {
               exportService.exportUsagePointsFull(retailCustomerId, response.getOutputStream(), new ExportFilter(params));
+              
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
+ 
+    }
+    
+    @RequestMapping(value = Routes.BATCH_DOWNLOAD_MY_DATA_MEMBER, method = RequestMethod.GET)
+    public void download_member(HttpServletResponse response, 
+    		@PathVariable Long retailCustomerId,
+    		@PathVariable Long usagePointId,
+    		@RequestParam Map<String, String> params) throws IOException, FeedException {
+        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+        response.addHeader("Content-Disposition", "attachment; filename=GreenButtonDownload.xml");
+          try {
+              exportService.exportUsagePointFull(retailCustomerId, usagePointId, response.getOutputStream(), new ExportFilter(params));
               
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
