@@ -1,5 +1,6 @@
 package org.energyos.espi.datacustodian.oauth;
 
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,18 +34,31 @@ public class EspiTokenEnhancer implements TokenEnhancer {
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
 
-        DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) accessToken;
-        Map<String, Object> additionalInformation = new HashMap<>();     
+//		  Original Pivotal Code    	
+//        DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) accessToken;
+//        Map<String, Object> additionalInformation = new HashMap<>();     
         
         // Create Subscription and add resourceURI to /oath/token response
-        Subscription subscription = subscriptionService.createSubscription(authentication);   
-        additionalInformation.put("resourceURI", baseURL + Routes.BATCH_SUBSCRIPTION.replace("{subscriptionId}", subscription.getId().toString()));        
+//        Subscription subscription = subscriptionService.createSubscription(authentication);   
+//        additionalInformation.put("resourceURI", baseURL + Routes.BATCH_SUBSCRIPTION.replace("{subscriptionId}", subscription.getId().toString()));        
 
         // Create Authorization and add authorizationURI to /oath/token response        
-        Authorization authorization = authorizationService.createAuthorization(subscription, token.getValue());           
-        additionalInformation.put("authorizationURI", baseURL + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("{AuthorizationID}", authorization.getId().toString()));        
+//        Authorization authorization = authorizationService.createAuthorization(subscription, token.getValue());           
+//        additionalInformation.put("authorizationURI", baseURL + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("{AuthorizationID}", authorization.getId().toString()));        
+//
+//        token.setAdditionalInformation(additionalInformation);
+    	
+    	//Spring Security Oauth 2.0.0.M2 code
+		DefaultOAuth2AccessToken result = new DefaultOAuth2AccessToken(accessToken);
+		result.setAdditionalInformation(Collections.singletonMap("client_id", (Object) authentication.getOAuth2Request().getClientId()));
+		
+        // Create Subscription and add resourceURI to /oath/token response
+        Subscription subscription = subscriptionService.createSubscription(authentication);   
+        result.getAdditionalInformation().put("resourceURI", baseURL + Routes.BATCH_SUBSCRIPTION.replace("{subscriptionId}", subscription.getId().toString()));        
 
-        token.setAdditionalInformation(additionalInformation);
+        // Create Authorization and add authorizationURI to /oath/token response        
+        Authorization authorization = authorizationService.createAuthorization(subscription, result.getValue());           
+        result.getAdditionalInformation().put("authorizationURI", baseURL + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("{AuthorizationID}", authorization.getId().toString()));        	
         
         subscription.setAuthorization(authorization);
 		subscription.setUpdated(new GregorianCalendar());        
@@ -69,7 +83,11 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 		authorization.setStatus("1"); 	// Set authorization record status as "Active"
         authorizationService.merge(authorization);
 
-        return token;
+//		  Original Pivotal code
+//        return token;
+        
+        //Spring Security Oauth 2.0.0.M2 code
+        return result;
     }
 
     public void setSubscriptionService(SubscriptionService subscriptionService) {

@@ -1,19 +1,27 @@
-package org.energyos.espi.datacustodian.web.custodian;
+/*
+ * Copyright 2012-2013 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.energyos.espi.datacustodian.oauth;
 
 import java.security.Principal;
 import java.util.Collection;
 
-import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.common.domain.Subscription;
-import org.energyos.espi.common.service.SubscriptionService;
-import org.energyos.espi.datacustodian.service.NotificationService;
-import org.energyos.espi.datacustodian.oauth.EspiUserApprovalHandler;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.energyos.espi.datacustodian.oauth.EspiUserApprovalHandler;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
@@ -25,46 +33,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+/**
+ * Controller for resetting the token store for testing purposes.
+ * 
+ * @author Dave Syer
+ */
 @Controller
-@PreAuthorize("hasRole('ROLE_CUSTODIAN')")
 public class AdminController {
 
-//    @Autowired
-    private ConsumerTokenServices tokenServices;
-    
-    private TokenStore tokenStore;
-    
-//    @Autowired
-    private SubscriptionService subscriptionService;
-    
-//    @Autowired
-    private NotificationService notificationService;
+	private ConsumerTokenServices tokenServices;
+
+	private TokenStore tokenStore;
 
 	private EspiUserApprovalHandler userApprovalHandler;
-
-    @RequestMapping(value = Routes.DATA_CUSTODIAN_NOTIFY_THIRD_PARTY, method = RequestMethod.GET)
-    public String notifyThirdParty() throws Exception {
-        for(Subscription subscription : subscriptionService.findAll()) {
-           notificationService.notify(subscription);
-        }
-        return "redirect:" + Routes.DATA_CUSTODIAN_HOME;
-    }
-
-    @RequestMapping(value = Routes.DATA_CUSTODIAN_REMOVE_ALL_OAUTH_TOKENS, method = RequestMethod.GET)
-    public String revokeToken() throws Exception {
-
-        for(OAuth2AccessToken t: ((TokenStore) tokenServices).findTokensByClientId("third_party")) {
-            tokenServices.revokeToken(t.getValue());
-        }
-
-        return "redirect:" + Routes.DATA_CUSTODIAN_HOME;
-    }
-    
-    //**************************************************************************************************
-    //*
-    //*                     Spring Security OAuth AdminController Methods
-    //*
-    //**************************************************************************************************
 
 	@RequestMapping("/oauth/cache_approvals")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -132,5 +113,6 @@ public class AdminController {
 	 */
 	public void setTokenStore(TokenStore tokenStore) {
 		this.tokenStore = tokenStore;
-	}    
+	}
+
 }

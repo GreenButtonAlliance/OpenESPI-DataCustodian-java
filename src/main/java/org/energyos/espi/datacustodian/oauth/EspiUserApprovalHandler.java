@@ -30,7 +30,7 @@ import org.springframework.security.oauth2.provider.approval.ApprovalStoreUserAp
  * 
  */
 
-public class UserApprovalHandler extends ApprovalStoreUserApprovalHandler {
+public class EspiUserApprovalHandler extends ApprovalStoreUserApprovalHandler {
 	
 	private boolean useApprovalStore = true;
 	
