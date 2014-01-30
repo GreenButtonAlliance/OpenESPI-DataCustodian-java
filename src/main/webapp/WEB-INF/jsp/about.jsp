@@ -27,19 +27,16 @@
 
 <div class="container">
 
-    <a href="<c:url value='/custodian/retailcustomers/${aboutInfo.get("}/usagepoints/form'/>" class="btn btn-large"><i class="icon-plus"></i>&nbsp;Add Usage Point</a>
-
     <div class="row">
         <div class="span12">
 
- <table><tr>
-<td>Implementation-Vendor</td><td>${aboutInfo.get("Implementation-Vendor"}</td>
-<td>Implementation-Title</td><td>${aboutInfo.get("Implementation-Title"}</td>
-<td>Implementation-Version</td><td>${aboutInfo.get("Implementation-Version"}</td>
-<td>Implementation-Jdk</td><td>${aboutInfo.get("Implementation-Jdk"}</td>
-<td>Implementation-Build</td><td>${aboutInfo.get("Implementation-Build"}</td>
-<td>Implementation-Build-Time</td><td>${aboutInfo.get("Implementation-Build-Time"}</td>
-</tr>
+ <table>
+<tr><td>Implementation-Vendor</td><td><c:out value="${aboutInfo.get('Implementation-Vendor')}" /></td></tr>
+<tr><td>Implementation-Title</td><td><c:out value="${aboutInfo.get('Implementation-Title')}" /></td></tr>
+<tr><td>Implementation-Version</td><td><c:out value="${aboutInfo.get('Implementation-Version')}" /></td></tr>
+<tr><td>Implementation-Jdk</td><td><c:out value="${aboutInfo.get('Implementation-Jdk')}" /></td></tr>
+<tr><td>Implementation-Build</td><td><c:out value="${aboutInfo.get('Implementation-Build')}" /></td></tr>
+<tr><td>Implementation-Build-Time</td><td><c:out value="${aboutInfo.get('Implementation-Build-Time')}" /></td></tr>
 </table>
 
         </div>

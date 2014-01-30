@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datgacustodian.web;
+package org.energyos.espi.datacustodian.web;
 
 import java.io.IOException;
 import java.io.InputStream;
