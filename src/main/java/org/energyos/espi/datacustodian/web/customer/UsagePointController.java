@@ -66,7 +66,8 @@ public class UsagePointController extends BaseController {
         return "/customer/usagepoints/index";
     }
     
-    @Transactional ( readOnly = true )
+    @Transactional( readOnly = true)
+    
     @RequestMapping(value = Routes.USAGE_POINT_SHOW, method = RequestMethod.GET)
     public String show(@PathVariable Long retailCustomerId, @PathVariable Long usagePointId, ModelMap model) {
      try {
@@ -102,7 +103,8 @@ public class UsagePointController extends BaseController {
         return "/customer/usagepoints/show";
      } catch (Exception e) {
     	 System.out.printf("UX Error: %s\n", e.toString());
-         return "/customer/usagepoints/index";
+    	 model.put("errorString", e.toString());
+         return "/customer/error";
      }
     }
 
