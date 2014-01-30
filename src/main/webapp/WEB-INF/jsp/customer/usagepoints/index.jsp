@@ -38,7 +38,7 @@
       </span>
     </div>&nbsp;&nbsp;
 </td><td>
-    End Data/Time:
+    End Date/Time:
     <br />
     <div id="datetimepicker1" class="input-append date">
       End: <input id="endTime" type="text"></input>

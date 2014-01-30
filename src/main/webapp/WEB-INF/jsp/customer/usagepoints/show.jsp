@@ -40,7 +40,7 @@
       </span>
     </div>&nbsp;&nbsp;
 </td><td>
-    End Data/Time:
+    End Date/Time:
     <br />
     <div id="datetimepicker1" class="input-append date">
       End: <input id="endTime" type="text"></input>
@@ -74,8 +74,8 @@
 
       })     
       .on('changeDate', function(ev){
-  	    var separator = "?";
-	    if ($('#downloadMyData').attr('href').indexOf("?") != -1) separator = "&";
+    	    var separator = "?";
+    	    if ($('#downloadMyData').attr('href').indexOf("?") != -1) separator = "&";
             $('#downloadMyData').attr('href',$('#downloadMyData').attr('href') + separator + 'published-min=' + ev.date.toISOString());
           });
       
@@ -114,7 +114,7 @@
                     <tr>
                         <td>
                             <a href="<c:url value='${meterReading.get("Uri")}' />">
-                                <c:out value="${meterReading.get('Description')}"/>
+                                <c:out value='${meterReading.get("Description")}' />
                             </a>
                         </td>
                         <td><c:out value="${meterReading.get('ReadingType')}"/></td>
