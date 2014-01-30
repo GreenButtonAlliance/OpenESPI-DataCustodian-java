@@ -95,7 +95,12 @@ public class UsagePointController extends BaseController {
     	 ApplicationInformation ai = resourceService.findById(1L, ApplicationInformation.class);
     	 System.out.printf("UX Error: %s\n", e.toString());
     	 model.put("errorString", e.toString());
+    	 try {
+    		 // try again (and maybe we can catch the rollback error ...
+    		 return "/customer/error";
+    	 } catch (Exception ex) {
          return "/customer/error";
+    	 }
      }
     }
 

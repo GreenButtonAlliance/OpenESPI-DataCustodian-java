@@ -38,7 +38,7 @@
       </span>
     </div>&nbsp;&nbsp;
 </td><td>
-    End Data/Time:
+    End Date/Time:
     <br />
     <div id="datetimepicker1" class="input-append date">
       End: <input id="endTime" type="text"></input>
@@ -73,13 +73,16 @@
       })     
       .on('changeDate', function(ev){
     	    var separator = "?";
+    	    var temp = ev.date.toISOString();
+    	    temp = temp.replace(" T", "T");
+    	    temp = temp.replace(" Z", "Z");
     	    if ($('#downloadMyData').attr('href').indexOf("?") != -1) separator = "&";
-            $('#downloadMyData').attr('href',$('#downloadMyData').attr('href') + separator + 'published-min=' + ev.date.toISOString());
+            $('#downloadMyData').attr('href',$('#downloadMyData').attr('href') + separator + 'published-min=' + temp);
           });
       
      var endDate =
       $('#datetimepicker1').datetimepicker({
-          format: 'yyyy-MM-DD T hh:mm:ss Z',
+          format: 'yyyy-MM-dd Thh:mm:ss Z',
           language: 'pt-US',
           autoclose: true,
           showMeridian: true,
@@ -87,8 +90,12 @@
   		})
   		.on('changeDate', function(ev){
     	    var separator = "?";
+    	    var temp = ev.date.toISOString();
+    	    temp.replace(" T", "T");
+    	    temp.replace(" Z", "Z");
+    	    alert(temp);
     	    if ($('#downloadMyData').attr('href').indexOf("?") != -1) separator = "&";
-            $('#downloadMyData').attr('href',$('#downloadMyData').attr('href') + separator + 'published-max=' + ev.date.toISOString());
+            $('#downloadMyData').attr('href',$('#downloadMyData').attr('href') + separator + 'published-max=' + temp);
           });
       
     </script>
