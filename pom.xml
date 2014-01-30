@@ -23,7 +23,17 @@
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>DataCustodian</name>
-
+    <organization>
+       <name>EnergyOS.org</name>
+    </organization>
+    
+    
+    <scm>
+       <!-- Replace the connection below with your project connection -->
+       <!--  http://mariuszprzydatek.com/2013/09/18/displaying-git-build-number-hash-in-your-rest-api/ -->
+       <connection>scm:git:https://github.com/energyos/OpenESPI-DataCustodian-java.git/</connection>
+    </scm>
+    
     <profiles>
         <profile>
             <id>dev</id>
@@ -109,6 +119,7 @@
         <mysql.version>5.1.18</mysql.version>
         <postgres.version>9.1-901.jdbc4</postgres.version>
 
+        <maven.build.timestamp.format>yyyy/MM/dd hh:mm:ss a,z</maven.build.timestamp.format>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
@@ -568,6 +579,42 @@
                     </execution>
                 </executions>
             </plugin>
+ 	<plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-war-plugin</artifactId>
+		<version>2.3</version>
+		<configuration>
+			<archive>
+				<addMavenDescriptor>false</addMavenDescriptor>
+				<manifest>
+					<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+				</manifest>				
+				<manifestEntries>
+                  <Implementation-Build>${buildNumber}</Implementation-Build>
+                  <Implementation-Build-Time>${maven.build.timestamp}</Implementation-Build-Time>
+                </manifestEntries>
+				
+			</archive>
+			<warName>1.0</warName>
+		</configuration>
+	</plugin>
+    <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>buildnumber-maven-plugin</artifactId>
+        <version>1.1</version>
+        <configuration>
+          <shortRevisionLength>7</shortRevisionLength>
+        </configuration>
+        <executions>
+            <execution>
+                <phase>validate</phase>
+                <goals>
+                    <goal>create</goal>
+                </goals>
+            </execution>
+        </executions>
+    </plugin>           
+            
         </plugins>
 
     </build>

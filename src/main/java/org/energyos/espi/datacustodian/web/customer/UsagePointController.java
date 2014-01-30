@@ -33,13 +33,13 @@ import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.service.ExportService;
+import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
 import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,6 +54,10 @@ public class UsagePointController extends BaseController {
 
     @Autowired
     private UsagePointService usagePointService;
+    
+    @Autowired
+    private ResourceService resourceService;
+    
     @Autowired
     private ExportService exportService;
     
@@ -69,12 +73,11 @@ public class UsagePointController extends BaseController {
     public String index() {
         return "/customer/usagepoints/index";
     }
-    
-    @Transactional ( readOnly = true )
+        
     @RequestMapping(value = Routes.USAGE_POINT_SHOW, method = RequestMethod.GET)
     public String show(@PathVariable Long retailCustomerId, @PathVariable Long usagePointId, ModelMap model) {
      try {
-    	UsagePoint usagePoint = usagePointService.findById(usagePointId);
+    	UsagePoint usagePoint = resourceService.findById(usagePointId, UsagePoint.class);
     	// because of the lazy loading from DB it's easier to build a bag and hand it off
     	HashMap<String, Object> displayBag = new HashMap<String, Object> ();
     	displayBag.put("Description", usagePoint.getDescription());
@@ -106,7 +109,8 @@ public class UsagePointController extends BaseController {
         return "/customer/usagepoints/show";
      } catch (Exception e) {
     	 System.out.printf("UX Error: %s\n", e.toString());
-         return "/customer/usagepoints/index";
+    	 model.put("errorString", e.toString());
+         return "/customer/error";
      }
     }
 
