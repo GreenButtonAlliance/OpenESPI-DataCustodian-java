@@ -25,6 +25,7 @@ import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.service.ExportService;
+import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
 import org.energyos.espi.datacustodian.web.BaseController;
@@ -36,6 +37,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -45,11 +48,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+
 @Controller
 public class UsagePointController extends BaseController {
 
     @Autowired
     private UsagePointService usagePointService;
+    
+    @Autowired
+    private ResourceService resourceService;
+    
     @Autowired
     private ExportService exportService;
     
@@ -65,13 +73,11 @@ public class UsagePointController extends BaseController {
     public String index() {
         return "/customer/usagepoints/index";
     }
-    
-    @Transactional( readOnly = true)
-    
+        
     @RequestMapping(value = Routes.USAGE_POINT_SHOW, method = RequestMethod.GET)
     public String show(@PathVariable Long retailCustomerId, @PathVariable Long usagePointId, ModelMap model) {
      try {
-    	UsagePoint usagePoint = usagePointService.findById(usagePointId);
+    	UsagePoint usagePoint = resourceService.findById(usagePointId, UsagePoint.class);
     	// because of the lazy loading from DB it's easier to build a bag and hand it off
     	HashMap<String, Object> displayBag = new HashMap<String, Object> ();
     	displayBag.put("Description", usagePoint.getDescription());

@@ -29,15 +29,15 @@
 
     <!-- Main hero unit for a primary marketing message or call to action -->
     <div class="hero-unit">
-        <h1>Error</h1>
-        The Following Error Occured:<p>
+        <h3>Error</h3>
+        The Following Error Occurred:<p>
         <ul>
         <li>${errorString}</li>
         </ul>
        <p>
        Please Contact <a href="support@greenbuttondata.org">Support at GreenButtonData</a> for further assistance.
        </p><p>
-       <a href="/RetailCustomer/home">Continue</a>
+       <a href="<c:url value='/RetailCustomer/${retailCustomerId}/UsagePoint'/>">Continue</a>
     </div>
 
     <hr>
