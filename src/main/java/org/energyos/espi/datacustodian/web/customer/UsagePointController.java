@@ -26,6 +26,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.ElectricPowerQualitySummary;
 import org.energyos.espi.common.domain.ElectricPowerUsageSummary;
 import org.energyos.espi.common.domain.MeterReading;
@@ -73,44 +74,33 @@ public class UsagePointController extends BaseController {
     public String index() {
         return "/customer/usagepoints/index";
     }
-        
+     
+    @Transactional(readOnly = true)
     @RequestMapping(value = Routes.USAGE_POINT_SHOW, method = RequestMethod.GET)
     public String show(@PathVariable Long retailCustomerId, @PathVariable Long usagePointId, ModelMap model) {
      try {
-    	UsagePoint usagePoint = resourceService.findById(usagePointId, UsagePoint.class);
+    	 
+    	UsagePoint usagePoint = resourceService.testById(usagePointId, UsagePoint.class);
     	// because of the lazy loading from DB it's easier to build a bag and hand it off
-    	HashMap<String, Object> displayBag = new HashMap<String, Object> ();
-    	displayBag.put("Description", usagePoint.getDescription());
-    	displayBag.put("ServiceCategory", usagePoint.getServiceCategory());
-    	displayBag.put("Uri", usagePoint.getSelfHref());
-    	displayBag.put("usagePointId", usagePoint.getId());
-    	// put the meterReadings
-    	List<HashMap> meterReadings = new ArrayList<HashMap> ();
-    	Iterator <MeterReading> it = usagePoint.getMeterReadings().iterator();
-    	while (it.hasNext()) {
-    		HashMap<String, Object> mrBag = new HashMap<String, Object> ();
-    		MeterReading mr = it.next();
-    		mrBag.put("Description", mr.getDescription());
-    		// TODO build the real IntervalBlocks URI
-    		String uriTail = "/RetailCustomer/" + retailCustomerId + "/UsagePoint/" + usagePointId + "/MeterReading/" + mr.getId() + "/show";
-    		mrBag.put("Uri", applicationInformationService.getDataCustodianResourceEndpoint().replace("/espi/1_1/resource","") + uriTail);
-    		mrBag.put("ReadingType", mr.getReadingType().getDescription());
-    		meterReadings.add(mrBag);
-    	}
-    	displayBag.put("MeterReadings", meterReadings);	
-    	// find the summary rollups
-    	List<ElectricPowerQualitySummary> qualitySummaryList = usagePoint.getElectricPowerQualitySummaries();
-    	List <ElectricPowerUsageSummary> usageSummaryList = usagePoint.getElectricPowerUsageSummaries();
-    	displayBag.put("QualitySummaryList", qualitySummaryList);
-    	displayBag.put("UsageSummaryList", usageSummaryList);
+        // in a separate transaction, fill up a display bag lazily - do it in  a private method
+    	// so the transaction is scoped appropriately.
+    	
+    	HashMap<String, Object> displayBag = buildDisplayBag(retailCustomerId, usagePointId);
     	
         model.put("displayBag", displayBag);
         
         return "/customer/usagepoints/show";
      } catch (Exception e) {
+    	 // got to do a dummy DB access to satify the transaction rollback needs ...
+    	 ApplicationInformation ai = resourceService.findById(1L, ApplicationInformation.class);
     	 System.out.printf("UX Error: %s\n", e.toString());
     	 model.put("errorString", e.toString());
+    	 try {
+    		 // try again (and maybe we can catch the rollback error ...
+    		 return "/customer/error";
+    	 } catch (Exception ex) {
          return "/customer/error";
+    	 }
      }
     }
 
@@ -128,6 +118,38 @@ public class UsagePointController extends BaseController {
         exportService.exportUsagePointFull(usagePointId, currentCustomer(principal).getId(), response.getOutputStream(), new ExportFilter(params));
     }
 
+    @Transactional(readOnly=true)
+    private HashMap<String, Object> buildDisplayBag(Long retailCustomerId, Long usagePointId) {
+		
+    HashMap<String, Object> displayBag = new HashMap<String, Object> ();
+	UsagePoint usagePoint = resourceService.findById(usagePointId, UsagePoint.class);
+	displayBag.put("Description", usagePoint.getDescription());
+	displayBag.put("ServiceCategory", usagePoint.getServiceCategory());
+	displayBag.put("Uri", usagePoint.getSelfHref());
+	displayBag.put("usagePointId", usagePoint.getId());
+	// put the meterReadings
+	List<HashMap> meterReadings = new ArrayList<HashMap> ();
+	Iterator <MeterReading> it = usagePoint.getMeterReadings().iterator();
+	while (it.hasNext()) {
+		HashMap<String, Object> mrBag = new HashMap<String, Object> ();
+		MeterReading mr = it.next();
+		mrBag.put("Description", mr.getDescription());
+		// TODO build the real IntervalBlocks URI
+		String uriTail = "/RetailCustomer/" + retailCustomerId + "/UsagePoint/" + usagePointId + "/MeterReading/" + mr.getId() + "/show";
+		mrBag.put("Uri", applicationInformationService.getDataCustodianResourceEndpoint().replace("/espi/1_1/resource","") + uriTail);
+		mrBag.put("ReadingType", mr.getReadingType().getDescription());
+		meterReadings.add(mrBag);
+	}
+	displayBag.put("MeterReadings", meterReadings);	
+	// find the summary rollups
+	List<ElectricPowerQualitySummary> qualitySummaryList = usagePoint.getElectricPowerQualitySummaries();
+	List <ElectricPowerUsageSummary> usageSummaryList = usagePoint.getElectricPowerUsageSummaries();
+	displayBag.put("QualitySummaryList", qualitySummaryList);
+	displayBag.put("UsageSummaryList", usageSummaryList);
+
+	return displayBag;
+    }
+    
     public void setUsagePointService(UsagePointService usagePointService) {
         this.usagePointService = usagePointService;
     }
