@@ -95,7 +95,6 @@
     	    var temp = ev.date.toISOString();
     	    temp.replace(" T", "T");
     	    temp.replace(" Z", "Z");
-    	    alert(temp);
     	    if ($('#downloadMyData').attr('href').indexOf("?") != -1) separator = "&";
             $('#downloadMyData').attr('href',$('#downloadMyData').attr('href') + separator + 'published-max=' + temp);
           });
