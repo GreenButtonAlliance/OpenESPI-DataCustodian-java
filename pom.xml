@@ -595,7 +595,7 @@
                 </manifestEntries>
 				
 			</archive>
-			<warName>1.0</warName>
+			<warName>DataCustodian</warName>
 		</configuration>
 	</plugin>
     <plugin>
