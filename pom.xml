@@ -81,7 +81,7 @@
         <profile>
             <id>greenbuttondata</id>
             <properties>
-                <datacustodian.base.url>http://services.greenbuttondata.org/DataCustodian</datacustodian.base.url>
+                <datacustodian.base.url>https://services.greenbuttondata.org/DataCustodian</datacustodian.base.url>
                 <profile>greenbuttondata</profile>
                 <database>mysql</database>
                 <hbm2ddl_auto>none</hbm2ddl_auto>
@@ -539,7 +539,7 @@
                 <version>2.0</version>
                 <configuration>
                     <path>/DataCustodian</path>
-                    <url>http://services.greenbuttondata.org/manager/text</url>
+                    <url>https://services.greenbuttondata.org/manager/text</url>
                     <server>TomcatServerDeployment</server>
                 </configuration>
             </plugin>
@@ -595,7 +595,7 @@
                 </manifestEntries>
 				
 			</archive>
-			<warName>1.0</warName>
+			<warName>DataCustodian</warName>
 		</configuration>
 	</plugin>
     <plugin>
