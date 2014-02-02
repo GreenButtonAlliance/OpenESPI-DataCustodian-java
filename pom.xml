@@ -539,7 +539,7 @@
                 <version>2.0</version>
                 <configuration>
                     <path>/DataCustodian</path>
-                    <url>https://services.greenbuttondata.org/manager/text</url>
+                    <url>http://services.greenbuttondata.org/manager/text</url>
                     <server>TomcatServerDeployment</server>
                 </configuration>
             </plugin>
