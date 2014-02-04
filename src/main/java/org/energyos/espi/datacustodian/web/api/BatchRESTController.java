@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
@@ -116,6 +117,7 @@ public class BatchRESTController {
  
     }
     
+    @Transactional(readOnly = true)
     @RequestMapping(value = Routes.BATCH_SUBSCRIPTION, method = RequestMethod.GET)
     public void subscription(HttpServletResponse response, 
     		@PathVariable Long subscriptionId,
