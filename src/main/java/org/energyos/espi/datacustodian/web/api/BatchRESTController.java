@@ -14,6 +14,7 @@
  *    limitations under the License.
  */
 package org.energyos.espi.datacustodian.web.api;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
@@ -31,10 +32,12 @@ import org.energyos.espi.common.service.ImportService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -118,6 +121,7 @@ public class BatchRESTController {
  
     }
     
+    @Transactional(readOnly = true)
     @RequestMapping(value = Routes.BATCH_SUBSCRIPTION, method = RequestMethod.GET)
     public void subscription(HttpServletResponse response, 
     		@PathVariable Long subscriptionId,
