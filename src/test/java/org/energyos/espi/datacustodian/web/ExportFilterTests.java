@@ -81,7 +81,7 @@ public class ExportFilterTests {
         params.put("start-index", "1");
         exportFilter = new ExportFilter(params);
 
-        assertThat(exportFilter.matches(getEntry(0)), is(false));
+        assertThat(exportFilter.matches(getEntry(0)), is(true));
         assertThat(exportFilter.matches(getEntry(0)), is(true));
         assertThat(exportFilter.matches(getEntry(0)), is(true));
     }
@@ -93,8 +93,8 @@ public class ExportFilterTests {
 
         exportFilter = new ExportFilter(params);
 
-        assertThat(exportFilter.matches(getEntry(0)), is(false));
         assertThat(exportFilter.matches(getEntry(0)), is(true));
+        assertThat(exportFilter.matches(getEntry(0)), is(false));
         assertThat(exportFilter.matches(getEntry(0)), is(false));
     }
 
@@ -109,10 +109,10 @@ public class ExportFilterTests {
         exportFilter = new ExportFilter(params);
 
         assertThat(exportFilter.matches(getEntry(0)), is(false));
-        assertThat(exportFilter.matches(getEntry(50)), is(false));
+        assertThat(exportFilter.matches(getEntry(50)), is(true));
         assertThat(exportFilter.matches(getEntry(50)), is(true));
         assertThat(exportFilter.matches(getEntry(0)), is(false));
-        assertThat(exportFilter.matches(getEntry(50)), is(true));
+        assertThat(exportFilter.matches(getEntry(50)), is(false));
         assertThat(exportFilter.matches(getEntry(50)), is(false));
     }
 
