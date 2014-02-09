@@ -17,12 +17,13 @@
 package org.energyos.espi.datacustodian.web;
 
 import org.energyos.espi.common.domain.Routes;
+import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class HomeController {
+public class HomeController extends BaseController{
 
     @RequestMapping(value = Routes.ROOT, method = RequestMethod.GET)
     public String index() {

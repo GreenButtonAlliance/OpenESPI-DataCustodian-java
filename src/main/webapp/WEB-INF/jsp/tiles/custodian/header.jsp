@@ -33,8 +33,9 @@
                         <li><a href="<c:url value='/custodian/retailcustomers'/>">Customer List</a></li>
                         <li><a href="<c:url value='/custodian/upload'/>">Upload</a></li>
                         <li><a href="<c:url value='/custodian/removealltokens'/>">Remove all OAuth tokens</a></li>
-                        <li><a href="<c:url value='/espi/1_1/NotifyThirdParty'/>">Notify Third Party</a></li>
+                        <li><a href="<c:url value='/espi/1_1/NotifyThirdParty'/>">Notify Third Party</a></li> 
                         <li class="active"><a id="logout" href="<c:url value='/logout.do'/>">Logout</a></li>
+                        <li><a id="profile" href="">Welcome: ${currentCustomer.firstName} ${currentCustomer.lastName}</a></li>
                     </security:authorize>
                     <security:authorize access="isAnonymous()">
                         <li class="active"><a id="login" href="<c:url value='/login'/>">Login</a></li>

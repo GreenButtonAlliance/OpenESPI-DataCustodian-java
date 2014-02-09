@@ -31,6 +31,7 @@ e ~
                     <security:authorize access="isAuthenticated()">
                         <li><a href="<c:url value='/RetailCustomer/${currentCustomer.id}/ThirdPartyList'/>">Third Parties</a></li>
                         <li><a id="logout" href="<c:url value='/logout.do'/>">Logout</a></li>
+                        <li><a id="profile" href="">Welcome: ${currentCustomer.firstName} ${currentCustomer.lastName}</a></li>
                     </security:authorize>
                     <security:authorize access="isAnonymous()">
                         <li><a id="login" href="<c:url value='/login'/>">Login</a></li>

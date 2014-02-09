@@ -18,13 +18,18 @@ package org.energyos.espi.datacustodian.web.customer;
 
 import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Configuration;
+import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.service.ApplicationInformationService;
+import org.energyos.espi.common.service.ResourceService;
+import org.energyos.espi.common.service.impl.ResourceServiceImpl;
 import org.energyos.espi.common.test.EspiFactory;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 public class ScopeSelectionControllerTests {
 
@@ -43,7 +48,7 @@ public class ScopeSelectionControllerTests {
         String[] scopes = applicationInformation.getScope().toArray(new String[applicationInformation.getScope().size()]);
 
         assertEquals(String.format("redirect:%s?scope=%s&scope=%s&DataCustodianID=%s", applicationInformation.getThirdPartyScopeSelectionScreenURI(),
-                scopes[0], scopes[1], Configuration.DATA_CUSTODIAN_ID),
+                scopes[0], scopes[1], applicationInformation.getDataCustodianId()),
                 redirectURL);
     }
 }

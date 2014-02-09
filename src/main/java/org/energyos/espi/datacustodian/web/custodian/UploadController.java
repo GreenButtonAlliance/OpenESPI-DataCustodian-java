@@ -24,6 +24,7 @@ import org.energyos.espi.common.models.atom.EntryType;
 import org.energyos.espi.common.service.ImportService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.datacustodian.service.NotificationService;
+import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -41,7 +42,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Controller
-public class UploadController {
+public class UploadController extends BaseController {
 
     @Autowired
     private ImportService importService;

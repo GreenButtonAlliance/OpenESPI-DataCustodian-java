@@ -80,7 +80,7 @@ public class ThirdPartyTests {
     @Test
     public void selectThirdParty_redirectsToThirdPartyUrl() throws Exception {
         ApplicationInformation applicationInformation = applicationInformationService.findById(1L);
-        String redirectUrl = THIRD_PARTY_URL + "?" + URLHelper.newScopeParams(applicationInformation.getScope()) + "&DataCustodianID=" + Configuration.DATA_CUSTODIAN_ID;
+        String redirectUrl = THIRD_PARTY_URL + "?" + URLHelper.newScopeParams(applicationInformation.getScope()) + "&DataCustodianID=" + applicationInformation.getDataCustodianId();
         mockMvc.perform(post("/RetailCustomer/1/ThirdPartyList")
                     .param("Third_party_URL", THIRD_PARTY_URL)
                     .param("Third_party", "1")
