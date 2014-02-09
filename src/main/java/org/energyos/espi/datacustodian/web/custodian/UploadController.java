@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -75,6 +76,9 @@ public class UploadController {
         	// now perform any associations (to RetailCustomer) and stage the Notifications 
         	// if any
             List<EntryType> entries = importService.getEntries();
+            XMLGregorianCalendar minDate = importService.getMinUpdated();
+            XMLGregorianCalendar maxDate = importService.getMaxUpdated();
+            
             Iterator<EntryType> its = entries.iterator();
             
             while (its.hasNext()) {
@@ -94,7 +98,7 @@ public class UploadController {
             // 
             if (!(subscriptions.isEmpty()) & (rc != null)) {
                // notify the subscribed TPs of the new data
-            	notificationService.notify(subscriptions);
+            	notificationService.notify(subscriptions, minDate, maxDate);
             }
             
             return "redirect:/custodian/retailcustomers";

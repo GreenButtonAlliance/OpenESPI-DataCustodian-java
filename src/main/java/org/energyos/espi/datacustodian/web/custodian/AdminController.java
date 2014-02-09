@@ -26,7 +26,7 @@ public class AdminController {
     @RequestMapping(value = Routes.DATA_CUSTODIAN_NOTIFY_THIRD_PARTY, method = RequestMethod.GET)
     public String notifyThirdParty() throws Exception {
         for(Subscription subscription : subscriptionService.findAll()) {
-           notificationService.notify(subscription);
+           notificationService.notify(subscription, null, null);
         }
 
         return "redirect:" + Routes.DATA_CUSTODIAN_HOME;

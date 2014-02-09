@@ -37,6 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -85,6 +86,8 @@ public class BatchRESTController {
         	// if any
             List<EntryType> entries = importService.getEntries();
             Iterator<EntryType> its = entries.iterator();
+            XMLGregorianCalendar minDate = importService.getMinUpdated();
+            XMLGregorianCalendar maxDate = importService.getMaxUpdated();
             
             while (its.hasNext()) {
             	EntryType entry = its.next();
@@ -92,6 +95,7 @@ public class BatchRESTController {
             	if ( usagePoint != null) {
             		// hook it to the retailCustomer
                     usagePointService.associateByUUID(rc, usagePoint.getUUID());
+                    
                     if (usagePoint.getSubscription() != null) {
                     	subscriptions.add(usagePoint.getSubscription());
                     }
@@ -100,7 +104,7 @@ public class BatchRESTController {
             
             if (!(subscriptions.isEmpty())) {
                // notify the subscribed TPs of the new data
-            	notificationService.notify(subscriptions);
+            	notificationService.notify(subscriptions, minDate, maxDate);
             }
             
             } catch (Exception e) {

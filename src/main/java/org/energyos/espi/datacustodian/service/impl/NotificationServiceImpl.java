@@ -23,6 +23,7 @@ import org.energyos.espi.common.domain.BatchList;
 import org.energyos.espi.common.domain.Subscription;
 import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.datacustodian.service.NotificationService;
+import javax.xml.datatype.XMLGregorianCalendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -36,22 +37,32 @@ public class NotificationServiceImpl implements NotificationService {
     private ResourceService resourceService;
     
     @Override
-    public void notify(Subscription subscription) {
+    public void notify(Subscription subscription , XMLGregorianCalendar startDate, XMLGregorianCalendar endDate) {
         String thirdPartyNotificationURI = subscription.getApplicationInformation().getThirdPartyNotifyUri();
+        String separator = "?";
+        
         String subscriptionURI = subscription.getApplicationInformation().getDataCustodianResourceEndpoint() + "/Batch/Subscription/" + subscription.getId();
+        if (startDate != null) {
+        	subscriptionURI = subscriptionURI + separator + "published-min=" + startDate.toXMLFormat(); 
+        	separator = "&";
+        }
+        if (endDate != null) {
+        	subscriptionURI = subscriptionURI + separator + "published-max=" + endDate.toXMLFormat(); 
+        }
+        
         BatchList batchList = new BatchList();
         batchList.getResources().add(subscriptionURI);
         notifyInternal(thirdPartyNotificationURI, batchList);
     }
 
 	@Override
-	public void notify(List<Subscription> subscriptions) {
+	public void notify(List<Subscription> subscriptions,  XMLGregorianCalendar startDate, XMLGregorianCalendar endDate) {
 
         Iterator <Subscription> subscriptionsIterator = subscriptions.iterator();
         while (subscriptionsIterator.hasNext()) {
         	// TODO optimization for multiple notifications (subscriptions) to the same ThirdParty
         	// for now, just notify one at a time.
-        	notify (subscriptionsIterator.next());	
+        	notify (subscriptionsIterator.next(), startDate, endDate);	
         }
 	}
 	
