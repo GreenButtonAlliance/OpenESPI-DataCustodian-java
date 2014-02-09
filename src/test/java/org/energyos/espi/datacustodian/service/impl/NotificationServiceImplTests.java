@@ -46,7 +46,7 @@ public class NotificationServiceImplTests extends BaseTest {
     public void notify_notifiesThirdParty() {
         Subscription subscription = newSubscription();
 
-        service.notify(subscription);
+        service.notify(subscription, null, null);
 
         verify(template).postForLocation(eq(subscription.getApplicationInformation().getThirdPartyNotifyUri()), any(BatchList.class));
     }

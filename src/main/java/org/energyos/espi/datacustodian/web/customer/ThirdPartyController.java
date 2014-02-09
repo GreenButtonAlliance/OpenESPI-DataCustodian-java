@@ -30,7 +30,8 @@ public class ThirdPartyController extends BaseController {
     @RequestMapping(method = RequestMethod.POST)
     public String selectThirdParty(@RequestParam("Third_party") Long thirdPartyId, @RequestParam("Third_party_URL") String thirdPartyURL) {
         ApplicationInformation applicationInformation = applicationInformationService.findById(thirdPartyId);
-        return "redirect:" + thirdPartyURL + "?" + URLHelper.newScopeParams(applicationInformation.getScope()) + "&DataCustodianID=" + Configuration.DATA_CUSTODIAN_ID;
+        return "redirect:" + thirdPartyURL + "?" + URLHelper.newScopeParams(applicationInformation.getScope()) 
+        		+ "&DataCustodianID=" + applicationInformation.getDataCustodianId();
     }
 
     public void setApplicationInformationService(ApplicationInformationService applicationInformationService) {

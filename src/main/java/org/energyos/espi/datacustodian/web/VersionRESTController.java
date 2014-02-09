@@ -25,6 +25,7 @@ import java.util.jar.Manifest;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +34,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping
-public class VersionRESTController {
+public class VersionRESTController  extends BaseController{
  
     /**
      * Handling GET request to retrieve details from MANIFEST.MF file

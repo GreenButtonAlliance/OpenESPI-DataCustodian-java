@@ -19,6 +19,7 @@ package org.energyos.espi.datacustodian.web.custodian;
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.service.RetailCustomerService;
+import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -34,7 +35,7 @@ import javax.validation.Valid;
 
 @Controller
 @PreAuthorize("hasRole('ROLE_CUSTODIAN')")
-public class RetailCustomerController {
+public class RetailCustomerController extends BaseController {
 
     @Resource
     private RetailCustomerService service;

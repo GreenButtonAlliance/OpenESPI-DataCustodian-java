@@ -6,6 +6,7 @@ import org.energyos.espi.common.domain.ServiceCategory;
 import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.UsagePointService;
+import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -18,11 +19,12 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
 import java.util.UUID;
 
 @Controller
 @PreAuthorize("hasRole('ROLE_CUSTODIAN')")
-public class AssociateUsagePointController {
+public class AssociateUsagePointController extends BaseController {
 
     @Autowired
     private RetailCustomerService retailCustomerService;
