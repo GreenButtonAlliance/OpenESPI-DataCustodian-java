@@ -30,6 +30,7 @@
             </bean>
         </property>
         <property name="defaultViews">
+        	<!-- TODO: Migrate to MappingJackson2JsonView -->
             <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
                 <property name="extractValueFromSingleKeyModel" value="true" />
             </bean>
