@@ -53,7 +53,7 @@ public class ThirdPartyControllerTest {
         ApplicationInformation applicationInformation = EspiFactory.newApplicationInformation();
 
         String redirectUrl = "redirect:" + applicationInformation.getRedirectUri() + "?" +
-                URLHelper.newScopeParams(applicationInformation.getScope()) + "&DataCustodianID=" + Configuration.DATA_CUSTODIAN_ID;
+                URLHelper.newScopeParams(applicationInformation.getScope()) + "&DataCustodianID=" + applicationInformation.getDataCustodianId();
 
         when(applicationInformationService.findById(anyLong())).thenReturn(applicationInformation);
 

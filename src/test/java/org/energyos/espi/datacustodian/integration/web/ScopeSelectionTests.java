@@ -71,6 +71,6 @@ public class ScopeSelectionTests {
         String[] scopes = applicationInformation.getScope().toArray(new String[applicationInformation.getScope().size()]);
         mockMvc.perform(get("/RetailCustomer/ScopeSelectionList").param("scope", "scope1").param("scope", "scope2").param("ThirdPartyID", applicationInformation.getClientId()))
                 .andExpect(redirectedUrl(String.format("%s?scope=%s&scope=%s&DataCustodianID=%s", applicationInformation.getThirdPartyScopeSelectionScreenURI(),
-                        scopes[0], scopes[1], Configuration.DATA_CUSTODIAN_ID)));
+                        scopes[0], scopes[1], applicationInformation.getDataCustodianId())));
     }
 }

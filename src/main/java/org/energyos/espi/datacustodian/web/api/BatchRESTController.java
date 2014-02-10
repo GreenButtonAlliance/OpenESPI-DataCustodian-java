@@ -13,26 +13,33 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+
 package org.energyos.espi.datacustodian.web.api;
+
+import com.sun.syndication.io.FeedException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
+import org.energyos.espi.common.domain.Subscription;
 import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.models.atom.EntryType;
 import org.energyos.espi.common.service.ExportService;
 import org.energyos.espi.common.service.ImportService;
+import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
-
+import org.energyos.espi.datacustodian.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -45,13 +52,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.sun.syndication.io.FeedException;
-
 @Controller
 public class BatchRESTController {
 
     @Autowired
     private ImportService importService;
+    
+    @Autowired
+    private NotificationService notificationService;
+    
+    @Autowired
+    private ResourceService resourceService;
     
     @Autowired
     private RetailCustomerService retailCustomerService;
@@ -72,20 +83,39 @@ public class BatchRESTController {
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException, FeedException {
         try {
+        	
         	RetailCustomer rc = retailCustomerService.findById(retailCustomerId);
         	importService.importData(stream);
-       
+        	
+            List<Subscription> subscriptions = new ArrayList <Subscription> ();
+        	// now perform any associations (to RetailCustomer) and stage the Notifications 
+        	// if any
             List<EntryType> entries = importService.getEntries();
             Iterator<EntryType> its = entries.iterator();
+            XMLGregorianCalendar minDate = importService.getMinUpdated();
+            XMLGregorianCalendar maxDate = importService.getMaxUpdated();
+            
             while (its.hasNext()) {
             	EntryType entry = its.next();
             	UsagePoint usagePoint = entry.getContent().getUsagePoint();
-            	if ( usagePoint != null)
-                usagePointService.associateByUUID(rc, usagePoint.getUUID());
+            	if ( usagePoint != null) {
+            		// hook it to the retailCustomer
+                    usagePointService.associateByUUID(rc, usagePoint.getUUID());
+                    
+                    if (usagePoint.getSubscription() != null) {
+                    	subscriptions.add(usagePoint.getSubscription());
+                    }
+            	}
             }
             
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            if (!(subscriptions.isEmpty())) {
+               // notify the subscribed TPs of the new data
+            	notificationService.notify(subscriptions, minDate, maxDate);
+            }
+            
+            } catch (Exception e) {
+            	 System.out.printf("**** Batch Import Error: %s\n", e.toString());
+                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
  
     }
@@ -96,12 +126,12 @@ public class BatchRESTController {
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         response.addHeader("Content-Disposition", "attachment; filename=GreenButtonDownload.xml");
-          try {
-              exportService.exportUsagePointsFull(retailCustomerId, response.getOutputStream(), new ExportFilter(params));
-              
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        }
+        try {
+            exportService.exportUsagePointsFull(retailCustomerId, response.getOutputStream(), new ExportFilter(params));
+            
+      } catch (Exception e) {
+          response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+      }
  
     }
     

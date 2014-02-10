@@ -50,21 +50,21 @@ public class SubscriptionRESTTests {
     @Test
     @Ignore
     public void show_returnsOk() throws Exception {
-        mockMvc.perform(get(Routes.buildDataCustodianSubscription(subscription.getHashedId())))
+        mockMvc.perform(get(Routes.BATCH_SUBSCRIPTION.replace("{subscriptionId}", subscription.getId().toString())))
                 .andExpect(status().isOk());
     }
 
     @Test
     @Ignore("Until the hashed.vs.id is fully in place")
     public void show_returnsATOMContentType() throws Exception {
-        mockMvc.perform(get(Routes.buildDataCustodianSubscription(subscription.getHashedId())))
+        mockMvc.perform(get(Routes.BATCH_SUBSCRIPTION.replace("{subscriptionId}", subscription.getId().toString())))
                 .andExpect(content().contentType(MediaType.APPLICATION_ATOM_XML));
     }
 
     @Test
     @Ignore("Until the hashed.vs.id is fully in place")
     public void show_returnsSubscriptionXML() throws Exception {
-        mockMvc.perform(get(Routes.buildDataCustodianSubscription(subscription.getHashedId())))
+        mockMvc.perform(get(Routes.BATCH_SUBSCRIPTION.replace("{subscriptionId}", subscription.getId().toString())))
             .andExpect(MockMvcResultMatchers.xpath("/:feed", TestUtils.namespaces()).exists());
     }
 }

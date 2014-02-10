@@ -22,6 +22,7 @@ import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Configuration;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.service.ApplicationInformationService;
+import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -33,7 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @PreAuthorize("hasRole('ROLE_USER')")
-public class ScopeSelectionController {
+public class ScopeSelectionController extends BaseController {
 
     @Autowired
     private ApplicationInformationService applicationInformationService;
@@ -45,7 +46,7 @@ public class ScopeSelectionController {
         		applicationInformation.getThirdPartyScopeSelectionScreenURI() + 
         		"?" + 
         		newScopeParams(applicationInformation.getScope()) +
-                "&DataCustodianID=" + Configuration.DATA_CUSTODIAN_ID;
+                "&DataCustodianID=" + applicationInformation.getDataCustodianId();
     }
 
 

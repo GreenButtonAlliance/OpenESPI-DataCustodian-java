@@ -1,33 +1,24 @@
 package org.energyos.espi.datacustodian.web.custodian;
 
-import java.security.Principal;
-import java.util.Collection;
-
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.Subscription;
 import org.energyos.espi.common.service.SubscriptionService;
 import org.energyos.espi.datacustodian.service.NotificationService;
-import org.energyos.espi.datacustodian.oauth.EspiUserApprovalHandler;
+import org.energyos.espi.datacustodian.web.BaseController;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
 @PreAuthorize("hasRole('ROLE_CUSTODIAN')")
-public class AdminController {
+public class AdminController extends BaseController {
 
     @Autowired
     private ConsumerTokenServices tokenServices;
@@ -45,7 +36,7 @@ public class AdminController {
     @RequestMapping(value = Routes.DATA_CUSTODIAN_NOTIFY_THIRD_PARTY, method = RequestMethod.GET)
     public String notifyThirdParty() throws Exception {
         for(Subscription subscription : subscriptionService.findAll()) {
-           notificationService.notify(subscription);
+           notificationService.notify(subscription, null, null);
         }
         return "redirect:" + Routes.DATA_CUSTODIAN_HOME;
     }

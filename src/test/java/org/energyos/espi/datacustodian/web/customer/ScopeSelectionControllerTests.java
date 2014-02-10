@@ -17,13 +17,14 @@
 package org.energyos.espi.datacustodian.web.customer;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.energyos.espi.common.domain.ApplicationInformation;
-import org.energyos.espi.common.domain.Configuration;
 import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.test.EspiFactory;
+
 import org.junit.Test;
 
 public class ScopeSelectionControllerTests {
@@ -43,7 +44,7 @@ public class ScopeSelectionControllerTests {
         String[] scopes = applicationInformation.getScope().toArray(new String[applicationInformation.getScope().size()]);
 
         assertEquals(String.format("redirect:%s?scope=%s&scope=%s&DataCustodianID=%s", applicationInformation.getThirdPartyScopeSelectionScreenURI(),
-                scopes[0], scopes[1], Configuration.DATA_CUSTODIAN_ID),
+                scopes[0], scopes[1], applicationInformation.getDataCustodianId()),
                 redirectURL);
     }
 }

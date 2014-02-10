@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -18,10 +18,24 @@ package org.energyos.espi.datacustodian.web.custodian;
 
 import java.io.IOException;
 
-import javax.xml.bind.JAXBException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
+import javax.xml.bind.JAXBException;
+import javax.xml.datatype.XMLGregorianCalendar;
+
+import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
+import org.energyos.espi.common.domain.Subscription;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.models.atom.EntryType;
 import org.energyos.espi.common.service.ImportService;
+import org.energyos.espi.common.service.UsagePointService;
+
+import org.energyos.espi.datacustodian.service.NotificationService;
+import org.energyos.espi.datacustodian.web.BaseController;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -31,10 +45,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class UploadController {
+public class UploadController extends BaseController {
 
     @Autowired
     private ImportService importService;
+    
+    @Autowired
+    private UsagePointService usagePointService;
+    
+    @Autowired
+    private NotificationService notificationService;
 
     public void setImportService(ImportService importService) {
         this.importService = importService;
@@ -53,7 +73,38 @@ public class UploadController {
     @RequestMapping(value = Routes.DATA_CUSTODIAN_UPLOAD, method = RequestMethod.POST)
     public String uploadPost(@ModelAttribute UploadForm uploadForm, BindingResult result) throws IOException, JAXBException {
         try {
+        	RetailCustomer rc = null;
             importService.importData(uploadForm.getFile().getInputStream());
+        	
+            List<Subscription> subscriptions = new ArrayList <Subscription> ();
+        	// now perform any associations (to RetailCustomer) and stage the Notifications 
+        	// if any
+            List<EntryType> entries = importService.getEntries();
+            XMLGregorianCalendar minDate = importService.getMinUpdated();
+            XMLGregorianCalendar maxDate = importService.getMaxUpdated();
+            
+            Iterator<EntryType> its = entries.iterator();
+            
+            while (its.hasNext()) {
+            	EntryType entry = its.next();
+            	UsagePoint usagePoint = entry.getContent().getUsagePoint();
+            	if ( usagePoint != null) {
+            		// hook it to the retailCustomer
+            		rc = usagePoint.getRetailCustomer();
+            		// find any subscriptions
+                    if (usagePoint.getSubscription() != null) {
+                    	subscriptions.add(usagePoint.getSubscription());
+                    }
+            	}
+            }
+            
+            // if we have subscription(s) and there is a RetailCustomer
+            // 
+            if (!(subscriptions.isEmpty()) & (rc != null)) {
+               // notify the subscribed TPs of the new data
+            	notificationService.notify(subscriptions, minDate, maxDate);
+            }
+            
             return "redirect:/custodian/retailcustomers";
         } catch (Exception e) {
             result.addError(new ObjectError("uploadForm", "Unable to process file"));
