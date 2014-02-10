@@ -101,7 +101,7 @@
 
     <properties>
         <!-- Spring -->
-        <spring.version>3.2.4.RELEASE</spring.version>
+        <spring.version>4.0.1.RELEASE</spring.version>
         <spring.security.version>3.1.4.RELEASE</spring.security.version>
         <spring-data-jpa.version>1.3.4.RELEASE</spring-data-jpa.version>
         <spring-security-oauth.version>1.1.0.M1</spring-security-oauth.version>
@@ -227,8 +227,8 @@
 
         <dependency>
             <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.4</version>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
             <scope>provided</scope>
         </dependency>
 
@@ -504,7 +504,7 @@
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>maven-jetty-plugin</artifactId>
-                <version>6.1.16</version>
+                <version>6.1.26</version>
                 <configuration>
                     <scanIntervalSeconds>10</scanIntervalSeconds>
                     <stopPort>8005</stopPort>
