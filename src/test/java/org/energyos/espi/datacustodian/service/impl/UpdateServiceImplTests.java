@@ -17,20 +17,20 @@
 package org.energyos.espi.datacustodian.service.impl;
 
 
+import static org.energyos.espi.common.test.EspiFactory.newUsagePoint;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.energyos.espi.common.domain.BatchList;
 import org.energyos.espi.common.domain.Subscription;
 import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.datacustodian.BaseTest;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.energyos.espi.common.test.EspiFactory.newUsagePoint;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class UpdateServiceImplTests extends BaseTest {
     @Test

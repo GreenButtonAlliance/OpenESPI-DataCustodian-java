@@ -14,10 +14,11 @@ package org.energyos.espi.datacustodian.web.api;/*
  *    limitations under the License.
  */
 
-import com.sun.syndication.io.FeedException;
+import java.util.List;
+
 import org.energyos.espi.common.domain.UsagePoint;
 
-import java.util.List;
+import com.sun.syndication.io.FeedException;
 
 public interface AtomService {
     String feedFor(List<UsagePoint> usagePointList) throws FeedException;

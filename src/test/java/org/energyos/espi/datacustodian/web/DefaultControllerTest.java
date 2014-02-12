@@ -1,14 +1,14 @@
 package org.energyos.espi.datacustodian.web;
 
-import org.energyos.espi.common.domain.RetailCustomer;
-import org.junit.Test;
-import org.springframework.security.core.Authentication;
-
-import javax.servlet.http.HttpServletRequest;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.junit.Test;
+import org.springframework.security.core.Authentication;
 
 public class DefaultControllerTest {
 

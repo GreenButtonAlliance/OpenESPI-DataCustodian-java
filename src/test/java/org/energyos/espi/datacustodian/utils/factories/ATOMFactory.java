@@ -1,7 +1,17 @@
 package org.energyos.espi.datacustodian.utils.factories;
 
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
-import com.sun.syndication.io.FeedException;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.TimeZone;
+import java.util.UUID;
+
+import javax.xml.datatype.DatatypeConfigurationException;
+
 import org.energyos.espi.common.domain.MeterReading;
 import org.energyos.espi.common.domain.ServiceCategory;
 import org.energyos.espi.common.domain.UsagePoint;
@@ -12,10 +22,8 @@ import org.energyos.espi.common.models.atom.LinkType;
 import org.energyos.espi.common.utils.DateConverter;
 import org.energyos.espi.common.utils.FeedBuilder;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-import java.util.*;
-
-import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
+import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
+import com.sun.syndication.io.FeedException;
 
 public class ATOMFactory {
     private ATOMFactory() {

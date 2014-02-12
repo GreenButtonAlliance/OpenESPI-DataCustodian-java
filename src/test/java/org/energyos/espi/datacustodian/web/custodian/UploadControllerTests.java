@@ -16,6 +16,13 @@
 
 package org.energyos.espi.datacustodian.web.custodian;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+import java.io.InputStream;
+
 import org.energyos.espi.common.service.ImportService;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,11 +31,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
-
-import java.io.InputStream;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
 
 public class UploadControllerTests {
 
@@ -59,14 +61,14 @@ public class UploadControllerTests {
     public void uploadPost_givenValidFile_importsUsagePointWithNoErrors() throws Exception {
         String view = controller.uploadPost(form, result);
 
-        verify(importService).importData(any(InputStream.class));
+        verify(importService).importData(any(InputStream.class), null);
         assertEquals(false, result.hasErrors());
         assertEquals("redirect:/custodian/retailcustomers", view);
     }
 
     @Test
     public void uploadPost_givenInvalidFile_displaysUploadViewWithErrors() throws Exception {
-        Mockito.doThrow(new SAXException("Unable to process file")).when(importService).importData(any(InputStream.class));
+        Mockito.doThrow(new SAXException("Unable to process file")).when(importService).importData(any(InputStream.class), null);
 
         String view = controller.uploadPost(form, result);
 

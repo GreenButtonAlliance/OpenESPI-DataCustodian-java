@@ -1,14 +1,13 @@
 package org.energyos.espi.datacustodian.web.filter;
 
-import org.energyos.espi.datacustodian.web.filter.CORSFilter;
-import org.junit.Test;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import javax.servlet.FilterChain;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import org.junit.Test;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 
 public class CORSFilterTests {
     @Test

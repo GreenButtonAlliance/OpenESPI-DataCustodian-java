@@ -1,10 +1,10 @@
 package org.energyos.espi.datacustodian.models.atom;
 
-import org.energyos.espi.common.models.atom.EntryType;
-import org.junit.Test;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+
+import org.energyos.espi.common.models.atom.EntryType;
+import org.junit.Test;
 
 public class EntryTypeTests {
     @Test

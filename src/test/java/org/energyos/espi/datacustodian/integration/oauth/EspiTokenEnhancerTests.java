@@ -16,6 +16,11 @@
 
 package org.energyos.espi.datacustodian.integration.oauth;
 
+import static org.energyos.espi.common.test.EspiFactory.newOAuth2Request;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.startsWith;
+import static org.mockito.Mockito.when;
+
 import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.service.RetailCustomerService;
@@ -36,14 +41,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.energyos.espi.common.test.EspiFactory.newOAuth2Request;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.startsWith;
-import static org.mockito.Mockito.when;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/spring/test-context.xml")
-@Transactional
+@Transactional (rollbackFor= {JAXBException.class}, 
+                noRollbackFor = {javax.persistence.NoResultException.class, org.springframework.dao.EmptyResultDataAccessException.class })
+
 public class EspiTokenEnhancerTests extends BaseTest {
 
     @Autowired

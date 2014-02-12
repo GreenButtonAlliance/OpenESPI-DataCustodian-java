@@ -1,6 +1,18 @@
 package org.energyos.espi.datacustodian.web.api;
 
-import com.sun.syndication.io.FeedException;
+import static org.energyos.espi.common.test.EspiFactory.newSubscription;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.verify;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.xml.bind.JAXBException;
+import javax.xml.stream.XMLStreamException;
 
 import org.energyos.espi.common.domain.Subscription;
 import org.energyos.espi.common.service.ExportService;
@@ -13,19 +25,7 @@ import org.mockito.Mock;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-import javax.xml.bind.JAXBException;
-import javax.xml.stream.XMLStreamException;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.energyos.espi.common.test.EspiFactory.newSubscription;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.verify;
+import com.sun.syndication.io.FeedException;
 
 public class SubscriptionRESTControllerTests extends BaseTest {
 

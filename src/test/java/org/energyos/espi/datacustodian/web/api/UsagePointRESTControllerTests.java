@@ -16,7 +16,18 @@ package org.energyos.espi.datacustodian.web.api;
  *    limitations under the License.
  */
 
-import com.sun.syndication.io.FeedException;
+import static org.energyos.espi.common.test.EspiFactory.newUsagePoint;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.UsagePoint;
@@ -31,15 +42,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.energyos.espi.common.test.EspiFactory.newUsagePoint;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.mockito.Mockito.*;
+import com.sun.syndication.io.FeedException;
 
 public class UsagePointRESTControllerTests {
     private MockHttpServletResponse response;
