@@ -112,7 +112,6 @@ public class BatchRESTController {
               exportService.exportUsagePointFull(retailCustomerId, usagePointId, response.getOutputStream(), new ExportFilter(params));
               
         } catch (Exception e) {
-        	System.out.printf("****Exception 005: %s\n", e.toString());
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
  

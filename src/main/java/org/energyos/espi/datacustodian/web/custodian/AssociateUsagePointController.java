@@ -115,7 +115,7 @@ public class AssociateUsagePointController {
         	// now do any notifications
         	notificationService.notify(retailCustomer, null, null);
         } catch (Exception e) {
-        	System.out.printf("**** Exception 050: %s\n", e.toString());
+        	
         }
         return "redirect:/custodian/retailcustomers";
     }
