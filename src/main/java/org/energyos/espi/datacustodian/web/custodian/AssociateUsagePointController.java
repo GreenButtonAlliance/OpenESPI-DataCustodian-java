@@ -1,24 +1,30 @@
+/*
+ * Copyright 2013, 2014 EnergyOS.org
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package org.energyos.espi.datacustodian.web.custodian;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.UUID;
 
 import javax.validation.Valid;
 
-import org.energyos.espi.common.domain.ApplicationInformation;
-import org.energyos.espi.common.domain.Authorization;
-import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.common.domain.ServiceCategory;
 import org.energyos.espi.common.domain.Subscription;
-import org.energyos.espi.common.domain.UsagePoint;
-import org.energyos.espi.common.service.AuthorizationService;
 import org.energyos.espi.common.service.NotificationService;
 import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.RetailCustomerService;
-import org.energyos.espi.common.service.SubscriptionService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -41,12 +47,6 @@ public class AssociateUsagePointController {
 
     @Autowired
     private RetailCustomerService retailCustomerService;
-    
-    @Autowired
-    private AuthorizationService authorizationService;
-    
-    @Autowired
-    private SubscriptionService subscriptionService;
 
     @Autowired
     private ResourceService resourceService;
@@ -75,48 +75,11 @@ public class AssociateUsagePointController {
         if (result.hasErrors())
             return "/custodian/retailcustomers/usagepoints/form";
         
-        UsagePoint usagePoint = new UsagePoint();
-        usagePoint.setUUID(UUID.fromString(usagePointForm.getUUID()));
-        usagePoint.setDescription(usagePointForm.getDescription());
-
-        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
-        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
-        usagePoint.setRetailCustomer(retailCustomer);
-        service.createOrReplaceByUUID(usagePoint);
-        
-        // now see if there are any authorizations for this information
-        //
-        try {
-        
-        	List<Authorization> authorizationList = authorizationService.findAllByRetailCustomerId(retailCustomer.getId());
-        	Iterator<Authorization> authorizationIterator = authorizationList.iterator();
-        
-        	while (authorizationIterator.hasNext()) {
-        	
-        		Authorization authorization = authorizationIterator.next();
-        		Subscription subscription = subscriptionService.findByAuthorizationId(authorization.getId()); 
-        		String resourceUri = authorization.getResourceURI();
-        		if (resourceUri == null) {
-			
-        			// this is the first time this authorization has been in effect. We
-        			// must set up the appropriate resource links
-        			ApplicationInformation applicationInformation = authorization.getApplicationInformation();
-        			resourceUri = applicationInformation.getDataCustodianResourceEndpoint();
-        			resourceUri = resourceUri + "/Batch/Subscription/" + subscription.getId();	
-        			authorization.setResourceURI(resourceUri);
-        		}
-
-        		// make sure the UsagePoints we just imported are linked up with
-        		//  the subscription if any
-        		subscription.getUsagePoints().add(usagePoint);
-        		subscription = subscriptionService.addUsagePoint(subscription, usagePoint);
-        	}      
-        
-        	// now do any notifications
-        	notificationService.notify(retailCustomer, null, null);
-        } catch (Exception e) {
-        	
+        Subscription subscription = retailCustomerService.associateByUUID(retailCustomerId, UUID.fromString(usagePointForm.getUUID()), usagePointForm.getDescription());
+        if (subscription != null) {
+        	notificationService.notify(subscription, null, null);
         }
+
         return "redirect:/custodian/retailcustomers";
     }
 
@@ -155,7 +118,7 @@ public class AssociateUsagePointController {
 
     public static class UsagePointFormValidator implements Validator {
 
-        public boolean supports(Class clazz) {
+        public boolean supports(@SuppressWarnings("rawtypes") Class clazz) {
             return UsagePointForm.class.isAssignableFrom(clazz);
         }
 
