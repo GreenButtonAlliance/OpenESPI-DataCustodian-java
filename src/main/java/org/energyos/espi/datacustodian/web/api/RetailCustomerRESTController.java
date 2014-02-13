@@ -16,6 +16,7 @@
 package org.energyos.espi.datacustodian.web.api;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -97,7 +98,7 @@ public class RetailCustomerRESTController {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         try {
         	RetailCustomer retailCustomer = this.retailCustomerService.importResource(stream);
-            exportService.exportTimeConfiguration(retailCustomer.getId(), response.getOutputStream(), new ExportFilter(null));
+            exportService.exportTimeConfiguration(retailCustomer.getId(), response.getOutputStream(), new ExportFilter(new HashMap<String, String> ()));
         } catch (Exception e) {
         	System.out.printf("***** Error Caused by RetailCustomer.x.IndentifiedObject need: %s", e.toString());
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
