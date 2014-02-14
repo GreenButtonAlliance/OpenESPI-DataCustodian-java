@@ -15,36 +15,33 @@
  */
 
 package org.energyos.espi.datacustodian.web.api;
-import com.sun.syndication.io.FeedException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Map;
 
-import org.energyos.espi.common.domain.Routes;
+import javax.servlet.http.HttpServletResponse;
+
 import org.energyos.espi.common.domain.RetailCustomer;
-import org.energyos.espi.common.domain.Subscription;
-import org.energyos.espi.common.domain.UsagePoint;
-import org.energyos.espi.common.models.atom.EntryType;
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.service.ExportService;
 import org.energyos.espi.common.service.ImportService;
+import org.energyos.espi.common.service.NotificationService;
 import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.RetailCustomerService;
-import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
-import org.energyos.espi.datacustodian.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.datatype.XMLGregorianCalendar;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import com.sun.syndication.io.FeedException;
 
 @Controller
 public class BatchRESTController {
@@ -53,16 +50,13 @@ public class BatchRESTController {
     private ImportService importService;
     
     @Autowired
-    private NotificationService notificationService;
-    
-    @Autowired
     private ResourceService resourceService;
     
     @Autowired
-    private RetailCustomerService retailCustomerService;
+    private NotificationService notificationService;
     
     @Autowired
-    private UsagePointService usagePointService;
+    private RetailCustomerService retailCustomerService;
     
     @Autowired
     private ExportService exportService;
@@ -77,35 +71,13 @@ public class BatchRESTController {
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException, FeedException {
         try {
+        	RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
         	
-        	RetailCustomer rc = retailCustomerService.findById(retailCustomerId);
-        	importService.importData(stream);
+        	importService.importData(stream, retailCustomerId);
+
+        	// do any notifications
         	
-            List<Subscription> subscriptions = new ArrayList <Subscription> ();
-        	// now perform any associations (to RetailCustomer) and stage the Notifications 
-        	// if any
-            List<EntryType> entries = importService.getEntries();
-            Iterator<EntryType> its = entries.iterator();
-            XMLGregorianCalendar minDate = importService.getMinUpdated();
-            XMLGregorianCalendar maxDate = importService.getMaxUpdated();
-            
-            while (its.hasNext()) {
-            	EntryType entry = its.next();
-            	UsagePoint usagePoint = entry.getContent().getUsagePoint();
-            	if ( usagePoint != null) {
-            		// hook it to the retailCustomer
-                    usagePointService.associateByUUID(rc, usagePoint.getUUID());
-                    
-                    if (usagePoint.getSubscription() != null) {
-                    	subscriptions.add(usagePoint.getSubscription());
-                    }
-            	}
-            }
-            
-            if (!(subscriptions.isEmpty())) {
-               // notify the subscribed TPs of the new data
-            	notificationService.notify(subscriptions, minDate, maxDate);
-            }
+			notificationService.notify(retailCustomer, importService.getMinUpdated(), importService.getMaxUpdated());
             
             } catch (Exception e) {
             	 System.out.printf("**** Batch Import Error: %s\n", e.toString());
@@ -145,7 +117,7 @@ public class BatchRESTController {
  
     }
     
-    @Transactional(readOnly = true)
+    @Transactional (readOnly = true)
     @RequestMapping(value = Routes.BATCH_SUBSCRIPTION, method = RequestMethod.GET)
     public void subscription(HttpServletResponse response, 
     		@PathVariable Long subscriptionId,
@@ -175,18 +147,14 @@ public class BatchRESTController {
         }
  
     }
+    
     public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
         this.retailCustomerService = retailCustomerService;
     }
 
-    public void setUsagePointService(UsagePointService usagePointService) {
-        this.usagePointService = usagePointService;
-    }
-    
     public void setExportService(ExportService exportService) {
         this.exportService = exportService;
     }
-    
     public void setImportService(ImportService importService) {
     	this.importService = importService;
     }

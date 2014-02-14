@@ -16,20 +16,14 @@
 
 package org.energyos.espi.datacustodian.web.customer;
 
-import org.energyos.espi.common.domain.ApplicationInformation;
-import org.energyos.espi.common.domain.Configuration;
-import org.energyos.espi.common.domain.RetailCustomer;
-import org.energyos.espi.common.service.ApplicationInformationService;
-import org.energyos.espi.common.service.ResourceService;
-import org.energyos.espi.common.service.impl.ResourceServiceImpl;
-import org.energyos.espi.common.test.EspiFactory;
-import org.junit.Before;
-import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
+
+import org.energyos.espi.common.domain.ApplicationInformation;
+import org.energyos.espi.common.service.ApplicationInformationService;
+import org.energyos.espi.common.test.EspiFactory;
+import org.junit.Test;
 
 public class ScopeSelectionControllerTests {
 

@@ -17,17 +17,17 @@
 package org.energyos.espi.datacustodian.service.impl;
 
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+import java.util.UUID;
+
 import org.energyos.espi.common.domain.MeterReading;
 import org.energyos.espi.common.repositories.MeterReadingRepository;
 import org.energyos.espi.common.service.MeterReadingService;
 import org.energyos.espi.common.service.impl.MeterReadingServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.UUID;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class MeterReadingServiceImplTests {
 

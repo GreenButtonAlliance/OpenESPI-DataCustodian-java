@@ -17,7 +17,6 @@
 package org.energyos.espi.datacustodian.web.customer;
 
 import java.util.Iterator;
-import java.util.List;
 
 import org.energyos.espi.common.domain.IntervalBlock;
 import org.energyos.espi.common.domain.IntervalReading;

@@ -1,10 +1,10 @@
 package org.energyos.espi.datacustodian.mocks;
 
+import java.util.Collection;
+
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.stereotype.Service;
-
-import java.util.Collection;
 
 @Service
 public class MockConsumerTokenServices implements ConsumerTokenServices {

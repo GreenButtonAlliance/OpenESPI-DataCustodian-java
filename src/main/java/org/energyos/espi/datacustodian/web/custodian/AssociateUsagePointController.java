@@ -1,12 +1,31 @@
+/*
+ * Copyright 2013, 2014 EnergyOS.org
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package org.energyos.espi.datacustodian.web.custodian;
 
-import org.energyos.espi.common.domain.RetailCustomer;
+import java.util.UUID;
+
+import javax.validation.Valid;
+
 import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.common.domain.ServiceCategory;
-import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.domain.Subscription;
+import org.energyos.espi.common.service.NotificationService;
+import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.UsagePointService;
-import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -16,19 +35,25 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-
-import java.util.UUID;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @PreAuthorize("hasRole('ROLE_CUSTODIAN')")
-public class AssociateUsagePointController extends BaseController {
+public class AssociateUsagePointController {
 
     @Autowired
     private RetailCustomerService retailCustomerService;
 
+    @Autowired
+    private ResourceService resourceService;
+    
+    @Autowired
+    private NotificationService notificationService;
+    
     @Autowired
     UsagePointService service;
 
@@ -49,15 +74,11 @@ public class AssociateUsagePointController extends BaseController {
     public String create(@PathVariable Long retailCustomerId, @ModelAttribute("usagePointForm") @Valid UsagePointForm usagePointForm, BindingResult result) {
         if (result.hasErrors())
             return "/custodian/retailcustomers/usagepoints/form";
-
-        UsagePoint usagePoint = new UsagePoint();
-        usagePoint.setUUID(UUID.fromString(usagePointForm.getUUID()));
-        usagePoint.setDescription(usagePointForm.getDescription());
-
-        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
-        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
-        usagePoint.setRetailCustomer(retailCustomer);
-        service.createOrReplaceByUUID(usagePoint);
+        
+        Subscription subscription = retailCustomerService.associateByUUID(retailCustomerId, UUID.fromString(usagePointForm.getUUID()), usagePointForm.getDescription());
+        if (subscription != null) {
+        	notificationService.notify(subscription, null, null);
+        }
 
         return "redirect:/custodian/retailcustomers";
     }
@@ -70,6 +91,10 @@ public class AssociateUsagePointController extends BaseController {
         this.service = service;
     }
 
+    public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+    }
+    
     public static class UsagePointForm {
         private String uuid;
         private String description;
@@ -93,7 +118,7 @@ public class AssociateUsagePointController extends BaseController {
 
     public static class UsagePointFormValidator implements Validator {
 
-        public boolean supports(Class clazz) {
+        public boolean supports(@SuppressWarnings("rawtypes") Class clazz) {
             return UsagePointForm.class.isAssignableFrom(clazz);
         }
 

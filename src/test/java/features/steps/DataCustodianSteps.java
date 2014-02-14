@@ -16,21 +16,23 @@
 
 package features.steps;
 
-import cucumber.api.java.After;
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
+import static features.steps.StepUtils.associate;
+import static features.steps.StepUtils.navigateTo;
+import static org.energyos.espi.common.test.BaseStepUtils.clickLinkByText;
+import static org.junit.Assert.assertTrue;
+
+import java.util.UUID;
 
 import org.energyos.espi.common.test.CucumberSession;
 import org.energyos.espi.common.test.WebDriverSingleton;
 import org.junit.Ignore;
 import org.openqa.selenium.WebDriver;
 
-import java.util.UUID;
-
-import static features.steps.StepUtils.*;
-import static org.junit.Assert.assertTrue;
+import cucumber.api.java.After;
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 public class DataCustodianSteps {
 

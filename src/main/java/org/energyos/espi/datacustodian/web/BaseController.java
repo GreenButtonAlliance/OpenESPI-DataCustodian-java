@@ -16,11 +16,11 @@
 
 package org.energyos.espi.datacustodian.web;
 
+import java.security.Principal;
+
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
-import java.security.Principal;
 
 public class BaseController {
     @ModelAttribute("currentCustomer")
