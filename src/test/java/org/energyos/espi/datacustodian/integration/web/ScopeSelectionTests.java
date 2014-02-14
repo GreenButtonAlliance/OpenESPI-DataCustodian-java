@@ -22,7 +22,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 import org.energyos.espi.common.domain.ApplicationInformation;
-import org.energyos.espi.common.domain.Configuration;
 import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.test.EspiFactory;
 import org.junit.Before;
@@ -39,7 +38,9 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
-@Transactional
+@Transactional (rollbackFor= {javax.xml.bind.JAXBException.class}, 
+                noRollbackFor = {javax.persistence.NoResultException.class, org.springframework.dao.EmptyResultDataAccessException.class })
+
 public class ScopeSelectionTests {
 
     private MockMvc mockMvc;

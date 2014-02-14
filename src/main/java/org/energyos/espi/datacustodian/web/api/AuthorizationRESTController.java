@@ -159,7 +159,7 @@ public class AuthorizationRESTController {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE); 
         try {
             Authorization authorization = this.authorizationService.importResource(stream);
-            retailCustomerService.associateByUUID(authorization.getUUID());
+            retailCustomerService.associateByUUID(retailCustomerId, authorization.getUUID(), "Temporary Description - Should be overwritten");
             exportService.exportAuthorization(retailCustomerId, authorization.getId(), response.getOutputStream(), new ExportFilter(params));
 
         } catch (Exception e) {

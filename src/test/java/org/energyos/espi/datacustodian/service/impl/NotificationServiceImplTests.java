@@ -23,6 +23,7 @@ import static org.mockito.Mockito.verify;
 
 import org.energyos.espi.common.domain.BatchList;
 import org.energyos.espi.common.domain.Subscription;
+import org.energyos.espi.common.service.impl.NotificationServiceImpl;
 import org.energyos.espi.datacustodian.BaseTest;
 import org.junit.Before;
 import org.junit.Test;

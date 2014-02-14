@@ -2,8 +2,8 @@ package org.energyos.espi.datacustodian.web.custodian;
 
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.Subscription;
+import org.energyos.espi.common.service.NotificationService;
 import org.energyos.espi.common.service.SubscriptionService;
-import org.energyos.espi.datacustodian.service.NotificationService;
 import org.energyos.espi.datacustodian.web.BaseController;
 
 import org.springframework.beans.factory.annotation.Autowired;

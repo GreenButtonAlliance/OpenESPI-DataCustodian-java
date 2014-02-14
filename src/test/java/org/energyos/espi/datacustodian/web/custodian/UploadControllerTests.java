@@ -61,14 +61,14 @@ public class UploadControllerTests {
     public void uploadPost_givenValidFile_importsUsagePointWithNoErrors() throws Exception {
         String view = controller.uploadPost(form, result);
 
-        verify(importService).importData(any(InputStream.class));
+        verify(importService).importData(any(InputStream.class), null);
         assertEquals(false, result.hasErrors());
         assertEquals("redirect:/custodian/retailcustomers", view);
     }
 
     @Test
     public void uploadPost_givenInvalidFile_displaysUploadViewWithErrors() throws Exception {
-        Mockito.doThrow(new SAXException("Unable to process file")).when(importService).importData(any(InputStream.class));
+        Mockito.doThrow(new SAXException("Unable to process file")).when(importService).importData(any(InputStream.class), null);
 
         String view = controller.uploadPost(form, result);
 

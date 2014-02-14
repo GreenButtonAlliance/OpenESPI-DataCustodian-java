@@ -38,6 +38,7 @@ import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
 import org.energyos.espi.datacustodian.web.BaseController;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -76,7 +77,7 @@ public class UsagePointController extends BaseController {
         return "/customer/usagepoints/index";
     }
      
-    @Transactional(readOnly = true)
+    @Transactional (readOnly = true)
     @RequestMapping(value = Routes.USAGE_POINT_SHOW, method = RequestMethod.GET)
     public String show(@PathVariable Long retailCustomerId, @PathVariable Long usagePointId, ModelMap model) {
      try {
@@ -119,7 +120,7 @@ public class UsagePointController extends BaseController {
         exportService.exportUsagePointFull(usagePointId, currentCustomer(principal).getId(), response.getOutputStream(), new ExportFilter(params));
     }
 
-    @Transactional(readOnly=true)
+    @Transactional (readOnly=true)
     private HashMap<String, Object> buildDisplayBag(Long retailCustomerId, Long usagePointId) {
 		
     HashMap<String, Object> displayBag = new HashMap<String, Object> ();

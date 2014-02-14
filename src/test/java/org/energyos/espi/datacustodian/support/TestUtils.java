@@ -118,7 +118,7 @@ public class TestUtils {
     }
 
     public static void importUsagePoint(ImportService importService, UsagePointService usagePointService, RetailCustomer customer, UUID uuid) throws JAXBException, IOException, ParserConfigurationException, SAXException {
-        importService.importData(FixtureFactory.newFeedInputStream(uuid));
+        importService.importData(FixtureFactory.newFeedInputStream(uuid), null);
         usagePointService.associateByUUID(customer, uuid);
     }
 

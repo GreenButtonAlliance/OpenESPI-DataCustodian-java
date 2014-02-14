@@ -35,7 +35,9 @@ import org.xml.sax.SAXException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/spring/test-context.xml")
-@Transactional
+@Transactional (rollbackFor= {javax.xml.bind.JAXBException.class}, 
+                noRollbackFor = {javax.persistence.NoResultException.class, org.springframework.dao.EmptyResultDataAccessException.class })
+
 public class ImportServiceTests {
     public static final String USAGE_POINT_UUID = "48C2A019-5598-4E16-B0F9-49E4FF27F5FB";
     @Autowired
@@ -51,7 +53,7 @@ public class ImportServiceTests {
 
     @Test
     public void import_importsUsagePoint() throws IOException, ParserConfigurationException, SAXException {
-        importService.importData(FixtureFactory.newFeedInputStream());
+        importService.importData(FixtureFactory.newFeedInputStream(), null);
 
         UsagePoint usagePoint = usagePointService.findByUUID(UUID.fromString(USAGE_POINT_UUID));
 
@@ -60,7 +62,7 @@ public class ImportServiceTests {
 
     @Test
     public void import_importsMeterReading() throws IOException, ParserConfigurationException, SAXException {
-        importService.importData(FixtureFactory.newFeedInputStream());
+        importService.importData(FixtureFactory.newFeedInputStream(), null);
 
         MeterReading meterReading = meterReadingService.findByUUID(UUID.fromString("F77FBF34-A09E-4EBC-9606-FF1A59A17CAE"));
         UsagePoint usagePoint = usagePointService.findByUUID(UUID.fromString("48C2A019-5598-4E16-B0F9-49E4FF27F5FB"));
@@ -73,7 +75,7 @@ public class ImportServiceTests {
 
     @Test
     public void import_importsReadingType() throws IOException, ParserConfigurationException, SAXException {
-        importService.importData(FixtureFactory.newFeedInputStream());
+        importService.importData(FixtureFactory.newFeedInputStream(), null);
 
         ReadingType readingType = resourceService.findByUUID(UUID.fromString("3430B025-65D5-493A-BEC2-053603C91CD7"), ReadingType.class);
         MeterReading meterReading = resourceService.findByUUID(UUID.fromString("F77FBF34-A09E-4EBC-9606-FF1A59A17CAE"), MeterReading.class);
@@ -84,7 +86,7 @@ public class ImportServiceTests {
 
     @Test
     public void import_importsIntervalBlock() throws IOException, ParserConfigurationException, SAXException {
-        importService.importData(FixtureFactory.newFeedInputStream());
+        importService.importData(FixtureFactory.newFeedInputStream(), null);
 
         IntervalBlock intervalBlock = resourceService.findByUUID(UUID.fromString("FE9A61BB-6913-42D4-88BE-9634A218EF53"), IntervalBlock.class);
         MeterReading meterReading = resourceService.findByUUID(UUID.fromString("F77FBF34-A09E-4EBC-9606-FF1A59A17CAE"), MeterReading.class);
@@ -96,7 +98,7 @@ public class ImportServiceTests {
 
     @Test
     public void import_importsElectricPowerQualitySummary() throws IOException, ParserConfigurationException, SAXException {
-        importService.importData(FixtureFactory.newFeedInputStream());
+        importService.importData(FixtureFactory.newFeedInputStream(), null);
 
         ElectricPowerQualitySummary electricPowerQualitySummary = resourceService.findByUUID(UUID.fromString("DEB0A337-C1B5-4658-99BA-4688E253A99B"), ElectricPowerQualitySummary.class);
         UsagePoint usagePoint = usagePointService.findByUUID(UUID.fromString("48C2A019-5598-4E16-B0F9-49E4FF27F5FB"));
@@ -108,7 +110,7 @@ public class ImportServiceTests {
 
     @Test
     public void import_importsElectricPowerUsageSummary() throws IOException, ParserConfigurationException, SAXException {
-        importService.importData(FixtureFactory.newFeedInputStream());
+        importService.importData(FixtureFactory.newFeedInputStream(), null);
 
         ElectricPowerUsageSummary electricPowerUsageSummary = resourceService.findByUUID(UUID.fromString("621D4BDF-FE3D-418B-8C98-276D941D3D45"), ElectricPowerUsageSummary.class);
         UsagePoint usagePoint = usagePointService.findByUUID(UUID.fromString("48C2A019-5598-4E16-B0F9-49E4FF27F5FB"));
@@ -120,7 +122,7 @@ public class ImportServiceTests {
 
     @Test
     public void import_importsLocalTimeParameters() throws IOException, ParserConfigurationException, SAXException {
-        importService.importData(FixtureFactory.newFeedInputStream());
+        importService.importData(FixtureFactory.newFeedInputStream(), null);
 
         TimeConfiguration localTimeParameters = resourceService.findByUUID(UUID.fromString("54C62EBE-2DB6-4D4F-B6BF-1973A079C841"), TimeConfiguration.class);
         UsagePoint usagePoint = usagePointService.findByUUID(UUID.fromString("48C2A019-5598-4E16-B0F9-49E4FF27F5FB"));
@@ -131,7 +133,7 @@ public class ImportServiceTests {
 
     @Test
     public void associateAndImport() throws Exception {
-        importService.importData(FixtureFactory.newFeedInputStream());
+        importService.importData(FixtureFactory.newFeedInputStream(), null);
 
         RetailCustomer retailCustomer = factory.createRetailCustomer();
 
@@ -150,7 +152,7 @@ public class ImportServiceTests {
 
         usagePointService.associateByUUID(retailCustomer, uuid);
 
-        importService.importData(FixtureFactory.newFeedInputStream(uuid));
+        importService.importData(FixtureFactory.newFeedInputStream(uuid), null);
 
         List<UsagePoint> points = usagePointService.findAllByRetailCustomer(retailCustomer);
         UsagePoint usagePoint = points.get(0);
@@ -167,8 +169,8 @@ public class ImportServiceTests {
         usagePointService.associateByUUID(retailCustomer, firstUUID);
         usagePointService.associateByUUID(retailCustomer, secondUUID);
 
-        importService.importData(FixtureFactory.newFeedInputStream(firstUUID));
-        importService.importData(FixtureFactory.newFeedInputStream(secondUUID));
+        importService.importData(FixtureFactory.newFeedInputStream(firstUUID), null);
+        importService.importData(FixtureFactory.newFeedInputStream(secondUUID), null);
 
         UsagePoint firstUsagePoint = usagePointService.findByUUID(firstUUID);
         assertThat(firstUsagePoint.getDescription(), is(notNullValue()));
@@ -184,7 +186,7 @@ public class ImportServiceTests {
 
         usagePointService.associateByUUID(retailCustomer, uuid);
 
-        importService.importData(FixtureFactory.newFeedInputStream(uuid));
+        importService.importData(FixtureFactory.newFeedInputStream(uuid), null);
 
         UsagePoint usagePoint = usagePointService.findByUUID(uuid);
         assertThat(usagePoint.getDescription(), is(notNullValue()));
@@ -200,7 +202,7 @@ public class ImportServiceTests {
 
         usagePointService.associateByUUID(retailCustomer, uuid);
 
-        importService.importData(FixtureFactory.newFeedInputStream(uuid));
+        importService.importData(FixtureFactory.newFeedInputStream(uuid), null);
 
         UsagePoint usagePoint = usagePointService.findByUUID(uuid);
         MeterReading meterReading = meterReadingService.findByUUID(usagePoint.getMeterReadings().get(0).getUUID());

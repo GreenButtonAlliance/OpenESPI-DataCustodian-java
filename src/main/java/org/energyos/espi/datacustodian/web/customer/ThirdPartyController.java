@@ -1,7 +1,6 @@
 package org.energyos.espi.datacustodian.web.customer;
 
 import org.energyos.espi.common.domain.ApplicationInformation;
-import org.energyos.espi.common.domain.Configuration;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.datacustodian.utils.URLHelper;

@@ -14,23 +14,22 @@
  *    limitations under the License.
  */
 package org.energyos.espi.datacustodian.web.api;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Iterator;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.common.domain.UsagePoint;
-import org.energyos.espi.common.models.atom.EntryType;
 import org.energyos.espi.common.service.ExportService;
 import org.energyos.espi.common.service.ImportService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -101,7 +100,7 @@ public class RetailCustomerRESTController {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         try {
         	RetailCustomer retailCustomer = this.retailCustomerService.importResource(stream);
-            exportService.exportTimeConfiguration(retailCustomer.getId(), response.getOutputStream(), new ExportFilter(null));
+            exportService.exportTimeConfiguration(retailCustomer.getId(), response.getOutputStream(), new ExportFilter(new HashMap<String, String> ()));
         } catch (Exception e) {
         	System.out.printf("***** Error Caused by RetailCustomer.x.IndentifiedObject need: %s", e.toString());
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -139,47 +138,6 @@ public class RetailCustomerRESTController {
         }
     }    		
  
-    @RequestMapping(value = Routes.RETAIL_CUSTOMER_MEMBER_UPLOAD_MY_DATA, method = RequestMethod.POST)
-    public void upload(HttpServletResponse response, 
-    		@PathVariable long retailCustomerId,
-    		@RequestParam Map<String, String> params,
-    		InputStream stream) throws IOException, FeedException {
-        try {
-        	RetailCustomer rc = retailCustomerService.findById(retailCustomerId);
-        	importService.importData(stream);
-       
-            List<EntryType> entries = importService.getEntries();
-            Iterator<EntryType> its = entries.iterator();
-            while (its.hasNext()) {
-            	EntryType entry = its.next();
-            	UsagePoint usagePoint = entry.getContent().getUsagePoint();
-            	if ( usagePoint != null)
-                usagePointService.associateByUUID(rc, usagePoint.getUUID());
-            }
-            
-        } catch (Exception e) {
-        	System.out.printf("***** Error Caused by RetailCustomer.x.IndentifiedObject need: %s", e.toString());
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        }
- 
-    }
-
-    @RequestMapping(value = Routes.RETAIL_CUSTOMER_MEMBER_DOWNLOAD_MY_DATA, method = RequestMethod.GET)
-    public void download(HttpServletResponse response, 
-    		@PathVariable long retailCustomerId,
-    		@RequestParam Map<String, String> params) throws IOException, FeedException {
-        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        response.addHeader("Content-Disposition", "attachment; filename=GreenButtonDownload.xml");
-          try {
-              exportService.exportUsagePointsFull(retailCustomerId, response.getOutputStream(), new ExportFilter(params));
-              
-        } catch (Exception e) {
-        	System.out.printf("***** Error Caused by RetailCustomer.x.IndentifiedObject need: %s", e.toString());
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        }
- 
-    }
-    
     public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
         this.retailCustomerService = retailCustomerService;
     }

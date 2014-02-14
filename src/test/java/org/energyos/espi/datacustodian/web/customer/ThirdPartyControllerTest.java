@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.energyos.espi.common.domain.ApplicationInformation;
-import org.energyos.espi.common.domain.Configuration;
 import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.test.EspiFactory;
 import org.energyos.espi.datacustodian.utils.URLHelper;

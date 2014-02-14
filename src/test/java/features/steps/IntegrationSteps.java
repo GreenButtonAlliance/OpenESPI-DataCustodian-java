@@ -57,7 +57,7 @@ public class IntegrationSteps {
         UsagePoint usagePoint = EspiFactory.newUsagePoint(retailCustomer);
         usagePointService.createOrReplaceByUUID(usagePoint);
 
-        importService.importData(FixtureFactory.newFeedInputStream(UUID.randomUUID()));
+        importService.importData(FixtureFactory.newFeedInputStream(UUID.randomUUID()), null);
     }
 
     @When("^I export Usage Point$")

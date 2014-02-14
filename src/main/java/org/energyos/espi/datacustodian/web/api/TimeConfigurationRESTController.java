@@ -17,6 +17,8 @@ package org.energyos.espi.datacustodian.web.api;
 
 import java.io.IOException;
 import java.io.InputStream;
+
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -90,7 +92,7 @@ public class TimeConfigurationRESTController {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         try {
             TimeConfiguration timeConfiguration = this.timeConfigurationService.importResource(stream);
-            exportService.exportTimeConfiguration(timeConfiguration.getId(), response.getOutputStream(), new ExportFilter(null));
+            exportService.exportTimeConfiguration(timeConfiguration.getId(), response.getOutputStream(), new ExportFilter(new HashMap<String, String> ()));
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
