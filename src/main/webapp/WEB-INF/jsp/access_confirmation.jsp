@@ -54,7 +54,7 @@
             <input name="user_oauth_approval" value="true" type="hidden"/>
             <ul>
         		<c:forEach items="${scopes}" var="scope"><c:set var="approved"><c:if test="${scope.value}"> checked</c:if></c:set><c:set var="denied"><c:if test="${!scope.value}"> checked</c:if></c:set>
-        			<li>${scope.key}: <input type="radio" name="${scope.key}" value="true"${approved}>Approve</input><input type="radio" name="${scope.key}" value="false"${denied}>Deny</input></li> 
+        			<li>${scope.key}: <input type="radio" name="${scope.key}" value="true"${approved}> Approve  </input><input type="radio" name="${scope.key}" value="false"${denied}> Deny</input></li> 
         		</c:forEach>            
             </ul>
             <label>

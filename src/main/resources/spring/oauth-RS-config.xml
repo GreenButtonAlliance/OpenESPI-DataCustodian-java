@@ -4,12 +4,9 @@
        xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
        xmlns:sec="http://www.springframework.org/schema/security"
        xmlns:security="http://www.springframework.org/schema/security"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/security 
-        http://www.springframework.org/schema/security/spring-security-3.2.xsd
-        http://www.springframework.org/schema/security/oauth2 
-        http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        				   http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
+        				   http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
 
 	<!--**************************************       Resource Server Configuration (Start)       **************************************-->
 	<!-- The OAuth2 protected resources are separated out into their own block 

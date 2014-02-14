@@ -4,10 +4,9 @@
        xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
        xmlns:sec="http://www.springframework.org/schema/security"
        xmlns:security="http://www.springframework.org/schema/security"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
-        http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						   http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
+						   http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
  
         
 	<!--**************************************     OAuth Access Token Support Configuration (Start)     **************************************-->    
@@ -59,13 +58,10 @@
         
 	<!--**************************************       Authorization Server Configuration (Start)       **************************************-->
     
-    <http pattern="oauth/token" create-session="stateless"
+    <http pattern="/oauth/token" create-session="stateless"
     	authentication-manager-ref="clientAuthenticationManager"
     	xmlns="http://www.springframework.org/schema/security">
-    	<intercept-url pattern="/**" method="GET" access="ROLE_DENY" />
-    	<intercept-url pattern="/**" method="PUT" access="ROLE_DENY" />
-    	<intercept-url pattern="/**" method="DELETE" access="ROLE_DENY" />
-    	<intercept-url pattern="/**" access="IS_AUTHENTICATED_FULLY" />
+    	<intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />
     	<anonymous enabled="false" />
     	<http-basic entry-point-ref="clientAuthenticationEntryPoint" />
     	<access-denied-handler ref="oauthAccessDeniedHandler" />
@@ -146,23 +142,30 @@
     	xmlns="http://www.springframework.org/schema/security">
         <security:authentication-provider user-service-ref="retailCustomerServiceImpl"/>
     </authentication-manager>
-    	    
+ 
+ <!-- TODO: Implement Spring Security Configuration feature to eliminate XML maintenance -->   	    
 	<oauth:client-details-service id="clientDetails">
-		<oauth:client client-id="my-trusted-client"
+	
+		<!-- Third Party Application ROLE_USER parameters -->
+		<oauth:client client-id="third_party"
+			secret="secret"
+			access-token-validity="360"
+			refresh-token-validity="3600"
+			scope="FB=4_5_15;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13,FB=4_5_16;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13"
 			authorized-grant-types="authorization_code,refresh_token"
-			authorities="ROLE_USER" 
-			scope="FB=4_5_15;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13,
-			FB=4_5_16;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13"
-			access-token-validity="60" />
+			authorities="ROLE_USER"  />
+
+		<!-- Third Party Application ROLE_CUSTODIAN parameters -->
+		<oauth:client client-id="third_party_admin"
+			secret="secret"
+			access-token-validity="360"
+			scope="FB=4_5_15;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13,FB=4_5_16;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13"				
+			authorized-grant-types="client_credentials"
+			authorities="ROLE_ADMIN" />
+			
 <!-- 		<oauth:client client-id="my-trusted-client-with-secret" -->
 <!-- 			authorized-grant-types="password,authorization_code,refresh_token,implicit" -->
-<!-- 			secret="somesecret" authorities="ROLE_CLIENT, ROLE_TRUSTED_CLIENT" /> -->
-		<oauth:client client-id="my-client-with-secret"
-			authorized-grant-types="client_credentials"
-			authorities="ROLE_CLIENT"
-			scope="FB=4_5_15;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13,
-			FB=4_5_16;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13"
-			secret="secret" />
+<!-- 			secret="somesecret" authorities="ROLE_CLIENT, ROLE_TRUSTED_CLIENT" /> -->			
 <!-- 		<oauth:client client-id="my-less-trusted-client" -->
 <!-- 			authorized-grant-types="authorization_code,implicit" authorities="ROLE_CLIENT" /> -->
 <!-- 		<oauth:client client-id="my-less-trusted-autoapprove-client" -->
@@ -182,6 +185,7 @@
 <!-- 			resource-ids="sparklr" authorized-grant-types="authorization_code,implicit" -->
 <!-- 			authorities="ROLE_CLIENT" scope="read,write" secret="secret" -->
 <!-- 			redirect-uri="${tonr.redirect:http://localhost:8080/tonr2/sparklr/redirect}" /> -->
+
 	</oauth:client-details-service>   
 
     <bean id="clientDetailsUserService" 
