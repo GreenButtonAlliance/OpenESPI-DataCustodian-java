@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 import org.energyos.espi.common.domain.RetailCustomer;
-import org.energyos.espi.common.service.impl.RetailCustomerServiceImpl;
+import org.energyos.espi.common.service.RetailCustomerService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,8 +47,10 @@ public class RetailCustomerTests {
     @Autowired
     protected WebApplicationContext wac;
     private RetailCustomer customer;
+
     @Autowired
-    private RetailCustomerServiceImpl retailCustomerService;
+    private RetailCustomerService retailCustomerService;
+    
     protected TestingAuthenticationToken authentication;
 
     @Before
