@@ -183,7 +183,7 @@
                 <tbody>
                     <tr>
                         <td>
-                            <c:out value="${usagePoint.localTimeParameters.tzOffset}"/>
+                            <c:out value="${displayBag.get('localTimeParameters').tzOffset}"/>
                         </td>
                     </tr>
                 </tbody>

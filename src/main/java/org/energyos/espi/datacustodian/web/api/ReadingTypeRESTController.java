@@ -21,16 +21,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.energyos.espi.common.domain.MeterReading;
 import org.energyos.espi.common.domain.ReadingType;
-import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.ExportService;
-import org.energyos.espi.common.service.MeterReadingService;
 import org.energyos.espi.common.service.ReadingTypeService;
-import org.energyos.espi.common.service.RetailCustomerService;
-import org.energyos.espi.common.service.UsagePointService;
+import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.utils.ExportFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,13 +44,10 @@ import com.sun.syndication.io.FeedException;
 public class ReadingTypeRESTController {
 
     @Autowired
-    private RetailCustomerService retailCustomerService;
-    @Autowired
-    private UsagePointService usagePointService;
-    @Autowired
-    private MeterReadingService meterReadingService;
-    @Autowired
     private ReadingTypeService readingTypeService;
+    
+    @Autowired
+    private ResourceService resourceService;
     
     @Autowired
     private ExportService exportService;
@@ -103,7 +95,9 @@ public class ReadingTypeRESTController {
         
         if (existingReadingType != null) {
             try {
-                ReadingType readingType = readingTypeService.importResource(stream);
+               // importing the resource will perform a merge (or replace) if needed
+               // an exception will be thrown if it is an invalid readingTypeId
+               readingTypeService.importResource(stream);
             } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
@@ -118,6 +112,7 @@ public class ReadingTypeRESTController {
 
         if (readingType != null) {
             this.readingTypeService.deleteById(readingTypeId);
+
         }
     }
 
@@ -152,9 +147,7 @@ public class ReadingTypeRESTController {
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
-        UsagePoint usagePoint = usagePointService.findById(usagePointId);
-        MeterReading meterReading = meterReadingService.findById(retailCustomerId, usagePointId, meterReadingId);
+
         try {
             ReadingType readingType = readingTypeService.importResource(stream);
             // TODO - uncomment after we decouple importResource from New-Or-Merge
@@ -173,28 +166,12 @@ public class ReadingTypeRESTController {
     		@PathVariable long readingTypeId,
     		@RequestParam Map<String, String> params,
     	    InputStream stream) throws IOException {
-        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
-        UsagePoint usagePoint = usagePointService.findById(usagePointId);
-        MeterReading meterReading = meterReadingService.findById(retailCustomerId, usagePointId, meterReadingId);
-        ReadingType existingReadingType = readingTypeService.findById(readingTypeId);
+
         try {
-            ReadingType readingType = readingTypeService.importResource(stream);
+            readingTypeService.importResource(stream);
         } catch (Exception e) {
         	response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
-        // semantics are that you can only PUT to the currently associated ReadingType
-        // so uncomment the following once that gets sorted out.
-        /*
-        if ((existingReadingType != null) & meterReading.getReadingType().equals(existingReadingType)){
-            try {
-                ReadingType readingType = readingTypeService.importResource(stream);
-                // TODO - uncomment after we decouple importResource from New-Or-Merge
-                //        readingTypeService.associateByUUID(meterReading, readingType.getUUID());
-            } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            }
-        }
-        */
     }
 
     @RequestMapping(value = Routes.READING_TYPE_MEMBER, method = RequestMethod.DELETE)
@@ -204,22 +181,28 @@ public class ReadingTypeRESTController {
     		@PathVariable long meterReadingId,
     		@PathVariable long readingTypeId,
     		@RequestParam Map<String, String> params) throws IOException {
-        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
-        UsagePoint usagePoint = usagePointService.findById(usagePointId);
-        MeterReading meterReading = meterReadingService.findById(retailCustomerId, usagePointId, meterReadingId);
-        ReadingType readingType = meterReading.getReadingType();
-        this.readingTypeService.deleteById(readingTypeId);
+    	try {
+    		resourceService.findIdByXPath(retailCustomerId, usagePointId, meterReadingId, readingTypeId, ReadingType.class);
+            this.readingTypeService.deleteById(readingTypeId);
+            
+    	} catch (Exception e) {
+    		// nothing to delete
+        	response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+    	}
+
     }
 
     public void setReadingTypeService(ReadingTypeService readingTypeService) {
         this.readingTypeService = readingTypeService;
     }
 
-    public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
-        this.retailCustomerService = retailCustomerService;
-    }
 
     public void setExportService(ExportService exportService) {
         this.exportService = exportService;
     }
+    
+    public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+    }
+    
 }
