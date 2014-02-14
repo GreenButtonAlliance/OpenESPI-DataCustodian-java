@@ -86,7 +86,7 @@ public class RetailCustomerController extends BaseController {
 
     public static class RetailCustomerValidator implements Validator {
 
-        public boolean supports(Class clazz) {
+        public boolean supports(@SuppressWarnings("rawtypes") Class clazz) {
             return RetailCustomer.class.isAssignableFrom(clazz);
         }
 

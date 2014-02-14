@@ -20,7 +20,6 @@ import java.io.IOException;
 
 import javax.xml.bind.JAXBException;
 
-import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.service.ImportService;
 import org.energyos.espi.common.service.NotificationService;
@@ -63,7 +62,7 @@ public class UploadController extends BaseController {
     @RequestMapping(value = Routes.DATA_CUSTODIAN_UPLOAD, method = RequestMethod.POST)
     public String uploadPost(@ModelAttribute UploadForm uploadForm, BindingResult result) throws IOException, JAXBException {
         try {
-        	RetailCustomer rc = null;
+
             importService.importData(uploadForm.getFile().getInputStream(), null);
         	
             return "redirect:/custodian/retailcustomers";

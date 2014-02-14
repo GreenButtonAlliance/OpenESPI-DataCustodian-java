@@ -27,7 +27,8 @@ import org.xml.sax.SAXException;
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
 public class EntryProcessorTests extends BaseTest {
-    @Test
+    @SuppressWarnings("unchecked")
+	@Test
     public void process() throws SAXException {
         ResourceLinker resourceLinker = mock(ResourceLinker.class);
         ResourceConverter resourceConverter = mock(ResourceConverter.class);

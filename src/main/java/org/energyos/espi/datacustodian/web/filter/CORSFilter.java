@@ -30,6 +30,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 //import org.apache.commons.logging.Log;
 //import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
@@ -49,7 +50,9 @@ public class CORSFilter implements Filter {
     private String allowCredentials;
     private String exposeHeaders;
 
-    public void init(FilterConfig cfg) throws ServletException {
+    @SuppressWarnings("unchecked")
+    // TODO: fix the class problem
+	public void init(FilterConfig cfg) throws ServletException {
     	
     	// Process origin parameters
         String regex = cfg.getInitParameter("allow.origin.regex");

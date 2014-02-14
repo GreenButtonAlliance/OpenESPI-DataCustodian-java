@@ -15,7 +15,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -45,7 +44,7 @@ public class CORSFilterTests {
     	RequestBuilder requestBuilder = MockMvcRequestBuilders.options("/DataCustodian")
     			.header("Origin", "JUnit_Test");
 		
-    	MvcResult result = mockMvc.perform(requestBuilder)
+    	mockMvc.perform(requestBuilder)
         		.andExpect(header().string("Access-Control-Allow-Origin", is("*")))
         		.andExpect(header().string("Access-Control-Allow-Methods", is("GET, POST, PUT, DELETE, OPTIONS")))
         		.andExpect(header().string("Access-Control-Allow-Headers", is("Origin, Authorization, Accept, Content-Type")))

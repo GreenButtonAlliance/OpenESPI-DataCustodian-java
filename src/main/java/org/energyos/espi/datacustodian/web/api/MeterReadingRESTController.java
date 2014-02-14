@@ -22,7 +22,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import org.energyos.espi.common.domain.MeterReading;
-import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.ExportService;
@@ -177,7 +176,7 @@ public class MeterReadingRESTController {
 		       @PathVariable long meterReadingId,
 		       @RequestParam Map<String, String> params,
 		       InputStream stream) {
-        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
+
         UsagePoint usagePoint = usagePointService.findById(usagePointId);
         MeterReading meterReading = meterReadingService.findById(retailCustomerId, usagePointId, meterReadingId);
        
@@ -197,8 +196,7 @@ public class MeterReadingRESTController {
     		@PathVariable long usagePointId,
     		@PathVariable long meterReadingId    		
     		) {
-        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
-        UsagePoint usagePoint = usagePointService.findById(usagePointId);
+
         MeterReading meterReading = meterReadingService.findById(retailCustomerId, usagePointId, meterReadingId);
        
         if (meterReading != null) {
