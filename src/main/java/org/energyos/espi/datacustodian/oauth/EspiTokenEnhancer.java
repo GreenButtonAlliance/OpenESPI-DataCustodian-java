@@ -43,25 +43,9 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-
-//		  Original Pivotal Code    	
-//        DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) accessToken;
-//        Map<String, Object> additionalInformation = new HashMap<>();     
-        
-        // Create Subscription and add resourceURI to /oath/token response
-//        Subscription subscription = subscriptionService.createSubscription(authentication);   
-//        additionalInformation.put("resourceURI", baseURL + Routes.BATCH_SUBSCRIPTION.replace("{subscriptionId}", subscription.getId().toString()));        
-
-        // Create Authorization and add authorizationURI to /oath/token response        
-//        Authorization authorization = authorizationService.createAuthorization(subscription, token.getValue());           
-//        additionalInformation.put("authorizationURI", baseURL + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("{AuthorizationID}", authorization.getId().toString()));        
-//
-//        token.setAdditionalInformation(additionalInformation);
     	
-    	//Spring Security Oauth 2.0.0.M2 code
 		DefaultOAuth2AccessToken result = new DefaultOAuth2AccessToken(accessToken);
-		result.setAdditionalInformation(Collections.singletonMap("client_id", (Object) authentication.getOAuth2Request().getClientId()));
-        RetailCustomer retailCustomer = (RetailCustomer) authentication.getPrincipal();		
+		result.setAdditionalInformation(Collections.singletonMap("client_id", (Object) authentication.getOAuth2Request().getClientId()));	
 		
         // Create Subscription and add resourceURI to /oath/token response
         Subscription subscription = subscriptionService.createSubscription(authentication);   
@@ -75,6 +59,8 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 		subscription.setUpdated(new GregorianCalendar());        
         subscriptionService.merge(subscription);
 
+		RetailCustomer retailCustomer = (RetailCustomer) authentication.getPrincipal();	
+		
         // link in the usage points associated with this subscription
         List<Long> usagePointIds = resourceService.findAllIdsByXPath(retailCustomer.getId(), UsagePoint.class);
         Iterator<Long> it = usagePointIds.iterator();
@@ -103,10 +89,6 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 		authorization.setStatus("1"); 	// Set authorization record status as "Active"
         authorizationService.merge(authorization);
 
-//		  Original Pivotal code
-//        return token;
-        
-        //Spring Security Oauth 2.0.0.M2 code
         return result;
     }
 

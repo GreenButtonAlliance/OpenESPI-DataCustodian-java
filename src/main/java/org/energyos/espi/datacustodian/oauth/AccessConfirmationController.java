@@ -39,7 +39,7 @@ public class AccessConfirmationController {
 
 	private ClientDetailsService clientDetailsService;
 	
-	private ApprovalStore approvalStore;	//Requires Spring Security OAuth2 2.0.0.M2 support
+	private ApprovalStore approvalStore;	//Spring Security OAuth2 2.0.0.M2 change
 
 	@RequestMapping("/oauth/confirm_access")
 	public ModelAndView getAccessConfirmation(Map<String, Object> model, Principal principal) throws Exception {
@@ -49,11 +49,8 @@ public class AccessConfirmationController {
 		model.put("client", client);
 		Map<String, String> scopes = new LinkedHashMap<String, String>();
 		for (String scope : clientAuth.getScope()) {
-			scopes.put(OAuth2Utils.SCOPE_PREFIX + scope, "false");  //Requires Spring Security OAuth2 2.0.0.M2 support
-//			scopes.put(scope, "false");		//Temporary fix until Spring Security OAuth2 2.0.0.M2 upgrade
+			scopes.put(OAuth2Utils.SCOPE_PREFIX + scope, "false");  //Spring Security OAuth2 2.0.0.M2 change
 		}
-		
-		//Requires Spring Security OAuth2 2.0.0.M2 support
 		for (Approval approval : approvalStore.getApprovals(principal.getName(), client.getClientId())) {
 			if (clientAuth.getScope().contains(approval.getScope())) {
 				scopes.put(OAuth2Utils.SCOPE_PREFIX + approval.getScope(),
@@ -72,13 +69,12 @@ public class AccessConfirmationController {
 		return "oauth_error";
 	}
 
-//	@Autowired	//Pivotal modification removed for testing...
 	public void setClientDetailsService(ClientDetailsService clientDetailsService) {
 		this.clientDetailsService = clientDetailsService;
 	}
 
-	//Requires Spring Security OAuth2 2.0.0.M2 support	
 	public void setApprovalStore(ApprovalStore approvalStore) {
 		this.approvalStore = approvalStore;
 	}
+	
 }

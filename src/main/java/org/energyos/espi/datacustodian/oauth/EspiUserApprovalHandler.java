@@ -29,7 +29,6 @@ import org.springframework.security.oauth2.provider.approval.ApprovalStoreUserAp
  * @author Dave Syer
  * 
  */
-
 public class EspiUserApprovalHandler extends ApprovalStoreUserApprovalHandler {
 	
 	private boolean useApprovalStore = true;
