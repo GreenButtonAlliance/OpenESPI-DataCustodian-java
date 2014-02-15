@@ -22,11 +22,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import org.energyos.espi.common.domain.ElectricPowerQualitySummary;
-import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.ElectricPowerQualitySummaryService;
 import org.energyos.espi.common.service.ExportService;
+import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
@@ -55,6 +55,9 @@ public class ElectricPowerQualitySummaryRESTController {
     
    @Autowired
    private ExportService exportService;
+   
+   @Autowired
+   private ResourceService resourceService;
 
 
     @ExceptionHandler(Exception.class)
@@ -168,15 +171,16 @@ public class ElectricPowerQualitySummaryRESTController {
     		@PathVariable long usagePointId,
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException {
-        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
-    	UsagePoint usagePoint = usagePointService.findById(usagePointId);
-        try {
-            ElectricPowerQualitySummary electricPowerQualitySummary = this.electricPowerQualitySummaryService.importResource(stream);
-            electricPowerQualitySummaryService.associateByUUID(usagePoint, electricPowerQualitySummary.getUUID());
-            exportService.exportElectricPowerQualitySummary(retailCustomerId, usagePointId, electricPowerQualitySummary.getId(),
-            		response.getOutputStream(), new ExportFilter(params));
 
+
+        try {
+        	if (null != resourceService.findIdByXPath(retailCustomerId, usagePointId, UsagePoint.class)) {
+        	    UsagePoint usagePoint = usagePointService.findById(usagePointId);
+        		ElectricPowerQualitySummary electricPowerQualitySummary = electricPowerQualitySummaryService.importResource(stream);
+               electricPowerQualitySummaryService.associateByUUID(usagePoint, electricPowerQualitySummary.getUUID());
+               exportService.exportElectricPowerQualitySummary(retailCustomerId, usagePointId, electricPowerQualitySummary.getId(),
+            		response.getOutputStream(), new ExportFilter(params));
+        	}
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
@@ -190,15 +194,16 @@ public class ElectricPowerQualitySummaryRESTController {
     		@PathVariable long electricPowerQualitySummaryId,
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException, FeedException {
-    	RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
-    	UsagePoint usagePoint = usagePointService.findById(usagePointId);
+
     	ElectricPowerQualitySummary electricPowerQualitySummary = electricPowerQualitySummaryService.findById(electricPowerQualitySummaryId);
  
         if (electricPowerQualitySummary != null) {
             try {
-            	
-                ElectricPowerQualitySummary newElectricPowerQualitySummary = electricPowerQualitySummaryService.importResource(stream);
-                electricPowerQualitySummary.merge(newElectricPowerQualitySummary);
+            	if (null != resourceService.findIdByXPath(retailCustomerId, usagePointId, electricPowerQualitySummaryId, ElectricPowerQualitySummary.class)) {
+                    ElectricPowerQualitySummary newElectricPowerQualitySummary = electricPowerQualitySummaryService.importResource(stream);
+                    electricPowerQualitySummary.merge(newElectricPowerQualitySummary);		
+            	}
+
             } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
@@ -212,12 +217,13 @@ public class ElectricPowerQualitySummaryRESTController {
     		@PathVariable long electricPowerQualitySummaryId,
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException, FeedException {
-    	RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
-    	UsagePoint usagePoint = usagePointService.findById(usagePointId);
-    	ElectricPowerQualitySummary electricPowerQualitySummary = electricPowerQualitySummaryService.findById(electricPowerQualitySummaryId);
-
-        if (electricPowerQualitySummary != null) {
-        	electricPowerQualitySummaryService.delete(electricPowerQualitySummary);
+    	try {
+         	if (null != resourceService.findIdByXPath(retailCustomerId, usagePointId, electricPowerQualitySummaryId, ElectricPowerQualitySummary.class)) {
+               resourceService.deleteById(electricPowerQualitySummaryId, ElectricPowerQualitySummary.class);
+         	}
+         	
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }    		
    
@@ -235,5 +241,9 @@ public class ElectricPowerQualitySummaryRESTController {
 
     public void setExportService(ExportService exportService) {
         this.exportService = exportService;
+    }
+    
+    public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
     }
 }

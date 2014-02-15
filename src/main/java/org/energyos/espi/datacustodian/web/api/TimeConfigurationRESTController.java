@@ -23,7 +23,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.TimeConfiguration;
 import org.energyos.espi.common.domain.UsagePoint;
@@ -171,7 +170,7 @@ public class TimeConfigurationRESTController {
     		InputStream stream) throws IOException {
     	
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-    	RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
+
         UsagePoint usagePoint = usagePointService.findById(usagePointId);
 
         try {
@@ -191,8 +190,7 @@ public class TimeConfigurationRESTController {
     		@PathVariable long timeConfigurationId,
     		@RequestParam Map<String, String> params, 
     		InputStream stream) {
-        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
-        UsagePoint usagePoint = usagePointService.findById(usagePointId);
+
         TimeConfiguration existingTimeConfiguration;
 
         existingTimeConfiguration = timeConfigurationService.findById(timeConfigurationId);
@@ -214,8 +212,6 @@ public class TimeConfigurationRESTController {
     		@PathVariable long timeConfigurationId,
     		@RequestParam Map<String, String> params, 
     		InputStream stream) {
-        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
-        UsagePoint usagePoint = usagePointService.findById(usagePointId);
 
         this.timeConfigurationService.deleteById(timeConfigurationId);
     }

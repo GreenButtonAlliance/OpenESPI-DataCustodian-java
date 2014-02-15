@@ -22,12 +22,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import org.energyos.espi.common.domain.ElectricPowerUsageSummary;
-import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.ElectricPowerUsageSummaryService;
 import org.energyos.espi.common.service.ExportService;
-import org.energyos.espi.common.service.RetailCustomerService;
+import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,10 +49,12 @@ public class ElectricPowerUsageSummaryRESTController {
     private ElectricPowerUsageSummaryService electricPowerUsageSummaryService;
     @Autowired
     private UsagePointService usagePointService;
-    @Autowired
-    private RetailCustomerService retailCustomerService;
+
     @Autowired
     private ExportService exportService;
+    
+    @Autowired
+    private ResourceService resourceService;
 
 
     @ExceptionHandler(Exception.class)
@@ -165,13 +166,14 @@ public class ElectricPowerUsageSummaryRESTController {
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
-    	UsagePoint usagePoint = usagePointService.findById(usagePointId);
-        try {
-            ElectricPowerUsageSummary electricPowerUsageSummary = this.electricPowerUsageSummaryService.importResource(stream);
-            electricPowerUsageSummaryService.associateByUUID(usagePoint, electricPowerUsageSummary.getUUID());
-            exportService.exportElectricPowerUsageSummary(retailCustomerId, usagePointId, electricPowerUsageSummary.getId(), response.getOutputStream(), new ExportFilter(params));
 
+        try {
+        	if (null != resourceService.findIdByXPath(retailCustomerId,usagePointId, ElectricPowerUsageSummary.class )) {
+            	UsagePoint usagePoint = usagePointService.findById(usagePointId);
+                ElectricPowerUsageSummary electricPowerUsageSummary = this.electricPowerUsageSummaryService.importResource(stream);
+                electricPowerUsageSummaryService.associateByUUID(usagePoint, electricPowerUsageSummary.getUUID());
+                exportService.exportElectricPowerUsageSummary(retailCustomerId, usagePointId, electricPowerUsageSummary.getId(), response.getOutputStream(), new ExportFilter(params));
+        	}
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
@@ -185,19 +187,17 @@ public class ElectricPowerUsageSummaryRESTController {
     		@PathVariable long electricPowerUsageSummaryId,
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException, FeedException {
-    	RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
-    	UsagePoint usagePoint = usagePointService.findById(usagePointId);
-    	ElectricPowerUsageSummary electricPowerUsageSummary = electricPowerUsageSummaryService.findById(electricPowerUsageSummaryId);
- 
-        if (electricPowerUsageSummary != null) {
-            try {
-            	
-                ElectricPowerUsageSummary newElectricPowerUsageSummary = electricPowerUsageSummaryService.importResource(stream);
-                electricPowerUsageSummary.merge(newElectricPowerUsageSummary);
+
+           try {
+               	if (null != resourceService.findIdByXPath(retailCustomerId,usagePointId, electricPowerUsageSummaryId, ElectricPowerUsageSummary.class )) {
+               		ElectricPowerUsageSummary electricPowerUsageSummary = resourceService.findById(electricPowerUsageSummaryId, ElectricPowerUsageSummary.class);
+                    ElectricPowerUsageSummary newElectricPowerUsageSummary = electricPowerUsageSummaryService.importResource(stream);
+                    electricPowerUsageSummary.merge(newElectricPowerUsageSummary);
+            	}
             } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
-        }
+    
     }
 
     @RequestMapping(value = Routes.ELECTRIC_POWER_USAGE_SUMMARY_MEMBER, method = RequestMethod.DELETE)
@@ -207,22 +207,20 @@ public class ElectricPowerUsageSummaryRESTController {
     		@PathVariable long electricPowerUsageSummaryId,
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException, FeedException {
-    	RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
-    	UsagePoint usagePoint = usagePointService.findById(usagePointId);
-    	ElectricPowerUsageSummary electricPowerUsageSummary = electricPowerUsageSummaryService.findById(electricPowerUsageSummaryId);
-
-        if (electricPowerUsageSummary != null) {
-        	electricPowerUsageSummaryService.delete(electricPowerUsageSummary);
+    	
+        try {
+           	if (null != resourceService.findIdByXPath(retailCustomerId,usagePointId, electricPowerUsageSummaryId, ElectricPowerUsageSummary.class )) {
+                resourceService.deleteById(electricPowerUsageSummaryId, ElectricPowerUsageSummary.class );
+           	}
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
-    }    		
+   }    		
    
     public void setElectricPowerUsageSummaryService(ElectricPowerUsageSummaryService electricPowerUsageSummaryService) {
         this.electricPowerUsageSummaryService = electricPowerUsageSummaryService;
     }
 
-    public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
-        this.retailCustomerService = retailCustomerService;
-    }
 
     public void setUsagePointService(UsagePointService usagePointService) {
         this.usagePointService = usagePointService;
