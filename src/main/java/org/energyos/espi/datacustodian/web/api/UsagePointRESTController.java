@@ -150,8 +150,6 @@ public class UsagePointRESTController {
        try {
            UsagePoint usagePoint = this.usagePointService.importResource(stream);
     	   
-           // TODO would like to just do a .add
-           // retailCustomerService.add(usagePoint);
            usagePointService.associateByUUID(retailCustomer, usagePoint.getUUID());
            exportService.exportUsagePoint(retailCustomerId, usagePoint.getId(), response.getOutputStream(), new ExportFilter(params));
 
