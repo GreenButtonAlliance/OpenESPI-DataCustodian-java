@@ -21,11 +21,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.energyos.espi.common.domain.ElectricPowerUsageSummary;
 import org.energyos.espi.common.domain.MeterReading;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.ExportService;
 import org.energyos.espi.common.service.MeterReadingService;
+import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
@@ -53,6 +55,9 @@ public class MeterReadingRESTController {
     private RetailCustomerService retailCustomerService;
     @Autowired
     private ExportService exportService;
+    
+    @Autowired
+    private ResourceService resourceService;
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -154,18 +159,17 @@ public class MeterReadingRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-		UsagePoint usagePoint = usagePointService.findById(new Long(
-				retailCustomerId), new Long(usagePointId));
-		try {
-			MeterReading meterReading = this.meterReadingService
-					.importResource(stream);
-			meterReadingService.associateByUUID(usagePoint,
-					meterReading.getUUID());
-	           exportService.exportMeterReading(retailCustomerId, usagePointId, meterReading.getId(), response.getOutputStream(), new ExportFilter(params));
-	           
-		} catch (Exception e) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-		}
+
+        try {
+        	if (null != resourceService.findIdByXPath(retailCustomerId,usagePointId, UsagePoint.class )) {
+            	UsagePoint usagePoint = usagePointService.findById(usagePointId);
+                MeterReading meterReading = meterReadingService.importResource(stream);
+                meterReadingService.associateByUUID(usagePoint, meterReading.getUUID());
+                exportService.exportMeterReading(retailCustomerId, usagePointId, meterReading.getId(), response.getOutputStream(), new ExportFilter(params));
+        	}
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
 	}
 
     //
@@ -220,4 +224,7 @@ public class MeterReadingRESTController {
     	this.exportService = exportService;
     }
 
+    public void seResourceService(ResourceService resourceService) {
+    	this.resourceService = resourceService;
+    }
 }

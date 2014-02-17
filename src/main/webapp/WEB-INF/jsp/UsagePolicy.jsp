@@ -27,13 +27,50 @@
 <div class="container">
     <div class="row">
         <div class="span12">
-            <h2>Usage Policy</h2>
+<h1>End User Acceptable Use Policy</h1>
+This is an Acceptable Use Policy for the server running at nominatim.openstreetmap.org and does not apply to Green Button Services run by yourself or other organizations. 
 
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquam, tellus a facilisis mattis, nisl nibh volutpat risus, eu dictum nibh magna euismod mi. Aenean id mauris sed quam gravida pharetra eu quis erat. In tincidunt elit quis nisl sollicitudin euismod. Maecenas in auctor lorem. Nunc nec lorem ut ante placerat consectetur. Duis volutpat velit eu faucibus fermentum. Pellentesque tempor arcu at felis scelerisque, sed semper magna hendrerit. Donec at turpis ac magna suscipit pellentesque. Praesent eu hendrerit lectus. Vivamus et ornare turpis. Vivamus bibendum odio in nisi laoreet, eget accumsan nibh posuere. Donec vel nunc placerat, gravida neque nec, vestibulum nibh. Nulla id nisi a mi porta tincidunt hendrerit non ante.</p>
-            <p>Sed fringilla magna massa, nec porta nisl malesuada ut. Morbi varius scelerisque ante eu dignissim. Nulla vehicula, purus eget ultrices lobortis, est sem imperdiet diam, nec placerat eros arcu auctor augue. Curabitur dapibus tellus vitae enim dictum, hendrerit posuere nibh cursus. Aliquam dictum porttitor ultrices. Ut consequat, risus vel pretium malesuada, felis odio condimentum magna, quis tincidunt dolor diam consequat odio. Curabitur scelerisque erat arcu, eu placerat massa condimentum non. Proin vulputate, erat sed vehicula porta, metus velit tristique augue, et feugiat turpis augue in ligula. Quisque vel dictum dui. Morbi ac pellentesque erat, in mollis mi. Nullam pretium, nunc id lacinia elementum, nunc metus pharetra metus, pretium euismod purus metus at dui. Phasellus id consequat dolor, eget semper neque. Cras arcu est, euismod et nisl nec, tincidunt ultrices urna. Maecenas commodo, turpis suscipit varius viverra, lectus purus mattis elit, blandit varius turpis turpis sed elit. Nam ac varius tortor.</p>
-            <p>Fusce quis odio augue. Mauris posuere felis nec lacus pretium fringilla. Ut non magna et purus elementum hendrerit sit amet non enim. Aenean vitae blandit erat. Mauris porta massa sed interdum suscipit. Integer eu nisl vitae ante rutrum adipiscing in non leo. Aliquam ac eleifend odio. Curabitur a nisl ut enim elementum consequat. Fusce rutrum nulla in diam iaculis ornare. In non luctus quam. Quisque nec massa fringilla, accumsan dolor vitae, tempor dolor.</p>
-            <p>Maecenas est odio, hendrerit at facilisis a, interdum sed diam. Proin nec ultricies sapien. Duis iaculis sollicitudin fermentum. Aliquam ac diam commodo, condimentum est nec, egestas mauris. Sweet lollipop cookie liquorice sugar plum oat cake oat cake dessert. Cake biscuit powder carrot cake. Powder sweet roll cupcake souffle applicake jujubes caramels biscuit.</p>
-            <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fruitcake sugar plum cheesecake gummies liquorice chocolate cake marzipan pudding halvah. Chupa chups tootsie roll sesame snaps pudding liquorice gingerbread applicake sugar plum. Pastry icing cotton candy halvah bonbon wafer tiramisu. Bonbon sweet pudding sugar plum gummi bears. Topping macaroon candy fruitcake liquorice gummies oat cake jujubes. Cake fruitcake jelly tart. Sweet roll icing tart topping tootsie roll icing pudding cake. </p>
+EnergyOS.org's Green Button DataCustodian and ThirdParty services provide Industry Standard Green Button Connect My Data and Download My Data services.  We are in principle happy for the public API to be used by external users for creative and unexpected uses. However, be aware that the service runs on donated servers and has a very limited capacity. We therefore ask you to limit your use and adhere to this usage policy.
+
+<h2>Requirements</h2>
+
+<ul>
+<li>No heavy uses (an absolute maximum of 1 request/s).</li>
+<li>Provide a valid HTTP Referrer or User-Agent identifying the application (stock User-Agents as set by http libraries will not do).</li>
+<li>Clearly display attribution as suitable for your medium.</li>
+<li>Data is provided under the Creative Commons license which requires to share alike (although small extractions are likely to be covered by fair usage / fair dealing).</li>
+</ul>
+<h2>Websites and Apps</h2>
+
+Use that is directly triggered by the end-user (for example, user searches for something) is ok, provided that your number of users is moderate. Note that the usage limits above apply per website/ application: the sum of traffic by all your users should not exceed the limits.
+<p>
+Apps must make sure that they can switch the service at our request at any time (in particular, switching should be possible without requiring a software update). If anyhow possible, set up a proxy and also enable caching of requests.
+
+<h2>Bulk Uploading and Downloading</h2>
+<p>
+As a general rule, bulk movement of Energy Usage Information of larger amounts of data is not encouraged. If you have regular data movement tasks, please, look into alternatives below. Smaller one-time bulk tasks may be permissible, if these additional rules are followed
+
+<ul>
+    <li>limit your requests to a single thread</li>
+    <li>limited to 1 machine only, no distributed scripts (including multiple Amazon EC2 instances or similar)</li>
+    <li>Results must be cached on your side. Clients sending repeatedly the same query may be classified as faulty and blocked.</li>
+</ul>
+
+<h2>Unacceptable Use</h2>
+
+The following uses are strictly forbidden and will get you banned:
+<ul>
+    <li>Bulk upload of data that is not expressly approved by the owner of the data for public display</li>
+    <li>Multiple, high volume transaction requests for data through the RESTful API</li>
+</ul>
+
+<h2>Changes to this Policy</h2>
+
+Please be aware that this usage policy may change without notice. In particular, the definition of heavy use may need to be modified in the future and you might have your access withdrawn. Commercial applications should keep that in mind when relying on this API for serving paying customers.
+
+<h2>Alternatives</h2>
+
+For slightly larger requirements you may deploy the services provided here on your own machines. The source code and release packages for the EnergyOS.org Green Button Services are readily available at <a href="http://github.com/energyos/">github.com/energyos</a>
         </div>
     </div>
 
