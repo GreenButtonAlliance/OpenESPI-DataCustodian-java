@@ -24,6 +24,7 @@ import org.energyos.espi.datacustodian.BaseTest;
 import org.energyos.espi.datacustodian.utils.factories.ATOMFactory;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +93,7 @@ public class EntryProcessorTests extends BaseTest {
     }
 
     @Test
+    @Ignore
     public void link_linkRelated() {
         String relatedLink = UUID.randomUUID().toString();
         MeterReading meterReading  = EspiFactory.newMeterReading();
