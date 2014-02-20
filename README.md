@@ -16,13 +16,15 @@ git clone https://github.com/energyos/OpenESPI-DataCustodian.git
 cd OpenESPI-DataCustodian/
 ```
 
-Start tomcat7 using maven:
+
+Build and start tomcat7 using maven (note: you must have first built the OpenESPI-Common-java jar):
 
 ```bash
 mvn tomcat7:run
 ```
 
-Now the application should be available at [http://localhost:8080/retailcustomers](http://localhost:8080/retailcustomers).
+Now the application should be available at [http://localhost:8080/retailcustomers](http://localhost:8080/DataCustodian).
+
 ## Building
 ```bash
 # for the default test profile
