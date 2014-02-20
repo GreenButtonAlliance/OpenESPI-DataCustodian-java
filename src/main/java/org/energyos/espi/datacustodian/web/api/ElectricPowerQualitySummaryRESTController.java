@@ -127,10 +127,10 @@ public class ElectricPowerQualitySummaryRESTController {
     		@PathVariable long electricPowerQualitySummaryId,
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException, FeedException {
-    	ElectricPowerQualitySummary electricPowerQualitySummary = electricPowerQualitySummaryService.findById(electricPowerQualitySummaryId);
-
-        if (electricPowerQualitySummary != null) {
-        	electricPowerQualitySummaryService.delete(electricPowerQualitySummary);
+        try { 
+        	   resourceService.deleteById(electricPowerQualitySummaryId, ElectricPowerQualitySummary.class);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);  
         }
     }    		
 
@@ -217,14 +217,12 @@ public class ElectricPowerQualitySummaryRESTController {
     		@PathVariable long electricPowerQualitySummaryId,
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException, FeedException {
-    	try {
-         	if (null != resourceService.findIdByXPath(retailCustomerId, usagePointId, electricPowerQualitySummaryId, ElectricPowerQualitySummary.class)) {
-               resourceService.deleteById(electricPowerQualitySummaryId, ElectricPowerQualitySummary.class);
-         	}
-         	
+        try {
+            resourceService.deleteByXPathId(retailCustomerId, usagePointId, electricPowerQualitySummaryId, ElectricPowerQualitySummary.class); 
+
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        }
+        } 
     }    		
    
     public void setElectricPowerQualitySummaryService(ElectricPowerQualitySummaryService electricPowerQualitySummaryService) {

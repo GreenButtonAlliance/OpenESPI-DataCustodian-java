@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.energyos.espi.common.domain.ReadingType;
 import org.energyos.espi.common.domain.Routes;
+import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.ExportService;
 import org.energyos.espi.common.service.ReadingTypeService;
 import org.energyos.espi.common.service.ResourceService;
@@ -108,11 +109,10 @@ public class ReadingTypeRESTController {
     public void delete(HttpServletResponse response, 
     		@PathVariable long readingTypeId,
     		@RequestParam Map<String, String> params) throws IOException {
-        ReadingType readingType = readingTypeService.findById(readingTypeId);
-
-        if (readingType != null) {
-            this.readingTypeService.deleteById(readingTypeId);
-
+        try { 
+        	   resourceService.deleteById(readingTypeId, ReadingType.class);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);  
         }
     }
 
@@ -181,14 +181,13 @@ public class ReadingTypeRESTController {
     		@PathVariable long meterReadingId,
     		@PathVariable long readingTypeId,
     		@RequestParam Map<String, String> params) throws IOException {
-    	try {
-    		resourceService.findIdByXPath(retailCustomerId, usagePointId, meterReadingId, readingTypeId, ReadingType.class);
-            this.readingTypeService.deleteById(readingTypeId);
-            
-    	} catch (Exception e) {
-    		// nothing to delete
-        	response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-    	}
+
+        try {
+            resourceService.deleteByXPathId(retailCustomerId, usagePointId, meterReadingId, readingTypeId, ReadingType.class); 
+
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        } 
 
     }
 

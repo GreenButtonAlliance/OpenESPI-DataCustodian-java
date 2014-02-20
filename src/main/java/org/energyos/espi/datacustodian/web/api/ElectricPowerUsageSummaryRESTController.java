@@ -123,10 +123,10 @@ public class ElectricPowerUsageSummaryRESTController {
     		@PathVariable long electricPowerUsageSummaryId,
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException, FeedException {
-    	ElectricPowerUsageSummary electricPowerUsageSummary = electricPowerUsageSummaryService.findById(electricPowerUsageSummaryId);
-
-        if (electricPowerUsageSummary != null) {
-        	electricPowerUsageSummaryService.delete(electricPowerUsageSummary);
+        try { 
+        	   resourceService.deleteById(electricPowerUsageSummaryId, ElectricPowerUsageSummary.class);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);  
         }
     }    		
 
@@ -209,12 +209,11 @@ public class ElectricPowerUsageSummaryRESTController {
     		InputStream stream) throws IOException, FeedException {
     	
         try {
-           	if (null != resourceService.findIdByXPath(retailCustomerId,usagePointId, electricPowerUsageSummaryId, ElectricPowerUsageSummary.class )) {
-                resourceService.deleteById(electricPowerUsageSummaryId, ElectricPowerUsageSummary.class );
-           	}
+            resourceService.deleteByXPathId(retailCustomerId, usagePointId, electricPowerUsageSummaryId, ElectricPowerUsageSummary.class); 
+
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        }
+        } 
    }    		
    
     public void setElectricPowerUsageSummaryService(ElectricPowerUsageSummaryService electricPowerUsageSummaryService) {

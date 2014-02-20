@@ -24,9 +24,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.energyos.espi.common.domain.IntervalBlock;
 import org.energyos.espi.common.domain.MeterReading;
 import org.energyos.espi.common.domain.Routes;
+import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.ExportService;
 import org.energyos.espi.common.service.IntervalBlockService;
 import org.energyos.espi.common.service.MeterReadingService;
+import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
@@ -48,14 +50,21 @@ public class IntervalBlockRESTController {
 
     @Autowired
     private IntervalBlockService intervalBlockService;
+    
     @Autowired
     private RetailCustomerService retailCustomerService;
+    
     @Autowired
     private UsagePointService usagePointService;
+    
     @Autowired
     private MeterReadingService meterReadingService;
+    
     @Autowired
     private ExportService exportService;
+    
+    @Autowired
+    private ResourceService resourceService;
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -123,9 +132,11 @@ public class IntervalBlockRESTController {
     		@PathVariable long intervalBlockId,
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException, FeedException {
-        IntervalBlock intervalBlock = intervalBlockService.findById(intervalBlockId);
-        if (intervalBlock != null) {
-        	intervalBlockService.delete(intervalBlock);
+
+        try { 
+        	   resourceService.deleteById(intervalBlockId, IntervalBlock.class);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);  
         }
     }
 
@@ -211,10 +222,13 @@ public class IntervalBlockRESTController {
     		@PathVariable long intervalBlockId,
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException, FeedException {
-        IntervalBlock intervalBlock = intervalBlockService.findById(retailCustomerId, usagePointId, meterReadingId, intervalBlockId);
-        if (intervalBlock != null) {
-        	intervalBlockService.delete(intervalBlock);
-        }
+		try {
+			resourceService.deleteByXPathId(retailCustomerId, usagePointId, meterReadingId, intervalBlockId,
+					IntervalBlock.class);
+
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		} 
     }
 
     public void setUsagePointService(UsagePointService usagePointService) {
@@ -231,5 +245,9 @@ public class IntervalBlockRESTController {
     
     public void setExportService(ExportService exportService) {
     	this.exportService = exportService;
+    }
+    
+    public void setResourceService(ResourceService resourceService) {
+    	this.resourceService = resourceService;
     }
 }

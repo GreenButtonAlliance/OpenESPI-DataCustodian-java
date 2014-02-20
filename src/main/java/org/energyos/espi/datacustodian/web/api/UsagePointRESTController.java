@@ -26,6 +26,7 @@ import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.ExportService;
+import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
@@ -33,6 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,160 +47,199 @@ import com.sun.syndication.io.FeedException;
 @Controller
 public class UsagePointRESTController {
 
-   @Autowired
-   private UsagePointService usagePointService;
-   @Autowired
-   private RetailCustomerService retailCustomerService;
-   @Autowired
-   private ExportService exportService;
+	@Autowired
+	private UsagePointService usagePointService;
+	
+	@Autowired
+	private RetailCustomerService retailCustomerService;
+	
+	@Autowired
+	private ExportService exportService;
 
-   @ExceptionHandler(Exception.class)
-   @ResponseStatus(HttpStatus.BAD_REQUEST)
-   public void handleGenericException() {}
+	@Autowired
+	private ResourceService resourceService;
 
-   // first the RESTful Interface to the ROOT Objects
-   @RequestMapping(value = Routes.ROOT_USAGE_POINT_COLLECTION, method = RequestMethod.GET)
-   public void index(HttpServletResponse response, 
-   		@RequestParam Map<String, String> params) throws IOException, FeedException {
-       response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);    	
-       exportService.exportUsagePoints(response.getOutputStream(), new ExportFilter(params));
-   }
+	@ExceptionHandler(Exception.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public void handleGenericException() {
+	}
 
-   @RequestMapping(value = Routes.ROOT_USAGE_POINT_MEMBER, method = RequestMethod.GET)
-   public void show(HttpServletResponse response, 
-   		@PathVariable Long usagePointId,
-   		@RequestParam Map<String, String> params) throws IOException, FeedException {
-       response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);    	
-       try {
-           exportService.exportUsagePoint(usagePointId, response.getOutputStream(), new ExportFilter(params));
-       } catch (Exception e) {
-           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-       }  
-       }
+	// first the RESTful Interface to the ROOT Objects
+	@RequestMapping(value = Routes.ROOT_USAGE_POINT_COLLECTION, method = RequestMethod.GET)
+	public void index(HttpServletResponse response,
+			@RequestParam Map<String, String> params) throws IOException,
+			FeedException {
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 
-   @RequestMapping(value = Routes.ROOT_USAGE_POINT_COLLECTION, method = RequestMethod.POST)
-   public void create(HttpServletResponse response, @RequestParam Map<String, String> params, InputStream stream) throws IOException {
-       response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE); 
-	   try {
-           UsagePoint usagePoint = this.usagePointService.importResource(stream);
-           exportService.exportUsagePoint(usagePoint.getId(), response.getOutputStream(), new ExportFilter(params));
-       } catch (Exception e) {
-           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-       }
-   }
+		try {
+			
+			exportService.exportUsagePoints(response.getOutputStream(), new ExportFilter(params));
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
 
+	}
 
-   @RequestMapping(value = Routes.ROOT_USAGE_POINT_MEMBER, method = RequestMethod.PUT)
-   public void update(HttpServletResponse response, @PathVariable Long usagePointId,
-   		@RequestParam Map<String, String> params, InputStream stream) {
-   	UsagePoint usagePoint = usagePointService.findById(usagePointId);
-   	 
-       if (usagePoint != null) {
-           try {
-           	
-               UsagePoint newUsagePoint = usagePointService.importResource(stream);
-               usagePoint.merge(newUsagePoint);
-           } catch (Exception e) {
-               response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-           }
-       }
-   }
+	@RequestMapping(value = Routes.ROOT_USAGE_POINT_MEMBER, method = RequestMethod.GET)
+	public void show(HttpServletResponse response,
+			@PathVariable Long usagePointId,
+			@RequestParam Map<String, String> params) throws IOException,
+			FeedException {
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 
-   @RequestMapping(value = Routes.ROOT_USAGE_POINT_MEMBER, method = RequestMethod.DELETE)
-   public void delete(HttpServletResponse response, @PathVariable Long usagePointId,
-   		@RequestParam Map<String, String> params) {
-   	UsagePoint usagePoint = usagePointService.findById(usagePointId);
+		try {
+			exportService.exportUsagePoint(usagePointId, response.getOutputStream(), new ExportFilter(params));
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+	}
 
-       if (usagePoint != null) {
-       	usagePointService.delete(usagePoint);
-       }
-   }
+	@RequestMapping(value = Routes.ROOT_USAGE_POINT_COLLECTION, method = RequestMethod.POST)
+	public void create(HttpServletResponse response,
+			@RequestParam Map<String, String> params, InputStream stream)
+			throws IOException {
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+		try {
+			UsagePoint usagePoint = this.usagePointService
+					.importResource(stream);
+			exportService.exportUsagePoint(usagePoint.getId(), response.getOutputStream(), new ExportFilter(params));
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+	}
 
+	@RequestMapping(value = Routes.ROOT_USAGE_POINT_MEMBER, method = RequestMethod.PUT)
+	public void update(HttpServletResponse response,
+			@PathVariable Long usagePointId,
+			@RequestParam Map<String, String> params, InputStream stream) {
+		UsagePoint usagePoint = usagePointService.findById(usagePointId);
 
+		if (usagePoint != null) {
+			try {
 
-   // now the RESTful Interface to the XPath Objects
-   //
-   @RequestMapping(value = Routes.USAGE_POINT_COLLECTION, method = RequestMethod.GET)
-   public void index(HttpServletResponse response, 
-		   @PathVariable Long retailCustomerId,
-   		   @RequestParam Map<String, String> params) throws IOException, FeedException {
-       response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);    	
-       exportService.exportUsagePoints(retailCustomerId, response.getOutputStream(), new ExportFilter(params));
-   }
+				UsagePoint newUsagePoint = usagePointService.importResource(stream);
+				usagePoint.merge(newUsagePoint);
+			} catch (Exception e) {
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			}
+		}
+	}
 
-   @RequestMapping(value = Routes.USAGE_POINT_MEMBER, method = RequestMethod.GET)
-   public void show(HttpServletResponse response, 
-		   @PathVariable Long retailCustomerId, 
-		   @PathVariable Long usagePointId,
-   		   @RequestParam Map<String, String> params) throws IOException, FeedException {
-       response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);    	
-       try {
-           exportService.exportUsagePoint(retailCustomerId, usagePointId, response.getOutputStream(), new ExportFilter(params));
-       } catch (Exception e) {
-           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-       }  
-       }
+	@RequestMapping(value = Routes.ROOT_USAGE_POINT_MEMBER, method = RequestMethod.DELETE)
+	public void delete(HttpServletResponse response,
+			@PathVariable Long usagePointId,
+			@RequestParam Map<String, String> params) {
 
-   @RequestMapping(value = Routes.USAGE_POINT_COLLECTION, method = RequestMethod.POST)
-   public void create(HttpServletResponse response,
-		   @PathVariable Long retailCustomerId,
-   		   @RequestParam Map<String, String> params, 
-   		   InputStream stream) throws IOException {
-       response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE); 
-	   
-       RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
-       try {
-           UsagePoint usagePoint = this.usagePointService.importResource(stream);
-    	   
-           usagePointService.associateByUUID(retailCustomer, usagePoint.getUUID());
-           exportService.exportUsagePoint(retailCustomerId, usagePoint.getId(), response.getOutputStream(), new ExportFilter(params));
+		try {
+			resourceService.deleteById(usagePointId, UsagePoint.class);
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+	}
 
-       } catch (Exception e) {
-           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-       }
-   }
+	// now the RESTful Interface to the XPath Objects
+	//
+	@RequestMapping(value = Routes.USAGE_POINT_COLLECTION, method = RequestMethod.GET)
+	public void index(HttpServletResponse response,
+			@PathVariable Long retailCustomerId,
+			@RequestParam Map<String, String> params) throws IOException,
+			FeedException {
+		
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 
+		try {
+			exportService.exportUsagePoints(retailCustomerId,response.getOutputStream(), new ExportFilter(params));
+			
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+	}
 
-   @RequestMapping(value = Routes.USAGE_POINT_MEMBER, method = RequestMethod.PUT)
-   public void update(HttpServletResponse response, 
-		   @PathVariable Long retailCustomerId, 
-		   @PathVariable Long usagePointId,
-   		   @RequestParam Map<String, String> params, InputStream stream) {
+	@RequestMapping(value = Routes.USAGE_POINT_MEMBER, method = RequestMethod.GET)
+	public void show(HttpServletResponse response,
+			@PathVariable Long retailCustomerId,
+			@PathVariable Long usagePointId,
+			@RequestParam Map<String, String> params) throws IOException,
+			FeedException {
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+		try {
+			exportService.exportUsagePoint(retailCustomerId, usagePointId,
+					response.getOutputStream(), new ExportFilter(params));
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+	}
 
-   	UsagePoint usagePoint = usagePointService.findById(retailCustomerId, usagePointId);
-   	 
-       if (usagePoint != null) {
-           try {
-           	
-               UsagePoint newUsagePoint = usagePointService.importResource(stream);
-               usagePoint.merge(newUsagePoint);
-           } catch (Exception e) {
-               response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-           }
-       }
-   }
+	@RequestMapping(value = Routes.USAGE_POINT_COLLECTION, method = RequestMethod.POST)
+	public void create(HttpServletResponse response,
+			@PathVariable Long retailCustomerId,
+			@RequestParam Map<String, String> params, InputStream stream)
+			throws IOException {
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 
-   @RequestMapping(value = Routes.USAGE_POINT_MEMBER, method = RequestMethod.DELETE)
-   public void delete(HttpServletResponse response, 
-		   @PathVariable Long retailCustomerId, 
-		   @PathVariable Long usagePointId,
-   		   @RequestParam Map<String, String> params) {
-   	UsagePoint usagePoint = usagePointService.findById(retailCustomerId, usagePointId);
+		RetailCustomer retailCustomer = retailCustomerService
+				.findById(retailCustomerId);
+		try {
+			UsagePoint usagePoint = this.usagePointService.importResource(stream);
 
-       if (usagePoint != null) {
-       	usagePointService.delete(usagePoint);
-       }
-   }
+			usagePointService.associateByUUID(retailCustomer, usagePoint.getUUID());
+			exportService.exportUsagePoint(retailCustomerId, usagePoint.getId(), response.getOutputStream(),
+					new ExportFilter(params));
 
-   public void setUsagePointService(UsagePointService usagePointService) {
-       this.usagePointService = usagePointService;
-   }
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+	}
 
-   public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
-       this.retailCustomerService = retailCustomerService;
-   }
+	@RequestMapping(value = Routes.USAGE_POINT_MEMBER, method = RequestMethod.PUT)
+	public void update(HttpServletResponse response,
+			@PathVariable Long retailCustomerId,
+			@PathVariable Long usagePointId,
+			@RequestParam Map<String, String> params, InputStream stream) {
 
-   public void setExportService(ExportService exportService) {
-   	this.exportService = exportService;
-   }
+			try {
+				
+				Long id = resourceService.findIdByXPath(retailCustomerId, usagePointId, UsagePoint.class);
+				UsagePoint usagePoint = resourceService.findById(id, UsagePoint.class);
+				UsagePoint newUsagePoint = usagePointService.importResource(stream);
+				usagePoint.merge(newUsagePoint);
+			} catch (Exception e) {
+				
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			}
+	
+	}
+
+	@RequestMapping(value = Routes.USAGE_POINT_MEMBER, method = RequestMethod.DELETE)
+	public void delete(HttpServletResponse response,
+			@PathVariable Long retailCustomerId,
+			@PathVariable Long usagePointId,
+			@RequestParam Map<String, String> params) {
+
+		try {
+			resourceService.deleteByXPathId(retailCustomerId, usagePointId,
+					UsagePoint.class);
+
+		} catch (Exception e) {
+			System.out.printf("****Delete Error: %s - %s\n", UsagePoint.class, e.toString());
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+	}
+
+	public void setUsagePointService(UsagePointService usagePointService) {
+		this.usagePointService = usagePointService;
+	}
+
+	public void setRetailCustomerService(
+			RetailCustomerService retailCustomerService) {
+		this.retailCustomerService = retailCustomerService;
+	}
+
+	public void setExportService(ExportService exportService) {
+		this.exportService = exportService;
+	}
+
+	public void setResourceService(ResourceService resourceService) {
+		this.resourceService = resourceService;
+	}
 }

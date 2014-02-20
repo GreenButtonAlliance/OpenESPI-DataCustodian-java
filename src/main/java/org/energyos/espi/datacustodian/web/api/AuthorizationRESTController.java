@@ -22,8 +22,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.energyos.espi.common.domain.Authorization;
 import org.energyos.espi.common.domain.Routes;
+import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.AuthorizationService;
 import org.energyos.espi.common.service.ExportService;
+import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.utils.ExportFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +52,9 @@ public class AuthorizationRESTController {
     
     @Autowired
     private ExportService exportService;
+    
+    @Autowired
+    private ResourceService resourceService;
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -117,10 +122,10 @@ public class AuthorizationRESTController {
     		@PathVariable long authorizationId,
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException, FeedException {
-    	Authorization authorization = authorizationService.findById(authorizationId);
-
-        if (authorization != null) {
-        	authorizationService.delete(authorization);
+        try { 
+        	   resourceService.deleteById(authorizationId, Authorization.class);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);  
         }
     }    		
    
@@ -207,4 +212,9 @@ public class AuthorizationRESTController {
     public void setExportService(ExportService exportService) {
         this.exportService = exportService;
     }
+    
+    public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+    }
+    
 }

@@ -22,8 +22,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Routes;
+import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.service.ExportService;
+import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.utils.ExportFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,6 +48,9 @@ public class ApplicationInformationRESTController {
     
     @Autowired
     private ExportService exportService;
+    
+    @Autowired
+    private ResourceService resourceService;
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -114,9 +119,10 @@ public class ApplicationInformationRESTController {
     		@PathVariable long applicationInformationId,
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException, FeedException {
-    	ApplicationInformation applicationInformation = applicationInformationService.findById(applicationInformationId);
-        if (applicationInformation != null) {
-        	applicationInformationService.delete(applicationInformation);
+        try { 
+        	   resourceService.deleteById(applicationInformationId, ApplicationInformation.class);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);  
         }
     }    		
    
@@ -127,4 +133,9 @@ public class ApplicationInformationRESTController {
     public void setExportService(ExportService exportService) {
         this.exportService = exportService;
     }
+
+    public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+    }
+    
 }

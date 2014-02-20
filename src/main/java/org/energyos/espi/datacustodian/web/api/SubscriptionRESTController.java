@@ -24,7 +24,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.Subscription;
+import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.ExportService;
+import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.SubscriptionService;
 import org.energyos.espi.common.utils.ExportFilter;
@@ -44,7 +46,14 @@ public class SubscriptionRESTController {
 
     @Autowired
     private ExportService exportService;
+    
+    @Autowired
+    private ResourceService resourceService;
+    
+    @Autowired
 	private SubscriptionService subscriptionService;
+    
+    @Autowired
 	private RetailCustomerService retailCustomerService;
 
     // original Pivotal Code
@@ -114,10 +123,10 @@ public class SubscriptionRESTController {
     		@PathVariable long subscriptionId,
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException, FeedException {
-    	Subscription subscription = subscriptionService.findById(subscriptionId);
-
-        if (subscription != null) {
-        	subscriptionService.delete(subscription);
+        try { 
+        	   resourceService.deleteById(subscriptionId, Subscription.class);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);  
         }
     }    		
    
@@ -184,11 +193,12 @@ public class SubscriptionRESTController {
     		@PathVariable long subscriptionId,
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException, FeedException {
-    	Subscription subscription = subscriptionService.findById(retailCustomerId, subscriptionId);
+        try {
+            resourceService.deleteByXPathId(retailCustomerId, subscriptionId, Subscription.class); 
 
-        if (subscription != null) {
-        	subscriptionService.delete(subscription);
-        }
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }  
     }    		
    
     public void setSubscriptionService(SubscriptionService subscriptionService) {
@@ -199,6 +209,10 @@ public class SubscriptionRESTController {
         this.exportService = exportService;
     }
 
+    public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+    }
+    
     public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
         this.retailCustomerService = retailCustomerService;
     }

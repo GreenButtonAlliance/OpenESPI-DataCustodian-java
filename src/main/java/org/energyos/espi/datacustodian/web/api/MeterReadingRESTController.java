@@ -117,10 +117,10 @@ public class MeterReadingRESTController {
     public void delete(HttpServletResponse response, 
     		@PathVariable long meterReadingId    		
     		) {
-        MeterReading meterReading = meterReadingService.findById(meterReadingId);
-       
-        if (meterReading != null) {
-            this.meterReadingService.delete(meterReading);
+        try { 
+        	resourceService.deleteById(meterReadingId, MeterReading.class);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);  
         }
     }
 
@@ -201,11 +201,12 @@ public class MeterReadingRESTController {
     		@PathVariable long meterReadingId    		
     		) {
 
-        MeterReading meterReading = meterReadingService.findById(retailCustomerId, usagePointId, meterReadingId);
-       
-        if (meterReading != null) {
-            this.meterReadingService.delete(meterReading);
-        }
+		try {
+			resourceService.deleteByXPathId(retailCustomerId, usagePointId, meterReadingId, MeterReading.class);
+
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}   
     }
 
     public void setMeterReadingService(MeterReadingService meterReadingService) {
