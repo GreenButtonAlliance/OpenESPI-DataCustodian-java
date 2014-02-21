@@ -16,13 +16,23 @@ git clone https://github.com/energyos/OpenESPI-DataCustodian.git
 cd OpenESPI-DataCustodian/
 ```
 
-Start tomcat7 using maven:
+
+Build and start tomcat7 using maven (note: you must have first built the OpenESPI-Common-java jar):
 
 ```bash
 mvn tomcat7:run
 ```
 
-Now the application should be available at [http://localhost:8080/retailcustomers](http://localhost:8080/retailcustomers).
+Now the application should be available at [http://localhost:8080/retailcustomers](http://localhost:8080/DataCustodian).
+
+## Building
+```bash
+# for the default test profile
+mvn clean install
+
+# or for a specific profile
+mvn -P <profile name> -Dmaven.test.skip=true clean install
+```
 
 ## IDE Setup
 
@@ -33,6 +43,25 @@ Open Eclipse and import a Maven project (File > Import... > Maven > Existing Mav
 ### Spring Tool Suite Setup
 
 Open Spring Tool Suite and import a Maven project (File > Import... > Maven > Existing Maven Projects).
+To Run from within STS:
+
+right click on project and select RunOnServer
+
+
+To run the DC and/or the TP:
+
+do a maven build and install accordingly. Then the WAR files will be in the right position.
+
+To Start server:
+
+```bash
+sudo /home/bitnami/springsource/vfabric-tc-server-developer-2.9.3.RELEASE/base-instance/bin/tcruntime-ctl.sh start
+```
+To Stop server:
+
+```bash
+sudo /home/bitnami/springsource/vfabric-tc-server-developer-2.9.3.RELEASE/base-instance/bin/tcruntime-ctl.sh stop
+```
 
 ### IntelliJ Setup
 
