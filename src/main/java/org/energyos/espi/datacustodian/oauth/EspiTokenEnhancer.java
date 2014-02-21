@@ -78,7 +78,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
         authorization.setExpiresIn((long) accessToken.getExpiresIn());
         
 		if(accessToken.getRefreshToken() != null) {
-			authorization.setRefreshToken(accessToken.getRefreshToken());			
+			authorization.setRefreshToken(accessToken.getRefreshToken().toString());			
 		}
 		
 		// Remove "[" and "]" surrounding Scope in accessToken structure

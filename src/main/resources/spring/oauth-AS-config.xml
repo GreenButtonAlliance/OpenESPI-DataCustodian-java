@@ -152,7 +152,7 @@
 			secret="secret"
 			access-token-validity="360"
 			refresh-token-validity="3600"
-			scope="FB=4_5_15;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13,FB=4_5_16;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13"
+			scope="FB=4_5_15;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13,FB=4_5_15;IntervalDuration=900;BlockDuration=monthly;HistoryLength=13"
 			authorized-grant-types="authorization_code,refresh_token"
 			authorities="ROLE_USER"  />
 
