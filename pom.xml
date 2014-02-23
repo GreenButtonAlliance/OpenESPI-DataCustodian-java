@@ -102,7 +102,7 @@
     <properties>
         <!-- Spring -->
         <spring.version>4.0.1.RELEASE</spring.version>
-        <spring.security.version>3.2.0.RELEASE</spring.security.version>
+        <spring.security.version>3.2.1.RELEASE</spring.security.version>
         <spring-data-jpa.version>1.4.3.RELEASE</spring-data-jpa.version>
         <spring-security-oauth.version>2.0.0.BUILD-SNAPSHOT</spring-security-oauth.version>
         <apache-httpcomponent.version>4.3.2</apache-httpcomponent.version>
