@@ -5,14 +5,9 @@ import org.energyos.espi.common.domain.Subscription;
 import org.energyos.espi.common.service.NotificationService;
 import org.energyos.espi.common.service.SubscriptionService;
 import org.energyos.espi.datacustodian.web.BaseController;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Controller;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 

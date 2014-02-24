@@ -18,10 +18,13 @@ package org.energyos.espi.datacustodian.oauth;
 import java.security.Principal;
 import java.util.Collection;
 
+import org.energyos.espi.datacustodian.oauth.EspiUserApprovalHandler;
+import org.energyos.espi.datacustodian.web.BaseController;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
-import org.energyos.espi.datacustodian.oauth.EspiUserApprovalHandler;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
@@ -39,7 +42,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author Dave Syer
  */
 @Controller
-public class AdminController {
+@PreAuthorize("hasRole('ROLE_CUSTODIAN')")
+public class OauthAdminController extends BaseController {
 
 	private ConsumerTokenServices tokenServices;
 
