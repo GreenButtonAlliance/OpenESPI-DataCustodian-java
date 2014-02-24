@@ -16,10 +16,8 @@ import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.models.atom.EntryType;
 import org.energyos.espi.common.models.atom.LinkType;
 import org.energyos.espi.common.service.ResourceService;
+import org.energyos.espi.common.service.impl.EntryProcessorServiceImpl;
 import org.energyos.espi.common.test.EspiPersistenceFactory;
-import org.energyos.espi.common.utils.EntryProcessor;
-import org.energyos.espi.common.utils.ResourceConverter;
-import org.energyos.espi.common.utils.ResourceLinker;
 import org.energyos.espi.datacustodian.BaseTest;
 import org.energyos.espi.datacustodian.utils.factories.ATOMFactory;
 import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
@@ -40,18 +38,17 @@ import org.springframework.transaction.annotation.Transactional;
                 noRollbackFor = {javax.persistence.NoResultException.class, org.springframework.dao.EmptyResultDataAccessException.class })
 
 public class EntryProcessorTests extends BaseTest {
-    @Autowired
-    private ResourceLinker linker;
+;
     @Autowired
     private ResourceService resourceService;
     @Autowired
     private EspiPersistenceFactory factory;
-    private EntryProcessor processor;
+    private EntryProcessorServiceImpl processor;
     private EntryType entry;
 
     @Before
     public void before() throws Exception {
-        processor = new EntryProcessor(linker, new ResourceConverter(), resourceService);
+        processor = new EntryProcessorServiceImpl();
 
         entry = new EntryType();
         entry.setId("urn:uuid:F77FBF34-A09E-4EBC-9606-FF1A59A17CAE");
@@ -105,7 +102,7 @@ public class EntryProcessorTests extends BaseTest {
 
         assertThat(meterReading.getUsagePoint(), is(nullValue()));
 
-        linker.link(usagePoint);
+        //processor.process(null);
 
         assertThat(meterReading.getUsagePoint(), equalTo(usagePoint));
     }

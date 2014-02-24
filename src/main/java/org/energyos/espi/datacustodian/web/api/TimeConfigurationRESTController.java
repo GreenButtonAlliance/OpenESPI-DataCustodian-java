@@ -1,6 +1,5 @@
-package org.energyos.espi.datacustodian.web.api;
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -14,6 +13,8 @@ package org.energyos.espi.datacustodian.web.api;
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+
+package org.energyos.espi.datacustodian.web.api;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,6 +41,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.sun.syndication.io.FeedException;
@@ -66,21 +68,23 @@ public class TimeConfigurationRESTController {
 
 	// ROOT RESTFul Forms
 	//
-	@RequestMapping(value = Routes.ROOT_TIME_CONFIGURATION_COLLECTION, method = RequestMethod.GET)
+	@RequestMapping(value = Routes.ROOT_TIME_CONFIGURATION_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
+	@ResponseBody
 	public void index(HttpServletResponse response,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
-		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+
 		exportService.exportTimeConfigurations(response.getOutputStream(),
 				new ExportFilter(params));
 	}
 
-	@RequestMapping(value = Routes.ROOT_TIME_CONFIGURATION_MEMBER, method = RequestMethod.GET)
+	@RequestMapping(value = Routes.ROOT_TIME_CONFIGURATION_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
+	@ResponseBody
 	public void show(HttpServletResponse response,
-			@PathVariable long timeConfigurationId,
+			@PathVariable Long timeConfigurationId,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
-		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+
 		try {
 			exportService.exportTimeConfiguration(timeConfigurationId,
 					response.getOutputStream(), new ExportFilter(params));
@@ -89,23 +93,26 @@ public class TimeConfigurationRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.ROOT_TIME_CONFIGURATION_COLLECTION, method = RequestMethod.POST)
+	@RequestMapping(value = Routes.ROOT_TIME_CONFIGURATION_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@ResponseBody
 	public void create(HttpServletResponse response,
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
-		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+
 		try {
 			TimeConfiguration timeConfiguration = this.timeConfigurationService
 					.importResource(stream);
 			exportService.exportTimeConfiguration(timeConfiguration.getId(),
 					response.getOutputStream(), new ExportFilter(
 							new HashMap<String, String>()));
+
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
 	}
 
-	@RequestMapping(value = Routes.ROOT_TIME_CONFIGURATION_MEMBER, method = RequestMethod.PUT)
+	@RequestMapping(value = Routes.ROOT_TIME_CONFIGURATION_MEMBER, method = RequestMethod.PUT, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@ResponseBody
 	public void update(HttpServletResponse response,
 			@PathVariable Long timeConfigurationId,
 			@RequestParam Map<String, String> params, InputStream stream) {
@@ -132,25 +139,26 @@ public class TimeConfigurationRESTController {
 
 	// XPath RESTful Forms
 	//
-	@RequestMapping(value = Routes.TIME_CONFIGURATION_COLLECTION, method = RequestMethod.GET)
+	@RequestMapping(value = Routes.TIME_CONFIGURATION_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
+	@ResponseBody
 	public void index(HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
 			@PathVariable Long usagePointId,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
-		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+
 		exportService.exportTimeConfigurations(retailCustomerId, usagePointId,
 				response.getOutputStream(), new ExportFilter(params));
 	}
 
-	@RequestMapping(value = Routes.TIME_CONFIGURATION_MEMBER, method = RequestMethod.GET)
+	@RequestMapping(value = Routes.TIME_CONFIGURATION_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
+	@ResponseBody
 	public void show(HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
 			@PathVariable Long usagePointId,
 			@PathVariable Long timeConfigurationId,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
-		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 
 		try {
 			exportService.exportTimeConfiguration(retailCustomerId,
@@ -161,14 +169,13 @@ public class TimeConfigurationRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.TIME_CONFIGURATION_COLLECTION, method = RequestMethod.POST)
+	@RequestMapping(value = Routes.TIME_CONFIGURATION_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@ResponseBody
 	public void create(HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
 			@PathVariable Long usagePointId,
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
-
-		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 
 		UsagePoint usagePoint = usagePointService.findById(usagePointId);
 
@@ -185,7 +192,8 @@ public class TimeConfigurationRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.TIME_CONFIGURATION_MEMBER, method = RequestMethod.PUT)
+	@RequestMapping(value = Routes.TIME_CONFIGURATION_MEMBER, method = RequestMethod.PUT, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@ResponseBody
 	public void update(HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
 			@PathVariable Long usagePointId,
@@ -199,7 +207,8 @@ public class TimeConfigurationRESTController {
 
 		if (existingTimeConfiguration != null) {
 			try {
-				TimeConfiguration timeConfiguration = timeConfigurationService.importResource(stream);
+				TimeConfiguration timeConfiguration = timeConfigurationService
+						.importResource(stream);
 				existingTimeConfiguration.merge(timeConfiguration);
 			} catch (Exception e) {
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
