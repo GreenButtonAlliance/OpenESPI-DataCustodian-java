@@ -128,7 +128,7 @@ public class AuthorizationRESTController {
     //
     @RequestMapping(value = Routes.AUTHORIZATION_COLLECTION, method = RequestMethod.GET)
 	public void index(HttpServletResponse response,
-			  @PathVariable Long retailCustomerId,
+			@PathVariable Long retailCustomerId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
         exportService.exportAuthorizations(retailCustomerId, response.getOutputStream(), new ExportFilter(params));
@@ -138,7 +138,7 @@ public class AuthorizationRESTController {
     //
     @RequestMapping(value = Routes.AUTHORIZATION_MEMBER, method = RequestMethod.GET)
     public void show(HttpServletResponse response, 
-			  @PathVariable Long retailCustomerId,
+			@PathVariable Long retailCustomerId,
     		@PathVariable long authorizationId,
     		@RequestParam Map<String, String> params) throws IOException, FeedException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE); 
@@ -153,7 +153,7 @@ public class AuthorizationRESTController {
     //
     @RequestMapping(value = Routes.AUTHORIZATION_COLLECTION, method = RequestMethod.POST)
         public void create(HttpServletResponse response,
-			   @PathVariable Long retailCustomerId,
+			@PathVariable Long retailCustomerId,
     		@RequestParam Map<String, String> params, 
     		InputStream stream) throws IOException {
         response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE); 
@@ -170,7 +170,7 @@ public class AuthorizationRESTController {
 
     @RequestMapping(value = Routes.AUTHORIZATION_MEMBER, method = RequestMethod.PUT)
     public void update(HttpServletResponse response, 
-		       @PathVariable Long retailCustomerId,
+		    @PathVariable Long retailCustomerId,
     		@PathVariable long authorizationId,
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException, FeedException {
@@ -189,7 +189,7 @@ public class AuthorizationRESTController {
 
     @RequestMapping(value = Routes.AUTHORIZATION_MEMBER, method = RequestMethod.DELETE)
     public void delete(HttpServletResponse response, 
-			  @PathVariable Long retailCustomerId,
+			@PathVariable Long retailCustomerId,
     		@PathVariable long authorizationId,
     		@RequestParam Map<String, String> params,
     		InputStream stream) throws IOException, FeedException {

@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @PreAuthorize("hasRole('ROLE_CUSTODIAN')")
 public class AdminController extends BaseController {
 
-    @Autowired
-    private ConsumerTokenServices tokenServices;
-    
-    private TokenStore tokenStore;
+//    @Autowired
+//    private ConsumerTokenServices tokenServices;
+//    
+//    private TokenStore tokenStore;
     
     @Autowired
     private SubscriptionService subscriptionService;
@@ -41,16 +41,16 @@ public class AdminController extends BaseController {
         return "redirect:" + Routes.DATA_CUSTODIAN_HOME;
     }
 
-    @RequestMapping(value = Routes.DATA_CUSTODIAN_REMOVE_ALL_OAUTH_TOKENS, method = RequestMethod.GET)
-    public String revokeToken() throws Exception {
-
-        for(OAuth2AccessToken t: ((TokenStore) tokenServices).findTokensByClientId("third_party")) {
-            tokenServices.revokeToken(t.getValue());
-        }
-
-        return "redirect:" + Routes.DATA_CUSTODIAN_HOME;
-    }
-    
+//    @RequestMapping(value = Routes.DATA_CUSTODIAN_REMOVE_ALL_OAUTH_TOKENS, method = RequestMethod.GET)
+//    public String revokeToken() throws Exception {
+//
+//        for(OAuth2AccessToken t: ((TokenStore) tokenServices).findTokensByClientId("third_party")) {
+//            tokenServices.revokeToken(t.getValue());
+//        }
+//
+//        return "redirect:" + Routes.DATA_CUSTODIAN_HOME;
+//    }
+//    
     //**************************************************************************************************
     //*
     //*                     Spring Security OAuth AdminController Methods

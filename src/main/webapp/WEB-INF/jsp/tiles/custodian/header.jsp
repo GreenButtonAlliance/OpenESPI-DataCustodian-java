@@ -32,7 +32,9 @@
                     <security:authorize access="isAuthenticated()">
                         <li><a href="<c:url value='/custodian/retailcustomers'/>">Customer List</a></li>
                         <li><a href="<c:url value='/custodian/upload'/>">Upload</a></li>
-                        <li><a href="<c:url value='/custodian/removealltokens'/>">Remove all OAuth tokens</a></li>
+                        <li><a href="<c:url value='/custodian/oauth/clients/{client}/tokens'/>">List Client OAuth Tokens</a></li>
+                        <li><a href="<c:url value='/custodian/oauth/users/{user}/tokens'/>">List User OAuth Tokens</a></li>                                                   
+                        <li><a href="<c:url value='/custodian/oauth/users/{user}/tokens/{token}'/>">Remove User OAuth Tokens</a></li>                     
                         <li><a href="<c:url value='/espi/1_1/NotifyThirdParty'/>">Notify Third Party</a></li> 
                         <li class="active"><a id="logout" href="<c:url value='/logout.do'/>">Logout</a></li>
                         <li><a id="profile" href="">Welcome: ${currentCustomer.firstName} ${currentCustomer.lastName}</a></li>
