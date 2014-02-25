@@ -52,8 +52,6 @@
     <script type="text/javascript"
      src="<c:url value='/resources/bootstrap-datetimepicker-0.0.11/js/bootstrap-datetimepicker.min.js'/> ">
     </script>
-    
-     </script>
 
     <script type="text/javascript">
       var startDate =
