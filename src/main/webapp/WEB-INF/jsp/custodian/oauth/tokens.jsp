@@ -24,24 +24,15 @@
 
 <body>
 
-<jsp:include page="/WEB-INF/jsp/tiles/custodian/header.jsp"/>
+<jsp:include page="/WEB-INF/jsp/tiles/custodian/oauth/header.jsp"/>
 
 <div class="container">
     <div class="row">
         <div class="span12">
-            <h2>Upload</h2>
+        	<br>
+            <h2>OAuth Token Management</h2>
 
-            <form:form modelAttribute="uploadForm" class="form-horizontal" action="${pageContext.request.contextPath}/custodian/upload" enctype="multipart/form-data">
-                <form:errors path="*" cssClass="alert alert-error" element="div" />
 
-                <div class="control-group">
-                    <label class="control-label" for="file">File</label>
-                    <div class="controls">
-                        <input type="file" name="file" />
-                        <input type="submit" name="upload" value="Upload"/>
-                    </div>
-                </div>
-            </form:form>
         </div>
     </div>
     <hr>

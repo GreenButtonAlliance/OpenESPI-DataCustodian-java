@@ -20,7 +20,6 @@ import java.util.Collection;
 
 import org.energyos.espi.datacustodian.oauth.EspiUserApprovalHandler;
 import org.energyos.espi.datacustodian.web.BaseController;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -35,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Controller for resetting the token store for testing purposes.
@@ -58,10 +58,10 @@ public class OauthAdminController extends BaseController {
 	 * @return URL of OAuth Token Management screen
 	 * 
 	 */
-	@RequestMapping(value = "custodian/oauth/tokens", method = RequestMethod.GET)
+	@RequestMapping(value="custodian/oauth/tokens", method=RequestMethod.GET)
 	@ResponseBody
-	public String tokens() {
-		return "/custodian/oauth/tokens";
+	public ModelAndView manageTokens() {
+		return new ModelAndView("/custodian/oauth/tokens");
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class OauthAdminController extends BaseController {
 	 * 
 	 */
 	
-	@RequestMapping("custodian/oauth/tokens/retailcustomers/{userID}")
+	@RequestMapping(value="custodian/oauth/tokens/retailcustomers/{userID}", method=RequestMethod.GET, produces="application/json")
 	@ResponseBody
 	public Collection<OAuth2AccessToken> listTokensForUser(@PathVariable String userID, Principal principal)
 			throws Exception {
@@ -144,7 +144,7 @@ public class OauthAdminController extends BaseController {
 	 * 
 	 */
 	
-	@RequestMapping("custodian/oauth/tokens/clients/{clientID}")
+	@RequestMapping(value="custodian/oauth/tokens/clients/{clientID}", method=RequestMethod.GET, produces="application/json")
 	@ResponseBody
 	public Collection<OAuth2AccessToken> listTokensForClient(@PathVariable String clientID) throws Exception {
 		return tokenStore.findTokensByClientId(clientID);

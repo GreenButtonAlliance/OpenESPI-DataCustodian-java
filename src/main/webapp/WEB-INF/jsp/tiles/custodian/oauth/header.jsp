@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%--
   ~ Copyright 2013 EnergyOS.org
   ~
@@ -24,13 +25,17 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="brand" href="<c:url value='/home'/>"><img src="<c:url value='/resources/ico/favicon.png'/>" width="20"/>&nbsp;Data Custodian</a>
-           
+            <a class="brand" href="<c:url value='/custodian/home'/>"><img src="<c:url value='/resources/ico/favicon.png'/>" width="20"/>&nbsp;Data Custodian</a>
+
             <div class="nav-collapse collapse">
                 <ul class="nav">
                     <security:authorize access="isAuthenticated()">
+                        <li><a href="<c:url value='/custodian/oauth/tokens'/>">List Client OAuth Tokens</a></li>
+                        <li><a href="<c:url value='/custodian/oauth/tokens'/>">List User OAuth Tokens</a></li>  
+                        <li><a href="<c:url value='/custodian/oauth/tokens'/>">Delete User OAuth Token</a></li>  
+                        <li><a href="<c:url value='/custodian/oauth/tokens'/>">Delete All OAuth Tokens</a></li>                                                                                           
                         <li class="active"><a id="logout" href="<c:url value='/logout.do'/>">Logout</a></li>
-                        <li><a id="profile" href="">Welcome: ${currentCustomer.firstName} ${currentCustomer.lastName}</a></li>                        
+                        <li><a id="profile" href="">Welcome: ${currentCustomer.firstName} ${currentCustomer.lastName}</a></li>
                     </security:authorize>
                     <security:authorize access="isAnonymous()">
                         <li class="active"><a id="login" href="<c:url value='/login'/>">Login</a></li>
