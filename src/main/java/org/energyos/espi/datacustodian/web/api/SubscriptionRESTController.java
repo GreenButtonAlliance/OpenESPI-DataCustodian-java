@@ -25,14 +25,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.Subscription;
-import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.ExportService;
 import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.SubscriptionService;
 import org.energyos.espi.common.utils.ExportFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
