@@ -51,30 +51,82 @@ public class OauthAdminController extends BaseController {
 
 	private EspiUserApprovalHandler userApprovalHandler;
 
-	@RequestMapping("/oauth/cache_approvals")
+	/**
+	 * 
+	 * Display OAuth Token Management screen
+	 * 
+	 * @return URL of OAuth Token Management screen
+	 * 
+	 */
+	@RequestMapping(value = "custodian/oauth/tokens", method = RequestMethod.GET)
+	@ResponseBody
+	public String tokens() {
+		return "/custodian/oauth/tokens";
+	}
+
+	/**
+	 * 
+	 * Activate Approval Store processing
+	 * 
+	 * @throws Exception
+	 * 
+	 */
+	
+	@RequestMapping("custodian/oauth/cache_approvals")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void startCaching() throws Exception {
 		userApprovalHandler.setUseApprovalStore(true);
 	}
 
-	@RequestMapping("/oauth/uncache_approvals")
+	/**
+	 * 
+	 * Deactivate Approval Store processing
+	 * 
+	 * @throws Exception
+	 * 
+	 */
+	
+	@RequestMapping("custodian/oauth/uncache_approvals")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void stopCaching() throws Exception {
 		userApprovalHandler.setUseApprovalStore(false);
 	}
 
-	@RequestMapping("/oauth/users/{user}/tokens")
+	/**
+	 * 
+	 * List OAuth Tokens for a specific Retail Customer UserID
+	 * 
+	 * @param userID  
+	 * @param principal
+	 * @return Collection of access tokens
+	 * @throws Exception
+	 * 
+	 */
+	
+	@RequestMapping("custodian/oauth/tokens/retailcustomers/{userID}")
 	@ResponseBody
-	public Collection<OAuth2AccessToken> listTokensForUser(@PathVariable String user, Principal principal)
+	public Collection<OAuth2AccessToken> listTokensForUser(@PathVariable String userID, Principal principal)
 			throws Exception {
-		checkResourceOwner(user, principal);
-		return tokenStore.findTokensByUserName(user);
+		checkResourceOwner(userID, principal);
+		return tokenStore.findTokensByUserName(userID);
 	}
 
-	@RequestMapping(value = "/oauth/users/{user}/tokens/{token}", method = RequestMethod.DELETE)
-	public ResponseEntity<Void> revokeToken(@PathVariable String user, @PathVariable String token, Principal principal)
+	/**
+	 * 
+	 * Delete a specific OAuth Token for a specific Retail Customer UserID
+	 * 
+	 * @param userID
+	 * @param token
+	 * @param principal
+	 * @return
+	 * @throws Exception
+	 * 
+	 */
+	
+	@RequestMapping(value = "custodian/oauth/tokens/{token}/retailcustomers/{userID}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> revokeToken(@PathVariable String userID, @PathVariable String token, Principal principal)
 			throws Exception {
-		checkResourceOwner(user, principal);
+		checkResourceOwner(userID, principal);
 		if (tokenServices.revokeToken(token)) {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		} else {
@@ -82,10 +134,20 @@ public class OauthAdminController extends BaseController {
 		}
 	}
 
-	@RequestMapping("/oauth/clients/{client}/tokens")
+	/**
+	 * 
+	 * List OAuth Tokens for a specific Client
+	 * 
+	 * @param clientID
+	 * @return Collection of access tokens
+	 * @throws Exception
+	 * 
+	 */
+	
+	@RequestMapping("custodian/oauth/tokens/clients/{clientID}")
 	@ResponseBody
-	public Collection<OAuth2AccessToken> listTokensForClient(@PathVariable String client) throws Exception {
-		return tokenStore.findTokensByClientId(client);
+	public Collection<OAuth2AccessToken> listTokensForClient(@PathVariable String clientID) throws Exception {
+		return tokenStore.findTokensByClientId(clientID);
 	}
 
 	private void checkResourceOwner(String user, Principal principal) {

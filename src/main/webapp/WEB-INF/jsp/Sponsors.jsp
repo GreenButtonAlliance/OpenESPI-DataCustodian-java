@@ -38,7 +38,7 @@
 <dt><a href="http://www.peoplepowerco.com">People Power Company</a></dt>
 <dt><a href="http://www.opencommons.org">OpenCommons.org</a></dt>
 <dt>Hypertek Inc.</dt>
-<dt>Remi Networks</a>
+<dt>REMI Networks</dt>
 </dl>
 <h4><a href="https://services.greenbuttondata.org">Green Button Sandbox</a></h4>
 <dl>

@@ -17,30 +17,22 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<jsp:include page="tiles/head.jsp"/>
+<jsp:include page="/WEB-INF/jsp/tiles/head.jsp"/>
 
 <%--<security:authentication var="principal" property="principal" />--%>
 
 <body>
 
-<div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-        <div class="container">
-            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="brand" href="<c:url value='/'/>">Third Party</a>
-        </div>
-    </div>
-</div>
+<jsp:include page="/WEB-INF/jsp/tiles/customer/header.jsp"/>
 
 <div class="hero-unit">
     <h1>Whoops!</h1>
     <br>
-    <p>You don't have permission to view this page.</p>
-    <p>Back to <a href="<c:url value='/'/>">home</a></p>
+    <p>You don't have permission to view the page you attempted to access.</p>
+    <p><a href="<c:url value='/logout.do'/>">Continue</a>
+
+    <jsp:include page="/WEB-INF/jsp/tiles/footer.jsp"/>
+    
 </div>
 
 </body>
