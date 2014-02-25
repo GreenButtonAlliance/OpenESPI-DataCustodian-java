@@ -13,6 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+
 package org.energyos.espi.datacustodian.web.api;
 
 import java.io.IOException;
@@ -39,6 +40,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.sun.syndication.io.FeedException;
@@ -46,111 +48,137 @@ import com.sun.syndication.io.FeedException;
 @Controller
 public class RetailCustomerRESTController {
 
-    @Autowired
-    private ImportService importService;
-    
-    @Autowired
-    private RetailCustomerService retailCustomerService;
-    
-    @Autowired
-    private UsagePointService usagePointService;
-    
-    @Autowired
-    private ExportService exportService;
+	@Autowired
+	private ImportService importService;
 
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public void handleGenericException() {}
+	@Autowired
+	private RetailCustomerService retailCustomerService;
 
-    // ROOT and XPath are the same for this one.
-    //
-    @RequestMapping(value = Routes.RETAIL_CUSTOMER_COLLECTION, method = RequestMethod.GET)
+	@Autowired
+	private UsagePointService usagePointService;
+
+	@Autowired
+	private ExportService exportService;
+
+	@ExceptionHandler(Exception.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public void handleGenericException() {
+	}
+
+	// ROOT and XPath are the same for this one.
+	//
+	@RequestMapping(value = Routes.RETAIL_CUSTOMER_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
+	@ResponseBody
 	public void index(HttpServletResponse response,
-    		@RequestParam Map<String, String> params) throws IOException, FeedException {
-        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        // TODO - - Integration of RetailCustomer with Identified Object Engine is needed
-        try {
-            exportService.exportRetailCustomers(response.getOutputStream(), new ExportFilter(params));
-        } catch (Exception e) {
-        	System.out.printf("***** Error Caused by RetailCustomer.x.IndentifiedObject need: %s", e.toString());
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        }
-    }
+			@RequestParam Map<String, String> params) throws IOException,
+			FeedException {
 
-    // 
-    //
-    @RequestMapping(value = Routes.RETAIL_CUSTOMER_MEMBER, method = RequestMethod.GET)
-    public void show(HttpServletResponse response, 
-    		@PathVariable long retailCustomerId,
-    		@RequestParam Map<String, String> params) throws IOException, FeedException {
-        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        try {
-            exportService.exportRetailCustomer(retailCustomerId, response.getOutputStream(), new ExportFilter(params));
-        } catch (Exception e) {
-        	System.out.printf("***** Error Caused by RetailCustomer.x.IndentifiedObject need: %s", e.toString());
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        }
- 
-    }
+		// TODO - - Integration of RetailCustomer with Identified Object Engine
+		// is needed
+		try {
+			exportService.exportRetailCustomers(response.getOutputStream(),
+					new ExportFilter(params));
+		} catch (Exception e) {
+			System.out
+					.printf("***** Error Caused by RetailCustomer.x.IndentifiedObject need: %s",
+							e.toString());
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+	}
 
-    @RequestMapping(value = Routes.RETAIL_CUSTOMER_COLLECTION, method = RequestMethod.POST)
-    public void create(HttpServletResponse response,
-    		@RequestParam Map<String, String> params, 
-    		InputStream stream) throws IOException {
-        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        try {
-        	RetailCustomer retailCustomer = this.retailCustomerService.importResource(stream);
-            exportService.exportTimeConfiguration(retailCustomer.getId(), response.getOutputStream(), new ExportFilter(new HashMap<String, String> ()));
-        } catch (Exception e) {
-        	System.out.printf("***** Error Caused by RetailCustomer.x.IndentifiedObject need: %s", e.toString());
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        }
-    }
-    //
+	//
+	//
+	@RequestMapping(value = Routes.RETAIL_CUSTOMER_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
+	@ResponseBody
+	public void show(HttpServletResponse response,
+			@PathVariable Long retailCustomerId,
+			@RequestParam Map<String, String> params) throws IOException,
+			FeedException {
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+		try {
+			exportService.exportRetailCustomer(retailCustomerId,
+					response.getOutputStream(), new ExportFilter(params));
+		} catch (Exception e) {
+			System.out
+					.printf("***** Error Caused by RetailCustomer.x.IndentifiedObject need: %s",
+							e.toString());
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
 
-    @RequestMapping(value = Routes.RETAIL_CUSTOMER_MEMBER, method = RequestMethod.PUT)
-    public void update(HttpServletResponse response, 
-    		@PathVariable long applicationInformationId,
-    		@RequestParam Map<String, String> params,
-    		InputStream stream) throws IOException, FeedException {
-    	RetailCustomer retailCustomer = retailCustomerService.findById(applicationInformationId);
- 
-        if (retailCustomer != null) {
-            try {
-            	
-            	RetailCustomer newRetailCustomer = retailCustomerService.importResource(stream);
-            	retailCustomer.merge(newRetailCustomer);
-            } catch (Exception e) {
-            	System.out.printf("***** Error Caused by RetailCustomer.x.IndentifiedObject need: %s", e.toString());
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            }
-        }
-    }
+	}
 
-    @RequestMapping(value = Routes.RETAIL_CUSTOMER_MEMBER, method = RequestMethod.DELETE)
-    public void delete(HttpServletResponse response, 
-    		@PathVariable long applicationInformationId,
-    		@RequestParam Map<String, String> params,
-    		InputStream stream) throws IOException, FeedException {
-    	RetailCustomer retailCustomer = retailCustomerService.findById(applicationInformationId);
-        if (retailCustomer != null) {
-        	retailCustomerService.delete(retailCustomer);
-        }
-    }    		
- 
-    public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
-        this.retailCustomerService = retailCustomerService;
-    }
+	@RequestMapping(value = Routes.RETAIL_CUSTOMER_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@ResponseBody
+	public void create(HttpServletResponse response,
+			@RequestParam Map<String, String> params, InputStream stream)
+			throws IOException {
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+		try {
+			RetailCustomer retailCustomer = this.retailCustomerService
+					.importResource(stream);
+			exportService.exportTimeConfiguration(retailCustomer.getId(),
+					response.getOutputStream(), new ExportFilter(
+							new HashMap<String, String>()));
+		} catch (Exception e) {
+			System.out
+					.printf("***** Error Caused by RetailCustomer.x.IndentifiedObject need: %s",
+							e.toString());
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+	}
 
-    public void setUsagePointService(UsagePointService usagePointService) {
-        this.usagePointService = usagePointService;
-    }
-    
-    public void setExportService(ExportService exportService) {
-        this.exportService = exportService;
-    }
-    
-    public void setImportService(ImportService importService) {
-    	this.importService = importService;
-    }
+	@RequestMapping(value = Routes.RETAIL_CUSTOMER_MEMBER, method = RequestMethod.PUT, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@ResponseBody
+	public void update(HttpServletResponse response,
+			@PathVariable Long applicationInformationId,
+			@RequestParam Map<String, String> params, InputStream stream)
+			throws IOException, FeedException {
+		RetailCustomer retailCustomer = retailCustomerService
+				.findById(applicationInformationId);
+
+		if (retailCustomer != null) {
+			try {
+
+				RetailCustomer newRetailCustomer = retailCustomerService
+						.importResource(stream);
+				retailCustomer.merge(newRetailCustomer);
+			} catch (Exception e) {
+				System.out
+						.printf("***** Error Caused by RetailCustomer.x.IndentifiedObject need: %s",
+								e.toString());
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			}
+		}
+	}
+
+	@RequestMapping(value = Routes.RETAIL_CUSTOMER_MEMBER, method = RequestMethod.DELETE)
+	public void delete(HttpServletResponse response,
+			@PathVariable Long applicationInformationId,
+			@RequestParam Map<String, String> params, InputStream stream)
+			throws IOException, FeedException {
+
+		RetailCustomer retailCustomer = retailCustomerService
+				.findById(applicationInformationId);
+
+		if (retailCustomer != null) {
+			retailCustomerService.delete(retailCustomer);
+		}
+	}
+
+	public void setRetailCustomerService(
+			RetailCustomerService retailCustomerService) {
+		this.retailCustomerService = retailCustomerService;
+	}
+
+	public void setUsagePointService(UsagePointService usagePointService) {
+		this.usagePointService = usagePointService;
+	}
+
+	public void setExportService(ExportService exportService) {
+		this.exportService = exportService;
+	}
+
+	public void setImportService(ImportService importService) {
+		this.importService = importService;
+	}
 }
