@@ -175,9 +175,10 @@ public class MeterReadingRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
-		try {
-			if (null != resourceService.findIdByXPath(retailCustomerId,
-					usagePointId, UsagePoint.class)) {
+		if (null != resourceService.findIdByXPath(retailCustomerId,
+				usagePointId, UsagePoint.class)) {
+			try {
+
 				UsagePoint usagePoint = usagePointService
 						.findById(usagePointId);
 				MeterReading meterReading = meterReadingService
@@ -187,8 +188,11 @@ public class MeterReadingRESTController {
 				exportService.exportMeterReading(retailCustomerId,
 						usagePointId, meterReading.getId(),
 						response.getOutputStream(), new ExportFilter(params));
+
+			} catch (Exception e) {
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			}
-		} catch (Exception e) {
+		} else {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
 	}

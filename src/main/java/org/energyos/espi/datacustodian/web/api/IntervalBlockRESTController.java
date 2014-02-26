@@ -198,23 +198,24 @@ public class IntervalBlockRESTController {
 			@PathVariable Long retailCustomerId,
 			@PathVariable Long usagePointId, @PathVariable Long meterReadingId,
 			@RequestParam Map<String, String> params, InputStream stream)
-			throws IOException {
-		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-		MeterReading meterReading = meterReadingService.findById(new Long(
-				retailCustomerId), new Long(usagePointId), new Long(
-				meterReadingId));
-		try {
-			IntervalBlock intervalBlock = this.intervalBlockService
-					.importResource(stream);
-			intervalBlockService.associateByUUID(meterReading,
-					intervalBlock.getUUID());
-			exportService.exportIntervalBlock(retailCustomerId, usagePointId,
-					meterReadingId, intervalBlock.getId(),
-					response.getOutputStream(), new ExportFilter(params));
+			throws IOException { 
+		
+		if (null != resourceService.findIdByXPath(retailCustomerId,
+				usagePointId, meterReadingId, MeterReading.class)) {
+			try {
+				MeterReading meterReading = resourceService.findById(meterReadingId, MeterReading.class);
+				IntervalBlock intervalBlock = this.intervalBlockService.importResource(stream);
+				intervalBlockService.associateByUUID(meterReading, intervalBlock.getUUID());
+				exportService.exportIntervalBlock(retailCustomerId, usagePointId, meterReadingId, intervalBlock.getId(),
+						response.getOutputStream(), new ExportFilter(params));
 
-		} catch (Exception e) {
+			} catch (Exception e) {
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			}
+		} else {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
+			
 	}
 
 	//
@@ -226,18 +227,25 @@ public class IntervalBlockRESTController {
 			@PathVariable Long intervalBlockId,
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException, FeedException {
+		
 		IntervalBlock intervalBlock = intervalBlockService
 				.findById(retailCustomerId, usagePointId, meterReadingId,
 						intervalBlockId);
 
 		if (intervalBlock != null) {
+			
 			try {
-				intervalBlock
-						.merge(intervalBlockService.importResource(stream));
-				intervalBlockService.persist(intervalBlock);
+				intervalBlock.merge(intervalBlockService.importResource(stream));
+				
+				resourceService.merge(intervalBlock);
+
 			} catch (Exception e) {
+				
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			}
+		} else {
+			
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
 	}
 
