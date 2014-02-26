@@ -7,12 +7,12 @@ The Open Energy Services Provider Interface (ESPI) Data Custodian Repository Pro
 
 ## Setup
 
-Note: You need to download and install [OpenESPI-Common-Java](https://github.com/energyos/OpenESPI-Common-java) into your local Maven repository to build this project.
+Note: You need to download and install [OpenESPI-Common-java](https://github.com/energyos/OpenESPI-Common-java) into your local Maven repository to build this project.
 
 First clone the project from github:
 
 ```bash
-git clone https://github.com/energyos/OpenESPI-DataCustodian.git
+git clone https://github.com/energyos/OpenESPI-DataCustodian-java.git
 cd OpenESPI-DataCustodian/
 ```
 
