@@ -51,7 +51,6 @@ public class UsagePointRESTControllerTests {
     @Mock
     private RetailCustomerService retailCustomerService;
     @Mock
-    private AtomService atomService;
     private UsagePointRESTController controller;
     private RetailCustomer retailCustomer;
 
@@ -79,7 +78,6 @@ public class UsagePointRESTControllerTests {
 
         when(retailCustomerService.findById(1L)).thenReturn(retailCustomer);
         when(usagePointService.findAllByRetailCustomer(retailCustomer)).thenReturn(usagePointList);
-        when(atomService.feedFor(usagePointList)).thenReturn(feed);
 
         controller.index(response, 1L, null);
 
@@ -95,7 +93,6 @@ public class UsagePointRESTControllerTests {
         UsagePoint usagePoint = EspiFactory.newUsagePoint();
 
         when(usagePointService.findByHashedId(usagePoint.getHashedId())).thenReturn(usagePoint);
-        when(atomService.entryFor(usagePoint)).thenReturn(entry);
 
         controller.show(response, 1L, null);
 
