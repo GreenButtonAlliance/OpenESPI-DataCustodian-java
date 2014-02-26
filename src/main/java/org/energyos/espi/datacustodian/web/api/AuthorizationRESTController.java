@@ -177,8 +177,7 @@ public class AuthorizationRESTController {
 			Authorization authorization = this.authorizationService
 					.importResource(stream);
 			retailCustomerService.associateByUUID(retailCustomerId,
-					authorization.getUUID(),
-					"Temporary Description - Should be overwritten");
+					authorization.getUUID());
 			exportService.exportAuthorization(retailCustomerId,
 					authorization.getId(), response.getOutputStream(),
 					new ExportFilter(params));

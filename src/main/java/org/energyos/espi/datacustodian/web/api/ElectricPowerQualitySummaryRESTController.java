@@ -191,9 +191,10 @@ public class ElectricPowerQualitySummaryRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
-		try {
-			if (null != resourceService.findIdByXPath(retailCustomerId,
-					usagePointId, UsagePoint.class)) {
+		if (null != resourceService.findIdByXPath(retailCustomerId,
+				usagePointId, UsagePoint.class)) {
+			try {
+
 				UsagePoint usagePoint = usagePointService
 						.findById(usagePointId);
 				ElectricPowerQualitySummary electricPowerQualitySummary = electricPowerQualitySummaryService
@@ -204,8 +205,10 @@ public class ElectricPowerQualitySummaryRESTController {
 						retailCustomerId, usagePointId,
 						electricPowerQualitySummary.getId(),
 						response.getOutputStream(), new ExportFilter(params));
+			} catch (Exception e) {
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			}
-		} catch (Exception e) {
+		} else {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
 	}

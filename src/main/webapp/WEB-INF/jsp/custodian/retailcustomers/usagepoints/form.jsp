@@ -40,13 +40,6 @@
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="description">Description</label>
-                    <div class="controls">
-                        <form:input id="description" path="description"/>
-                        <form:errors path="description" cssClass="error"/>
-                    </div>
-                </div>
-                <div class="control-group">
                     <div class="controls">
                         <input type="submit" name="create" class="btn" value="Create"/>
                     </div>
