@@ -12,7 +12,7 @@ Note: You need to download and install [OpenESPI-Common-Java](https://github.com
 First clone the project from github:
 
 ```bash
-git clone https://github.com/energyos/OpenESPI-DataCustodian.git
+git clone https://github.com/energyos/OpenESPI-DataCustodian-Java.git
 cd OpenESPI-DataCustodian/
 ```
 
