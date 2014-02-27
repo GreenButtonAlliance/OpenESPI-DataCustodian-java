@@ -22,8 +22,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.energyos.espi.common.domain.MeterReading;
 import org.energyos.espi.common.domain.ReadingType;
 import org.energyos.espi.common.domain.Routes;
+import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.ExportService;
 import org.energyos.espi.common.service.ReadingTypeService;
 import org.energyos.espi.common.service.ResourceService;
@@ -163,13 +165,22 @@ public class ReadingTypeRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
-		try {
-			ReadingType readingType = readingTypeService.importResource(stream);
+		if (null != resourceService.findIdByXPath(retailCustomerId,
+				usagePointId, meterReadingId, MeterReading.class)) {
 
-			exportService.exportReadingType(retailCustomerId, usagePointId,
-					meterReadingId, readingType.getId(),
-					response.getOutputStream(), new ExportFilter(params));
-		} catch (Exception e) {
+			try {
+
+				ReadingType readingType = readingTypeService
+						.importResource(stream);
+
+				exportService.exportReadingType(retailCustomerId, usagePointId,
+						meterReadingId, readingType.getId(),
+						response.getOutputStream(), new ExportFilter(params));
+
+			} catch (Exception e) {
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			}
+		} else {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
 	}

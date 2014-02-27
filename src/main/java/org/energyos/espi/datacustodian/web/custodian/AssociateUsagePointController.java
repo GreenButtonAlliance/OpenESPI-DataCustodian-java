@@ -76,7 +76,7 @@ public class AssociateUsagePointController {
         if (result.hasErrors())
             return "/custodian/retailcustomers/usagepoints/form";
         
-        Subscription subscription = retailCustomerService.associateByUUID(retailCustomerId, UUID.fromString(usagePointForm.getUUID()), usagePointForm.getDescription());
+        Subscription subscription = retailCustomerService.associateByUUID(retailCustomerId, UUID.fromString(usagePointForm.getUUID()));
         if (subscription != null) {
         	notificationService.notify(subscription, null, null);
         }
@@ -125,7 +125,7 @@ public class AssociateUsagePointController {
 
         public void validate(Object target, Errors errors) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "UUID", "field.required", "UUID is required");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "field.required", "Description is required");
+          
             try {
                 UsagePointForm form = (UsagePointForm)target;
                 UUID.fromString(form.getUUID());

@@ -185,8 +185,7 @@ public class SubscriptionRESTController {
 			Subscription subscription = this.subscriptionService
 					.importResource(stream);
 			retailCustomerService.associateByUUID(retailCustomerId,
-					subscription.getUUID(),
-					"Temporary Description - To be overwritten");
+					subscription.getUUID());
 			exportService.exportSubscription(subscription.getId(),
 					response.getOutputStream(), new ExportFilter(params));
 		} catch (Exception e) {

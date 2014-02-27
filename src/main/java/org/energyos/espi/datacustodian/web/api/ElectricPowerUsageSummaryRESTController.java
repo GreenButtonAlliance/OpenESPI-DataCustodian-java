@@ -189,9 +189,10 @@ public class ElectricPowerUsageSummaryRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
-		try {
-			if (null != resourceService.findIdByXPath(retailCustomerId,
-					usagePointId, ElectricPowerUsageSummary.class)) {
+		if (null != resourceService.findIdByXPath(retailCustomerId,
+				usagePointId, UsagePoint.class)) {
+			try {
+
 				UsagePoint usagePoint = usagePointService
 						.findById(usagePointId);
 				ElectricPowerUsageSummary electricPowerUsageSummary = this.electricPowerUsageSummaryService
@@ -201,10 +202,14 @@ public class ElectricPowerUsageSummaryRESTController {
 				exportService.exportElectricPowerUsageSummary(retailCustomerId,
 						usagePointId, electricPowerUsageSummary.getId(),
 						response.getOutputStream(), new ExportFilter(params));
+
+			} catch (Exception e) {
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			}
-		} catch (Exception e) {
+		} else {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
+		
 	}
 
 	//
@@ -217,19 +222,22 @@ public class ElectricPowerUsageSummaryRESTController {
 			@PathVariable Long electricPowerUsageSummaryId,
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException, FeedException {
+		
 
-		try {
-			if (null != resourceService.findIdByXPath(retailCustomerId,
-					usagePointId, electricPowerUsageSummaryId,
-					ElectricPowerUsageSummary.class)) {
-				ElectricPowerUsageSummary electricPowerUsageSummary = resourceService
-						.findById(electricPowerUsageSummaryId,
-								ElectricPowerUsageSummary.class);
-				ElectricPowerUsageSummary newElectricPowerUsageSummary = electricPowerUsageSummaryService
-						.importResource(stream);
-				electricPowerUsageSummary.merge(newElectricPowerUsageSummary);
+		ElectricPowerUsageSummary electricPowerUsageSummary = resourceService
+				.findById(electricPowerUsageSummaryId,
+						ElectricPowerUsageSummary.class);
+		
+		if (electricPowerUsageSummary != null) {
+			try {
+
+				electricPowerUsageSummary.merge(electricPowerUsageSummaryService.importResource(stream));
+				resourceService.merge(electricPowerUsageSummary);
+
+			} catch (Exception e) {
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			}
-		} catch (Exception e) {
+		} else {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
 

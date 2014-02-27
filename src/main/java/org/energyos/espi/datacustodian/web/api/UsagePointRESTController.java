@@ -183,17 +183,14 @@ public class UsagePointRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
-		RetailCustomer retailCustomer = retailCustomerService
-				.findById(retailCustomerId);
-		try {
-			UsagePoint usagePoint = this.usagePointService
-					.importResource(stream);
 
-			usagePointService.associateByUUID(retailCustomer,
-					usagePoint.getUUID());
-			exportService.exportUsagePoint(retailCustomerId,
-					usagePoint.getId(), response.getOutputStream(),
-					new ExportFilter(params));
+		try {
+			RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
+			UsagePoint usagePoint = this.usagePointService.importResource(stream);
+
+			usagePointService.associateByUUID(retailCustomer, usagePoint.getUUID());
+			
+			exportService.exportUsagePoint(retailCustomerId, usagePoint.getId(), response.getOutputStream(), new ExportFilter(params));
 
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

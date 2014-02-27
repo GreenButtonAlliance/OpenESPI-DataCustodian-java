@@ -177,17 +177,24 @@ public class TimeConfigurationRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
-		UsagePoint usagePoint = usagePointService.findById(usagePointId);
+		if (null != resourceService.findIdByXPath(retailCustomerId,
+				usagePointId, UsagePoint.class)) {
 
-		try {
-			TimeConfiguration timeConfiguration = this.timeConfigurationService
-					.importResource(stream);
-			timeConfigurationService.associateByUUID(usagePoint,
-					timeConfiguration.getUUID());
-			exportService.exportTimeConfiguration(retailCustomerId,
-					usagePointId, timeConfiguration.getId(),
-					response.getOutputStream(), new ExportFilter(params));
-		} catch (Exception e) {
+			try {
+				UsagePoint usagePoint = usagePointService
+						.findById(usagePointId);
+
+				TimeConfiguration timeConfiguration = this.timeConfigurationService
+						.importResource(stream);
+				timeConfigurationService.associateByUUID(usagePoint,
+						timeConfiguration.getUUID());
+				exportService.exportTimeConfiguration(retailCustomerId,
+						usagePointId, timeConfiguration.getId(),
+						response.getOutputStream(), new ExportFilter(params));
+			} catch (Exception e) {
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			}
+		} else {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
 	}
