@@ -20,8 +20,10 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.Subscription;
+import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.NotificationService;
 import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.RetailCustomerService;
@@ -29,6 +31,7 @@ import org.energyos.espi.common.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
@@ -75,11 +78,12 @@ public class AssociateUsagePointController {
         if (result.hasErrors())
             return "/custodian/retailcustomers/usagepoints/form";
         
-        Subscription subscription = retailCustomerService.associateByUUID(retailCustomerId, UUID.fromString(usagePointForm.getUUID()));
+        Subscription subscription = retailCustomerService.associateByUUID(retailCustomerId, 
+        		UUID.fromString(usagePointForm.getUUID()));
+
         if (subscription != null) {
         	notificationService.notify(subscription, null, null);
         }
-
         return "redirect:/custodian/retailcustomers";
     }
 
