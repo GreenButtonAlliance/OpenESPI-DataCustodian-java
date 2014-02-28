@@ -87,6 +87,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
         authorization.setResourceURI(baseURL + Routes.BATCH_SUBSCRIPTION.replace("{subscriptionId}", subscription.getId().toString()));
 		authorization.setUpdated(new GregorianCalendar());
 		authorization.setStatus("1"); 	// Set authorization record status as "Active"
+		authorization.setSubscription(subscription);
         authorizationService.merge(authorization);
 
         return result;
