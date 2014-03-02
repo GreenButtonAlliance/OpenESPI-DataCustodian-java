@@ -29,6 +29,15 @@
 		<property name="username" value="root"/>
 		<property name="password" value="password"/>	
 	</bean>
+	
+	<!-- Used by Authorization Code Service -->
+	<bean id="mysqlAuthorizationCode"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://localhost:3306/tokenstore"/>
+		<property name="username" value="root"/>
+		<property name="password" value="password"/>	
+	</bean>
 
 	<!-- Authorization server configuration -->		        
     <oauth:authorization-server 
@@ -94,18 +103,23 @@
 
 	</oauth:client-details-service>   
 
+	<!-- Services for resolving Users -->
+    <authentication-manager alias="authenticationManager" 
+    	xmlns="http://www.springframework.org/schema/security">
+        <authentication-provider user-service-ref="retailCustomerServiceImpl"/>
+    </authentication-manager>
+    
+    <bean id="clientDetailsService"
+    	class="org.springframework.security.oauth2.provider.JdbcClientDetailsService" >
+    	<constructor-arg ref="mysqlClientDetails" />
+    </bean>
+             
     <bean id="clientDetailsUserService" 
     	class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
         <constructor-arg ref="clientDetailsService" />
     </bean>
 
-	<!-- Services for resolving Users -->
-    <authentication-manager alias="authenticationManager" 
-    	xmlns="http://www.springframework.org/schema/security">
-        <authentication-provider user-service-ref="retailCustomerServiceImpl"/>
-    </authentication-manager>    
-
-	<!-- Managing Tokens -->        
+	<!-- Token Management -->        
     <bean id="tokenServices" 
     	class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
         <property name="tokenStore" ref="tokenStore" />
@@ -118,15 +132,15 @@
     	class="org.springframework.security.oauth2.provider.token.JdbcTokenStore" >
     	<constructor-arg ref="mysqlTokenStore" />
     </bean>
-    
-    <bean id="clientDetailsService"
-    	class="org.springframework.security.oauth2.provider.JdbcClientDetailsService" >
-    	<constructor-arg ref="mysqlClientDetails" />
-    </bean>      
-
+ 
     <bean id="tokenEnhancer" class="org.energyos.espi.datacustodian.oauth.EspiTokenEnhancer">
         <property name="baseURL" value="${datacustodian.base.url}"/>
     </bean>
+    
+<!--     <bean id="authorizationCode" -->
+<!--     	class="org.springframework.security.oauth2.provider.code.JdbcAuthorizatonCodeServices" > -->
+<!--     	<constructor-arg ref="mysqlAuthorizationCode"/>	 -->
+<!--     </bean>      -->
 
 	<!-- Token Approval Handler -->
 	<bean id="userApprovalHandler"
