@@ -3,7 +3,6 @@
 <%@ page import="org.springframework.security.web.WebAttributes" %>
 <%@ taglib prefix="authz" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%--
   ~ Copyright 2013 EnergyOS.org
   ~
@@ -20,7 +19,9 @@
   ~    limitations under the License.
   --%>
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+</html>
 <html lang="en">
 
 <jsp:include page="tiles/head.jsp"/>
@@ -52,15 +53,13 @@
 
         <form id="confirmationForm" name="confirmationForm" action="<%=request.getContextPath()%>/oauth/authorize" method="post">
             <input name="user_oauth_approval" value="true" type="hidden"/>
+            <ul>
+        		<c:forEach items="${scopes}" var="scope"><c:set var="approved"><c:if test="${scope.value}"> checked</c:if></c:set><c:set var="denied"><c:if test="${!scope.value}"> checked</c:if></c:set>
+        			<li>${scope.key}: <input type="radio" name="${scope.key}" value="true"${approved}> Approve  </input><input type="radio" name="${scope.key}" value="false"${denied}> Deny</input></li> 
+        		</c:forEach>            
+            </ul>
             <label>
-                <input name="authorize" value="Authorize" type="submit" class="btn btn-primary">
-            </label>
-        </form>
-
-        <form id="denialForm" name="denialForm" action="<%=request.getContextPath()%>/oauth/authorize" method="post">
-            <input name="user_oauth_approval" value="false" type="hidden"/>
-            <label>
-                <input name="deny" value="Deny" type="submit" class="btn">
+                <input name="authorize" value="Submit" type="submit" class="btn btn-primary">
             </label>
         </form>
     </authz:authorize>

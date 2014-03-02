@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation=
+       		"http://www.springframework.org/schema/beans
+       		 http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        	 http://www.springframework.org/schema/security
+        	 http://www.springframework.org/schema/security/spring-security-3.2.xsd
+        	 http://www.springframework.org/schema/security/oauth2
+        	 http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
+
+	<!-- Resource Server -->
+<!--     <http pattern="/espi/1_1/resource/Subscription/**" create-session="never"  -->
+<!--     	entry-point-ref="oauthAuthenticationEntryPoint"  -->
+<!--     	access-decision-manager-ref="accessDecisionManager" -->
+<!--     	xmlns="http://www.springframework.org/schema/security"> -->
+<!--         <anonymous enabled="false" /> -->
+<!--         <intercept-url pattern="/espi/1_1/resource/Subscription/**" access="ROLE_USER" /> -->
+<!--         <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" /> -->
+<!--         <access-denied-handler ref="oauthAccessDeniedHandler" /> -->
+<!--     </http> -->
+    
+<!--     <http pattern="/espi/1_1/resource/Batch/**" create-session="never"  -->
+<!--     	entry-point-ref="oauthAuthenticationEntryPoint"  -->
+<!--     	access-decision-manager-ref="accessDecisionManager" -->
+<!--     	xmlns="http://www.springframework.org/schema/security"> -->
+<!--         <anonymous enabled="false" /> -->
+<!--         <intercept-url pattern="/espi/1_1/resource/Batch/**" access="ROLE_USER" /> -->
+<!--         <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" /> -->
+<!--         <access-denied-handler ref="oauthAccessDeniedHandler" /> -->
+<!--     </http>     -->
+
+	<http pattern="/api/**" create-session="never"
+		entry-point-ref="oauthAuthenticationEntryPoint"
+		access-decision-manager-ref="accessDecisionManager"
+		xmlns="http://www.springframework.org/schema/security">
+		<anonymous enabled="false" />
+		<intercept-url pattern="/api/**" access="ROLE_USER" />
+		<custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
+		<access-denied-handler ref="oauthAccessDeniedHandler" />
+	</http>	   
+    
+    <http pattern="/custodian/**" 
+    	xmlns="http://www.springframework.org/schema/security">
+    	<intercept-url pattern="/custodian/**" access="ROLE_CUSTODIAN" />
+    	<access-denied-handler error-page="/WEB-INF/jsp/403.jsp" />   	
+    	<form-login authentication-failure-url="/login?authentication_error=true"
+    		default-target-url="/default"
+    		login-page="/login" />
+    	<logout logout-success-url="/" logout-url="/logout.do" />
+    </http>
+
+<!--     <http pattern="/espi/1_1/**" create-session="never"   -->
+<!--     	entry-point-ref="oauthAuthenticationEntryPoint"  -->
+<!--     	access-decision-manager-ref="accessDecisionManager" -->
+<!--     	xmlns="http://www.springframework.org/schema/security"> -->
+<!--         <anonymous enabled="false" /> -->
+<!--         <intercept-url pattern="/espi/1_1/**" access="ROLE_CUSTODIAN" /> -->
+<!--         <access-denied-handler ref="oauthAccessDeniedHandler" /> -->
+<!--     </http> -->
+    
+    <http access-denied-page="/login?authorization_error=true" 
+    	disable-url-rewriting="true" 
+    	xmlns="http://www.springframework.org/schema/security">
+    	<intercept-url pattern="/oauth/**" access="ROLE_USER" />
+        <intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />       
+        <form-login authentication-failure-url="/login?authentication_error=true" 
+        	default-target-url="/default"
+			login-page="/login"/>
+        <logout logout-success-url="/" logout-url="/logout.do" />
+        <anonymous />
+    </http>    
+
+</beans>

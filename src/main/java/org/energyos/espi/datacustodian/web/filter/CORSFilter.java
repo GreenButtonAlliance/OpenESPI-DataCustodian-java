@@ -31,8 +31,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-//import org.apache.commons.logging.Log;
-//import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import org.springframework.stereotype.Component;
 
 /**
@@ -42,7 +43,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CORSFilter implements Filter {
 
-//    private final Log logger = LogFactory.getLog(getClass());
+    private final Log logger = LogFactory.getLog(getClass());
 	private final Map<String, String> optionsHeaders = new LinkedHashMap<String, String>();
 
     private Pattern allowOriginRegex;
@@ -89,9 +90,9 @@ public class CORSFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
     	
-//    	if (logger.isInfoEnabled()) {  		
-//    		logger.info("CORSFilter processing: Checking for Cross Origin pre-flight OPTIONS message");
-//    	}
+    	if (logger.isInfoEnabled()) {  		
+    		logger.info("CORSFilter processing: Checking for Cross Origin pre-flight OPTIONS message");
+    	}
     	
         if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
             HttpServletRequest req = (HttpServletRequest)request;

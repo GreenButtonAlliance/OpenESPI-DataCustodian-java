@@ -23,6 +23,7 @@ import static org.mockito.Mockito.when;
 import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.test.EspiFactory;
+
 import org.junit.Test;
 
 public class ScopeSelectionControllerTests {

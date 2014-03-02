@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   ~ Copyright 2013 EnergyOS.org
   ~
@@ -14,25 +16,29 @@
   ~    See the License for the specific language governing permissions and
   ~    limitations under the License.
   --%>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <jsp:include page="/WEB-INF/jsp/tiles/head.jsp"/>
 
-<%--<security:authentication var="principal" property="principal" />--%>
-
 <body>
 
-<jsp:include page="/WEB-INF/jsp/tiles/customer/header.jsp"/>
+<jsp:include page="/WEB-INF/jsp/tiles/custodian/oauth/header.jsp"/>
 
-<div class="hero-unit">
-    <h1>Whoops!</h1>
-    <br>
-    <p>You don't have permission to view the page you attempted to access.</p>
-    <p><a href="<c:url value='/logout.do'/>">Continue</a>
+<div class="container">
+    <div class="row">
+        <div class="span12">
+        	<br>
+            <h2>OAuth Token Management</h2>
+
+
+        </div>
+    </div>
+    <hr>
 
     <jsp:include page="/WEB-INF/jsp/tiles/footer.jsp"/>
-    
+
 </div>
 
 </body>

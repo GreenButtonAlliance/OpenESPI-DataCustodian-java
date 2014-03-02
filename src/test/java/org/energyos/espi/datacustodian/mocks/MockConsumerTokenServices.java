@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MockConsumerTokenServices implements ConsumerTokenServices {
-    @Override
+//    @Override
     public Collection<OAuth2AccessToken> findTokensByUserName(String s) {
         return null;
     }
 
-    @Override
+//    @Override
     public Collection<OAuth2AccessToken> findTokensByClientId(String s) {
         return null;
     }
@@ -23,7 +23,7 @@ public class MockConsumerTokenServices implements ConsumerTokenServices {
         return false;
     }
 
-    @Override
+//    @Override
     public String getClientId(String s) {
         return null;
     }
