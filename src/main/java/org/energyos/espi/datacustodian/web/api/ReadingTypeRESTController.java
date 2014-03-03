@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.energyos.espi.common.domain.MeterReading;
 import org.energyos.espi.common.domain.ReadingType;
 import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.ExportService;
 import org.energyos.espi.common.service.ReadingTypeService;
 import org.energyos.espi.common.service.ResourceService;
