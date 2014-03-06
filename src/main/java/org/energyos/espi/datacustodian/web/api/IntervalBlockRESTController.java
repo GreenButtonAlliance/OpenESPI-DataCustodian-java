@@ -34,6 +34,7 @@ import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -79,6 +80,7 @@ public class IntervalBlockRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		exportService.exportIntervalBlocks(response.getOutputStream(),
 				new ExportFilter(params));
 	}
@@ -92,6 +94,7 @@ public class IntervalBlockRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			exportService.exportIntervalBlock(intervalBlockId,
 					response.getOutputStream(), new ExportFilter(params));
@@ -108,6 +111,7 @@ public class IntervalBlockRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			IntervalBlock intervalBlock = this.intervalBlockService
 					.importResource(stream);
@@ -163,6 +167,7 @@ public class IntervalBlockRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		exportService.exportIntervalBlocks(retailCustomerId, usagePointId,
 				meterReadingId, response.getOutputStream(), new ExportFilter(
 						params));
@@ -179,6 +184,7 @@ public class IntervalBlockRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			exportService.exportIntervalBlock(retailCustomerId, usagePointId,
 					meterReadingId, intervalBlockId,
@@ -199,6 +205,7 @@ public class IntervalBlockRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException { 
 		
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		if (null != resourceService.findIdByXPath(retailCustomerId,
 				usagePointId, meterReadingId, MeterReading.class)) {
 			try {

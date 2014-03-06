@@ -30,9 +30,9 @@ import org.energyos.espi.common.service.NotificationService;
 import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.utils.ExportFilter;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -74,6 +74,7 @@ public class BatchRESTController {
 			@PathVariable Long retailCustomerId,
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException, FeedException {
+
 		try {
 			RetailCustomer retailCustomer = retailCustomerService
 					.findById(retailCustomerId);
@@ -99,7 +100,8 @@ public class BatchRESTController {
 			@PathVariable Long retailCustomerId,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
-
+		
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		response.addHeader("Content-Disposition",
 				"attachment; filename=GreenButtonDownload.xml");
 		try {
@@ -120,6 +122,7 @@ public class BatchRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		response.addHeader("Content-Disposition",
 				"attachment; filename=GreenButtonDownload.xml");
 		try {
@@ -140,6 +143,7 @@ public class BatchRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		response.addHeader("Content-Disposition",
 				"attachment; filename=GreenButtonDownload.xml");
 		try {
@@ -158,6 +162,7 @@ public class BatchRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		response.addHeader("Content-Disposition",
 				"attachment; filename=GreenButtonDownload.xml");
 		try {
