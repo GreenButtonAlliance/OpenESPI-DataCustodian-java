@@ -31,6 +31,7 @@ import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.utils.ExportFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -67,6 +68,7 @@ public class ReadingTypeRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		exportService.exportReadingTypes(response.getOutputStream(),
 				new ExportFilter(params));
 	}
@@ -78,6 +80,7 @@ public class ReadingTypeRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		exportService.exportReadingType(readingTypeId,
 				response.getOutputStream(), new ExportFilter(params));
 	}
@@ -88,6 +91,7 @@ public class ReadingTypeRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			ReadingType readingType = this.readingTypeService
 					.importResource(stream);
@@ -138,6 +142,7 @@ public class ReadingTypeRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		exportService.exportReadingTypes(retailCustomerId, usagePointId,
 				response.getOutputStream(), new ExportFilter(params));
 	}
@@ -151,6 +156,7 @@ public class ReadingTypeRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		exportService.exportReadingType(retailCustomerId, usagePointId,
 				meterReadingId, readingTypeId, response.getOutputStream(),
 				new ExportFilter(params));
@@ -164,6 +170,7 @@ public class ReadingTypeRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		if (null != resourceService.findIdByXPath(retailCustomerId,
 				usagePointId, meterReadingId, MeterReading.class)) {
 

@@ -18,7 +18,6 @@ package org.energyos.espi.datacustodian.web.api;
 
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +34,7 @@ import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -74,6 +74,7 @@ public class TimeConfigurationRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		exportService.exportTimeConfigurations(response.getOutputStream(),
 				new ExportFilter(params));
 	}
@@ -85,6 +86,7 @@ public class TimeConfigurationRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			exportService.exportTimeConfiguration(timeConfigurationId,
 					response.getOutputStream(), new ExportFilter(params));
@@ -99,6 +101,7 @@ public class TimeConfigurationRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			TimeConfiguration timeConfiguration = this.timeConfigurationService
 					.importResource(stream);
@@ -147,6 +150,7 @@ public class TimeConfigurationRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		exportService.exportTimeConfigurations(retailCustomerId, usagePointId,
 				response.getOutputStream(), new ExportFilter(params));
 	}
@@ -160,6 +164,7 @@ public class TimeConfigurationRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			exportService.exportTimeConfiguration(retailCustomerId,
 					usagePointId, timeConfigurationId,
@@ -177,6 +182,7 @@ public class TimeConfigurationRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		if (null != resourceService.findIdByXPath(retailCustomerId,
 				usagePointId, UsagePoint.class)) {
 

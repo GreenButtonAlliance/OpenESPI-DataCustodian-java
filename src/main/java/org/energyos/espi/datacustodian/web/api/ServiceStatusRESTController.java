@@ -29,6 +29,7 @@ import org.energyos.espi.common.models.atom.DateTimeType;
 import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.utils.DateConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -51,6 +52,7 @@ public class ServiceStatusRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 		
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		ApplicationInformation applicationInformation = resourceService.findById(1L,  ApplicationInformation.class);
     	DateTimeType updated = DateConverter.toDateTimeType(new Date());
         String temp = updated.getValue().toXMLFormat();

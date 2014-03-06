@@ -18,7 +18,12 @@ package org.energyos.espi.datacustodian.web.customer;
 
 import static org.energyos.espi.datacustodian.utils.URLHelper.newScopeParams;
 
+import java.security.Principal;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.energyos.espi.common.domain.ApplicationInformation;
+import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.datacustodian.web.BaseController;
@@ -39,8 +44,12 @@ public class ScopeSelectionController extends BaseController {
     private ApplicationInformationService applicationInformationService;
 
     @RequestMapping(value = Routes.DATA_CUSTODIAN_SCOPE_SELECTION_SCREEN, method = RequestMethod.GET)
-    public String scopeSelection(String[] scopes, @RequestParam("ThirdPartyID") String thirdPartyClientId) {
+    public String scopeSelection(HttpServletRequest request, String[] scopes, @RequestParam("ThirdPartyID") String thirdPartyClientId) {
         ApplicationInformation applicationInformation = applicationInformationService.findByClientId(thirdPartyClientId);
+//        RetailCustomer retailCustomer = this.currentCustomer(principal);
+//        if (retailCustomer != null) {
+//            System.out.printf("*****CurrentCustomer: %s\n", retailCustomer.getUsername());
+//        }
         return "redirect:" + 
         		applicationInformation.getThirdPartyScopeSelectionScreenURI() + 
         		"?" + 
