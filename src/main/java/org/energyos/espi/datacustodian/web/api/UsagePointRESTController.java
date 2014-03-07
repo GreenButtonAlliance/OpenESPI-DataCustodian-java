@@ -32,6 +32,7 @@ import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -70,6 +71,7 @@ public class UsagePointRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 
 			exportService.exportUsagePoints(response.getOutputStream(),
@@ -87,6 +89,7 @@ public class UsagePointRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			exportService.exportUsagePoint(usagePointId,
 					response.getOutputStream(), new ExportFilter(params));
@@ -100,6 +103,8 @@ public class UsagePointRESTController {
 	public void create(HttpServletResponse response,
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
+
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			UsagePoint usagePoint = this.usagePointService
 					.importResource(stream);
@@ -151,6 +156,7 @@ public class UsagePointRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			exportService.exportUsagePoints(retailCustomerId,
 					response.getOutputStream(), new ExportFilter(params));
@@ -168,6 +174,7 @@ public class UsagePointRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			exportService.exportUsagePoint(retailCustomerId, usagePointId,
 					response.getOutputStream(), new ExportFilter(params));
@@ -183,7 +190,7 @@ public class UsagePointRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
-
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
 			UsagePoint usagePoint = this.usagePointService.importResource(stream);

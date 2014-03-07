@@ -29,6 +29,7 @@ import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.utils.ExportFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -68,6 +69,7 @@ public class AuthorizationRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		exportService.exportAuthorizations(response.getOutputStream(),
 				new ExportFilter(params));
 	}
@@ -79,6 +81,7 @@ public class AuthorizationRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			exportService.exportAuthorization(authorizationId,
 					response.getOutputStream(), new ExportFilter(params));
@@ -93,6 +96,7 @@ public class AuthorizationRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			Authorization authorization = this.authorizationService
 					.importResource(stream);
@@ -145,6 +149,7 @@ public class AuthorizationRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		exportService.exportAuthorizations(retailCustomerId,
 				response.getOutputStream(), new ExportFilter(params));
 	}
@@ -157,6 +162,7 @@ public class AuthorizationRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			exportService.exportAuthorization(retailCustomerId,
 					authorizationId, response.getOutputStream(),
@@ -173,6 +179,7 @@ public class AuthorizationRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			Authorization authorization = this.authorizationService
 					.importResource(stream);

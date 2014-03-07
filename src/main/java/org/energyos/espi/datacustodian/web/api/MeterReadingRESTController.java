@@ -32,6 +32,7 @@ import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -71,6 +72,7 @@ public class MeterReadingRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		exportService.exportMeterReadings(response.getOutputStream(),
 				new ExportFilter(params));
 	}
@@ -82,6 +84,7 @@ public class MeterReadingRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			exportService.exportMeterReading(meterReadingId,
 					response.getOutputStream(), new ExportFilter(params));
@@ -96,6 +99,7 @@ public class MeterReadingRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			MeterReading meterReading = this.meterReadingService
 					.importResource(stream);
@@ -111,13 +115,13 @@ public class MeterReadingRESTController {
 	public void update(HttpServletResponse response,
 			@PathVariable Long meterReadingId,
 			@RequestParam Map<String, String> params, InputStream stream) {
-		MeterReading meterReading = meterReadingService
-				.findById(meterReadingId);
-		if (meterReading != null) {
+
+		if (null!= resourceService.findById(meterReadingId, MeterReading.class)) {
 			try {
-				MeterReading newMeterReading = meterReadingService
-						.importResource(stream);
-				meterReading.merge(newMeterReading);
+				// note that the import service is doing the merge
+				// if this should change, we have to do it here.
+				meterReadingService.importResource(stream);
+				
 			} catch (Exception e) {
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			}
@@ -144,6 +148,7 @@ public class MeterReadingRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		exportService.exportMeterReadings(retailCustomerId, usagePointId,
 				response.getOutputStream(), new ExportFilter(params));
 	}
@@ -156,6 +161,7 @@ public class MeterReadingRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			exportService.exportMeterReading(retailCustomerId, usagePointId,
 					meterReadingId, response.getOutputStream(),
@@ -175,16 +181,14 @@ public class MeterReadingRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		if (null != resourceService.findIdByXPath(retailCustomerId,
 				usagePointId, UsagePoint.class)) {
 			try {
 
-				UsagePoint usagePoint = usagePointService
-						.findById(usagePointId);
 				MeterReading meterReading = meterReadingService
 						.importResource(stream);
-				meterReadingService.associateByUUID(usagePoint,
-						meterReading.getUUID());
+
 				exportService.exportMeterReading(retailCustomerId,
 						usagePointId, meterReading.getId(),
 						response.getOutputStream(), new ExportFilter(params));
@@ -205,16 +209,11 @@ public class MeterReadingRESTController {
 			@PathVariable Long usagePointId, @PathVariable Long meterReadingId,
 			@RequestParam Map<String, String> params, InputStream stream) {
 
-		UsagePoint usagePoint = usagePointService.findById(usagePointId);
-		MeterReading meterReading = meterReadingService.findById(
-				retailCustomerId, usagePointId, meterReadingId);
+		if (null != resourceService.findIdByXPath(retailCustomerId, usagePointId, meterReadingId, MeterReading.class)) {
+			
+            try{
+				meterReadingService.importResource(stream);
 
-		if (meterReading != null) {
-			try {
-				MeterReading newmeterReading = meterReadingService
-						.importResource(stream);
-				meterReadingService.associateByUUID(usagePoint,
-						newmeterReading.getUUID());
 			} catch (Exception e) {
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			}

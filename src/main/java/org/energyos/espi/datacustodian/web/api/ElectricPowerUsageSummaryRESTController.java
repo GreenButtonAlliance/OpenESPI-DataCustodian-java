@@ -32,6 +32,7 @@ import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -70,6 +71,7 @@ public class ElectricPowerUsageSummaryRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		exportService.exportElectricPowerUsageSummarys(
 				response.getOutputStream(), new ExportFilter(params));
 	}
@@ -83,6 +85,7 @@ public class ElectricPowerUsageSummaryRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			exportService.exportElectricPowerUsageSummary(
 					electricPowerUsageSummaryId, response.getOutputStream(),
@@ -100,6 +103,7 @@ public class ElectricPowerUsageSummaryRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			ElectricPowerUsageSummary electricPowerUsageSummary = this.electricPowerUsageSummaryService
 					.importResource(stream);
@@ -156,6 +160,7 @@ public class ElectricPowerUsageSummaryRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		exportService.exportElectricPowerUsageSummarys(retailCustomerId,
 				usagePointId, response.getOutputStream(), new ExportFilter(
 						params));
@@ -170,6 +175,7 @@ public class ElectricPowerUsageSummaryRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			exportService.exportElectricPowerUsageSummary(retailCustomerId,
 					usagePointId, electricPowerUsageSummaryId,
@@ -189,6 +195,7 @@ public class ElectricPowerUsageSummaryRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		if (null != resourceService.findIdByXPath(retailCustomerId,
 				usagePointId, UsagePoint.class)) {
 			try {

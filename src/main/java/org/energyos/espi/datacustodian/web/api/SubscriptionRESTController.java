@@ -31,6 +31,7 @@ import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.SubscriptionService;
 import org.energyos.espi.common.utils.ExportFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -79,6 +80,7 @@ public class SubscriptionRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		exportService.exportSubscriptions(response.getOutputStream(),
 				new ExportFilter(params));
 	}
@@ -89,6 +91,8 @@ public class SubscriptionRESTController {
 			@PathVariable Long subscriptionId,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
+
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		exportService.exportSubscription(subscriptionId,
 				response.getOutputStream(), new ExportFilter(params));
 	}
@@ -101,6 +105,7 @@ public class SubscriptionRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			Subscription subscription = this.subscriptionService
 					.importResource(stream);
@@ -155,6 +160,7 @@ public class SubscriptionRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		exportService.exportSubscriptions(retailCustomerId,
 				response.getOutputStream(), new ExportFilter(params));
 	}
@@ -169,6 +175,7 @@ public class SubscriptionRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		exportService.exportSubscription(retailCustomerId, subscriptionId,
 				response.getOutputStream(), new ExportFilter(params));
 	}
@@ -181,6 +188,8 @@ public class SubscriptionRESTController {
 			@PathVariable Long retailCustomerId,
 			@RequestParam Map<String, String> params,
 			@RequestBody ByteArrayInputStream stream) throws IOException {
+
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			Subscription subscription = this.subscriptionService
 					.importResource(stream);

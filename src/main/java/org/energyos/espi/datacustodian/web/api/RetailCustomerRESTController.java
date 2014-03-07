@@ -73,8 +73,7 @@ public class RetailCustomerRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
-		// TODO - - Integration of RetailCustomer with Identified Object Engine
-		// is needed
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			exportService.exportRetailCustomers(response.getOutputStream(),
 					new ExportFilter(params));
@@ -94,6 +93,7 @@ public class RetailCustomerRESTController {
 			@PathVariable Long retailCustomerId,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
+		
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			exportService.exportRetailCustomer(retailCustomerId,
@@ -112,6 +112,7 @@ public class RetailCustomerRESTController {
 	public void create(HttpServletResponse response,
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
+		
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			RetailCustomer retailCustomer = this.retailCustomerService

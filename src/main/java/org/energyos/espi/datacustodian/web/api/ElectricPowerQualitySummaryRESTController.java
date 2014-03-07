@@ -33,6 +33,7 @@ import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -73,6 +74,7 @@ public class ElectricPowerQualitySummaryRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		exportService.exportElectricPowerQualitySummarys(
 				response.getOutputStream(), new ExportFilter(params));
 	}
@@ -86,6 +88,7 @@ public class ElectricPowerQualitySummaryRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			exportService.exportElectricPowerQualitySummary(
 					electricPowerQualitySummaryId, response.getOutputStream(),
@@ -101,6 +104,7 @@ public class ElectricPowerQualitySummaryRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			ElectricPowerQualitySummary electricPowerQualitySummary = this.electricPowerQualitySummaryService
 					.importResource(stream);
@@ -158,13 +162,13 @@ public class ElectricPowerQualitySummaryRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		exportService.exportElectricPowerQualitySummarys(retailCustomerId,
 				usagePointId, response.getOutputStream(), new ExportFilter(
 						params));
 	}
 
-	//
-	//
+
 	@RequestMapping(value = Routes.ELECTRIC_POWER_QUALITY_SUMMARY_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
 	public void show(HttpServletResponse response,
@@ -174,6 +178,7 @@ public class ElectricPowerQualitySummaryRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			exportService.exportElectricPowerQualitySummary(retailCustomerId,
 					usagePointId, electricPowerQualitySummaryId,
@@ -191,6 +196,7 @@ public class ElectricPowerQualitySummaryRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		if (null != resourceService.findIdByXPath(retailCustomerId,
 				usagePointId, UsagePoint.class)) {
 			try {

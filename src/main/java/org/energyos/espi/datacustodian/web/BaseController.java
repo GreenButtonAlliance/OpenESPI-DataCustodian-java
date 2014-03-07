@@ -26,9 +26,11 @@ public class BaseController {
     @ModelAttribute("currentCustomer")
     public RetailCustomer currentCustomer(Principal principal) {
     	try {
-        return (RetailCustomer) ((Authentication)principal).getPrincipal();
-    	} catch (Exception e) {
-    		return null;
-    	}
+            System.out.printf("***** DataCustodian: Current Customer: %s\n", (RetailCustomer) ((Authentication)principal).getPrincipal());
+            return (RetailCustomer) ((Authentication)principal).getPrincipal();
+        	} catch (Exception e) {
+        	    System.out.printf("***** DataCustodian: Current Customer:null\n");
+        		return null;
+        	}
     }
 }
