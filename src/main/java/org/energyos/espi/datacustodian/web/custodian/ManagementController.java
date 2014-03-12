@@ -22,25 +22,33 @@ import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @PreAuthorize("hasRole('ROLE_CUSTODIAN')")
-public class AdminController extends BaseController {
+public class ManagementController extends BaseController {
 
     
     @Autowired
     private NotificationService notificationService;
 
     @RequestMapping(value = Routes.DATA_CUSTODIAN_NOTIFY_THIRD_PARTY, method = RequestMethod.GET)
-    public String notifyThirdParty() throws Exception {
+    public String notifyThirdParty(@PathVariable Long applicationInformationId, ModelMap model) throws Exception {
     	
 		notificationService.notifyAllNeed();
-
 
         return "redirect:" + Routes.DATA_CUSTODIAN_HOME;
     }
 
+    @RequestMapping(value = Routes.DATA_CUSTODIAN_NOTIFY_THIRD_PARTYS, method = RequestMethod.GET)
+    public String notifyThirdParty(ModelMap model) throws Exception {
+    	
+		notificationService.notifyAllNeed();
+
+        return "redirect:" + Routes.DATA_CUSTODIAN_HOME;
+    }
   
 }
