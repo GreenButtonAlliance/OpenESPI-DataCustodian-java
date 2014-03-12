@@ -39,7 +39,7 @@ public class ScopeSelectionControllerTests {
         controller.setApplicationInformationService(applicationInformationService);
         when(applicationInformationService.findByClientId(applicationInformation.getClientId())).thenReturn(applicationInformation);
 
-        String redirectURL = controller.scopeSelection(new String[]{"scope1", "scope2"}, applicationInformation.getClientId());
+        String redirectURL = controller.scopeSelection(null, new String[]{"scope1", "scope2"}, applicationInformation.getClientId());
         String[] scopes = applicationInformation.getScope().toArray(new String[applicationInformation.getScope().size()]);
 
         assertEquals(String.format("redirect:%s?scope=%s&scope=%s&DataCustodianID=%s", applicationInformation.getThirdPartyScopeSelectionScreenURI(),
