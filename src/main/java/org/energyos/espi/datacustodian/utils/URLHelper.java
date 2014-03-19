@@ -20,11 +20,9 @@ public class URLHelper {
         StringBuilder sb = new StringBuilder();
         int i = 0;
         for(String scope : scopes) {
-            if(i == 0) {
-                sb.append("scope=" + scope);
-            } else {
-            	sb.append(" " + scope);
-            }
+        	if(i > 0)
+        		sb.append("&");
+        	sb.append("scope=" + scope);
             i++;
         }
         return sb.toString();

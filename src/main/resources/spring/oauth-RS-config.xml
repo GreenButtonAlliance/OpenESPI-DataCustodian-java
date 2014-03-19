@@ -23,42 +23,42 @@
 <!--         <access-denied-handler ref="oauthAccessDeniedHandler" /> -->
 <!--     </http> -->
     
-<!--     <http pattern="/espi/1_1/resource/Batch/**" create-session="never"  -->
-<!--     	entry-point-ref="oauthAuthenticationEntryPoint"  -->
-<!--     	access-decision-manager-ref="accessDecisionManager" -->
-<!--     	xmlns="http://www.springframework.org/schema/security"> -->
-<!--         <anonymous enabled="false" /> -->
-<!--         <intercept-url pattern="/espi/1_1/resource/Batch/**" access="ROLE_USER" /> -->
-<!--         <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" /> -->
-<!--         <access-denied-handler ref="oauthAccessDeniedHandler" /> -->
-<!--     </http>     -->
-
-	<http pattern="/api/**" create-session="never"
-		entry-point-ref="oauthAuthenticationEntryPoint"
-		access-decision-manager-ref="accessDecisionManager"
-		xmlns="http://www.springframework.org/schema/security">
-		<anonymous enabled="false" />
-		<intercept-url pattern="/api/**" access="ROLE_USER" />
-		<custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
-		<access-denied-handler ref="oauthAccessDeniedHandler" />
-	</http>	   
-    
-    <http pattern="/custodian/**" 
+    <http pattern="/espi/1_1/resource/Batch/Subscription/([^/].*?)" create-session="never" 
+    	entry-point-ref="oauthAuthenticationEntryPoint" 
+    	access-decision-manager-ref="accessDecisionManager"
     	xmlns="http://www.springframework.org/schema/security">
-    	<intercept-url pattern="/custodian/**" access="ROLE_CUSTODIAN" />
-    	<access-denied-handler error-page="/WEB-INF/jsp/403.jsp" />   	
-    	<form-login authentication-failure-url="/login?authentication_error=true"
-    		default-target-url="/default"
-    		login-page="/login" />
-    	<logout logout-success-url="/" logout-url="/logout.do" />
-    </http>
+        <anonymous enabled="false" />
+        <intercept-url pattern="/espi/1_1/resource/Batch/**" access="ROLE_USER" />
+        <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
+        <access-denied-handler ref="oauthAccessDeniedHandler" />
+    </http>    
+
+<!-- 	<http pattern="/api/**" create-session="never" -->
+<!-- 		entry-point-ref="oauthAuthenticationEntryPoint" -->
+<!-- 		access-decision-manager-ref="accessDecisionManager" -->
+<!-- 		xmlns="http://www.springframework.org/schema/security"> -->
+<!-- 		<anonymous enabled="false" /> -->
+<!-- 		<intercept-url pattern="/api/**" access="ROLE_USER" /> -->
+<!-- 		<custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" /> -->
+<!-- 		<access-denied-handler ref="oauthAccessDeniedHandler" /> -->
+<!-- 	</http>	    -->
+    
+<!--     <http pattern="/custodian/**"  -->
+<!--     	xmlns="http://www.springframework.org/schema/security"> -->
+<!--     	<intercept-url pattern="/custodian/**" access="ROLE_CUSTODIAN" /> -->
+<!--     	<access-denied-handler error-page="/WEB-INF/jsp/403.jsp" />   	 -->
+<!--     	<form-login authentication-failure-url="/login?authentication_error=true" -->
+<!--     		default-target-url="/default" -->
+<!--     		login-page="/login" /> -->
+<!--     	<logout logout-success-url="/" logout-url="/logout.do" /> -->
+<!--     </http> -->
 
 <!--     <http pattern="/espi/1_1/**" create-session="never"   -->
 <!--     	entry-point-ref="oauthAuthenticationEntryPoint"  -->
 <!--     	access-decision-manager-ref="accessDecisionManager" -->
 <!--     	xmlns="http://www.springframework.org/schema/security"> -->
 <!--         <anonymous enabled="false" /> -->
-<!--         <intercept-url pattern="/espi/1_1/**" access="ROLE_CUSTODIAN" /> -->
+<!--         <intercept-url pattern="/espi/1_1/**" access="ROLE_CUSTODIAN, ROLE_USER, ROLE_ADMIN" /> -->
 <!--         <access-denied-handler ref="oauthAccessDeniedHandler" /> -->
 <!--     </http> -->
     
