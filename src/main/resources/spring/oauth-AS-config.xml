@@ -110,7 +110,7 @@
     </authentication-manager>
     
     <bean id="clientDetailsService"
-    	class="org.springframework.security.oauth2.provider.JdbcClientDetailsService" >
+    	class="org.springframework.security.oauth2.provider.client.JdbcClientDetailsService" >
     	<constructor-arg ref="mysqlClientDetails" />
     </bean>
              
@@ -156,7 +156,7 @@
 	</bean>
 
 	<bean id="requestFactory"
-		class="org.springframework.security.oauth2.provider.DefaultOAuth2RequestFactory">
+		class="org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory">
 		<constructor-arg name="clientDetailsService" ref="clientDetailsService" />
 	</bean>	           
 
