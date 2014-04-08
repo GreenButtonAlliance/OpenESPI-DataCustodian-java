@@ -79,6 +79,7 @@
                         <caption class="text-left">Interval Readings:</caption>
                         <thead>
                         <tr>
+                            <th>Usage</th>
                             <th>Cost</th>
                             <th>Duration</th>
                             <th>Start</th>
@@ -88,6 +89,9 @@
                         <tbody>
                         <c:forEach var="intervalReading" items="${intervalBlock.intervalReadings}">
                             <tr>
+                                <td>
+                                    <c:out value="${intervalReading.value}"/>
+                                </td>
                                 <td>
                                     <c:out value="${intervalReading.cost}"/>
                                 </td>
