@@ -108,7 +108,8 @@ public class OauthAdminController extends BaseController {
 	public Collection<OAuth2AccessToken> listTokensForUser(@PathVariable String userID, Principal principal)
 			throws Exception {
 		checkResourceOwner(userID, principal);
-		return tokenStore.findTokensByUserName(userID);
+//		return tokenStore.findTokensByUserName(userID);
+	return null;
 	}
 
 	/**
