@@ -236,12 +236,12 @@
 
 	<!--**************************************         Development Configuration (Start)         **************************************-->	
 	<!-- OAuth Token Administrative Resources -->
-	<http pattern="/oauth/tokens/**" create-session="never"
+	<http pattern="/custodian/oauth/**" create-session="never"
 		entry-point-ref="oauthAuthenticationEntryPoint"
 		access-decision-manager-ref="accessDecisionManager"
 		xmlns="http://www.springframework.org/schema/security" >
 		<anonymous enabled="false" />
-		<intercept-url pattern="/oauth/users/**" access="ROLE_CUSTODIAN" />
+		<intercept-url pattern="/custodian/oauth/**" access="ROLE_CUSTODIAN" />
 		<custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
 		<access-denied-handler ref="oauthAccessDeniedHandler" />		
 	</http>				
