@@ -69,13 +69,21 @@
 			authorized-grant-types="authorization_code,refresh_token"
 			authorities="ROLE_USER"  />
 
-		<!-- Third Party Application ROLE_CUSTODIAN parameters -->
+		<!-- Third Party Application ROLE_ADMIN parameters -->
 		<oauth:client client-id="third_party_admin"
 			secret="secret"
 			access-token-validity="360"
-			scope="FB=4_5_15;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13,FB=4_5_16;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13"				
+			scope="ThirdParty_Admin_Access"				
 			authorized-grant-types="client_credentials"
-			authorities="ROLE_ADMIN" />
+			authorities="ROLE_TP_ADMIN" />
+
+		<!-- Data Custodian Application ROLE_ADMIN parameters -->
+		<oauth:client client-id="data_custodian_admin"
+			secret="secret"
+			access-token-validity="360"
+			scope="DataCustodian_Admin_Access"				
+			authorized-grant-types="client_credentials"
+			authorities="ROLE_DC_ADMIN" />
 
 		<!-- Additional User Definition examples -->			
 <!-- 		<oauth:client client-id="my-trusted-client-with-secret" -->
@@ -228,12 +236,12 @@
 
 	<!--**************************************         Development Configuration (Start)         **************************************-->	
 	<!-- OAuth Token Administrative Resources -->
-	<http pattern="/oauth/tokens/**" create-session="never"
+	<http pattern="/custodian/oauth/**" create-session="never"
 		entry-point-ref="oauthAuthenticationEntryPoint"
 		access-decision-manager-ref="accessDecisionManager"
 		xmlns="http://www.springframework.org/schema/security" >
 		<anonymous enabled="false" />
-		<intercept-url pattern="/oauth/users/**" access="ROLE_CUSTODIAN" />
+		<intercept-url pattern="/custodian/oauth/**" access="ROLE_CUSTODIAN" />
 		<custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
 		<access-denied-handler ref="oauthAccessDeniedHandler" />		
 	</http>				
