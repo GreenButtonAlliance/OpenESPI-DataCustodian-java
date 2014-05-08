@@ -94,7 +94,11 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			authorization.setStatus("1"); 	// Set authorization record status as "Active"
 			authorization.setSubscription(subscription);
 			authorizationService.merge(authorization);
-		}			
+		}	else {
+			// client credentials section
+			// 1 - make a resourceURI (out of the scope BulkID
+			// 2 - put it into the result.getAdditionalInformation().put ... (see above)
+		}
 
         return result;
     }

@@ -84,7 +84,9 @@
                 </map>
             </property>
         </bean>
-
+   
+        <bean id="resourceValidationFilter" class="org.energyos.espi.datacustodian.web.filter.ResourceValidationFilter" />
+   
         <bean id="atomMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
             <property name="packagesToScan">
                 <list>

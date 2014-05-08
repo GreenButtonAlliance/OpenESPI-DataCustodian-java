@@ -105,7 +105,8 @@ public class BatchRESTController {
 		response.addHeader("Content-Disposition",
 				"attachment; filename=GreenButtonDownload.xml");
 		try {
-			exportService.exportUsagePointsFull(retailCustomerId,
+			// TODO -- need authorization hook
+			exportService.exportUsagePointsFull(0L, retailCustomerId,
 					response.getOutputStream(), new ExportFilter(params));
 
 		} catch (Exception e) {
@@ -126,7 +127,9 @@ public class BatchRESTController {
 		response.addHeader("Content-Disposition",
 				"attachment; filename=GreenButtonDownload.xml");
 		try {
-			exportService.exportUsagePointFull(retailCustomerId, usagePointId,
+			
+			// TODO -- need authorization hook
+			exportService.exportUsagePointFull(0L,retailCustomerId, usagePointId,
 					response.getOutputStream(), new ExportFilter(params));
 
 		} catch (Exception e) {

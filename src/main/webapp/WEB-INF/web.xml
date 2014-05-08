@@ -66,6 +66,16 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
+	<!-- Resource Access Validation Filter -->
+    <filter>
+        <filter-name>resourceValidationFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+     </filter>
+    <filter-mapping>
+        <filter-name>resourceValidationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
 	<servlet>
 		<servlet-name>spring</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

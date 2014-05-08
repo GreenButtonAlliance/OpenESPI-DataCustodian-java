@@ -3,6 +3,7 @@ package features.steps;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Matchers.anyLong;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
@@ -64,7 +65,7 @@ public class IntegrationSteps {
     @Ignore
     public void I_export_Usage_Point() throws Throwable {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        exportService.exportUsagePoints(retailCustomer.getId(), os, new ExportFilter(new HashMap<String, String>()));
+        exportService.exportUsagePoints(anyLong(), retailCustomer.getId(), os, new ExportFilter(new HashMap<String, String>()));
         xml = os.toString();
     }
 
