@@ -86,6 +86,6 @@ public class UsagePointControllerTests {
         HashMap<String, String> params = new HashMap<>();
         // controller.feed(response, auth, params);
 
-        verify(exportService).exportUsagePoints(anyLong(), any(OutputStream.class), eq(new ExportFilter(params)));
+        verify(exportService).exportUsagePoints(anyLong(), anyLong(), any(OutputStream.class), eq(new ExportFilter(params)));
     }
 }

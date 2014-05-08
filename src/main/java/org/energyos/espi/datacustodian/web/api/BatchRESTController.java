@@ -68,7 +68,9 @@ public class BatchRESTController {
 	public void handleGenericException() {
 	}
 
-	@RequestMapping(value = Routes.BATCH_UPLOAD_MY_DATA, method = RequestMethod.POST, consumes = "application/xml", produces = "application/atom+xml")
+	//@RequestMapping(value = Routes.BATCH_UPLOAD_MY_DATA, method = RequestMethod.POST, consumes = "application/xml", produces = "application/atom+xml")
+	// TODO -- the OAuth filter/mechanism seems to be converting application/xml -> text/xml ...
+	@RequestMapping(value = Routes.BATCH_UPLOAD_MY_DATA, method = RequestMethod.POST, produces = "application/atom+xml")
 	@ResponseBody
 	public void upload(HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
@@ -105,7 +107,8 @@ public class BatchRESTController {
 		response.addHeader("Content-Disposition",
 				"attachment; filename=GreenButtonDownload.xml");
 		try {
-			exportService.exportUsagePointsFull(retailCustomerId,
+			// TODO -- need authorization hook
+			exportService.exportUsagePointsFull(0L, retailCustomerId,
 					response.getOutputStream(), new ExportFilter(params));
 
 		} catch (Exception e) {
@@ -126,7 +129,9 @@ public class BatchRESTController {
 		response.addHeader("Content-Disposition",
 				"attachment; filename=GreenButtonDownload.xml");
 		try {
-			exportService.exportUsagePointFull(retailCustomerId, usagePointId,
+			
+			// TODO -- need authorization hook
+			exportService.exportUsagePointFull(0L,retailCustomerId, usagePointId,
 					response.getOutputStream(), new ExportFilter(params));
 
 		} catch (Exception e) {
