@@ -107,20 +107,6 @@ public class UsagePointController extends BaseController {
      }
     }
 
-    @RequestMapping(value = Routes.USAGE_POINTS_FEED, method = RequestMethod.GET)
-    public void feedEntries(HttpServletResponse response, Principal principal, @RequestParam Map<String, String> params) throws FeedException, IOException {
-        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        response.addHeader("Content-Disposition", "attachment; filename=GreenButtonDownload.xml");
-        exportService.exportUsagePointsFull(0L, currentCustomer(principal).getId(), response.getOutputStream(), new ExportFilter(params));
-    }
-    
-    @RequestMapping(value = Routes.USAGE_POINT_FEED, method = RequestMethod.GET)
-    public void feedEntry(HttpServletResponse response, Principal principal, @PathVariable Long usagePointId, @RequestParam Map<String, String> params) throws FeedException, IOException {
-        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        response.addHeader("Content-Disposition", "attachment; filename=GreenButtonDownload.xml");
-        exportService.exportUsagePointFull(0L, usagePointId, currentCustomer(principal).getId(), response.getOutputStream(), new ExportFilter(params));
-    }
-
     @SuppressWarnings("rawtypes")
 	@Transactional (readOnly=true)
     private HashMap<String, Object> buildDisplayBag(Long retailCustomerId, Long usagePointId) {

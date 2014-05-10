@@ -63,13 +63,17 @@ public class ResourceValidationFilter implements Filter{
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
 
+		System.out.printf("ResourceValidationFilter: role=%s\n", roles);
+		
+		// if there is no token || it contains "Basic " <- this "or" needs verified
+		if ((token == null) || (token.contains("Basic "))){
+			// no token and it passed the OAuth filter - so it must be good2go
+			invalid = false;
+		}
 		// Dispatch on authentication type
 		if ((roles.contains("ROLE_USER")) || roles.contains("ROLE_CUSTODIAN")) {
 			System.out.printf("ResourceValidationFilter: role=%s\n", roles);
-			if ((token == null) || (token.contains("Basic "))){
-				// no token and they are logged in OR we are in the oauth authorization sequence
-				invalid = false;
-			} else {
+			{
 				// find the authorization
 				Authorization authorization = authorizationService.findByAccessToken(token);
 				// we would like to validate the retail customer, but the principal is not fully instanciated (no id or uuid).
