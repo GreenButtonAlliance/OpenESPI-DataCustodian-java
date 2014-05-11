@@ -93,6 +93,11 @@ public class ResourceValidationFilter implements Filter{
 		if (invalid && roles.contains("ROLE_DC_ADMIN")) {
 			//TODO
 			System.out.printf("ResourceValidationFilter: ROLE_DC_ADMIN\n");
+			
+			// allows client credentials request to be processed
+			if ((token == null) || (token.contains("Basic "))){
+			    invalid = false;
+			   }
 		}
 				
 	    if (invalid && roles.contains("ROLE_ADMIN")) {
