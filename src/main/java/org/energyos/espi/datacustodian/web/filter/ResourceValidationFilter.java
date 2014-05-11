@@ -88,6 +88,11 @@ public class ResourceValidationFilter implements Filter{
 		if (invalid && roles.contains("ROLE_TP_ADMIN")) {
 			//TODO
 			System.out.printf("ResourceValidationFilter: ROLE_TP_ADMIN\n");
+			
+			// allows client credentials request to be processed			
+			if ((token == null) || (token.contains("Basic "))){
+				invalid = false;
+			}
 		}
 		
 		if (invalid && roles.contains("ROLE_DC_ADMIN")) {
@@ -103,12 +108,17 @@ public class ResourceValidationFilter implements Filter{
 	    if (invalid && roles.contains("ROLE_ADMIN")) {
 	    	//TODO
 	    	System.out.printf("ResourceValidationFilter: ROLE_ADMIN\n");
+
+			// allows client credentials request to be processed
+			if ((token == null) || (token.contains("Basic "))){
+				invalid = false;
+			}	    	
 	    }
 	    
 	    // if "ROLE_ANONYMOUS", or "ROLE_USER" These are the RESTful Resource APIs
 	    //
 		if (invalid && ((roles.contains("ROLE_ANONYMOUS")) || (roles.contains("ROLE_USER")))) {
-	    	System.out.printf("ResourceValidationFilter: ROLE_ANONYMOUS || ROLE_USER: Token - %s\n", token);
+	    	System.out.printf("ResourceValidationFilter: ROLE_ANONYMOUS || ROLE_USER: role=%s\n, Token - %s\n", roles, token);
 	    	
 			if (token == null) {
 				invalid = false;
@@ -267,7 +277,7 @@ public class ResourceValidationFilter implements Filter{
 
 					} catch (Exception e) {
 						System.out
-								.printf("ResourceValidationFilter: doFilter - No AuthorizationFound - %s\n",
+								.printf("ResourceValidationFilter: doFilter - No Authorization Found - %s\n",
 										e.toString());
 					}
 				}
