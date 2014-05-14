@@ -13,40 +13,19 @@
         	 http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
 
 	<!-- Resource Server -->
-	
-	<!-- RESTful Resource APIs -->
-    <http pattern="/espi/1_1/resource/Subscription/**" create-session="never" 
-    	entry-point-ref="oauthAuthenticationEntryPoint" 
-    	access-decision-manager-ref="accessDecisionManager"
-    	xmlns="http://www.springframework.org/schema/security">
-        <anonymous enabled="false" />
-        <intercept-url pattern="/espi/1_1/resource/Subscription/**" access="ROLE_USER" /> <!-- ?? Seems to be coming in as ROLE_ANONYMOUS -->
-        <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
-        <access-denied-handler ref="oauthAccessDeniedHandler" />
-    </http>
-    
-    <!-- Batch/Subscription APIs -->
-    <http pattern="/espi/1_1/resource/Batch/Subscription/**" create-session="never" 
-    	entry-point-ref="oauthAuthenticationEntryPoint" 
-    	access-decision-manager-ref="accessDecisionManager"
-    	xmlns="http://www.springframework.org/schema/security">
-        <anonymous enabled="false" />
-        <intercept-url pattern="/espi/1_1/resource/Batch/Subscription/**" access="ROLE_USER" />  <!-- ??  -->
-        <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
-        <access-denied-handler ref="oauthAccessDeniedHandler" />
-    </http>    
 
-    <!-- Batch/Bulk APIs -->
-    <http pattern="/espi/1_1/resource/Batch/Bulk/**" create-session="never" 
+	<!-- This pattern supports spring security/oauth lookup based on authorization in http header for all resource requests -->
+    <http pattern="/espi/1_1/resource/**" create-session="never" 
     	entry-point-ref="oauthAuthenticationEntryPoint" 
     	access-decision-manager-ref="accessDecisionManager"
     	xmlns="http://www.springframework.org/schema/security">
         <anonymous enabled="false" />
-        <intercept-url pattern="/espi/1_1/resource/Batch/Bulk/**" access="ROLE_USER" />  <!-- ??  -->
+        <intercept-url pattern="/espi/1_1/resource/**"  /> 
         <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
         <access-denied-handler ref="oauthAccessDeniedHandler" />
-    </http> 
-          
+    </http>	
+	
+         
      <!-- Batch/RetailCustomer APIs -->
     <http pattern="/espi/1_1/resource/Batch/RetailCustomer/**" create-session="never" 
     	entry-point-ref="oauthAuthenticationEntryPoint" 

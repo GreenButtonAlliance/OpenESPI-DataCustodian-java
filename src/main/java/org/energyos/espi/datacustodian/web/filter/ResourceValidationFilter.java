@@ -52,11 +52,14 @@ public class ResourceValidationFilter implements Filter{
 
 		Boolean invalid = true;
 		HttpServletRequest request = (HttpServletRequest) req;
-		
-        // find the access token
-		String token = request.getHeader("authorization");
-		token = (token == null) ? null : token.replace("Bearer ", "");
-		
+
+		Boolean hasBearer = false;
+		Boolean hasValidOAuthAccessToken = false;
+		Authorization authorization = null;
+		Subscription subscription = null;
+		String resourceUri=null;
+
+		// get the uri for later tests
 		String uri = request.getRequestURI();
 
 		// see if any authentication has happened
@@ -65,73 +68,93 @@ public class ResourceValidationFilter implements Filter{
 
 		System.out.printf("ResourceValidationFilter: role=%s\n", roles);
 		
-		// if there is no token || it contains "Basic " <- this "or" needs verified
-		if ((token == null) || (token.contains("Basic "))){
-			// no token and it passed the OAuth filter - so it must be good2go
-			invalid = false;
-		}
-		// Dispatch on authentication type
-		if ((invalid) && ((roles.contains("ROLE_USER")) || (roles.contains("ROLE_CUSTODIAN")))) {
-			    System.out.printf("ResourceValidationFilter: role=%s\n", roles);
-			
-				// find the authorization
-			    
-				Authorization authorization = authorizationService.findByAccessToken(token);
-				String resourceUri = authorization.getResourceURI();
-				// strip the protocol://host:port
-				resourceUri = resourceUri.substring(resourceUri.indexOf("/DataCustodian/"));
-				if (uri.equals(resourceUri)) {
-					invalid = false;
+        // find the access token if present and validate we have a good one
+		String token = request.getHeader("authorization");
+		if(token!=null)
+		{
+			if (token.contains("Bearer"))
+			{
+				// has Authorization header with Bearer type
+				hasBearer = true;
+				token = token.replace("Bearer ", "");
+				// ensure length is >12 characters (48 bits in hex at least)
+				if(token.length()>=12)
+				{
+					// lookup the authorization -- we must have one to correspond to an access token
+					try {
+						authorization = authorizationService.findByAccessToken(token);
+					}
+					catch (Exception e) {
+						System.out
+								.printf("ResourceValidationFilter: doFilter - No Authorization Found - %s\n",
+										e.toString());
+					}
+					
+					// see if we have valid authorization and can get parameters
+					if(authorization != null)
+					{
+						hasValidOAuthAccessToken = true;
+						resourceUri = authorization.getResourceURI();
+						subscription = authorization.getSubscription();
+					}
 				}
-		}
-
-		if (invalid && roles.contains("ROLE_TP_ADMIN")) {
-			//TODO
-			System.out.printf("ResourceValidationFilter: ROLE_TP_ADMIN\n");
-			
-			// allows client credentials request to be processed			
-			if ((token == null) || (token.contains("Basic "))){
-				invalid = false;
 			}
 		}
 		
-		if (invalid && roles.contains("ROLE_DC_ADMIN")) {
-			//TODO
-			System.out.printf("ResourceValidationFilter: ROLE_DC_ADMIN\n");
-			
-			// allows client credentials request to be processed
-			if ((token == null) || (token.contains("Basic "))){
-			    invalid = false;
-			   }
+		// if this is not RESTful request with Bearer token
+		if (hasBearer==false)
+		{
+			// no bearer token and it passed the OAuth filter - so it must be good2go not RESTAPI request
+			invalid = false;
 		}
+		else if(hasValidOAuthAccessToken == true)
+		{
+			// if it has a valid access token 
+			// then we know it is REST request
+			// Dispatch on authentication type
+
+			if ((invalid) && ((roles.contains("ROLE_USER")) || (roles.contains("ROLE_CUSTODIAN")))) {
+				    System.out.printf("ResourceValidationFilter: role=%s\n", roles);
 				
-	    if (invalid && roles.contains("ROLE_ADMIN")) {
-	    	//TODO
-	    	System.out.printf("ResourceValidationFilter: ROLE_ADMIN\n");
-
-			// allows client credentials request to be processed
-			if ((token == null) || (token.contains("Basic "))){
+					// find the authorization
+				    
+					// strip the protocol://host:port
+					resourceUri = resourceUri.substring(resourceUri.indexOf("/DataCustodian/"));
+					if (uri.equals(resourceUri)) {
+						invalid = false;
+					}
+			}
+	
+			if (invalid && roles.contains("ROLE_TP_ADMIN")) {
+				//TODO
+				System.out.printf("ResourceValidationFilter: ROLE_TP_ADMIN\n");
 				invalid = false;
-			}	    	
-	    }
-	    
-	    // if "ROLE_ANONYMOUS", or "ROLE_USER" These are the RESTful Resource APIs
-	    //
-		if (invalid && ((roles.contains("ROLE_ANONYMOUS")) || (roles.contains("ROLE_USER")))) {
-	    	System.out.printf("ResourceValidationFilter: ROLE_ANONYMOUS || ROLE_USER: role=%s\n, Token - %s\n", roles, token);
-	    	
-			if (token == null) {
+				
+			}
+			
+			if (invalid && roles.contains("ROLE_DC_ADMIN")) {
+				//TODO
+				System.out.printf("ResourceValidationFilter: ROLE_DC_ADMIN\n");
 				invalid = false;
-			} else {
 
-				Authorization authorization = authorizationService
-						.findByAccessToken(token);
-				Subscription subscription = authorization.getSubscription();
+			}
+					
+		    if (invalid && roles.contains("ROLE_ADMIN")) {
+		    	//TODO
+		    	System.out.printf("ResourceValidationFilter: ROLE_ADMIN\n");
+	
+		    }
+		    
+		    // if "ROLE_ANONYMOUS", or "ROLE_USER" These are the RESTful Resource APIs
+		    //
+			if (invalid && ((roles.contains("ROLE_ANONYMOUS")) || (roles.contains("ROLE_USER")))) {
+
+				System.out.printf("ResourceValidationFilter: ROLE_ANONYMOUS || ROLE_USER: role=%s\n, Token - %s\n", roles, token);
+	
 
 				if (uri.contains("/espi/1_1/resource/Batch/Subscription/")) {
 					// this is the normal access_token IF it matches the
 					// resourceURI
-					String resourceUri = authorization.getResourceURI();
 					if (uri.equals(resourceUri))
 						invalid = false;
 				}
@@ -281,8 +304,9 @@ public class ResourceValidationFilter implements Filter{
 										e.toString());
 					}
 				}
-			}
+			}				
 		}
+
 		
 		System.out.printf("ResourceValidationFilter: doFilter: invalid=%s\n", invalid);
 		
