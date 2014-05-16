@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.util.OAuth2Utils;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,16 +49,67 @@ public class EspiTokenEnhancer implements TokenEnhancer {
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
     	
 		DefaultOAuth2AccessToken result = new DefaultOAuth2AccessToken(accessToken);
+		
+		
+		System.out.printf("EspiTokenEnhancer: OAuth2Request Parameters = %s\n", authentication.getOAuth2Request().getRequestParameters());
+		  
+		  
+		Map<String, String> requestParameters = authentication.getOAuth2Request().getRequestParameters();
+		String grantType = requestParameters .get(OAuth2Utils.GRANT_TYPE);
+		grantType = grantType.toLowerCase();
+		
 
 		// Is this a "client_credentials" access token grant_type request?
-		if (authentication.isClientOnly() == false){  // No, processing "code" access token grant_type request.
+		if (grantType.contentEquals("client_credentials")) {
+			// Processing a "client_credentials" access token grant_type request.
+			
+			// Create Authorization and add authorizationURI to /oath/token response        
+			Authorization authorization = authorizationService.createAuthorization(null, result.getValue());           
+			result.getAdditionalInformation().put("authorizationURI", baseURL + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("{AuthorizationID}", authorization.getId().toString()));
+		
+			// Update Data Custodian authorization structure
+			authorization.setApplicationInformation(applicationInformationService.findByClientId(authentication.getOAuth2Request().getClientId()));
+			authorization.setThirdParty(authentication.getOAuth2Request().getClientId());
+			authorization.setAccessToken(accessToken.getValue());        
+			authorization.setTokenType(accessToken.getTokenType());
+			authorization.setExpiresIn((long) accessToken.getExpiresIn());
+        
+			if(accessToken.getRefreshToken() != null) {
+				authorization.setRefreshToken(accessToken.getRefreshToken().toString());			
+			}
+		
+			// Remove "[" and "]" surrounding Scope in accessToken structure
+			authorization.setScope(accessToken.getScope().toString().substring(1, (accessToken.getScope().toString().length()-1)));
+			authorization.setAuthorizationURI(baseURL + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("{AuthorizationID}", authorization.getId().toString()));
+			
+			// Determine resourceURI value based on Client's Role
+			Set<String> role = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+			
+			if (role.contains("ROLE_DC_ADMIN")) {
+			authorization.setResourceURI(baseURL + Routes.DATA_CUSTODIAN_RESOURCE_MANAGEMENT);
+			
+			} else {
+				if (role.contains("ROLE_TP_ADMIN")) {
+					authorization.setResourceURI(baseURL + Routes.BATCH_BULK_MEMBER.replace("{BulkID}", "**"));
+					
+				} else {
+					if (role.contains("ROLE_UL_ADMIN")) {
+						authorization.setResourceURI(baseURL + Routes.BATCH_UPLOAD_MY_DATA.replace("{RetailCustomerID}", "**"));
+					}
+				}
+			} 
+			
+			authorization.setUpdated(new GregorianCalendar());
+			authorization.setStatus("1"); 	// Set authorization record status as "Active"
+			authorizationService.merge(authorization);					
+		} else if (grantType.contentEquals("refresh_token")) {
 			try {
 			    // find the existing (if any) authorization for this refresh-token
 			    Authorization authorization = authorizationService.findByRefreshToken(result.getRefreshToken().getValue());
 			    authorization.setAccessToken(accessToken.getValue());	
-			} catch {
-				
-			// there was no authorization for this refresh-token, so it is a new authorization
+			} catch (Exception e) {
+			}			
+		} else if (grantType.contentEquals("authorization_code")) { 
 
 			// Create Subscription and add resourceURI to /oath/token response
 			Subscription subscription = subscriptionService.createSubscription(authentication);   
@@ -102,49 +155,9 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			authorization.setStatus("1"); 	// Set authorization record status as "Active"
 			authorization.setSubscription(subscription);
 			authorizationService.merge(authorization);
-		    }
 			
-		} else {  // Processing a "client_credentials" access token grant_type request.
-	
-			// Create Authorization and add authorizationURI to /oath/token response        
-			Authorization authorization = authorizationService.createAuthorization(null, result.getValue());           
-			result.getAdditionalInformation().put("authorizationURI", baseURL + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("{AuthorizationID}", authorization.getId().toString()));
-		
-			// Update Data Custodian authorization structure
-			authorization.setApplicationInformation(applicationInformationService.findByClientId(authentication.getOAuth2Request().getClientId()));
-			authorization.setThirdParty(authentication.getOAuth2Request().getClientId());
-			authorization.setAccessToken(accessToken.getValue());        
-			authorization.setTokenType(accessToken.getTokenType());
-			authorization.setExpiresIn((long) accessToken.getExpiresIn());
-        
-			if(accessToken.getRefreshToken() != null) {
-				authorization.setRefreshToken(accessToken.getRefreshToken().toString());			
-			}
-		
-			// Remove "[" and "]" surrounding Scope in accessToken structure
-			authorization.setScope(accessToken.getScope().toString().substring(1, (accessToken.getScope().toString().length()-1)));
-			authorization.setAuthorizationURI(baseURL + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("{AuthorizationID}", authorization.getId().toString()));
-			
-			// Determine resourceURI value based on Client's Role
-			Set<String> role = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-			
-			if (role.contains("ROLE_DC_ADMIN")) {
-			authorization.setResourceURI(baseURL + Routes.DATA_CUSTODIAN_RESOURCE_MANAGEMENT);
-			
-			} else {
-				if (role.contains("ROLE_TP_ADMIN")) {
-					authorization.setResourceURI(baseURL + Routes.BATCH_BULK_MEMBER.replace("{BulkID}", "**"));
-					
-				} else {
-					if (role.contains("ROLE_UL_ADMIN")) {
-						authorization.setResourceURI(baseURL + Routes.BATCH_UPLOAD_MY_DATA.replace("{RetailCustomerID}", "**"));
-					}
-				}
-			} 
-			
-			authorization.setUpdated(new GregorianCalendar());
-			authorization.setStatus("1"); 	// Set authorization record status as "Active"
-			authorizationService.merge(authorization);			
+		} else {  
+			// what if its none of the above???
 			
 		}
 
