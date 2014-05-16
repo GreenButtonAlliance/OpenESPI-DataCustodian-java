@@ -50,7 +50,14 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 
 		// Is this a "client_credentials" access token grant_type request?
 		if (authentication.isClientOnly() == false){  // No, processing "code" access token grant_type request.
-			
+			try {
+			    // find the existing (if any) authorization for this refresh-token
+			    Authorization authorization = authorizationService.findByRefreshToken(result.getRefreshToken().getValue());
+			    authorization.setAccessToken(accessToken.getValue());	
+			} catch {
+				
+			// there was no authorization for this refresh-token, so it is a new authorization
+
 			// Create Subscription and add resourceURI to /oath/token response
 			Subscription subscription = subscriptionService.createSubscription(authentication);   
 			result.getAdditionalInformation().put("resourceURI", baseURL + Routes.BATCH_SUBSCRIPTION.replace("{subscriptionId}", subscription.getId().toString()));        
@@ -95,6 +102,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			authorization.setStatus("1"); 	// Set authorization record status as "Active"
 			authorization.setSubscription(subscription);
 			authorizationService.merge(authorization);
+		    }
 			
 		} else {  // Processing a "client_credentials" access token grant_type request.
 	
