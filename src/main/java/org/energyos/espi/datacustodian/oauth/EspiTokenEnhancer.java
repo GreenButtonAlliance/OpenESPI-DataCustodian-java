@@ -50,6 +50,14 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 		//TODO: Change subscription and authorization table entry creation to work for "client_credentials" access token request
 		// Is this access token for an application (i.e. "client_credentials" request?
 		if (authentication.isClientOnly() == false){  // No, continue
+		
+		   try {
+		   	// find the authorization for the refresh-token (if one exists)
+		   	Authorization authorization = authorizationService.findByRefreshToken(result.getRefreshToken().getValue());
+			// update that authorization's access-token
+			authorization.setAccessToken(accessToken.getValue());
+		   } catch (Exception e) {
+			// there was no authorization for this refresh-token, so it is a new authorization
 			
 			// Create Subscription and add resourceURI to /oath/token response
 			Subscription subscription = subscriptionService.createSubscription(authentication);   
@@ -95,7 +103,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			authorization.setSubscription(subscription);
 			authorizationService.merge(authorization);
 		}			
-
+		}
         return result;
     }
 
