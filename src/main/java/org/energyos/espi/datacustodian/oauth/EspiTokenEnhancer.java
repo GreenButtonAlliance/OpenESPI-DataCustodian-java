@@ -51,6 +51,10 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 		// Is this access token for an application (i.e. "client_credentials" request?
 		if (authentication.isClientOnly() == false){  // No, continue
 			
+			try {
+				Authorization authorization = authorizationService.findByRefreshToken(result.getRefreshToken().getValue());
+				authorization.setAccessToken(accessToken.getValue());
+			} catch (Exception e) {
 			// Create Subscription and add resourceURI to /oath/token response
 			Subscription subscription = subscriptionService.createSubscription(authentication);   
 			result.getAdditionalInformation().put("resourceURI", baseURL + Routes.BATCH_SUBSCRIPTION.replace("{subscriptionId}", subscription.getId().toString()));        
@@ -94,6 +98,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			authorization.setStatus("1"); 	// Set authorization record status as "Active"
 			authorization.setSubscription(subscription);
 			authorizationService.merge(authorization);
+			}
 		}	else {
 			// client credentials section
 			// 1 - make a resourceURI (out of the scope BulkID
