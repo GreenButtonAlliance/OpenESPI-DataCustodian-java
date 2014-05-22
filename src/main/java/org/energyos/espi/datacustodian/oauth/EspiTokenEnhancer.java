@@ -62,13 +62,34 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 		// Is this a "client_credentials" access token grant_type request?
 		if (grantType.contentEquals("client_credentials")) {
 			// Processing a "client_credentials" access token grant_type request.
+
+			// Create Subscription and add resourceURI to /oath/token response
+			Subscription subscription = subscriptionService.createSubscription(authentication);   
+			result.getAdditionalInformation().put("resourceURI", baseURL + Routes.BATCH_SUBSCRIPTION.replace("{subscriptionId}", subscription.getId().toString()));        
 			
 			// Create Authorization and add authorizationURI to /oath/token response        
-			Authorization authorization = authorizationService.createAuthorization(null, result.getValue());           
+			Authorization authorization = authorizationService.createAuthorization(subscription, result.getValue());           
 			result.getAdditionalInformation().put("authorizationURI", baseURL + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("{AuthorizationID}", authorization.getId().toString()));
-		
+
+			// Update Data Custodian subscription structure
+			subscription.setAuthorization(authorization);
+			subscription.setUpdated(new GregorianCalendar());        
+			subscriptionService.merge(subscription);
+			
+			
+			
 			// Update Data Custodian authorization structure
-			authorization.setApplicationInformation(applicationInformationService.findByClientId(authentication.getOAuth2Request().getClientId()));
+			String clientIdTmp = authentication.getOAuth2Request().getClientId();
+			if(clientIdTmp.equals("data_custodian_admin")) {
+				authorization.setApplicationInformation(applicationInformationService.findByKind("DATA_CUSTODIAN_ADMIN").get(1));
+			} else if (clientIdTmp.contains("REGISTRATION_")) {
+				clientIdTmp = clientIdTmp.substring("REGISTRATION_".length());
+				authorization.setApplicationInformation(applicationInformationService.findByClientId(clientIdTmp));
+			} else {
+				authorization.setApplicationInformation(applicationInformationService.findByClientId(clientIdTmp));
+			}
+
+
 			authorization.setThirdParty(authentication.getOAuth2Request().getClientId());
 			authorization.setAccessToken(accessToken.getValue());        
 			authorization.setTokenType(accessToken.getTokenType());
@@ -80,6 +101,8 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 		
 			// Remove "[" and "]" surrounding Scope in accessToken structure
 			authorization.setScope(accessToken.getScope().toString().substring(1, (accessToken.getScope().toString().length()-1)));
+			
+			// set the authorizationUri
 			authorization.setAuthorizationURI(baseURL + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("{AuthorizationID}", authorization.getId().toString()));
 			
 			// Determine resourceURI value based on Client's Role
@@ -108,6 +131,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			    Authorization authorization = authorizationService.findByRefreshToken(result.getRefreshToken().getValue());
 			    authorization.setAccessToken(accessToken.getValue());	
 			} catch (Exception e) {
+				// TODO
 			}			
 		} else if (grantType.contentEquals("authorization_code")) { 
 

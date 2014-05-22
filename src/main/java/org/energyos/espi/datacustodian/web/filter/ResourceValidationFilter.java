@@ -1,11 +1,6 @@
 package org.energyos.espi.datacustodian.web.filter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.Filter;
@@ -15,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.energyos.espi.common.domain.Authorization;
 import org.energyos.espi.common.domain.RetailCustomer;
@@ -48,19 +44,22 @@ public class ResourceValidationFilter implements Filter{
 	public void doFilter(ServletRequest req, ServletResponse res,
 			FilterChain chain) throws IOException, ServletException {
 
-		System.out.println("ResourceValidationFilter: doFilter");
+		System.out.println("ResourceValidationFilter: start of doFilter");
 
 		Boolean invalid = true;
 		HttpServletRequest request = (HttpServletRequest) req;
+		HttpServletResponse response = (HttpServletResponse) res;
 
 		Boolean hasBearer = false;
 		Boolean hasValidOAuthAccessToken = false;
-		Authorization authorization = null;
+		Authorization authorizationFromToken = null;
 		Subscription subscription = null;
 		String resourceUri=null;
+		String authorizationUri=null;
 
 		// get the uri for later tests
 		String uri = request.getRequestURI();
+		String service = request.getMethod();
 
 		// see if any authentication has happened
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -68,7 +67,9 @@ public class ResourceValidationFilter implements Filter{
 
 		System.out.printf("ResourceValidationFilter: role=%s\n", roles);
 		
+		///////////////////////////////////////////////////////////////////////
         // find the access token if present and validate we have a good one
+		///////////////////////////////////////////////////////////////////////
 		String token = request.getHeader("authorization");
 		if(token!=null)
 		{
@@ -82,175 +83,108 @@ public class ResourceValidationFilter implements Filter{
 				{
 					// lookup the authorization -- we must have one to correspond to an access token
 					try {
-						authorization = authorizationService.findByAccessToken(token);
+						authorizationFromToken = authorizationService.findByAccessToken(token);
 					}
 					catch (Exception e) {
 						System.out
 								.printf("ResourceValidationFilter: doFilter - No Authorization Found - %s\n",
 										e.toString());
+						
+						response.sendError(HttpServletResponse.SC_BAD_REQUEST, "No Authorization Found");
+						return;
+						
+						
 					}
 					
 					// see if we have valid authorization and can get parameters
-					if(authorization != null)
+					if(authorizationFromToken != null)
 					{
 						hasValidOAuthAccessToken = true;
-						resourceUri = authorization.getResourceURI();
-						subscription = authorization.getSubscription();
+						resourceUri = authorizationFromToken.getResourceURI();
+						authorizationUri = authorizationFromToken.getAuthorizationURI();
+						subscription = authorizationFromToken.getSubscription();
 					}
 				}
 			}
 		}
 		
+		///////////////////////////////////////////////////////////////////////
 		// if this is not RESTful request with Bearer token
+		///////////////////////////////////////////////////////////////////////
 		if (hasBearer==false)
 		{
 			// no bearer token and it passed the OAuth filter - so it must be good2go not RESTAPI request
 			invalid = false;
 		}
+		///////////////////////////////////////////////////////////////////////
+		// if this is rest, process based on ROLE
+		///////////////////////////////////////////////////////////////////////
 		else if(hasValidOAuthAccessToken == true)
 		{
 			// if it has a valid access token 
 			// then we know it is REST request
 			// Dispatch on authentication type
-
-			if ((invalid) && ((roles.contains("ROLE_USER")) || (roles.contains("ROLE_CUSTODIAN")))) {
-				    System.out.printf("ResourceValidationFilter: role=%s\n", roles);
-				
-					// find the authorization
-				    
-					// strip the protocol://host:port
-					resourceUri = resourceUri.substring(resourceUri.indexOf("/DataCustodian/"));
-					if (uri.equals(resourceUri)) {
-						invalid = false;
-					}
-			}
-	
-			if (invalid && roles.contains("ROLE_TP_ADMIN")) {
-				//TODO
-				System.out.printf("ResourceValidationFilter: ROLE_TP_ADMIN\n");
-				invalid = false;
-				
-			}
-			
-			if (invalid && roles.contains("ROLE_DC_ADMIN")) {
-				//TODO
-				System.out.printf("ResourceValidationFilter: ROLE_DC_ADMIN\n");
-				invalid = false;
-
-			}
-					
-		    if (invalid && roles.contains("ROLE_ADMIN")) {
-		    	//TODO
-		    	System.out.printf("ResourceValidationFilter: ROLE_ADMIN\n");
-	
-		    }
+		    System.out.printf("ResourceValidationFilter: role=%s\n", roles);
 		    
-		    // if "ROLE_ANONYMOUS", or "ROLE_USER" These are the RESTful Resource APIs
-		    //
-			if (invalid && ((roles.contains("ROLE_ANONYMOUS")) || (roles.contains("ROLE_USER")))) {
+		    // strip off uri up to /resource/ since that is how we go here
+			resourceUri 		= resourceUri.substring(resourceUri.indexOf("/resource/"));
+			authorizationUri 	= authorizationUri.substring(authorizationUri.indexOf("/resource/"));
+			uri 				= uri.substring(uri.indexOf("/resource/"));
 
-				System.out.printf("ResourceValidationFilter: ROLE_ANONYMOUS || ROLE_USER: role=%s\n, Token - %s\n", roles, token);
-	
+			///////////////////////////////////////////////////////////////////////
+			// ROLE_USER
+			// GET /resource/LocalTimeParameters
+			// GET /resource/LocalTimeParameters/{LocalTimeParametersID}
+			// GET /resource/ReadingType
+			// GET /resource/ReadingType/{ReadingTypeID}
+			// GET /resource/Batch/Subscription/{SubscriptionID}
+			// GET /resource/Batch/Subscription/{SubscriptionID}/UsagePoint/{UsagePointId}
+			// GET /resource/Subscription/{SubscriptionID}/UsagePoint
+			// GET /resource/Subscription/{SubscriptionID}/UsagePoint/{UsagePointID}
+			// GET /resource/Subscription/{SubscriptionID}/UsagePoint/{UsagePointID}/ElectricPowerQualitySummary
+			// GET /resource/Subscription/{SubscriptionID}/UsagePoint/{UsagePointID}/ElectricPowerQualitySummary/{ElectricPowerQualitySummaryID}
+			// GET /resource/Subscription/{SubscriptionID}/UsagePoint/{UsagePointID}/ElectricPowerUsageSumary
+			// GET /resource/Subscription/{SubscriptionID}/UsagePoint/{UsagePointID}/ElectricPowerUsageSumary/{ElectricPowerUsageSummaryID}
+			// GET /resource/Subscription/{SubscriptionID}/UsagePoint/{UsagePointID}/MeterReading
+			// GET /resource/Subscription/{SubscriptionID}/UsagePoint/{UsagePointID}/MeterReading/{MeterReadingID}
+			// GET /resource/Subscription/{SubscriptionID}/UsagePoint/{UsagePointID}/MeterReading/{MeterReadingID}/IntervalBlock
+			// GET /resource/Subscription/{SubscriptionID}/UsagePoint/{UsagePointID}/MeterReading/{MeterReadingID}/IntervalBlock/{IntervalBlockID}
+			//
+			///////////////////////////////////////////////////////////////////////
+			if (invalid && roles.contains("ROLE_USER")) {
+				
+				// only GET for this ROLE permitted
+				if (!service.equals("GET")) {
+					response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Not authorized");
+					return;
+				}
 
-				if (uri.contains("/espi/1_1/resource/Batch/Subscription/")) {
+				// look for the root forms of LocalTimeParameters and ReadingType
+				if (invalid && ((uri.contains("resource/LocalTimeParameters"))
+						     || (uri.contains("resource/ReadingType")))) {
+					invalid = false;
+				}
+				
+				// must be either /resource/Batch/Subscription/{subscriptionId}
+				// or /resource/Batch/Subscription/{subscriptionId}/**
+				if (uri.equals(resourceUri)) {
+					invalid = false;
+				}
+				else
+				{
+					response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Not authorized");
+					return;
+				}
+				
+
+				if (uri.contains("/resource/Batch/Subscription/")) {
 					// this is the normal access_token IF it matches the
 					// resourceURI
 					if (uri.equals(resourceUri))
 						invalid = false;
 				}
 
-				if (invalid && uri.contains("/espi/1_1/resource/Batch/Bulk")) {
-					// the Bulk Authorizations
-				}
-
-				if (uri.contains("/espi/1_1/resource/ApplicationInformation")) {
-					// this will be a client_access_token
-				}
-
-				// look for the root forms of LocalTimeParameters and ReadingType
-				// (These get a free pass for any valid access_token it would seem
-				
-				if (invalid && ((uri.contains("resource/LocalTimeParameters"))
-						     || (uri.contains("resource/ReadingType")))) {
-					invalid = false;
-				}
-				
-				if (invalid && (uri.contains("/espi/1_1/resource/Authorization"))){
-					// this is retrieving the authorization related to the token
-					// with the special case that (maybe) client_access_token
-					// will allow
-					// access to the all
-
-					String[] tokens = uri.split("/");
-					Long authorizationId = 0L;
-					Authorization requestedAuthorization = null;
-					Long usagePointId = 0L;
-
-					for (String s : tokens) {
-						if (authorizationId == null)
-							authorizationId = Long.parseLong(s, 10);
-						if (s.equals("Authorization"))
-							authorizationId = null;
-					}
-
-					if (authorizationId != null) {
-						requestedAuthorization = authorizationService
-								.findById(authorizationId);
-						if (token.equals(requestedAuthorization
-								.getAccessToken())) {
-							invalid = false;
-						}
-					}
-
-					// now need to test for the client_access_token to validate
-					// access
-
-					if (authorization.getResourceURI().contains(
-							"ApplicationInformation")) {
-						// then this is a client_access_token
-						invalid = false;
-					}
-
-				}
-
-				if (invalid
-						&& uri.contains("/espi/1_1/resource/Batch/RetailCustomer")) {
-					// this is the "upload_access_token"
-					// TODO: need the resourceURI that goes with this one as
-					// well
-					// as the new multi-customer/multi-usagePoint pattern
-					// currently it allows the access token from the authorization flow
-					// and we just make sure the retail customer id is correct
-					
-					RetailCustomer retailCustomer = authorization.getRetailCustomer();
-					Long requestRetailCustomerId = 0L;
-					
-					// there are two forms to consider
-					
-					String temp = uri;
-					
-					if (uri.contains("/UsagePoint")) {
-						// "..resource/RetailCustomer/{retailCustomerId}/UsagePoint[/{usagePointId}]
-						temp = temp.substring(temp.indexOf("Customer/") + "Customer/".length());
-						temp = temp.substring(0, temp.indexOf("/"));
-					} else {
-						// "..resource/RetailCustomer/{retailCustomerId}
-					    temp = temp.substring(temp.indexOf("RetailCustomer/") + "RetailCustomer/".length());
-					}
-					if (temp != null) 
-						requestRetailCustomerId = new Long(temp);
-					
-					if (requestRetailCustomerId != 0L) {
-						if (retailCustomer.getId().equals(requestRetailCustomerId)) invalid=false;
-					} else {
-						// it is a request for ALL retail customer usage points OR a Post
-						// to inject a collection of UsagePoints (as yet undefined)
-						// let it pass for now
-						invalid = false;
-					}
-				}
-
-				if (invalid && uri.contains("espi/1_1/resource/Subscription/")) {
+				if (invalid && uri.contains("/resource/Subscription/")) {
 					// this is a management_access_token or a normal
 					// access_token
 					try {
@@ -304,11 +238,137 @@ public class ResourceValidationFilter implements Filter{
 										e.toString());
 					}
 				}
-			}				
+			} else if (invalid && roles.contains("ROLE_DC_ADMIN")) {
+				///////////////////////////////////////////////////////////////////////
+				// ROLE_DC_ADMIN
+				// Access to all services and APIs
+				///////////////////////////////////////////////////////////////////////
+				//
+				System.out.printf("ResourceValidationFilter: ROLE_DC_ADMIN\n");
+				invalid = false;
+
+			} else if (invalid && roles.contains("ROLE_TP_ADMIN")) {
+				///////////////////////////////////////////////////////////////////////
+				// ROLE_TP_ADMIN
+				// GET /resource/Authorization
+				// GET /resource/Authorization/{AuthorizationID}
+				// GET /resource/Batch/Bulk/{BulkID}
+				// GET /resource/ReadServiceStatus
+				// GETALL sftp://services.greenbuttondata.org/DataCustodian/espi/1_1/resource/Batch/Bulk/{BulkID}
+				///////////////////////////////////////////////////////////////////////
+				//TODO
+				System.out.printf("ResourceValidationFilter: ROLE_TP_ADMIN\n");
+				if (invalid && uri.contains("/resource/Batch/Bulk")) {
+					// the Bulk Authorizations
+				}
+				
+				if (invalid && (uri.contains("/resource/Authorization"))){
+					// this is retrieving the authorization related to the token
+					// the TP has access to AuthorizationIds he is tp for
+					// which is authorization looked by access token, or,
+					// any authorization that points to same applicationInformationId
+					
+					if(authorizationUri.equals(uri)) {
+						invalid=false;
+					} else {
+						// get authorizationID
+						String[] tokens = uri.split("/");
+						Long authorizationId = Long.parseLong(tokens[3],10);
+
+						if (authorizationId != null) {
+							Authorization requestedAuthorization = authorizationService
+									.findById(authorizationId);
+							if (requestedAuthorization.getApplicationInformation().getId() == authorizationFromToken.getApplicationInformation().getId()) {
+								invalid = false;
+							} else {
+								// not authorized for this resource
+								System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized - %s\n");
+								response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Access Not Authorized");
+							}
+						} else {
+							// this is collection request and controller will limit to valid authorizations
+							// for this ThirdParty
+							// TODO check
+							invalid = false;
+						}
+					}
+
+
+				}
+				
+				if (invalid && uri.contains("/resource/ServiceStatus")) {
+					// the Bulk Authorizations
+					invalid = false;
+				}
+				
+			} else if (invalid && roles.contains("ROLE_UL_ADMIN")) {
+				///////////////////////////////////////////////////////////////////////
+				// ROLE_UL_ADMIN
+				//
+				// GET  /resource/Batch/RetailCustomer/{RetailCustomerID}/UsagePoint
+				// POST /resource/Batch/RetailCustomer/{RetailCustomerID}/UsagePoint
+				// GET /resource/Authorization/{AuthorizationID}
+				//
+				///////////////////////////////////////////////////////////////////////
+		    	//TODO
+				System.out.printf("ResourceValidationFilter: ROLE_UL_ADMIN\n");
+				if (invalid && uri.contains("/resource/Batch/RetailCustomer")) {
+					// this is the "upload_access_token"
+					// TODO: need the resourceURI that goes with this one as
+					// well
+					// as the new multi-customer/multi-usagePoint pattern
+					// currently it allows the access token from the authorization flow
+					// and we just make sure the retail customer id is correct
+					
+					RetailCustomer retailCustomer = authorizationFromToken.getRetailCustomer();
+					Long requestRetailCustomerId = 0L;
+					
+					// there are two forms to consider
+					
+					String temp = uri;
+					
+					if (uri.contains("/UsagePoint")) {
+						// "..resource/RetailCustomer/{retailCustomerId}/UsagePoint[/{usagePointId}]
+						temp = temp.substring(temp.indexOf("Customer/") + "Customer/".length());
+						temp = temp.substring(0, temp.indexOf("/"));
+					} else {
+						// "..resource/RetailCustomer/{retailCustomerId}
+					    temp = temp.substring(temp.indexOf("RetailCustomer/") + "RetailCustomer/".length());
+					}
+					if (temp != null) 
+						requestRetailCustomerId = new Long(temp);
+					
+					if (requestRetailCustomerId != 0L) {
+						if (retailCustomer.getId().equals(requestRetailCustomerId)) invalid=false;
+					} else {
+						// it is a request for ALL retail customer usage points OR a Post
+						// to inject a collection of UsagePoints (as yet undefined)
+						// let it pass for now
+						invalid = false;
+					}
+				}
+		    }
+			else if (invalid && roles.contains("ROLE_REGISTRATION"))	{
+				///////////////////////////////////////////////////////////////////////
+				// ROLE_REGISTRATION_ADMIN
+				// GET /resource/ApplicationInformation/{ApplicationInformationID}
+				// GET /resource/Authorization/{AuthorizationID}
+				//
+				///////////////////////////////////////////////////////////////////////
+				System.out.printf("ResourceValidationFilter: ROLE_REGISTRATION\n");
+				if (uri.contains("/resource/ApplicationInformation")) {
+					invalid = false;
+				}
+
+				// check if it is this authorization request
+				if(authorizationUri.equals(uri)) {
+					invalid=false;
+				}
+			}
 		}
 
 		
-		System.out.printf("ResourceValidationFilter: doFilter: invalid=%s\n", invalid);
+		System.out.printf("ResourceValidationFilter: normal exit doFilter: invalid=%s\n", invalid);
 		
 		if (invalid) return;
 		
