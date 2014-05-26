@@ -65,7 +65,7 @@ public class ResourceValidationFilter implements Filter{
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
 
-		System.out.printf("ResourceValidationFilter: role=%s\n", roles);
+		System.out.printf("ResourceValidationFilter: role=%s, uri:%s\n", roles, uri);
 		
 		///////////////////////////////////////////////////////////////////////
         // find the access token if present and validate we have a good one
@@ -124,7 +124,6 @@ public class ResourceValidationFilter implements Filter{
 			// if it has a valid access token 
 			// then we know it is REST request
 			// Dispatch on authentication type
-		    System.out.printf("ResourceValidationFilter: role=%s\n", roles);
 		    
 		    // strip off uri up to /resource/ since that is how we go here
 			resourceUri 		= resourceUri.substring(resourceUri.indexOf("/resource/"));
@@ -152,6 +151,9 @@ public class ResourceValidationFilter implements Filter{
 			//
 			///////////////////////////////////////////////////////////////////////
 			if (invalid && roles.contains("ROLE_USER")) {
+
+				// break uri into tokens
+				String[] tokens = uri.split("/");
 				
 				// only GET for this ROLE permitted
 				if (!service.equals("GET")) {
@@ -166,85 +168,33 @@ public class ResourceValidationFilter implements Filter{
 				}
 				
 				// must be either /resource/Batch/Subscription/{subscriptionId}
-				// or /resource/Batch/Subscription/{subscriptionId}/**
-				if (uri.equals(resourceUri)) {
-					invalid = false;
-				}
-				else
-				{
-					response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Not authorized");
-					return;
-				}
-				
-
-				if (uri.contains("/resource/Batch/Subscription/")) {
-					// this is the normal access_token IF it matches the
-					// resourceURI
-					if (uri.equals(resourceUri))
+				if (invalid && uri.contains("/resource/Batch/Subscription")) {
+					if (uri.equals(resourceUri)) {
 						invalid = false;
-				}
+					} else {
+						// not authorized for this resource
+						System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+						response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Access Not Authorized");
+					}
+				}				
 
-				if (invalid && uri.contains("/resource/Subscription/")) {
-					// this is a management_access_token or a normal
-					// access_token
-					try {
-						// extract the subscriptionId and usagePointID (if any)
-						// from
-						// the uri
-						Long subscriptionId = 0L;
-						Subscription requestedSubscription = null;
-						Long usagePointId = 0L;
-						UsagePoint requestedUsagePoint = null;
-						String[] tokens = uri.split("/");
-
-						for (String s : tokens) {
-							if (subscriptionId == null)
-								subscriptionId = Long.parseLong(s, 10);
-							if (usagePointId == null)
-								usagePointId = Long.parseLong(s, 10);
-							if (s.equals("Subscription"))
-								subscriptionId = null;
-							if (s.equals("UsagePoint"))
-								usagePointId = null;
-						}
-
-						if (subscriptionId != null)
-							requestedSubscription = subscriptionService
-									.findById(subscriptionId);
-
-						if (subscription.equals(requestedSubscription))
-							if (usagePointId != null) {
-								
-							    // validate the usagePoint is appropriate
-								requestedUsagePoint = usagePointService
-										.findById(usagePointId);
-								if (requestedUsagePoint != null) {
-									// note that we need to iterate b/c .contains() fails to use
-									// the class .equals().
-									for (UsagePoint up : subscription.getUsagePoints()) {
-										if (up.equals(requestedUsagePoint)) {
-										    invalid = false;
-										}
-									}
-								}
-							} else {
-								// it's good to go
+				// or /resource/Batch/Subscription/{subscriptionId}/**
+				if (invalid && uri.contains("/resource/Subscription")) {
+					if(  Long.parseLong(tokens[2],10) == Long.parseLong(authorizationFromToken.getSubscriptionId())) {
 								invalid = false;
-							}
-
-					} catch (Exception e) {
-						System.out
-								.printf("ResourceValidationFilter: doFilter - No Authorization Found - %s\n",
-										e.toString());
+					} else {
+						// not authorized for this resource
+						System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+						response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Access Not Authorized");
 					}
 				}
+			
 			} else if (invalid && roles.contains("ROLE_DC_ADMIN")) {
 				///////////////////////////////////////////////////////////////////////
 				// ROLE_DC_ADMIN
 				// Access to all services and APIs
 				///////////////////////////////////////////////////////////////////////
 				//
-				System.out.printf("ResourceValidationFilter: ROLE_DC_ADMIN\n");
 				invalid = false;
 
 			} else if (invalid && roles.contains("ROLE_TP_ADMIN")) {
@@ -256,12 +206,21 @@ public class ResourceValidationFilter implements Filter{
 				// GET /resource/ReadServiceStatus
 				// GETALL sftp://services.greenbuttondata.org/DataCustodian/espi/1_1/resource/Batch/Bulk/{BulkID}
 				///////////////////////////////////////////////////////////////////////
-				//TODO
-				System.out.printf("ResourceValidationFilter: ROLE_TP_ADMIN\n");
-				if (invalid && uri.contains("/resource/Batch/Bulk")) {
-					// the Bulk Authorizations
+
+				// only GET for this ROLE permitted
+				if (!(service.equals("GET") || service.equals("GETALL"))) {
+					System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+					response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Not authorized");
+					return;
 				}
 				
+				
+				// the Bulk Authorizations
+				if (invalid && uri.contains("/resource/Batch/Bulk")) {
+					//TODO
+				}
+				
+				// Authorizations
 				if (invalid && (uri.contains("/resource/Authorization"))){
 					// this is retrieving the authorization related to the token
 					// the TP has access to AuthorizationIds he is tp for
@@ -282,7 +241,7 @@ public class ResourceValidationFilter implements Filter{
 								invalid = false;
 							} else {
 								// not authorized for this resource
-								System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized - %s\n");
+								System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
 								response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Access Not Authorized");
 							}
 						} else {
@@ -292,14 +251,16 @@ public class ResourceValidationFilter implements Filter{
 							invalid = false;
 						}
 					}
-
-
 				}
 				
-				if (invalid && uri.contains("/resource/ServiceStatus")) {
+				if (invalid && uri.contains("/resource/ReadServiceStatus")) {
 					// the Bulk Authorizations
 					invalid = false;
 				}
+				
+				
+				// sftp
+				// TODO:
 				
 			} else if (invalid && roles.contains("ROLE_UL_ADMIN")) {
 				///////////////////////////////////////////////////////////////////////
@@ -310,42 +271,22 @@ public class ResourceValidationFilter implements Filter{
 				// GET /resource/Authorization/{AuthorizationID}
 				//
 				///////////////////////////////////////////////////////////////////////
-		    	//TODO
-				System.out.printf("ResourceValidationFilter: ROLE_UL_ADMIN\n");
+
+				// he can get his own AuthorizationUri
+				// check if it is this authorization request
+				if (uri.contains("/resource/Authorization")) {
+					if(authorizationUri.equals(uri)) {
+						invalid=false;
+					}
+					else {
+						// not authorized for this resource
+						System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+						response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Access Not Authorized");
+					}
+				}
+				
 				if (invalid && uri.contains("/resource/Batch/RetailCustomer")) {
-					// this is the "upload_access_token"
-					// TODO: need the resourceURI that goes with this one as
-					// well
-					// as the new multi-customer/multi-usagePoint pattern
-					// currently it allows the access token from the authorization flow
-					// and we just make sure the retail customer id is correct
-					
-					RetailCustomer retailCustomer = authorizationFromToken.getRetailCustomer();
-					Long requestRetailCustomerId = 0L;
-					
-					// there are two forms to consider
-					
-					String temp = uri;
-					
-					if (uri.contains("/UsagePoint")) {
-						// "..resource/RetailCustomer/{retailCustomerId}/UsagePoint[/{usagePointId}]
-						temp = temp.substring(temp.indexOf("Customer/") + "Customer/".length());
-						temp = temp.substring(0, temp.indexOf("/"));
-					} else {
-						// "..resource/RetailCustomer/{retailCustomerId}
-					    temp = temp.substring(temp.indexOf("RetailCustomer/") + "RetailCustomer/".length());
-					}
-					if (temp != null) 
-						requestRetailCustomerId = new Long(temp);
-					
-					if (requestRetailCustomerId != 0L) {
-						if (retailCustomer.getId().equals(requestRetailCustomerId)) invalid=false;
-					} else {
-						// it is a request for ALL retail customer usage points OR a Post
-						// to inject a collection of UsagePoints (as yet undefined)
-						// let it pass for now
 						invalid = false;
-					}
 				}
 		    }
 			else if (invalid && roles.contains("ROLE_REGISTRATION"))	{
@@ -355,14 +296,40 @@ public class ResourceValidationFilter implements Filter{
 				// GET /resource/Authorization/{AuthorizationID}
 				//
 				///////////////////////////////////////////////////////////////////////
-				System.out.printf("ResourceValidationFilter: ROLE_REGISTRATION\n");
+
+				// only GET for this ROLE permitted
+				if (!service.equals("GET")) {
+					System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+					response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Not authorized");
+					return;
+				}
+				
 				if (uri.contains("/resource/ApplicationInformation")) {
-					invalid = false;
+					String[] tokens = uri.split("/");
+					Long applicationInformationIdFromUri = Long.parseLong(tokens[3],10);
+					Long applicationInformationId = authorizationFromToken.getApplicationInformation().getId();
+					
+					// only gets access to his
+					if(applicationInformationIdFromUri == applicationInformationId){
+						invalid = false;
+					}
+					else{
+						// not authorized for this resource
+						System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+						response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Access Not Authorized");
+					}
 				}
 
 				// check if it is this authorization request
-				if(authorizationUri.equals(uri)) {
-					invalid=false;
+				if (uri.contains("/resource/Authorization")) {
+					if(authorizationUri.equals(uri)) {
+						invalid=false;
+					}
+					else {
+						// not authorized for this resource
+						System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+						response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Access Not Authorized");
+					}
 				}
 			}
 		}
