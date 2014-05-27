@@ -180,7 +180,7 @@ public class ResourceValidationFilter implements Filter{
 
 				// or /resource/Batch/Subscription/{subscriptionId}/**
 				if (invalid && uri.contains("/resource/Subscription")) {
-					if(  Long.parseLong(tokens[2],10) == Long.parseLong(authorizationFromToken.getSubscriptionId())) {
+					if( authorizationFromToken.getSubscription().getId().compareTo(Long.parseLong(tokens[3],10)) == 0) {
 								invalid = false;
 					} else {
 						// not authorized for this resource
