@@ -20,6 +20,7 @@ import org.energyos.espi.common.service.AuthorizationService;
 import org.energyos.espi.common.service.SubscriptionService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -88,12 +89,8 @@ public class ResourceValidationFilter implements Filter{
 					catch (Exception e) {
 						System.out
 								.printf("ResourceValidationFilter: doFilter - No Authorization Found - %s\n",
-										e.toString());
-						
-						response.sendError(HttpServletResponse.SC_BAD_REQUEST, "No Authorization Found");
-						return;
-						
-						
+										e.toString());						
+						throw new AccessDeniedException(String.format("No Authorization Found"));												
 					}
 					
 					// see if we have valid authorization and can get parameters
@@ -157,8 +154,8 @@ public class ResourceValidationFilter implements Filter{
 				
 				// only GET for this ROLE permitted
 				if (!service.equals("GET")) {
-					response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Not authorized");
-					return;
+					System.out.printf("ResourceValidationFilter: doFilter - ROLE_USER attempted a RESTful %s Request -- Only GET Request are allowed\n", service);					
+					throw new AccessDeniedException(String.format("Access Not Authorized"));						
 				}
 
 				// look for the root forms of LocalTimeParameters and ReadingType
@@ -174,7 +171,7 @@ public class ResourceValidationFilter implements Filter{
 					} else {
 						// not authorized for this resource
 						System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
-						response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Access Not Authorized");
+						throw new AccessDeniedException(String.format("Access Not Authorized"));							
 					}
 				}				
 
@@ -185,7 +182,7 @@ public class ResourceValidationFilter implements Filter{
 					} else {
 						// not authorized for this resource
 						System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
-						response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Access Not Authorized");
+						throw new AccessDeniedException(String.format("Access Not Authorized"));						
 					}
 				}
 			
@@ -210,8 +207,7 @@ public class ResourceValidationFilter implements Filter{
 				// only GET for this ROLE permitted
 				if (!(service.equals("GET") || service.equals("GETALL"))) {
 					System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
-					response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Not authorized");
-					return;
+					throw new AccessDeniedException(String.format("Access Not Authorized"));						
 				}
 				
 				
@@ -242,7 +238,7 @@ public class ResourceValidationFilter implements Filter{
 							} else {
 								// not authorized for this resource
 								System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
-								response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Access Not Authorized");
+								throw new AccessDeniedException(String.format("Access Not Authorized"));									
 							}
 						} else {
 							// this is collection request and controller will limit to valid authorizations
@@ -281,7 +277,7 @@ public class ResourceValidationFilter implements Filter{
 					else {
 						// not authorized for this resource
 						System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
-						response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Access Not Authorized");
+						throw new AccessDeniedException(String.format("Access Not Authorized"));							
 					}
 				}
 				
@@ -300,8 +296,7 @@ public class ResourceValidationFilter implements Filter{
 				// only GET for this ROLE permitted
 				if (!service.equals("GET")) {
 					System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
-					response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Not authorized");
-					return;
+					throw new AccessDeniedException(String.format("Access Not Authorized"));						
 				}
 				
 				if (uri.contains("/resource/ApplicationInformation")) {
@@ -316,7 +311,7 @@ public class ResourceValidationFilter implements Filter{
 					else{
 						// not authorized for this resource
 						System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
-						response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Access Not Authorized");
+						throw new AccessDeniedException(String.format("Access Not Authorized"));							
 					}
 				}
 
@@ -328,7 +323,7 @@ public class ResourceValidationFilter implements Filter{
 					else {
 						// not authorized for this resource
 						System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
-						response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Access Not Authorized");
+						throw new AccessDeniedException(String.format("Access Not Authorized"));							
 					}
 				}
 			}
