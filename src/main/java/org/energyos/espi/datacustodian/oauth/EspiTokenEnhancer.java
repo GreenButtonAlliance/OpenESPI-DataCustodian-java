@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.energyos.espi.common.domain.Authorization;
+import org.energyos.espi.common.domain.DateTimeInterval;
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.Subscription;
@@ -76,8 +77,6 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			subscription.setUpdated(new GregorianCalendar());        
 			subscriptionService.merge(subscription);
 			
-			
-			
 			// Update Data Custodian authorization structure
 			String clientIdTmp = authentication.getOAuth2Request().getClientId();
 			if(clientIdTmp.equals("data_custodian_admin")) {
@@ -94,7 +93,9 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			authorization.setAccessToken(accessToken.getValue());        
 			authorization.setTokenType(accessToken.getTokenType());
 			authorization.setExpiresIn((long) accessToken.getExpiresIn());
-        
+			authorization.setAuthorizedPeriod(new DateTimeInterval((long) 0, (long) 0));
+			authorization.setPublishedPeriod(new DateTimeInterval((long) 0, (long) 0));
+			
 			if(accessToken.getRefreshToken() != null) {
 				authorization.setRefreshToken(accessToken.getRefreshToken().toString());			
 			}
@@ -178,6 +179,9 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			authorization.setUpdated(new GregorianCalendar());
 			authorization.setStatus("1"); 	// Set authorization record status as "Active"
 			authorization.setSubscription(subscription);
+			authorization.setAuthorizedPeriod(new DateTimeInterval((long) 0, (long) 0));
+			authorization.setPublishedPeriod(new DateTimeInterval((long) 0, (long) 0));
+
 			authorizationService.merge(authorization);
 			
 		} else {  
