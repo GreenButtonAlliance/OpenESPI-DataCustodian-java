@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.energyos.espi.common.domain.Authorization;
@@ -65,6 +66,9 @@ public class UsagePointRESTController {
 
 	@Autowired
 	private ResourceService resourceService;
+	
+	@Autowired
+	private AuthorizationService authorizationService;
 
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -74,14 +78,17 @@ public class UsagePointRESTController {
 	// first the RESTful Interface to the ROOT Objects
 	@RequestMapping(value = Routes.ROOT_USAGE_POINT_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
-	public void index(HttpServletResponse response,
+	public void index(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+
+		Long subscriptionId = getSubscriptionId(request);
+	
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 
-			exportService.exportUsagePoints(response.getOutputStream(),
+			exportService.exportUsagePoints_Root(subscriptionId, response.getOutputStream(),
 					new ExportFilter(params));
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -91,14 +98,16 @@ public class UsagePointRESTController {
 
 	@RequestMapping(value = Routes.ROOT_USAGE_POINT_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
-	public void show(HttpServletResponse response,
+	public void show(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable Long usagePointId,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		Long subscriptionId = getSubscriptionId(request);
+		
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
-			exportService.exportUsagePoint(usagePointId,
+			exportService.exportUsagePoint_Root(subscriptionId, usagePointId,
 					response.getOutputStream(), new ExportFilter(params));
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -107,15 +116,17 @@ public class UsagePointRESTController {
 
 	@RequestMapping(value = Routes.ROOT_USAGE_POINT_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
-	public void create(HttpServletResponse response,
+	public void create(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
+		Long subscriptionId = getSubscriptionId(request);
+		
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			UsagePoint usagePoint = this.usagePointService
 					.importResource(stream);
-			exportService.exportUsagePoint(usagePoint.getId(),
+			exportService.exportUsagePoint_Root(subscriptionId, usagePoint.getId(),
 					response.getOutputStream(), new ExportFilter(params));
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -273,6 +284,26 @@ public class UsagePointRESTController {
 		}
 	}
 
+	private Long getSubscriptionId(HttpServletRequest request) {
+		String token = request.getHeader("authorization");
+		Long subscriptionId = 0L;
+
+		if (token != null) {
+			token = token.replace("Bearer ", "");
+			Authorization authorization = authorizationService
+					.findByAccessToken(token);
+			if (authorization != null) {
+				Subscription subscription = authorization.getSubscription();
+				if (subscription != null) {
+					subscriptionId = subscription.getId();
+				}
+			}
+		}
+
+		return subscriptionId;
+
+	}
+		
 	public void setUsagePointService(UsagePointService usagePointService) {
 		this.usagePointService = usagePointService;
 	}

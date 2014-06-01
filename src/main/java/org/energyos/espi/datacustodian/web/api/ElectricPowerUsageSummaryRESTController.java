@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.energyos.espi.common.domain.Authorization;
@@ -28,6 +29,7 @@ import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.Subscription;
 import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.service.AuthorizationService;
 import org.energyos.espi.common.service.ElectricPowerUsageSummaryService;
 import org.energyos.espi.common.service.ExportService;
 import org.energyos.espi.common.service.ResourceService;
@@ -64,6 +66,9 @@ public class ElectricPowerUsageSummaryRESTController {
 	
 	@Autowired
 	private SubscriptionService subscriptionService;
+	
+	@Autowired
+	private AuthorizationService authorizationService;
 
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -74,12 +79,14 @@ public class ElectricPowerUsageSummaryRESTController {
 	//
 	@RequestMapping(value = Routes.ROOT_ELECTRIC_POWER_USAGE_SUMMARY_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
-	public void index(HttpServletResponse response,
+	public void index(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		Long subscriptionId = getSubscriptionId(request);
+		
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-		exportService.exportElectricPowerUsageSummarys(
+		exportService.exportElectricPowerUsageSummarys_Root(subscriptionId, 
 				response.getOutputStream(), new ExportFilter(params));
 	}
 
@@ -87,14 +94,16 @@ public class ElectricPowerUsageSummaryRESTController {
 	//
 	@RequestMapping(value = Routes.ROOT_ELECTRIC_POWER_USAGE_SUMMARY_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
-	public void show(HttpServletResponse response,
+	public void show(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable Long electricPowerUsageSummaryId,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		Long subscriptionId = getSubscriptionId(request);
+		
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
-			exportService.exportElectricPowerUsageSummary(
+			exportService.exportElectricPowerUsageSummary_Root(subscriptionId, 
 					electricPowerUsageSummaryId, response.getOutputStream(),
 					new ExportFilter(params));
 		} catch (Exception e) {
@@ -106,15 +115,17 @@ public class ElectricPowerUsageSummaryRESTController {
 	//
 	@RequestMapping(value = Routes.ROOT_ELECTRIC_POWER_USAGE_SUMMARY_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
-	public void create(HttpServletResponse response,
+	public void create(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
+		Long subscriptionId = getSubscriptionId(request);
+		
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			ElectricPowerUsageSummary electricPowerUsageSummary = this.electricPowerUsageSummaryService
 					.importResource(stream);
-			exportService.exportElectricPowerUsageSummary(
+			exportService.exportElectricPowerUsageSummary_Root(subscriptionId, 
 					electricPowerUsageSummary.getId(),
 					response.getOutputStream(), new ExportFilter(params));
 
@@ -295,7 +306,27 @@ public class ElectricPowerUsageSummaryRESTController {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
 	}
+	
+	private Long getSubscriptionId(HttpServletRequest request) {
+		String token = request.getHeader("authorization");
+		Long subscriptionId = 0L;
 
+		if (token != null) {
+			token = token.replace("Bearer ", "");
+			Authorization authorization = authorizationService
+					.findByAccessToken(token);
+			if (authorization != null) {
+				Subscription subscription = authorization.getSubscription();
+				if (subscription != null) {
+					subscriptionId = subscription.getId();
+				}
+			}
+		}
+
+		return subscriptionId;
+
+	}
+	
 	public void setElectricPowerUsageSummaryService(
 			ElectricPowerUsageSummaryService electricPowerUsageSummaryService) {
 		this.electricPowerUsageSummaryService = electricPowerUsageSummaryService;
