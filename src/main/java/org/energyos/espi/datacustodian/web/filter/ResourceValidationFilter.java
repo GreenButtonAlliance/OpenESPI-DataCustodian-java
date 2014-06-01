@@ -1,6 +1,8 @@
 package org.energyos.espi.datacustodian.web.filter;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Set;
 
 import javax.servlet.Filter;
@@ -13,12 +15,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.energyos.espi.common.domain.Authorization;
+import org.energyos.espi.common.domain.DateTimeInterval;
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Subscription;
 import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.models.atom.DateTimeType;
 import org.energyos.espi.common.service.AuthorizationService;
 import org.energyos.espi.common.service.SubscriptionService;
 import org.energyos.espi.common.service.UsagePointService;
+import org.energyos.espi.common.utils.DateConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
@@ -96,10 +101,21 @@ public class ResourceValidationFilter implements Filter{
 					// see if we have valid authorization and can get parameters
 					if(authorizationFromToken != null)
 					{
-						hasValidOAuthAccessToken = true;
-						resourceUri = authorizationFromToken.getResourceURI();
-						authorizationUri = authorizationFromToken.getAuthorizationURI();
-						subscription = authorizationFromToken.getSubscription();
+						long tend = authorizationFromToken.getAuthorizedPeriod().getStart() + authorizationFromToken.getAuthorizedPeriod().getDuration();
+						Calendar c = Calendar.getInstance(); 						
+						long now = c.getTimeInMillis()/1000;
+						// check that it is still active and check that it has not expired
+						if( (authorizationFromToken.getStatus().equals("1") ) && ((tend == 0) || (tend >= now))){
+							hasValidOAuthAccessToken = true;
+							resourceUri = authorizationFromToken.getResourceURI();
+							authorizationUri = authorizationFromToken.getAuthorizationURI();
+							subscription = authorizationFromToken.getSubscription();
+						} else {
+							// authorization not valid now
+							System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+							throw new AccessDeniedException(String.format("Access Not Authorized"));							
+						
+						}
 					}
 				}
 			}
@@ -197,61 +213,72 @@ public class ResourceValidationFilter implements Filter{
 			} else if (invalid && roles.contains("ROLE_TP_ADMIN")) {
 				///////////////////////////////////////////////////////////////////////
 				// ROLE_TP_ADMIN
-				// GET /resource/Authorization
-				// GET /resource/Authorization/{AuthorizationID}
+				// GET 		/resource/Authorization
+				// GET 		/resource/Authorization/{AuthorizationID}
+				// PUT 		/resource/Authorization/{AuthorizationID}
+				// DELETE	/resource/Authorization/{AuthorizationID}
 				// GET /resource/Batch/Bulk/{BulkID}
 				// GET /resource/ReadServiceStatus
 				// GETALL sftp://services.greenbuttondata.org/DataCustodian/espi/1_1/resource/Batch/Bulk/{BulkID}
 				///////////////////////////////////////////////////////////////////////
 
-				// only GET for this ROLE permitted
-				if (!(service.equals("GET") || service.equals("GETALL"))) {
-					System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
-					throw new AccessDeniedException(String.format("Access Not Authorized"));						
-				}
-				
 				
 				// the Bulk Authorizations
 				if (invalid && uri.contains("/resource/Batch/Bulk")) {
 					//TODO
 				}
 				
-				// Authorizations
+				// Authorizations GET/PUT/DELETE on individual, GET on collection
 				if (invalid && (uri.contains("/resource/Authorization"))){
 					// this is retrieving the authorization related to the token
 					// the TP has access to AuthorizationIds he is tp for
 					// which is authorization looked by access token, or,
 					// any authorization that points to same applicationInformationId
-					
-					if(authorizationUri.equals(uri)) {
-						invalid=false;
-					} else {
-						// get authorizationID
-						String[] tokens = uri.split("/");
-						Long authorizationId = Long.parseLong(tokens[3],10);
 
-						if (authorizationId != null) {
-							Authorization requestedAuthorization = authorizationService
-									.findById(authorizationId);
-							if (requestedAuthorization.getApplicationInformation().getId() == authorizationFromToken.getApplicationInformation().getId()) {
-								invalid = false;
-							} else {
-								// not authorized for this resource
-								System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
-								throw new AccessDeniedException(String.format("Access Not Authorized"));									
-							}
+					if (service.equals("GET") || service.equals("PUT") || service.equals("DELETE")) {
+						if(authorizationUri.equals(uri)) {
+							invalid=false;
 						} else {
-							// this is collection request and controller will limit to valid authorizations
-							// for this ThirdParty
-							// TODO check
-							invalid = false;
+							// get authorizationID
+							String[] tokens = uri.split("/");
+							Long authorizationId = Long.parseLong(tokens[3],10);
+	
+							// check if its a collection
+							if (authorizationId != null) {
+								// it is specific ID, see if it authorization for this third party 
+								Authorization requestedAuthorization = authorizationService
+										.findById(authorizationId);
+								if (requestedAuthorization.getApplicationInformation().getId() == authorizationFromToken.getApplicationInformation().getId()) {
+									invalid = false;
+								} else {
+									// not authorized for this resource
+									System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+									throw new AccessDeniedException(String.format("Access Not Authorized"));									
+								}
+							} else {
+								// this is collection request and controller will limit to valid authorizations
+								if (service.equals("GET")) {
+									invalid = false;
+								} 	else {
+									// not authorized for this resource
+									System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+									throw new AccessDeniedException(String.format("Access Not Authorized"));									
+								}
+							}
 						}
 					}
 				}
 				
 				if (invalid && uri.contains("/resource/ReadServiceStatus")) {
-					// the Bulk Authorizations
-					invalid = false;
+					if (service.equals("GET")) {
+						invalid = false;
+					}
+					else
+					{
+						// not authorized for this resource
+						System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+						throw new AccessDeniedException(String.format("Access Not Authorized"));									
+					}
 				}
 				
 				
@@ -288,36 +315,38 @@ public class ResourceValidationFilter implements Filter{
 			else if (invalid && roles.contains("ROLE_REGISTRATION"))	{
 				///////////////////////////////////////////////////////////////////////
 				// ROLE_REGISTRATION_ADMIN
-				// GET /resource/ApplicationInformation/{ApplicationInformationID}
-				// GET /resource/Authorization/{AuthorizationID}
-				//
+				// GET 		/resource/ApplicationInformation/{ApplicationInformationID}
+				// GET 		/resource/Authorization/{AuthorizationID}
+				// PUT 		/resource/ApplicationInformation/{ApplicationInformationID}
+				// DELETE	/resource/ApplicationInformation/{ApplicationInformationID}
 				///////////////////////////////////////////////////////////////////////
 
-				// only GET for this ROLE permitted
-				if (!service.equals("GET")) {
-					System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
-					throw new AccessDeniedException(String.format("Access Not Authorized"));						
+				if (service.equals("GET") || service.equals("PUT") || service.equals("DELETE")) {
+					if (uri.contains("/resource/ApplicationInformation")) {
+						String[] tokens = uri.split("/");
+						Long applicationInformationIdFromUri = Long.parseLong(tokens[3],10);
+						Long applicationInformationId = authorizationFromToken.getApplicationInformation().getId();
+						
+						// only gets access to his
+						if(applicationInformationIdFromUri == applicationInformationId){
+							invalid = false;
+						}
+						else{
+							// not authorized for this resource
+							System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+							throw new AccessDeniedException(String.format("Access Not Authorized"));							
+						}
+					}
 				}
-				
-				if (uri.contains("/resource/ApplicationInformation")) {
-					String[] tokens = uri.split("/");
-					Long applicationInformationIdFromUri = Long.parseLong(tokens[3],10);
-					Long applicationInformationId = authorizationFromToken.getApplicationInformation().getId();
-					
-					// only gets access to his
-					if(applicationInformationIdFromUri == applicationInformationId){
-						invalid = false;
-					}
-					else{
-						// not authorized for this resource
-						System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
-						throw new AccessDeniedException(String.format("Access Not Authorized"));							
-					}
+				else {
+					// not authorized for this resource
+					System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+					throw new AccessDeniedException(String.format("Access Not Authorized"));							
 				}
 
 				// check if it is this authorization request
 				if (uri.contains("/resource/Authorization")) {
-					if(authorizationUri.equals(uri)) {
+					if(authorizationUri.equals(uri) && service.equals("GET")) {
 						invalid=false;
 					}
 					else {
