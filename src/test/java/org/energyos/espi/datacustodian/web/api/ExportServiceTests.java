@@ -81,7 +81,7 @@ public class ExportServiceTests extends XMLTest {
         usagePointService.setRepository(usagePointRepository);
         
         exportService.setSubscriptionService(subscriptionService);
-        exportService.setMarshaller(fragmentMarshaller);
+        exportService.setJaxb2Marshaller(fragmentMarshaller);
         // set up the ExportService
         // exportService.setUsagePointService(usagePointService);
         

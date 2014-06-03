@@ -192,7 +192,11 @@ public class EspiTokenEnhancer implements TokenEnhancer {
         return result;
     }
 
-    public void setApplicationInformationService(ApplicationInformationService applicationInformationService) {
+   public void setBaseURL (String baseURL) {
+	   this.baseURL = baseURL;
+   }
+   
+   public void setApplicationInformationService(ApplicationInformationService applicationInformationService) {
         this.applicationInformationService = applicationInformationService;
    }
 
