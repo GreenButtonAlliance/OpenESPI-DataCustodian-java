@@ -55,6 +55,7 @@ public class ElectricPowerUsageSummaryRESTController {
 
 	@Autowired
 	private ElectricPowerUsageSummaryService electricPowerUsageSummaryService;
+	
 	@Autowired
 	private UsagePointService usagePointService;
 
@@ -327,16 +328,47 @@ public class ElectricPowerUsageSummaryRESTController {
 
 	}
 	
-	public void setElectricPowerUsageSummaryService(
-			ElectricPowerUsageSummaryService electricPowerUsageSummaryService) {
-		this.electricPowerUsageSummaryService = electricPowerUsageSummaryService;
-	}
+    public void setElectricPowerUsageSummaryService(ElectricPowerUsageSummaryService electricPowerUsageSummaryService) {
+        this.electricPowerUsageSummaryService = electricPowerUsageSummaryService;
+   }
 
-	public void setUsagePointService(UsagePointService usagePointService) {
-		this.usagePointService = usagePointService;
-	}
+   public ElectricPowerUsageSummaryService getElectricPowerUsageSummaryService () {
+        return this.electricPowerUsageSummaryService;
+   }
+   public void setUsagePointService(UsagePointService usagePointService) {
+        this.usagePointService = usagePointService;
+   }
 
-	public void setExportService(ExportService exportService) {
-		this.exportService = exportService;
-	}
+   public UsagePointService getUsagePointService () {
+        return this.usagePointService;
+   }
+   public void setExportService(ExportService exportService) {
+        this.exportService = exportService;
+   }
+
+   public ExportService getExportService () {
+        return this.exportService;
+   }
+   public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+   }
+
+   public ResourceService getResourceService () {
+        return this.resourceService;
+   }
+   public void setSubscriptionService(SubscriptionService subscriptionService) {
+        this.subscriptionService = subscriptionService;
+   }
+
+   public SubscriptionService getSubscriptionService () {
+        return this.subscriptionService;
+   }
+   public void setAuthorizationService(AuthorizationService authorizationService) {
+        this.authorizationService = authorizationService;
+   }
+
+   public AuthorizationService getAuthorizationService () {
+        return this.authorizationService;
+   }
+
 }

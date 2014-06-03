@@ -192,19 +192,33 @@ public class EspiTokenEnhancer implements TokenEnhancer {
         return result;
     }
 
-    public void setSubscriptionService(SubscriptionService subscriptionService) {
+    public void setApplicationInformationService(ApplicationInformationService applicationInformationService) {
+        this.applicationInformationService = applicationInformationService;
+   }
+
+   public ApplicationInformationService getApplicationInformationService () {
+        return this.applicationInformationService;
+   }
+   public void setSubscriptionService(SubscriptionService subscriptionService) {
         this.subscriptionService = subscriptionService;
-    }
+   }
 
-    public void setBaseURL(String baseURL) {
-        this.baseURL = baseURL;
-    }
-
-    public void setAuthorizationService(AuthorizationService authorizationService) {
-        this.authorizationService = authorizationService;
-    }
-
-    public void setResourceService(ResourceService resourceService) {
+   public SubscriptionService getSubscriptionService () {
+        return this.subscriptionService;
+   }
+   public void setResourceService(ResourceService resourceService) {
         this.resourceService = resourceService;
-    }
+   }
+
+   public ResourceService getResourceService () {
+        return this.resourceService;
+   }
+   public void setAuthorizationService(AuthorizationService authorizationService) {
+        this.authorizationService = authorizationService;
+   }
+
+   public AuthorizationService getAuthorizationService () {
+        return this.authorizationService;
+   }
+
 }

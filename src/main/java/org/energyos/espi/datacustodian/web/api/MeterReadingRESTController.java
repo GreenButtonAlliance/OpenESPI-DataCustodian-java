@@ -301,24 +301,54 @@ public class MeterReadingRESTController {
 
 	}
 	
-	public void setMeterReadingService(MeterReadingService meterReadingService) {
-		this.meterReadingService = meterReadingService;
-	}
+    public void setMeterReadingService(MeterReadingService meterReadingService) {
+        this.meterReadingService = meterReadingService;
+   }
 
-	public void setRetailCustomerService(
-			RetailCustomerService retailCustomerService) {
-		this.retailCustomerService = retailCustomerService;
-	}
+   public MeterReadingService getMeterReadingService () {
+        return this.meterReadingService;
+   }
+   public void setUsagePointService(UsagePointService usagePointService) {
+        this.usagePointService = usagePointService;
+   }
 
-	public void setAtomService(MeterReadingService atomService) {
-		this.meterReadingService = atomService;
-	}
+   public UsagePointService getUsagePointService () {
+        return this.usagePointService;
+   }
+   public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
+        this.retailCustomerService = retailCustomerService;
+   }
 
-	public void setExportService(ExportService exportService) {
-		this.exportService = exportService;
-	}
+   public RetailCustomerService getRetailCustomerService () {
+        return this.retailCustomerService;
+   }
+   public void setSubscriptionService(SubscriptionService subscriptionService) {
+        this.subscriptionService = subscriptionService;
+   }
 
-	public void seResourceService(ResourceService resourceService) {
-		this.resourceService = resourceService;
-	}
+   public SubscriptionService getSubscriptionService () {
+        return this.subscriptionService;
+   }
+   public void setExportService(ExportService exportService) {
+        this.exportService = exportService;
+   }
+
+   public ExportService getExportService () {
+        return this.exportService;
+   }
+   public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+   }
+
+   public ResourceService getResourceService () {
+        return this.resourceService;
+   }
+   public void setAuthorizationService(AuthorizationService authorizationService) {
+        this.authorizationService = authorizationService;
+   }
+
+   public AuthorizationService getAuthorizationService () {
+        return this.authorizationService;
+   }
+
 }

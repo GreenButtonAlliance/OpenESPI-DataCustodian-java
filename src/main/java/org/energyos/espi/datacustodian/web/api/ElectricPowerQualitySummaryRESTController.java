@@ -56,8 +56,10 @@ public class ElectricPowerQualitySummaryRESTController {
 
 	@Autowired
 	private ElectricPowerQualitySummaryService electricPowerQualitySummaryService;
+	
 	@Autowired
 	private UsagePointService usagePointService;
+	
 	@Autowired
 	private RetailCustomerService retailCustomerService;
 
@@ -333,25 +335,54 @@ public class ElectricPowerQualitySummaryRESTController {
 
 	}
 	
-	public void setElectricPowerQualitySummaryService(
-			ElectricPowerQualitySummaryService electricPowerQualitySummaryService) {
-		this.electricPowerQualitySummaryService = electricPowerQualitySummaryService;
-	}
+    public void setElectricPowerQualitySummaryService(ElectricPowerQualitySummaryService electricPowerQualitySummaryService) {
+        this.electricPowerQualitySummaryService = electricPowerQualitySummaryService;
+   }
 
-	public void setRetailCustomerService(
-			RetailCustomerService retailCustomerService) {
-		this.retailCustomerService = retailCustomerService;
-	}
+   public ElectricPowerQualitySummaryService getElectricPowerQualitySummaryService () {
+        return this.electricPowerQualitySummaryService;
+   }
+   public void setUsagePointService(UsagePointService usagePointService) {
+        this.usagePointService = usagePointService;
+   }
 
-	public void setUsagePointService(UsagePointService usagePointService) {
-		this.usagePointService = usagePointService;
-	}
+   public UsagePointService getUsagePointService () {
+        return this.usagePointService;
+   }
+   public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
+        this.retailCustomerService = retailCustomerService;
+   }
 
-	public void setExportService(ExportService exportService) {
-		this.exportService = exportService;
-	}
+   public RetailCustomerService getRetailCustomerService () {
+        return this.retailCustomerService;
+   }
+   public void setExportService(ExportService exportService) {
+        this.exportService = exportService;
+   }
 
-	public void setResourceService(ResourceService resourceService) {
-		this.resourceService = resourceService;
-	}
+   public ExportService getExportService () {
+        return this.exportService;
+   }
+   public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+   }
+
+   public ResourceService getResourceService () {
+        return this.resourceService;
+   }
+   public void setSubscriptionService(SubscriptionService subscriptionService) {
+        this.subscriptionService = subscriptionService;
+   }
+
+   public SubscriptionService getSubscriptionService () {
+        return this.subscriptionService;
+   }
+   public void setAuthorizationService(AuthorizationService authorizationService) {
+        this.authorizationService = authorizationService;
+   }
+
+   public AuthorizationService getAuthorizationService () {
+        return this.authorizationService;
+   }
+
 }

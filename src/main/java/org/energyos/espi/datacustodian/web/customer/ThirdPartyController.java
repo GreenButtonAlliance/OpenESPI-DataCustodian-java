@@ -37,4 +37,9 @@ public class ThirdPartyController extends BaseController {
     public void setApplicationInformationService(ApplicationInformationService applicationInformationService) {
         this.applicationInformationService = applicationInformationService;
     }
+    
+    public ApplicationInformationService gettApplicationInformationService(ApplicationInformationService applicationInformationService) {
+        return this.applicationInformationService;
+    }
+    
 }

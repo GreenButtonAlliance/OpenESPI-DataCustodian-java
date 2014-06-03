@@ -32,15 +32,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 public class ResourceValidationFilter implements Filter{
 
+
 	@Autowired
-	SubscriptionService subscriptionService;
+	private SubscriptionService subscriptionService;
 	
 	@Autowired
-	AuthorizationService authorizationService;
+	private AuthorizationService authorizationService;
 	
 	@Autowired
-	UsagePointService usagePointService;
-	
+	private UsagePointService usagePointService;
+
     @Override
     public void destroy() {
         // Do nothing
@@ -371,5 +372,27 @@ public class ResourceValidationFilter implements Filter{
     public void init(FilterConfig arg0) throws ServletException {
         // nothing to do here
     }
+
+    public void setSubscriptionService(SubscriptionService subscriptionService) {
+        this.subscriptionService = subscriptionService;
+   }
+
+   public SubscriptionService getSubscriptionService () {
+        return this.subscriptionService;
+   }
+   public void setAuthorizationService(AuthorizationService authorizationService) {
+        this.authorizationService = authorizationService;
+   }
+
+   public AuthorizationService getAuthorizationService () {
+        return this.authorizationService;
+   }
+   public void setUsagePointService(UsagePointService usagePointService) {
+        this.usagePointService = usagePointService;	
+   }
+
+   public UsagePointService getUsagePointService () {
+        return this.usagePointService;
+   }
 
 }

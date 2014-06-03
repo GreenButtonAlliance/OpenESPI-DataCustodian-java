@@ -200,20 +200,46 @@ public class RetailCustomerRESTController {
 
 	}
 		
-	public void setRetailCustomerService(
-			RetailCustomerService retailCustomerService) {
-		this.retailCustomerService = retailCustomerService;
-	}
+	public void setImportService(ImportService importService) {
+        this.importService = importService;
+     }
+
+     public ImportService getImportService() {
+        return this.importService;
+     }
+
+	public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
+        this.retailCustomerService = retailCustomerService;
+     }
+
+     public RetailCustomerService getRetailcustomerService() {
+        return this.retailCustomerService;
+     }
 
 	public void setUsagePointService(UsagePointService usagePointService) {
-		this.usagePointService = usagePointService;
-	}
+        this.usagePointService = usagePointService;
+     }
+
+     public UsagePointService getUsagepointService() {
+        return this.usagePointService;
+     }
 
 	public void setExportService(ExportService exportService) {
-		this.exportService = exportService;
-	}
+        this.exportService = exportService;
+     }
 
-	public void setImportService(ImportService importService) {
-		this.importService = importService;
-	}
+     public ExportService getExportService() {
+        return this.exportService;
+     }
+	
+	
+	public void setAuthorizationService(AuthorizationService authorizationService) {
+       this.authorizationService = authorizationService;
+     }
+
+     public AuthorizationService getAuthorizationService() {
+        return this.authorizationService;
+     }
+
+
 }

@@ -305,19 +305,51 @@ public class UsagePointRESTController {
 	}
 		
 	public void setUsagePointService(UsagePointService usagePointService) {
-		this.usagePointService = usagePointService;
-	}
+        this.usagePointService = usagePointService;
+     }
 
-	public void setRetailCustomerService(
-			RetailCustomerService retailCustomerService) {
-		this.retailCustomerService = retailCustomerService;
-	}
+     public UsagePointService getUsagePointService () {
+        return this.usagePointService;
+     }
+	
+	public void setSubscriptionService(SubscriptionService subscriptionService) {
+        this.subscriptionService = subscriptionService;
+     }
+
+     public SubscriptionService getSubscriptionService(SubscriptionService subscriptionService) {
+        return this.subscriptionService;
+     }
+
+	public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
+        this.retailCustomerService = retailCustomerService;
+     }
+
+     public RetailCustomerService getRetailCustomerService() {
+        return this.retailCustomerService;
+     }
 
 	public void setExportService(ExportService exportService) {
-		this.exportService = exportService;
-	}
+        this.exportService = exportService;
+     }
+
+     public ExportService getExportService() {
+        return this.exportService;
+     }
 
 	public void setResourceService(ResourceService resourceService) {
-		this.resourceService = resourceService;
-	}
+        this.resourceService = resourceService;
+     }
+
+     public ResourceService getResourceService() {
+        return this.resourceService;
+     }
+	
+	public void setAuthorizationService(AuthorizationService authorizationService) {
+        this.authorizationService = authorizationService;
+     }
+
+     public AuthorizationService getAuthorizationService() {
+        return this.authorizationService;
+     }
+
 }
