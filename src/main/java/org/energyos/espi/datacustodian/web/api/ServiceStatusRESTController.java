@@ -58,14 +58,11 @@ public class ServiceStatusRESTController {
         String temp = updated.getValue().toXMLFormat();
     	String uuid = UUID.randomUUID().toString();
     	
-		response.getOutputStream().println("<feed xmlns=\"http://www.w3.org/2005/Atom\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">");
-		response.getOutputStream().println("<id>" + uuid + "</id>");
-		response.getOutputStream().println("<title>Service Status</title>");
-		response.getOutputStream().println("<description>Service Status: " + 
-		                                    applicationInformation.getDataCustodianApplicationStatus() +
-		                                    "</description>");
-		response.getOutputStream().println("<updated>"+ temp + "</updated>");
-		response.getOutputStream().println("</feed>");
+    	
+        response.getOutputStream().println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        response.getOutputStream().println("<ServiceStatus xmlns=\"http://naesb.org/espi\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://naesb.org/espi espiDerived.xsd\">");
+        response.getOutputStream().println("  <currentStatus>" + applicationInformation.getDataCustodianApplicationStatus() + "</currentStatus>\n</ServiceStatus>");
+
 		
 	}
 
