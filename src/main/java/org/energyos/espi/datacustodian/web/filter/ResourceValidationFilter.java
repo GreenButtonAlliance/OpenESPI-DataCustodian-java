@@ -67,10 +67,18 @@ public class ResourceValidationFilter implements Filter{
 		// get the uri for later tests
 		String uri = request.getRequestURI();
 		String service = request.getMethod();
+		Set<String> roles = null;
 
 		// see if any authentication has happened
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+		if(authentication != null) {
+			roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+		}	else {
+			System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+			throw new AccessDeniedException(String.format("Access Not Authorized"));							
+		
+		}
+
 
 		System.out.printf("ResourceValidationFilter: role=%s, uri:%s\n", roles, uri);
 		
@@ -138,11 +146,24 @@ public class ResourceValidationFilter implements Filter{
 			// if it has a valid access token 
 			// then we know it is REST request
 			// Dispatch on authentication type
+			
+			
+			// lets check the uri
+			int i 	= uri.indexOf("espi/1_1/resource/");
+			if(i>0) {
+				// lets shorten it by stripping off up to resource
+				uri = uri.substring(uri.indexOf("/resource/"));
+			}
+			else
+			{
+				// cant be a resource
+				System.out.printf("ResourceValidationFilter: doFilter - Uri not well formed %s\n", uri);					
+				throw new AccessDeniedException(String.format("Access Not Authorized"));						
+			}
 		    
 		    // strip off uri up to /resource/ since that is how we go here
 			resourceUri 		= resourceUri.substring(resourceUri.indexOf("/resource/"));
 			authorizationUri 	= authorizationUri.substring(authorizationUri.indexOf("/resource/"));
-			uri 				= uri.substring(uri.indexOf("/resource/"));
 
 			///////////////////////////////////////////////////////////////////////
 			// ROLE_USER
