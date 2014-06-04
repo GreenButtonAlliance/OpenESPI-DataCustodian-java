@@ -107,20 +107,6 @@ public class UsagePointController extends BaseController {
      }
     }
 
-    @RequestMapping(value = Routes.USAGE_POINTS_FEED, method = RequestMethod.GET)
-    public void feedEntries(HttpServletResponse response, Principal principal, @RequestParam Map<String, String> params) throws FeedException, IOException {
-        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        response.addHeader("Content-Disposition", "attachment; filename=GreenButtonDownload.xml");
-        exportService.exportUsagePointsFull(currentCustomer(principal).getId(), response.getOutputStream(), new ExportFilter(params));
-    }
-    
-    @RequestMapping(value = Routes.USAGE_POINT_FEED, method = RequestMethod.GET)
-    public void feedEntry(HttpServletResponse response, Principal principal, @PathVariable Long usagePointId, @RequestParam Map<String, String> params) throws FeedException, IOException {
-        response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-        response.addHeader("Content-Disposition", "attachment; filename=GreenButtonDownload.xml");
-        exportService.exportUsagePointFull(usagePointId, currentCustomer(principal).getId(), response.getOutputStream(), new ExportFilter(params));
-    }
-
     @SuppressWarnings("rawtypes")
 	@Transactional (readOnly=true)
     private HashMap<String, Object> buildDisplayBag(Long retailCustomerId, Long usagePointId) {
@@ -158,9 +144,32 @@ public class UsagePointController extends BaseController {
     
     public void setUsagePointService(UsagePointService usagePointService) {
         this.usagePointService = usagePointService;
-    }
+   }
 
-    public void setExportService(ExportService exportService) {
+   public UsagePointService getUsagePointService () {
+        return this.usagePointService;
+   }
+   public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+   }
+
+   public ResourceService getResourceService () {
+        return this.resourceService;
+   }
+   public void setExportService(ExportService exportService) {
         this.exportService = exportService;
-    }
+   }
+
+   public ExportService getExportService () {
+        return this.exportService;
+   }
+   public void setApplicationInformationService(ApplicationInformationService applicationInformationService) {
+        this.applicationInformationService = applicationInformationService;
+   }
+
+   public ApplicationInformationService getApplicationInformationService () {
+        return this.applicationInformationService;
+   }
+
+    
 }

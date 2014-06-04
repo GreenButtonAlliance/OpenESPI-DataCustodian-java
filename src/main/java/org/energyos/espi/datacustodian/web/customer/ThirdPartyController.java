@@ -22,7 +22,8 @@ public class ThirdPartyController extends BaseController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String index(ModelMap model) {
-        model.put("applicationInformationList", applicationInformationService.findAll());
+        model.put("applicationInformationList", applicationInformationService.findByKind("THIRD_PARTY"));
+//        model.put("applicationInformationList", applicationInformationService.findAll());
         return "/customer/thirdparties/index";
     }
 
@@ -36,4 +37,9 @@ public class ThirdPartyController extends BaseController {
     public void setApplicationInformationService(ApplicationInformationService applicationInformationService) {
         this.applicationInformationService = applicationInformationService;
     }
+    
+    public ApplicationInformationService gettApplicationInformationService(ApplicationInformationService applicationInformationService) {
+        return this.applicationInformationService;
+    }
+    
 }

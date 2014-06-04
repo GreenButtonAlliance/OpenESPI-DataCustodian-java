@@ -6,6 +6,7 @@ import static org.energyos.espi.common.test.EspiFactory.newSubscription;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -80,7 +81,7 @@ public class ExportServiceTests extends XMLTest {
         usagePointService.setRepository(usagePointRepository);
         
         exportService.setSubscriptionService(subscriptionService);
-        exportService.setMarshaller(fragmentMarshaller);
+        exportService.setJaxb2Marshaller(fragmentMarshaller);
         // set up the ExportService
         // exportService.setUsagePointService(usagePointService);
         
@@ -127,7 +128,7 @@ public class ExportServiceTests extends XMLTest {
 
         when(subscriptionService.findEntryTypeIterator(retailCustomerId)).thenReturn(mock(EntryTypeIterator.class));
 
-        exportService.exportUsagePoints(retailCustomerId, new ByteArrayOutputStream(), new ExportFilter(new HashMap<String, String>()));
+        exportService.exportUsagePoints(anyLong(), retailCustomerId, new ByteArrayOutputStream(), new ExportFilter(new HashMap<String, String>()));
 
         verify(subscriptionService).findEntryTypeIterator(retailCustomerId);
 

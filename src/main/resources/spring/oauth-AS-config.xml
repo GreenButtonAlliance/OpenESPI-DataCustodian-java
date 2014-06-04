@@ -58,32 +58,32 @@
     </sec:authentication-manager>
  
  	<!-- TODO: Implement Spring Security Configuration feature to eliminate XML maintenance -->   	    
-	<oauth:client-details-service id="clientDetailsService">
+<!-- 	<oauth:client-details-service id="clientDetailsService"> -->
 	
 		<!-- Third Party Application ROLE_USER parameters -->
-		<oauth:client client-id="third_party"
-			secret="secret"
-			access-token-validity="360"
-			refresh-token-validity="3600"
-			scope="FB=4_5_15;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13,FB=4_5_15;IntervalDuration=900;BlockDuration=monthly;HistoryLength=13"
-			authorized-grant-types="authorization_code,refresh_token"
-			authorities="ROLE_USER"  />
+<!-- 		<oauth:client client-id="third_party" -->
+<!-- 			secret="secret" -->
+<!-- 			access-token-validity="360" -->
+<!-- 			refresh-token-validity="3600" -->
+<!-- 			scope="FB=4_5_15;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13,FB=4_5_15;IntervalDuration=900;BlockDuration=monthly;HistoryLength=13" -->
+<!-- 			authorized-grant-types="authorization_code,refresh_token" -->
+<!-- 			authorities="ROLE_USER"  /> -->
 
 		<!-- Third Party Application ROLE_ADMIN parameters -->
-		<oauth:client client-id="third_party_admin"
-			secret="secret"
-			access-token-validity="360"
-			scope="ThirdParty_Admin_Access"				
-			authorized-grant-types="client_credentials"
-			authorities="ROLE_TP_ADMIN" />
+<!-- 		<oauth:client client-id="third_party_admin" -->
+<!-- 			secret="secret" -->
+<!-- 			access-token-validity="360" -->
+<!-- 			scope="ThirdParty_Admin_Access"				 -->
+<!-- 			authorized-grant-types="client_credentials" -->
+<!-- 			authorities="ROLE_TP_ADMIN" /> -->
 
 		<!-- Data Custodian Application ROLE_ADMIN parameters -->
-		<oauth:client client-id="data_custodian_admin"
-			secret="secret"
-			access-token-validity="360"
-			scope="DataCustodian_Admin_Access"				
-			authorized-grant-types="client_credentials"
-			authorities="ROLE_DC_ADMIN" />
+<!-- 		<oauth:client client-id="data_custodian_admin" -->
+<!-- 			secret="secret" -->
+<!-- 			access-token-validity="360" -->
+<!-- 			scope="DataCustodian_Admin_Access"				 -->
+<!-- 			authorized-grant-types="client_credentials" -->
+<!-- 			authorities="ROLE_DC_ADMIN" /> -->
 			
 		<!-- Additional User Definition examples -->			
 <!-- 		<oauth:client client-id="my-trusted-client-with-secret" -->
@@ -109,7 +109,7 @@
 <!-- 			authorities="ROLE_CLIENT" scope="read,write" secret="secret" -->
 <!-- 			redirect-uri="${tonr.redirect:http://localhost:8080/tonr2/sparklr/redirect}" /> -->
 
-	</oauth:client-details-service>   
+<!-- 	</oauth:client-details-service>    -->
 
 	<!-- Services for resolving Users -->
     <authentication-manager alias="authenticationManager" 
@@ -241,7 +241,7 @@
 		access-decision-manager-ref="accessDecisionManager"
 		xmlns="http://www.springframework.org/schema/security" >
 		<anonymous enabled="false" />
-		<intercept-url pattern="/oauth/users/**" access="ROLE_CUSTODIAN" />
+		<intercept-url pattern="/oauth/users/**" access="ROLE_CUSTODIAN" /> <!-- ?? What is this one doing ?? -->
 		<custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
 		<access-denied-handler ref="oauthAccessDeniedHandler" />		
 	</http>				

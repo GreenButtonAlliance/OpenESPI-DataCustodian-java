@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class MeterReadingController extends BaseController {
 
     @Autowired
-    protected MeterReadingService meterReadingService;
+	protected MeterReadingService meterReadingService;
     
     @Transactional (readOnly = true)
     @RequestMapping(value = Routes.METER_READINGS_SHOW, method = RequestMethod.GET)
@@ -63,4 +63,9 @@ public class MeterReadingController extends BaseController {
     public void setMeterReadingService(MeterReadingService meterReadingService) {
         this.meterReadingService = meterReadingService;
     }
+    
+    public MeterReadingService getMeterReadingService(MeterReadingService meterReadingService) {
+        return this.meterReadingService;
+    }
+    
 }

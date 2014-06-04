@@ -4,8 +4,12 @@ import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 import org.energyos.espi.common.domain.Authorization;
+import org.energyos.espi.common.domain.DateTimeInterval;
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.Subscription;
@@ -14,10 +18,11 @@ import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.service.AuthorizationService;
 import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.SubscriptionService;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.util.OAuth2Utils;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,20 +50,92 @@ public class EspiTokenEnhancer implements TokenEnhancer {
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
     	
 		DefaultOAuth2AccessToken result = new DefaultOAuth2AccessToken(accessToken);
-		result.setAdditionalInformation(Collections.singletonMap("client_id", (Object) authentication.getOAuth2Request().getClientId()));	
-
-		//TODO: Change subscription and authorization table entry creation to work for "client_credentials" access token request
-		// Is this access token for an application (i.e. "client_credentials" request?
-		if (authentication.isClientOnly() == false){  // No, continue
 		
-		   try {
-		   	// find the authorization for the refresh-token (if one exists)
-		   	Authorization authorization = authorizationService.findByRefreshToken(result.getRefreshToken().getValue());
-			// update that authorization's access-token
-			authorization.setAccessToken(accessToken.getValue());
-		   } catch (Exception e) {
-			// there was no authorization for this refresh-token, so it is a new authorization
+		
+		System.out.printf("EspiTokenEnhancer: OAuth2Request Parameters = %s\n", authentication.getOAuth2Request().getRequestParameters());
+		  
+		  
+		Map<String, String> requestParameters = authentication.getOAuth2Request().getRequestParameters();
+		String grantType = requestParameters .get(OAuth2Utils.GRANT_TYPE);
+		grantType = grantType.toLowerCase();
+		
+		// Is this a "client_credentials" access token grant_type request?
+		if (grantType.contentEquals("client_credentials")) {
+			// Processing a "client_credentials" access token grant_type request.
+
+			// Create Subscription and add resourceURI to /oath/token response
+			Subscription subscription = subscriptionService.createSubscription(authentication);   
+			result.getAdditionalInformation().put("resourceURI", baseURL + Routes.BATCH_SUBSCRIPTION.replace("{subscriptionId}", subscription.getId().toString()));        
 			
+			// Create Authorization and add authorizationURI to /oath/token response        
+			Authorization authorization = authorizationService.createAuthorization(subscription, result.getValue());           
+			result.getAdditionalInformation().put("authorizationURI", baseURL + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("{AuthorizationID}", authorization.getId().toString()));
+
+			// Update Data Custodian subscription structure
+			subscription.setAuthorization(authorization);
+			subscription.setUpdated(new GregorianCalendar());        
+			subscriptionService.merge(subscription);
+			
+			// Update Data Custodian authorization structure
+			String clientIdTmp = authentication.getOAuth2Request().getClientId();
+			if(clientIdTmp.equals("data_custodian_admin")) {
+				authorization.setApplicationInformation(applicationInformationService.findByKind("DATA_CUSTODIAN_ADMIN").get(1));
+			} else if (clientIdTmp.contains("REGISTRATION_")) {
+				clientIdTmp = clientIdTmp.substring("REGISTRATION_".length());
+				authorization.setApplicationInformation(applicationInformationService.findByClientId(clientIdTmp));
+			} else {
+				authorization.setApplicationInformation(applicationInformationService.findByClientId(clientIdTmp));
+			}
+
+
+			authorization.setThirdParty(authentication.getOAuth2Request().getClientId());
+			authorization.setAccessToken(accessToken.getValue());        
+			authorization.setTokenType(accessToken.getTokenType());
+			authorization.setExpiresIn((long) accessToken.getExpiresIn());
+			authorization.setAuthorizedPeriod(new DateTimeInterval((long) 0, (long) 0));
+			authorization.setPublishedPeriod(new DateTimeInterval((long) 0, (long) 0));
+			
+			if(accessToken.getRefreshToken() != null) {
+				authorization.setRefreshToken(accessToken.getRefreshToken().toString());			
+			}
+		
+			// Remove "[" and "]" surrounding Scope in accessToken structure
+			authorization.setScope(accessToken.getScope().toString().substring(1, (accessToken.getScope().toString().length()-1)));
+			
+			// set the authorizationUri
+			authorization.setAuthorizationURI(baseURL + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("{AuthorizationID}", authorization.getId().toString()));
+
+			
+			// Determine resourceURI value based on Client's Role
+			Set<String> role = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+			
+			if (role.contains("ROLE_DC_ADMIN")) {
+			authorization.setResourceURI(baseURL + Routes.DATA_CUSTODIAN_RESOURCE_MANAGEMENT);
+			
+			} else {
+				if (role.contains("ROLE_TP_ADMIN")) {
+					authorization.setResourceURI(baseURL + Routes.BATCH_BULK_MEMBER.replace("{BulkID}", "**"));
+					
+				} else {
+					if (role.contains("ROLE_UL_ADMIN")) {
+						authorization.setResourceURI(baseURL + Routes.BATCH_UPLOAD_MY_DATA.replace("{RetailCustomerID}", "**"));
+					}
+				}
+			} 
+			
+			authorization.setUpdated(new GregorianCalendar());
+			authorization.setStatus("1"); 	// Set authorization record status as "Active"
+			authorizationService.merge(authorization);					
+		} else if (grantType.contentEquals("refresh_token")) {
+			try {
+			    // find the existing (if any) authorization for this refresh-token
+			    Authorization authorization = authorizationService.findByRefreshToken(result.getRefreshToken().getValue());
+			    authorization.setAccessToken(accessToken.getValue());	
+			} catch (Exception e) {
+				// TODO
+			}			
+		} else if (grantType.contentEquals("authorization_code")) { 
+
 			// Create Subscription and add resourceURI to /oath/token response
 			Subscription subscription = subscriptionService.createSubscription(authentication);   
 			result.getAdditionalInformation().put("resourceURI", baseURL + Routes.BATCH_SUBSCRIPTION.replace("{subscriptionId}", subscription.getId().toString()));        
@@ -66,7 +143,8 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			// Create Authorization and add authorizationURI to /oath/token response        
 			Authorization authorization = authorizationService.createAuthorization(subscription, result.getValue());           
 			result.getAdditionalInformation().put("authorizationURI", baseURL + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("{AuthorizationID}", authorization.getId().toString()));        	
-        
+ 
+			// Update Data Custodian subscription structure
 			subscription.setAuthorization(authorization);
 			subscription.setUpdated(new GregorianCalendar());        
 			subscriptionService.merge(subscription);
@@ -82,7 +160,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 				resourceService.persist(up);  // maybe not needed??
 			}
 			
-        
+			// Update Data Custodian authorization structure
 			authorization.setApplicationInformation(applicationInformationService.findByClientId(authentication.getOAuth2Request().getClientId()));
 			authorization.setThirdParty(authentication.getOAuth2Request().getClientId());
 			authorization.setRetailCustomer(retailCustomer);
@@ -101,25 +179,50 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			authorization.setUpdated(new GregorianCalendar());
 			authorization.setStatus("1"); 	// Set authorization record status as "Active"
 			authorization.setSubscription(subscription);
+			authorization.setAuthorizedPeriod(new DateTimeInterval((long) 0, (long) 0));
+			authorization.setPublishedPeriod(new DateTimeInterval((long) 0, (long) 0));
+
 			authorizationService.merge(authorization);
-		}			
+			
+		} else {  
+			// what if its none of the above???
+			
 		}
-        return result;
+
+		return result;
     }
 
-    public void setSubscriptionService(SubscriptionService subscriptionService) {
+   public void setBaseURL (String baseURL) {
+	   this.baseURL = baseURL;
+   }
+   
+   public void setApplicationInformationService(ApplicationInformationService applicationInformationService) {
+        this.applicationInformationService = applicationInformationService;
+   }
+
+   public ApplicationInformationService getApplicationInformationService () {
+        return this.applicationInformationService;
+   }
+   public void setSubscriptionService(SubscriptionService subscriptionService) {
         this.subscriptionService = subscriptionService;
-    }
+   }
 
-    public void setBaseURL(String baseURL) {
-        this.baseURL = baseURL;
-    }
-
-    public void setAuthorizationService(AuthorizationService authorizationService) {
-        this.authorizationService = authorizationService;
-    }
-
-    public void setResourceService(ResourceService resourceService) {
+   public SubscriptionService getSubscriptionService () {
+        return this.subscriptionService;
+   }
+   public void setResourceService(ResourceService resourceService) {
         this.resourceService = resourceService;
-    }
+   }
+
+   public ResourceService getResourceService () {
+        return this.resourceService;
+   }
+   public void setAuthorizationService(AuthorizationService authorizationService) {
+        this.authorizationService = authorizationService;
+   }
+
+   public AuthorizationService getAuthorizationService () {
+        return this.authorizationService;
+   }
+
 }

@@ -42,7 +42,7 @@ import com.sun.syndication.io.FeedException;
 public class ServiceStatusRESTController {
 	
 	 @Autowired
-     ResourceService resourceService;
+     private ResourceService resourceService;
 
 	// ROOT RESTful Forms
 	//
@@ -67,6 +67,15 @@ public class ServiceStatusRESTController {
 		response.getOutputStream().println("<updated>"+ temp + "</updated>");
 		response.getOutputStream().println("</feed>");
 		
-		}
+	}
+
+    public void setResourceService(ResourceService resourceService) {
+         this.resourceService = resourceService;
+    }
+
+    public ResourceService getResourceService () {
+         return this.resourceService;
+    }
+
 
 }

@@ -148,17 +148,29 @@ public class ApplicationInformationRESTController {
 		}
 	}
 
-	public void setApplicationInformationService(
-			ApplicationInformationService applicationInformationService) {
-		this.applicationInformationService = applicationInformationService;
-	}
+    public void setApplicationInformationService(ApplicationInformationService applicationInformationService) {
+        this.applicationInformationService = applicationInformationService;
+   }
 
-	public void setExportService(ExportService exportService) {
-		this.exportService = exportService;
-	}
+   public ApplicationInformationService getApplicationInformationService () {
+        return this.applicationInformationService;
+   }
 
-	public void setResourceService(ResourceService resourceService) {
-		this.resourceService = resourceService;
-	}
+   public void setExportService(ExportService exportService) {
+        this.exportService = exportService;
+   }
+
+   public ExportService getExportService () {
+        return this.exportService;
+   }
+
+   public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+   }
+
+   public ResourceService getResourceService () {
+        return this.resourceService;
+   }
+
 
 }

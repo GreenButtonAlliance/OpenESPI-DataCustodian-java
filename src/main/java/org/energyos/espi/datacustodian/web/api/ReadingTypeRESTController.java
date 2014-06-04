@@ -132,108 +132,27 @@ public class ReadingTypeRESTController {
 		}
 	}
 
-	// xpath RESTful forms
-	//
-	@RequestMapping(value = Routes.READING_TYPE_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
-	@ResponseBody
-	public void index(HttpServletResponse response,
-			@PathVariable Long retailCustomerId,
-			@PathVariable Long usagePointId, @PathVariable Long meterReadingId,
-			@RequestParam Map<String, String> params) throws IOException,
-			FeedException {
+    public void setReadingTypeService(ReadingTypeService readingTypeService) {
+        this.readingTypeService = readingTypeService;
+   }
 
-		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-		exportService.exportReadingTypes(retailCustomerId, usagePointId,
-				response.getOutputStream(), new ExportFilter(params));
-	}
+   public ReadingTypeService getReadingTypeService () {
+        return this.readingTypeService;
+   }
+   public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+   }
 
-	@RequestMapping(value = Routes.READING_TYPE_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
-	@ResponseBody
-	public void show(HttpServletResponse response,
-			@PathVariable Long retailCustomerId,
-			@PathVariable Long usagePointId, @PathVariable Long meterReadingId,
-			@PathVariable Long readingTypeId,
-			@RequestParam Map<String, String> params) throws IOException,
-			FeedException {
+   public ResourceService getResourceService () {
+        return this.resourceService;
+   }
+   public void setExportService(ExportService exportService) {
+        this.exportService = exportService;
+   }
 
-		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-		exportService.exportReadingType(retailCustomerId, usagePointId,
-				meterReadingId, readingTypeId, response.getOutputStream(),
-				new ExportFilter(params));
-	}
+   public ExportService getExportService () {
+        return this.exportService;
+   }
 
-	@RequestMapping(value = Routes.READING_TYPE_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
-	@ResponseBody
-	public void create(HttpServletResponse response,
-			@PathVariable Long retailCustomerId,
-			@PathVariable Long usagePointId, @PathVariable Long meterReadingId,
-			@RequestParam Map<String, String> params, InputStream stream)
-			throws IOException {
-
-		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-		if (null != resourceService.findIdByXPath(retailCustomerId,
-				usagePointId, meterReadingId, MeterReading.class)) {
-
-			try {
-
-				ReadingType readingType = readingTypeService
-						.importResource(stream);
-
-				exportService.exportReadingType(retailCustomerId, usagePointId,
-						meterReadingId, readingType.getId(),
-						response.getOutputStream(), new ExportFilter(params));
-
-			} catch (Exception e) {
-				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			}
-		} else {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-		}
-	}
-
-	@RequestMapping(value = Routes.READING_TYPE_MEMBER, method = RequestMethod.PUT, consumes = "application/atom+xml", produces = "application/atom+xml")
-	@ResponseBody
-	public void update(HttpServletResponse response,
-			@PathVariable Long retailCustomerId,
-			@PathVariable Long usagePointId, @PathVariable Long meterReadingId,
-			@PathVariable Long readingTypeId,
-			@RequestParam Map<String, String> params, InputStream stream)
-			throws IOException {
-
-		try {
-			readingTypeService.importResource(stream);
-		} catch (Exception e) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-		}
-	}
-
-	@RequestMapping(value = Routes.READING_TYPE_MEMBER, method = RequestMethod.DELETE)
-	public void delete(HttpServletResponse response,
-			@PathVariable Long retailCustomerId,
-			@PathVariable Long usagePointId, @PathVariable Long meterReadingId,
-			@PathVariable Long readingTypeId,
-			@RequestParam Map<String, String> params) throws IOException {
-
-		try {
-			resourceService.deleteByXPathId(retailCustomerId, usagePointId,
-					meterReadingId, readingTypeId, ReadingType.class);
-
-		} catch (Exception e) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-		}
-
-	}
-
-	public void setReadingTypeService(ReadingTypeService readingTypeService) {
-		this.readingTypeService = readingTypeService;
-	}
-
-	public void setExportService(ExportService exportService) {
-		this.exportService = exportService;
-	}
-
-	public void setResourceService(ResourceService resourceService) {
-		this.resourceService = resourceService;
-	}
 
 }

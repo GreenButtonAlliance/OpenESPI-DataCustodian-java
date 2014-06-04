@@ -51,10 +51,13 @@ public class TimeConfigurationRESTController {
 
 	@Autowired
 	private TimeConfigurationService timeConfigurationService;
+	
 	@Autowired
 	private RetailCustomerService retailCustomerService;
+	
 	@Autowired
 	private UsagePointService usagePointService;
+	
 	@Autowired
 	private ExportService exportService;
 
@@ -140,115 +143,40 @@ public class TimeConfigurationRESTController {
 		}
 	}
 
-	// XPath RESTful Forms
-	//
-	@RequestMapping(value = Routes.TIME_CONFIGURATION_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
-	@ResponseBody
-	public void index(HttpServletResponse response,
-			@PathVariable Long retailCustomerId,
-			@PathVariable Long usagePointId,
-			@RequestParam Map<String, String> params) throws IOException,
-			FeedException {
+    public void setTimeConfigurationService(TimeConfigurationService timeConfigurationService) {
+        this.timeConfigurationService = timeConfigurationService;
+   }
 
-		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-		exportService.exportTimeConfigurations(retailCustomerId, usagePointId,
-				response.getOutputStream(), new ExportFilter(params));
-	}
+   public TimeConfigurationService getTimeConfigurationService () {
+        return this.timeConfigurationService;
+   }
+   public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
+        this.retailCustomerService = retailCustomerService;
+   }
 
-	@RequestMapping(value = Routes.TIME_CONFIGURATION_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
-	@ResponseBody
-	public void show(HttpServletResponse response,
-			@PathVariable Long retailCustomerId,
-			@PathVariable Long usagePointId,
-			@PathVariable Long timeConfigurationId,
-			@RequestParam Map<String, String> params) throws IOException,
-			FeedException {
+   public RetailCustomerService getRetailCustomerService () {
+        return this.retailCustomerService;
+   }
+   public void setUsagePointService(UsagePointService usagePointService) {
+        this.usagePointService = usagePointService;
+   }
 
-		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-		try {
-			exportService.exportTimeConfiguration(retailCustomerId,
-					usagePointId, timeConfigurationId,
-					response.getOutputStream(), new ExportFilter(params));
-		} catch (Exception e) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-		}
-	}
+   public UsagePointService getUsagePointService () {
+        return this.usagePointService;
+   }
+   public void setExportService(ExportService exportService) {
+        this.exportService = exportService;
+   }
 
-	@RequestMapping(value = Routes.TIME_CONFIGURATION_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
-	@ResponseBody
-	public void create(HttpServletResponse response,
-			@PathVariable Long retailCustomerId,
-			@PathVariable Long usagePointId,
-			@RequestParam Map<String, String> params, InputStream stream)
-			throws IOException {
+   public ExportService getExportService () {
+        return this.exportService;
+   }
+   public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+   }
 
-		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-		if (null != resourceService.findIdByXPath(retailCustomerId,
-				usagePointId, UsagePoint.class)) {
+   public ResourceService getResourceService () {
+        return this.resourceService;
+   }
 
-			try {
-				UsagePoint usagePoint = usagePointService
-						.findById(usagePointId);
-
-				TimeConfiguration timeConfiguration = this.timeConfigurationService
-						.importResource(stream);
-				timeConfigurationService.associateByUUID(usagePoint,
-						timeConfiguration.getUUID());
-				exportService.exportTimeConfiguration(retailCustomerId,
-						usagePointId, timeConfiguration.getId(),
-						response.getOutputStream(), new ExportFilter(params));
-			} catch (Exception e) {
-				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			}
-		} else {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-		}
-	}
-
-	@RequestMapping(value = Routes.TIME_CONFIGURATION_MEMBER, method = RequestMethod.PUT, consumes = "application/atom+xml", produces = "application/atom+xml")
-	@ResponseBody
-	public void update(HttpServletResponse response,
-			@PathVariable Long retailCustomerId,
-			@PathVariable Long usagePointId,
-			@PathVariable Long timeConfigurationId,
-			@RequestParam Map<String, String> params, InputStream stream) {
-
-		TimeConfiguration existingTimeConfiguration;
-
-		existingTimeConfiguration = timeConfigurationService
-				.findById(timeConfigurationId);
-
-		if (existingTimeConfiguration != null) {
-			try {
-				TimeConfiguration timeConfiguration = timeConfigurationService
-						.importResource(stream);
-				existingTimeConfiguration.merge(timeConfiguration);
-			} catch (Exception e) {
-				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			}
-		}
-	}
-
-	@RequestMapping(value = Routes.TIME_CONFIGURATION_MEMBER, method = RequestMethod.DELETE)
-	public void delete(HttpServletResponse response,
-			@PathVariable Long retailCustomerId,
-			@PathVariable Long usagePointId,
-			@PathVariable Long timeConfigurationId,
-			@RequestParam Map<String, String> params, InputStream stream) {
-
-		this.timeConfigurationService.deleteById(timeConfigurationId);
-	}
-
-	public void setRetailCustomerService(
-			RetailCustomerService retailCustomerService) {
-		this.retailCustomerService = retailCustomerService;
-	}
-
-	public void setExportService(ExportService exportService) {
-		this.exportService = exportService;
-	}
-
-	public void setResourceService(ResourceService resourceService) {
-		this.resourceService = resourceService;
-	}
 }

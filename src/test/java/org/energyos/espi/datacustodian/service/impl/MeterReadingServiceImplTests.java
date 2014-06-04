@@ -38,7 +38,7 @@ public class MeterReadingServiceImplTests {
     public void setup() {
         repository = mock(MeterReadingRepository.class);
         service = new MeterReadingServiceImpl();
-        service.setRepository(repository);
+        service.setMeterReadingRepository(repository);
     }
 
     @Test
