@@ -59,7 +59,6 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 		String grantType = requestParameters .get(OAuth2Utils.GRANT_TYPE);
 		grantType = grantType.toLowerCase();
 		
-
 		// Is this a "client_credentials" access token grant_type request?
 		if (grantType.contentEquals("client_credentials")) {
 			// Processing a "client_credentials" access token grant_type request.
@@ -105,6 +104,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			
 			// set the authorizationUri
 			authorization.setAuthorizationURI(baseURL + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("{AuthorizationID}", authorization.getId().toString()));
+
 			
 			// Determine resourceURI value based on Client's Role
 			Set<String> role = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
@@ -189,7 +189,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			
 		}
 
-        return result;
+		return result;
     }
 
    public void setBaseURL (String baseURL) {
