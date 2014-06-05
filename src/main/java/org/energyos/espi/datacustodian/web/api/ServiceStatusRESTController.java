@@ -92,6 +92,14 @@ public class ServiceStatusRESTController {
 
 	}
 
+	public void setAuthorizationService(AuthorizationService authorizationService) {
+		this.authorizationService = authorizationService;
+	}
+
+	public AuthorizationService getAuthorizationService () {
+		return this.authorizationService;
+	}
+
 	public void setResourceService(ResourceService resourceService) {
 		this.resourceService = resourceService;
 	}
@@ -99,6 +107,5 @@ public class ServiceStatusRESTController {
 	public ResourceService getResourceService () {
 		return this.resourceService;
 	}
-
 
 }
