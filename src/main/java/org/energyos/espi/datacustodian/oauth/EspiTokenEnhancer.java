@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.NoResultException;
+
 import org.energyos.espi.common.domain.Authorization;
 import org.energyos.espi.common.domain.DateTimeInterval;
 import org.energyos.espi.common.domain.RetailCustomer;
@@ -19,6 +21,8 @@ import org.energyos.espi.common.service.AuthorizationService;
 import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -50,13 +54,11 @@ public class EspiTokenEnhancer implements TokenEnhancer {
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
     	
 		DefaultOAuth2AccessToken result = new DefaultOAuth2AccessToken(accessToken);
-		
-		
+				
 		System.out.printf("EspiTokenEnhancer: OAuth2Request Parameters = %s\n", authentication.getOAuth2Request().getRequestParameters());
-		  
-		  
+		
 		Map<String, String> requestParameters = authentication.getOAuth2Request().getRequestParameters();
-		String grantType = requestParameters .get(OAuth2Utils.GRANT_TYPE);
+		String grantType = requestParameters.get(OAuth2Utils.GRANT_TYPE);
 		grantType = grantType.toLowerCase();
 		
 		// Is this a "client_credentials" access token grant_type request?
@@ -66,7 +68,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			// Create Subscription and add resourceURI to /oath/token response
 			Subscription subscription = subscriptionService.createSubscription(authentication);   
 			result.getAdditionalInformation().put("resourceURI", baseURL + Routes.BATCH_SUBSCRIPTION.replace("{subscriptionId}", subscription.getId().toString()));        
-			
+		
 			// Create Authorization and add authorizationURI to /oath/token response        
 			Authorization authorization = authorizationService.createAuthorization(subscription, result.getValue());           
 			result.getAdditionalInformation().put("authorizationURI", baseURL + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("{AuthorizationID}", authorization.getId().toString()));
@@ -104,18 +106,17 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			
 			// set the authorizationUri
 			authorization.setAuthorizationURI(baseURL + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("{AuthorizationID}", authorization.getId().toString()));
-
 			
 			// Determine resourceURI value based on Client's Role
 			Set<String> role = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-			
+		
 			if (role.contains("ROLE_DC_ADMIN")) {
-			authorization.setResourceURI(baseURL + Routes.DATA_CUSTODIAN_RESOURCE_MANAGEMENT);
+				authorization.setResourceURI(baseURL + Routes.DATA_CUSTODIAN_RESOURCE_MANAGEMENT);
 			
 			} else {
 				if (role.contains("ROLE_TP_ADMIN")) {
 					authorization.setResourceURI(baseURL + Routes.BATCH_BULK_MEMBER.replace("{BulkID}", "**"));
-					
+				
 				} else {
 					if (role.contains("ROLE_UL_ADMIN")) {
 						authorization.setResourceURI(baseURL + Routes.BATCH_UPLOAD_MY_DATA.replace("{RetailCustomerID}", "**"));
@@ -125,67 +126,75 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			
 			authorization.setUpdated(new GregorianCalendar());
 			authorization.setStatus("1"); 	// Set authorization record status as "Active"
-			authorizationService.merge(authorization);					
-		} else if (grantType.contentEquals("refresh_token")) {
-			try {
-			    // find the existing (if any) authorization for this refresh-token
-			    Authorization authorization = authorizationService.findByRefreshToken(result.getRefreshToken().getValue());
-			    authorization.setAccessToken(accessToken.getValue());	
-			} catch (Exception e) {
-				// TODO
-			}			
-		} else if (grantType.contentEquals("authorization_code")) { 
-
-			// Create Subscription and add resourceURI to /oath/token response
-			Subscription subscription = subscriptionService.createSubscription(authentication);   
-			result.getAdditionalInformation().put("resourceURI", baseURL + Routes.BATCH_SUBSCRIPTION.replace("{subscriptionId}", subscription.getId().toString()));        
-
-			// Create Authorization and add authorizationURI to /oath/token response        
-			Authorization authorization = authorizationService.createAuthorization(subscription, result.getValue());           
-			result.getAdditionalInformation().put("authorizationURI", baseURL + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("{AuthorizationID}", authorization.getId().toString()));        	
- 
-			// Update Data Custodian subscription structure
-			subscription.setAuthorization(authorization);
-			subscription.setUpdated(new GregorianCalendar());        
-			subscriptionService.merge(subscription);
-
-			RetailCustomer retailCustomer = (RetailCustomer) authentication.getPrincipal();	
-		
-			// link in the usage points associated with this subscription
-			List<Long> usagePointIds = resourceService.findAllIdsByXPath(retailCustomer.getId(), UsagePoint.class);
-			Iterator<Long> it = usagePointIds.iterator();
-			while (it.hasNext()) {
-				UsagePoint up = resourceService.findById(it.next(), UsagePoint.class);
-				up.setSubscription(subscription);
-				resourceService.persist(up);  // maybe not needed??
-			}
-			
-			// Update Data Custodian authorization structure
-			authorization.setApplicationInformation(applicationInformationService.findByClientId(authentication.getOAuth2Request().getClientId()));
-			authorization.setThirdParty(authentication.getOAuth2Request().getClientId());
-			authorization.setRetailCustomer(retailCustomer);
-			authorization.setAccessToken(accessToken.getValue());        
-			authorization.setTokenType(accessToken.getTokenType());
-			authorization.setExpiresIn((long) accessToken.getExpiresIn());
-        
-			if(accessToken.getRefreshToken() != null) {
-				authorization.setRefreshToken(accessToken.getRefreshToken().toString());			
-			}
-		
-			// Remove "[" and "]" surrounding Scope in accessToken structure
-			authorization.setScope(accessToken.getScope().toString().substring(1, (accessToken.getScope().toString().length()-1)));
-			authorization.setAuthorizationURI(baseURL + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("{AuthorizationID}", authorization.getId().toString()));
-			authorization.setResourceURI(baseURL + Routes.BATCH_SUBSCRIPTION.replace("{subscriptionId}", subscription.getId().toString()));
-			authorization.setUpdated(new GregorianCalendar());
-			authorization.setStatus("1"); 	// Set authorization record status as "Active"
-			authorization.setSubscription(subscription);
-			authorization.setAuthorizedPeriod(new DateTimeInterval((long) 0, (long) 0));
-			authorization.setPublishedPeriod(new DateTimeInterval((long) 0, (long) 0));
-
 			authorizationService.merge(authorization);
 			
+		} else if (grantType.contentEquals("authorization_code")) {
+			
+			try {
+				// Is this a refresh_token grant_type request?
+				Authorization authorization = authorizationService.findByRefreshToken(result.getRefreshToken().getValue());
+	    
+				// Yes, update access token
+				authorization.setAccessToken(accessToken.getValue());
+				authorizationService.merge(authorization);
+	    
+			} catch (NoResultException | EmptyResultDataAccessException  e) { 
+				// No, process as initial access token request			
+
+				// Create Subscription and add resourceURI to /oath/token response
+				Subscription subscription = subscriptionService.createSubscription(authentication);   
+				result.getAdditionalInformation().put("resourceURI", baseURL + Routes.BATCH_SUBSCRIPTION.replace("{subscriptionId}", subscription.getId().toString()));        
+
+				// Create Authorization and add authorizationURI to /oath/token response        
+				Authorization authorization = authorizationService.createAuthorization(subscription, result.getValue());           
+				result.getAdditionalInformation().put("authorizationURI", baseURL + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("{AuthorizationID}", authorization.getId().toString()));        	
+ 
+				// Update Data Custodian subscription structure
+				subscription.setAuthorization(authorization);
+				subscription.setUpdated(new GregorianCalendar());        
+				subscriptionService.merge(subscription);
+
+				RetailCustomer retailCustomer = (RetailCustomer) authentication.getPrincipal();	
+		
+				// link in the usage points associated with this subscription
+				List<Long> usagePointIds = resourceService.findAllIdsByXPath(retailCustomer.getId(), UsagePoint.class);
+				Iterator<Long> it = usagePointIds.iterator();
+				while (it.hasNext()) {
+					UsagePoint up = resourceService.findById(it.next(), UsagePoint.class);
+					up.setSubscription(subscription);
+					resourceService.persist(up);  // maybe not needed??
+				}
+			
+				// Update Data Custodian authorization structure
+				authorization.setApplicationInformation(applicationInformationService.findByClientId(authentication.getOAuth2Request().getClientId()));
+				authorization.setThirdParty(authentication.getOAuth2Request().getClientId());
+				authorization.setRetailCustomer(retailCustomer);
+				authorization.setAccessToken(accessToken.getValue());        
+				authorization.setTokenType(accessToken.getTokenType());
+				authorization.setExpiresIn((long) accessToken.getExpiresIn());
+        
+				if(accessToken.getRefreshToken() != null) {
+					authorization.setRefreshToken(accessToken.getRefreshToken().toString());			
+				}
+		
+				// Remove "[" and "]" surrounding Scope in accessToken structure
+				authorization.setScope(accessToken.getScope().toString().substring(1, (accessToken.getScope().toString().length()-1)));
+				authorization.setAuthorizationURI(baseURL + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("{AuthorizationID}", authorization.getId().toString()));
+				authorization.setResourceURI(baseURL + Routes.BATCH_SUBSCRIPTION.replace("{subscriptionId}", subscription.getId().toString()));
+				authorization.setUpdated(new GregorianCalendar());
+				authorization.setStatus("1"); 	// Set authorization record status as "Active"
+				authorization.setSubscription(subscription);
+				authorization.setAuthorizedPeriod(new DateTimeInterval((long) 0, (long) 0));
+				authorization.setPublishedPeriod(new DateTimeInterval((long) 0, (long) 0));
+
+				authorizationService.merge(authorization);
+			}
+			
 		} else {  
-			// what if its none of the above???
+
+			System.out.printf("EspiTokenEnhancer: Invalid Grant_Type processed by Spring Security OAuth2 Framework:\n"
+					+ "OAuth2Request Parameters = %s\n", authentication.getOAuth2Request().getRequestParameters());			
+			throw new AccessDeniedException(String.format("Unsupported ESPI OAuth2 grant_type"));			
 			
 		}
 
