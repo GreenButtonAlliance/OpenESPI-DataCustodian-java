@@ -104,7 +104,7 @@
         <spring.version>4.0.3.RELEASE</spring.version>
         <spring.security.version>3.2.3.RELEASE</spring.security.version>
         <spring-data-jpa.version>1.4.3.RELEASE</spring-data-jpa.version>
-        <spring-security-oauth.version>2.0.0.RC2</spring-security-oauth.version>
+        <spring-security-oauth.version>2.0.2.RELEASE</spring-security-oauth.version>
         <apache-httpcomponent.version>4.3.2</apache-httpcomponent.version>
         <jackson1.version>1.9.13</jackson1.version>
         <jackson2.version>2.2.2</jackson2.version>
