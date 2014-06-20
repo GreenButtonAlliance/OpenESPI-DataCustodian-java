@@ -105,6 +105,7 @@
         <spring.security.version>3.2.3.RELEASE</spring.security.version>
         <spring-data-jpa.version>1.4.3.RELEASE</spring-data-jpa.version>
         <spring-security-oauth.version>2.0.2.RELEASE</spring-security-oauth.version>
+        <openespi-common.version>1.2-SNAPSHOT</openespi-common.version>
         <apache-httpcomponent.version>4.3.2</apache-httpcomponent.version>
         <jackson1.version>1.9.13</jackson1.version>
         <jackson2.version>2.2.2</jackson2.version>
@@ -155,7 +156,7 @@
         <dependency>
             <groupId>org.energyos</groupId>
             <artifactId>Common</artifactId>
-            <version>1.2-SNAPSHOT</version>
+            <version>${openespi-common.version}</version>
         </dependency>
 
         <dependency>
