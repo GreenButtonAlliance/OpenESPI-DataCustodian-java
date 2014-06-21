@@ -333,6 +333,18 @@ public class ResourceValidationFilter implements Filter{
 				if (invalid && uri.contains("/resource/Batch/RetailCustomer")) {
 						invalid = false;
 				}
+
+				if (invalid && uri.contains("/resource/ReadServiceStatus")) {
+					if (service.equals("GET")) {
+						invalid = false;
+					}
+					else
+					{
+						// not authorized for this resource
+						System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+						throw new AccessDeniedException(String.format("Access Not Authorized"));									
+					}
+				}
 		    }
 			else if (invalid && roles.contains("ROLE_REGISTRATION"))	{
 				///////////////////////////////////////////////////////////////////////
@@ -383,7 +395,11 @@ public class ResourceValidationFilter implements Filter{
 		
 		System.out.printf("ResourceValidationFilter: normal exit doFilter: invalid=%s\n", invalid);
 		
-		if (invalid) return;
+		if (invalid) {
+			// not authorized for this resource
+			System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+			throw new AccessDeniedException(String.format("Access Not Authorized"));							
+		}
 		
 		chain.doFilter(req, res);
 
