@@ -144,9 +144,32 @@ public class UsagePointController extends BaseController {
     
     public void setUsagePointService(UsagePointService usagePointService) {
         this.usagePointService = usagePointService;
-    }
+   }
 
-    public void setExportService(ExportService exportService) {
+   public UsagePointService getUsagePointService () {
+        return this.usagePointService;
+   }
+   public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+   }
+
+   public ResourceService getResourceService () {
+        return this.resourceService;
+   }
+   public void setExportService(ExportService exportService) {
         this.exportService = exportService;
-    }
+   }
+
+   public ExportService getExportService () {
+        return this.exportService;
+   }
+   public void setApplicationInformationService(ApplicationInformationService applicationInformationService) {
+        this.applicationInformationService = applicationInformationService;
+   }
+
+   public ApplicationInformationService getApplicationInformationService () {
+        return this.applicationInformationService;
+   }
+
+    
 }

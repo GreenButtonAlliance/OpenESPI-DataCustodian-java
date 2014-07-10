@@ -178,16 +178,40 @@ public class BatchRESTController {
 
 	}
 
-	public void setRetailCustomerService(
-			RetailCustomerService retailCustomerService) {
-		this.retailCustomerService = retailCustomerService;
-	}
+    public void setImportService(ImportService importService) {
+        this.importService = importService;
+   }
 
-	public void setExportService(ExportService exportService) {
-		this.exportService = exportService;
-	}
+   public ImportService getImportService () {
+        return this.importService;
+   }
+   public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+   }
 
-	public void setImportService(ImportService importService) {
-		this.importService = importService;
-	}
+   public ResourceService getResourceService () {
+        return this.resourceService;
+   }
+   public void setNotificationService(NotificationService notificationService) {
+        this.notificationService = notificationService;
+   }
+
+   public NotificationService getNotificationService () {
+        return this.notificationService;
+   }
+   public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
+        this.retailCustomerService = retailCustomerService;
+   }
+
+   public RetailCustomerService getRetailCustomerService () {
+        return this.retailCustomerService;
+   }
+   public void setExportService(ExportService exportService) {
+        this.exportService = exportService;
+   }
+
+   public ExportService getExportService () {
+        return this.exportService;
+   }
+
 }

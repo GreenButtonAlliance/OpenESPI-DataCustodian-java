@@ -132,16 +132,27 @@ public class ReadingTypeRESTController {
 		}
 	}
 
-	public void setReadingTypeService(ReadingTypeService readingTypeService) {
-		this.readingTypeService = readingTypeService;
-	}
+    public void setReadingTypeService(ReadingTypeService readingTypeService) {
+        this.readingTypeService = readingTypeService;
+   }
 
-	public void setExportService(ExportService exportService) {
-		this.exportService = exportService;
-	}
+   public ReadingTypeService getReadingTypeService () {
+        return this.readingTypeService;
+   }
+   public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+   }
 
-	public void setResourceService(ResourceService resourceService) {
-		this.resourceService = resourceService;
-	}
+   public ResourceService getResourceService () {
+        return this.resourceService;
+   }
+   public void setExportService(ExportService exportService) {
+        this.exportService = exportService;
+   }
+
+   public ExportService getExportService () {
+        return this.exportService;
+   }
+
 
 }

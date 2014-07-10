@@ -51,10 +51,13 @@ public class TimeConfigurationRESTController {
 
 	@Autowired
 	private TimeConfigurationService timeConfigurationService;
+	
 	@Autowired
 	private RetailCustomerService retailCustomerService;
+	
 	@Autowired
 	private UsagePointService usagePointService;
+	
 	@Autowired
 	private ExportService exportService;
 
@@ -140,16 +143,40 @@ public class TimeConfigurationRESTController {
 		}
 	}
 
-	public void setRetailCustomerService(
-			RetailCustomerService retailCustomerService) {
-		this.retailCustomerService = retailCustomerService;
-	}
+    public void setTimeConfigurationService(TimeConfigurationService timeConfigurationService) {
+        this.timeConfigurationService = timeConfigurationService;
+   }
 
-	public void setExportService(ExportService exportService) {
-		this.exportService = exportService;
-	}
+   public TimeConfigurationService getTimeConfigurationService () {
+        return this.timeConfigurationService;
+   }
+   public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
+        this.retailCustomerService = retailCustomerService;
+   }
 
-	public void setResourceService(ResourceService resourceService) {
-		this.resourceService = resourceService;
-	}
+   public RetailCustomerService getRetailCustomerService () {
+        return this.retailCustomerService;
+   }
+   public void setUsagePointService(UsagePointService usagePointService) {
+        this.usagePointService = usagePointService;
+   }
+
+   public UsagePointService getUsagePointService () {
+        return this.usagePointService;
+   }
+   public void setExportService(ExportService exportService) {
+        this.exportService = exportService;
+   }
+
+   public ExportService getExportService () {
+        return this.exportService;
+   }
+   public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+   }
+
+   public ResourceService getResourceService () {
+        return this.resourceService;
+   }
+
 }

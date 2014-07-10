@@ -45,10 +45,6 @@ public class UploadController extends BaseController {
     @Autowired
     private NotificationService notificationService;
 
-    public void setImportService(ImportService importService) {
-        this.importService = importService;
-    }
-
     @ModelAttribute("uploadForm")
     public UploadForm uploadForm() {
         return new UploadForm();
@@ -71,4 +67,27 @@ public class UploadController extends BaseController {
             return "/custodian/upload";
         }
     }
+    
+    public void setImportService(ImportService importService) {
+        this.importService = importService;
+   }
+
+   public ImportService getImportService () {
+        return this.importService;
+   }
+   public void setUsagePointService(UsagePointService usagePointService) {
+        this.usagePointService = usagePointService;
+   }
+
+   public UsagePointService getUsagePointService () {
+        return this.usagePointService;
+   }
+   public void setNotificationService(NotificationService notificationService) {
+        this.notificationService = notificationService;
+   }
+
+   public NotificationService getNotificationService () {
+        return this.notificationService;
+   }
+
 }

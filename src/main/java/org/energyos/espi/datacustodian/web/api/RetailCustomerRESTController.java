@@ -21,16 +21,19 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.energyos.espi.common.domain.Authorization;
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
+import org.energyos.espi.common.domain.Subscription;
+import org.energyos.espi.common.service.AuthorizationService;
 import org.energyos.espi.common.service.ExportService;
 import org.energyos.espi.common.service.ImportService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -59,6 +62,10 @@ public class RetailCustomerRESTController {
 
 	@Autowired
 	private ExportService exportService;
+	
+	
+	@Autowired
+	private AuthorizationService authorizationService;
 
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -69,13 +76,15 @@ public class RetailCustomerRESTController {
 	//
 	@RequestMapping(value = Routes.RETAIL_CUSTOMER_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
-	public void index(HttpServletResponse response,
+	public void index(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		Long subscriptionId = getSubscriptionId(request);
+	
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
-			exportService.exportRetailCustomers(response.getOutputStream(),
+			exportService.exportRetailCustomers(subscriptionId, response.getOutputStream(),
 					new ExportFilter(params));
 		} catch (Exception e) {
 			System.out
@@ -89,14 +98,16 @@ public class RetailCustomerRESTController {
 	//
 	@RequestMapping(value = Routes.RETAIL_CUSTOMER_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
-	public void show(HttpServletResponse response,
+	public void show(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
-		
+
+		Long subscriptionId = getSubscriptionId(request);
+			
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
-			exportService.exportRetailCustomer(retailCustomerId,
+			exportService.exportRetailCustomer(subscriptionId, retailCustomerId,
 					response.getOutputStream(), new ExportFilter(params));
 		} catch (Exception e) {
 			System.out
@@ -109,15 +120,17 @@ public class RetailCustomerRESTController {
 
 	@RequestMapping(value = Routes.RETAIL_CUSTOMER_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
-	public void create(HttpServletResponse response,
+	public void create(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
-		
+
+		Long subscriptionId = getSubscriptionId(request);
+	
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			RetailCustomer retailCustomer = this.retailCustomerService
 					.importResource(stream);
-			exportService.exportTimeConfiguration(retailCustomer.getId(),
+			exportService.exportRetailCustomer(subscriptionId, retailCustomer.getId(),
 					response.getOutputStream(), new ExportFilter(
 							new HashMap<String, String>()));
 		} catch (Exception e) {
@@ -166,20 +179,67 @@ public class RetailCustomerRESTController {
 		}
 	}
 
-	public void setRetailCustomerService(
-			RetailCustomerService retailCustomerService) {
-		this.retailCustomerService = retailCustomerService;
+
+	private Long getSubscriptionId(HttpServletRequest request) {
+		String token = request.getHeader("authorization");
+		Long subscriptionId = 0L;
+
+		if (token != null) {
+			token = token.replace("Bearer ", "");
+			Authorization authorization = authorizationService
+					.findByAccessToken(token);
+			if (authorization != null) {
+				Subscription subscription = authorization.getSubscription();
+				if (subscription != null) {
+					subscriptionId = subscription.getId();
+				}
+			}
+		}
+
+		return subscriptionId;
+
 	}
+		
+	public void setImportService(ImportService importService) {
+        this.importService = importService;
+     }
+
+     public ImportService getImportService() {
+        return this.importService;
+     }
+
+	public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
+        this.retailCustomerService = retailCustomerService;
+     }
+
+     public RetailCustomerService getRetailcustomerService() {
+        return this.retailCustomerService;
+     }
 
 	public void setUsagePointService(UsagePointService usagePointService) {
-		this.usagePointService = usagePointService;
-	}
+        this.usagePointService = usagePointService;
+     }
+
+     public UsagePointService getUsagepointService() {
+        return this.usagePointService;
+     }
 
 	public void setExportService(ExportService exportService) {
-		this.exportService = exportService;
-	}
+        this.exportService = exportService;
+     }
 
-	public void setImportService(ImportService importService) {
-		this.importService = importService;
-	}
+     public ExportService getExportService() {
+        return this.exportService;
+     }
+	
+	
+	public void setAuthorizationService(AuthorizationService authorizationService) {
+       this.authorizationService = authorizationService;
+     }
+
+     public AuthorizationService getAuthorizationService() {
+        return this.authorizationService;
+     }
+
+
 }

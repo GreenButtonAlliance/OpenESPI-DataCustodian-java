@@ -59,7 +59,7 @@ public class AssociateUsagePointController {
     private NotificationService notificationService;
     
     @Autowired
-    UsagePointService service;
+    private UsagePointService service;
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
@@ -88,16 +88,12 @@ public class AssociateUsagePointController {
         return "redirect:/custodian/retailcustomers";
     }
 
-    public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
-        this.retailCustomerService = retailCustomerService;
-    }
-
     public void setService(UsagePointService service) {
         this.service = service;
     }
 
-    public void setResourceService(ResourceService resourceService) {
-        this.resourceService = resourceService;
+    public void getService(UsagePointService service) {
+        this.service = service;
     }
     
     public static class UsagePointForm {
@@ -138,4 +134,35 @@ public class AssociateUsagePointController {
             }
         }
     }
+    
+    public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
+        this.retailCustomerService = retailCustomerService;
+   }
+
+   public RetailCustomerService getRetailCustomerService () {
+        return this.retailCustomerService;
+   }
+   public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+   }
+
+   public ResourceService getResourceService () {
+        return this.resourceService;
+   }
+   public void setNotificationService(NotificationService notificationService) {
+        this.notificationService = notificationService;
+   }
+
+   public NotificationService getNotificationService () {
+        return this.notificationService;
+   }
+   
+   public void setUsagePointService(UsagePointService service) {
+        this.service = service;
+   }
+
+   public UsagePointService getUsagePointService () {
+        return this.service;
+   }
+
 }
