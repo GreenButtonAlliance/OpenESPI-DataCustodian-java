@@ -20,10 +20,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.energyos.espi.common.domain.Authorization;
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
+import org.energyos.espi.common.service.AuthorizationService;
 import org.energyos.espi.common.service.ExportService;
 import org.energyos.espi.common.service.ImportService;
 import org.energyos.espi.common.service.NotificationService;
@@ -53,6 +56,9 @@ public class BatchRESTController {
 
 	@Autowired
 	private ResourceService resourceService;
+	
+	@Autowired
+	private AuthorizationService authorizationService;
 
 	@Autowired
 	private NotificationService notificationService;
@@ -161,15 +167,19 @@ public class BatchRESTController {
 
 	@RequestMapping(value = Routes.BATCH_BULK_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
-	public void bulk(HttpServletResponse response, @PathVariable Long bulkId,
+	public void bulk(HttpServletRequest request, HttpServletResponse response, @PathVariable Long bulkId,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+		// note this default to a file just in case the handler doesn't want to directly
+		// parse the incoming stream.
+		
 		response.addHeader("Content-Disposition",
 				"attachment; filename=GreenButtonDownload.xml");
+
 		try {
-			exportService.exportBatchBulk(bulkId, response.getOutputStream(),
+			exportService.exportBatchBulk(bulkId, getAuthorizationThirdParty(request), response.getOutputStream(),
 					new ExportFilter(params));
 
 		} catch (Exception e) {
@@ -178,6 +188,21 @@ public class BatchRESTController {
 
 	}
 
+	private String getAuthorizationThirdParty(HttpServletRequest request) {
+		String token = request.getHeader("authorization");
+		String thirdParty = "";
+
+		if (token != null) {
+			token = token.replace("Bearer ", "");
+			Authorization authorization = authorizationService
+					.findByAccessToken(token);
+			thirdParty = authorization.getThirdParty();
+		}
+
+		return thirdParty;
+
+	}
+	
     public void setImportService(ImportService importService) {
         this.importService = importService;
    }
@@ -192,6 +217,15 @@ public class BatchRESTController {
    public ResourceService getResourceService () {
         return this.resourceService;
    }
+   
+   public void setAuthorizationService(AuthorizationService authorizationService) {
+       this.authorizationService = authorizationService;
+  }
+
+  public AuthorizationService getAuthorizationService () {
+       return this.authorizationService;
+  }
+  
    public void setNotificationService(NotificationService notificationService) {
         this.notificationService = notificationService;
    }
