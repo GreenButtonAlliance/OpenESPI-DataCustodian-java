@@ -247,7 +247,7 @@ public class ResourceValidationFilter implements Filter{
 				
 				// the Bulk Authorizations
 				if (invalid && uri.contains("/resource/Batch/Bulk")) {
-					//TODO
+					invalid = false;
 				}
 				
 				// Authorizations GET/PUT/DELETE on individual, GET on collection

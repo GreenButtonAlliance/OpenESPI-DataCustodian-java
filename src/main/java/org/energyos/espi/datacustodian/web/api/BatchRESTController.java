@@ -23,6 +23,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Authorization;
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
@@ -196,7 +197,10 @@ public class BatchRESTController {
 			token = token.replace("Bearer ", "");
 			Authorization authorization = authorizationService
 					.findByAccessToken(token);
-			thirdParty = authorization.getThirdParty();
+			ApplicationInformation applicationInformation = authorization.getApplicationInformation();
+			// note that ApplicationInformation.clientId is a String
+			//
+			thirdParty = applicationInformation.getClientId();
 		}
 
 		return thirdParty;
