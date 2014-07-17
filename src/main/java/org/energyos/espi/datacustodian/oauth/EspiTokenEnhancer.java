@@ -194,8 +194,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 
 			System.out.printf("EspiTokenEnhancer: Invalid Grant_Type processed by Spring Security OAuth2 Framework:\n"
 					+ "OAuth2Request Parameters = %s\n", authentication.getOAuth2Request().getRequestParameters());			
-			throw new AccessDeniedException(String.format("Unsupported ESPI OAuth2 grant_type"));			
-			
+			throw new AccessDeniedException(String.format("Unsupported ESPI OAuth2 grant_type"));
 		}
 
 		return result;
