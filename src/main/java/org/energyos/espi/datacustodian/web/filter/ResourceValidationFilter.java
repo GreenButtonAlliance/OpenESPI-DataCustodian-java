@@ -136,7 +136,11 @@ public class ResourceValidationFilter implements Filter{
 		if (hasBearer==false)
 		{
 			// no bearer token and it passed the OAuth filter - so it must be good2go not RESTAPI request
-			invalid = false;
+			// make sure the role is not an ANONYMOUS request for /manage ...
+			if (! ((roles.contains("ROLE_ANONYMOUS")) & (uri.indexOf("/manage") != -1))) {
+				invalid = false;
+			}
+		
 		}
 		///////////////////////////////////////////////////////////////////////
 		// if this is rest, process based on ROLE
@@ -147,18 +151,23 @@ public class ResourceValidationFilter implements Filter{
 			// then we know it is REST request
 			// Dispatch on authentication type
 			
+			// first, escape out of this if it is the special "manage?command=foo" form
 			
-			// lets check the uri
-			int i 	= uri.indexOf("espi/1_1/resource/");
-			if(i>0) {
-				// lets shorten it by stripping off up to resource
-				uri = uri.substring(uri.indexOf("/resource/"));
-			}
-			else
-			{
-				// cant be a resource
-				System.out.printf("ResourceValidationFilter: doFilter - Uri not well formed %s\n", uri);					
-				throw new AccessDeniedException(String.format("Access Not Authorized"));						
+			int i = uri.indexOf("/manage");
+			
+			if (i > 0) {
+				invalid = false;
+			} else {
+			    // lets check the uri
+			    i = uri.indexOf("espi/1_1/resource/");
+			    if(i>0) {
+				    // lets shorten it by stripping off up to resource
+				    uri = uri.substring(uri.indexOf("/resource/"));
+			    }  else {
+				    // cant be a resource
+				    System.out.printf("ResourceValidationFilter: doFilter - Uri not well formed %s\n", uri);					
+				    throw new AccessDeniedException(String.format("Access Not Authorized"));						
+			   }
 			}
 		    
 		    // strip off uri up to /resource/ since that is how we go here

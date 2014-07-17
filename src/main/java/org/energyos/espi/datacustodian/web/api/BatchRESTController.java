@@ -75,6 +75,20 @@ public class BatchRESTController {
 	public void handleGenericException() {
 	}
 
+	/**
+	 * Supports the upload (or import) of Green Button DMD files.
+	 * Simply send the DMD file.
+	 * 
+	 * RESTful Pattern:  
+	 *    /espi/1_1/resource/Batch/RetailCustomer/{retailCustomerId}/UsagePoint
+	 * 
+	 * @param response HTTP Servlet Response
+	 * @param retailCustomerId The locally unique identifier of a Retail Customer - NOTE PII
+	 * @param params HTTP Query Parameters
+	 * @param stream An input stream
+	 * @throws IOException
+	 * @throws FeedException
+	 */
 	@RequestMapping(value = Routes.BATCH_UPLOAD_MY_DATA, method = RequestMethod.POST, consumes = "application/xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void upload(HttpServletResponse response,
@@ -101,6 +115,19 @@ public class BatchRESTController {
 
 	}
 
+	/**
+	 * Supports Green Button Download My Data - 
+	 * A DMD file will be produced that contains all Usage Points for the requested Retail Customer. 
+	 * 
+	 * RESTful Pattern:  
+	 *    /espi/1_1/resource/Batch/RetailCustomer/{retailCustomerId}/UsagePoint
+	 * 
+	 * @param response HTTP Servlet Response
+	 * @param retailCustomerId The locally unique identifier of a Retail Customer - NOTE PII
+	 * @param params HTTP Query Parameters
+	 * @throws IOException
+	 * @throws FeedException
+	 */
 	@RequestMapping(value = Routes.BATCH_DOWNLOAD_MY_DATA_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
 	public void download_collection(HttpServletResponse response,
@@ -122,6 +149,20 @@ public class BatchRESTController {
 
 	}
 
+	/**
+	 * Supports Green Button Download My Data
+	 * A DMD file for a particular Usage Point will be produced and returned to the Retail Customer
+	 * 
+	 * RESTful Pattern:  
+	 *    /espi/1_1/resource/Batch/RetailCustomer/{retailCustomerId}/UsagePoint/{usagePointId}
+	 * 
+	 * @param response
+	 * @param retailCustomerId
+	 * @param usagePointId
+	 * @param params
+	 * @throws IOException
+	 * @throws FeedException
+	 */
 	@RequestMapping(value = Routes.BATCH_DOWNLOAD_MY_DATA_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
 	public void download_member(HttpServletResponse response,
@@ -134,8 +175,7 @@ public class BatchRESTController {
 		response.addHeader("Content-Disposition",
 				"attachment; filename=GreenButtonDownload.xml");
 		try {
-			
-			// TODO -- need authorization hook
+
 			exportService.exportUsagePointFull(0L,retailCustomerId, usagePointId,
 					response.getOutputStream(), new ExportFilter(params));
 
@@ -145,6 +185,19 @@ public class BatchRESTController {
 
 	}
 
+	/**
+	 * Produce a Subscription for the requester. The resultant response
+	 * will contain a <feed> of the Usage Point(s) associated with the subscription.
+	 * 
+	 * RESTful Pattern:  
+	 *    /espi/1_1/resource/Batch/Subscription/{subscriptionId}
+	 *    
+	 * @param response
+	 * @param subscriptionId
+	 * @param params
+	 * @throws IOException
+	 * @throws FeedException
+	 */
 	@Transactional(readOnly = true)
 	@RequestMapping(value = Routes.BATCH_SUBSCRIPTION, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
@@ -166,6 +219,20 @@ public class BatchRESTController {
 
 	}
 
+	/**
+	 * Provide a Bulk delivery of information. The Third Party is
+	 * provided with the XML representation of the Bulk. 
+	 * 
+	 * RESTful Pattern:  
+	 *    /espi/1_1/resource/Batch/Subscription/{subscriptionId}
+	 * 
+	 * @param request
+	 * @param response
+	 * @param bulkId
+	 * @param params
+	 * @throws IOException
+	 * @throws FeedException
+	 */
 	@RequestMapping(value = Routes.BATCH_BULK_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
 	public void bulk(HttpServletRequest request, HttpServletResponse response, @PathVariable Long bulkId,
