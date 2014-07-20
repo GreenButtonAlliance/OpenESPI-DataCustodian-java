@@ -258,15 +258,14 @@ public class BatchRESTController {
 				// send back a 302 and queue up a notification
 				// to initiate the SFTP (may want to log this)
 			} else {
-			// build the file stream
-			// in parallel
-			// generate the xml to a file
-			// return 302 response code
-				// TODO: make SFTP cache location an configuration
-		    	File destinationFile = new File("./cache/" + bulkId);
-		    	FileOutputStream fileOutputStream = new FileOutputStream(destinationFile);
-		     
-				    FileWriter output = null;
+			       // build the file stream
+			       // in parallel
+			       // generate the xml to a file
+			       // return 302 response code
+				   // TODO: make SFTP cache location an configuration
+		    	   File destinationFile = new File("./cache/" + bulkId);
+		    	   FileOutputStream fileOutputStream = new FileOutputStream(destinationFile);
+
 				    try {
 				      try {
 							exportService.exportBatchBulk(bulkId, getAuthorizationThirdParty(request), fileOutputStream,
@@ -279,19 +278,19 @@ public class BatchRESTController {
 				      throw new RuntimeException(e);
 				    } finally {
 				      if (destinationFile != null) {
-				   try {
-				          fileOutputStream.close();
-				        } catch (IOException e) {
-				          // Ignore issues during closing
-				        }
+				         try {
+				            fileOutputStream.close();
+				            response.setStatus(HttpServletResponse.SC_ACCEPTED);
+				         } catch (IOException e) {
+				            // Ignore issues during closing
+				         }
 				      }
 				    }
 
 				   
 			}
 		} else {
-			// it is a https build response
-			System.out.println(System.getProperty("user.dir")); 
+			//   not SFTP, use HTTPS as bulk response
 			
 			response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 			// note this default to a file just in case the handler doesn't want to directly
