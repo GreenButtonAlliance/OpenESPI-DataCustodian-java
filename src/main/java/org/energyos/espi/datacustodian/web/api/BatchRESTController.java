@@ -16,10 +16,17 @@
 
 package org.energyos.espi.datacustodian.web.api;
 
+import gherkin.deps.net.iharder.Base64.OutputStream;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -77,7 +84,7 @@ public class BatchRESTController {
 
 	/**
 	 * Supports the upload (or import) of Green Button DMD files.
-	 * Simply send the DMD file.
+	 * Simply send the DMD file within the POST data.
 	 * 
 	 * RESTful Pattern:  
 	 *    /espi/1_1/resource/Batch/RetailCustomer/{retailCustomerId}/UsagePoint
@@ -88,6 +95,7 @@ public class BatchRESTController {
 	 * @param stream An input stream
 	 * @throws IOException
 	 * @throws FeedException
+	 * @usage POST /espi/1_1/resource/Batch/RetailCustomer/{retailCustomerId}/UsagePoint
 	 */
 	@RequestMapping(value = Routes.BATCH_UPLOAD_MY_DATA, method = RequestMethod.POST, consumes = "application/xml", produces = "application/atom+xml")
 	@ResponseBody
@@ -127,6 +135,7 @@ public class BatchRESTController {
 	 * @param params HTTP Query Parameters
 	 * @throws IOException
 	 * @throws FeedException
+	 * @usage GET /espi/1_1/resource/Batch/RetailCustomer/{retailCustomerId}/UsagePoint
 	 */
 	@RequestMapping(value = Routes.BATCH_DOWNLOAD_MY_DATA_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
@@ -153,7 +162,7 @@ public class BatchRESTController {
 	 * Supports Green Button Download My Data
 	 * A DMD file for a particular Usage Point will be produced and returned to the Retail Customer
 	 * 
-	 * RESTful Pattern:  
+	 * RESTful Pattern:  <p>
 	 *    /espi/1_1/resource/Batch/RetailCustomer/{retailCustomerId}/UsagePoint/{usagePointId}
 	 * 
 	 * @param response
@@ -162,6 +171,8 @@ public class BatchRESTController {
 	 * @param params
 	 * @throws IOException
 	 * @throws FeedException
+	 * 
+	 *  @usage GET /espi/1_1/resource/Batch/RetailCustomer/{retailCustomerId}/UsagePoint/{usagePointId}
 	 */
 	@RequestMapping(value = Routes.BATCH_DOWNLOAD_MY_DATA_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
@@ -239,21 +250,65 @@ public class BatchRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
-		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-		// note this default to a file just in case the handler doesn't want to directly
-		// parse the incoming stream.
-		
-		response.addHeader("Content-Disposition",
-				"attachment; filename=GreenButtonDownload.xml");
+		// check to see if SFTP (or XML Caching) is turned on for this bulkId.
+		//
+		if (isSFTP(request)) {
+			if (isInCache(request, bulkId)) {
+				// make sure the sftpd is running
+				// send back a 302 and queue up a notification
+				// to initiate the SFTP (may want to log this)
+			} else {
+			       // build the file stream
+			       // in parallel
+			       // generate the xml to a file
+			       // return 302 response code
+				   // TODO: make SFTP cache location an configuration
+		    	   File destinationFile = new File("./cache/" + bulkId);
+		    	   FileOutputStream fileOutputStream = new FileOutputStream(destinationFile);
 
-		try {
-			exportService.exportBatchBulk(bulkId, getAuthorizationThirdParty(request), response.getOutputStream(),
-					new ExportFilter(params));
+				    try {
+				      try {
+							exportService.exportBatchBulk(bulkId, getAuthorizationThirdParty(request), fileOutputStream,
+									new ExportFilter(params));
 
-		} catch (Exception e) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+						} catch (Exception e) {
+							response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+						}
+				    } catch (Exception e) {
+				      throw new RuntimeException(e);
+				    } finally {
+				      if (destinationFile != null) {
+				         try {
+				            fileOutputStream.close();
+				            response.setStatus(HttpServletResponse.SC_ACCEPTED);
+				         } catch (IOException e) {
+				            // Ignore issues during closing
+				         }
+				      }
+				    }
+
+				   
+			}
+		} else {
+			//   not SFTP, use HTTPS as bulk response
+			
+			response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+			// note this default to a file just in case the handler doesn't want to directly
+			// parse the incoming stream.
+			
+			response.addHeader("Content-Disposition",
+					"attachment; filename=GreenButtonDownload.xml");
+
+			try {
+				exportService.exportBatchBulk(bulkId, getAuthorizationThirdParty(request), response.getOutputStream(),
+						new ExportFilter(params));
+
+			} catch (Exception e) {
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			}
+
 		}
-
+		
 	}
 
 	private String getAuthorizationThirdParty(HttpServletRequest request) {
@@ -272,6 +327,39 @@ public class BatchRESTController {
 
 		return thirdParty;
 
+	}
+	
+	private boolean isInCache(HttpServletRequest request, Long bulkId) {
+		System.out.println(System.getProperty("/var/greenbutton/export-cache/")); 
+		System.out.println(System.getProperty("/var/greenbutton/export-cache/" + bulkId)); 
+		return false;
+		
+	}
+	
+	private boolean isSFTP(HttpServletRequest request) {
+		Boolean result = false;
+		String accessToken = request.getHeader("authorization");
+		if(accessToken!=null)
+		{
+			if (accessToken.contains("Bearer"))
+			{
+				// has Authorization header with Bearer type
+				accessToken = accessToken.replace("Bearer ", "");
+				// ensure length is >12 characters (48 bits in hex at least)
+				if(accessToken.length()>=12)
+				{
+					// we have a valid token
+					Authorization authorization = authorizationService.findByAccessToken(accessToken);
+			        ApplicationInformation applicationInformation = authorization.getApplicationInformation();
+			        String bulkRequestUri = applicationInformation.getDataCustodianBulkRequestURI();
+			        if (bulkRequestUri.contains("sftp:")) {
+			        	result = true;
+			        }
+				}
+			}
+		}
+		return result;
+		
 	}
 	
     public void setImportService(ImportService importService) {
