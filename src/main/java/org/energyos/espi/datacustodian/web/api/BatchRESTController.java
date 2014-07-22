@@ -16,17 +16,12 @@
 
 package org.energyos.espi.datacustodian.web.api;
 
-import gherkin.deps.net.iharder.Base64.OutputStream;
-
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
