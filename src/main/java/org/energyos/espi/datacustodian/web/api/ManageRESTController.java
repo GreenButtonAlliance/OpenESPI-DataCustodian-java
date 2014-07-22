@@ -28,6 +28,7 @@ import java.util.Map;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
+import org.energyos.espi.common.domain.Routes;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -61,7 +62,7 @@ public class ManageRESTController {
 	 * @param stream 
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/manage", method = RequestMethod.GET, produces = "text/text")
+	@RequestMapping(value = Routes.DATA_CUSTODIAN_MANAGE, method = RequestMethod.GET, produces = "text/text")
 	@ResponseBody
 	public void doCommand(HttpServletResponse response,
 			@RequestParam Map<String, String> params, InputStream stream)
@@ -69,35 +70,49 @@ public class ManageRESTController {
 
 		try {
 			try {
-				String command = params.get("command");
-				System.out.println("[Manage] " + command);
+				String commandString = params.get("command");
+				System.out.println("[Manage] " + commandString);
 				ServletOutputStream output = response.getOutputStream();
 				
 				output.println("[Manage] Restricted Management Interface");
-				output.println("[Manage] Request: " + command);
-
-				Process p = Runtime.getRuntime().exec(command);
-				p.waitFor();
-				output.println("[Manage] Result: ");
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(p.getInputStream()));
+				output.println("[Manage] Request: " + commandString);
 				
-				String line = reader.readLine();
+				String command=null;
 
-				while (line != null) {
-					System.out.println("[Manage] " + line);
-					output.println("[Manage]: " + line);
-					line = reader.readLine();
+				// parse command
+				if(commandString.contains("resetDataCustodianDB")){
+					command="/etc/OpenESPI/DataCustodian/resetDatabase.sh";
 				}
-				reader = new BufferedReader(
-						new InputStreamReader(p.getErrorStream()));
-				output.println("[Manage] Errors: ");
-				line = reader.readLine();
-				while (line != null) {
-					System.out.println("[Manage] " + line);
-					output.println("[Manage]: " + line);
-					line = reader.readLine();
+				else if (commandString.contains("initializeDataCustodianDB")){
+					command="/etc/OpenESPI/DataCustodian/initializeDatabase.sh";
+		
 				}
+
+				if(command != null) {
+					Process p = Runtime.getRuntime().exec(command);
+					p.waitFor();
+					output.println("[Manage] Result: ");
+					BufferedReader reader = new BufferedReader(
+							new InputStreamReader(p.getInputStream()));
+					
+					String line = reader.readLine();
+	
+					while (line != null) {
+						System.out.println("[Manage] " + line);
+						output.println("[Manage]: " + line);
+						line = reader.readLine();
+					}
+					reader = new BufferedReader(
+							new InputStreamReader(p.getErrorStream()));
+					output.println("[Manage] Errors: ");
+					line = reader.readLine();
+					while (line != null) {
+						System.out.println("[Manage] " + line);
+						output.println("[Manage]: " + line);
+						line = reader.readLine();
+					}					
+				}
+
 
 			} catch (IOException e1) {
 			} catch (InterruptedException e2) {

@@ -137,7 +137,7 @@ public class ResourceValidationFilter implements Filter{
 		{
 			// no bearer token and it passed the OAuth filter - so it must be good2go not RESTAPI request
 			// make sure the role is not an ANONYMOUS request for /manage ...
-			if (! ((roles.contains("ROLE_ANONYMOUS")) & (uri.indexOf("/manage") != -1))) {
+			if (! ((roles.contains("ROLE_ANONYMOUS")) & (uri.indexOf("/management") != -1))) {
 				invalid = false;
 			}
 		
@@ -152,11 +152,16 @@ public class ResourceValidationFilter implements Filter{
 			// Dispatch on authentication type
 			
 			// first, escape out of this if it is the special "manage?command=foo" form
-			
-			int i = uri.indexOf("/manage");
-			
+			int i = uri.indexOf("/management");
 			if (i > 0) {
-				invalid = false;
+				if (roles.contains("ROLE_DC_ADMIN")) {
+					invalid = false;
+				}
+				else
+				{
+				    System.out.printf("ResourceValidationFilter: doFilter - not valid for this token %s\n", uri);					
+				    throw new AccessDeniedException(String.format("Access Not Authorized"));						
+				}
 			} else {
 			    // lets check the uri
 			    i = uri.indexOf("espi/1_1/resource/");
