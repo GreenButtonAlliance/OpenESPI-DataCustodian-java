@@ -35,46 +35,30 @@
     </scm>
     
     <profiles>
-        <profile>
-            <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <datacustodian.base.url>http://localhost:8080/DataCustodian</datacustodian.base.url>
-                <profile>dev</profile>
-                <database>hsql</database>
-                <hbm2ddl_auto>create-drop</hbm2ddl_auto>
-            </properties>
-        </profile>
+    
+<!--         <profile> -->
+<!--             <id>dev</id> -->
+<!--             <activation> -->
+<!--                 <activeByDefault>true</activeByDefault> -->
+<!--             </activation> -->
+<!--             <properties> -->
+<!--                 <datacustodian.base.url>http://localhost:8080/DataCustodian</datacustodian.base.url> -->
+<!--                 <profile>dev</profile> -->
+<!--                 <database>hsql</database> -->
+<!--                 <hbm2ddl_auto>create-drop</hbm2ddl_auto> -->
+<!--             </properties> -->
+<!--         </profile> -->
 
         <profile>
             <id>devmysql</id>
+            <activation>
+               <activeByDefault>true</activeByDefault>
+             </activation>
             <properties>
                 <datacustodian.base.url>http://localhost:8080/DataCustodian</datacustodian.base.url>
                 <profile>devmysql</profile>
                 <database>mysql</database>
                 <hbm2ddl_auto>none</hbm2ddl_auto>
-            </properties>
-        </profile>
-
-        <profile>
-            <id>devmysql-regeneratedatabase</id>
-            <properties>
-                <datacustodian.base.url>http://localhost:8080/DataCustodian</datacustodian.base.url>
-                <profile>devmysql-regeneratedatabase</profile>
-                <database>mysql</database>
-                <hbm2ddl_auto>create-drop</hbm2ddl_auto>
-            </properties>
-        </profile>
-
-        <profile>
-            <id>heroku</id>
-            <properties>
-                <datacustodian.base.url>http://datacustodian-dev.herokuapp.com/DataCustodian</datacustodian.base.url>
-                <profile>heroku</profile>
-                <database>postgresql</database>
-                <hbm2ddl_auto>create-drop</hbm2ddl_auto>
             </properties>
         </profile>
         
@@ -88,20 +72,11 @@
             </properties>
         </profile>
 
-        <profile>
-            <id>ec2</id>
-            <properties>
-                <datacustodian.base.url>http://54.200.90.158:8080/DataCustodian</datacustodian.base.url>
-                <profile>ec2</profile>
-                <database>hsql</database>
-                <hbm2ddl_auto>create-drop</hbm2ddl_auto>
-            </properties>
-        </profile>
     </profiles>
 
     <properties>
         <!-- Spring -->
-        <spring.version>4.0.3.RELEASE</spring.version>
+        <spring.version>4.0.6.RELEASE</spring.version>
         <spring.security.version>3.2.3.RELEASE</spring.security.version>
         <spring-data-jpa.version>1.4.3.RELEASE</spring-data-jpa.version>
         <spring-security-oauth.version>2.0.2.RELEASE</spring-security-oauth.version>
