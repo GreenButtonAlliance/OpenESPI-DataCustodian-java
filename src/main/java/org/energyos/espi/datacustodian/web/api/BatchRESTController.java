@@ -202,7 +202,7 @@ public class BatchRESTController {
 	 * @throws IOException
 	 * @throws FeedException
 	 * 
-	 * @usage GET /espi/1_1/resource/Batch/Subscription/{subscriptionId}[/**]
+	 * @usage GET /espi/1_1/resource/Batch/Subscription/{subscriptionId}
 	 */
 	@Transactional(readOnly = true)
 	@RequestMapping(value = Routes.BATCH_SUBSCRIPTION, method = RequestMethod.GET, produces = "application/atom+xml")
@@ -225,6 +225,79 @@ public class BatchRESTController {
 
 	}
 
+	/**
+	 * Produce a Subscription for the requester. The resultant response
+	 * will contain a <feed> of the Usage Point(s) associated with the subscription.
+	 * 
+	 * Requires Authorization: Bearer [{data_custodian_access_token} | {access_token}]
+	 * 
+	 * @param response HTTP Servlet Response
+	 * @param subscriptionId Long identifying the Subscription.id of the desired Authorization
+	 * @param params HTTP Query Parameters
+	 * @throws IOException
+	 * @throws FeedException
+	 * 
+	 * @usage GET /espi/1_1/resource/Batch/Subscription/{subscriptionId}/UsagePoint
+	 */
+	@Transactional(readOnly = true)
+	@RequestMapping(value = Routes.BATCH_SUBSCRIPTION_USAGEPOINT, method = RequestMethod.GET, produces = "application/atom+xml")
+	@ResponseBody
+	public void subscriptionUsagePoint(HttpServletResponse response,
+			@PathVariable Long subscriptionId,
+			@RequestParam Map<String, String> params) throws IOException,
+			FeedException {
+
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+		response.addHeader("Content-Disposition",
+				"attachment; filename=GreenButtonDownload.xml");
+		try {
+			exportService.exportBatchSubscriptionUsagePoint(subscriptionId,
+					response.getOutputStream(), new ExportFilter(params));
+
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+
+	}
+	
+	/**
+	 * Produce a Subscription for the requester. The resultant response
+	 * will contain a <feed> of the Usage Point(s) associated with the subscription.
+	 * 
+	 * Requires Authorization: Bearer [{data_custodian_access_token} | {access_token}]
+	 * 
+	 * @param response HTTP Servlet Response
+	 * @param subscriptionId Long identifying the Subscription.id of the desired Authorization
+	 * @param usagePointId Long identifying the UsagePoint.id of the desired Authorization
+	 * @param params HTTP Query Parameters
+	 * @throws IOException
+	 * @throws FeedException
+	 * 
+	 * @usage GET /espi/1_1/resource/Batch/Subscription/{subscriptionId}
+	 */
+
+	@Transactional(readOnly = true)
+	@RequestMapping(value = Routes.BATCH_SUBSCRIPTION_USAGEPOINT_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
+	@ResponseBody
+	public void subscriptionUsagePointMember(HttpServletResponse response,
+			@PathVariable Long subscriptionId,
+			@PathVariable Long usagePointId,
+			@RequestParam Map<String, String> params) throws IOException,
+			FeedException {
+
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+		response.addHeader("Content-Disposition",
+				"attachment; filename=GreenButtonDownload.xml");
+		try {
+			exportService.exportBatchSubscriptionUsagePoint(subscriptionId, usagePointId,
+					response.getOutputStream(), new ExportFilter(params));
+
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+
+	}
+	
 	/**
 	 * Provide a Bulk delivery of information. The Third Party is
 	 * provided with the XML representation of the Bulk. 
