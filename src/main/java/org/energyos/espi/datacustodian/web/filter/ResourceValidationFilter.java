@@ -218,7 +218,7 @@ public class ResourceValidationFilter implements Filter{
 				
 				// must be either /resource/Batch/Subscription/{subscriptionId}
 				if (invalid && uri.contains("/resource/Batch/Subscription")) {
-					if (uri.equals(resourceUri)) {
+					if (uri.startsWith(resourceUri)) { 
 						invalid = false;
 					} else {
 						// not authorized for this resource
