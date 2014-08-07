@@ -124,9 +124,11 @@ public class UsagePointController extends BaseController {
 		HashMap<String, Object> mrBag = new HashMap<String, Object> ();
 		MeterReading mr = it.next();
 		mrBag.put("Description", mr.getDescription());
-		// TODO build the real IntervalBlocks URI
+		// TODO replace the hardcoded 1L in ApplicationInformationId
+		String dataCustodianResourceEndpoint = resourceService.findById(1L, ApplicationInformation.class).getDataCustodianResourceEndpoint();
+		
 		String uriTail = "/RetailCustomer/" + retailCustomerId + "/UsagePoint/" + usagePointId + "/MeterReading/" + mr.getId() + "/show";
-		mrBag.put("Uri", applicationInformationService.getDataCustodianResourceEndpoint().replace("/espi/1_1/resource","") + uriTail);
+		mrBag.put("Uri",dataCustodianResourceEndpoint.replace("/espi/1_1/resource","") + uriTail);
 		mrBag.put("ReadingType", mr.getReadingType().getDescription());
 		meterReadings.add(mrBag);
 	}

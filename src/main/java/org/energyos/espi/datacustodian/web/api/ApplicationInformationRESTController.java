@@ -120,8 +120,8 @@ public class ApplicationInformationRESTController {
 			@PathVariable Long applicationInformationId,
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException, FeedException {
-		ApplicationInformation applicationInformation = applicationInformationService
-				.findById(applicationInformationId);
+		ApplicationInformation applicationInformation = resourceService
+				.findById(applicationInformationId, ApplicationInformation.class);
 
 		if (applicationInformation != null) {
 			try {
