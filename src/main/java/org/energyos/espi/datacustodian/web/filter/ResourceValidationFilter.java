@@ -284,7 +284,7 @@ public class ResourceValidationFilter implements Filter{
 								// it is specific ID, see if it authorization for this third party 
 								Authorization requestedAuthorization = authorizationService
 										.findById(authorizationId);
-								if (requestedAuthorization.getApplicationInformation().getId() == authorizationFromToken.getApplicationInformation().getId()) {
+								if ((requestedAuthorization.getApplicationInformation().getId()).equals(authorizationFromToken.getApplicationInformation().getId())) {
 									invalid = false;
 								} else {
 									// not authorized for this resource
@@ -376,7 +376,7 @@ public class ResourceValidationFilter implements Filter{
 						Long applicationInformationId = authorizationFromToken.getApplicationInformation().getId();
 						
 						// only gets access to his
-						if(applicationInformationIdFromUri == applicationInformationId){
+						if(applicationInformationIdFromUri.equals(applicationInformationId)) {
 							invalid = false;
 						}
 						else{
