@@ -33,8 +33,8 @@
     </bean>
 
     <bean id="tokenEnhancer" class="org.energyos.espi.datacustodian.oauth.EspiTokenEnhancer">
-        <property name="baseURL" value="${datacustodian.base.url}"/>
-    </bean>
+   </bean>
+   
     <bean id="retailCustomerService" name="retailCustomerServiceImpl" class="org.energyos.espi.common.service.impl.RetailCustomerServiceImpl" autowire-candidate="true"/>
     <bean id="importService" name="importService" class="org.energyos.espi.common.service.impl.ImportServiceImpl" autowire-candidate="true"/>
     <bean id="applicationInformationService" name="applicationInformationService" class="org.energyos.espi.common.service.impl.ApplicationInformationServiceImpl" autowire-candidate="true"/>

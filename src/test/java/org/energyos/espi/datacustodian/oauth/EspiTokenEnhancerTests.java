@@ -90,7 +90,6 @@ public class EspiTokenEnhancerTests extends BaseTest {
         EspiTokenEnhancer tokenEnhancer = new EspiTokenEnhancer();
         tokenEnhancer.setSubscriptionService(subscriptionService);
         tokenEnhancer.setAuthorizationService(authorizationService);
-        tokenEnhancer.setBaseURL("http://localhost:8080/DataCustodian");
 
         when(authentication.getPrincipal()).thenReturn(retailCustomer);
 
