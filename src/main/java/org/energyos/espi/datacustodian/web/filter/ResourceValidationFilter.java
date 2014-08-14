@@ -181,6 +181,7 @@ public class ResourceValidationFilter implements Filter{
 
 			///////////////////////////////////////////////////////////////////////
 			// ROLE_USER
+			//
 			// GET /resource/LocalTimeParameters
 			// GET /resource/LocalTimeParameters/{LocalTimeParametersID}
 			// GET /resource/ReadingType
@@ -249,6 +250,7 @@ public class ResourceValidationFilter implements Filter{
 			} else if (invalid && roles.contains("ROLE_TP_ADMIN")) {
 				///////////////////////////////////////////////////////////////////////
 				// ROLE_TP_ADMIN
+				//
 				// GET 		/resource/Authorization
 				// GET 		/resource/Authorization/{AuthorizationID}
 				// PUT 		/resource/Authorization/{AuthorizationID}
@@ -360,9 +362,10 @@ public class ResourceValidationFilter implements Filter{
 					}
 				}
 		    }
-			else if (invalid && roles.contains("ROLE_REGISTRATION"))	{
+			else if (invalid && roles.contains("ROLE_TP_REGISTRATION"))	{
 				///////////////////////////////////////////////////////////////////////
-				// ROLE_REGISTRATION_ADMIN
+				// ROLE_TP_REGISTRATION
+				//
 				// GET 		/resource/ApplicationInformation/{ApplicationInformationID}
 				// GET 		/resource/Authorization/{AuthorizationID}
 				// PUT 		/resource/ApplicationInformation/{ApplicationInformationID}
