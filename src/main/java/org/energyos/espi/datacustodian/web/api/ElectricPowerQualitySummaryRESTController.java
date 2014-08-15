@@ -90,11 +90,9 @@ public class ElectricPowerQualitySummaryRESTController {
 
 		Long subscriptionId = getSubscriptionId(request);
 
-		if (subscriptionId != 0){
-			response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-			exportService.exportElectricPowerQualitySummarys_Root(subscriptionId,
-					response.getOutputStream(), new ExportFilter(params));
-		}
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+		exportService.exportElectricPowerQualitySummarys_Root(subscriptionId,
+				response.getOutputStream(), new ExportFilter(params));
 	}
 
 	//
@@ -108,15 +106,14 @@ public class ElectricPowerQualitySummaryRESTController {
 
 		Long subscriptionId = getSubscriptionId(request);
 
-		if (subscriptionId != 0){
-			response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-			try {
-				exportService.exportElectricPowerQualitySummary_Root(subscriptionId,
-						electricPowerQualitySummaryId, response.getOutputStream(),
-						new ExportFilter(params));
-			} catch (Exception e) {
-				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			}
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+
+		try {
+			exportService.exportElectricPowerQualitySummary_Root(subscriptionId,
+					electricPowerQualitySummaryId, response.getOutputStream(),
+					new ExportFilter(params));
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
 	}
 
@@ -128,18 +125,16 @@ public class ElectricPowerQualitySummaryRESTController {
 
 		Long subscriptionId = getSubscriptionId(request);
 
-		if (subscriptionId != 0){
-			response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-			try {
-				ElectricPowerQualitySummary electricPowerQualitySummary = this.electricPowerQualitySummaryService
-						.importResource(stream);
-				exportService.exportElectricPowerQualitySummary_Root(subscriptionId,
-						electricPowerQualitySummary.getId(),
-						response.getOutputStream(), new ExportFilter(params));
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 
-			} catch (Exception e) {
-				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			}
+		try {
+			ElectricPowerQualitySummary electricPowerQualitySummary = this.electricPowerQualitySummaryService
+					.importResource(stream);
+			exportService.exportElectricPowerQualitySummary_Root(subscriptionId,
+					electricPowerQualitySummary.getId(),
+					response.getOutputStream(), new ExportFilter(params));
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
 	}
 
