@@ -89,10 +89,12 @@ public class ElectricPowerQualitySummaryRESTController {
 			FeedException {
 
 		Long subscriptionId = getSubscriptionId(request);
-		
-		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-		exportService.exportElectricPowerQualitySummarys_Root(subscriptionId,
-				response.getOutputStream(), new ExportFilter(params));
+
+		if (subscriptionId != 0){
+			response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+			exportService.exportElectricPowerQualitySummarys_Root(subscriptionId,
+					response.getOutputStream(), new ExportFilter(params));
+		}
 	}
 
 	//
@@ -105,14 +107,16 @@ public class ElectricPowerQualitySummaryRESTController {
 			FeedException {
 
 		Long subscriptionId = getSubscriptionId(request);
-		
-		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-		try {
-			exportService.exportElectricPowerQualitySummary_Root(subscriptionId,
-					electricPowerQualitySummaryId, response.getOutputStream(),
-					new ExportFilter(params));
-		} catch (Exception e) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+
+		if (subscriptionId != 0){
+			response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+			try {
+				exportService.exportElectricPowerQualitySummary_Root(subscriptionId,
+						electricPowerQualitySummaryId, response.getOutputStream(),
+						new ExportFilter(params));
+			} catch (Exception e) {
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			}
 		}
 	}
 
@@ -123,17 +127,19 @@ public class ElectricPowerQualitySummaryRESTController {
 			throws IOException {
 
 		Long subscriptionId = getSubscriptionId(request);
-		
-		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-		try {
-			ElectricPowerQualitySummary electricPowerQualitySummary = this.electricPowerQualitySummaryService
-					.importResource(stream);
-			exportService.exportElectricPowerQualitySummary_Root(subscriptionId,
-					electricPowerQualitySummary.getId(),
-					response.getOutputStream(), new ExportFilter(params));
 
-		} catch (Exception e) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		if (subscriptionId != 0){
+			response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+			try {
+				ElectricPowerQualitySummary electricPowerQualitySummary = this.electricPowerQualitySummaryService
+						.importResource(stream);
+				exportService.exportElectricPowerQualitySummary_Root(subscriptionId,
+						electricPowerQualitySummary.getId(),
+						response.getOutputStream(), new ExportFilter(params));
+
+			} catch (Exception e) {
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			}
 		}
 	}
 
@@ -164,6 +170,7 @@ public class ElectricPowerQualitySummaryRESTController {
 			@PathVariable Long electricPowerQualitySummaryId,
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException, FeedException {
+		
 		try {
 			resourceService.deleteById(electricPowerQualitySummaryId,
 					ElectricPowerQualitySummary.class);
@@ -205,6 +212,7 @@ public class ElectricPowerQualitySummaryRESTController {
 			FeedException {
 
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+		
 		try {
 			Subscription subscription = subscriptionService.findById(subscriptionId);
 			Authorization authorization = subscription.getAuthorization();
@@ -299,6 +307,7 @@ public class ElectricPowerQualitySummaryRESTController {
 			@PathVariable Long electricPowerQualitySummaryId,
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException, FeedException {
+		
 		try {
 			Subscription subscription = subscriptionService.findById(subscriptionId);
 			Authorization authorization = subscription.getAuthorization();
