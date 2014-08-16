@@ -86,11 +86,9 @@ public class ElectricPowerUsageSummaryRESTController {
 
 		Long subscriptionId = getSubscriptionId(request);
 
-		if (subscriptionId != 0){
-			response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-			exportService.exportElectricPowerUsageSummarys_Root(subscriptionId, 
-					response.getOutputStream(), new ExportFilter(params));
-		}
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+		exportService.exportElectricPowerUsageSummarys_Root(subscriptionId, 
+				response.getOutputStream(), new ExportFilter(params));
 	}
 
 	//
@@ -104,15 +102,13 @@ public class ElectricPowerUsageSummaryRESTController {
 
 		Long subscriptionId = getSubscriptionId(request);
 
-		if (subscriptionId != 0){
-			response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-			try {
-				exportService.exportElectricPowerUsageSummary_Root(subscriptionId, 
-						electricPowerUsageSummaryId, response.getOutputStream(),
-						new ExportFilter(params));
-			} catch (Exception e) {
-				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			}
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+		try {
+			exportService.exportElectricPowerUsageSummary_Root(subscriptionId, 
+					electricPowerUsageSummaryId, response.getOutputStream(),
+					new ExportFilter(params));
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
 	}
 
@@ -126,18 +122,16 @@ public class ElectricPowerUsageSummaryRESTController {
 
 		Long subscriptionId = getSubscriptionId(request);
 
-		if (subscriptionId != 0){
-			response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-			try {
-				ElectricPowerUsageSummary electricPowerUsageSummary = this.electricPowerUsageSummaryService
-						.importResource(stream);
-				exportService.exportElectricPowerUsageSummary_Root(subscriptionId, 
-						electricPowerUsageSummary.getId(),
-						response.getOutputStream(), new ExportFilter(params));
-
-			} catch (Exception e) {
-				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			}
+		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
+		
+		try {
+			ElectricPowerUsageSummary electricPowerUsageSummary = this.electricPowerUsageSummaryService
+					.importResource(stream);
+			exportService.exportElectricPowerUsageSummary_Root(subscriptionId, 
+					electricPowerUsageSummary.getId(),
+					response.getOutputStream(), new ExportFilter(params));
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
 	}
 
