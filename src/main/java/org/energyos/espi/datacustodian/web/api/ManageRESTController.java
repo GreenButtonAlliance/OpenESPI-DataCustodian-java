@@ -62,7 +62,7 @@ public class ManageRESTController {
 	 * @param stream 
 	 * @throws IOException
 	 */
-	@RequestMapping(value = Routes.DATA_CUSTODIAN_MANAGE, method = RequestMethod.GET, produces = "text/text")
+	@RequestMapping(value = Routes.DATA_CUSTODIAN_MANAGE, method = RequestMethod.GET, produces = "text/plain")
 	@ResponseBody
 	public void doCommand(HttpServletResponse response,
 			@RequestParam Map<String, String> params, InputStream stream)
