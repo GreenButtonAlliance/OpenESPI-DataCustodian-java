@@ -30,6 +30,7 @@ import org.energyos.espi.common.utils.ExportFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,7 +50,11 @@ public class AuthorizationRESTController {
 
 	@Autowired
 	private RetailCustomerService retailCustomerService;
-
+	
+	@Autowired
+	//@Qualifier("tokenServices")
+	private DefaultTokenServices tokenService;
+	
 	@Autowired
 	private ExportService exportService;
 
@@ -134,7 +139,13 @@ public class AuthorizationRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException, FeedException {
 		try {
-			resourceService.deleteById(authorizationId, Authorization.class);
+			Authorization authorization = resourceService.findById(authorizationId, Authorization.class);
+			String accessToken = authorization.getAccessToken();
+			
+			authorizationService.delete(authorization);
+			tokenService.revokeToken(accessToken);
+			authorizationService.delete(authorization);
+			
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
@@ -224,14 +235,22 @@ public class AuthorizationRESTController {
 			@PathVariable Long authorizationId,
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException, FeedException {
-		Authorization authorization = authorizationService.findById(
-				retailCustomerId, authorizationId);
 
-		if (authorization != null) {
+		try {
+			Authorization authorization = authorizationService.findById(retailCustomerId, authorizationId);
+			String accessToken = authorization.getAccessToken();
 			authorizationService.delete(authorization);
+			tokenService.revokeToken(accessToken);
+			
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
 	}
 
+	public void setTokenService(DefaultTokenServices tokenService) {
+		this.tokenService = tokenService;
+	}
+	
     public void setAuthorizationService(AuthorizationService authorizationService) {
         this.authorizationService = authorizationService;
    }
