@@ -32,7 +32,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 public class ResourceValidationFilter implements Filter{
 
-
 	@Autowired
 	private SubscriptionService subscriptionService;
 	
@@ -54,76 +53,89 @@ public class ResourceValidationFilter implements Filter{
 		System.out.println("ResourceValidationFilter: start of doFilter");
 
 		Boolean invalid = true;
-		HttpServletRequest request = (HttpServletRequest) req;
-		HttpServletResponse response = (HttpServletResponse) res;
-
 		Boolean hasBearer = false;
 		Boolean hasValidOAuthAccessToken = false;
+		Boolean resourceRequest = false;
+		
 		Authorization authorizationFromToken = null;
 		Subscription subscription = null;
 		String resourceUri=null;
 		String authorizationUri=null;
+		Set<String> roles = null;		
 
-		// get the uri for later tests
+		// Get the URI for later tests
+		HttpServletRequest request = (HttpServletRequest) req;
+		HttpServletResponse response = (HttpServletResponse) res;		
 		String uri = request.getRequestURI();
 		String service = request.getMethod();
-		Set<String> roles = null;
 
-		// see if any authentication has happened
+		// See if any authentication has happened
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if(authentication != null) {
 			roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+			
 		}	else {
 			System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
 			throw new AccessDeniedException(String.format("Access Not Authorized"));							
 		
 		}
 
+		System.out.printf("ResourceValidationFilter: role = %s, HttpRequest Method: %s, uri: %s\n", roles, service, uri);
 
-		System.out.printf("ResourceValidationFilter: role=%s, uri:%s\n", roles, uri);
+		// Only process resource API request
 		
-		///////////////////////////////////////////////////////////////////////
-        // find the access token if present and validate we have a good one
-		///////////////////////////////////////////////////////////////////////
-		String token = request.getHeader("authorization");
-		if(token!=null)
+		if ((uri.indexOf("/espi/1_1/resource/") != -1))
 		{
-			if (token.contains("Bearer"))
+			resourceRequest = true;
+			
+			///////////////////////////////////////////////////////////////////////
+			// find the access token if present and validate we have a good one
+			///////////////////////////////////////////////////////////////////////
+			String token = request.getHeader("authorization");
+			
+			if(token!=null)
 			{
-				// has Authorization header with Bearer type
-				hasBearer = true;
-				token = token.replace("Bearer ", "");
-				// ensure length is >12 characters (48 bits in hex at least)
-				if(token.length()>=12)
+				if (token.contains("Bearer"))
 				{
-					// lookup the authorization -- we must have one to correspond to an access token
-					try {
-						authorizationFromToken = authorizationService.findByAccessToken(token);
-					}
-					catch (Exception e) {
-						System.out
-								.printf("ResourceValidationFilter: doFilter - No Authorization Found - %s\n",
-										e.toString());						
-						throw new AccessDeniedException(String.format("No Authorization Found"));												
-					}
+					// has Authorization header with Bearer type
+					hasBearer = true;
+					token = token.replace("Bearer ", "");
 					
-					// see if we have valid authorization and can get parameters
-					if(authorizationFromToken != null)
+					// ensure length is >12 characters (48 bits in hex at least)
+					if(token.length()>=12)
 					{
-						long tend = authorizationFromToken.getAuthorizedPeriod().getStart() + authorizationFromToken.getAuthorizedPeriod().getDuration();
-						Calendar c = Calendar.getInstance(); 						
-						long now = c.getTimeInMillis()/1000;
-						// check that it is still active and check that it has not expired
-						if( (authorizationFromToken.getStatus().equals("1") ) && ((tend == 0) || (tend >= now))){
-							hasValidOAuthAccessToken = true;
-							resourceUri = authorizationFromToken.getResourceURI();
-							authorizationUri = authorizationFromToken.getAuthorizationURI();
-							subscription = authorizationFromToken.getSubscription();
-						} else {
-							// authorization not valid now
-							System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
-							throw new AccessDeniedException(String.format("Access Not Authorized"));							
+						// lookup the authorization -- we must have one to correspond to an access token
+						try {
+							authorizationFromToken = authorizationService.findByAccessToken(token);
+							
+						}
+						catch (Exception e) {
+							System.out.printf("ResourceValidationFilter: doFilter - No Authorization Found - %s\n",
+											  e.toString());						
+							throw new AccessDeniedException(String.format("No Authorization Found"));												
+						}
+					
+						// see if we have valid authorization and can get parameters
+						if(authorizationFromToken != null)
+						{
+							long tend = authorizationFromToken.getAuthorizedPeriod().getStart() + authorizationFromToken.getAuthorizedPeriod().getDuration();
+							Calendar c = Calendar.getInstance(); 						
+							long now = c.getTimeInMillis()/1000;
 						
+							// check that it is still active and check that it has not expired
+						
+							if( (authorizationFromToken.getStatus().equals("1") ) && ((tend == 0) || (tend >= now))){
+								hasValidOAuthAccessToken = true;
+								resourceUri = authorizationFromToken.getResourceURI();
+								authorizationUri = authorizationFromToken.getAuthorizationURI();
+								subscription = authorizationFromToken.getSubscription();
+							
+							} else {
+							
+								// authorization not valid now
+								System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+								throw new AccessDeniedException(String.format("Access Not Authorized"));													
+							}
 						}
 					}
 				}
@@ -131,19 +143,19 @@ public class ResourceValidationFilter implements Filter{
 		}
 		
 		///////////////////////////////////////////////////////////////////////
-		// if this is not RESTful request with Bearer token
+		// If this is a resource request ensure it has a Bearer token
 		///////////////////////////////////////////////////////////////////////
-		if (hasBearer==false)
+		if ((hasBearer == false) & !(resourceRequest == true))
 		{
 			// no bearer token and it passed the OAuth filter - so it must be good2go not RESTAPI request
 			// make sure the role is not an ANONYMOUS request for /manage ...
-			if (! ((roles.contains("ROLE_ANONYMOUS")) & (uri.indexOf("/management") != -1))) {
+			if (!((roles.contains("ROLE_ANONYMOUS")) & (uri.indexOf("/management") != -1))) {
 				invalid = false;
 			}
 		
 		}
 		///////////////////////////////////////////////////////////////////////
-		// if this is rest, process based on ROLE
+		// if this is RESTful request, process based on ROLE
 		///////////////////////////////////////////////////////////////////////
 		else if(hasValidOAuthAccessToken == true)
 		{
