@@ -64,19 +64,19 @@ public class OauthAdminController extends BaseController {
 		userApprovalHandler.setUseApprovalStore(false);
 	}
 	
-	@RequestMapping(value="custodian/oauth/tokens/clients/{clientID}/retailcustomers/{userID}", method=RequestMethod.GET, produces="application/json")
+	@RequestMapping(value="custodian/oauth/tokens/clients/{clientId}/retailcustomers/{userId}", method=RequestMethod.GET, produces="application/json")
 	@ResponseBody
-	public Collection<OAuth2AccessToken> listTokensForUser(@PathVariable String clientID, @PathVariable String userID,
+	public Collection<OAuth2AccessToken> listTokensForUser(@PathVariable String clientId, @PathVariable String userId,
 			Principal principal) throws Exception {
-		checkResourceOwner(userID, principal);
+		checkResourceOwner(userId, principal);
 
-		return enhance(tokenStore.findTokensByClientIdAndUserName(clientID, userID));
+		return enhance(tokenStore.findTokensByClientIdAndUserName(clientId, userId));
 	}
 	
-	@RequestMapping(value = "custodian/oauth/tokens/{token}/retailcustomers/{userID}", method = RequestMethod.DELETE)
-	public ResponseEntity<Void> revokeToken(@PathVariable String userID, @PathVariable String token, Principal principal)
+	@RequestMapping(value = "custodian/oauth/tokens/{token}/retailcustomers/{userId}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> revokeToken(@PathVariable String userId, @PathVariable String token, Principal principal)
 			throws Exception {
-		checkResourceOwner(userID, principal);
+		checkResourceOwner(userId, principal);
 		if (tokenServices.revokeToken(token)) {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		} else {
@@ -84,10 +84,10 @@ public class OauthAdminController extends BaseController {
 		}
 	}
 	
-	@RequestMapping(value="custodian/oauth/tokens/clients/{clientID}", method=RequestMethod.GET, produces="application/json")
+	@RequestMapping(value="custodian/oauth/tokens/clients/{clientId}", method=RequestMethod.GET, produces="application/json")
 	@ResponseBody
-	public Collection<OAuth2AccessToken> listTokensForClient(@PathVariable String clientID) throws Exception {
-		return tokenStore.findTokensByClientId(clientID);
+	public Collection<OAuth2AccessToken> listTokensForClient(@PathVariable String clientId) throws Exception {
+		return tokenStore.findTokensByClientId(clientId);
 	}
 
 	private Collection<OAuth2AccessToken> enhance(Collection<OAuth2AccessToken> tokens) {
