@@ -76,7 +76,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			// Processing a "client_credentials" access token grant_type request.
 
 			Authorization authorization = authorizationService.createAuthorization(null, result.getValue());  			
-			result.getAdditionalInformation().put("authorizationURI", ai.getDataCustodianResourceEndpoint() + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("espi/1_1/resource/", "").replace("{AuthorizationID}", authorization.getId().toString()));
+			result.getAdditionalInformation().put("authorizationURI", ai.getDataCustodianResourceEndpoint() + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("espi/1_1/resource/", "").replace("{authorizationId}", authorization.getId().toString()));
 
             if (!(accessToken.getScope().equals(ai.getScope()))) {
 				System.out.printf("\nEspiTokenEnhancer: Incorrect client_credentials based access token request Scope value!\n"
@@ -99,7 +99,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			authorization.setScope(accessToken.getScope().toString().substring(1, (accessToken.getScope().toString().length()-1)));
 			
 			// set the authorizationUri
-			authorization.setAuthorizationURI(ai.getDataCustodianResourceEndpoint() + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("espi/1_1/resource", "").replace("{AuthorizationID}", authorization.getId().toString()));
+			authorization.setAuthorizationURI(ai.getDataCustodianResourceEndpoint() + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("espi/1_1/resource", "").replace("{authorizationId}", authorization.getId().toString()));
 			
 			// Determine resourceURI value based on Client's Role
 			Set<String> role = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
@@ -109,11 +109,11 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			
 			} else {
 				if (role.contains("ROLE_TP_ADMIN")) {
-					authorization.setResourceURI(ai.getDataCustodianResourceEndpoint() + Routes.BATCH_BULK_MEMBER.replace("espi/1_1/resource", "").replace("{BulkID}", "**"));
+					authorization.setResourceURI(ai.getDataCustodianResourceEndpoint() + Routes.BATCH_BULK_MEMBER.replace("espi/1_1/resource", "").replace("{bulkId}", "**"));
 				
 				} else {
 					if (role.contains("ROLE_UL_ADMIN")) {
-						authorization.setResourceURI(ai.getDataCustodianResourceEndpoint() + Routes.BATCH_UPLOAD_MY_DATA.replace("espi/1_1/resource", "").replace("{RetailCustomerID}", "**"));
+						authorization.setResourceURI(ai.getDataCustodianResourceEndpoint() + Routes.BATCH_UPLOAD_MY_DATA.replace("espi/1_1/resource", "").replace("{retailCustomerId}", "**"));
 					}
 				}
 			} 
@@ -141,7 +141,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 
 				// Create Authorization and add authorizationURI to /oath/token response        
 				Authorization authorization = authorizationService.createAuthorization(subscription, result.getValue());           
-				result.getAdditionalInformation().put("authorizationURI", ai.getDataCustodianResourceEndpoint() + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("espi/1_1/resource/", "").replace("{AuthorizationID}", authorization.getId().toString()));        	
+				result.getAdditionalInformation().put("authorizationURI", ai.getDataCustodianResourceEndpoint() + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("espi/1_1/resource/", "").replace("{authorizationId}", authorization.getId().toString()));        	
  
 				// Update Data Custodian subscription structure
 				subscription.setAuthorization(authorization);
@@ -173,7 +173,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 		
 				// Remove "[" and "]" surrounding Scope in accessToken structure
 				authorization.setScope(accessToken.getScope().toString().substring(1, (accessToken.getScope().toString().length()-1)));
-				authorization.setAuthorizationURI(ai.getDataCustodianResourceEndpoint() + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("espi/1_1/resource/", "").replace("{AuthorizationID}", authorization.getId().toString()));
+				authorization.setAuthorizationURI(ai.getDataCustodianResourceEndpoint() + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("espi/1_1/resource/", "").replace("{authorizationId}", authorization.getId().toString()));
 				authorization.setResourceURI(ai.getDataCustodianResourceEndpoint() + Routes.BATCH_SUBSCRIPTION.replace("espi/1_1/resource/", "").replace("{subscriptionId}", subscription.getId().toString()));
 				authorization.setUpdated(new GregorianCalendar());
 				authorization.setStatus("1"); 	// Set authorization record status as "Active"

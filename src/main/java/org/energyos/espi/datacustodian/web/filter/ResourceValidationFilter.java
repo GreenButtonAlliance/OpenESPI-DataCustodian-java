@@ -183,21 +183,21 @@ public class ResourceValidationFilter implements Filter{
 			// ROLE_USER
 			//
 			// GET /resource/LocalTimeParameters
-			// GET /resource/LocalTimeParameters/{LocalTimeParametersID}
+			// GET /resource/LocalTimeParameters/{localTimeParametersId}
 			// GET /resource/ReadingType
-			// GET /resource/ReadingType/{ReadingTypeID}
-			// GET /resource/Batch/Subscription/{SubscriptionID}
-			// GET /resource/Batch/Subscription/{SubscriptionID}/UsagePoint/{UsagePointId}
-			// GET /resource/Subscription/{SubscriptionID}/UsagePoint
-			// GET /resource/Subscription/{SubscriptionID}/UsagePoint/{UsagePointID}
-			// GET /resource/Subscription/{SubscriptionID}/UsagePoint/{UsagePointID}/ElectricPowerQualitySummary
-			// GET /resource/Subscription/{SubscriptionID}/UsagePoint/{UsagePointID}/ElectricPowerQualitySummary/{ElectricPowerQualitySummaryID}
-			// GET /resource/Subscription/{SubscriptionID}/UsagePoint/{UsagePointID}/ElectricPowerUsageSumary
-			// GET /resource/Subscription/{SubscriptionID}/UsagePoint/{UsagePointID}/ElectricPowerUsageSumary/{ElectricPowerUsageSummaryID}
-			// GET /resource/Subscription/{SubscriptionID}/UsagePoint/{UsagePointID}/MeterReading
-			// GET /resource/Subscription/{SubscriptionID}/UsagePoint/{UsagePointID}/MeterReading/{MeterReadingID}
-			// GET /resource/Subscription/{SubscriptionID}/UsagePoint/{UsagePointID}/MeterReading/{MeterReadingID}/IntervalBlock
-			// GET /resource/Subscription/{SubscriptionID}/UsagePoint/{UsagePointID}/MeterReading/{MeterReadingID}/IntervalBlock/{IntervalBlockID}
+			// GET /resource/ReadingType/{readingTypeId}
+			// GET /resource/Batch/Subscription/{subscriptionId}
+			// GET /resource/Batch/Subscription/{subscriptionId}/UsagePoint/{usagePointId}
+			// GET /resource/Subscription/{subscriptionId}/UsagePoint
+			// GET /resource/Subscription/{subscriptionId}/UsagePoint/{usagePointId}
+			// GET /resource/Subscription/{subscriptionId}/UsagePoint/{usagePointId}/ElectricPowerQualitySummary
+			// GET /resource/Subscription/{subscriptionId}/UsagePoint/{usagePointId}/ElectricPowerQualitySummary/{electricPowerQualitySummaryId}
+			// GET /resource/Subscription/{subscriptionId}/UsagePoint/{usagePointId}/ElectricPowerUsageSumary
+			// GET /resource/Subscription/{subscriptionId}/UsagePoint/{usagePointId}/ElectricPowerUsageSumary/{electricPowerUsageSummaryId}
+			// GET /resource/Subscription/{subscriptionId}/UsagePoint/{usagePointId}/MeterReading
+			// GET /resource/Subscription/{subscriptionId}/UsagePoint/{usagePointId}/MeterReading/{meterReadingId}
+			// GET /resource/Subscription/{subscriptionId}/UsagePoint/{usagePointId}/MeterReading/{meterReadingId}/IntervalBlock
+			// GET /resource/Subscription/{subscriptionId}/UsagePoint/{usagePointId}/MeterReading/{meterReadingId}/IntervalBlock/{intervalBlockId}
 			//
 			///////////////////////////////////////////////////////////////////////
 			if (invalid && roles.contains("ROLE_USER")) {
@@ -252,12 +252,12 @@ public class ResourceValidationFilter implements Filter{
 				// ROLE_TP_ADMIN
 				//
 				// GET 		/resource/Authorization
-				// GET 		/resource/Authorization/{AuthorizationID}
-				// PUT 		/resource/Authorization/{AuthorizationID}
-				// DELETE	/resource/Authorization/{AuthorizationID}
-				// GET /resource/Batch/Bulk/{BulkID}
+				// GET 		/resource/Authorization/{authorizationId}
+				// PUT 		/resource/Authorization/{authorizationId}
+				// DELETE	/resource/Authorization/{authorizationId}
+				// GET /resource/Batch/Bulk/{bulkId}
 				// GET /resource/ReadServiceStatus
-				// GETALL sftp://services.greenbuttondata.org/DataCustodian/espi/1_1/resource/Batch/Bulk/{BulkID}
+				// GETALL sftp://services.greenbuttondata.org/DataCustodian/espi/1_1/resource/Batch/Bulk/{bulkId}
 				///////////////////////////////////////////////////////////////////////
 
 				
@@ -327,9 +327,9 @@ public class ResourceValidationFilter implements Filter{
 				///////////////////////////////////////////////////////////////////////
 				// ROLE_UL_ADMIN
 				//
-				// GET  /resource/Batch/RetailCustomer/{RetailCustomerID}/UsagePoint
-				// POST /resource/Batch/RetailCustomer/{RetailCustomerID}/UsagePoint
-				// GET /resource/Authorization/{AuthorizationID}
+				// GET  /resource/Batch/RetailCustomer/{retailCustomerId}/UsagePoint
+				// POST /resource/Batch/RetailCustomer/{retailCustomerId}/UsagePoint
+				// GET /resource/Authorization/{authorizationId}
 				//
 				///////////////////////////////////////////////////////////////////////
 
@@ -366,10 +366,10 @@ public class ResourceValidationFilter implements Filter{
 				///////////////////////////////////////////////////////////////////////
 				// ROLE_TP_REGISTRATION
 				//
-				// GET 		/resource/ApplicationInformation/{ApplicationInformationID}
-				// GET 		/resource/Authorization/{AuthorizationID}
-				// PUT 		/resource/ApplicationInformation/{ApplicationInformationID}
-				// DELETE	/resource/ApplicationInformation/{ApplicationInformationID}
+				// GET 		/resource/ApplicationInformation/{applicationInformationId}
+				// GET 		/resource/Authorization/{authorizationId}
+				// PUT 		/resource/ApplicationInformation/{applicationInformationId}
+				// DELETE	/resource/ApplicationInformation/{applicationInformationId}
 				///////////////////////////////////////////////////////////////////////
 
 				if (service.equals("GET") || service.equals("PUT") || service.equals("DELETE")) {
