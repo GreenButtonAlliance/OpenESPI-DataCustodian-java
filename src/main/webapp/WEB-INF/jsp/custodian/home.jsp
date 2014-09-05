@@ -21,6 +21,37 @@
 
 <jsp:include page="/WEB-INF/jsp/tiles/head.jsp"/>
 
+<script charset="utf-8">
+
+var xmlhttp = null;
+var resetUrl = "https://services.greenbuttondata.org/DataCustodian/management?command=resetDataCustodianDB";
+var initUrl = "https://services.greenbuttondata.org/DataCustodian/management?command=initializeDataCustodianDB";
+
+//var url = "http://localhost:8080/DataCustodian/management?command=resetDataCustodianDB";
+
+function SendRequest (url) {
+  if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+     xmlhttp=new XMLHttpRequest();
+  } else {// code for IE6, IE5
+     xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xmlhttp.open ("GET", url, true);    // async
+  xmlhttp.setRequestHeader ("Accept", "*/*");
+  xmlhttp.setRequestHeader ("Authorization", "Bearer 688b026c-665f-4994-9139-6b21b13fbeee");
+  xmlhttp.setRequestHeader ("Content-type", "text/plain");
+  xmlhttp.withCredentials = true;
+  xmlhttp.setRequestHeader ("Host", "services.greenbuttondata.org");
+  xmlhttp.onreadystatechange = OnStateChange;
+  xmlhttp.send (null);
+}
+
+function OnStateChange () {
+  alert("action accomplished");
+}
+
+</script>
+
 <body>
 
 <jsp:include page="/WEB-INF/jsp/tiles/custodian/header.jsp"/>
@@ -37,9 +68,9 @@
 
 	<span class="inline pull-left"><a href="http://www.greenbuttondata.org" class="btn btn-primary btn-large">Learn more about Green Button &raquo;</a></span>
     <span class="inline pull-right"><a href="http://www.greenbuttondata.org" class="btn btn-primary btn-large">Learn more about EnergyOS Open Source &raquo;</a></span>
-
     </p>
     </div>
+
 
     <!-- Example row of columns -->
     <div class="row">
@@ -67,7 +98,29 @@
             <p><a class="btn" href="http://energyos.github.io/OpenESPI-GreenButton-API-Documentation/API/">View details &raquo;</a></p>
         </div>
     </div>
+    <div>
+    NOTE:  Please use caution when either reseting or initializing the sandbox. This facility is in place only until we have the capability of providing private/individual
+    sandbox services.
+    <hr />
+    <center>
+    <table width="40%">
+    <tr>
+    <td>
+        <form>
+   <button onclick="SendRequest (resetUrl)">Reset Green Button Sandbox</button>
+   </form>
+   </td>
+   <td>
+    <form>
+    <button onclick="SendRequest (initUrl)">Initialize Green Button Sandbox</button>
+   </form>
+   </td>
+    </tr>
+    </table>
 
+  
+    </div>
+ 
     <jsp:include page="/WEB-INF/jsp/tiles/footer.jsp"/>
 
 </div>
