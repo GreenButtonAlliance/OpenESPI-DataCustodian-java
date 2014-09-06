@@ -289,12 +289,16 @@ public class ResourceValidationFilter implements Filter{
 						if(authorizationUri.equals(uri)) {
 							invalid=false;
 						} else {
-							// get authorizationID
+							// get authorizationID if present
 							String[] tokens = uri.split("/");
-							Long authorizationId = Long.parseLong(tokens[3],10);
+							Long authorizationId = -1l; 
+							if(tokens.length>3)
+							{
+								authorizationId = Long.parseLong(tokens[3],10);
+							}
 	
 							// check if its a collection
-							if (authorizationId != null) {
+							if (authorizationId != -1l) {
 								// it is specific ID, see if it authorization for this third party 
 								Authorization requestedAuthorization = authorizationService
 										.findById(authorizationId);
