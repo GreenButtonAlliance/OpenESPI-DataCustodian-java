@@ -267,9 +267,9 @@ public class ResourceValidationFilter implements Filter{
 				// GET 		/resource/Authorization/{authorizationId}
 				// PUT 		/resource/Authorization/{authorizationId}
 				// DELETE	/resource/Authorization/{authorizationId}
-				// GET /resource/Batch/Bulk/{bulkId}
-				// GET /resource/ReadServiceStatus
-				// GETALL sftp://services.greenbuttondata.org/DataCustodian/espi/1_1/resource/Batch/Bulk/{bulkId}
+				// GET      /resource/Batch/Bulk/{bulkId}
+				// GET      /resource/ReadServiceStatus
+				// GETALL   sftp://services.greenbuttondata.org/DataCustodian/espi/1_1/resource/Batch/Bulk/{bulkId}
 				///////////////////////////////////////////////////////////////////////
 
 				
@@ -383,7 +383,6 @@ public class ResourceValidationFilter implements Filter{
 				// ROLE_TP_REGISTRATION
 				//
 				// GET 		/resource/ApplicationInformation/{applicationInformationId}
-				// GET 		/resource/Authorization/{authorizationId}
 				// PUT 		/resource/ApplicationInformation/{applicationInformationId}
 				// DELETE	/resource/ApplicationInformation/{applicationInformationId}
 				///////////////////////////////////////////////////////////////////////
@@ -391,21 +390,27 @@ public class ResourceValidationFilter implements Filter{
 				if (service.equals("GET") || service.equals("PUT") || service.equals("DELETE")) {
 					if (uri.contains("/resource/ApplicationInformation")) {
 						String[] tokens = uri.split("/");
-						Long applicationInformationIdFromUri = Long.parseLong(tokens[3],10);
-						Long applicationInformationId = authorizationFromToken.getApplicationInformation().getId();
 						
-						// only gets access to his
-						if(applicationInformationIdFromUri.equals(applicationInformationId)) {
-							invalid = false;
-						}
-						else{
+						if (tokens.length > 3)
+						{
+							Long applicationInformationIdFromUri = Long.parseLong(tokens[3],10);
+							Long applicationInformationId = authorizationFromToken.getApplicationInformation().getId();
+							
+							// only gets access to his
+							if(applicationInformationIdFromUri.equals(applicationInformationId)) {
+								invalid = false;
+							}
+						} 
+						else 
+						{
 							// not authorized for this resource
 							System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
 							throw new AccessDeniedException(String.format("Access Not Authorized"));							
 						}
 					}
 				}
-				else {
+				else
+				{
 					// not authorized for this resource
 					System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
 					throw new AccessDeniedException(String.format("Access Not Authorized"));							
