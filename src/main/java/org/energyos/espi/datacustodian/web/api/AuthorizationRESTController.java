@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.energyos.espi.common.domain.Authorization;
@@ -70,13 +71,24 @@ public class AuthorizationRESTController {
 	//
 	@RequestMapping(value = Routes.ROOT_AUTHORIZATION_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
-	public void index(HttpServletResponse response,
+	public void index(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-		exportService.exportAuthorizations(response.getOutputStream(),
-				new ExportFilter(params));
+		String accessToken = request.getHeader("authorization").replace("Bearer ", "");
+		Authorization authorization = authorizationService.findByAccessToken(accessToken);
+		
+		// we know this is a client-access-token or a datacustodian-access-token
+		// if it is a datacustodian-access-token, it can get everything
+		
+		if (authorization.getApplicationInformation().getClientId().equals("data_custodian_admin")) {
+			exportService.exportAuthorizations(response.getOutputStream(), new ExportFilter(params));
+		} else {
+			// anything else that gets here is a third party (client-access-token) and needs to be 
+			// restricted in access scope
+			exportService.exportAuthorizations(authorization, response.getOutputStream(), new ExportFilter(params));
+		}
 	}
 
 	@RequestMapping(value = Routes.ROOT_AUTHORIZATION_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
