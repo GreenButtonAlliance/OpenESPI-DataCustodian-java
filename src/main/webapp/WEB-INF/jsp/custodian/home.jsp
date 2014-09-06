@@ -24,10 +24,15 @@
 <script charset="utf-8">
 
 var xmlhttp = null;
-var resetUrl = "https://services.greenbuttondata.org/DataCustodian/management?command=resetDataCustodianDB";
-var initUrl = "https://services.greenbuttondata.org/DataCustodian/management?command=initializeDataCustodianDB";
+var temp = "${localDataCustodianURL}";
+var protocol = "http://"
+if (temp.indexOf(":443/") > -1) {
+	protocol = "https://"
+}
+var resetUrl = protocol + temp + "/management?command=resetDataCustodianDB";
+var initUrl = protocol + temp + "/management?command=initializeDataCustodianDB";
 
-//var url = "http://localhost:8080/DataCustodian/management?command=resetDataCustodianDB";
+alert(resetUrl);
 
 function SendRequest (url) {
   if (window.XMLHttpRequest)

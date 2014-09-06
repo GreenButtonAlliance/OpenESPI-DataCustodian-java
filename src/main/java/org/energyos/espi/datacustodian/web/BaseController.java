@@ -18,6 +18,8 @@ package org.energyos.espi.datacustodian.web;
 
 import java.security.Principal;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,5 +34,11 @@ public class BaseController {
         	    System.out.printf("BaseController: currentCustomer -- null\n");
         		return null;
         	}
+    }
+    
+    @ModelAttribute("localDataCustodianURL")
+    public String localDataCustodianURL(HttpServletRequest request) {
+    	String path = request.getServerName() + ":" + request.getServerPort() + request.getServletContext().getContextPath();
+    	return path;  
     }
 }
