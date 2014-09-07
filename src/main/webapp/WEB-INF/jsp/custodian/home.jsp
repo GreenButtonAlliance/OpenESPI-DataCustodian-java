@@ -23,14 +23,10 @@
 
 <script charset="utf-8">
 
-var xmlhttp = null;
-var temp = "${localDataCustodianURL}";
-var protocol = "http://"
-if (temp.indexOf(":443/") > -1) {
-	protocol = "https://"
-}
-var resetUrl = protocol + temp + "/management?command=resetDataCustodianDB";
-var initUrl = protocol + temp + "/management?command=initializeDataCustodianDB";
+var temp = window.location.href.substr(0, window.location.href.indexOf("/custodian"));
+
+var resetUrl = temp + "/management?command=resetDataCustodianDB";
+var initUrl = temp + "/management?command=initializeDataCustodianDB";
 
 function SendRequest (url) {
   if (window.XMLHttpRequest)

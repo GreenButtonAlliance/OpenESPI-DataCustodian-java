@@ -35,10 +35,4 @@ public class BaseController {
         		return null;
         	}
     }
-    
-    @ModelAttribute("localDataCustodianURL")
-    public String localDataCustodianURL(HttpServletRequest request) {
-    	String path = request.getServerName() + ":" + request.getServerPort() + request.getServletContext().getContextPath();
-    	return path;  
-    }
 }
