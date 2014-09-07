@@ -32,8 +32,6 @@ if (temp.indexOf(":443/") > -1) {
 var resetUrl = protocol + temp + "/management?command=resetDataCustodianDB";
 var initUrl = protocol + temp + "/management?command=initializeDataCustodianDB";
 
-alert(resetUrl);
-
 function SendRequest (url) {
   if (window.XMLHttpRequest)
   {// code for IE7+, Firefox, Chrome, Opera, Safari
