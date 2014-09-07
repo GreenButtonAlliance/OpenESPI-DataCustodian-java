@@ -31,8 +31,6 @@ public class DefaultController extends BaseController {
     @RequestMapping(Routes.DEFAULT)
     public String defaultAfterLogin(HttpServletRequest request, Principal principal) {
         if (request.isUserInRole(RetailCustomer.ROLE_CUSTODIAN)) {
-        	// set the localDataCustodianURL (for use in reset/initialize js)
-        	localDataCustodianURL(request);
             return "redirect:/custodian/home";
         } else if (request.isUserInRole(RetailCustomer.ROLE_USER)) {
             return "redirect:/RetailCustomer/" + currentCustomer(principal).getId() + "/home";
