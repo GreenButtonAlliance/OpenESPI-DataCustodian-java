@@ -72,10 +72,10 @@ public class IntervalBlockRESTController {
 
 	@Autowired
 	private ResourceService resourceService;
-	
+
 	@Autowired
 	private SubscriptionService subscriptionService;
-	
+
 	@Autowired
 	private AuthorizationService authorizationService;
 
@@ -93,10 +93,10 @@ public class IntervalBlockRESTController {
 			FeedException {
 
 		Long subscriptionId = getSubscriptionId(request);
-		
+
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-		exportService.exportIntervalBlocks_Root(subscriptionId, response.getOutputStream(),
-				new ExportFilter(params));
+		exportService.exportIntervalBlocks_Root(subscriptionId,
+				response.getOutputStream(), new ExportFilter(params));
 	}
 
 	//
@@ -109,11 +109,12 @@ public class IntervalBlockRESTController {
 			FeedException {
 
 		Long subscriptionId = getSubscriptionId(request);
-		
+
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
-			exportService.exportIntervalBlock_Root(subscriptionId, intervalBlockId,
-					response.getOutputStream(), new ExportFilter(params));
+			exportService.exportIntervalBlock_Root(subscriptionId,
+					intervalBlockId, response.getOutputStream(),
+					new ExportFilter(params));
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
@@ -123,18 +124,20 @@ public class IntervalBlockRESTController {
 	//
 	@RequestMapping(value = Routes.ROOT_INTERVAL_BLOCK_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
-	public void create(HttpServletRequest request, HttpServletResponse response,
+	public void create(HttpServletRequest request,
+			HttpServletResponse response,
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
 		Long subscriptionId = getSubscriptionId(request);
-		
+
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			IntervalBlock intervalBlock = this.intervalBlockService
 					.importResource(stream);
-			exportService.exportIntervalBlock_Root(subscriptionId, intervalBlock.getId(),
-					response.getOutputStream(), new ExportFilter(params));
+			exportService.exportIntervalBlock_Root(subscriptionId,
+					intervalBlock.getId(), response.getOutputStream(),
+					new ExportFilter(params));
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
@@ -180,21 +183,19 @@ public class IntervalBlockRESTController {
 	@RequestMapping(value = Routes.INTERVAL_BLOCK_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
 	public void index(HttpServletResponse response,
-			@PathVariable Long subscriptionId,
-			@PathVariable Long usagePointId, @PathVariable Long meterReadingId,
+			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
+			@PathVariable Long meterReadingId,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-		
-		Subscription subscription = subscriptionService.findById(subscriptionId);
-		Authorization authorization = subscription.getAuthorization();
-		RetailCustomer retailCustomer = authorization.getRetailCustomer();
-		Long retailCustomerId = retailCustomer.getId();
-		
-		exportService.exportIntervalBlocks(subscriptionId, retailCustomerId, usagePointId,
-				meterReadingId, response.getOutputStream(), new ExportFilter(
-						params));
+
+		Long retailCustomerId = subscriptionService.findRetailCustomerId(
+				subscriptionId, usagePointId);
+
+		exportService.exportIntervalBlocks(subscriptionId, retailCustomerId,
+				usagePointId, meterReadingId, response.getOutputStream(),
+				new ExportFilter(params));
 	}
 
 	//
@@ -202,21 +203,19 @@ public class IntervalBlockRESTController {
 	@RequestMapping(value = Routes.INTERVAL_BLOCK_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
 	public void show(HttpServletResponse response,
-			@PathVariable Long subscriptionId,
-			@PathVariable Long usagePointId, @PathVariable Long meterReadingId,
+			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
+			@PathVariable Long meterReadingId,
 			@PathVariable Long intervalBlockId,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
-			Subscription subscription = subscriptionService.findById(subscriptionId);
-			Authorization authorization = subscription.getAuthorization();
-			RetailCustomer retailCustomer = authorization.getRetailCustomer();
-			Long retailCustomerId = retailCustomer.getId();
-			
-			exportService.exportIntervalBlock(subscriptionId, retailCustomerId, usagePointId,
-					meterReadingId, intervalBlockId,
+			Long retailCustomerId = subscriptionService.findRetailCustomerId(
+					subscriptionId, usagePointId);
+
+			exportService.exportIntervalBlock(subscriptionId, retailCustomerId,
+					usagePointId, meterReadingId, intervalBlockId,
 					response.getOutputStream(), new ExportFilter(params));
 
 		} catch (Exception e) {
@@ -229,26 +228,29 @@ public class IntervalBlockRESTController {
 	@RequestMapping(value = Routes.INTERVAL_BLOCK_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void create(HttpServletResponse response,
-			@PathVariable Long subscriptionId,
-			@PathVariable Long usagePointId, @PathVariable Long meterReadingId,
+			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
+			@PathVariable Long meterReadingId,
 			@RequestParam Map<String, String> params, InputStream stream)
-			throws IOException { 
-		
+			throws IOException {
+
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-		
-		Subscription subscription = subscriptionService.findById(subscriptionId);
-		Authorization authorization = subscription.getAuthorization();
-		RetailCustomer retailCustomer = authorization.getRetailCustomer();
-		Long retailCustomerId = retailCustomer.getId();
-		
+
+		Long retailCustomerId = subscriptionService.findRetailCustomerId(
+				subscriptionId, usagePointId);
+
 		if (null != resourceService.findIdByXPath(retailCustomerId,
 				usagePointId, meterReadingId, MeterReading.class)) {
 			try {
-				MeterReading meterReading = resourceService.findById(meterReadingId, MeterReading.class);
-				IntervalBlock intervalBlock = this.intervalBlockService.importResource(stream);
-				intervalBlockService.associateByUUID(meterReading, intervalBlock.getUUID());
-				exportService.exportIntervalBlock(subscriptionId, retailCustomerId, usagePointId, meterReadingId, intervalBlock.getId(),
-						response.getOutputStream(), new ExportFilter(params));
+				MeterReading meterReading = resourceService.findById(
+						meterReadingId, MeterReading.class);
+				IntervalBlock intervalBlock = this.intervalBlockService
+						.importResource(stream);
+				intervalBlockService.associateByUUID(meterReading,
+						intervalBlock.getUUID());
+				exportService.exportIntervalBlock(subscriptionId,
+						retailCustomerId, usagePointId, meterReadingId,
+						intervalBlock.getId(), response.getOutputStream(),
+						new ExportFilter(params));
 
 			} catch (Exception e) {
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -256,58 +258,55 @@ public class IntervalBlockRESTController {
 		} else {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
-			
+
 	}
 
 	//
 	@RequestMapping(value = Routes.INTERVAL_BLOCK_MEMBER, method = RequestMethod.PUT, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void update(HttpServletResponse response,
-			@PathVariable Long subscriptionId,
-			@PathVariable Long usagePointId, @PathVariable Long meterReadingId,
+			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
+			@PathVariable Long meterReadingId,
 			@PathVariable Long intervalBlockId,
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException, FeedException {
-		
-		Subscription subscription = subscriptionService.findById(subscriptionId);
-		Authorization authorization = subscription.getAuthorization();
-		RetailCustomer retailCustomer = authorization.getRetailCustomer();
-		Long retailCustomerId = retailCustomer.getId();
-		
+
+		Long retailCustomerId = subscriptionService.findRetailCustomerId(
+				subscriptionId, usagePointId);
+
 		IntervalBlock intervalBlock = intervalBlockService
 				.findById(retailCustomerId, usagePointId, meterReadingId,
 						intervalBlockId);
 
 		if (intervalBlock != null) {
-			
+
 			try {
-				intervalBlock.merge(intervalBlockService.importResource(stream));
-				
+				intervalBlock
+						.merge(intervalBlockService.importResource(stream));
+
 				resourceService.merge(intervalBlock);
 
 			} catch (Exception e) {
-				
+
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			}
 		} else {
-			
+
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
 	}
 
 	@RequestMapping(value = Routes.INTERVAL_BLOCK_MEMBER, method = RequestMethod.DELETE)
 	public void delete(HttpServletResponse response,
-			@PathVariable Long subscriptionId,
-			@PathVariable Long usagePointId, @PathVariable Long meterReadingId,
+			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
+			@PathVariable Long meterReadingId,
 			@PathVariable Long intervalBlockId,
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException, FeedException {
 		try {
-			Subscription subscription = subscriptionService.findById(subscriptionId);
-			Authorization authorization = subscription.getAuthorization();
-			RetailCustomer retailCustomer = authorization.getRetailCustomer();
-			Long retailCustomerId = retailCustomer.getId();
-			
+			Long retailCustomerId = subscriptionService.findRetailCustomerId(
+					subscriptionId, usagePointId);
+
 			resourceService.deleteByXPathId(retailCustomerId, usagePointId,
 					meterReadingId, intervalBlockId, IntervalBlock.class);
 
@@ -335,62 +334,72 @@ public class IntervalBlockRESTController {
 		return subscriptionId;
 
 	}
-	
-    public void setIntervalBlockService(IntervalBlockService intervalBlockService) {
-        this.intervalBlockService = intervalBlockService;
-   }
 
-   public IntervalBlockService getIntervalBlockService () {
-        return this.intervalBlockService;
-   }
-   public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
-        this.retailCustomerService = retailCustomerService;
-   }
+	public void setIntervalBlockService(
+			IntervalBlockService intervalBlockService) {
+		this.intervalBlockService = intervalBlockService;
+	}
 
-   public RetailCustomerService getRetailCustomerService () {
-        return this.retailCustomerService;
-   }
-   public void setUsagePointService(UsagePointService usagePointService) {
-        this.usagePointService = usagePointService;
-   }
+	public IntervalBlockService getIntervalBlockService() {
+		return this.intervalBlockService;
+	}
 
-   public UsagePointService getUsagePointService () {
-        return this.usagePointService;
-   }
-   public void setMeterReadingService(MeterReadingService meterReadingService) {
-        this.meterReadingService = meterReadingService;
-   }
+	public void setRetailCustomerService(
+			RetailCustomerService retailCustomerService) {
+		this.retailCustomerService = retailCustomerService;
+	}
 
-   public MeterReadingService getMeterReadingService () {
-        return this.meterReadingService;
-   }
-   public void setExportService(ExportService exportService) {
-        this.exportService = exportService;
-   }
+	public RetailCustomerService getRetailCustomerService() {
+		return this.retailCustomerService;
+	}
 
-   public ExportService getExportService () {
-        return this.exportService;
-   }
-   public void setResourceService(ResourceService resourceService) {
-        this.resourceService = resourceService;
-   }
+	public void setUsagePointService(UsagePointService usagePointService) {
+		this.usagePointService = usagePointService;
+	}
 
-   public ResourceService getResourceService () {
-        return this.resourceService;
-   }
-   public void setSubscriptionService(SubscriptionService subscriptionService) {
-        this.subscriptionService = subscriptionService;
-   }
+	public UsagePointService getUsagePointService() {
+		return this.usagePointService;
+	}
 
-   public SubscriptionService getSubscriptionService () {
-        return this.subscriptionService;
-   }
-   public void setAuthorizationService(AuthorizationService authorizationService) {
-        this.authorizationService = authorizationService;
-   }
+	public void setMeterReadingService(MeterReadingService meterReadingService) {
+		this.meterReadingService = meterReadingService;
+	}
 
-   public AuthorizationService getAuthorizationService () {
-        return this.authorizationService;
-   }
+	public MeterReadingService getMeterReadingService() {
+		return this.meterReadingService;
+	}
+
+	public void setExportService(ExportService exportService) {
+		this.exportService = exportService;
+	}
+
+	public ExportService getExportService() {
+		return this.exportService;
+	}
+
+	public void setResourceService(ResourceService resourceService) {
+		this.resourceService = resourceService;
+	}
+
+	public ResourceService getResourceService() {
+		return this.resourceService;
+	}
+
+	public void setSubscriptionService(SubscriptionService subscriptionService) {
+		this.subscriptionService = subscriptionService;
+	}
+
+	public SubscriptionService getSubscriptionService() {
+		return this.subscriptionService;
+	}
+
+	public void setAuthorizationService(
+			AuthorizationService authorizationService) {
+		this.authorizationService = authorizationService;
+	}
+
+	public AuthorizationService getAuthorizationService() {
+		return this.authorizationService;
+	}
 
 }

@@ -54,7 +54,7 @@ public class UsagePointRESTController {
 
 	@Autowired
 	private UsagePointService usagePointService;
-	
+
 	@Autowired
 	private SubscriptionService subscriptionService;
 
@@ -66,7 +66,7 @@ public class UsagePointRESTController {
 
 	@Autowired
 	private ResourceService resourceService;
-	
+
 	@Autowired
 	private AuthorizationService authorizationService;
 
@@ -82,14 +82,13 @@ public class UsagePointRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
-
 		Long subscriptionId = getSubscriptionId(request);
-	
+
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 
-			exportService.exportUsagePoints_Root(subscriptionId, response.getOutputStream(),
-					new ExportFilter(params));
+			exportService.exportUsagePoints_Root(subscriptionId,
+					response.getOutputStream(), new ExportFilter(params));
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
@@ -104,7 +103,7 @@ public class UsagePointRESTController {
 			FeedException {
 
 		Long subscriptionId = getSubscriptionId(request);
-		
+
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			exportService.exportUsagePoint_Root(subscriptionId, usagePointId,
@@ -116,18 +115,20 @@ public class UsagePointRESTController {
 
 	@RequestMapping(value = Routes.ROOT_USAGE_POINT_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
-	public void create(HttpServletRequest request, HttpServletResponse response,
+	public void create(HttpServletRequest request,
+			HttpServletResponse response,
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
 		Long subscriptionId = getSubscriptionId(request);
-		
+
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			UsagePoint usagePoint = this.usagePointService
 					.importResource(stream);
-			exportService.exportUsagePoint_Root(subscriptionId, usagePoint.getId(),
-					response.getOutputStream(), new ExportFilter(params));
+			exportService.exportUsagePoint_Root(subscriptionId,
+					usagePoint.getId(), response.getOutputStream(),
+					new ExportFilter(params));
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
@@ -176,11 +177,12 @@ public class UsagePointRESTController {
 
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
-			Subscription subscription = subscriptionService.findById(subscriptionId);
+			Subscription subscription = subscriptionService
+					.findById(subscriptionId);
 			Authorization authorization = subscription.getAuthorization();
 			RetailCustomer retailCustomer = authorization.getRetailCustomer();
 			Long retailCustomerId = retailCustomer.getId();
-			
+
 			exportService.exportUsagePoints(subscriptionId, retailCustomerId,
 					response.getOutputStream(), new ExportFilter(params));
 
@@ -192,19 +194,17 @@ public class UsagePointRESTController {
 	@RequestMapping(value = Routes.USAGE_POINT_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
 	public void show(HttpServletResponse response,
-			@PathVariable Long subscriptionId,
-			@PathVariable Long usagePointId,
+			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
-			Subscription subscription = subscriptionService.findById(subscriptionId);
-			Authorization authorization = subscription.getAuthorization();
-			RetailCustomer retailCustomer = authorization.getRetailCustomer();
-			Long retailCustomerId = retailCustomer.getId();
-			exportService.exportUsagePoint(subscriptionId, retailCustomerId, usagePointId,
-					response.getOutputStream(), new ExportFilter(params));
+			Long retailCustomerId = subscriptionService.findRetailCustomerId(
+					subscriptionId, usagePointId);
+			exportService.exportUsagePoint(subscriptionId, retailCustomerId,
+					usagePointId, response.getOutputStream(), new ExportFilter(
+							params));
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
@@ -219,16 +219,21 @@ public class UsagePointRESTController {
 
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
-			Subscription subscription = subscriptionService.findById(subscriptionId);
+			Subscription subscription = subscriptionService
+					.findById(subscriptionId);
 			Authorization authorization = subscription.getAuthorization();
 			RetailCustomer retailCustomer = authorization.getRetailCustomer();
 			Long retailCustomerId = retailCustomer.getId();
 
-			UsagePoint usagePoint = this.usagePointService.importResource(stream);
+			UsagePoint usagePoint = this.usagePointService
+					.importResource(stream);
 
-			usagePointService.associateByUUID(retailCustomer, usagePoint.getUUID());
-			
-			exportService.exportUsagePoint(subscriptionId, retailCustomerId, usagePoint.getId(), response.getOutputStream(), new ExportFilter(params));
+			usagePointService.associateByUUID(retailCustomer,
+					usagePoint.getUUID());
+
+			exportService.exportUsagePoint(subscriptionId, retailCustomerId,
+					usagePoint.getId(), response.getOutputStream(),
+					new ExportFilter(params));
 
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -238,16 +243,12 @@ public class UsagePointRESTController {
 	@RequestMapping(value = Routes.USAGE_POINT_MEMBER, method = RequestMethod.PUT, consumes = "application/atom+xml")
 	@ResponseBody
 	public void update(HttpServletResponse response,
-			@PathVariable Long subscriptionId,
-			@PathVariable Long usagePointId,
+			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
 			@RequestParam Map<String, String> params, InputStream stream) {
 
 		try {
-			Subscription subscription = subscriptionService.findById(subscriptionId);
-			Authorization authorization = subscription.getAuthorization();
-			RetailCustomer retailCustomer = authorization.getRetailCustomer();
-			Long retailCustomerId = retailCustomer.getId();
-			
+			Long retailCustomerId = subscriptionService.findRetailCustomerId(
+					subscriptionId, usagePointId);
 			Long id = resourceService.findIdByXPath(retailCustomerId,
 					usagePointId, UsagePoint.class);
 			UsagePoint usagePoint = resourceService.findById(id,
@@ -264,16 +265,12 @@ public class UsagePointRESTController {
 	@RequestMapping(value = Routes.USAGE_POINT_MEMBER, method = RequestMethod.DELETE)
 	@ResponseBody
 	public void delete(HttpServletResponse response,
-			@PathVariable Long subscriptionId,
-			@PathVariable Long usagePointId,
+			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
 			@RequestParam Map<String, String> params) {
 
 		try {
-			Subscription subscription = subscriptionService.findById(subscriptionId);
-			Authorization authorization = subscription.getAuthorization();
-			RetailCustomer retailCustomer = authorization.getRetailCustomer();
-			Long retailCustomerId = retailCustomer.getId();
-			
+			Long retailCustomerId = subscriptionService.findRetailCustomerId(
+					subscriptionId, usagePointId);
 			resourceService.deleteByXPathId(retailCustomerId, usagePointId,
 					UsagePoint.class);
 
@@ -303,53 +300,56 @@ public class UsagePointRESTController {
 		return subscriptionId;
 
 	}
-		
+
 	public void setUsagePointService(UsagePointService usagePointService) {
-        this.usagePointService = usagePointService;
-     }
+		this.usagePointService = usagePointService;
+	}
 
-     public UsagePointService getUsagePointService () {
-        return this.usagePointService;
-     }
-	
+	public UsagePointService getUsagePointService() {
+		return this.usagePointService;
+	}
+
 	public void setSubscriptionService(SubscriptionService subscriptionService) {
-        this.subscriptionService = subscriptionService;
-     }
+		this.subscriptionService = subscriptionService;
+	}
 
-     public SubscriptionService getSubscriptionService(SubscriptionService subscriptionService) {
-        return this.subscriptionService;
-     }
+	public SubscriptionService getSubscriptionService(
+			SubscriptionService subscriptionService) {
+		return this.subscriptionService;
+	}
 
-	public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
-        this.retailCustomerService = retailCustomerService;
-     }
+	public void setRetailCustomerService(
+			RetailCustomerService retailCustomerService) {
+		this.retailCustomerService = retailCustomerService;
+	}
 
-     public RetailCustomerService getRetailCustomerService() {
-        return this.retailCustomerService;
-     }
+	public RetailCustomerService getRetailCustomerService() {
+		return this.retailCustomerService;
+	}
 
 	public void setExportService(ExportService exportService) {
-        this.exportService = exportService;
-     }
+		this.exportService = exportService;
+	}
 
-     public ExportService getExportService() {
-        return this.exportService;
-     }
+	public ExportService getExportService() {
+		return this.exportService;
+	}
 
 	public void setResourceService(ResourceService resourceService) {
-        this.resourceService = resourceService;
-     }
+		this.resourceService = resourceService;
+	}
 
-     public ResourceService getResourceService() {
-        return this.resourceService;
-     }
-	
-	public void setAuthorizationService(AuthorizationService authorizationService) {
-        this.authorizationService = authorizationService;
-     }
+	public ResourceService getResourceService() {
+		return this.resourceService;
+	}
 
-     public AuthorizationService getAuthorizationService() {
-        return this.authorizationService;
-     }
+	public void setAuthorizationService(
+			AuthorizationService authorizationService) {
+		this.authorizationService = authorizationService;
+	}
+
+	public AuthorizationService getAuthorizationService() {
+		return this.authorizationService;
+	}
 
 }
