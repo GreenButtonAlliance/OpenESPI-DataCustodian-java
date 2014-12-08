@@ -147,7 +147,7 @@ public class ResourceValidationFilter implements Filter{
 		///////////////////////////////////////////////////////////////////////
 		if ((hasBearer == false) & !(resourceRequest == true))
 		{
-			// no bearer token and it passed the OAuth filter - so it must be good2go not RESTAPI request
+			// no Bearer token and it passed the OAuth filter - so it must be good2go not RESTAPI request
 			// make sure the role is not an ANONYMOUS request for /manage ...
 			if (!((roles.contains("ROLE_ANONYMOUS")) & (uri.indexOf("/management") != -1))) {
 				invalid = false;
