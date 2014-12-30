@@ -25,7 +25,7 @@
 <jsp:include page="../../tiles/customer/header.jsp"/>
 <div style="margin-left: 40px;">
 <table><tr><td>
-<a id = "downloadMyData" class="brand" href="<c:url value='/espi/1_1/resource/Batch/RetailCustomer/${currentCustomer.id}/UsagePoint'/>">
+<a id = "downloadMyData" class="brand" href="<c:url value='/RetailCustomer/${currentCustomer.id}/DownloadMyData/UsagePoint'/>">
          <img src="<c:url value='/resources/img/Green_Download_265.png'/>" width="150"/></a>  
 &nbsp;&nbsp;</td><td>
 
