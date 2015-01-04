@@ -46,7 +46,7 @@
         user-approval-handler-ref="userApprovalHandler"    	    	
         token-endpoint-url="/oauth/token"    	
         authorization-endpoint-url="/oauth/authorize" >
-        <oauth:authorization-code />           	
+        <oauth:authorization-code authorization-code-services-ref="authorizationCodeServices"/>           	
         <oauth:refresh-token />
         <oauth:client-credentials />      	    	
     </oauth:authorization-server>
@@ -144,10 +144,10 @@
     <bean id="tokenEnhancer" class="org.energyos.espi.datacustodian.oauth.EspiTokenEnhancer">
     </bean>
     
-<!--     <bean id="authorizationCode" -->
-<!--     	class="org.springframework.security.oauth2.provider.code.JdbcAuthorizatonCodeServices" > -->
-<!--     	<constructor-arg ref="mysqlAuthorizationCode"/>	 -->
-<!--     </bean>      -->
+    <bean id="authorizationCodeServices"
+    	class="org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices" >
+    	<constructor-arg ref="mysqlAuthorizationCode"/>	
+    </bean>     
 
 	<!-- Token Approval Handler -->
 	<bean id="userApprovalHandler"
