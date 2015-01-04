@@ -57,9 +57,26 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 		String clientId = authentication.getOAuth2Request().getClientId();
 		ApplicationInformation ai = null;
 		
+		// [mjb20150102] Allow REGISTRATION_xxxx and ADMIN_xxxx to use same ApplicationInformation record
+		String ci = clientId;
+		String clientCredentialsScope="";
+		if(ci.indexOf("REGISTRATION_")!=-1)
+		{
+			if (ci.substring(0, "REGISTRATION_".length()).equals("REGISTRATION_"))
+			{
+				ci = ci.substring("REGISTRATION_".length());
+				clientCredentialsScope="FB=36_40";
+			}
+		}
+		if(ci.indexOf("_admin")!=-1)
+		{
+			ci = ci.substring(0,ci.indexOf("_admin"));
+			clientCredentialsScope="FB=34_35,FB=45";
+		}
+		
 		// Confirm Application Information record exists for ClientID requesting an access token		
 		try {			
-			ai = applicationInformationService.findByClientId(clientId);
+			ai = applicationInformationService.findByClientId(ci);
 
 		} catch (NoResultException | EmptyResultDataAccessException e){
 			System.out.printf("\nEspiTokenEnhancer: ApplicationInformation record not found!\n"
@@ -78,10 +95,12 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			Authorization authorization = authorizationService.createAuthorization(null, result.getValue());  			
 			result.getAdditionalInformation().put("authorizationURI", ai.getDataCustodianResourceEndpoint() + Routes.DATA_CUSTODIAN_AUTHORIZATION.replace("espi/1_1/resource/", "").replace("{authorizationId}", authorization.getId().toString()));
 
-            if (!(accessToken.getScope().equals(ai.getScope()))) {
+			// [mjb20150102] Allow REGISTRATION_xxxx and ADMIN_xxxx to use same ApplicationInformation record
+            if (!(clientCredentialsScope.contains(accessToken.getScope().toString().substring(1, (accessToken.getScope().toString().length()-1))))) {
+//            if (!(accessToken.getScope().equals(ai.getScope()))) {
 				System.out.printf("\nEspiTokenEnhancer: Incorrect client_credentials based access token request Scope value!\n"
 						+ "OAuth2Request Parameters = %s\n", authentication.getOAuth2Request().getRequestParameters() + " client_id = " + clientId + " scope = " + accessToken.getScope());			
-				throw new AccessDeniedException(String.format("No client with requested id: %s", clientId));			
+				throw new AccessDeniedException(String.format("Invalid scope request: %s", accessToken.getScope()));			
 			}
 
 			authorization.setThirdParty(authentication.getOAuth2Request().getClientId());
