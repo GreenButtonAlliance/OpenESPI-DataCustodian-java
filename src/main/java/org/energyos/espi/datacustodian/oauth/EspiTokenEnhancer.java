@@ -25,6 +25,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.exceptions.InvalidScopeException;
 import org.springframework.security.oauth2.common.util.OAuth2Utils;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
@@ -100,7 +101,8 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 //            if (!(accessToken.getScope().equals(ai.getScope()))) {
 				System.out.printf("\nEspiTokenEnhancer: Incorrect client_credentials based access token request Scope value!\n"
 						+ "OAuth2Request Parameters = %s\n", authentication.getOAuth2Request().getRequestParameters() + " client_id = " + clientId + " scope = " + accessToken.getScope());			
-				throw new AccessDeniedException(String.format("Invalid scope request: %s", accessToken.getScope()));			
+//				throw new AccessDeniedException(String.format("Invalid scope request: %s", accessToken.getScope()));
+				throw new InvalidScopeException(String.format("Invalid scope request: %s", accessToken.getScope()));				
 			}
 
 			authorization.setThirdParty(authentication.getOAuth2Request().getClientId());
