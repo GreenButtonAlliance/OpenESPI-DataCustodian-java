@@ -98,10 +98,9 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 
 			// [mjb20150102] Allow REGISTRATION_xxxx and ADMIN_xxxx to use same ApplicationInformation record
             if (!(clientCredentialsScope.contains(accessToken.getScope().toString().substring(1, (accessToken.getScope().toString().length()-1))))) {
-//            if (!(accessToken.getScope().equals(ai.getScope()))) {
+
 				System.out.printf("\nEspiTokenEnhancer: Incorrect client_credentials based access token request Scope value!\n"
 						+ "OAuth2Request Parameters = %s\n", authentication.getOAuth2Request().getRequestParameters() + " client_id = " + clientId + " scope = " + accessToken.getScope());			
-//				throw new AccessDeniedException(String.format("Invalid scope request: %s", accessToken.getScope()));
 				throw new InvalidScopeException(String.format("Invalid scope request: %s", accessToken.getScope()));				
 			}
 
@@ -152,6 +151,10 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 				// Yes, update access token
 				authorization.setAccessToken(accessToken.getValue());
 				authorizationService.merge(authorization);
+				
+				// Add ResourceURI and AuthorizationURI to access_token response	
+				result.getAdditionalInformation().put("resourceURI", authorization.getResourceURI());        
+				result.getAdditionalInformation().put("authorizationURI", authorization.getAuthorizationURI());        	
 	    
 			} catch (NoResultException | EmptyResultDataAccessException  e) { 
 				// No, process as initial access token request			
