@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.energyos.espi.common.domain.Routes;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,6 +68,8 @@ public class ManageRESTController {
 	public void doCommand(HttpServletResponse response,
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
+		
+		response.setContentType(MediaType.TEXT_PLAIN_VALUE);
 
 		try {
 			try {
