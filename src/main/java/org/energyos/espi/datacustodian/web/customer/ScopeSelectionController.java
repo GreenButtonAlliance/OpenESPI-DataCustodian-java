@@ -18,23 +18,25 @@ package org.energyos.espi.datacustodian.web.customer;
 
 import static org.energyos.espi.datacustodian.utils.URLHelper.newScopeParams;
 
-import java.security.Principal;
-
+import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.energyos.espi.common.domain.ApplicationInformation;
-import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.service.ApplicationInformationService;
+
 import org.energyos.espi.datacustodian.web.BaseController;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
-///DataCustodian/src/main/java/org/energyos/espi/datacustodian/utils/URLHelper.java
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
 @PreAuthorize("hasRole('ROLE_USER')")
@@ -42,19 +44,30 @@ public class ScopeSelectionController extends BaseController {
 
     @Autowired
     private ApplicationInformationService applicationInformationService;
+    
+	@ExceptionHandler(Exception.class)
+	@ResponseStatus(value=HttpStatus.FORBIDDEN, reason="Access Not Authorized")
+	public void handleGenericException() {
+	} 
 
     @RequestMapping(value = Routes.DATA_CUSTODIAN_SCOPE_SELECTION_SCREEN, method = RequestMethod.GET)
-    public String scopeSelection(HttpServletRequest request, String[] scopes, @RequestParam("ThirdPartyID") String thirdPartyClientId) {
-        ApplicationInformation applicationInformation = applicationInformationService.findByClientId(thirdPartyClientId);
-//        RetailCustomer retailCustomer = this.currentCustomer(principal);
-//        if (retailCustomer != null) {
-//            System.out.printf("*****CurrentCustomer: %s\n", retailCustomer.getUsername());
-//        }
-        return "redirect:" + 
+    public String scopeSelection(HttpServletRequest request, String[] scopes, 
+    		@RequestParam("ThirdPartyID") String thirdPartyClientId) throws Exception 
+    {
+    	
+    	try {
+    		ApplicationInformation applicationInformation = applicationInformationService.findByClientId(thirdPartyClientId);
+
+    		return "redirect:" + 
         		applicationInformation.getThirdPartyScopeSelectionScreenURI() + 
         		"?" + 
         		newScopeParams(applicationInformation.getScope()) +
                 "&DataCustodianID=" + applicationInformation.getDataCustodianId();
+    	} catch (NoResultException | EmptyResultDataAccessException e) {
+			System.out.printf("ScopeSelectionController: ApplicationInformation record not found!  "
+					+ "ThirdPartyID = %s\n", thirdPartyClientId);
+			throw new Exception("Access Not Authorized");
+    	}
     }
 
 
