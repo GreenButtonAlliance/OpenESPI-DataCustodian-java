@@ -400,32 +400,23 @@ public class ResourceValidationFilter implements Filter{
 							if(applicationInformationIdFromUri.equals(applicationInformationId)) {
 								invalid = false;
 							}
-						} 
-						else 
-						{
+							
+						} else {
 							// not authorized for this resource
 							System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
 							throw new AccessDeniedException(String.format("Access Not Authorized"));							
 						}
-					}
-				}
-				else
-				{
-					// not authorized for this resource
-					System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
-					throw new AccessDeniedException(String.format("Access Not Authorized"));							
-				}
-
-				// check if it is this authorization request
-				if (uri.contains("/resource/Authorization")) {
-					if(authorizationUri.equals(uri) && service.equals("GET")) {
-						invalid=false;
-					}
-					else {
+						
+					} else {
 						// not authorized for this resource
 						System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
 						throw new AccessDeniedException(String.format("Access Not Authorized"));							
 					}
+
+				} else {
+					// not authorized for this resource
+					System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+					throw new AccessDeniedException(String.format("Access Not Authorized"));							
 				}
 			}
 		}
