@@ -108,35 +108,17 @@ public class ResourceValidationFilter implements Filter{
 					// lookup the authorization -- we must have one to correspond to an access token
 					try {
 						authorizationFromToken = authorizationService.findByAccessToken(token);
-							
+						
+						hasValidOAuthAccessToken = true;
+						resourceUri = authorizationFromToken.getResourceURI();
+						authorizationUri = authorizationFromToken.getAuthorizationURI();
+						subscription = authorizationFromToken.getSubscription();
+						
 					}
 					catch (Exception e) {
 						System.out.printf("ResourceValidationFilter: doFilter - No Authorization Found - %s\n",
 										  e.toString());						
 						throw new AccessDeniedException(String.format("No Authorization Found"));												
-					}
-					
-					// see if we have valid authorization and can get parameters
-					if(authorizationFromToken != null)
-					{
-						long tend = authorizationFromToken.getAuthorizedPeriod().getStart() + authorizationFromToken.getAuthorizedPeriod().getDuration();
-						Calendar c = Calendar.getInstance(); 						
-						long now = c.getTimeInMillis()/1000;
-						
-						// check that it is still active and check that it has not expired
-						
-						if( (authorizationFromToken.getStatus().equals("1") ) && ((tend == 0) || (tend >= now))){
-							hasValidOAuthAccessToken = true;
-							resourceUri = authorizationFromToken.getResourceURI();
-							authorizationUri = authorizationFromToken.getAuthorizationURI();
-							subscription = authorizationFromToken.getSubscription();
-							
-						} else {
-							
-							// authorization not valid now
-							System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
-							throw new AccessDeniedException(String.format("Access Not Authorized"));													
-						}
 					}
 				}
 			}
