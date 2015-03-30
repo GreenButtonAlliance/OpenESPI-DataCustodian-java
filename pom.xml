@@ -21,7 +21,7 @@
     <groupId>org.energyos</groupId>
     <artifactId>DataCustodian</artifactId>
     <packaging>war</packaging>
-    <version>1.2-RC1</version>
+    <version>1.2-RELEASE</version>
     <name>DataCustodian</name>
     <organization>
        <name>EnergyOS.org</name>
