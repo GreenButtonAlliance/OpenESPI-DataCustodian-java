@@ -87,56 +87,38 @@ public class ResourceValidationFilter implements Filter{
 		if ((uri.indexOf("/espi/1_1/resource/") != -1))
 		{
 			resourceRequest = true;
+		}
 			
-			///////////////////////////////////////////////////////////////////////
-			// find the access token if present and validate we have a good one
-			///////////////////////////////////////////////////////////////////////
-			String token = request.getHeader("authorization");
+		///////////////////////////////////////////////////////////////////////
+		// find the access token if present and validate we have a good one
+		///////////////////////////////////////////////////////////////////////
+		String token = request.getHeader("authorization");
 			
-			if(token!=null)
+		if(token!=null)
+		{
+			if (token.contains("Bearer"))
 			{
-				if (token.contains("Bearer"))
+				// has Authorization header with Bearer type
+				hasBearer = true;
+				token = token.replace("Bearer ", "");
+					
+				// ensure length is >12 characters (48 bits in hex at least)
+				if(token.length()>=12)
 				{
-					// has Authorization header with Bearer type
-					hasBearer = true;
-					token = token.replace("Bearer ", "");
-					
-					// ensure length is >12 characters (48 bits in hex at least)
-					if(token.length()>=12)
-					{
-						// lookup the authorization -- we must have one to correspond to an access token
-						try {
-							authorizationFromToken = authorizationService.findByAccessToken(token);
-							
-						}
-						catch (Exception e) {
-							System.out.printf("ResourceValidationFilter: doFilter - No Authorization Found - %s\n",
-											  e.toString());						
-							throw new AccessDeniedException(String.format("No Authorization Found"));												
-						}
-					
-						// see if we have valid authorization and can get parameters
-						if(authorizationFromToken != null)
-						{
-							long tend = authorizationFromToken.getAuthorizedPeriod().getStart() + authorizationFromToken.getAuthorizedPeriod().getDuration();
-							Calendar c = Calendar.getInstance(); 						
-							long now = c.getTimeInMillis()/1000;
+					// lookup the authorization -- we must have one to correspond to an access token
+					try {
+						authorizationFromToken = authorizationService.findByAccessToken(token);
 						
-							// check that it is still active and check that it has not expired
+						hasValidOAuthAccessToken = true;
+						resourceUri = authorizationFromToken.getResourceURI();
+						authorizationUri = authorizationFromToken.getAuthorizationURI();
+						subscription = authorizationFromToken.getSubscription();
 						
-							if( (authorizationFromToken.getStatus().equals("1") ) && ((tend == 0) || (tend >= now))){
-								hasValidOAuthAccessToken = true;
-								resourceUri = authorizationFromToken.getResourceURI();
-								authorizationUri = authorizationFromToken.getAuthorizationURI();
-								subscription = authorizationFromToken.getSubscription();
-							
-							} else {
-							
-								// authorization not valid now
-								System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
-								throw new AccessDeniedException(String.format("Access Not Authorized"));													
-							}
-						}
+					}
+					catch (Exception e) {
+						System.out.printf("ResourceValidationFilter: doFilter - No Authorization Found - %s\n",
+										  e.toString());						
+						throw new AccessDeniedException(String.format("No Authorization Found"));												
 					}
 				}
 			}
@@ -400,32 +382,23 @@ public class ResourceValidationFilter implements Filter{
 							if(applicationInformationIdFromUri.equals(applicationInformationId)) {
 								invalid = false;
 							}
-						} 
-						else 
-						{
+							
+						} else {
 							// not authorized for this resource
 							System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
 							throw new AccessDeniedException(String.format("Access Not Authorized"));							
 						}
-					}
-				}
-				else
-				{
-					// not authorized for this resource
-					System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
-					throw new AccessDeniedException(String.format("Access Not Authorized"));							
-				}
-
-				// check if it is this authorization request
-				if (uri.contains("/resource/Authorization")) {
-					if(authorizationUri.equals(uri) && service.equals("GET")) {
-						invalid=false;
-					}
-					else {
+						
+					} else {
 						// not authorized for this resource
 						System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
 						throw new AccessDeniedException(String.format("Access Not Authorized"));							
 					}
+
+				} else {
+					// not authorized for this resource
+					System.out.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+					throw new AccessDeniedException(String.format("Access Not Authorized"));							
 				}
 			}
 		}
