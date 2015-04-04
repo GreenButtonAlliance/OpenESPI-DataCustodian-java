@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -22,9 +22,9 @@ import org.junit.Test;
 
 public class CustomerHomeControllerTests {
 
-    @Test
-    public void index_displaysCustomerHomeView() throws Exception {
-        CustomerHomeController controller = new CustomerHomeController();
-        assertEquals("/customer/home", controller.index());
-    }
+	@Test
+	public void index_displaysCustomerHomeView() throws Exception {
+		CustomerHomeController controller = new CustomerHomeController();
+		assertEquals("/customer/home", controller.index());
+	}
 }

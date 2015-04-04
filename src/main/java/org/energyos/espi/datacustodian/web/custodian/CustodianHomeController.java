@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping(Routes.DATA_CUSTODIAN_HOME)
 public class CustodianHomeController extends BaseController {
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String index() {
-        return Routes.DATA_CUSTODIAN_HOME;
-    }
+	@RequestMapping(method = RequestMethod.GET)
+	public String index() {
+		return Routes.DATA_CUSTODIAN_HOME;
+	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.TimeConfiguration;
-import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.ExportService;
 import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.RetailCustomerService;
@@ -51,13 +50,13 @@ public class TimeConfigurationRESTController {
 
 	@Autowired
 	private TimeConfigurationService timeConfigurationService;
-	
+
 	@Autowired
 	private RetailCustomerService retailCustomerService;
-	
+
 	@Autowired
 	private UsagePointService usagePointService;
-	
+
 	@Autowired
 	private ExportService exportService;
 
@@ -143,40 +142,46 @@ public class TimeConfigurationRESTController {
 		}
 	}
 
-    public void setTimeConfigurationService(TimeConfigurationService timeConfigurationService) {
-        this.timeConfigurationService = timeConfigurationService;
-   }
+	public void setTimeConfigurationService(
+			TimeConfigurationService timeConfigurationService) {
+		this.timeConfigurationService = timeConfigurationService;
+	}
 
-   public TimeConfigurationService getTimeConfigurationService () {
-        return this.timeConfigurationService;
-   }
-   public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
-        this.retailCustomerService = retailCustomerService;
-   }
+	public TimeConfigurationService getTimeConfigurationService() {
+		return this.timeConfigurationService;
+	}
 
-   public RetailCustomerService getRetailCustomerService () {
-        return this.retailCustomerService;
-   }
-   public void setUsagePointService(UsagePointService usagePointService) {
-        this.usagePointService = usagePointService;
-   }
+	public void setRetailCustomerService(
+			RetailCustomerService retailCustomerService) {
+		this.retailCustomerService = retailCustomerService;
+	}
 
-   public UsagePointService getUsagePointService () {
-        return this.usagePointService;
-   }
-   public void setExportService(ExportService exportService) {
-        this.exportService = exportService;
-   }
+	public RetailCustomerService getRetailCustomerService() {
+		return this.retailCustomerService;
+	}
 
-   public ExportService getExportService () {
-        return this.exportService;
-   }
-   public void setResourceService(ResourceService resourceService) {
-        this.resourceService = resourceService;
-   }
+	public void setUsagePointService(UsagePointService usagePointService) {
+		this.usagePointService = usagePointService;
+	}
 
-   public ResourceService getResourceService () {
-        return this.resourceService;
-   }
+	public UsagePointService getUsagePointService() {
+		return this.usagePointService;
+	}
+
+	public void setExportService(ExportService exportService) {
+		this.exportService = exportService;
+	}
+
+	public ExportService getExportService() {
+		return this.exportService;
+	}
+
+	public void setResourceService(ResourceService resourceService) {
+		this.resourceService = resourceService;
+	}
+
+	public ResourceService getResourceService() {
+		return this.resourceService;
+	}
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -36,58 +36,63 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class UploadController extends BaseController {
 
-    @Autowired
-    private ImportService importService;
-    
-    @Autowired
-    private UsagePointService usagePointService;
-    
-    @Autowired
-    private NotificationService notificationService;
+	@Autowired
+	private ImportService importService;
 
-    @ModelAttribute("uploadForm")
-    public UploadForm uploadForm() {
-        return new UploadForm();
-    }
+	@Autowired
+	private UsagePointService usagePointService;
 
-    @RequestMapping(value = Routes.DATA_CUSTODIAN_UPLOAD, method = RequestMethod.GET)
-    public String upload() {
-        return "/custodian/upload";
-    }
+	@Autowired
+	private NotificationService notificationService;
 
-    @RequestMapping(value = Routes.DATA_CUSTODIAN_UPLOAD, method = RequestMethod.POST)
-    public String uploadPost(@ModelAttribute UploadForm uploadForm, BindingResult result) throws IOException, JAXBException {
-        try {
+	@ModelAttribute("uploadForm")
+	public UploadForm uploadForm() {
+		return new UploadForm();
+	}
 
-            importService.importData(uploadForm.getFile().getInputStream(), null);
-        	
-            return "redirect:/custodian/retailcustomers";
-        } catch (Exception e) {
-            result.addError(new ObjectError("uploadForm", "Unable to process file"));
-            return "/custodian/upload";
-        }
-    }
-    
-    public void setImportService(ImportService importService) {
-        this.importService = importService;
-   }
+	@RequestMapping(value = Routes.DATA_CUSTODIAN_UPLOAD, method = RequestMethod.GET)
+	public String upload() {
+		return "/custodian/upload";
+	}
 
-   public ImportService getImportService () {
-        return this.importService;
-   }
-   public void setUsagePointService(UsagePointService usagePointService) {
-        this.usagePointService = usagePointService;
-   }
+	@RequestMapping(value = Routes.DATA_CUSTODIAN_UPLOAD, method = RequestMethod.POST)
+	public String uploadPost(@ModelAttribute UploadForm uploadForm,
+			BindingResult result) throws IOException, JAXBException {
+		try {
 
-   public UsagePointService getUsagePointService () {
-        return this.usagePointService;
-   }
-   public void setNotificationService(NotificationService notificationService) {
-        this.notificationService = notificationService;
-   }
+			importService.importData(uploadForm.getFile().getInputStream(),
+					null);
 
-   public NotificationService getNotificationService () {
-        return this.notificationService;
-   }
+			return "redirect:/custodian/retailcustomers";
+		} catch (Exception e) {
+			result.addError(new ObjectError("uploadForm",
+					"Unable to process file"));
+			return "/custodian/upload";
+		}
+	}
+
+	public void setImportService(ImportService importService) {
+		this.importService = importService;
+	}
+
+	public ImportService getImportService() {
+		return this.importService;
+	}
+
+	public void setUsagePointService(UsagePointService usagePointService) {
+		this.usagePointService = usagePointService;
+	}
+
+	public UsagePointService getUsagePointService() {
+		return this.usagePointService;
+	}
+
+	public void setNotificationService(NotificationService notificationService) {
+		this.notificationService = notificationService;
+	}
+
+	public NotificationService getNotificationService() {
+		return this.notificationService;
+	}
 
 }

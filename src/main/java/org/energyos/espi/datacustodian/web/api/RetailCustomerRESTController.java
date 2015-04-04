@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -62,8 +62,7 @@ public class RetailCustomerRESTController {
 
 	@Autowired
 	private ExportService exportService;
-	
-	
+
 	@Autowired
 	private AuthorizationService authorizationService;
 
@@ -81,11 +80,11 @@ public class RetailCustomerRESTController {
 			FeedException {
 
 		Long subscriptionId = getSubscriptionId(request);
-	
+
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
-			exportService.exportRetailCustomers(subscriptionId, response.getOutputStream(),
-					new ExportFilter(params));
+			exportService.exportRetailCustomers(subscriptionId,
+					response.getOutputStream(), new ExportFilter(params));
 		} catch (Exception e) {
 			System.out
 					.printf("***** Error Caused by RetailCustomer.x.IndentifiedObject need: %s",
@@ -104,11 +103,12 @@ public class RetailCustomerRESTController {
 			FeedException {
 
 		Long subscriptionId = getSubscriptionId(request);
-			
+
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
-			exportService.exportRetailCustomer(subscriptionId, retailCustomerId,
-					response.getOutputStream(), new ExportFilter(params));
+			exportService.exportRetailCustomer(subscriptionId,
+					retailCustomerId, response.getOutputStream(),
+					new ExportFilter(params));
 		} catch (Exception e) {
 			System.out
 					.printf("***** Error Caused by RetailCustomer.x.IndentifiedObject need: %s",
@@ -120,19 +120,20 @@ public class RetailCustomerRESTController {
 
 	@RequestMapping(value = Routes.RETAIL_CUSTOMER_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
-	public void create(HttpServletRequest request, HttpServletResponse response,
+	public void create(HttpServletRequest request,
+			HttpServletResponse response,
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
 
 		Long subscriptionId = getSubscriptionId(request);
-	
+
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			RetailCustomer retailCustomer = this.retailCustomerService
 					.importResource(stream);
-			exportService.exportRetailCustomer(subscriptionId, retailCustomer.getId(),
-					response.getOutputStream(), new ExportFilter(
-							new HashMap<String, String>()));
+			exportService.exportRetailCustomer(subscriptionId,
+					retailCustomer.getId(), response.getOutputStream(),
+					new ExportFilter(new HashMap<String, String>()));
 		} catch (Exception e) {
 			System.out
 					.printf("***** Error Caused by RetailCustomer.x.IndentifiedObject need: %s",
@@ -179,7 +180,6 @@ public class RetailCustomerRESTController {
 		}
 	}
 
-
 	private Long getSubscriptionId(HttpServletRequest request) {
 		String token = request.getHeader("authorization");
 		Long subscriptionId = 0L;
@@ -199,47 +199,47 @@ public class RetailCustomerRESTController {
 		return subscriptionId;
 
 	}
-		
+
 	public void setImportService(ImportService importService) {
-        this.importService = importService;
-     }
+		this.importService = importService;
+	}
 
-     public ImportService getImportService() {
-        return this.importService;
-     }
+	public ImportService getImportService() {
+		return this.importService;
+	}
 
-	public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
-        this.retailCustomerService = retailCustomerService;
-     }
+	public void setRetailCustomerService(
+			RetailCustomerService retailCustomerService) {
+		this.retailCustomerService = retailCustomerService;
+	}
 
-     public RetailCustomerService getRetailcustomerService() {
-        return this.retailCustomerService;
-     }
+	public RetailCustomerService getRetailcustomerService() {
+		return this.retailCustomerService;
+	}
 
 	public void setUsagePointService(UsagePointService usagePointService) {
-        this.usagePointService = usagePointService;
-     }
+		this.usagePointService = usagePointService;
+	}
 
-     public UsagePointService getUsagepointService() {
-        return this.usagePointService;
-     }
+	public UsagePointService getUsagepointService() {
+		return this.usagePointService;
+	}
 
 	public void setExportService(ExportService exportService) {
-        this.exportService = exportService;
-     }
+		this.exportService = exportService;
+	}
 
-     public ExportService getExportService() {
-        return this.exportService;
-     }
-	
-	
-	public void setAuthorizationService(AuthorizationService authorizationService) {
-       this.authorizationService = authorizationService;
-     }
+	public ExportService getExportService() {
+		return this.exportService;
+	}
 
-     public AuthorizationService getAuthorizationService() {
-        return this.authorizationService;
-     }
+	public void setAuthorizationService(
+			AuthorizationService authorizationService) {
+		this.authorizationService = authorizationService;
+	}
 
+	public AuthorizationService getAuthorizationService() {
+		return this.authorizationService;
+	}
 
 }

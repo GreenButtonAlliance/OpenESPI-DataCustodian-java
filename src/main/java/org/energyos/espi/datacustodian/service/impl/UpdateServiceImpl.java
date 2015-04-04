@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -29,26 +29,27 @@ import org.springframework.stereotype.Service;
 @Service
 public class UpdateServiceImpl implements UpdateService {
 
-    @Autowired
-    private UsagePointService usagePointService;
+	@Autowired
+	private UsagePointService usagePointService;
 
-    public BatchList updatedResources(Subscription subscription) {
-        List<UsagePoint> usagePoints = usagePointService.findAllUpdatedFor(subscription);
+	public BatchList updatedResources(Subscription subscription) {
+		List<UsagePoint> usagePoints = usagePointService
+				.findAllUpdatedFor(subscription);
 
-        BatchList batchList = new BatchList();
+		BatchList batchList = new BatchList();
 
-        for(UsagePoint usagePoint: usagePoints) {
-            batchList.getResources().add(usagePoint.getSelfHref());
-        }
+		for (UsagePoint usagePoint : usagePoints) {
+			batchList.getResources().add(usagePoint.getSelfHref());
+		}
 
-        return batchList;
-    }
+		return batchList;
+	}
 
-    public void setUsagePointService(UsagePointService usagePointService) {
-        this.usagePointService = usagePointService;
-    }
-    
-    public UsagePointService getUsagePointService() {
-        return this.usagePointService;
-    }
+	public void setUsagePointService(UsagePointService usagePointService) {
+		this.usagePointService = usagePointService;
+	}
+
+	public UsagePointService getUsagePointService() {
+		return this.usagePointService;
+	}
 }

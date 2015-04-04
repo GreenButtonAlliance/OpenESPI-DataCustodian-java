@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -20,19 +20,15 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
-import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.Subscription;
-import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.NotificationService;
 import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.UsagePointService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
@@ -49,120 +45,128 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @PreAuthorize("hasRole('ROLE_CUSTODIAN')")
 public class AssociateUsagePointController {
 
-    @Autowired
-    private RetailCustomerService retailCustomerService;
+	@Autowired
+	private RetailCustomerService retailCustomerService;
 
-    @Autowired
-    private ResourceService resourceService;
-    
-    @Autowired
-    private NotificationService notificationService;
-    
-    @Autowired
-    private UsagePointService service;
+	@Autowired
+	private ResourceService resourceService;
 
-    @InitBinder
-    protected void initBinder(WebDataBinder binder) {
-        binder.setValidator(new UsagePointFormValidator());
-    }
+	@Autowired
+	private NotificationService notificationService;
 
-    @RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_USAGE_POINTS_FORM, method = RequestMethod.GET)
-    public String form(@PathVariable Long retailCustomerId, ModelMap model) {
-        model.put("usagePointForm", new UsagePointForm());
-        model.put("retailCustomerId", retailCustomerId);
+	@Autowired
+	private UsagePointService service;
 
-        return "/custodian/retailcustomers/usagepoints/form";
-    }
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) {
+		binder.setValidator(new UsagePointFormValidator());
+	}
 
-    @RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_USAGE_POINTS_CREATE, method = RequestMethod.POST)
-    public String create(@PathVariable Long retailCustomerId, @ModelAttribute("usagePointForm") @Valid UsagePointForm usagePointForm, BindingResult result) {
-        if (result.hasErrors())
-            return "/custodian/retailcustomers/usagepoints/form";
-        
-        Subscription subscription = retailCustomerService.associateByUUID(retailCustomerId, 
-        		UUID.fromString(usagePointForm.getUUID()));
+	@RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_USAGE_POINTS_FORM, method = RequestMethod.GET)
+	public String form(@PathVariable Long retailCustomerId, ModelMap model) {
+		model.put("usagePointForm", new UsagePointForm());
+		model.put("retailCustomerId", retailCustomerId);
 
-        if (subscription != null) {
-        	notificationService.notify(subscription, null, null);
-        }
-        return "redirect:/custodian/retailcustomers";
-    }
+		return "/custodian/retailcustomers/usagepoints/form";
+	}
 
-    public void setService(UsagePointService service) {
-        this.service = service;
-    }
+	@RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_USAGE_POINTS_CREATE, method = RequestMethod.POST)
+	public String create(
+			@PathVariable Long retailCustomerId,
+			@ModelAttribute("usagePointForm") @Valid UsagePointForm usagePointForm,
+			BindingResult result) {
+		if (result.hasErrors())
+			return "/custodian/retailcustomers/usagepoints/form";
 
-    public void getService(UsagePointService service) {
-        this.service = service;
-    }
-    
-    public static class UsagePointForm {
-        private String uuid;
-        private String description;
+		Subscription subscription = retailCustomerService.associateByUUID(
+				retailCustomerId, UUID.fromString(usagePointForm.getUUID()));
 
-        public String getUUID() {
-            return uuid;
-        }
+		if (subscription != null) {
+			notificationService.notify(subscription, null, null);
+		}
+		return "redirect:/custodian/retailcustomers";
+	}
 
-        public void setUUID(String uuid) {
-            this.uuid = uuid;
-        }
+	public void setService(UsagePointService service) {
+		this.service = service;
+	}
 
-        public String getDescription() {
-            return description;
-        }
+	public void getService(UsagePointService service) {
+		this.service = service;
+	}
 
-        public void setDescription(String description) {
-            this.description = description;
-        }
-    }
+	public static class UsagePointForm {
+		private String uuid;
+		private String description;
 
-    public static class UsagePointFormValidator implements Validator {
+		public String getUUID() {
+			return uuid;
+		}
 
-        public boolean supports(@SuppressWarnings("rawtypes") Class clazz) {
-            return UsagePointForm.class.isAssignableFrom(clazz);
-        }
+		public void setUUID(String uuid) {
+			this.uuid = uuid;
+		}
 
-        public void validate(Object target, Errors errors) {
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "UUID", "field.required", "UUID is required");
-          
-            try {
-                UsagePointForm form = (UsagePointForm)target;
-                UUID.fromString(form.getUUID());
-            } catch(IllegalArgumentException x) {
-                errors.rejectValue("UUID", "uuid.required", null, "Must be a valid UUID Ex. 550e8400-e29b-41d4-a716-446655440000");
-            }
-        }
-    }
-    
-    public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
-        this.retailCustomerService = retailCustomerService;
-   }
+		public String getDescription() {
+			return description;
+		}
 
-   public RetailCustomerService getRetailCustomerService () {
-        return this.retailCustomerService;
-   }
-   public void setResourceService(ResourceService resourceService) {
-        this.resourceService = resourceService;
-   }
+		public void setDescription(String description) {
+			this.description = description;
+		}
+	}
 
-   public ResourceService getResourceService () {
-        return this.resourceService;
-   }
-   public void setNotificationService(NotificationService notificationService) {
-        this.notificationService = notificationService;
-   }
+	public static class UsagePointFormValidator implements Validator {
 
-   public NotificationService getNotificationService () {
-        return this.notificationService;
-   }
-   
-   public void setUsagePointService(UsagePointService service) {
-        this.service = service;
-   }
+		public boolean supports(@SuppressWarnings("rawtypes") Class clazz) {
+			return UsagePointForm.class.isAssignableFrom(clazz);
+		}
 
-   public UsagePointService getUsagePointService () {
-        return this.service;
-   }
+		public void validate(Object target, Errors errors) {
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "UUID",
+					"field.required", "UUID is required");
+
+			try {
+				UsagePointForm form = (UsagePointForm) target;
+				UUID.fromString(form.getUUID());
+			} catch (IllegalArgumentException x) {
+				errors.rejectValue("UUID", "uuid.required", null,
+						"Must be a valid UUID Ex. 550e8400-e29b-41d4-a716-446655440000");
+			}
+		}
+	}
+
+	public void setRetailCustomerService(
+			RetailCustomerService retailCustomerService) {
+		this.retailCustomerService = retailCustomerService;
+	}
+
+	public RetailCustomerService getRetailCustomerService() {
+		return this.retailCustomerService;
+	}
+
+	public void setResourceService(ResourceService resourceService) {
+		this.resourceService = resourceService;
+	}
+
+	public ResourceService getResourceService() {
+		return this.resourceService;
+	}
+
+	public void setNotificationService(NotificationService notificationService) {
+		this.notificationService = notificationService;
+	}
+
+	public NotificationService getNotificationService() {
+		return this.notificationService;
+	}
+
+	public void setUsagePointService(UsagePointService service) {
+		this.service = service;
+	}
+
+	public UsagePointService getUsagePointService() {
+		return this.service;
+	}
 
 }

@@ -1,4 +1,4 @@
-/*Copyright 2013, 2014 EnergyOS.org
+/*Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -51,11 +51,11 @@ public class AuthorizationRESTController {
 
 	@Autowired
 	private RetailCustomerService retailCustomerService;
-	
+
 	@Autowired
-	//@Qualifier("tokenServices")
+	// @Qualifier("tokenServices")
 	private DefaultTokenServices tokenService;
-	
+
 	@Autowired
 	private ExportService exportService;
 
@@ -76,18 +76,24 @@ public class AuthorizationRESTController {
 			FeedException {
 
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
-		String accessToken = request.getHeader("authorization").replace("Bearer ", "");
-		Authorization authorization = authorizationService.findByAccessToken(accessToken);
-		
+		String accessToken = request.getHeader("authorization").replace(
+				"Bearer ", "");
+		Authorization authorization = authorizationService
+				.findByAccessToken(accessToken);
+
 		// we know this is a client-access-token or a datacustodian-access-token
 		// if it is a datacustodian-access-token, it can get everything
-		
-		if (authorization.getApplicationInformation().getClientId().equals("data_custodian_admin")) {
-			exportService.exportAuthorizations(response.getOutputStream(), new ExportFilter(params));
+
+		if (authorization.getApplicationInformation().getClientId()
+				.equals("data_custodian_admin")) {
+			exportService.exportAuthorizations(response.getOutputStream(),
+					new ExportFilter(params));
 		} else {
-			// anything else that gets here is a third party (client-access-token) and needs to be 
+			// anything else that gets here is a third party
+			// (client-access-token) and needs to be
 			// restricted in access scope
-			exportService.exportAuthorizations(authorization, response.getOutputStream(), new ExportFilter(params));
+			exportService.exportAuthorizations(authorization,
+					response.getOutputStream(), new ExportFilter(params));
 		}
 	}
 
@@ -151,13 +157,14 @@ public class AuthorizationRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException, FeedException {
 		try {
-			Authorization authorization = resourceService.findById(authorizationId, Authorization.class);
+			Authorization authorization = resourceService.findById(
+					authorizationId, Authorization.class);
 			String accessToken = authorization.getAccessToken();
-			
+
 			authorizationService.delete(authorization);
 			tokenService.revokeToken(accessToken);
 			authorizationService.delete(authorization);
-			
+
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
@@ -249,11 +256,12 @@ public class AuthorizationRESTController {
 			throws IOException, FeedException {
 
 		try {
-			Authorization authorization = authorizationService.findById(retailCustomerId, authorizationId);
+			Authorization authorization = authorizationService.findById(
+					retailCustomerId, authorizationId);
 			String accessToken = authorization.getAccessToken();
 			authorizationService.delete(authorization);
 			tokenService.revokeToken(accessToken);
-			
+
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
@@ -262,35 +270,39 @@ public class AuthorizationRESTController {
 	public void setTokenService(DefaultTokenServices tokenService) {
 		this.tokenService = tokenService;
 	}
-	
-    public void setAuthorizationService(AuthorizationService authorizationService) {
-        this.authorizationService = authorizationService;
-   }
 
-   public AuthorizationService getAuthorizationService () {
-        return this.authorizationService;
-   }
-   public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
-        this.retailCustomerService = retailCustomerService;
-   }
+	public void setAuthorizationService(
+			AuthorizationService authorizationService) {
+		this.authorizationService = authorizationService;
+	}
 
-   public RetailCustomerService getRetailCustomerService () {
-        return this.retailCustomerService;
-   }
-   public void setExportService(ExportService exportService) {
-        this.exportService = exportService;
-   }
+	public AuthorizationService getAuthorizationService() {
+		return this.authorizationService;
+	}
 
-   public ExportService getExportService () {
-        return this.exportService;
-   }
-   public void setResourceService(ResourceService resourceService) {
-        this.resourceService = resourceService;
-   }
+	public void setRetailCustomerService(
+			RetailCustomerService retailCustomerService) {
+		this.retailCustomerService = retailCustomerService;
+	}
 
-   public ResourceService getResourceService () {
-        return this.resourceService;
-   }
+	public RetailCustomerService getRetailCustomerService() {
+		return this.retailCustomerService;
+	}
 
+	public void setExportService(ExportService exportService) {
+		this.exportService = exportService;
+	}
+
+	public ExportService getExportService() {
+		return this.exportService;
+	}
+
+	public void setResourceService(ResourceService resourceService) {
+		this.resourceService = resourceService;
+	}
+
+	public ResourceService getResourceService() {
+		return this.resourceService;
+	}
 
 }

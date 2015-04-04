@@ -1,6 +1,5 @@
-package org.energyos.espi.datacustodian.domain;
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -14,6 +13,8 @@ package org.energyos.espi.datacustodian.domain;
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+
+package org.energyos.espi.datacustodian.domain;
 
 import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
 import static org.hamcrest.CoreMatchers.hasItem;
@@ -29,41 +30,47 @@ import org.junit.Test;
 
 public class UsagePointTests {
 
-    @Test
-    public void getRelatedLinks() {
-        UsagePoint usagePoint = newUsagePoint();
-        LinkType electricPowerQualitySummaryLink = new LinkType();
-        electricPowerQualitySummaryLink.setHref(usagePoint.getSelfHref() + "/ElectricPowerQualitySummary");
-        electricPowerQualitySummaryLink.setRel("related");
-        usagePoint.getRelatedLinks().add(electricPowerQualitySummaryLink);
+	@Test
+	public void getRelatedLinks() {
+		UsagePoint usagePoint = newUsagePoint();
+		LinkType electricPowerQualitySummaryLink = new LinkType();
+		electricPowerQualitySummaryLink.setHref(usagePoint.getSelfHref()
+				+ "/ElectricPowerQualitySummary");
+		electricPowerQualitySummaryLink.setRel("related");
+		usagePoint.getRelatedLinks().add(electricPowerQualitySummaryLink);
 
-        LinkType electricPowerUsageSummaryLink = new LinkType();
-        electricPowerUsageSummaryLink.setHref(usagePoint.getSelfHref() + "/ElectricPowerUsageSummary");
-        electricPowerUsageSummaryLink.setRel("related");
-        usagePoint.getRelatedLinks().add(electricPowerUsageSummaryLink);
+		LinkType electricPowerUsageSummaryLink = new LinkType();
+		electricPowerUsageSummaryLink.setHref(usagePoint.getSelfHref()
+				+ "/ElectricPowerUsageSummary");
+		electricPowerUsageSummaryLink.setRel("related");
+		usagePoint.getRelatedLinks().add(electricPowerUsageSummaryLink);
 
-        LinkType meterReadingLink = new LinkType();
-        meterReadingLink.setHref(usagePoint.getSelfHref() + "/ElectricPowerUsageSummary");
-        meterReadingLink.setRel("related");
-        usagePoint.getRelatedLinks().add(meterReadingLink);
+		LinkType meterReadingLink = new LinkType();
+		meterReadingLink.setHref(usagePoint.getSelfHref()
+				+ "/ElectricPowerUsageSummary");
+		meterReadingLink.setRel("related");
+		usagePoint.getRelatedLinks().add(meterReadingLink);
 
-        assertThat(usagePoint.getRelatedLinks(), hasItem(electricPowerQualitySummaryLink));
-        assertThat(usagePoint.getRelatedLinks(), hasItem(electricPowerUsageSummaryLink));
-        assertThat(usagePoint.getRelatedLinks(), hasItem(meterReadingLink));
-    }
+		assertThat(usagePoint.getRelatedLinks(),
+				hasItem(electricPowerQualitySummaryLink));
+		assertThat(usagePoint.getRelatedLinks(),
+				hasItem(electricPowerUsageSummaryLink));
+		assertThat(usagePoint.getRelatedLinks(), hasItem(meterReadingLink));
+	}
 
-    @Test
-    public void getRelatedLinkHrefs() throws Exception {
-        UsagePoint usagePoint = new UsagePoint();
-        LinkType link1 = new LinkType();
-        link1.setHref("href1");
-        usagePoint.getRelatedLinks().add(link1);
-        LinkType link2 = new LinkType();
-        link2.setHref("href2");
-        usagePoint.getRelatedLinks().add(link2);
+	@Test
+	public void getRelatedLinkHrefs() throws Exception {
+		UsagePoint usagePoint = new UsagePoint();
+		LinkType link1 = new LinkType();
+		link1.setHref("href1");
+		usagePoint.getRelatedLinks().add(link1);
+		LinkType link2 = new LinkType();
+		link2.setHref("href2");
+		usagePoint.getRelatedLinks().add(link2);
 
-        List<String> relatedLinkHrefs = usagePoint.getRelatedLinkHrefs();
+		List<String> relatedLinkHrefs = usagePoint.getRelatedLinkHrefs();
 
-        assertThat(relatedLinkHrefs, allOf(Matchers.hasItem("href1"), Matchers.hasItem("href2")));
-    }
+		assertThat(relatedLinkHrefs,
+				allOf(Matchers.hasItem("href1"), Matchers.hasItem("href2")));
+	}
 }

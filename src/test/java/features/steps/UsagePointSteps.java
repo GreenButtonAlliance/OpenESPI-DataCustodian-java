@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -32,52 +32,60 @@ import cucumber.api.java.en.When;
 
 public class UsagePointSteps {
 
-    private WebDriver driver = WebDriverSingleton.getInstance();
+	private WebDriver driver = WebDriverSingleton.getInstance();
 
-    @Before
-    public void setup() {
-        TestUtils.setupXMLUnit();
-    }
+	@Before
+	public void setup() {
+		TestUtils.setupXMLUnit();
+	}
 
-    @Given("^I am a Third Party$")
-    public void I_am_a_Third_Party() throws Throwable {
-    }
+	@Given("^I am a Third Party$")
+	public void I_am_a_Third_Party() throws Throwable {
+	}
 
-    @Given("^there exists a user that has Usage Points$")
-    public void there_exists_a_user_that_has_Usage_Points() throws Throwable {
-    }
+	@Given("^there exists a user that has Usage Points$")
+	public void there_exists_a_user_that_has_Usage_Points() throws Throwable {
+	}
 
-    @Then("^I should receive an xml response with the user's usage points$")
-    @Ignore
-    public void I_should_receive_an_xml_response_with_the_user_s_usage_points() throws Throwable {
-        String xmlResult = driver.getPageSource();
+	@Then("^I should receive an xml response with the user's usage points$")
+	@Ignore
+	public void I_should_receive_an_xml_response_with_the_user_s_usage_points()
+			throws Throwable {
+		String xmlResult = driver.getPageSource();
 
-        assertXpathExists("/:feed/:entry[1]/:content/espi:UsagePoint", xmlResult);
-        assertXpathValue("Front Electric Meter", "/:feed/:entry[1]/:title", xmlResult);
+		assertXpathExists("/:feed/:entry[1]/:content/espi:UsagePoint",
+				xmlResult);
+		assertXpathValue("Front Electric Meter", "/:feed/:entry[1]/:title",
+				xmlResult);
 
-        assertXpathExists("/:feed/:entry[2]/:content/espi:UsagePoint", xmlResult);
-        assertXpathValue("Gas meter", "/:feed/:entry[2]/:title", xmlResult);
-    }
+		assertXpathExists("/:feed/:entry[2]/:content/espi:UsagePoint",
+				xmlResult);
+		assertXpathValue("Gas meter", "/:feed/:entry[2]/:title", xmlResult);
+	}
 
-    @When("^I request a usage point for a user$")
-    @Ignore
-    public void I_request_a_usage_point_for_a_user() throws Throwable {
-        driver.get(StepUtils.DATA_CUSTODIAN_BASE_URL + "/RetailCustomer/1/UsagePoint/2");
-    }
+	@When("^I request a usage point for a user$")
+	@Ignore
+	public void I_request_a_usage_point_for_a_user() throws Throwable {
+		driver.get(StepUtils.DATA_CUSTODIAN_BASE_URL
+				+ "/RetailCustomer/1/UsagePoint/2");
+	}
 
-    @Then("^I should receive an xml response with the usage point$")
-    @Ignore
-    public void I_should_receive_an_xml_response_with_the_usage_point() throws Throwable {
-        String xmlResult = StepUtils.flattenXml(driver.getPageSource());
+	@Then("^I should receive an xml response with the usage point$")
+	@Ignore
+	public void I_should_receive_an_xml_response_with_the_usage_point()
+			throws Throwable {
+		String xmlResult = StepUtils.flattenXml(driver.getPageSource());
 
-        assertXpathExists("/:feed/:entry[1]/:content/espi:UsagePoint", xmlResult);
-        assertXpathEvaluatesTo("Gas meter", "/:feed/:entry[1]/:title", xmlResult);
-    }
+		assertXpathExists("/:feed/:entry[1]/:content/espi:UsagePoint",
+				xmlResult);
+		assertXpathEvaluatesTo("Gas meter", "/:feed/:entry[1]/:title",
+				xmlResult);
+	}
 
-    @When("^I request the feed for a user$")
-    @Ignore
-    public void I_request_the_feed_for_a_user() throws Throwable {
-        driver.get(StepUtils.DATA_CUSTODIAN_BASE_URL + "/api/feed");
-    }
+	@When("^I request the feed for a user$")
+	@Ignore
+	public void I_request_the_feed_for_a_user() throws Throwable {
+		driver.get(StepUtils.DATA_CUSTODIAN_BASE_URL + "/api/feed");
+	}
 
 }

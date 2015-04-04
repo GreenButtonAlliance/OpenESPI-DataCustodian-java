@@ -1,3 +1,19 @@
+/*
+ * Copyright 2013, 2014, 2015 EnergyOS.org
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package org.energyos.espi.datacustodian.web.custodian;
 
 import static org.junit.Assert.assertEquals;
@@ -20,68 +36,75 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 
 public class RetailCustomerUsagePointControllerTests {
-    private AssociateUsagePointController controller;
+	private AssociateUsagePointController controller;
 
-    @Before
-    public void before() {
-        controller = new AssociateUsagePointController();
-    }
-    @Test
-    public void form_displaysFormView() {
-        assertEquals("/custodian/retailcustomers/usagepoints/form", controller.form(1L, new ModelMap()));
-    }
+	@Before
+	public void before() {
+		controller = new AssociateUsagePointController();
+	}
 
-    @Test
-    public void form_setsUsagePointModel() {
-        ModelMap model = new ModelMap();
+	@Test
+	public void form_displaysFormView() {
+		assertEquals("/custodian/retailcustomers/usagepoints/form",
+				controller.form(1L, new ModelMap()));
+	}
 
-        controller.form(1L, model);
+	@Test
+	public void form_setsUsagePointModel() {
+		ModelMap model = new ModelMap();
 
-        assertEquals(AssociateUsagePointController.UsagePointForm.class, model.get("usagePointForm").getClass());
-    }
+		controller.form(1L, model);
 
-    @Test
-    public void create_givenValidInput_redirectsToRetailCustomers() {
-        RetailCustomerService retailCustomerService = mock(RetailCustomerService.class);
-        UsagePointService service = mock(UsagePointService.class);
+		assertEquals(AssociateUsagePointController.UsagePointForm.class, model
+				.get("usagePointForm").getClass());
+	}
 
-        when(retailCustomerService.findById(anyLong())).thenReturn(new RetailCustomer());
+	@Test
+	public void create_givenValidInput_redirectsToRetailCustomers() {
+		RetailCustomerService retailCustomerService = mock(RetailCustomerService.class);
+		UsagePointService service = mock(UsagePointService.class);
 
-        controller.setRetailCustomerService(retailCustomerService);
-        controller.setService(service);
+		when(retailCustomerService.findById(anyLong())).thenReturn(
+				new RetailCustomer());
 
-        AssociateUsagePointController.UsagePointForm usagePointForm = new AssociateUsagePointController.UsagePointForm();
-        usagePointForm.setUUID(UUID.randomUUID().toString());
-        usagePointForm.setDescription("Front Electric Meter");
+		controller.setRetailCustomerService(retailCustomerService);
+		controller.setService(service);
 
-        assertEquals("redirect:/custodian/retailcustomers", controller.create(1L, usagePointForm, mock(BindingResult.class)));
-    }
+		AssociateUsagePointController.UsagePointForm usagePointForm = new AssociateUsagePointController.UsagePointForm();
+		usagePointForm.setUUID(UUID.randomUUID().toString());
+		usagePointForm.setDescription("Front Electric Meter");
 
-    @Test
-    @Ignore
-    public void create_givenValidInput_persistsUsagePoint() {
-        RetailCustomerService retailCustomerService = mock(RetailCustomerService.class);
-        UsagePointService service = mock(UsagePointService.class);
-        AssociateUsagePointController.UsagePointForm usagePointForm = new AssociateUsagePointController.UsagePointForm();
-        usagePointForm.setUUID(UUID.randomUUID().toString());
-        usagePointForm.setDescription("Front Electric Meter");
+		assertEquals("redirect:/custodian/retailcustomers", controller.create(
+				1L, usagePointForm, mock(BindingResult.class)));
+	}
 
-        when(retailCustomerService.findById(anyLong())).thenReturn(new RetailCustomer());
-        controller.setRetailCustomerService(retailCustomerService);
-        controller.setService(service);
+	@Test
+	@Ignore
+	public void create_givenValidInput_persistsUsagePoint() {
+		RetailCustomerService retailCustomerService = mock(RetailCustomerService.class);
+		UsagePointService service = mock(UsagePointService.class);
+		AssociateUsagePointController.UsagePointForm usagePointForm = new AssociateUsagePointController.UsagePointForm();
+		usagePointForm.setUUID(UUID.randomUUID().toString());
+		usagePointForm.setDescription("Front Electric Meter");
 
-        controller.create(1L, usagePointForm, mock(BindingResult.class));
+		when(retailCustomerService.findById(anyLong())).thenReturn(
+				new RetailCustomer());
+		controller.setRetailCustomerService(retailCustomerService);
+		controller.setService(service);
 
-        verify(service).createOrReplaceByUUID(any(UsagePoint.class));
-    }
+		controller.create(1L, usagePointForm, mock(BindingResult.class));
 
-    @Test
-    public void create_givenInValidInput_displaysFormView() {
-        AssociateUsagePointController.UsagePointForm usagePointForm = new AssociateUsagePointController.UsagePointForm();
+		verify(service).createOrReplaceByUUID(any(UsagePoint.class));
+	}
 
-        BindingResult result = mock(BindingResult.class);
-        when(result.hasErrors()).thenReturn(true);
+	@Test
+	public void create_givenInValidInput_displaysFormView() {
+		AssociateUsagePointController.UsagePointForm usagePointForm = new AssociateUsagePointController.UsagePointForm();
 
-        assertEquals("/custodian/retailcustomers/usagepoints/form", controller.create(1L, usagePointForm, result));
-    }
+		BindingResult result = mock(BindingResult.class);
+		when(result.hasErrors()).thenReturn(true);
+
+		assertEquals("/custodian/retailcustomers/usagepoints/form",
+				controller.create(1L, usagePointForm, result));
+	}
 }

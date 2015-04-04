@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -24,9 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.service.ApplicationInformationService;
-
 import org.energyos.espi.datacustodian.web.BaseController;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -42,36 +40,39 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @PreAuthorize("hasRole('ROLE_USER')")
 public class ScopeSelectionController extends BaseController {
 
-    @Autowired
-    private ApplicationInformationService applicationInformationService;
-    
+	@Autowired
+	private ApplicationInformationService applicationInformationService;
+
 	@ExceptionHandler(Exception.class)
-	@ResponseStatus(value=HttpStatus.FORBIDDEN, reason="Access Not Authorized")
+	@ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "Access Not Authorized")
 	public void handleGenericException() {
-	} 
+	}
 
-    @RequestMapping(value = Routes.DATA_CUSTODIAN_SCOPE_SELECTION_SCREEN, method = RequestMethod.GET)
-    public String scopeSelection(HttpServletRequest request, String[] scopes, 
-    		@RequestParam("ThirdPartyID") String thirdPartyClientId) throws Exception 
-    {
-    	
-    	try {
-    		ApplicationInformation applicationInformation = applicationInformationService.findByClientId(thirdPartyClientId);
+	@RequestMapping(value = Routes.DATA_CUSTODIAN_SCOPE_SELECTION_SCREEN, method = RequestMethod.GET)
+	public String scopeSelection(HttpServletRequest request, String[] scopes,
+			@RequestParam("ThirdPartyID") String thirdPartyClientId)
+			throws Exception {
 
-    		return "redirect:" + 
-        		applicationInformation.getThirdPartyScopeSelectionScreenURI() + 
-        		"?" + 
-        		newScopeParams(applicationInformation.getScope()) +
-                "&DataCustodianID=" + applicationInformation.getDataCustodianId();
-    	} catch (NoResultException | EmptyResultDataAccessException e) {
-			System.out.printf("ScopeSelectionController: ApplicationInformation record not found!  "
-					+ "ThirdPartyID = %s\n", thirdPartyClientId);
+		try {
+			ApplicationInformation applicationInformation = applicationInformationService
+					.findByClientId(thirdPartyClientId);
+
+			return "redirect:"
+					+ applicationInformation
+							.getThirdPartyScopeSelectionScreenURI() + "?"
+					+ newScopeParams(applicationInformation.getScope())
+					+ "&DataCustodianID="
+					+ applicationInformation.getDataCustodianId();
+		} catch (NoResultException | EmptyResultDataAccessException e) {
+			System.out.printf(
+					"ScopeSelectionController: ApplicationInformation record not found!  "
+							+ "ThirdPartyID = %s\n", thirdPartyClientId);
 			throw new Exception("Access Not Authorized");
-    	}
-    }
+		}
+	}
 
-
-	public void setApplicationInformationService(ApplicationInformationService applicationInformationService) {
-        this.applicationInformationService = applicationInformationService;
-    }
+	public void setApplicationInformationService(
+			ApplicationInformationService applicationInformationService) {
+		this.applicationInformationService = applicationInformationService;
+	}
 }

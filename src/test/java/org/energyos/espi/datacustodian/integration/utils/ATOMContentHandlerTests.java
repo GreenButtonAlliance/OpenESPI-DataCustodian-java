@@ -1,3 +1,19 @@
+/*
+ * Copyright 2013, 2014, 2015 EnergyOS.org
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package org.energyos.espi.datacustodian.integration.utils;
 
 import java.util.UUID;
@@ -25,32 +41,35 @@ import org.xml.sax.XMLReader;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
-@Transactional (rollbackFor= {javax.xml.bind.JAXBException.class}, 
-                noRollbackFor = {javax.persistence.NoResultException.class, org.springframework.dao.EmptyResultDataAccessException.class })
-
+@Transactional(rollbackFor = { javax.xml.bind.JAXBException.class }, noRollbackFor = {
+		javax.persistence.NoResultException.class,
+		org.springframework.dao.EmptyResultDataAccessException.class })
 public class ATOMContentHandlerTests extends BaseTest {
-    @Autowired
-    @Qualifier("atomMarshaller")
-    private Jaxb2Marshaller marshaller;
-    
-    @Autowired
-    private EntryProcessorService entryProcessorService;
+	@Autowired
+	@Qualifier("atomMarshaller")
+	private Jaxb2Marshaller marshaller;
 
-    @Test
-    @Ignore
-    public void processEnty() throws Exception {
-        JAXBContext context = marshaller.getJaxbContext();
+	@Autowired
+	private EntryProcessorService entryProcessorService;
 
-        SAXParserFactory factory = SAXParserFactory.newInstance();
-        factory.setNamespaceAware(true);
-        XMLReader reader = factory.newSAXParser().getXMLReader();
-        // EntryProcessorServiceImpl procssor = mock(EntryProcessorServiceImpl.class);
-        ATOMContentHandler atomContentHandler = new ATOMContentHandler(context, entryProcessorService);
+	@Test
+	@Ignore
+	public void processEnty() throws Exception {
+		JAXBContext context = marshaller.getJaxbContext();
 
-        reader.setContentHandler(atomContentHandler);
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+		factory.setNamespaceAware(true);
+		XMLReader reader = factory.newSAXParser().getXMLReader();
+		// EntryProcessorServiceImpl procssor =
+		// mock(EntryProcessorServiceImpl.class);
+		ATOMContentHandler atomContentHandler = new ATOMContentHandler(context,
+				entryProcessorService);
 
-        reader.parse(new InputSource(FixtureFactory.newUsagePointInputStream(UUID.randomUUID())));
+		reader.setContentHandler(atomContentHandler);
 
-        //verify(procssor).process(any(EntryType.class));
-    }
+		reader.parse(new InputSource(FixtureFactory
+				.newUsagePointInputStream(UUID.randomUUID())));
+
+		// verify(procssor).process(any(EntryType.class));
+	}
 }

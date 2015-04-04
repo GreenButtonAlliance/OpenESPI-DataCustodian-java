@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -35,47 +35,51 @@ import org.xml.sax.SAXException;
 
 public class UploadControllerTests {
 
-    private ImportService importService;
-    private UploadController controller;
-    private BindingResult result;
-    private UploadForm form;
+	private ImportService importService;
+	private UploadController controller;
+	private BindingResult result;
+	private UploadForm form;
 
-    @Before
-    public void before() {
-        controller = new UploadController();
+	@Before
+	public void before() {
+		controller = new UploadController();
 
-        importService = mock(ImportService.class);
-        controller.setImportService(importService);
+		importService = mock(ImportService.class);
+		controller.setImportService(importService);
 
-        form = new UploadForm();
-        form.setFile(mock(MultipartFile.class));
+		form = new UploadForm();
+		form.setFile(mock(MultipartFile.class));
 
-        result = mock(BindingResult.class);
-    }
+		result = mock(BindingResult.class);
+	}
 
-    @Test
-    public void upload_displaysUploadView() throws Exception {
-        assertEquals("/custodian/upload", controller.upload());
-    }
+	@Test
+	public void upload_displaysUploadView() throws Exception {
+		assertEquals("/custodian/upload", controller.upload());
+	}
 
-    @Test
-    @Ignore
-    public void uploadPost_givenValidFile_importsUsagePointWithNoErrors() throws Exception {
-        String view = controller.uploadPost(form, result);
+	@Test
+	@Ignore
+	public void uploadPost_givenValidFile_importsUsagePointWithNoErrors()
+			throws Exception {
+		String view = controller.uploadPost(form, result);
 
-        verify(importService).importData(any(InputStream.class), null);
-        assertEquals(false, result.hasErrors());
-        assertEquals("redirect:/custodian/retailcustomers", view);
-    }
+		verify(importService).importData(any(InputStream.class), null);
+		assertEquals(false, result.hasErrors());
+		assertEquals("redirect:/custodian/retailcustomers", view);
+	}
 
-    @Test
-    @Ignore
-    public void uploadPost_givenInvalidFile_displaysUploadViewWithErrors() throws Exception {
-        Mockito.doThrow(new SAXException("Unable to process file")).when(importService).importData(any(InputStream.class), null);
+	@Test
+	@Ignore
+	public void uploadPost_givenInvalidFile_displaysUploadViewWithErrors()
+			throws Exception {
+		Mockito.doThrow(new SAXException("Unable to process file"))
+				.when(importService).importData(any(InputStream.class), null);
 
-        String view = controller.uploadPost(form, result);
+		String view = controller.uploadPost(form, result);
 
-        assertEquals("/custodian/upload", view);
-        verify(result).addError(new ObjectError("uploadForm", "Unable to process file"));
-    }
+		assertEquals("/custodian/upload", view);
+		verify(result).addError(
+				new ObjectError("uploadForm", "Unable to process file"));
+	}
 }

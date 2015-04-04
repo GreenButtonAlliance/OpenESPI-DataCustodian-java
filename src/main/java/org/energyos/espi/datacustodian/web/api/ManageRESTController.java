@@ -1,4 +1,4 @@
-/* Copyright 2013, 2014 EnergyOS.org
+/* Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 
 /**
  * 
@@ -56,11 +55,15 @@ public class ManageRESTController {
 
 	/**
 	 * Provides access to administrative commands through the pattern:
-	 *    DataCustodian/manage?command=[resetDataCustodianDB | initializeDataCustodianDB]
-	 *    
-	 * @param response Contains text version of stdout of the command
-	 * @param params [["command" . ["resetDataCustodianDB" | "initializeDataCustodianDB"]]]
-	 * @param stream 
+	 * DataCustodian/manage?command=[resetDataCustodianDB |
+	 * initializeDataCustodianDB]
+	 * 
+	 * @param response
+	 *            Contains text version of stdout of the command
+	 * @param params
+	 *            [["command" . ["resetDataCustodianDB" |
+	 *            "initializeDataCustodianDB"]]]
+	 * @param stream
 	 * @throws IOException
 	 */
 	@RequestMapping(value = Routes.DATA_CUSTODIAN_MANAGE, method = RequestMethod.GET, produces = "text/plain")
@@ -68,7 +71,7 @@ public class ManageRESTController {
 	public void doCommand(HttpServletResponse response,
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException {
-		
+
 		response.setContentType(MediaType.TEXT_PLAIN_VALUE);
 
 		try {
@@ -76,46 +79,44 @@ public class ManageRESTController {
 				String commandString = params.get("command");
 				System.out.println("[Manage] " + commandString);
 				ServletOutputStream output = response.getOutputStream();
-				
+
 				output.println("[Manage] Restricted Management Interface");
 				output.println("[Manage] Request: " + commandString);
-				
-				String command=null;
+
+				String command = null;
 
 				// parse command
-				if(commandString.contains("resetDataCustodianDB")){
-					command="/etc/OpenESPI/DataCustodian/resetDatabase.sh";
-				}
-				else if (commandString.contains("initializeDataCustodianDB")){
-					command="/etc/OpenESPI/DataCustodian/initializeDatabase.sh";
-		
+				if (commandString.contains("resetDataCustodianDB")) {
+					command = "/etc/OpenESPI/DataCustodian/resetDatabase.sh";
+				} else if (commandString.contains("initializeDataCustodianDB")) {
+					command = "/etc/OpenESPI/DataCustodian/initializeDatabase.sh";
+
 				}
 
-				if(command != null) {
+				if (command != null) {
 					Process p = Runtime.getRuntime().exec(command);
 					p.waitFor();
 					output.println("[Manage] Result: ");
 					BufferedReader reader = new BufferedReader(
 							new InputStreamReader(p.getInputStream()));
-					
+
 					String line = reader.readLine();
-	
+
 					while (line != null) {
 						System.out.println("[Manage] " + line);
 						output.println("[Manage]: " + line);
 						line = reader.readLine();
 					}
-					reader = new BufferedReader(
-							new InputStreamReader(p.getErrorStream()));
+					reader = new BufferedReader(new InputStreamReader(
+							p.getErrorStream()));
 					output.println("[Manage] Errors: ");
 					line = reader.readLine();
 					while (line != null) {
 						System.out.println("[Manage] " + line);
 						output.println("[Manage]: " + line);
 						line = reader.readLine();
-					}					
+					}
 				}
-
 
 			} catch (IOException e1) {
 			} catch (InterruptedException e2) {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -19,13 +19,13 @@ package org.energyos.espi.datacustodian.web.custodian;
 import org.springframework.web.multipart.MultipartFile;
 
 public class UploadForm {
-    private MultipartFile file;
+	private MultipartFile file;
 
-    public MultipartFile getFile() {
-        return file;
-    }
+	public MultipartFile getFile() {
+		return file;
+	}
 
-    public void setFile(MultipartFile file) {
-        this.file = file;
-    }
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
 }

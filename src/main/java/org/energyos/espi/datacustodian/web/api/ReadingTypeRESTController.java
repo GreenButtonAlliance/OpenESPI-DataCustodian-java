@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.energyos.espi.common.domain.MeterReading;
 import org.energyos.espi.common.domain.ReadingType;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.service.ExportService;
@@ -132,27 +131,28 @@ public class ReadingTypeRESTController {
 		}
 	}
 
-    public void setReadingTypeService(ReadingTypeService readingTypeService) {
-        this.readingTypeService = readingTypeService;
-   }
+	public void setReadingTypeService(ReadingTypeService readingTypeService) {
+		this.readingTypeService = readingTypeService;
+	}
 
-   public ReadingTypeService getReadingTypeService () {
-        return this.readingTypeService;
-   }
-   public void setResourceService(ResourceService resourceService) {
-        this.resourceService = resourceService;
-   }
+	public ReadingTypeService getReadingTypeService() {
+		return this.readingTypeService;
+	}
 
-   public ResourceService getResourceService () {
-        return this.resourceService;
-   }
-   public void setExportService(ExportService exportService) {
-        this.exportService = exportService;
-   }
+	public void setResourceService(ResourceService resourceService) {
+		this.resourceService = resourceService;
+	}
 
-   public ExportService getExportService () {
-        return this.exportService;
-   }
+	public ResourceService getResourceService() {
+		return this.resourceService;
+	}
 
+	public void setExportService(ExportService exportService) {
+		this.exportService = exportService;
+	}
+
+	public ExportService getExportService() {
+		return this.exportService;
+	}
 
 }

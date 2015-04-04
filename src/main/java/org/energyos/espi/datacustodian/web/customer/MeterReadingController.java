@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -37,42 +37,49 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping()
 public class MeterReadingController extends BaseController {
 
-    @Autowired
+	@Autowired
 	protected MeterReadingService meterReadingService;
-    
-    @Autowired
-    protected ResourceService resourceService;
-    
-    @Transactional (readOnly = true)
-    @RequestMapping(value = Routes.METER_READINGS_SHOW, method = RequestMethod.GET)
-    public String show(@PathVariable Long retailCustomerId, @PathVariable Long usagePointId, @PathVariable Long meterReadingId, ModelMap model) {
-    	// TODO need to walk the subtree to force the load (for now)
-    	MeterReading mr = meterReadingService.findById(retailCustomerId, usagePointId, meterReadingId);
-    	
-    	MeterReading x = resourceService.findById(meterReadingId, MeterReading.class);
 
-        MeterReading newMeterReading = new MeterReading();
-        newMeterReading.merge(mr);
-        Iterator <IntervalBlock> it = newMeterReading.getIntervalBlocks().iterator();
-        while (it.hasNext()) {
-        	IntervalBlock temp = it.next();
-            Iterator <IntervalReading> it1 = temp.getIntervalReadings().iterator();
-            while (it1.hasNext()) {
-            	IntervalReading temp1 = it1.next();
-            	temp1.getCost();
-            }
-        	
-        }
-        model.put("meterReading", newMeterReading);
-        return "/customer/meterreadings/show";
-    }
+	@Autowired
+	protected ResourceService resourceService;
 
-    public void setMeterReadingService(MeterReadingService meterReadingService) {
-        this.meterReadingService = meterReadingService;
-    }
-    
-    public MeterReadingService getMeterReadingService(MeterReadingService meterReadingService) {
-        return this.meterReadingService;
-    }
-    
+	@Transactional(readOnly = true)
+	@RequestMapping(value = Routes.METER_READINGS_SHOW, method = RequestMethod.GET)
+	public String show(@PathVariable Long retailCustomerId,
+			@PathVariable Long usagePointId, @PathVariable Long meterReadingId,
+			ModelMap model) {
+		// TODO need to walk the subtree to force the load (for now)
+		MeterReading mr = meterReadingService.findById(retailCustomerId,
+				usagePointId, meterReadingId);
+
+		MeterReading x = resourceService.findById(meterReadingId,
+				MeterReading.class);
+
+		MeterReading newMeterReading = new MeterReading();
+		newMeterReading.merge(mr);
+		Iterator<IntervalBlock> it = newMeterReading.getIntervalBlocks()
+				.iterator();
+		while (it.hasNext()) {
+			IntervalBlock temp = it.next();
+			Iterator<IntervalReading> it1 = temp.getIntervalReadings()
+					.iterator();
+			while (it1.hasNext()) {
+				IntervalReading temp1 = it1.next();
+				temp1.getCost();
+			}
+
+		}
+		model.put("meterReading", newMeterReading);
+		return "/customer/meterreadings/show";
+	}
+
+	public void setMeterReadingService(MeterReadingService meterReadingService) {
+		this.meterReadingService = meterReadingService;
+	}
+
+	public MeterReadingService getMeterReadingService(
+			MeterReadingService meterReadingService) {
+		return this.meterReadingService;
+	}
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -28,56 +28,69 @@ import org.openqa.selenium.WebElement;
 
 public class SharedSteps {
 
-    private static WebDriver driver = WebDriverSingleton.getInstance();
+	private static WebDriver driver = WebDriverSingleton.getInstance();
 
-    @Ignore
-    static void assertMeterReading() {
-        assertTrue(driver.getPageSource().contains("Meter Reading: Fifteen Minute Electricity Consumption"));
-    }
-    @Ignore
-    static void assertReadingType() {
-        assertTrue(driver.getPageSource().contains("Type of Meter Reading Data"));
-        assertTrue(driver.getPageSource().contains("840"));
-        assertTrue(driver.getPageSource().contains("12"));
-        assertTrue(driver.getPageSource().contains("1/2"));
-        assertTrue(driver.getPageSource().contains("600/800"));
-    }
-    @Ignore
-    static void assertIntervalReadings() {
-        assertTrue(driver.getPageSource().contains("974"));
-        assertTrue(driver.getPageSource().contains("900"));
-        assertTrue(driver.getPageSource().contains("965"));
-    }
-    @Ignore
-    static void assertIntervalBlocks() {
-        assertTrue(driver.getPageSource().contains("86400"));
-        assertTrue(driver.getPageSource().contains("1330578000"));
-        assertTrue(driver.getPageSource().contains("1330664400"));
-    }
-    @Ignore
-    static void assertUsagePoint() {
-        assertTrue(driver.getPageSource().contains("Usage Point: Front Electric Meter"));
-        assertTrue(driver.getPageSource().contains("ELECTRICITY_SERVICE"));
-    }
-    @Ignore
-    static void assertUsageSummary() {
-        assertTrue(driver.getPageSource().contains("Usage Summary"));
-        assertTrue(driver.getPageSource().contains("1119600"));
-    }
-    @Ignore
-    static void assertReadingQualities() {
-        WebElement element = driver.findElement(By.cssSelector(".reading-qualities"));
+	@Ignore
+	static void assertMeterReading() {
+		assertTrue(driver.getPageSource().contains(
+				"Meter Reading: Fifteen Minute Electricity Consumption"));
+	}
 
-        assertThat(element.getText(), containsString("8"));
-    }
-    @Ignore
-    public static void assertLocalTimeParameters() {
-        assertTrue(driver.getPageSource().contains("Local time zone offset from UTCTime"));
-        assertTrue(driver.getPageSource().contains("-18000"));
-    }
-    @Ignore
-    public static void assertQualitySummary() {
-        assertTrue(driver.getPageSource().contains("Quality Summary"));
-        assertTrue(driver.getPageSource().contains("2119600"));
-    }
+	@Ignore
+	static void assertReadingType() {
+		assertTrue(driver.getPageSource()
+				.contains("Type of Meter Reading Data"));
+		assertTrue(driver.getPageSource().contains("840"));
+		assertTrue(driver.getPageSource().contains("12"));
+		assertTrue(driver.getPageSource().contains("1/2"));
+		assertTrue(driver.getPageSource().contains("600/800"));
+	}
+
+	@Ignore
+	static void assertIntervalReadings() {
+		assertTrue(driver.getPageSource().contains("974"));
+		assertTrue(driver.getPageSource().contains("900"));
+		assertTrue(driver.getPageSource().contains("965"));
+	}
+
+	@Ignore
+	static void assertIntervalBlocks() {
+		assertTrue(driver.getPageSource().contains("86400"));
+		assertTrue(driver.getPageSource().contains("1330578000"));
+		assertTrue(driver.getPageSource().contains("1330664400"));
+	}
+
+	@Ignore
+	static void assertUsagePoint() {
+		assertTrue(driver.getPageSource().contains(
+				"Usage Point: Front Electric Meter"));
+		assertTrue(driver.getPageSource().contains("ELECTRICITY_SERVICE"));
+	}
+
+	@Ignore
+	static void assertUsageSummary() {
+		assertTrue(driver.getPageSource().contains("Usage Summary"));
+		assertTrue(driver.getPageSource().contains("1119600"));
+	}
+
+	@Ignore
+	static void assertReadingQualities() {
+		WebElement element = driver.findElement(By
+				.cssSelector(".reading-qualities"));
+
+		assertThat(element.getText(), containsString("8"));
+	}
+
+	@Ignore
+	public static void assertLocalTimeParameters() {
+		assertTrue(driver.getPageSource().contains(
+				"Local time zone offset from UTCTime"));
+		assertTrue(driver.getPageSource().contains("-18000"));
+	}
+
+	@Ignore
+	public static void assertQualitySummary() {
+		assertTrue(driver.getPageSource().contains("Quality Summary"));
+		assertTrue(driver.getPageSource().contains("2119600"));
+	}
 }

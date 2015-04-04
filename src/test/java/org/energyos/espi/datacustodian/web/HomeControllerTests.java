@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -29,21 +29,21 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
-@Transactional (rollbackFor= {javax.xml.bind.JAXBException.class}, 
-                noRollbackFor = {javax.persistence.NoResultException.class, org.springframework.dao.EmptyResultDataAccessException.class })
-
+@Transactional(rollbackFor = { javax.xml.bind.JAXBException.class }, noRollbackFor = {
+		javax.persistence.NoResultException.class,
+		org.springframework.dao.EmptyResultDataAccessException.class })
 public class HomeControllerTests {
 
-    @Autowired
-    protected HomeController controller;
+	@Autowired
+	protected HomeController controller;
 
-    @Test
-    public void index_shouldDisplayHomePage() throws Exception {
-        assertEquals("/home", controller.index());
-    }
+	@Test
+	public void index_shouldDisplayHomePage() throws Exception {
+		assertEquals("/home", controller.index());
+	}
 
-    @Test
-    public void home_shouldDisplayHomePage() throws Exception {
-        assertEquals("/home", controller.index());
-    }
+	@Test
+	public void home_shouldDisplayHomePage() throws Exception {
+		assertEquals("/home", controller.index());
+	}
 }

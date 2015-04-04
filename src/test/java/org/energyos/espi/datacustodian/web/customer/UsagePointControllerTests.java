@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -44,48 +44,52 @@ import org.springframework.ui.ModelMap;
 
 public class UsagePointControllerTests {
 
-    private UsagePointController controller;
-    private UsagePointService service;
-    private ExportService exportService;
+	private UsagePointController controller;
+	private UsagePointService service;
+	private ExportService exportService;
 
-    @Before
-    public void before() {
-        controller = new UsagePointController();
-        service = mock(UsagePointServiceImpl.class);
-        exportService = mock(ExportService.class);
-        controller.setUsagePointService(service);
-        controller.setExportService(exportService);
-    }
+	@Before
+	public void before() {
+		controller = new UsagePointController();
+		service = mock(UsagePointServiceImpl.class);
+		exportService = mock(ExportService.class);
+		controller.setUsagePointService(service);
+		controller.setExportService(exportService);
+	}
 
-    @Test
-    public void index_displaysIndexView() throws Exception {
-        assertEquals("/customer/usagepoints/index", controller.index());
-    }
+	@Test
+	public void index_displaysIndexView() throws Exception {
+		assertEquals("/customer/usagepoints/index", controller.index());
+	}
 
-    @Test
-    @Ignore
-    public void show_displaysShowView() throws Exception {
-        assertEquals("/customer/usagepoints/show", controller.show(1L, 1L, mock(ModelMap.class)));
-    }
+	@Test
+	@Ignore
+	public void show_displaysShowView() throws Exception {
+		assertEquals("/customer/usagepoints/show",
+				controller.show(1L, 1L, mock(ModelMap.class)));
+	}
 
-    @Test
-    public void usagePoints_returnsUsagePointList() throws Exception {
-        List<UsagePoint> points = new ArrayList<>();
-        when(service.findAllByRetailCustomer(any(RetailCustomer.class))).thenReturn(points);
+	@Test
+	public void usagePoints_returnsUsagePointList() throws Exception {
+		List<UsagePoint> points = new ArrayList<>();
+		when(service.findAllByRetailCustomer(any(RetailCustomer.class)))
+				.thenReturn(points);
 
-        assertEquals(controller.usagePoints(mock(Authentication.class)), points);
-    }
+		assertEquals(controller.usagePoints(mock(Authentication.class)), points);
+	}
 
-    @Test
-    @Ignore("TODO: come back to it b/f we're finished")
-    public void feed_returnsAtomFeedOfUsagePointsForCurrentUser() throws Exception {
-        Authentication auth = mock(Authentication.class);
-        when(auth.getPrincipal()).thenReturn(mock(RetailCustomer.class));
-        MockHttpServletResponse response = new MockHttpServletResponse();
+	@Test
+	@Ignore("TODO: come back to it b/f we're finished")
+	public void feed_returnsAtomFeedOfUsagePointsForCurrentUser()
+			throws Exception {
+		Authentication auth = mock(Authentication.class);
+		when(auth.getPrincipal()).thenReturn(mock(RetailCustomer.class));
+		MockHttpServletResponse response = new MockHttpServletResponse();
 
-        HashMap<String, String> params = new HashMap<>();
-        // controller.feed(response, auth, params);
+		HashMap<String, String> params = new HashMap<>();
+		// controller.feed(response, auth, params);
 
-        verify(exportService).exportUsagePoints(anyLong(), anyLong(), any(OutputStream.class), eq(new ExportFilter(params)));
-    }
+		verify(exportService).exportUsagePoints(anyLong(), anyLong(),
+				any(OutputStream.class), eq(new ExportFilter(params)));
+	}
 }

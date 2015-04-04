@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -41,64 +41,70 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @PreAuthorize("hasRole('ROLE_CUSTODIAN')")
 public class RetailCustomerController extends BaseController {
 
-    @Resource
-    private RetailCustomerService service;
+	@Resource
+	private RetailCustomerService service;
 
-    public void setService(RetailCustomerService service) {
-        this.service = service;
-    }
+	public void setService(RetailCustomerService service) {
+		this.service = service;
+	}
 
-    @InitBinder
-    protected void initBinder(WebDataBinder binder) {
-        binder.setValidator(new RetailCustomerValidator());
-    }
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) {
+		binder.setValidator(new RetailCustomerValidator());
+	}
 
-    @RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_INDEX, method = RequestMethod.GET)
-    public String index(ModelMap model) {
-        model.put("customers", service.findAll());
+	@RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_INDEX, method = RequestMethod.GET)
+	public String index(ModelMap model) {
+		model.put("customers", service.findAll());
 
-        return "retailcustomers/index";
-    }
+		return "retailcustomers/index";
+	}
 
-    @RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_FORM, method = RequestMethod.GET)
-    public String form(ModelMap model) {
-        model.put("retailCustomer", new RetailCustomer());
+	@RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_FORM, method = RequestMethod.GET)
+	public String form(ModelMap model) {
+		model.put("retailCustomer", new RetailCustomer());
 
-        return "retailcustomers/form";
-    }
+		return "retailcustomers/form";
+	}
 
-    @RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_CREATE, method = RequestMethod.POST)
-    public String create(@ModelAttribute("retailCustomer") @Valid RetailCustomer retailCustomer, BindingResult result) {
-        if (result.hasErrors()) {
-            return "retailcustomers/form";
-        } else {
-        	try {
-            service.persist(retailCustomer);
-            return "redirect:/custodian/retailcustomers";
-        	} catch (Exception e) {
-        		return "retailcustomers/form";
-        	}
-        }
-    }
+	@RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_CREATE, method = RequestMethod.POST)
+	public String create(
+			@ModelAttribute("retailCustomer") @Valid RetailCustomer retailCustomer,
+			BindingResult result) {
+		if (result.hasErrors()) {
+			return "retailcustomers/form";
+		} else {
+			try {
+				service.persist(retailCustomer);
+				return "redirect:/custodian/retailcustomers";
+			} catch (Exception e) {
+				return "retailcustomers/form";
+			}
+		}
+	}
 
-    @RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_SHOW, method = RequestMethod.GET)
-    public String show(@PathVariable Long retailCustomerId, ModelMap model) {
-        RetailCustomer retailCustomer = service.findById(retailCustomerId);
-        model.put("retailCustomer", retailCustomer);
-        return "/custodian/retailcustomers/show";
-    }
+	@RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_SHOW, method = RequestMethod.GET)
+	public String show(@PathVariable Long retailCustomerId, ModelMap model) {
+		RetailCustomer retailCustomer = service.findById(retailCustomerId);
+		model.put("retailCustomer", retailCustomer);
+		return "/custodian/retailcustomers/show";
+	}
 
-    public static class RetailCustomerValidator implements Validator {
+	public static class RetailCustomerValidator implements Validator {
 
-        public boolean supports(@SuppressWarnings("rawtypes") Class clazz) {
-            return RetailCustomer.class.isAssignableFrom(clazz);
-        }
+		public boolean supports(@SuppressWarnings("rawtypes") Class clazz) {
+			return RetailCustomer.class.isAssignableFrom(clazz);
+		}
 
-        public void validate(Object target, Errors errors) {
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "field.required", "Username is required");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "field.required", "Password is required");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "field.required", "First name is required");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "field.required", "Last name is required");
-        }
-    }
+		public void validate(Object target, Errors errors) {
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username",
+					"field.required", "Username is required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password",
+					"field.required", "Password is required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName",
+					"field.required", "First name is required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName",
+					"field.required", "Last name is required");
+		}
+	}
 }

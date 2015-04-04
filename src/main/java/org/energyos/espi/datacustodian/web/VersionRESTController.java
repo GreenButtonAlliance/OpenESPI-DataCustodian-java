@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -32,30 +32,39 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping
-public class VersionRESTController  extends BaseController{
- 
-    /**
-     * Handling GET request to retrieve details from MANIFEST.MF file
-     * @return implementation details
-     */
-    @RequestMapping(value = "/about-version", method = RequestMethod.GET)
-    public String getBuildNumber(HttpServletRequest request,  ModelMap model) throws IOException {
- 
-        ServletContext context = request.getSession().getServletContext();
-        InputStream manifestStream = context.getResourceAsStream("/META-INF/MANIFEST.MF");
-        Manifest manifest = new Manifest(manifestStream);
+public class VersionRESTController extends BaseController {
 
-        Map<String, String> aboutInfo = new HashMap<>();
-        aboutInfo.put("Implementation-Vendor", manifest.getMainAttributes().getValue("Implementation-Vendor"));
-        aboutInfo.put("Implementation-Title", manifest.getMainAttributes().getValue("Implementation-Title"));
-        aboutInfo.put("Implementation-Version", manifest.getMainAttributes().getValue("Implementation-Version"));
-        aboutInfo.put("Implementation-Jdk", manifest.getMainAttributes().getValue("Build-Jdk"));
-        aboutInfo.put("Implementation-Build", manifest.getMainAttributes().getValue("Implementation-Build"));
-        aboutInfo.put("Implementation-Build-Time", manifest.getMainAttributes().getValue("Implementation-Build-Time"));
- 
-        model.put("aboutInfo", aboutInfo);
-        return "/about";
- 
-    }
- 
+	/**
+	 * Handling GET request to retrieve details from MANIFEST.MF file
+	 * 
+	 * @return implementation details
+	 */
+	@RequestMapping(value = "/about-version", method = RequestMethod.GET)
+	public String getBuildNumber(HttpServletRequest request, ModelMap model)
+			throws IOException {
+
+		ServletContext context = request.getSession().getServletContext();
+		InputStream manifestStream = context
+				.getResourceAsStream("/META-INF/MANIFEST.MF");
+		Manifest manifest = new Manifest(manifestStream);
+
+		Map<String, String> aboutInfo = new HashMap<>();
+		aboutInfo.put("Implementation-Vendor", manifest.getMainAttributes()
+				.getValue("Implementation-Vendor"));
+		aboutInfo.put("Implementation-Title", manifest.getMainAttributes()
+				.getValue("Implementation-Title"));
+		aboutInfo.put("Implementation-Version", manifest.getMainAttributes()
+				.getValue("Implementation-Version"));
+		aboutInfo.put("Implementation-Jdk", manifest.getMainAttributes()
+				.getValue("Build-Jdk"));
+		aboutInfo.put("Implementation-Build", manifest.getMainAttributes()
+				.getValue("Implementation-Build"));
+		aboutInfo.put("Implementation-Build-Time", manifest.getMainAttributes()
+				.getValue("Implementation-Build-Time"));
+
+		model.put("aboutInfo", aboutInfo);
+		return "/about";
+
+	}
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -35,12 +35,12 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @ContextConfiguration("/spring/test-context.xml")
 public class ImportUsagePointTests {
 
-    @Test
-    public void givenValidInput_postsToURL() throws IOException {
-        HttpClient client = mock(HttpClient.class);
+	@Test
+	public void givenValidInput_postsToURL() throws IOException {
+		HttpClient client = mock(HttpClient.class);
 
-        ImportUsagePoint.upload("import.xml", "http://locahost/upload", client);
+		ImportUsagePoint.upload("import.xml", "http://locahost/upload", client);
 
-        verify(client).execute(any(HttpUriRequest.class));
-    }
+		verify(client).execute(any(HttpUriRequest.class));
+	}
 }

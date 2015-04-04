@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -121,7 +121,8 @@ public class ApplicationInformationRESTController {
 			@RequestParam Map<String, String> params, InputStream stream)
 			throws IOException, FeedException {
 		ApplicationInformation applicationInformation = resourceService
-				.findById(applicationInformationId, ApplicationInformation.class);
+				.findById(applicationInformationId,
+						ApplicationInformation.class);
 
 		if (applicationInformation != null) {
 			try {
@@ -148,29 +149,29 @@ public class ApplicationInformationRESTController {
 		}
 	}
 
-    public void setApplicationInformationService(ApplicationInformationService applicationInformationService) {
-        this.applicationInformationService = applicationInformationService;
-   }
+	public void setApplicationInformationService(
+			ApplicationInformationService applicationInformationService) {
+		this.applicationInformationService = applicationInformationService;
+	}
 
-   public ApplicationInformationService getApplicationInformationService () {
-        return this.applicationInformationService;
-   }
+	public ApplicationInformationService getApplicationInformationService() {
+		return this.applicationInformationService;
+	}
 
-   public void setExportService(ExportService exportService) {
-        this.exportService = exportService;
-   }
+	public void setExportService(ExportService exportService) {
+		this.exportService = exportService;
+	}
 
-   public ExportService getExportService () {
-        return this.exportService;
-   }
+	public ExportService getExportService() {
+		return this.exportService;
+	}
 
-   public void setResourceService(ResourceService resourceService) {
-        this.resourceService = resourceService;
-   }
+	public void setResourceService(ResourceService resourceService) {
+		this.resourceService = resourceService;
+	}
 
-   public ResourceService getResourceService () {
-        return this.resourceService;
-   }
-
+	public ResourceService getResourceService() {
+		return this.resourceService;
+	}
 
 }

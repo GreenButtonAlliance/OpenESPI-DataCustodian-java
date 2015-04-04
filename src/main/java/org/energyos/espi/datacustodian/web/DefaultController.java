@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -28,13 +28,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class DefaultController extends BaseController {
 
-    @RequestMapping(Routes.DEFAULT)
-    public String defaultAfterLogin(HttpServletRequest request, Principal principal) {
-        if (request.isUserInRole(RetailCustomer.ROLE_CUSTODIAN)) {
-            return "redirect:/custodian/home";
-        } else if (request.isUserInRole(RetailCustomer.ROLE_USER)) {
-            return "redirect:/RetailCustomer/" + currentCustomer(principal).getId() + "/home";
-        }
-        return "redirect:/home";
-    }
+	@RequestMapping(Routes.DEFAULT)
+	public String defaultAfterLogin(HttpServletRequest request,
+			Principal principal) {
+		if (request.isUserInRole(RetailCustomer.ROLE_CUSTODIAN)) {
+			return "redirect:/custodian/home";
+		} else if (request.isUserInRole(RetailCustomer.ROLE_USER)) {
+			return "redirect:/RetailCustomer/"
+					+ currentCustomer(principal).getId() + "/home";
+		}
+		return "redirect:/home";
+	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -22,15 +22,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class HomeController extends BaseController{
+public class HomeController extends BaseController {
 
-    @RequestMapping(value = Routes.ROOT, method = RequestMethod.GET)
-    public String index() {
-        return "/home";
-    }
+	@RequestMapping(value = Routes.ROOT, method = RequestMethod.GET)
+	public String index() {
+		return "/home";
+	}
 
-    @RequestMapping(value = Routes.HOME, method = RequestMethod.GET)
-    public String home() {
-        return "/home";
-    }
+	@RequestMapping(value = Routes.HOME, method = RequestMethod.GET)
+	public String home() {
+		return "/home";
+	}
 }

@@ -1,3 +1,19 @@
+/*
+ * Copyright 2013, 2014, 2015 EnergyOS.org
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package org.energyos.espi.datacustodian.web.api;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
@@ -45,140 +61,153 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
-
 public class ExportServiceTests extends XMLTest {
-    @Mock
-    private UsagePointService usagePointService;
-    @Mock
-    private UsagePointRepository usagePointRepository;
-    @Mock
-    private SubscriptionService subscriptionService;
-    @Mock
-    private ResourceService resourceService;
-    
-    @Mock
-    private Jaxb2Marshaller fragmentMarshaller;
-    @Mock
-    private EntryTypeIterator entries;
+	@Mock
+	private UsagePointService usagePointService;
+	@Mock
+	private UsagePointRepository usagePointRepository;
+	@Mock
+	private SubscriptionService subscriptionService;
+	@Mock
+	private ResourceService resourceService;
 
-    private ExportServiceImpl exportService;
-    private Subscription subscription;
-    private ByteArrayOutputStream stream;
+	@Mock
+	private Jaxb2Marshaller fragmentMarshaller;
+	@Mock
+	private EntryTypeIterator entries;
 
-    private ExportFilter exportFilter = new ExportFilter(new HashMap<String, String>());
+	private ExportServiceImpl exportService;
+	private Subscription subscription;
+	private ByteArrayOutputStream stream;
 
-    @Before
-    public void before() {
-        exportService = new ExportServiceImpl();
-        usagePointService = new UsagePointServiceImpl();
-        resourceService = new ResourceServiceImpl();
-        usagePointRepository = new UsagePointRepositoryImpl();
-        
-        subscription = newSubscription();
-        subscription.setRetailCustomer(newRetailCustomer());
+	private ExportFilter exportFilter = new ExportFilter(
+			new HashMap<String, String>());
 
-        // set up the UsagePoint Service (need full initializer in the absence of @Autowired)
-        usagePointService.setRepository(usagePointRepository);
-        
-        exportService.setSubscriptionService(subscriptionService);
-        exportService.setJaxb2Marshaller(fragmentMarshaller);
-        // set up the ExportService
-        // exportService.setUsagePointService(usagePointService);
-        
-        
+	@Before
+	public void before() {
+		exportService = new ExportServiceImpl();
+		usagePointService = new UsagePointServiceImpl();
+		resourceService = new ResourceServiceImpl();
+		usagePointRepository = new UsagePointRepositoryImpl();
 
-        
-        stream = new ByteArrayOutputStream();
+		subscription = newSubscription();
+		subscription.setRetailCustomer(newRetailCustomer());
 
-        when(subscriptionService.findByHashedId(subscription.getHashedId())).thenReturn(subscription);
-        when(subscriptionService.findEntriesByHashedId(subscription.getHashedId())).thenReturn(entries);
-    }
+		// set up the UsagePoint Service (need full initializer in the absence
+		// of @Autowired)
+		usagePointService.setRepository(usagePointRepository);
 
-    @Ignore("TODO - put back in later.")
-    @Test
-    public void exportSubscription_addsTheXMLProlog() throws Exception {
-        exportService.exportSubscription(subscription.getHashedId(), stream, exportFilter);
+		exportService.setSubscriptionService(subscriptionService);
+		exportService.setJaxb2Marshaller(fragmentMarshaller);
+		// set up the ExportService
+		// exportService.setUsagePointService(usagePointService);
 
-        assertThat(stream.toString(), containsString("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"));
-    }
+		stream = new ByteArrayOutputStream();
 
-    @Ignore("TODO - put back in later.")
-    @Test
-    public void exportSubscription_addsTheFeed() throws Exception {
-        exportService.exportSubscription(subscription.getHashedId(), stream, exportFilter);
+		when(subscriptionService.findByHashedId(subscription.getHashedId()))
+				.thenReturn(subscription);
+		when(
+				subscriptionService.findEntriesByHashedId(subscription
+						.getHashedId())).thenReturn(entries);
+	}
 
-        assertXpathExists("/:feed", stream.toString());
-    }
+	@Ignore("TODO - put back in later.")
+	@Test
+	public void exportSubscription_addsTheXMLProlog() throws Exception {
+		exportService.exportSubscription(subscription.getHashedId(), stream,
+				exportFilter);
 
-    @Test
-    @Ignore("TODO - put back in later.")
-    public void exportSubscription_addsEntries() throws Exception {
-        when(entries.hasNext()).thenReturn(true).thenReturn(true).thenReturn(false);
+		assertThat(stream.toString(),
+				containsString("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"));
+	}
 
-        exportService.exportSubscription(subscription.getHashedId(), stream, exportFilter);
+	@Ignore("TODO - put back in later.")
+	@Test
+	public void exportSubscription_addsTheFeed() throws Exception {
+		exportService.exportSubscription(subscription.getHashedId(), stream,
+				exportFilter);
 
-        verify(entries, times(2)).next();
-    }
-    // TODO need a way to cleanly initialize the more complex services (in the absence of @Autowired)
+		assertXpathExists("/:feed", stream.toString());
+	}
 
-    @Ignore("TODO - put back in later.")
-    @Test
-    public void exportUsagePoints() throws Exception {
-        Long retailCustomerId = 1L;
+	@Test
+	@Ignore("TODO - put back in later.")
+	public void exportSubscription_addsEntries() throws Exception {
+		when(entries.hasNext()).thenReturn(true).thenReturn(true)
+				.thenReturn(false);
 
-        when(subscriptionService.findEntryTypeIterator(retailCustomerId)).thenReturn(mock(EntryTypeIterator.class));
+		exportService.exportSubscription(subscription.getHashedId(), stream,
+				exportFilter);
 
-        exportService.exportUsagePoints(anyLong(), retailCustomerId, new ByteArrayOutputStream(), new ExportFilter(new HashMap<String, String>()));
+		verify(entries, times(2)).next();
+	}
 
-        verify(subscriptionService).findEntryTypeIterator(retailCustomerId);
+	// TODO need a way to cleanly initialize the more complex services (in the
+	// absence of @Autowired)
 
-    }
+	@Ignore("TODO - put back in later.")
+	@Test
+	public void exportUsagePoints() throws Exception {
+		Long retailCustomerId = 1L;
 
-    @Ignore("TODO - put back in later.")
-    @Test
-    public void exportSubscription_filtersEntries() throws Exception {
-        EntryType goodEntry = getEntry(50);
-        EntryType badEntry = getEntry(100);
+		when(subscriptionService.findEntryTypeIterator(retailCustomerId))
+				.thenReturn(mock(EntryTypeIterator.class));
 
-        when(subscriptionService.findEntriesByHashedId(subscription.getHashedId())).thenReturn(entries);
+		exportService.exportUsagePoints(anyLong(), retailCustomerId,
+				new ByteArrayOutputStream(), new ExportFilter(
+						new HashMap<String, String>()));
 
-        when(entries.hasNext())
-                .thenReturn(true)
-                .thenReturn(true)
-                .thenReturn(false);
+		verify(subscriptionService).findEntryTypeIterator(retailCustomerId);
 
-        when(entries.next())
-                .thenReturn(badEntry)
-                .thenReturn(goodEntry);
+	}
 
-        Map<String, String> params = new HashMap<>();
-        params.put("published-min", getXMLTime(50));
-        params.put("published-max", getXMLTime(51));
+	@Ignore("TODO - put back in later.")
+	@Test
+	public void exportSubscription_filtersEntries() throws Exception {
+		EntryType goodEntry = getEntry(50);
+		EntryType badEntry = getEntry(100);
 
-        exportService.exportSubscription(subscription.getHashedId(), stream, new ExportFilter(params));
+		when(
+				subscriptionService.findEntriesByHashedId(subscription
+						.getHashedId())).thenReturn(entries);
 
-        verify(fragmentMarshaller).marshal(eq(goodEntry), any(Result.class));
-        verify(fragmentMarshaller, never()).marshal(eq(badEntry), any(Result.class));
-    }
+		when(entries.hasNext()).thenReturn(true).thenReturn(true)
+				.thenReturn(false);
 
-    private String getXMLTime(int millis) throws DatatypeConfigurationException {
-        DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
-        GregorianCalendar cal = getGregorianCalendar(millis);
-        XMLGregorianCalendar xmlGregorianCalendar = datatypeFactory.newXMLGregorianCalendar(cal);
-        xmlGregorianCalendar.setFractionalSecond(null);
-        return xmlGregorianCalendar.toXMLFormat();
-    }
+		when(entries.next()).thenReturn(badEntry).thenReturn(goodEntry);
 
-    private EntryType getEntry(int secondsFromEpoch) {
-        EntryType entry = new EntryType();
-        entry.setPublished(DateConverter.toDateTimeType(getGregorianCalendar(secondsFromEpoch)));
-        return entry;
-    }
+		Map<String, String> params = new HashMap<>();
+		params.put("published-min", getXMLTime(50));
+		params.put("published-max", getXMLTime(51));
 
-    private GregorianCalendar getGregorianCalendar(int secondsFromEpoch) {
-        GregorianCalendar cal = new GregorianCalendar();
-        cal.setTimeZone(TimeZone.getTimeZone("UTC"));
-        cal.setTimeInMillis(secondsFromEpoch * 1000);
-        return cal;
-    }
+		exportService.exportSubscription(subscription.getHashedId(), stream,
+				new ExportFilter(params));
+
+		verify(fragmentMarshaller).marshal(eq(goodEntry), any(Result.class));
+		verify(fragmentMarshaller, never()).marshal(eq(badEntry),
+				any(Result.class));
+	}
+
+	private String getXMLTime(int millis) throws DatatypeConfigurationException {
+		DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
+		GregorianCalendar cal = getGregorianCalendar(millis);
+		XMLGregorianCalendar xmlGregorianCalendar = datatypeFactory
+				.newXMLGregorianCalendar(cal);
+		xmlGregorianCalendar.setFractionalSecond(null);
+		return xmlGregorianCalendar.toXMLFormat();
+	}
+
+	private EntryType getEntry(int secondsFromEpoch) {
+		EntryType entry = new EntryType();
+		entry.setPublished(DateConverter
+				.toDateTimeType(getGregorianCalendar(secondsFromEpoch)));
+		return entry;
+	}
+
+	private GregorianCalendar getGregorianCalendar(int secondsFromEpoch) {
+		GregorianCalendar cal = new GregorianCalendar();
+		cal.setTimeZone(TimeZone.getTimeZone("UTC"));
+		cal.setTimeInMillis(secondsFromEpoch * 1000);
+		return cal;
+	}
 }

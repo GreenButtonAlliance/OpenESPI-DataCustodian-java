@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -31,33 +31,32 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @PreAuthorize("hasRole('ROLE_CUSTODIAN')")
 public class ManagementController extends BaseController {
 
-    
-    @Autowired
-    private NotificationService notificationService;
+	@Autowired
+	private NotificationService notificationService;
 
-    @RequestMapping(value = Routes.DATA_CUSTODIAN_NOTIFY_THIRD_PARTY, method = RequestMethod.GET)
-    public String notifyThirdParty(@PathVariable Long applicationInformationId, ModelMap model) throws Exception {
-    	
+	@RequestMapping(value = Routes.DATA_CUSTODIAN_NOTIFY_THIRD_PARTY, method = RequestMethod.GET)
+	public String notifyThirdParty(@PathVariable Long applicationInformationId,
+			ModelMap model) throws Exception {
+
 		notificationService.notifyAllNeed();
 
-        return "redirect:" + Routes.DATA_CUSTODIAN_HOME;
-    }
+		return "redirect:" + Routes.DATA_CUSTODIAN_HOME;
+	}
 
-    @RequestMapping(value = Routes.DATA_CUSTODIAN_NOTIFY_THIRD_PARTYS, method = RequestMethod.GET)
-    public String notifyThirdParty(ModelMap model) throws Exception {
-    	
+	@RequestMapping(value = Routes.DATA_CUSTODIAN_NOTIFY_THIRD_PARTYS, method = RequestMethod.GET)
+	public String notifyThirdParty(ModelMap model) throws Exception {
+
 		notificationService.notifyAllNeed();
 
-        return "redirect:" + Routes.DATA_CUSTODIAN_HOME;
-    }
-    
-   public void setNotificationService(NotificationService notificationService) {
-        this.notificationService = notificationService;
-   }
+		return "redirect:" + Routes.DATA_CUSTODIAN_HOME;
+	}
 
-   public NotificationService getNotificationService () {
-        return this.notificationService;
-   }
+	public void setNotificationService(NotificationService notificationService) {
+		this.notificationService = notificationService;
+	}
 
-  
+	public NotificationService getNotificationService() {
+		return this.notificationService;
+	}
+
 }

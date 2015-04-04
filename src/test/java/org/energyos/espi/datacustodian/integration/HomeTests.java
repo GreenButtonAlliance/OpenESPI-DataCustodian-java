@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -35,31 +35,29 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
-@Transactional (rollbackFor= {javax.xml.bind.JAXBException.class}, 
-                noRollbackFor = {javax.persistence.NoResultException.class, org.springframework.dao.EmptyResultDataAccessException.class })
-
+@Transactional(rollbackFor = { javax.xml.bind.JAXBException.class }, noRollbackFor = {
+		javax.persistence.NoResultException.class,
+		org.springframework.dao.EmptyResultDataAccessException.class })
 public class HomeTests {
-    private MockMvc mockMvc;
+	private MockMvc mockMvc;
 
-    @Autowired
-    protected WebApplicationContext wac;
+	@Autowired
+	protected WebApplicationContext wac;
 
-    @Before
-    public void setup() {
-        this.mockMvc = webAppContextSetup(this.wac).build();
-    }
+	@Before
+	public void setup() {
+		this.mockMvc = webAppContextSetup(this.wac).build();
+	}
 
-    @Test
-    public void index_displaysHomeView() throws Exception {
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("/home"));
-    }
+	@Test
+	public void index_displaysHomeView() throws Exception {
+		mockMvc.perform(get("/")).andExpect(status().isOk())
+				.andExpect(view().name("/home"));
+	}
 
-    @Test
-    public void home_displaysHomeView() throws Exception {
-        mockMvc.perform(get("/home"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("/home"));
-    }
+	@Test
+	public void home_displaysHomeView() throws Exception {
+		mockMvc.perform(get("/home")).andExpect(status().isOk())
+				.andExpect(view().name("/home"));
+	}
 }

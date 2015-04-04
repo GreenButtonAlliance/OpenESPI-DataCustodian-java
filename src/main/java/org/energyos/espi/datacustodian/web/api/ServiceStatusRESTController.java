@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -27,10 +27,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Authorization;
 import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.common.domain.Subscription;
 import org.energyos.espi.common.models.atom.DateTimeType;
-import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.AuthorizationService;
+import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.utils.DateConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -60,16 +59,18 @@ public class ServiceStatusRESTController {
 			Authorization authorization = authorizationService
 					.findByAccessToken(token);
 			if (authorization != null) {
-				ApplicationInformation applicationinformation = authorization.getApplicationInformation();
+				ApplicationInformation applicationinformation = authorization
+						.getApplicationInformation();
 				if (applicationinformation != null) {
-					applicationStatus = applicationinformation.getDataCustodianApplicationStatus();
+					applicationStatus = applicationinformation
+							.getDataCustodianApplicationStatus();
 				}
 			}
 		}
 
 		return applicationStatus;
 
-	}	 
+	}
 
 	// ROOT RESTful Forms
 	//
@@ -84,19 +85,23 @@ public class ServiceStatusRESTController {
 		String temp = updated.getValue().toXMLFormat();
 		String uuid = UUID.randomUUID().toString();
 
-
-		response.getOutputStream().println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-		response.getOutputStream().println("<ServiceStatus xmlns=\"http://naesb.org/espi\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://naesb.org/espi espiDerived.xsd\">");
-		response.getOutputStream().println("  <currentStatus>" + getApplicationStatus(request) + "</currentStatus>\n</ServiceStatus>");
-
+		response.getOutputStream().println(
+				"<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		response.getOutputStream()
+				.println(
+						"<ServiceStatus xmlns=\"http://naesb.org/espi\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://naesb.org/espi espiDerived.xsd\">");
+		response.getOutputStream().println(
+				"  <currentStatus>" + getApplicationStatus(request)
+						+ "</currentStatus>\n</ServiceStatus>");
 
 	}
 
-	public void setAuthorizationService(AuthorizationService authorizationService) {
+	public void setAuthorizationService(
+			AuthorizationService authorizationService) {
 		this.authorizationService = authorizationService;
 	}
 
-	public AuthorizationService getAuthorizationService () {
+	public AuthorizationService getAuthorizationService() {
 		return this.authorizationService;
 	}
 
@@ -104,7 +109,7 @@ public class ServiceStatusRESTController {
 		this.resourceService = resourceService;
 	}
 
-	public ResourceService getResourceService () {
+	public ResourceService getResourceService() {
 		return this.resourceService;
 	}
 
