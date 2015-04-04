@@ -39,12 +39,7 @@ public class APISteps {
     public void I_GET_espi_1_1_resource_RetailCustomer_RetailCustomerID_UsagePoint() throws Throwable {
         driver.get(StepUtils.DATA_CUSTODIAN_BASE_URL + "/espi/1_1/resource/RetailCustomer/" + CucumberSession.getUserHashedId() + "/UsagePoint");
     }
-    @Ignore
-    @When("^I GET \\/espi\\/1_1\\/resource\\/RetailCustomer\\/\\{RetailCustomerID\\}\\/UsagePoint\\/\\{UsagePointID\\}$")
-    public void I_GET_espi_1_1_resource_RetailCustomer_RetailCustomerID_UsagePoint_UsagePointID() throws Throwable {
-        CucumberSession.setUsagePointHashedId(StepUtils.getFirstUsagePointHashedId());
-        driver.get(StepUtils.DATA_CUSTODIAN_BASE_URL + Routes.buildDataCustodianRESTUsagePointMember(CucumberSession.getUserHashedId(), CucumberSession.getUsagePointHashedId()));
-    }
+
     @Ignore
     @Then("^I should receive the list of Usage Points$")
     public void I_should_receive_the_list_of_Usage_Points() throws Throwable {
