@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2013, 2014 EnergyOS.org
+  ~ Copyright 2013, 2014, 2015 EnergyOS.org
   ~
   ~    Licensed under the Apache License, Version 2.0 (the "License");
   ~    you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
     <groupId>org.energyos</groupId>
     <artifactId>DataCustodian</artifactId>
     <packaging>war</packaging>
-    <version>1.2-RELEASE</version>
+    <version>1.3-SNAPSHOT</version>
     <name>DataCustodian</name>
     <organization>
        <name>EnergyOS.org</name>
@@ -80,7 +80,7 @@
         <spring.security.version>3.2.3.RELEASE</spring.security.version>
         <spring-data-jpa.version>1.4.3.RELEASE</spring-data-jpa.version>
         <spring-security-oauth.version>2.0.2.RELEASE</spring-security-oauth.version>
-        <openespi-common.version>1.2-RELEASE</openespi-common.version>
+        <openespi-common.version>1.3-SNAPSHOT</openespi-common.version>
         <apache-httpcomponent.version>4.3.2</apache-httpcomponent.version>
         <jackson1.version>1.9.13</jackson1.version>
         <jackson2.version>2.2.2</jackson2.version>
