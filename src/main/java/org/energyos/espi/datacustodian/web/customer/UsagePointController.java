@@ -25,7 +25,6 @@ import java.util.List;
 import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.ElectricPowerQualitySummary;
 import org.energyos.espi.common.domain.ElectricPowerUsageSummary;
-import org.energyos.espi.common.domain.UsageSummary;
 import org.energyos.espi.common.domain.MeterReading;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.TimeConfiguration;
@@ -142,13 +141,10 @@ public class UsagePointController extends BaseController {
 		// find the summary rollups
 		List<ElectricPowerQualitySummary> qualitySummaryList = usagePoint
 				.getElectricPowerQualitySummaries();
-		List<ElectricPowerUsageSummary> electricPowerUsageSummaryList = usagePoint
+		List<ElectricPowerUsageSummary> usageSummaryList = usagePoint
 				.getElectricPowerUsageSummaries();
-		List<UsageSummary> usageSummaryList = usagePoint
-				.getUsageSummaries();
 		displayBag.put("QualitySummaryList", qualitySummaryList);
 		displayBag.put("UsageSummaryList", usageSummaryList);
-		displayBag.put("ElectricPowerUsageSummaryList", electricPowerUsageSummaryList);
 
 		TimeConfiguration timeConfiguration = usagePoint
 				.getLocalTimeParameters();
