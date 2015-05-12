@@ -41,6 +41,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
 import org.springframework.security.oauth2.common.exceptions.InvalidScopeException;
 import org.springframework.security.oauth2.common.util.OAuth2Utils;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -74,23 +75,23 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 		System.out.printf("EspiTokenEnhancer: OAuth2Request Parameters = %s\n",
 				authentication.getOAuth2Request().getRequestParameters());
 
+		System.out.printf("EspiTokenEnhancer: Authorities = %s\n",authentication.getAuthorities());
+		
 		String clientId = authentication.getOAuth2Request().getClientId();
 		ApplicationInformation ai = null;
 
 		// [mjb20150102] Allow REGISTRATION_xxxx and ADMIN_xxxx to use same
 		// ApplicationInformation record
 		String ci = clientId;
-		String clientCredentialsScope = "";
+		String clientCredentialsScope = accessToken.getScope().toString();
 		if (ci.indexOf("REGISTRATION_") != -1) {
 			if (ci.substring(0, "REGISTRATION_".length()).equals(
 					"REGISTRATION_")) {
 				ci = ci.substring("REGISTRATION_".length());
-				clientCredentialsScope = "FB=36_40";
 			}
 		}
 		if (ci.indexOf("_admin") != -1) {
 			ci = ci.substring(0, ci.indexOf("_admin"));
-			clientCredentialsScope = "FB=34_35,FB=45";
 		}
 
 		// Confirm Application Information record exists for ClientID requesting
@@ -118,6 +119,13 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			// Processing a "client_credentials" access token grant_type
 			// request.
 
+			// make sure we reject a client_credentials request for ROLE_USER 
+			if (authentication.getAuthorities().toString().contains("[ROLE_USER]"))	{
+				throw new InvalidGrantException(String.format(
+						"Client Credentials not valid for ROLE_USER\n"));					
+			}
+			
+			
 			Authorization authorization = authorizationService
 					.createAuthorization(null, result.getValue());
 			result.getAdditionalInformation().put(
@@ -128,26 +136,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 									"{authorizationId}",
 									authorization.getId().toString()));
 
-			// [mjb20150102] Allow REGISTRATION_xxxx and ADMIN_xxxx to use same
-			// ApplicationInformation record
-			if (!(clientCredentialsScope.contains(accessToken
-					.getScope()
-					.toString()
-					.substring(1,
-							(accessToken.getScope().toString().length() - 1))))) {
-
-				System.out
-						.printf("\nEspiTokenEnhancer: Incorrect client_credentials based access token request Scope value!\n"
-								+ "OAuth2Request Parameters = %s\n",
-								authentication.getOAuth2Request()
-										.getRequestParameters()
-										+ " client_id = "
-										+ clientId
-										+ " scope = " + accessToken.getScope());
-				throw new InvalidScopeException(String.format(
-						"Invalid scope request: %s", accessToken.getScope()));
-			}
-
+			// set up corresponding authorization
 			authorization.setThirdParty(authentication.getOAuth2Request()
 					.getClientId());
 			authorization.setAccessToken(accessToken.getValue());
