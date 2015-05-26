@@ -1,3 +1,3 @@
 #!/bin/sh
 
-mvn clean
+mvn clean -P ci
