@@ -123,6 +123,12 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+        
+        <repository>
+        	<id>openespi-common-${1.3-SNAPSHOT}</id>
+        	<name>OpenESPI Common</name>
+        	<url>https://github.com/energyos/openESPI-common-java.git</url>
+        </repository>
     </repositories>
 
     <dependencies>
