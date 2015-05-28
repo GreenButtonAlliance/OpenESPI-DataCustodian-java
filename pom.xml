@@ -101,7 +101,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
-    <repositories>
+    <repositories>        
         <repository>
             <id>spring-maven-release</id>
             <name>Spring Maven Release Repository</name>
@@ -121,23 +121,14 @@
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
-        </repository>
-        
-        <repository>
-        	<id>openespi-common-${openespi-common.version}</id>
-        	<name>OpenESPI Common Repository</name>
-        	<url>https://github.com/energyos/openESPI-Common-java/</url>
-        	<snapshots>
-        		<enabled>false</enabled>
-        	</snapshots>
-        </repository>
+        </repository>        
     </repositories>
 
     <dependencies>
 
         <dependency>
             <groupId>org.energyos</groupId>
-            <artifactId>openESPI-Common-java</artifactId>
+            <artifactId>Common</artifactId>
             <version>${openespi-common.version}</version>
         </dependency>
 
