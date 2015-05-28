@@ -26,8 +26,7 @@
     <organization>
        <name>EnergyOS.org</name>
     </organization>
-    
-    
+       
     <scm>
        <!-- Replace the connection below with your project connection -->
        <!--  http://mariuszprzydatek.com/2013/09/18/displaying-git-build-number-hash-in-your-rest-api/ -->
@@ -125,9 +124,12 @@
         </repository>
         
         <repository>
-        	<id>openespi-common-${1.3-SNAPSHOT}</id>
-        	<name>OpenESPI Common</name>
-        	<url>https://github.com/energyos/openESPI-common-java.git</url>
+        	<id>openespi-common-${openespi-common.version}</id>
+        	<name>OpenESPI Common Repository</name>
+        	<url>https://github.com/energyos/openESPI-Common-java/</url>
+        	<snapshots>
+        		<enabled>false</enabled>
+        	</snapshots>
         </repository>
     </repositories>
 
@@ -135,7 +137,7 @@
 
         <dependency>
             <groupId>org.energyos</groupId>
-            <artifactId>Common</artifactId>
+            <artifactId>openESPI-Common-java</artifactId>
             <version>${openespi-common.version}</version>
         </dependency>
 
