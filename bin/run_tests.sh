@@ -1,3 +1,3 @@
 #!/bin/sh
 
-mvn -P devmysql clean install
+mvn -DskipTests=true clean
