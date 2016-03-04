@@ -32,6 +32,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.xml.sax.SAXException;
 
 @Controller
 public class UploadController extends BaseController {
@@ -58,17 +59,25 @@ public class UploadController extends BaseController {
 	@RequestMapping(value = Routes.DATA_CUSTODIAN_UPLOAD, method = RequestMethod.POST)
 	public String uploadPost(@ModelAttribute UploadForm uploadForm,
 			BindingResult result) throws IOException, JAXBException {
+		
 		try {
-
+			
 			importService.importData(uploadForm.getFile().getInputStream(),
 					null);
-
 			return "redirect:/custodian/retailcustomers";
-		} catch (Exception e) {
+			
+		} catch (SAXException e) {
+			
 			result.addError(new ObjectError("uploadForm",
-					"Unable to process file"));
+					e.getMessage()));
 			return "/custodian/upload";
-		}
+				
+		} catch (Exception e) {
+				
+			result.addError(new ObjectError("uploadForm",
+						"Unable to process file"));
+			return "/custodian/upload";
+		} 
 	}
 
 	public void setImportService(ImportService importService) {

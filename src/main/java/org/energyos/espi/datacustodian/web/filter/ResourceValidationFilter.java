@@ -482,6 +482,8 @@ public class ResourceValidationFilter implements Filter {
 					String.format("Access Not Authorized"));
 		}
 
+		// TODO -- Verify contents of query parameters are properly formatted
+		
 		chain.doFilter(req, res);
 
 	}

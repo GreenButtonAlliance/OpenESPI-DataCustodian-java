@@ -22,6 +22,15 @@
 
 <jsp:include page="../tiles/head.jsp"/>
 
+<script type="text/javascript">
+function validateForm() {
+	var filename = document.forms["uploadForm"]["file"].value;
+	if (filename == null || filename == "") {
+		alert("No File has been selected.  Please specify File to be uploaded");
+		return false;
+	}
+}
+</script>
 <body>
 
 <jsp:include page="../tiles/custodian/header.jsp"/>
@@ -31,13 +40,14 @@
         <div class="span12">
             <h2>Upload</h2>
 
-            <form:form modelAttribute="uploadForm" class="form-horizontal" action="${pageContext.request.contextPath}/custodian/upload" enctype="multipart/form-data">
+            <form:form modelAttribute="uploadForm" class="form-horizontal" action="${pageContext.request.contextPath}/custodian/upload" enctype="multipart/form-data"
+            	onsubmit="return validateForm()">
                 <form:errors path="*" cssClass="alert alert-error" element="div" />
 
                 <div class="control-group">
                     <label class="control-label" for="file">File</label>
                     <div class="controls">
-                        <input type="file" name="file" />
+                        <input type="file" name="file"/>
                         <input type="submit" name="upload" value="Upload"/>
                     </div>
                 </div>
