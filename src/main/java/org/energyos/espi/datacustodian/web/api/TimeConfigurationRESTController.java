@@ -31,6 +31,7 @@ import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.TimeConfigurationService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
+import org.energyos.espi.datacustodian.utils.VerifyURLParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -76,6 +77,13 @@ public class TimeConfigurationRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		// Verify request contains valid query parameters
+		if(!VerifyURLParams.verifyEntries(Routes.ROOT_TIME_CONFIGURATION_COLLECTION, params)) {
+
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			return;
+		}
+
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		exportService.exportTimeConfigurations(response.getOutputStream(),
 				new ExportFilter(params));
@@ -87,6 +95,13 @@ public class TimeConfigurationRESTController {
 			@PathVariable Long timeConfigurationId,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
+
+		// Verify request contains valid query parameters
+		if(!VerifyURLParams.verifyEntries(Routes.ROOT_TIME_CONFIGURATION_MEMBER, params)) {
+
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			return;
+		}
 
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {

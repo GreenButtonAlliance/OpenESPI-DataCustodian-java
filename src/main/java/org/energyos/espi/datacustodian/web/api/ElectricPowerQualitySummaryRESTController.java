@@ -36,6 +36,7 @@ import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.SubscriptionService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
+import org.energyos.espi.datacustodian.utils.VerifyURLParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -87,6 +88,13 @@ public class ElectricPowerQualitySummaryRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		// Verify request contains valid query parameters
+		if(!VerifyURLParams.verifyEntries(Routes.ROOT_ELECTRIC_POWER_QUALITY_SUMMARY_COLLECTION, params)) {
+
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			return;
+		}
+
 		Long subscriptionId = getSubscriptionId(request);
 
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
@@ -102,6 +110,13 @@ public class ElectricPowerQualitySummaryRESTController {
 			@PathVariable Long electricPowerQualitySummaryId,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
+
+		// Verify request contains valid query parameters
+		if(!VerifyURLParams.verifyEntries(Routes.ROOT_ELECTRIC_POWER_QUALITY_SUMMARY_MEMBER, params)) {
+
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			return;
+		}
 
 		Long subscriptionId = getSubscriptionId(request);
 
@@ -183,6 +198,13 @@ public class ElectricPowerQualitySummaryRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		// Verify request contains valid query parameters
+		if(!VerifyURLParams.verifyEntries(Routes.ELECTRIC_POWER_QUALITY_SUMMARY_COLLECTION, params)) {
+
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			return;
+		}
+
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 
 		Long retailCustomerId = subscriptionService.findRetailCustomerId(
@@ -200,6 +222,13 @@ public class ElectricPowerQualitySummaryRESTController {
 			@PathVariable Long electricPowerQualitySummaryId,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
+
+		// Verify request contains valid query parameters
+		if(!VerifyURLParams.verifyEntries(Routes.ELECTRIC_POWER_QUALITY_SUMMARY_MEMBER, params)) {
+
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			return;
+		}
 
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 
