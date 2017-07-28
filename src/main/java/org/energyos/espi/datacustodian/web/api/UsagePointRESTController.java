@@ -35,6 +35,7 @@ import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.SubscriptionService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.utils.ExportFilter;
+import org.energyos.espi.datacustodian.utils.VerifyURLParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -82,6 +83,13 @@ public class UsagePointRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		// Verify request contains valid query parameters
+		if(!VerifyURLParams.verifyEntries(Routes.ROOT_USAGE_POINT_COLLECTION, params)) {
+
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			return;
+		}
+
 		Long subscriptionId = getSubscriptionId(request);
 
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
@@ -101,6 +109,13 @@ public class UsagePointRESTController {
 			@PathVariable Long usagePointId,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
+
+		// Verify request contains valid query parameters
+		if(!VerifyURLParams.verifyEntries(Routes.ROOT_USAGE_POINT_MEMBER, params)) {
+
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			return;
+		}
 
 		Long subscriptionId = getSubscriptionId(request);
 
@@ -175,6 +190,13 @@ public class UsagePointRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		// Verify request contains valid query parameters
+		if(!VerifyURLParams.verifyEntries(Routes.USAGE_POINT_COLLECTION, params)) {
+
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			return;
+		}
+
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
 			Subscription subscription = subscriptionService
@@ -197,6 +219,13 @@ public class UsagePointRESTController {
 			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
+
+		// Verify request contains valid query parameters
+		if(!VerifyURLParams.verifyEntries(Routes.USAGE_POINT_MEMBER, params)) {
+
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			return;
+		}
 
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {

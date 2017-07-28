@@ -36,6 +36,7 @@ import org.energyos.espi.common.service.NotificationService;
 import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.utils.ExportFilter;
+import org.energyos.espi.datacustodian.utils.VerifyURLParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -45,6 +46,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.HandlerMapping;
 
 import com.sun.syndication.io.FeedException;
 
@@ -142,6 +144,13 @@ public class BatchRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		// Verify request contains valid query parameters
+		if(!VerifyURLParams.verifyEntries(Routes.BATCH_DOWNLOAD_MY_DATA_COLLECTION, params)) {
+
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			return;
+		}
+
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		response.addHeader("Content-Disposition",
 				"attachment; filename=GreenButtonDownload.xml");
@@ -186,6 +195,13 @@ public class BatchRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		// Verify request contains valid query parameters
+		if(!VerifyURLParams.verifyEntries(Routes.BATCH_DOWNLOAD_MY_DATA_MEMBER, params)) {
+
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			return;
+		}
+
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		response.addHeader("Content-Disposition",
 				"attachment; filename=GreenButtonDownload.xml");
@@ -228,6 +244,13 @@ public class BatchRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		// Verify request contains valid query parameters
+		if(!VerifyURLParams.verifyEntries(Routes.BATCH_SUBSCRIPTION, params)) {
+
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			return;
+		}
+
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		response.addHeader("Content-Disposition",
 				"attachment; filename=GreenButtonDownload.xml");
@@ -268,6 +291,13 @@ public class BatchRESTController {
 			@PathVariable Long subscriptionId,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
+
+		// Verify request contains valid query parameters
+		if(!VerifyURLParams.verifyEntries(Routes.BATCH_SUBSCRIPTION_USAGEPOINT, params)) {
+
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			return;
+		}
 
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		response.addHeader("Content-Disposition",
@@ -313,6 +343,13 @@ public class BatchRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		// Verify request contains valid query parameters
+		if(!VerifyURLParams.verifyEntries(Routes.BATCH_SUBSCRIPTION_USAGEPOINT_MEMBER, params)) {
+
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			return;
+		}
+
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		response.addHeader("Content-Disposition",
 				"attachment; filename=GreenButtonDownload.xml");
@@ -355,6 +392,13 @@ public class BatchRESTController {
 	public void bulk(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable Long bulkId, @RequestParam Map<String, String> params)
 			throws IOException, FeedException {
+
+		// Verify request contains valid query parameters
+		if(!VerifyURLParams.verifyEntries(Routes.BATCH_BULK_MEMBER, params)) {
+
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			return;
+		}
 
 		// check to see if SFTP (or XML Caching) is turned on for this bulkId.
 		//
@@ -472,7 +516,6 @@ public class BatchRESTController {
 			}
 		}
 		return result;
-
 	}
 
 	public void setImportService(ImportService importService) {

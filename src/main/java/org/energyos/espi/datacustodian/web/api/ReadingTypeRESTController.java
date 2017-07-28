@@ -28,6 +28,7 @@ import org.energyos.espi.common.service.ExportService;
 import org.energyos.espi.common.service.ReadingTypeService;
 import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.utils.ExportFilter;
+import org.energyos.espi.datacustodian.utils.VerifyURLParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -67,6 +68,13 @@ public class ReadingTypeRESTController {
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
 
+		// Verify request contains valid query parameters
+		if(!VerifyURLParams.verifyEntries(Routes.ROOT_READING_TYPE_COLLECTION, params)) {
+
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			return;
+		}
+
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		exportService.exportReadingTypes(response.getOutputStream(),
 				new ExportFilter(params));
@@ -78,6 +86,13 @@ public class ReadingTypeRESTController {
 			@PathVariable Long readingTypeId,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
+
+		// Verify request contains valid query parameters
+		if(!VerifyURLParams.verifyEntries(Routes.ROOT_READING_TYPE_MEMBER, params)) {
+
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			return;
+		}
 
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		exportService.exportReadingType(readingTypeId,

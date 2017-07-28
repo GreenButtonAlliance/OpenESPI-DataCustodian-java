@@ -109,16 +109,16 @@
             </properties>
         </profile>
         
-        <profile>
-        	<!-- EnerNex hosted Green Button Sandbox -->
-            <id>greenbuttondata</id>
-            <properties>
-                <datacustodian.base.url>http://services.greenbuttondata.org/DataCustodian</datacustodian.base.url>
-                <profile>greenbuttondata</profile>
-                <database>mysql</database>
-                <hbm2ddl_auto>none</hbm2ddl_auto>
-            </properties>
-        </profile>
+<!--         <profile> -->
+<!--         	EnerNex hosted Green Button Sandbox -->
+<!--             <id>greenbuttondata</id> -->
+<!--             <properties> -->
+<!--                 <datacustodian.base.url>http://services.greenbuttondata.org/DataCustodian</datacustodian.base.url> -->
+<!--                 <profile>greenbuttondata</profile> -->
+<!--                 <database>mysql</database> -->
+<!--                 <hbm2ddl_auto>none</hbm2ddl_auto> -->
+<!--             </properties> -->
+<!--         </profile> -->
 
 		<profile>
 			<!-- Green Button Alliance AWS Green Button Sandbox -->
