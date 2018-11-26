@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/energyos/OpenESPI-DataCustodian-java.png)](https://travis-ci.org/energyos/OpenESPI-DataCustodian-java)
+[![CircleCI](https://circleci.com/gh/GreenButtonAlliance/OpenESPI-DataCustodian-java/tree/master.svg?style=svg)](https://circleci.com/gh/GreenButtonAlliance/OpenESPI-DataCustodian-java/tree/master)
 
 OpenESPI-DataCustodian
 ======================
