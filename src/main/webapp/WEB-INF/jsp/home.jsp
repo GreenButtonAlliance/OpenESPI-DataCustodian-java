@@ -29,14 +29,14 @@
 
     <!-- Main hero unit for a primary marketing message or call to action -->
     <div class="hero-unit">
-	<h2>Welcome to the <a href="http://www.energyos.org">EnergyOS</a> Green Button Data Custodian</h2>
-	<p><a href="http://www.energyos.org">EnergyOS</a> has, with the support of <a href="http://pivotallabs.com/">Pivotal Labs</a>, prepared a reference Green Button
+	<h2>Welcome to the <a href="http://www.greenbuttonalliance.org">Green Button Alliance, Inc.</a> Green Button Data Custodian</h2>
+	<p><a href="http://www.greenbuttonalliance.org">Green Button Alliance, Inc.</a> has, with the support of <a href="http://pivotallabs.com/">Pivotal Labs</a>, prepared a reference Green Button
 	Data Custodian implementation. This implementation supports a full complement of Green Button facilities and, as an 
-	<a href="https://github.com/energyos">Open Source project</a>, is freely available for download by any interested parties.</p>
+	<a href="https://github.com/greenbuttonalliance">Open Source project</a>, is freely available for download by any interested parties.</p>
 	<p>
 
 	<span class="inline pull-left"><a href="http://www.greenbuttondata.org" class="btn btn-primary btn-large">Learn more about Green Button &raquo;</a></span>
-    <span class="inline pull-right"><a href="http://www.greenbuttondata.org" class="btn btn-primary btn-large">Learn more about EnergyOS Open Source &raquo;</a></span>
+    <span class="inline pull-right"><a href="http://www.greenbuttondata.org" class="btn btn-primary btn-large">Learn more about Green Button Alliance Open Source &raquo;</a></span>
 
     </p>
     </div>
@@ -56,7 +56,7 @@
                You can learn about Atom feeds and the OData standard from which Green Button was derived, as well as the details
                of the Energy Usage Information contained in Green Button feeds. 
                </p>
-            <p><a class="btn" href="http://energyos.github.io/OpenESPI-GreenButton-API-Documentation/">View details &raquo;</a></p>
+            <p><a class="btn" href="http://greenbuttonalliance.github.io/OpenESPI-GreenButton-API-Documentation/">View details &raquo;</a></p>
         </div>
         <div class="span4">
             <h3>API Reference</h3>
@@ -64,7 +64,7 @@
                Third Party servers, hosted at GreenButtonData.org, to develop new applications, providing services and features to better engage the Retail Customer
                to understand their energy usage.
                </p>
-            <p><a class="btn" href="http://energyos.github.io/OpenESPI-GreenButton-API-Documentation/API/">View details &raquo;</a></p>
+            <p><a class="btn" href="http://greenbuttonalliance.github.io/OpenESPI-GreenButton-API-Documentation/API/">View details &raquo;</a></p>
         </div>
     </div>
 

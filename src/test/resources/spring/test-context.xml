@@ -32,7 +32,7 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <bean id="tokenEnhancer" class="org.energyos.espi.datacustodian.oauth.EspiTokenEnhancer">
+    <bean id="tokenEnhancer" class="org.greenbuttonalliance.espi.datacustodian.oauth.EspiTokenEnhancer">
    </bean>
    
     <bean id="retailCustomerService" name="retailCustomerServiceImpl" class="org.energyos.espi.common.service.impl.RetailCustomerServiceImpl" autowire-candidate="true"/>

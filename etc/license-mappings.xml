@@ -27,8 +27,13 @@
         <license>Apache License, Version 2.0</license>
     </artifact>
     <artifact>
+        <groupId>Green Button Alliance, Inc.</groupId>
+        <artifactId>DataCustodian</artifactId>
+        <license>Apache License, Version 2.0</license>
+    </artifact>
+    <artifact>
     	<groupId>BrandsEye</groupId>
     	<artifactId>CORSFilter</artifactId>
     	<license>Apache License, Version 2.0</license>
-    </artifact>    
+    </artifact>
 </license-lookup>

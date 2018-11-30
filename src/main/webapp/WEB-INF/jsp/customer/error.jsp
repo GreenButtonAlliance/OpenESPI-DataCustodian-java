@@ -35,7 +35,7 @@
         <li>${errorString}</li>
         </ul>
        <p>
-       Please Contact <a href="support@greenbuttondata.org">Support at GreenButtonData</a> for further assistance.
+       Please Contact <a href="support@greenbuttonalliance.org">Support at Green Button Alliance</a> for further assistance.
        </p><p>
        <a href="<c:url value='/RetailCustomer/${retailCustomerId}/UsagePoint'/>">Continue</a>
     </div>

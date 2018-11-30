@@ -40,7 +40,7 @@
 <dt>Hypertek Inc.</dt>
 <dt>REMI Networks</dt>
 </dl>
-<h4><a href="https://services.greenbuttondata.org">Green Button Sandbox</a></h4>
+<h4><a href="https://sandbox.greenbuttonalliance.org:8443">Green Button Sandbox</a></h4>
 <dl>
 <dt><a href="http://www.energyos.org">EnergyOS.org</a></dt>
 <dt><a href="http://www.nist.gov">National Institute of Standards and Technology</a></dt>

@@ -18,10 +18,10 @@ package features.steps;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
-import static org.energyos.espi.common.test.Asserts.assertXpathValue;
+import static org.greenbuttonalliance.espi.common.test.Asserts.assertXpathValue;
 
-import org.energyos.espi.common.test.TestUtils;
-import org.energyos.espi.common.test.WebDriverSingleton;
+import org.greenbuttonalliance.espi.common.test.TestUtils;
+import org.greenbuttonalliance.espi.common.test.WebDriverSingleton;
 import org.junit.Ignore;
 import org.openqa.selenium.WebDriver;
 

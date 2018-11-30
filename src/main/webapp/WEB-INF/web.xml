@@ -13,7 +13,7 @@
 	
     <filter>
         <filter-name>CORSFilter</filter-name>
-        <filter-class>org.energyos.espi.datacustodian.web.filter.CORSFilter</filter-class>
+        <filter-class>org.greenbuttonalliance.espi.datacustodian.web.filter.CORSFilter</filter-class>
       
 		<!-- Allow "origin" header -->
     	<init-param>  
@@ -48,7 +48,7 @@
     
     <filter>
     	<filter-name>StringToLongFilter</filter-name>
-    	<filter-class>org.energyos.espi.common.utils.StringToLongFilter</filter-class>	
+    	<filter-class>org.greenbuttonalliance.espi.common.utils.StringToLongFilter</filter-class>
     </filter>
 
     <filter-mapping>

@@ -18,8 +18,8 @@ package features.steps;
 
 import static features.steps.StepUtils.assertContains;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
-import static org.energyos.espi.common.test.BaseStepUtils.clickLinkByText;
-import static org.energyos.espi.common.test.TestUtils.getXPathValue;
+import static org.greenbuttonalliance.espi.common.test.BaseStepUtils.clickLinkByText;
+import static org.greenbuttonalliance.espi.common.test.TestUtils.getXPathValue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -28,8 +28,8 @@ import static org.junit.Assert.assertThat;
 import java.io.IOException;
 
 import org.custommonkey.xmlunit.exceptions.XpathException;
-import org.energyos.espi.common.test.CucumberSession;
-import org.energyos.espi.common.test.WebDriverSingleton;
+import org.greenbuttonalliance.espi.common.test.CucumberSession;
+import org.greenbuttonalliance.espi.common.test.WebDriverSingleton;
 import org.junit.Ignore;
 import org.openqa.selenium.WebDriver;
 import org.springframework.http.HttpEntity;
