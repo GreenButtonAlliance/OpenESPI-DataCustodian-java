@@ -1,34 +1,24 @@
 /*
- * Copyright 2013, 2014, 2015 EnergyOS.org
+ *     Copyright (c) 2018 Green Button Alliance, Inc.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *     Licensed under the Apache License, Version 2.0 (the "License");
+ *     you may not use this file except in compliance with the License.
+ *     You may obtain a copy of the License at
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *     Unless required by applicable law or agreed to in writing, software
+ *     distributed under the License is distributed on an "AS IS" BASIS,
+ *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *     See the License for the specific language governing permissions and
+ *     limitations under the License.
  */
 
 package org.greenbuttonalliance.espi.datacustodian.web.customer;
 
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
-import org.greenbuttonalliance.espi.common.domain.ApplicationInformation;
-import org.greenbuttonalliance.espi.common.domain.ElectricPowerQualitySummary;
-import org.greenbuttonalliance.espi.common.domain.ElectricPowerUsageSummary;
-import org.greenbuttonalliance.espi.common.domain.MeterReading;
-import org.greenbuttonalliance.espi.common.domain.Routes;
-import org.greenbuttonalliance.espi.common.domain.TimeConfiguration;
-import org.greenbuttonalliance.espi.common.domain.UsagePoint;
+import org.greenbuttonalliance.espi.common.domain.*;
 import org.greenbuttonalliance.espi.common.service.ApplicationInformationService;
 import org.greenbuttonalliance.espi.common.service.ExportService;
 import org.greenbuttonalliance.espi.common.service.ResourceService;
@@ -42,6 +32,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.lang.Object;
 
 @Controller
 public class UsagePointController extends BaseController {
