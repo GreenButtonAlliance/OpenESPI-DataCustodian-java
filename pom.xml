@@ -179,7 +179,7 @@
         <repository>
             <id>nexus-snapshot</id>
             <name>Green Button Snapshot Repository</name>
-            <url>https://oss.sonatype.org/org.greenbuttonalliance/Snapshots/Common</url>
+            <url>https://oss.sonatype.org/org.greenbuttonalliance/Snapshots</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
@@ -188,7 +188,7 @@
         <repository>
             <id>nexus-release</id>
             <name>Green Button Snapshot Repository</name>
-            <url>https://oss.sonatype.org/org.greenbuttonalliance/Releases/Common</url>
+            <url>https://oss.sonatype.org/org.greenbuttonalliance/Releases</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
