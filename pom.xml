@@ -85,7 +85,6 @@
     </developers>
     
     <profiles>
-    
          <profile>
              <id>dev</id>
              <activation>
@@ -119,7 +118,6 @@
 				<hbm2ddl_auto>none</hbm2ddl_auto>
 			</properties>
 		</profile>
-		
     </profiles>
 
     <properties>
@@ -179,9 +177,9 @@
         </repository>
 
         <repository>
-            <id>greenbuttonalliance-snapshot</id>
+            <id>gba-nexus-snapshot</id>
             <name>Green Button Snapshot Repository</name>
-            <url>maven.greenbuttonalliance.org/snapshot</url>
+            <url>https://oss.sonatype.org/org.greenbuttonalliance/Snapshots</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
