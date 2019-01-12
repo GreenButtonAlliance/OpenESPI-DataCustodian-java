@@ -177,7 +177,16 @@
         </repository>
 
         <repository>
-            <id>gba-nexus-snapshot</id>
+            <id>nexus-snapshot</id>
+            <name>Green Button Snapshot Repository</name>
+            <url>https://oss.sonatype.org/org.greenbuttonalliance/Snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+
+        <repository>
+            <id>nexus-release</id>
             <name>Green Button Snapshot Repository</name>
             <url>https://oss.sonatype.org/org.greenbuttonalliance/Snapshots</url>
             <snapshots>
