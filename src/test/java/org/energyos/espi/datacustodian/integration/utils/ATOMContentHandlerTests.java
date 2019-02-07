@@ -1,25 +1,22 @@
 /*
- * Copyright 2013, 2014, 2015 EnergyOS.org
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *     Licensed under the Apache License, Version 2.0 (the "License");
+ *     you may not use this file except in compliance with the License.
+ *     You may obtain a copy of the License at
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *     Unless required by applicable law or agreed to in writing, software
+ *     distributed under the License is distributed on an "AS IS" BASIS,
+ *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *     See the License for the specific language governing permissions and
+ *     limitations under the License.
  */
 
 package org.energyos.espi.datacustodian.integration.utils;
-
-import java.util.UUID;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.parsers.SAXParserFactory;
 
 import org.energyos.espi.common.service.EntryProcessorService;
 import org.energyos.espi.common.utils.ATOMContentHandler;
@@ -37,6 +34,10 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.parsers.SAXParserFactory;
+import java.util.UUID;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
