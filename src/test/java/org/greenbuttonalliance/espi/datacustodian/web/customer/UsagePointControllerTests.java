@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -16,14 +16,14 @@
  *     limitations under the License.
  */
 
-package org.greenbuttonalliance.espi.datacustodian.web.customer;
+package org.energyos.espi.datacustodian.web.customer;
 
-import org.greenbuttonalliance.espi.common.domain.RetailCustomer;
-import org.greenbuttonalliance.espi.common.domain.UsagePoint;
-import org.greenbuttonalliance.espi.common.service.ExportService;
-import org.greenbuttonalliance.espi.common.service.UsagePointService;
-import org.greenbuttonalliance.espi.common.service.impl.UsagePointServiceImpl;
-import org.greenbuttonalliance.espi.common.utils.ExportFilter;
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.service.ExportService;
+import org.energyos.espi.common.service.UsagePointService;
+import org.energyos.espi.common.service.impl.UsagePointServiceImpl;
+import org.energyos.espi.common.utils.ExportFilter;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

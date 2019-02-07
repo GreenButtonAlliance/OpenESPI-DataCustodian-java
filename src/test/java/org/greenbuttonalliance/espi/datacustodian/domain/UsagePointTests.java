@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -16,16 +16,16 @@
  *     limitations under the License.
  */
 
-package org.greenbuttonalliance.espi.datacustodian.domain;
+package org.energyos.espi.datacustodian.domain;
 
-import org.greenbuttonalliance.espi.common.domain.UsagePoint;
-import org.greenbuttonalliance.espi.common.models.atom.LinkType;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.models.atom.LinkType;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import java.util.List;
 
-import static org.greenbuttonalliance.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;

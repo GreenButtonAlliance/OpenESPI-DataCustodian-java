@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -23,8 +23,8 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.greenbuttonalliance.espi.common.test.CucumberSession;
-import org.greenbuttonalliance.espi.common.test.WebDriverSingleton;
+import org.energyos.espi.common.test.CucumberSession;
+import org.energyos.espi.common.test.WebDriverSingleton;
 import org.junit.Ignore;
 import org.openqa.selenium.WebDriver;
 
@@ -32,7 +32,7 @@ import java.util.UUID;
 
 import static features.steps.StepUtils.associate;
 import static features.steps.StepUtils.navigateTo;
-import static org.greenbuttonalliance.espi.common.test.BaseStepUtils.clickLinkByText;
+import static org.energyos.espi.common.test.BaseStepUtils.clickLinkByText;
 import static org.junit.Assert.assertTrue;
 
 public class DataCustodianSteps {

@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -16,14 +16,14 @@
  *     limitations under the License.
  */
 
-package org.greenbuttonalliance.espi.datacustodian.support;
+package org.energyos.espi.datacustodian.support;
 
 import com.sun.syndication.feed.atom.Link;
-import org.greenbuttonalliance.espi.common.domain.RetailCustomer;
-import org.greenbuttonalliance.espi.common.service.ImportService;
-import org.greenbuttonalliance.espi.common.service.UsagePointService;
-import org.greenbuttonalliance.espi.datacustodian.atom.EspiEntry;
-import org.greenbuttonalliance.espi.datacustodian.utils.factories.FixtureFactory;
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.service.ImportService;
+import org.energyos.espi.common.service.UsagePointService;
+import org.energyos.espi.datacustodian.atom.EspiEntry;
+import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
 import org.xml.sax.SAXException;
 
 import javax.persistence.Column;
@@ -153,7 +153,7 @@ public class TestUtils {
 	}
 
 	public static <T extends EspiEntry<?>> String findRelatedHref(T entry,
-                                                                  String type) {
+			String type) {
 		for (Link link : entry.getRelatedLinks()) {
 			if (link.getHref().contains(type)) {
 				return link.getHref();

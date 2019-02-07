@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -16,14 +16,13 @@
  *     limitations under the License.
  */
 
-package org.greenbuttonalliance.espi.datacustodian.domain;
+package org.energyos.espi.datacustodian.domain;
 
 import com.sun.syndication.io.FeedException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
-import org.greenbuttonalliance.espi.common.domain.MeterReading;
-import org.greenbuttonalliance.espi.common.domain.UsagePoint;
-import org.greenbuttonalliance.espi.common.utils.EspiMarshaller;
-import org.greenbuttonalliance.espi.datacustodian.support.TestUtils;
+import org.energyos.espi.common.domain.MeterReading;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.utils.EspiMarshaller;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -31,9 +30,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.IOException;
 
-import static com.thoughtworks.selenium.SeleneseTestBase.assertEquals;
-import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
-import static org.greenbuttonalliance.espi.datacustodian.utils.factories.EspiFactory.newMeterReadingWithUsagePoint;
+import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
+import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newMeterReadingWithUsagePoint;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
@@ -57,19 +55,19 @@ public class MeterReadingTests extends XMLTest {
 
 	@Test
 	public void usagePoint_hasTransientAnnotation() {
-		TestUtils.assertAnnotationPresent(MeterReading.class, "usagePoint",
+		assertAnnotationPresent(MeterReading.class, "usagePoint",
 				XmlTransient.class);
 	}
 
 	@Test
 	public void intervalBlocks_hasTransientAnnotation() {
-		TestUtils.assertAnnotationPresent(MeterReading.class, "intervalBlocks",
+		assertAnnotationPresent(MeterReading.class, "intervalBlocks",
 				XmlTransient.class);
 	}
 
 	@Test
 	public void readingType_hasTransientAnnotation() {
-		TestUtils.assertAnnotationPresent(MeterReading.class, "readingType",
+		assertAnnotationPresent(MeterReading.class, "readingType",
 				XmlTransient.class);
 	}
 

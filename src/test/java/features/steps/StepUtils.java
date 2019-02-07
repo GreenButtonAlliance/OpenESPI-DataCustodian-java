@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -18,9 +18,9 @@
 
 package features.steps;
 
-import org.greenbuttonalliance.espi.common.test.BaseStepUtils;
-import org.greenbuttonalliance.espi.common.test.CucumberSession;
-import org.greenbuttonalliance.espi.common.test.FixtureFactory;
+import org.energyos.espi.common.test.BaseStepUtils;
+import org.energyos.espi.common.test.CucumberSession;
+import org.energyos.espi.common.test.FixtureFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 

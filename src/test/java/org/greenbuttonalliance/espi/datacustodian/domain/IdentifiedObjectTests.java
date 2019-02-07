@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -16,17 +16,16 @@
  *     limitations under the License.
  */
 
-package org.greenbuttonalliance.espi.datacustodian.domain;
+package org.energyos.espi.datacustodian.domain;
 
-import org.greenbuttonalliance.espi.common.domain.IdentifiedObject;
-import org.greenbuttonalliance.espi.datacustodian.support.TestUtils;
+import org.energyos.espi.common.domain.IdentifiedObject;
 import org.junit.Test;
 
 import javax.persistence.Embedded;
 import javax.xml.bind.annotation.XmlTransient;
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
+import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
 
 public class IdentifiedObjectTests {
 	@Test
@@ -71,33 +70,33 @@ public class IdentifiedObjectTests {
 
 	@Test
 	public void description_hasTransientAnnotation() {
-		TestUtils.assertAnnotationPresent(IdentifiedObject.class, "description",
+		assertAnnotationPresent(IdentifiedObject.class, "description",
 				XmlTransient.class);
 	}
 
 	@Test
 	public void id_hasTransientAnnotation() {
-		TestUtils.assertAnnotationPresent(IdentifiedObject.class, "id",
+		assertAnnotationPresent(IdentifiedObject.class, "id",
 				XmlTransient.class);
 	}
 
 	@Test
 	public void created_hasTransientAnnotation() {
-		TestUtils.assertAnnotationPresent(IdentifiedObject.class, "published",
+		assertAnnotationPresent(IdentifiedObject.class, "published",
 				XmlTransient.class);
 	}
 
 	@Test
 	public void updated_hasTransientAnnotation() {
-		TestUtils.assertAnnotationPresent(IdentifiedObject.class, "updated",
+		assertAnnotationPresent(IdentifiedObject.class, "updated",
 				XmlTransient.class);
 	}
 
 	@Test
 	public void upLink() {
-		TestUtils.assertAnnotationPresent(IdentifiedObject.class, "upLink",
+		assertAnnotationPresent(IdentifiedObject.class, "upLink",
 				XmlTransient.class);
-		TestUtils.assertAnnotationPresent(IdentifiedObject.class, "upLink",
+		assertAnnotationPresent(IdentifiedObject.class, "upLink",
 				Embedded.class);
 	}
 }

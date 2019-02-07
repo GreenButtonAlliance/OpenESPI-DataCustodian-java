@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -16,10 +16,10 @@
  *     limitations under the License.
  */
 
-package org.greenbuttonalliance.espi.datacustodian.domain;
+package org.energyos.espi.datacustodian.domain;
 
 import org.custommonkey.xmlunit.exceptions.XpathException;
-import org.greenbuttonalliance.espi.common.domain.BatchList;
+import org.energyos.espi.common.domain.BatchList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

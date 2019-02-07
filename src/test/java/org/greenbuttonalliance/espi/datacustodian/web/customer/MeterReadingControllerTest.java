@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -16,10 +16,10 @@
  *     limitations under the License.
  */
 
-package org.greenbuttonalliance.espi.datacustodian.web.customer;
+package org.energyos.espi.datacustodian.web.customer;
 
-import org.greenbuttonalliance.espi.common.domain.MeterReading;
-import org.greenbuttonalliance.espi.common.service.MeterReadingService;
+import org.energyos.espi.common.domain.MeterReading;
+import org.energyos.espi.common.service.MeterReadingService;
 import org.junit.Test;
 import org.springframework.ui.ModelMap;
 

@@ -4,7 +4,7 @@
 <%@ taglib prefix="authz" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
-  ~     Copyright (c) 2018 Green Button Alliance, Inc.
+  ~     Copyright (c) 2018-2019 Green Button Alliance, Inc.
   ~
   ~     Portions copyright (c) 2013-2018 EnergyOS.org
   ~

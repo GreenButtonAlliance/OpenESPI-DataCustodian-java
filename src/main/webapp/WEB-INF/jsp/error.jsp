@@ -1,7 +1,7 @@
 <%@ page isErrorPage="true" import="java.io.PrintWriter"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
-  ~     Copyright (c) 2018 Green Button Alliance, Inc.
+  ~     Copyright (c) 2018-2019 Green Button Alliance, Inc.
   ~
   ~     Portions copyright (c) 2013-2018 EnergyOS.org
   ~

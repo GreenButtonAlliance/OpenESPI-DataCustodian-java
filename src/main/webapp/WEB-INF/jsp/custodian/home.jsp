@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%--
-  ~     Copyright (c) 2018 Green Button Alliance, Inc.
+  ~     Copyright (c) 2018-2019 Green Button Alliance, Inc.
   ~
   ~     Portions copyright (c) 2013-2018 EnergyOS.org
   ~
@@ -61,14 +61,14 @@ function OnStateChange () {
 
     <!-- Main hero unit for a primary marketing message or call to action -->
     <div class="hero-unit">
-	<h2>Welcome to the <a href="http://www.greenbuttonalliance.org">Green Button Alliance, Inc.</a> Green Button Data Custodian</h2>
-	<p><a href="http://www.greenbuttonalliance.org">Green Button Alliance, Inc.</a> has, with the support of <a href="http://pivotallabs.com/">Pivotal Labs</a>, prepared a reference Green Button
+	<h2>Welcome to the <a href="http://www.energyos.org">EnergyOS</a> Green Button Data Custodian</h2>
+	<p><a href="http://www.energyos.org">EnergyOS</a> has, with the support of <a href="http://pivotallabs.com/">Pivotal Labs</a>, prepared a reference Green Button
 	Data Custodian implementation. This implementation supports a full complement of Green Button facilities and, as an 
-	<a href="https://github.com/greenbuttonalliance">Open Source project</a>, is freely available for download by any interested parties.</p>
+	<a href="https://github.com/energyos">Open Source project</a>, is freely available for download by any interested parties.</p>
 	<p>
 
-	<span class="inline pull-left"><a href="http://sandbox.greenbuttonalliance.org:8443" class="btn btn-primary btn-large">Learn more about Green Button &raquo;</a></span>
-    <span class="inline pull-right"><a href="http://sandbox.greenbuttonalliance.org:8443" class="btn btn-primary btn-large">Learn more about Green Button Alliance, Inc. Open Source &raquo;</a></span>
+	<span class="inline pull-left"><a href="http://www.greenbuttondata.org" class="btn btn-primary btn-large">Learn more about Green Button &raquo;</a></span>
+    <span class="inline pull-right"><a href="http://www.greenbuttondata.org" class="btn btn-primary btn-large">Learn more about EnergyOS Open Source &raquo;</a></span>
     </p>
     </div>
 

@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -16,7 +16,7 @@
  *     limitations under the License.
  */
 
-package org.greenbuttonalliance.espi.datacustodian.utils;
+package org.energyos.espi.datacustodian.utils;
 
 import java.util.Map;
 

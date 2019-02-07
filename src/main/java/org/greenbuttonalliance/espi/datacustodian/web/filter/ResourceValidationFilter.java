@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -16,13 +16,13 @@
  *     limitations under the License.
  */
 
-package org.greenbuttonalliance.espi.datacustodian.web.filter;
+package org.energyos.espi.datacustodian.web.filter;
 
-import org.greenbuttonalliance.espi.common.domain.Authorization;
-import org.greenbuttonalliance.espi.common.domain.Subscription;
-import org.greenbuttonalliance.espi.common.service.AuthorizationService;
-import org.greenbuttonalliance.espi.common.service.SubscriptionService;
-import org.greenbuttonalliance.espi.common.service.UsagePointService;
+import org.energyos.espi.common.domain.Authorization;
+import org.energyos.espi.common.domain.Subscription;
+import org.energyos.espi.common.service.AuthorizationService;
+import org.energyos.espi.common.service.SubscriptionService;
+import org.energyos.espi.common.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;

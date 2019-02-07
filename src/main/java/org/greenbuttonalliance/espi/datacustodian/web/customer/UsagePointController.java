@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -16,14 +16,14 @@
  *     limitations under the License.
  */
 
-package org.greenbuttonalliance.espi.datacustodian.web.customer;
+package org.energyos.espi.datacustodian.web.customer;
 
-import org.greenbuttonalliance.espi.common.domain.*;
-import org.greenbuttonalliance.espi.common.service.ApplicationInformationService;
-import org.greenbuttonalliance.espi.common.service.ExportService;
-import org.greenbuttonalliance.espi.common.service.ResourceService;
-import org.greenbuttonalliance.espi.common.service.UsagePointService;
-import org.greenbuttonalliance.espi.datacustodian.web.BaseController;
+import org.energyos.espi.common.domain.*;
+import org.energyos.espi.common.service.ApplicationInformationService;
+import org.energyos.espi.common.service.ExportService;
+import org.energyos.espi.common.service.ResourceService;
+import org.energyos.espi.common.service.UsagePointService;
+import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +38,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.lang.Object;
 
 @Controller
 public class UsagePointController extends BaseController {

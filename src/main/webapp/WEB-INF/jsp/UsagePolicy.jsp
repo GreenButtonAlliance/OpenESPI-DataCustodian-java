@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
-  ~     Copyright (c) 2018 Green Button Alliance, Inc.
+  ~     Copyright (c) 2018-2019 Green Button Alliance, Inc.
   ~
   ~     Portions copyright (c) 2013-2018 EnergyOS.org
   ~
@@ -32,7 +32,7 @@
 <h1>End User Acceptable Use Policy</h1>
 This is an Acceptable Use Policy for the server running at nominatim.openstreetmap.org and does not apply to Green Button Services run by yourself or other organizations. 
 
-Green Button Alliance, Inc's Green Button DataCustodian and ThirdParty services provide Industry Standard Green Button Connect My Data and Download My Data services.  We are in principle happy for the public API to be used by external users for creative and unexpected uses. However, be aware that the service runs on donated servers and has a very limited capacity. We therefore ask you to limit your use and adhere to this usage policy.
+EnergyOS.org's Green Button DataCustodian and ThirdParty services provide Industry Standard Green Button Connect My Data and Download My Data services.  We are in principle happy for the public API to be used by external users for creative and unexpected uses. However, be aware that the service runs on donated servers and has a very limited capacity. We therefore ask you to limit your use and adhere to this usage policy.
 
 <h2>Requirements</h2>
 
@@ -72,7 +72,7 @@ Please be aware that this usage policy may change without notice. In particular,
 
 <h2>Alternatives</h2>
 
-For slightly larger requirements you may deploy the services provided here on your own machines. The source code and release packages for the Green Button Alliance, Inc Green Button Services are readily available at <a href="http://github.com/energyos/">github.com/energyos</a>
+For slightly larger requirements you may deploy the services provided here on your own machines. The source code and release packages for the EnergyOS.org Green Button Services are readily available at <a href="http://github.com/energyos/">github.com/energyos</a>
         </div>
     </div>
 

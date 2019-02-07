@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -16,13 +16,13 @@
  *     limitations under the License.
  */
 
-package org.greenbuttonalliance.espi.datacustodian.web.custodian;
+package org.energyos.espi.datacustodian.web.custodian;
 
-import org.greenbuttonalliance.espi.common.domain.Routes;
-import org.greenbuttonalliance.espi.common.service.ImportService;
-import org.greenbuttonalliance.espi.common.service.NotificationService;
-import org.greenbuttonalliance.espi.common.service.UsagePointService;
-import org.greenbuttonalliance.espi.datacustodian.web.BaseController;
+import org.energyos.espi.common.domain.Routes;
+import org.energyos.espi.common.service.ImportService;
+import org.energyos.espi.common.service.NotificationService;
+import org.energyos.espi.common.service.UsagePointService;
+import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -36,8 +36,7 @@ import javax.xml.bind.JAXBException;
 import java.io.IOException;
 
 @Controller
-public class
-UploadController extends BaseController {
+public class UploadController extends BaseController {
 
 	@Autowired
 	private ImportService importService;

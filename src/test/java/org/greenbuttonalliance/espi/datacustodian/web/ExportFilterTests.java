@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -16,11 +16,11 @@
  *     limitations under the License.
  */
 
-package org.greenbuttonalliance.espi.datacustodian.web;
+package org.energyos.espi.datacustodian.web;
 
-import org.greenbuttonalliance.espi.common.models.atom.EntryType;
-import org.greenbuttonalliance.espi.common.utils.DateConverter;
-import org.greenbuttonalliance.espi.common.utils.ExportFilter;
+import org.energyos.espi.common.models.atom.EntryType;
+import org.energyos.espi.common.utils.DateConverter;
+import org.energyos.espi.common.utils.ExportFilter;
 import org.junit.Before;
 import org.junit.Test;
 

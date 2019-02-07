@@ -1,5 +1,5 @@
 <!--
-  ~     Copyright (c) 2018 Green Button Alliance, Inc.
+  ~     Copyright (c) 2018-2019 Green Button Alliance, Inc.
   ~
   ~     Portions copyright (c) 2013-2018 EnergyOS.org
   ~
@@ -20,29 +20,27 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.greenbuttonalliance</groupId>
+    <groupId>org.energyos</groupId>
     <artifactId>DataCustodian</artifactId>
     <version>1.3-SNAPSHOT</version>
     <packaging>war</packaging>
-
     <name>DataCustodian</name>
-
     <organization>
-       <name>Green Button Alliance, Inc.</name>
-       <url>http://www.greenbuttonalliance.org</url>
+       <name>EnergyOS.org</name>
+       <url>http://www.energyos.org</url>
     </organization>
     
     <licenses>
     	<license>
     		<name>The Apache Software License, Version 2.0</name>
-    		<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    		<url>http://www.apache.org/licenses/LICENSE-2.o.txt</url>
     	</license>
     </licenses>
        
     <scm>
-       <connection>scm:git:https://github.com/GreenButtonAlliance/OpenESPI-DataCustodian-java.git/</connection>
-       <developerConnection>scm:git:git@github.com:GreenButtonAlliance/OpenESPI-DataCustodian-java.git</developerConnection>
-       <url>https://github.com/GreenButtonAlliance/OpenESPI-DataCustodian-java.git</url>
+       <connection>scm:git:https://github.com/energyos/OpenESPI-DataCustodian-java.git/</connection>
+       <developerConnection>scm:git:git@github.com:energyos/OpenESPI-DataCustodian-java.git</developerConnection>
+       <url>https://github.com/energyos/OpenESPI-DataCustodian-java.git</url>
        <tag>HEAD</tag>
     </scm>
     
@@ -86,17 +84,18 @@
     
     <profiles>
     
-         <profile>
-             <id>dev</id>
-             <activation>
-                 <activeByDefault>true</activeByDefault>
-             </activation>
-             <properties>
-                 <datacustodian.base.url>http://localhost:8080/DataCustodian</datacustodian.base.url>
-                 <database>hsql</database>
-                 <hbm2ddl_auto>create-drop</hbm2ddl_auto>
-             </properties>
-         </profile>
+<!--         <profile> -->
+<!--             <id>dev</id> -->
+<!--             <activation> -->
+<!--                 <activeByDefault>true</activeByDefault> -->
+<!--             </activation> -->
+<!--             <properties> -->
+<!--                 <datacustodian.base.url>http://localhost:8080/DataCustodian</datacustodian.base.url> -->
+<!--                 <profile>dev</profile> -->
+<!--                 <database>hsql</database> -->
+<!--                 <hbm2ddl_auto>create-drop</hbm2ddl_auto> -->
+<!--             </properties> -->
+<!--         </profile> -->
 
         <profile>
             <id>devmysql</id>
@@ -105,16 +104,29 @@
              </activation>
             <properties>
                 <datacustodian.base.url>http://localhost:8080/DataCustodian</datacustodian.base.url>
+                <profile>devmysql</profile>
                 <database>mysql</database>
                 <hbm2ddl_auto>none</hbm2ddl_auto>
             </properties>
         </profile>
+        
+<!--         <profile> -->
+<!--         	EnerNex hosted Green Button Sandbox -->
+<!--             <id>greenbuttondata</id> -->
+<!--             <properties> -->
+<!--                 <datacustodian.base.url>http://services.greenbuttondata.org/DataCustodian</datacustodian.base.url> -->
+<!--                 <profile>greenbuttondata</profile> -->
+<!--                 <database>mysql</database> -->
+<!--                 <hbm2ddl_auto>none</hbm2ddl_auto> -->
+<!--             </properties> -->
+<!--         </profile> -->
 
 		<profile>
 			<!-- Green Button Alliance AWS Green Button Sandbox -->
 			<id>awsgbasandbox</id>
 			<properties>
 				<datacustodian.base.url>https://sandbox.greenbuttonalliance.org:8443/DataCustodian</datacustodian.base.url>
+				<profile>awsgbasandbox</profile>
 				<database>mysql</database>
 				<hbm2ddl_auto>none</hbm2ddl_auto>
 			</properties>
@@ -123,12 +135,6 @@
     </profiles>
 
     <properties>
-        <!-- Java -->
-        <java.version>1.7</java.version>
-
-        <!-- Jaxb -->
-        <jaxb.version>2.3.0</jaxb.version>
-
         <!-- Spring -->
         <spring.version>4.0.6.RELEASE</spring.version>
         <spring.security.version>3.2.3.RELEASE</spring.security.version>
@@ -176,24 +182,21 @@
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
-        </repository>
-
-        <repository>
-            <id>greenbuttonalliance-snapshot</id>
-            <name>Green Button Snapshot Repository</name>
-            <url>maven.greenbuttonalliance.org/snapshot</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
+        </repository>        
     </repositories>
 
     <dependencies>
         <dependency>
-            <groupId>org.greenbuttonalliance</groupId>
+            <groupId>org.energyos</groupId>
             <artifactId>Common</artifactId>
             <version>${openespi-common.version}</version>
         </dependency>
+
+<!--         <dependency> -->
+<!--             <groupId>org.springframework.security</groupId> -->
+<!--             <artifactId>spring-security-core</artifactId> -->
+<!--             <version>${spring-security.version}</version> -->
+<!--         </dependency> -->
 
         <dependency>
             <groupId>org.springframework.security.oauth</groupId>
@@ -494,23 +497,6 @@
             <version>1.3</version>
         </dependency>
 
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>${jaxb.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-core</artifactId>
-            <version>${jaxb.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-            <version>${jaxb.version}</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -546,8 +532,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.5.1</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
 
@@ -618,7 +604,7 @@
                 <version>2.0</version>
                 <configuration>
                     <path>/DataCustodian</path>
-                    <url>http://sandbox.greenbuttonalliance.org:8443/manager/text</url>
+                    <url>http://services.greenbuttondata.org/manager/text</url>
                     <server>TomcatServerDeployment</server>
                 </configuration>
             </plugin>
@@ -658,41 +644,44 @@
                     </execution>
                 </executions>
             </plugin>
- 	        <plugin>
-		        <groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-war-plugin</artifactId>
-		        <version>2.3</version>
-		        <configuration>
-			        <archive>
-				        <addMavenDescriptor>false</addMavenDescriptor>
-				        <manifest>
-					        <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-				        </manifest>
-				        <manifestEntries>
-                            <Implementation-Build>${buildNumber}</Implementation-Build>
-                            <Implementation-Build-Time>${maven.build.timestamp}</Implementation-Build-Time>
-                        </manifestEntries>
-			        </archive>
-			        <warName>DataCustodian</warName>
-		        </configuration>
-	        </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>buildnumber-maven-plugin</artifactId>
-                <version>1.1</version>
-                <configuration>
-                    <shortRevisionLength>7</shortRevisionLength>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>create</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+ 	<plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-war-plugin</artifactId>
+		<version>2.3</version>
+		<configuration>
+			<archive>
+				<addMavenDescriptor>false</addMavenDescriptor>
+				<manifest>
+					<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+				</manifest>				
+				<manifestEntries>
+                  <Implementation-Build>${buildNumber}</Implementation-Build>
+                  <Implementation-Build-Time>${maven.build.timestamp}</Implementation-Build-Time>
+                </manifestEntries>
+				
+			</archive>
+			<warName>DataCustodian</warName>
+		</configuration>
+	</plugin>
+    <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>buildnumber-maven-plugin</artifactId>
+        <version>1.1</version>
+        <configuration>
+          <shortRevisionLength>7</shortRevisionLength>
+        </configuration>
+        <executions>
+            <execution>
+                <phase>validate</phase>
+                <goals>
+                    <goal>create</goal>
+                </goals>
+            </execution>
+        </executions>
+    </plugin>           
+            
         </plugins>
+
     </build>
 </project>
 

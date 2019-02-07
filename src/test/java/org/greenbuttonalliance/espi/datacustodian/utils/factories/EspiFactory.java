@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -16,10 +16,10 @@
  *     limitations under the License.
  */
 
-package org.greenbuttonalliance.espi.datacustodian.utils.factories;
+package org.energyos.espi.datacustodian.utils.factories;
 
-import org.greenbuttonalliance.espi.common.domain.*;
-import org.greenbuttonalliance.espi.common.models.atom.LinkType;
+import org.energyos.espi.common.domain.*;
+import org.energyos.espi.common.models.atom.LinkType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.provider.OAuth2Request;
 

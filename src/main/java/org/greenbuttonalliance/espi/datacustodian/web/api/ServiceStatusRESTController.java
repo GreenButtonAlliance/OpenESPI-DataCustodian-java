@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -16,16 +16,16 @@
  *     limitations under the License.
  */
 
-package org.greenbuttonalliance.espi.datacustodian.web.api;
+package org.energyos.espi.datacustodian.web.api;
 
 import com.sun.syndication.io.FeedException;
-import org.greenbuttonalliance.espi.common.domain.ApplicationInformation;
-import org.greenbuttonalliance.espi.common.domain.Authorization;
-import org.greenbuttonalliance.espi.common.domain.Routes;
-import org.greenbuttonalliance.espi.common.models.atom.DateTimeType;
-import org.greenbuttonalliance.espi.common.service.AuthorizationService;
-import org.greenbuttonalliance.espi.common.service.ResourceService;
-import org.greenbuttonalliance.espi.common.utils.DateConverter;
+import org.energyos.espi.common.domain.ApplicationInformation;
+import org.energyos.espi.common.domain.Authorization;
+import org.energyos.espi.common.domain.Routes;
+import org.energyos.espi.common.models.atom.DateTimeType;
+import org.energyos.espi.common.service.AuthorizationService;
+import org.energyos.espi.common.service.ResourceService;
+import org.energyos.espi.common.utils.DateConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;

@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
-  ~     Copyright (c) 2018 Green Button Alliance, Inc.
+  ~     Copyright (c) 2018-2019 Green Button Alliance, Inc.
   ~
   ~     Portions copyright (c) 2013-2018 EnergyOS.org
   ~
@@ -42,7 +42,7 @@
 <dt>Hypertek Inc.</dt>
 <dt>REMI Networks</dt>
 </dl>
-<h4><a href="https://sandbox.greenbuttonalliance.org:8443">Green Button Sandbox</a></h4>
+<h4><a href="https://services.greenbuttondata.org">Green Button Sandbox</a></h4>
 <dl>
 <dt><a href="http://www.energyos.org">EnergyOS.org</a></dt>
 <dt><a href="http://www.nist.gov">National Institute of Standards and Technology</a></dt>

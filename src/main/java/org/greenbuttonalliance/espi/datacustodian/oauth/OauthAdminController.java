@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -15,9 +15,9 @@
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
  */
-package org.greenbuttonalliance.espi.datacustodian.oauth;
+package org.energyos.espi.datacustodian.oauth;
 
-import org.greenbuttonalliance.espi.datacustodian.web.BaseController;
+import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;

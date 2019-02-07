@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -18,7 +18,7 @@
 
 package features.steps;
 
-import org.greenbuttonalliance.espi.common.test.WebDriverSingleton;
+import org.energyos.espi.common.test.WebDriverSingleton;
 import org.junit.Ignore;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

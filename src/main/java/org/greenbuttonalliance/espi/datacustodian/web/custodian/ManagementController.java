@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -16,11 +16,11 @@
  *     limitations under the License.
  */
 
-package org.greenbuttonalliance.espi.datacustodian.web.custodian;
+package org.energyos.espi.datacustodian.web.custodian;
 
-import org.greenbuttonalliance.espi.common.domain.Routes;
-import org.greenbuttonalliance.espi.common.service.NotificationService;
-import org.greenbuttonalliance.espi.datacustodian.web.BaseController;
+import org.energyos.espi.common.domain.Routes;
+import org.energyos.espi.common.service.NotificationService;
+import org.energyos.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -33,8 +33,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @PreAuthorize("hasRole('ROLE_CUSTODIAN')")
 public class ManagementController extends BaseController {
 
-/*	@Resource*/
-    @Autowired
+	@Autowired
 	private NotificationService notificationService;
 
 	@RequestMapping(value = Routes.DATA_CUSTODIAN_NOTIFY_THIRD_PARTY, method = RequestMethod.GET)

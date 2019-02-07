@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -16,22 +16,22 @@
  *     limitations under the License.
  */
 
-package org.greenbuttonalliance.espi.datacustodian.web.api;
+package org.energyos.espi.datacustodian.web.api;
 
-import org.greenbuttonalliance.espi.common.domain.Subscription;
-import org.greenbuttonalliance.espi.common.models.atom.EntryType;
-import org.greenbuttonalliance.espi.common.repositories.UsagePointRepository;
-import org.greenbuttonalliance.espi.common.repositories.jpa.UsagePointRepositoryImpl;
-import org.greenbuttonalliance.espi.common.service.ResourceService;
-import org.greenbuttonalliance.espi.common.service.SubscriptionService;
-import org.greenbuttonalliance.espi.common.service.UsagePointService;
-import org.greenbuttonalliance.espi.common.service.impl.ExportServiceImpl;
-import org.greenbuttonalliance.espi.common.service.impl.ResourceServiceImpl;
-import org.greenbuttonalliance.espi.common.service.impl.UsagePointServiceImpl;
-import org.greenbuttonalliance.espi.common.utils.DateConverter;
-import org.greenbuttonalliance.espi.common.utils.EntryTypeIterator;
-import org.greenbuttonalliance.espi.common.utils.ExportFilter;
-import org.greenbuttonalliance.espi.datacustodian.domain.XMLTest;
+import org.energyos.espi.common.domain.Subscription;
+import org.energyos.espi.common.models.atom.EntryType;
+import org.energyos.espi.common.repositories.UsagePointRepository;
+import org.energyos.espi.common.repositories.jpa.UsagePointRepositoryImpl;
+import org.energyos.espi.common.service.ResourceService;
+import org.energyos.espi.common.service.SubscriptionService;
+import org.energyos.espi.common.service.UsagePointService;
+import org.energyos.espi.common.service.impl.ExportServiceImpl;
+import org.energyos.espi.common.service.impl.ResourceServiceImpl;
+import org.energyos.espi.common.service.impl.UsagePointServiceImpl;
+import org.energyos.espi.common.utils.DateConverter;
+import org.energyos.espi.common.utils.EntryTypeIterator;
+import org.energyos.espi.common.utils.ExportFilter;
+import org.energyos.espi.datacustodian.domain.XMLTest;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -49,8 +49,8 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
-import static org.greenbuttonalliance.espi.common.test.EspiFactory.newRetailCustomer;
-import static org.greenbuttonalliance.espi.common.test.EspiFactory.newSubscription;
+import static org.energyos.espi.common.test.EspiFactory.newRetailCustomer;
+import static org.energyos.espi.common.test.EspiFactory.newSubscription;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.*;

@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -21,14 +21,14 @@ package features.steps;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.greenbuttonalliance.espi.common.domain.*;
-import org.greenbuttonalliance.espi.common.service.ExportService;
-import org.greenbuttonalliance.espi.common.service.ImportService;
-import org.greenbuttonalliance.espi.common.service.RetailCustomerService;
-import org.greenbuttonalliance.espi.common.service.UsagePointService;
-import org.greenbuttonalliance.espi.common.utils.ExportFilter;
-import org.greenbuttonalliance.espi.datacustodian.utils.factories.EspiFactory;
-import org.greenbuttonalliance.espi.datacustodian.utils.factories.FixtureFactory;
+import org.energyos.espi.common.domain.*;
+import org.energyos.espi.common.service.ExportService;
+import org.energyos.espi.common.service.ImportService;
+import org.energyos.espi.common.service.RetailCustomerService;
+import org.energyos.espi.common.service.UsagePointService;
+import org.energyos.espi.common.utils.ExportFilter;
+import org.energyos.espi.datacustodian.utils.factories.EspiFactory;
+import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
 import org.junit.Ignore;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

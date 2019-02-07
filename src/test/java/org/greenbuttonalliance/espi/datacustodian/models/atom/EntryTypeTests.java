@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -16,13 +16,12 @@
  *     limitations under the License.
  */
 
-package org.greenbuttonalliance.espi.datacustodian.models.atom;
+package org.energyos.espi.datacustodian.models.atom;
 
-import org.greenbuttonalliance.espi.common.models.atom.EntryType;
+import org.energyos.espi.common.models.atom.EntryType;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 public class EntryTypeTests {
 	@Test

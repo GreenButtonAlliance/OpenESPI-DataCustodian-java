@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -16,15 +16,14 @@
  *     limitations under the License.
  */
 
-package org.greenbuttonalliance.espi.datacustodian.web;
+package org.energyos.espi.datacustodian.web;
 
-import org.greenbuttonalliance.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.domain.RetailCustomer;
 import org.junit.Test;
 import org.springframework.security.core.Authentication;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

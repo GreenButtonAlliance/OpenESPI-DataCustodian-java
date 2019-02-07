@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -15,13 +15,13 @@
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
  */
-package org.greenbuttonalliance.espi.datacustodian.web.api;
+package org.energyos.espi.datacustodian.web.api;
 
 import com.sun.syndication.io.FeedException;
-import org.greenbuttonalliance.espi.common.domain.*;
-import org.greenbuttonalliance.espi.common.service.*;
-import org.greenbuttonalliance.espi.common.utils.ExportFilter;
-import org.greenbuttonalliance.espi.datacustodian.utils.VerifyURLParams;
+import org.energyos.espi.common.domain.*;
+import org.energyos.espi.common.service.*;
+import org.energyos.espi.common.utils.ExportFilter;
+import org.energyos.espi.datacustodian.utils.VerifyURLParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

@@ -1,5 +1,5 @@
 /*
- *     Copyright (c) 2018 Green Button Alliance, Inc.
+ *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
  *
  *     Portions copyright (c) 2013-2018 EnergyOS.org
  *
@@ -16,9 +16,9 @@
  *     limitations under the License.
  */
 
-package org.greenbuttonalliance.espi.datacustodian.integration.web.filters;
+package org.energyos.espi.datacustodian.integration.web.filters;
 
-import org.greenbuttonalliance.espi.datacustodian.web.filter.CORSFilter;
+import org.energyos.espi.datacustodian.web.filter.CORSFilter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
-  ~     Copyright (c) 2018 Green Button Alliance, Inc.
+  ~     Copyright (c) 2018-2019 Green Button Alliance, Inc.
   ~
   ~     Portions copyright (c) 2013-2018 EnergyOS.org
   ~
@@ -30,7 +30,7 @@
 			<li>|| <a href="<c:url value='/UsagePolicy' />">Usage Policy</a></li>
 			<li>|| <a href="<c:url value='/about-version' />">About</a></li>
 			<li>|| <a href="<c:url value='/Sponsors' /> ">Sponsors</a></li>
-			<li>|| &copy; <a href="http://www.greenbuttonalliance.org/">Green Button Alliance, Inc.</a> 2018 </li>
+			<li>|| &copy; <a href="http://www.EnergyOS.org/">EnergyOS.org</a> 2013, 2014 </li>
 		</ul>
 
 	</div>
