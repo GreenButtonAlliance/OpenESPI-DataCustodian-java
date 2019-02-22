@@ -16,10 +16,10 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.web.customer;
+package org.greenbuttonalliance.espi.datacustodian.web.customer;
 
-import org.energyos.espi.common.domain.MeterReading;
-import org.energyos.espi.common.service.MeterReadingService;
+import org.greenbuttonalliance.espi.common.domain.MeterReading;
+import org.greenbuttonalliance.espi.common.service.MeterReadingService;
 import org.junit.Test;
 import org.springframework.ui.ModelMap;
 

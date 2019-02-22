@@ -15,7 +15,7 @@
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
  */
-package org.energyos.espi.datacustodian.oauth;
+package org.greenbuttonalliance.espi.datacustodian.oauth;
 
 import org.springframework.security.oauth2.common.util.OAuth2Utils;
 import org.springframework.security.oauth2.provider.AuthorizationRequest;

@@ -16,10 +16,10 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.repositories.jpa;
+package org.greenbuttonalliance.espi.datacustodian.repositories.jpa;
 
-import org.energyos.espi.common.domain.MeterReading;
-import org.energyos.espi.common.repositories.MeterReadingRepository;
+import org.greenbuttonalliance.espi.common.domain.MeterReading;
+import org.greenbuttonalliance.espi.common.repositories.MeterReadingRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

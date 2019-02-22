@@ -16,12 +16,12 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.integration.utils;
+package org.greenbuttonalliance.espi.datacustodian.integration.utils;
 
-import org.energyos.espi.common.service.EntryProcessorService;
-import org.energyos.espi.common.utils.ATOMContentHandler;
-import org.energyos.espi.datacustodian.BaseTest;
-import org.energyos.espi.datacustodian.utils.factories.FixtureFactory;
+import org.greenbuttonalliance.espi.common.service.EntryProcessorService;
+import org.greenbuttonalliance.espi.common.utils.ATOMContentHandler;
+import org.greenbuttonalliance.espi.datacustodian.BaseTest;
+import org.greenbuttonalliance.espi.datacustodian.utils.factories.FixtureFactory;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;

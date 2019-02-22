@@ -16,7 +16,7 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.web.filter;
+package org.greenbuttonalliance.espi.datacustodian.web.filter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

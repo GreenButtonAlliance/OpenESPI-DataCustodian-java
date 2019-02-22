@@ -16,7 +16,7 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.web;
+package org.greenbuttonalliance.espi.datacustodian.web;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

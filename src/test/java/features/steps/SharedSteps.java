@@ -18,7 +18,7 @@
 
 package features.steps;
 
-import org.energyos.espi.common.test.WebDriverSingleton;
+import org.greenbuttonalliance.espi.common.test.WebDriverSingleton;
 import org.junit.Ignore;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

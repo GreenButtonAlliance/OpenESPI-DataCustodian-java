@@ -16,9 +16,9 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.web.custodian;
+package org.greenbuttonalliance.espi.datacustodian.web.custodian;
 
-import org.energyos.espi.common.service.ImportService;
+import org.greenbuttonalliance.espi.common.service.ImportService;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

@@ -16,16 +16,16 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.web.api;
+package org.greenbuttonalliance.espi.datacustodian.web.api;
 
 import com.sun.syndication.io.FeedException;
-import org.energyos.espi.common.domain.ApplicationInformation;
-import org.energyos.espi.common.domain.Authorization;
-import org.energyos.espi.common.domain.RetailCustomer;
-import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.common.service.*;
-import org.energyos.espi.common.utils.ExportFilter;
-import org.energyos.espi.datacustodian.utils.VerifyURLParams;
+import org.greenbuttonalliance.espi.common.domain.ApplicationInformation;
+import org.greenbuttonalliance.espi.common.domain.Authorization;
+import org.greenbuttonalliance.espi.common.domain.RetailCustomer;
+import org.greenbuttonalliance.espi.common.domain.Routes;
+import org.greenbuttonalliance.espi.common.service.*;
+import org.greenbuttonalliance.espi.common.utils.ExportFilter;
+import org.greenbuttonalliance.espi.datacustodian.utils.VerifyURLParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -76,11 +76,16 @@ public class BatchRESTController {
 	 *            HTTP Query Parameters
 	 * @param stream
 	 *            An input stream
-	 * @throws IOException
-	 * @throws FeedException
-	 * 
-	 * @usage POST
-	 *        /espi/1_1/resource/Batch/RetailCustomer/{retailCustomerId}/UsagePoint
+     * @throws IOException
+     *            Exception thrown by failed or interrupted I/O operations.
+     * @throws FeedException
+     *            Exception thrown by WireFeedInput, WireFeedOutput, WireFeedParser
+     *            and WireFeedGenerator instances if they can not parse or generate a feed.
+	 *
+     * <p>
+     *   Usage:
+	 *   POST /espi/1_1/resource/Batch/RetailCustomer/{retailCustomerId}/UsagePoint
+     * </p>
 	 */
 	@RequestMapping(value = Routes.BATCH_UPLOAD_MY_DATA, method = RequestMethod.POST, consumes = "application/xml", produces = "application/atom+xml")
 	@ResponseBody
@@ -119,13 +124,17 @@ public class BatchRESTController {
 	 *            HTTP Servlet Response
 	 * @param retailCustomerId
 	 *            The locally unique identifier of a Retail Customer - NOTE PII
-	 * @param HTTP
-	 *            Query Parameters
+	 * @param params
+	 *            HTTP Query Parameters
 	 * @throws IOException
+     *            Exception thrown by failed or interrupted I/O operations.
 	 * @throws FeedException
-	 * 
-	 * @usage GET
-	 *        /espi/1_1/resource/Batch/RetailCustomer/{retailCustomerId}/UsagePoint
+     *            Exception thrown by WireFeedInput, WireFeedOutput, WireFeedParser
+     *            and WireFeedGenerator instances if they can not parse or generate a feed.
+	 * <p>
+     *   Usage:
+     *   GET /espi/1_1/resource/Batch/RetailCustomer/{retailCustomerId}/UsagePoint
+     * </p>
 	 */
 	@RequestMapping(value = Routes.BATCH_DOWNLOAD_MY_DATA_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
@@ -169,13 +178,17 @@ public class BatchRESTController {
 	 * @param usagePointId
 	 *            The locally unique identifier of a UsagePoint.id
 	 * @param params
-	 *            params HTTP Query Parameters
-	 * @throws IOException
-	 * @throws FeedException
-	 * 
-	 * @usage GET
-	 *        /espi/1_1/resource/Batch/RetailCustomer/{retailCustomerId}/UsagePoint
-	 *        /{usagePointId}
+	 *            HTTP Query Parameters
+     * @throws IOException
+     *            Exception thrown by failed or interrupted I/O operations.
+     * @throws FeedException
+     *            Exception thrown by WireFeedInput, WireFeedOutput, WireFeedParser
+     *            and WireFeedGenerator instances if they can not parse or generate a feed.
+	 *
+     * <p>
+     *   Usage:
+     *   GET /espi/1_1/resource/Batch/RetailCustomer/{retailCustomerId}/UsagePoint/{usagePointId}
+     * </p>
 	 */
 	@RequestMapping(value = Routes.BATCH_DOWNLOAD_MY_DATA_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
@@ -208,9 +221,9 @@ public class BatchRESTController {
 	}
 
 	/**
-	 * Produce a Subscription for the requester. The resultant response will
-	 * contain a <feed> of the Usage Point(s) associated with the subscription.
-	 * 
+     * Produce a Subscription for the requester. The resultant response will
+     * contain an Atom "feed" of the Usage Point(s) associated with the subscription.
+	 *
 	 * Requires Authorization: Bearer [{data_custodian_access_token} |
 	 * {access_token}]
 	 * 
@@ -221,10 +234,16 @@ public class BatchRESTController {
 	 *            Authorization
 	 * @param params
 	 *            HTTP Query Parameters
-	 * @throws IOException
-	 * @throws FeedException
+     * @throws IOException
+     *            Exception thrown by failed or interrupted I/O operations.
+     * @throws FeedException
+     *            Exception thrown by WireFeedInput, WireFeedOutput, WireFeedParser
+     *            and WireFeedGenerator instances if they can not parse or generate a feed.
 	 * 
-	 * @usage GET /espi/1_1/resource/Batch/Subscription/{subscriptionId}
+	 * <p>
+     *   Usage:
+     *   GET /espi/1_1/resource/Batch/Subscription/{subscriptionId}
+	 * </p>
 	 */
 	@Transactional(readOnly = true)
 	@RequestMapping(value = Routes.BATCH_SUBSCRIPTION, method = RequestMethod.GET, produces = "application/atom+xml")
@@ -255,9 +274,9 @@ public class BatchRESTController {
 	}
 
 	/**
-	 * Produce a Subscription for the requester. The resultant response will
-	 * contain a <feed> of the Usage Point(s) associated with the subscription.
-	 * 
+     * Produce a Subscription for the requester. The resultant response will
+     * contain an Atom "feed" of the Usage Point(s) associated with the subscription.
+	 *
 	 * Requires Authorization: Bearer [{data_custodian_access_token} |
 	 * {access_token}]
 	 * 
@@ -268,11 +287,16 @@ public class BatchRESTController {
 	 *            Authorization
 	 * @param params
 	 *            HTTP Query Parameters
-	 * @throws IOException
-	 * @throws FeedException
-	 * 
-	 * @usage GET
-	 *        /espi/1_1/resource/Batch/Subscription/{subscriptionId}/UsagePoint
+     * @throws IOException
+     *            Exception thrown by failed or interrupted I/O operations.
+     * @throws FeedException
+     *            Exception thrown by WireFeedInput, WireFeedOutput, WireFeedParser
+     *            and WireFeedGenerator instances if they can not parse or generate a feed.
+	 *
+     * <p>
+     *   Usage:
+	 *   GET /espi/1_1/resource/Batch/Subscription/{subscriptionId}/UsagePoint
+     * </p>
 	 */
 	@Transactional(readOnly = true)
 	@RequestMapping(value = Routes.BATCH_SUBSCRIPTION_USAGEPOINT, method = RequestMethod.GET, produces = "application/atom+xml")
@@ -303,9 +327,9 @@ public class BatchRESTController {
 	}
 
 	/**
-	 * Produce a Subscription for the requester. The resultant response will
-	 * contain a <feed> of the Usage Point(s) associated with the subscription.
-	 * 
+     * Produce a Subscription for the requester. The resultant response will
+     * contain an Atom "feed" of the Usage Point(s) associated with the subscription.
+     *
 	 * Requires Authorization: Bearer [{data_custodian_access_token} |
 	 * {access_token}]
 	 * 
@@ -319,10 +343,16 @@ public class BatchRESTController {
 	 *            Authorization
 	 * @param params
 	 *            HTTP Query Parameters
-	 * @throws IOException
-	 * @throws FeedException
-	 * 
-	 * @usage GET /espi/1_1/resource/Batch/Subscription/{subscriptionId}
+     * @throws IOException
+     *            Exception thrown by failed or interrupted I/O operations.
+     * @throws FeedException
+     *            Exception thrown by WireFeedInput, WireFeedOutput, WireFeedParser
+     *            and WireFeedGenerator instances if they can not parse or generate a feed.
+	 *
+     * <p>
+     *   Usage:
+	 *   GET /espi/1_1/resource/Batch/Subscription/{subscriptionId}
+     * </p>
 	 */
 
 	@Transactional(readOnly = true)
@@ -372,10 +402,16 @@ public class BatchRESTController {
 	 *            Authorization.scope string
 	 * @param params
 	 *            HTTP Query Parameters
-	 * @throws IOException
-	 * @throws FeedException
-	 * 
-	 * @usage GET /espi/1_1/resource/Batch/Bulk/{bulkId}
+     * @throws IOException
+     *            Exception thrown by failed or interrupted I/O operations.
+     * @throws FeedException
+     *            Exception thrown by WireFeedInput, WireFeedOutput, WireFeedParser
+     *            and WireFeedGenerator instances if they can not parse or generate a feed.
+	 *
+     * <p>
+     *   Usage:
+	 *   GET /espi/1_1/resource/Batch/Bulk/{bulkId}
+     * </p>
 	 */
 	@RequestMapping(value = Routes.BATCH_BULK_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody

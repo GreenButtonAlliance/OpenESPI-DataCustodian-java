@@ -16,11 +16,11 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.web;
+package org.greenbuttonalliance.espi.datacustodian.web;
 
-import org.energyos.espi.common.models.atom.EntryType;
-import org.energyos.espi.common.utils.DateConverter;
-import org.energyos.espi.common.utils.ExportFilter;
+import org.greenbuttonalliance.espi.common.models.atom.EntryType;
+import org.greenbuttonalliance.espi.common.utils.DateConverter;
+import org.greenbuttonalliance.espi.common.utils.ExportFilter;
 import org.junit.Before;
 import org.junit.Test;
 

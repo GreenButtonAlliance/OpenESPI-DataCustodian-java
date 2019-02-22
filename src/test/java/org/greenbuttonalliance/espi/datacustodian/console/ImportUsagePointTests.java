@@ -16,7 +16,7 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.console;
+package org.greenbuttonalliance.espi.datacustodian.console;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;

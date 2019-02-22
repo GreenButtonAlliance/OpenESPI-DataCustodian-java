@@ -16,12 +16,12 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.web.custodian;
+package org.greenbuttonalliance.espi.datacustodian.web.custodian;
 
-import org.energyos.espi.common.domain.RetailCustomer;
-import org.energyos.espi.common.domain.UsagePoint;
-import org.energyos.espi.common.service.RetailCustomerService;
-import org.energyos.espi.common.service.UsagePointService;
+import org.greenbuttonalliance.espi.common.domain.RetailCustomer;
+import org.greenbuttonalliance.espi.common.domain.UsagePoint;
+import org.greenbuttonalliance.espi.common.service.RetailCustomerService;
+import org.greenbuttonalliance.espi.common.service.UsagePointService;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

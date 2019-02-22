@@ -16,12 +16,12 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.web.customer;
+package org.greenbuttonalliance.espi.datacustodian.web.customer;
 
-import org.energyos.espi.common.domain.ApplicationInformation;
-import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.common.service.ApplicationInformationService;
-import org.energyos.espi.datacustodian.web.BaseController;
+import org.greenbuttonalliance.espi.common.domain.ApplicationInformation;
+import org.greenbuttonalliance.espi.common.domain.Routes;
+import org.greenbuttonalliance.espi.common.service.ApplicationInformationService;
+import org.greenbuttonalliance.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -31,6 +31,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
+
+import static org.greenbuttonalliance.espi.datacustodian.utils.URLHelper.newScopeParams;
 
 @Controller
 @PreAuthorize("hasRole('ROLE_USER')")

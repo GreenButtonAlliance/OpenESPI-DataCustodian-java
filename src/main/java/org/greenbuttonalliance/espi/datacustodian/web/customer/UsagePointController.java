@@ -16,14 +16,14 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.web.customer;
+package org.greenbuttonalliance.espi.datacustodian.web.customer;
 
-import org.energyos.espi.common.domain.*;
-import org.energyos.espi.common.service.ApplicationInformationService;
-import org.energyos.espi.common.service.ExportService;
-import org.energyos.espi.common.service.ResourceService;
-import org.energyos.espi.common.service.UsagePointService;
-import org.energyos.espi.datacustodian.web.BaseController;
+import org.greenbuttonalliance.espi.common.domain.*;
+import org.greenbuttonalliance.espi.common.service.ApplicationInformationService;
+import org.greenbuttonalliance.espi.common.service.ExportService;
+import org.greenbuttonalliance.espi.common.service.ResourceService;
+import org.greenbuttonalliance.espi.common.service.UsagePointService;
+import org.greenbuttonalliance.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.lang.Object;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -102,7 +103,7 @@ public class UsagePointController extends BaseController {
 	@SuppressWarnings("rawtypes")
 	@Transactional(readOnly = true)
 	private HashMap<String, Object> buildDisplayBag(Long retailCustomerId,
-			Long usagePointId) {
+													Long usagePointId) {
 
 		HashMap<String, Object> displayBag = new HashMap<String, Object>();
 		UsagePoint usagePoint = resourceService.findById(usagePointId,

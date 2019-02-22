@@ -23,9 +23,9 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.energyos.espi.common.test.CucumberSession;
-import org.energyos.espi.common.test.TestUtils;
-import org.energyos.espi.common.test.WebDriverSingleton;
+import org.greenbuttonalliance.espi.common.test.CucumberSession;
+import org.greenbuttonalliance.espi.common.test.TestUtils;
+import org.greenbuttonalliance.espi.common.test.WebDriverSingleton;
 import org.junit.Ignore;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -33,8 +33,8 @@ import org.openqa.selenium.WebElement;
 
 import static features.steps.StepUtils.assertContains;
 import static features.steps.StepUtils.navigateTo;
-import static org.energyos.espi.common.test.Asserts.assertXpathValue;
-import static org.energyos.espi.common.test.BaseStepUtils.*;
+import static org.greenbuttonalliance.espi.common.test.Asserts.assertXpathValue;
+import static org.greenbuttonalliance.espi.common.test.BaseStepUtils.*;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.*;
 

@@ -16,13 +16,13 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.web.filter;
+package org.greenbuttonalliance.espi.datacustodian.web.filter;
 
-import org.energyos.espi.common.domain.Authorization;
-import org.energyos.espi.common.domain.Subscription;
-import org.energyos.espi.common.service.AuthorizationService;
-import org.energyos.espi.common.service.SubscriptionService;
-import org.energyos.espi.common.service.UsagePointService;
+import org.greenbuttonalliance.espi.common.domain.Authorization;
+import org.greenbuttonalliance.espi.common.domain.Subscription;
+import org.greenbuttonalliance.espi.common.service.AuthorizationService;
+import org.greenbuttonalliance.espi.common.service.SubscriptionService;
+import org.greenbuttonalliance.espi.common.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;

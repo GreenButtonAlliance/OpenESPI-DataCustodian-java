@@ -16,10 +16,10 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.integration;
+package org.greenbuttonalliance.espi.datacustodian.integration;
 
-import org.energyos.espi.common.service.RetailCustomerService;
-import org.energyos.espi.common.service.UsagePointService;
+import org.greenbuttonalliance.espi.common.service.RetailCustomerService;
+import org.greenbuttonalliance.espi.common.service.UsagePointService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +28,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 
 @RunWith(SpringJUnit4ClassRunner.class)

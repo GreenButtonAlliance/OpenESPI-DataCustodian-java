@@ -16,16 +16,16 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.web.api;
+package org.greenbuttonalliance.espi.datacustodian.web.api;
 
 import com.sun.syndication.io.FeedException;
-import org.energyos.espi.common.domain.ReadingType;
-import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.common.service.ExportService;
-import org.energyos.espi.common.service.ReadingTypeService;
-import org.energyos.espi.common.service.ResourceService;
-import org.energyos.espi.common.utils.ExportFilter;
-import org.energyos.espi.datacustodian.utils.VerifyURLParams;
+import org.greenbuttonalliance.espi.common.domain.ReadingType;
+import org.greenbuttonalliance.espi.common.domain.Routes;
+import org.greenbuttonalliance.espi.common.service.ExportService;
+import org.greenbuttonalliance.espi.common.service.ReadingTypeService;
+import org.greenbuttonalliance.espi.common.service.ResourceService;
+import org.greenbuttonalliance.espi.common.utils.ExportFilter;
+import org.greenbuttonalliance.espi.datacustodian.utils.VerifyURLParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

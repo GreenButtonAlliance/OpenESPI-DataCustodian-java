@@ -16,16 +16,16 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.domain;
+package org.greenbuttonalliance.espi.datacustodian.domain;
 
-import org.energyos.espi.common.domain.UsagePoint;
-import org.energyos.espi.common.models.atom.LinkType;
+import org.greenbuttonalliance.espi.common.domain.UsagePoint;
+import org.greenbuttonalliance.espi.common.models.atom.LinkType;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import java.util.List;
 
-import static org.energyos.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
+import static org.greenbuttonalliance.espi.datacustodian.utils.factories.EspiFactory.newUsagePoint;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;

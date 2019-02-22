@@ -16,15 +16,15 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.web.customer;
+package org.greenbuttonalliance.espi.datacustodian.web.customer;
 
-import org.energyos.espi.common.domain.IntervalBlock;
-import org.energyos.espi.common.domain.IntervalReading;
-import org.energyos.espi.common.domain.MeterReading;
-import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.common.service.MeterReadingService;
-import org.energyos.espi.common.service.ResourceService;
-import org.energyos.espi.datacustodian.web.BaseController;
+import org.greenbuttonalliance.espi.common.domain.IntervalBlock;
+import org.greenbuttonalliance.espi.common.domain.IntervalReading;
+import org.greenbuttonalliance.espi.common.domain.MeterReading;
+import org.greenbuttonalliance.espi.common.domain.Routes;
+import org.greenbuttonalliance.espi.common.service.MeterReadingService;
+import org.greenbuttonalliance.espi.common.service.ResourceService;
+import org.greenbuttonalliance.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;

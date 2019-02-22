@@ -16,7 +16,7 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.utils;
+package org.greenbuttonalliance.espi.datacustodian.utils;
 
 import java.util.Map;
 

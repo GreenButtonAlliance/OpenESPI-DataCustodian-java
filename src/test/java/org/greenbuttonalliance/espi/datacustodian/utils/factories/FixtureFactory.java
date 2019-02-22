@@ -16,7 +16,7 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.utils.factories;
+package org.greenbuttonalliance.espi.datacustodian.utils.factories;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.core.io.ClassPathResource;

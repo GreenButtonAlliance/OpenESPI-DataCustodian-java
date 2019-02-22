@@ -16,10 +16,10 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.oauth;
+package org.greenbuttonalliance.espi.datacustodian.oauth;
 
-import org.energyos.espi.common.domain.*;
-import org.energyos.espi.common.service.*;
+import org.greenbuttonalliance.espi.common.domain.*;
+import org.greenbuttonalliance.espi.common.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.access.AccessDeniedException;

@@ -19,9 +19,9 @@
 /**
  * 
  */
-package org.energyos.espi.datacustodian.web.api;
+package org.greenbuttonalliance.espi.datacustodian.web.api;
 
-import org.energyos.espi.common.domain.Routes;
+import org.greenbuttonalliance.espi.common.domain.Routes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -58,10 +58,11 @@ public class ManageRESTController {
 	 * @param response
 	 *            Contains text version of stdout of the command
 	 * @param params
-	 *            [["command" . ["resetDataCustodianDB" |
-	 *            "initializeDataCustodianDB"]]]
+	 *            [["command" . ["resetDataCustodianDB" | clear"initializeDataCustodianDB"]]]
 	 * @param stream
+	 *            Contains I/O input
 	 * @throws IOException
+	 *            Exception thrown by failed or interrupted I/O operations.
 	 */
 	@RequestMapping(value = Routes.DATA_CUSTODIAN_MANAGE, method = RequestMethod.GET, produces = "text/plain")
 	@ResponseBody

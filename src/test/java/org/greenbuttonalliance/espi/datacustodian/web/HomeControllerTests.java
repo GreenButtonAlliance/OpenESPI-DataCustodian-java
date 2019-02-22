@@ -16,7 +16,7 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.web;
+package org.greenbuttonalliance.espi.datacustodian.web;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,20 +32,20 @@ import static org.junit.Assert.assertEquals;
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
 @Transactional(rollbackFor = { javax.xml.bind.JAXBException.class }, noRollbackFor = {
-		javax.persistence.NoResultException.class,
-		org.springframework.dao.EmptyResultDataAccessException.class })
+        javax.persistence.NoResultException.class,
+        org.springframework.dao.EmptyResultDataAccessException.class })
 public class HomeControllerTests {
 
-	@Autowired
-	protected HomeController controller;
+    @Autowired
+    protected HomeController controller;
 
-	@Test
-	public void index_shouldDisplayHomePage() throws Exception {
-		assertEquals("/home", controller.index());
-	}
+    @Test
+    public void index_shouldDisplayHomePage() throws Exception {
+        assertEquals("/home", controller.index());
+    }
 
-	@Test
-	public void home_shouldDisplayHomePage() throws Exception {
-		assertEquals("/home", controller.index());
-	}
+    @Test
+    public void home_shouldDisplayHomePage() throws Exception {
+        assertEquals("/home", controller.index());
+    }
 }

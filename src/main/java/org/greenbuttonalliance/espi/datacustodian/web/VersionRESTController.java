@@ -16,7 +16,7 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.web;
+package org.greenbuttonalliance.espi.datacustodian.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -37,7 +37,14 @@ public class VersionRESTController extends BaseController {
 
 	/**
 	 * Handling GET request to retrieve details from MANIFEST.MF file
-	 * 
+	 *
+	 * @param request
+	 *            HTTP Servlet Request
+	 * @param model
+	 *            ModelMap data
+	 * @throws IOException
+	 *            Exception thrown by failed or interrupted I/O operations.
+	 *
 	 * @return implementation details
 	 */
 	@RequestMapping(value = "/about-version", method = RequestMethod.GET)

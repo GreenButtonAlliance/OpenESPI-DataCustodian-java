@@ -15,9 +15,9 @@
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
  */
-package org.energyos.espi.datacustodian.oauth;
+package org.greenbuttonalliance.espi.datacustodian.oauth;
 
-import org.energyos.espi.datacustodian.web.BaseController;
+import org.greenbuttonalliance.espi.datacustodian.web.BaseController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;

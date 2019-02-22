@@ -16,10 +16,10 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.domain;
+package org.greenbuttonalliance.espi.datacustodian.domain;
 
 import org.custommonkey.xmlunit.exceptions.XpathException;
-import org.energyos.espi.common.domain.BatchList;
+import org.greenbuttonalliance.espi.common.domain.BatchList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

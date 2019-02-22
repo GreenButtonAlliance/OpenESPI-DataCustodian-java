@@ -16,9 +16,9 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.integration.web.filters;
+package org.greenbuttonalliance.espi.datacustodian.integration.web.filters;
 
-import org.energyos.espi.datacustodian.web.filter.CORSFilter;
+import org.greenbuttonalliance.espi.datacustodian.web.filter.CORSFilter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

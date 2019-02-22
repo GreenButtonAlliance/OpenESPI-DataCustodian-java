@@ -16,7 +16,7 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.integration;
+package org.greenbuttonalliance.espi.datacustodian.integration;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -158,7 +158,7 @@
     	<constructor-arg ref="mysqlTokenStore" />
     </bean>
  
-    <bean id="tokenEnhancer" class="org.energyos.espi.datacustodian.oauth.EspiTokenEnhancer">
+    <bean id="tokenEnhancer" class="org.greenbuttonalliance.espi.datacustodian.oauth.EspiTokenEnhancer">
     </bean>
     
     <bean id="authorizationCodeServices"
@@ -168,7 +168,7 @@
 
 	<!-- Token Approval Handler -->
 	<bean id="userApprovalHandler"
-		class="org.energyos.espi.datacustodian.oauth.EspiUserApprovalHandler">
+		class="org.greenbuttonalliance.espi.datacustodian.oauth.EspiUserApprovalHandler">
 		<property name="approvalStore" ref="approvalStore" />
 		<property name="clientDetailsService" ref="clientDetailsService" />
 		<property name="requestFactory" ref="requestFactory" />
@@ -224,13 +224,13 @@
 
 	<!-- Override the default mappings for approval and error pages -->
     <bean id="accessConfirmationController" 
-    	class="org.energyos.espi.datacustodian.oauth.AccessConfirmationController">
+    	class="org.greenbuttonalliance.espi.datacustodian.oauth.AccessConfirmationController">
         <property name="clientDetailsService" ref="clientDetailsService" />
         <property name="approvalStore" ref="approvalStore" />
     </bean>
 	
 	<bean id="adminController"
-		class="org.energyos.espi.datacustodian.oauth.OauthAdminController">
+		class="org.greenbuttonalliance.espi.datacustodian.oauth.OauthAdminController">
 		<property name="tokenServices" ref="tokenServices" />
 		<property name="tokenStore" ref="tokenStore" />
 		<property name="userApprovalHandler" ref="userApprovalHandler" />	

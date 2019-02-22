@@ -16,16 +16,17 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.domain;
+package org.greenbuttonalliance.espi.datacustodian.domain;
 
-import org.energyos.espi.common.domain.IdentifiedObject;
+import org.greenbuttonalliance.espi.common.domain.IdentifiedObject;
 import org.junit.Test;
 
 import javax.persistence.Embedded;
 import javax.xml.bind.annotation.XmlTransient;
 import java.util.UUID;
 
-import static org.energyos.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
+import static org.greenbuttonalliance.espi.datacustodian.support.TestUtils.assertAnnotationPresent;
+import static org.junit.Assert.assertEquals;
 
 public class IdentifiedObjectTests {
 	@Test

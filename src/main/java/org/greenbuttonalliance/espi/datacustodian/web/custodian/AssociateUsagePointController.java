@@ -16,14 +16,14 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.web.custodian;
+package org.greenbuttonalliance.espi.datacustodian.web.custodian;
 
-import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.common.domain.Subscription;
-import org.energyos.espi.common.service.NotificationService;
-import org.energyos.espi.common.service.ResourceService;
-import org.energyos.espi.common.service.RetailCustomerService;
-import org.energyos.espi.common.service.UsagePointService;
+import org.greenbuttonalliance.espi.common.domain.Routes;
+import org.greenbuttonalliance.espi.common.domain.Subscription;
+import org.greenbuttonalliance.espi.common.service.NotificationService;
+import org.greenbuttonalliance.espi.common.service.ResourceService;
+import org.greenbuttonalliance.espi.common.service.RetailCustomerService;
+import org.greenbuttonalliance.espi.common.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;

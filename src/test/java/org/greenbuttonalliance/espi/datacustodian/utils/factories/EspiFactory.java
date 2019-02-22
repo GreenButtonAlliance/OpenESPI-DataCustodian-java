@@ -16,10 +16,10 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.utils.factories;
+package org.greenbuttonalliance.espi.datacustodian.utils.factories;
 
-import org.energyos.espi.common.domain.*;
-import org.energyos.espi.common.models.atom.LinkType;
+import org.greenbuttonalliance.espi.common.domain.*;
+import org.greenbuttonalliance.espi.common.models.atom.LinkType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.provider.OAuth2Request;
 

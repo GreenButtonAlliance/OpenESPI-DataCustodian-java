@@ -16,11 +16,11 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.web.customer;
+package org.greenbuttonalliance.espi.datacustodian.web.customer;
 
-import org.energyos.espi.common.domain.ApplicationInformation;
-import org.energyos.espi.common.service.ApplicationInformationService;
-import org.energyos.espi.common.test.EspiFactory;
+import org.greenbuttonalliance.espi.common.domain.ApplicationInformation;
+import org.greenbuttonalliance.espi.common.service.ApplicationInformationService;
+import org.greenbuttonalliance.espi.common.test.EspiFactory;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

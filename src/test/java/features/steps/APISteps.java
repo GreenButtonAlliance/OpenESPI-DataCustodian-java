@@ -23,8 +23,8 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.custommonkey.xmlunit.exceptions.XpathException;
-import org.energyos.espi.common.test.CucumberSession;
-import org.energyos.espi.common.test.WebDriverSingleton;
+import org.greenbuttonalliance.espi.common.test.CucumberSession;
+import org.greenbuttonalliance.espi.common.test.WebDriverSingleton;
 import org.junit.Ignore;
 import org.openqa.selenium.WebDriver;
 import org.springframework.http.HttpEntity;
@@ -35,10 +35,9 @@ import java.io.IOException;
 
 import static features.steps.StepUtils.assertContains;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
-import static org.energyos.espi.common.test.BaseStepUtils.clickLinkByText;
-import static org.energyos.espi.common.test.TestUtils.getXPathValue;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static org.greenbuttonalliance.espi.common.test.BaseStepUtils.clickLinkByText;
+import static org.greenbuttonalliance.espi.common.test.TestUtils.getXPathValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
 public class APISteps {

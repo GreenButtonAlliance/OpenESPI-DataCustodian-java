@@ -16,15 +16,15 @@
  *     limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.oauth;
+package org.greenbuttonalliance.espi.datacustodian.oauth;
 
-import org.energyos.espi.common.domain.Authorization;
-import org.energyos.espi.common.domain.RetailCustomer;
-import org.energyos.espi.common.domain.Subscription;
-import org.energyos.espi.common.service.AuthorizationService;
-import org.energyos.espi.common.service.SubscriptionService;
-import org.energyos.espi.common.test.EspiFactory;
-import org.energyos.espi.datacustodian.BaseTest;
+import org.greenbuttonalliance.espi.common.domain.Authorization;
+import org.greenbuttonalliance.espi.common.domain.RetailCustomer;
+import org.greenbuttonalliance.espi.common.domain.Subscription;
+import org.greenbuttonalliance.espi.common.service.AuthorizationService;
+import org.greenbuttonalliance.espi.common.service.SubscriptionService;
+import org.greenbuttonalliance.espi.common.test.EspiFactory;
+import org.greenbuttonalliance.espi.datacustodian.BaseTest;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
