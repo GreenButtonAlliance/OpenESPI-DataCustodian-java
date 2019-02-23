@@ -72,7 +72,7 @@
         <bean id="domainMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
             <property name="packagesToScan">
                 <list>
-                    <value>org.energyos.espi.common.domain</value>
+                    <value>org.greenbuttonalliance.espi.common.domain</value>
                 </list>
             </property>
             <property name="marshallerProperties">
@@ -87,13 +87,13 @@
             </property>
         </bean>
    
-        <bean id="resourceValidationFilter" class="org.energyos.espi.datacustodian.web.filter.ResourceValidationFilter" />
+        <bean id="resourceValidationFilter" class="org.greenbuttonalliance.espi.datacustodian.web.filter.ResourceValidationFilter" />
    
         <bean id="atomMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
             <property name="packagesToScan">
                 <list>
-                    <value>org.energyos.espi.common.models.atom</value>
-                    <value>org.energyos.espi.common.domain</value>
+                    <value>org.greenbuttonalliance.espi.common.models.atom</value>
+                    <value>org.greenbuttonalliance.espi.common.domain</value>
                 </list>
             </property>
             <property name="marshallerProperties">
@@ -111,8 +111,8 @@
         <bean id="fragmentMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
             <property name="packagesToScan">
                 <list>
-                    <value>org.energyos.espi.common.models.atom</value>
-                    <value>org.energyos.espi.common.domain</value>
+                    <value>org.greenbuttonalliance.espi.common.models.atom</value>
+                    <value>org.greenbuttonalliance.espi.common.domain</value>
                 </list>
             </property>
             <property name="marshallerProperties">
@@ -139,6 +139,6 @@
     </beans>
 
     <beans profile="dev">
-        <bean id="seedDataGenerator" class="org.energyos.espi.common.SeedDataGenerator" init-method="init"/>
+        <bean id="seedDataGenerator" class="org.greenbuttonalliance.espi.common.SeedDataGenerator" init-method="init"/>
     </beans>
 </beans>

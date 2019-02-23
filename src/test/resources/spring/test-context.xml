@@ -25,21 +25,21 @@
 
     <import resource="classpath:spring/test-service-context.xml"/>
 
-    <context:component-scan base-package="org.energyos.espi.datacustodian.web"/>
-    <context:component-scan base-package="org.energyos.espi.datacustodian.mocks"/>
-    <context:component-scan base-package="org.energyos.espi.common.test"/>
+    <context:component-scan base-package="org.greenbuttonalliance.espi.datacustodian.web"/>
+    <context:component-scan base-package="org.greenbuttonalliance.espi.datacustodian.mocks"/>
+    <context:component-scan base-package="org.greenbuttonalliance.espi.common.test"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/pages/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <bean id="tokenEnhancer" class="org.energyos.espi.datacustodian.oauth.EspiTokenEnhancer">
+    <bean id="tokenEnhancer" class="org.greenbuttonalliance.espi.datacustodian.oauth.EspiTokenEnhancer">
    </bean>
    
-    <bean id="retailCustomerService" name="retailCustomerServiceImpl" class="org.energyos.espi.common.service.impl.RetailCustomerServiceImpl" autowire-candidate="true"/>
-    <bean id="importService" name="importService" class="org.energyos.espi.common.service.impl.ImportServiceImpl" autowire-candidate="true"/>
-    <bean id="applicationInformationService" name="applicationInformationService" class="org.energyos.espi.common.service.impl.ApplicationInformationServiceImpl" autowire-candidate="true"/>
-    <bean id="authorizationService" name="authorizationService" class="org.energyos.espi.common.service.impl.AuthorizationServiceImpl" autowire-candidate="true"/>
+    <bean id="retailCustomerService" name="retailCustomerServiceImpl" class="org.greenbuttonalliance.espi.common.service.impl.RetailCustomerServiceImpl" autowire-candidate="true"/>
+    <bean id="importService" name="importService" class="org.greenbuttonalliance.espi.common.service.impl.ImportServiceImpl" autowire-candidate="true"/>
+    <bean id="applicationInformationService" name="applicationInformationService" class="org.greenbuttonalliance.espi.common.service.impl.ApplicationInformationServiceImpl" autowire-candidate="true"/>
+    <bean id="authorizationService" name="authorizationService" class="org.greenbuttonalliance.espi.common.service.impl.AuthorizationServiceImpl" autowire-candidate="true"/>
  
 </beans>

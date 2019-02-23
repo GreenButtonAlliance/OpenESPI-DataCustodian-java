@@ -18,9 +18,10 @@
 
 package features.steps;
 
-import org.energyos.espi.common.test.BaseStepUtils;
-import org.energyos.espi.common.test.CucumberSession;
-import org.energyos.espi.common.test.FixtureFactory;
+
+import org.greenbuttonalliance.espi.common.test.BaseStepUtils;
+import org.greenbuttonalliance.espi.common.test.CucumberSession;
+import org.greenbuttonalliance.espi.common.test.FixtureFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 

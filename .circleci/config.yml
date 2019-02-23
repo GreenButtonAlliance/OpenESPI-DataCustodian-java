@@ -42,4 +42,8 @@ jobs:
       # run tests!
       #
       #  TODO -- Reactivate after Integration Test issues have been resolved
+
       #- run: mvn integration-test
+
+      - run: mvn sonar:sonar -Dsonar.projectKey=GreenButtonAlliance_OpenESPI-DataCustodian-java -Dsonar.organization=greenbuttonalliance -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=2ddd7468eede6ec7c1846bf610c2699d9f81b87d
+
