@@ -35,10 +35,10 @@
     <import resource="classpath:spring/business-config.xml"/>
     <import resource="classpath:spring/data-config.xml"/>
 
-    <context:component-scan base-package="org.energyos.espi.datacustodian.web"/>
-    <context:component-scan base-package="org.energyos.espi.common.repositories"/>
-    <context:component-scan base-package="org.energyos.espi.common.service"/>
-    <context:component-scan base-package="org.energyos.espi.datacustodian.utils"/>
+    <context:component-scan base-package="org.greenbuttonalliance.espi.datacustodian.web"/>
+    <context:component-scan base-package="org.greenbuttonalliance.espi.common.repositories"/>
+    <context:component-scan base-package="org.greenbuttonalliance.espi.common.service"/>
+    <context:component-scan base-package="org.greenbuttonalliance.espi.datacustodian.utils"/>
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
         <property name="viewResolvers">
