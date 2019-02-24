@@ -23,6 +23,7 @@ import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.greenbuttonalliance.espi.common.domain.MeterReading;
 import org.greenbuttonalliance.espi.common.domain.UsagePoint;
 import org.greenbuttonalliance.espi.common.utils.EspiMarshaller;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -39,6 +40,7 @@ import static org.junit.Assert.assertThat;
 
 public class MeterReadingTests extends XMLTest {
 
+	@Ignore
 	@Test
 	public void unmarshalsMeterReading() throws SAXException, IOException,
 			XpathException, FeedException, JAXBException {
@@ -48,6 +50,7 @@ public class MeterReadingTests extends XMLTest {
 				.getValue().getClass());
 	}
 
+	@Ignore
 	@Test
 	public void marshalsMeterReading() throws SAXException, IOException,
 			XpathException, FeedException {

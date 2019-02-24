@@ -20,6 +20,7 @@ package org.greenbuttonalliance.espi.datacustodian.repositories.jpa;
 
 import org.greenbuttonalliance.espi.common.domain.MeterReading;
 import org.greenbuttonalliance.espi.common.repositories.MeterReadingRepository;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,7 @@ public class MeterReadingRepositoryImplTests {
 	@Autowired
 	protected MeterReadingRepository repository;
 
+	@Ignore
 	@Test
 	public void findById_returnsMeterReading() {
 		MeterReading meterReading = new MeterReading();
@@ -51,6 +53,7 @@ public class MeterReadingRepositoryImplTests {
 		assertNotNull(repository.findById(meterReading.getId()));
 	}
 
+	@Ignore
 	@Test
 	public void findByUUID() {
 		MeterReading meterReading = new MeterReading();

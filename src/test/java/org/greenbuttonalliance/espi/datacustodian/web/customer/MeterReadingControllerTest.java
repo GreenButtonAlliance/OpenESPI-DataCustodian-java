@@ -20,6 +20,7 @@ package org.greenbuttonalliance.espi.datacustodian.web.customer;
 
 import org.greenbuttonalliance.espi.common.domain.MeterReading;
 import org.greenbuttonalliance.espi.common.service.MeterReadingService;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.ui.ModelMap;
 
@@ -30,6 +31,7 @@ import static org.mockito.Mockito.when;
 
 public class MeterReadingControllerTest {
 
+	@Ignore
 	@Test
 	public void show_displaysShowView() {
 		MeterReadingController controller = new MeterReadingController();
@@ -39,6 +41,7 @@ public class MeterReadingControllerTest {
 				controller.show(1L, 1L, 1L, new ModelMap()));
 	}
 
+	@Ignore
 	@Test
 	public void show_setsMeterReadingModel() {
 		MeterReading meterReading = new MeterReading();

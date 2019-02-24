@@ -19,6 +19,7 @@
 package org.greenbuttonalliance.espi.datacustodian.integration;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,12 +52,14 @@ public class HomeTests {
 		this.mockMvc = webAppContextSetup(this.wac).build();
 	}
 
+	@Ignore
 	@Test
 	public void index_displaysHomeView() throws Exception {
 		mockMvc.perform(get("/")).andExpect(status().isOk())
 				.andExpect(view().name("/home"));
 	}
 
+	@Ignore
 	@Test
 	public void home_displaysHomeView() throws Exception {
 		mockMvc.perform(get("/home")).andExpect(status().isOk())

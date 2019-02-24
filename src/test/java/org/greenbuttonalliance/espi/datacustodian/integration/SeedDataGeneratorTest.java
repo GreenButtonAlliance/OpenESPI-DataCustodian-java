@@ -20,6 +20,7 @@ package org.greenbuttonalliance.espi.datacustodian.integration;
 
 import org.greenbuttonalliance.espi.common.service.RetailCustomerService;
 import org.greenbuttonalliance.espi.common.service.UsagePointService;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,7 @@ public class SeedDataGeneratorTest {
 	@Autowired
 	private RetailCustomerService retailCustomerService;
 
+	@Ignore
 	@Test
 	public void init() throws Exception {
 		assertThat(

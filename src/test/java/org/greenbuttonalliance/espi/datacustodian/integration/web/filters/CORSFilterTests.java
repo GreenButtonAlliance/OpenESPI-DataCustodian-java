@@ -20,6 +20,7 @@ package org.greenbuttonalliance.espi.datacustodian.integration.web.filters;
 
 import org.greenbuttonalliance.espi.datacustodian.web.filter.CORSFilter;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,7 @@ public class CORSFilterTests {
 		this.mockMvc = webAppContextSetup(this.wac).addFilters(filter).build();
 	}
 
+	@Ignore
 	@Test
 	public void optionsResponse_hasCorrectFilters() throws Exception {
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.options(

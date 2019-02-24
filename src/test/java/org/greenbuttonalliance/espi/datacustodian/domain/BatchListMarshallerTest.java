@@ -20,6 +20,7 @@ package org.greenbuttonalliance.espi.datacustodian.domain;
 
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.greenbuttonalliance.espi.common.domain.BatchList;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,11 +56,13 @@ public class BatchListMarshallerTest extends XMLTest {
 		return os.toString();
 	}
 
+    @Ignore
 	@Test
 	public void batchList() throws SAXException, IOException, XpathException {
 		assertXpathExists("/espi:BatchList", newXML());
 	}
 
+	@Ignore
 	@Test
 	public void resources() throws SAXException, IOException, XpathException {
 		assertXpathEvaluatesTo("foo", "/espi:BatchList/espi:resource[1]",

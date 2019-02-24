@@ -70,6 +70,7 @@ public class AssociateUsagePointControllerTests {
 		usagePointCaptor = ArgumentCaptor.forClass(UsagePoint.class);
 	}
 
+	@Ignore
 	@Test
 	public void create_whenThereAreErrors_redisplaysTheForm() throws Exception {
 		when(bindingResult.hasErrors()).thenReturn(true);
@@ -78,8 +79,8 @@ public class AssociateUsagePointControllerTests {
 		assertThat(route, is("/custodian/retailcustomers/usagepoints/form"));
 	}
 
-	@Test
 	@Ignore
+	@Test
 	public void create_associatesTheUsagePointWithTheRetailCustomer() {
 		long retailCustomerId = 5;
 		RetailCustomer retailCustomer = new RetailCustomer();
@@ -93,6 +94,7 @@ public class AssociateUsagePointControllerTests {
 				is(equalTo(retailCustomer)));
 	}
 
+	@Ignore
 	@Test
 	public void create_redirectsToTheRetailCustomersIndex() {
 		long retailCustomerId = 5;
