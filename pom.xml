@@ -464,6 +464,7 @@
                     <includes>
                         <include>**/*Tests.java</include>
                     </includes>
+                    <useSystemClassLoader>false</useSystemClassLoader>
                 </configuration>
             </plugin>
             <plugin>
@@ -474,6 +475,7 @@
                         <include>**/*Featuresx.java</include>
                         <include>**/*Featurex.java</include>
                     </includes>
+                    <useSystemClassLoader>false</useSystemClassLoader>
                 </configuration>
                 <executions>
                     <execution>
