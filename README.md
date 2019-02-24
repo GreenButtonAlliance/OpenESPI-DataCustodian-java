@@ -1,4 +1,6 @@
-[![CircleCI](https://circleci.com/gh/GreenButtonAlliance/OpenESPI-DataCustodian-java/tree/master.svg?style=svg)](https://circleci.com/gh/GreenButtonAlliance/OpenESPI-DataCustodian-java/tree/master)
+[![CircleCI](https://circleci.com/gh/GreenButtonAlliance/OpenESPI-DataCustodian-java.svg?style=svg)](https://circleci.com/gh/GreenButtonAlliance/OpenESPI-DataCustodian-java)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=GreenButtonAlliance_OpenESPI-DataCustodian-java&metric=alert_status)](https://sonarcloud.io/dashboard?id=GreenButtonAlliance_OpenESPI-DataCustodian-java)
+
 
 OpenESPI-DataCustodian
 ======================
