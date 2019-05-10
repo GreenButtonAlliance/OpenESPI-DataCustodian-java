@@ -22,6 +22,7 @@ import org.greenbuttonalliance.espi.common.domain.RetailCustomer;
 import org.greenbuttonalliance.espi.common.domain.Routes;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
@@ -29,7 +30,7 @@ import java.security.Principal;
 @Controller
 public class DefaultController extends BaseController {
 
-	@RequestMapping(Routes.DEFAULT)
+	@RequestMapping(value = Routes.DEFAULT, method = RequestMethod.GET)
 	public String defaultAfterLogin(HttpServletRequest request,
 			Principal principal) {
 		if (request.isUserInRole(RetailCustomer.ROLE_CUSTODIAN)) {

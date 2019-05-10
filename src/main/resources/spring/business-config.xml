@@ -52,7 +52,7 @@
                 </props>
             </property>
             <property name="persistenceUnitName" value="energy"/>
-            <property name="packagesToScan" value="org.energyos.espi.common.domain"/>
+            <property name="packagesToScan" value="org.greenbuttonalliance.espi.common.domain"/>
         </bean>
 
         <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
@@ -62,9 +62,9 @@
     </beans>
 
     <beans profile="default">
-        <context:component-scan base-package="org.energyos.espi.datacustodian.service.impl"/>
-        <context:component-scan base-package="org.energyos.espi.common.repositories.jpa"/>
-        <context:component-scan base-package="org.energyos.espi.common.utils"/>
+        <context:component-scan base-package="org.greenbuttonalliance.espi.datacustodian.service.impl"/>
+        <context:component-scan base-package="org.greenbuttonalliance.espi.common.repositories.jpa"/>
+        <context:component-scan base-package="org.greenbuttonalliance.espi.common.utils"/>
     </beans>
 
     <beans>

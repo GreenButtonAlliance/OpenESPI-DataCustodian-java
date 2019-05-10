@@ -42,7 +42,7 @@ function SendRequest (url) {
   xmlhttp.setRequestHeader ("Authorization", "Bearer 688b026c-665f-4994-9139-6b21b13fbeee");
   xmlhttp.setRequestHeader ("Content-type", "text/plain");
   xmlhttp.withCredentials = true;
-  xmlhttp.setRequestHeader ("Host", "services.greenbuttondata.org");
+  xmlhttp.setRequestHeader ("Host", "sandbox.greenbuttonalliance.org:8443");
   xmlhttp.onreadystatechange = OnStateChange;
   xmlhttp.send (null);
 }
@@ -61,14 +61,18 @@ function OnStateChange () {
 
     <!-- Main hero unit for a primary marketing message or call to action -->
     <div class="hero-unit">
-	<h2>Welcome to the <a href="http://www.energyos.org">EnergyOS</a> Green Button Data Custodian</h2>
-	<p><a href="http://www.energyos.org">EnergyOS</a> has, with the support of <a href="http://pivotallabs.com/">Pivotal Labs</a>, prepared a reference Green Button
-	Data Custodian implementation. This implementation supports a full complement of Green Button facilities and, as an 
-	<a href="https://github.com/energyos">Open Source project</a>, is freely available for download by any interested parties.</p>
+	<h2>Welcome to the <a href="http://www.greenbuttonalliance.org">Green Button Alliance, Inc.</a> Green Button Data
+        Custodian
+    </h2>
+	<p><a href="http://www.greenbuttonalliance.org">Green Button Alliance, Inc.</a> provides a reference Green Button Data
+        Custodian implementation of the North American Energy Standards Board (NAESB) REQ.21 Energy Service Provider Interface
+        (ESPI) Standard. This implementation supports a full complement of Green Button facilities and, as an
+        <a href="https://github.com/GreenButtonAlliance/OpenESPI-DataCustodian-java">Open Source project</a>,
+        is freely available for download by any interested parties.</p>
 	<p>
 
 	<span class="inline pull-left"><a href="http://www.greenbuttondata.org" class="btn btn-primary btn-large">Learn more about Green Button &raquo;</a></span>
-    <span class="inline pull-right"><a href="http://www.greenbuttondata.org" class="btn btn-primary btn-large">Learn more about EnergyOS Open Source &raquo;</a></span>
+    <span class="inline pull-right"><a href="http://www.greenbuttondata.org" class="btn btn-primary btn-large">Learn more about Green Button Alliance, Inc. Open Source &raquo;</a></span>
     </p>
     </div>
 
