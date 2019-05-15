@@ -1,9 +1,8 @@
-[![CircleCI](https://circleci.com/gh/GreenButtonAlliance/OpenESPI-DataCustodian-java.svg?style=svg)](https://circleci.com/gh/GreenButtonAlliance/OpenESPI-DataCustodian-java)
+[![CircleCI](https://circleci.com/gh/GreenButtonAlliance/OpenESPI-DataCustodian-java/tree/master.svg?style=svg)](https://circleci.com/gh/GreenButtonAlliance/OpenESPI-DataCustodian-java/tree/master)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=GreenButtonAlliance_OpenESPI-DataCustodian-java&metric=alert_status)](https://sonarcloud.io/dashboard?id=GreenButtonAlliance_OpenESPI-DataCustodian-java)
 
 
-OpenESPI-DataCustodian
-======================
+# OpenESPI-DataCustodian
 
 The Open Energy Services Provider Interface (ESPI) Data Custodian Repository Providing implementations of the interface used to provide energy usage information to retail customers and third parties.
 
