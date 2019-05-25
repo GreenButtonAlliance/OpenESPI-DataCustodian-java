@@ -20,6 +20,9 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <title>Error</title>
+</head>
 
 <jsp:include page="/WEB-INF/jsp/tiles/head.jsp"/>
 

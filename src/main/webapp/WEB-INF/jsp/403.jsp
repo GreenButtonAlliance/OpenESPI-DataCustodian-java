@@ -22,7 +22,9 @@
 <jsp:include page="/WEB-INF/jsp/tiles/head.jsp"/>
 
 <%--<security:authentication var="principal" property="principal" />--%>
-
+<head>
+    <title>403 Forbiddin Error</title>
+</head>
 <body>
 
 <jsp:include page="/WEB-INF/jsp/tiles/customer/header.jsp"/>

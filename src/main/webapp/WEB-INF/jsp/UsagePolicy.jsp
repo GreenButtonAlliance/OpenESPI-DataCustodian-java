@@ -19,6 +19,9 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <title>End User Acceptable Use Policy</title>
+</head>
 
 <jsp:include page="tiles/head.jsp"/>
 

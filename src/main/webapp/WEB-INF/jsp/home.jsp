@@ -20,6 +20,9 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <title>Green Button Alliance, Inc. Sandbox</title>
+</head>
 
 <jsp:include page="tiles/head.jsp"/>
 

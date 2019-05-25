@@ -21,6 +21,9 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <title>Upload</title>
+</head>
 
 <jsp:include page="../tiles/head.jsp"/>
 

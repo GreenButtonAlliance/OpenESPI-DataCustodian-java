@@ -21,6 +21,9 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <title>OAuth Token Management</title>
+</head>
 
 <jsp:include page="/WEB-INF/jsp/tiles/head.jsp"/>
 

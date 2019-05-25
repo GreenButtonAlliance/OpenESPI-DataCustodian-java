@@ -19,6 +19,9 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <title>Terms and Conditions of Use</title>
+</head>
 
 <jsp:include page="tiles/head.jsp"/>
 

@@ -20,6 +20,9 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <title>Retail Customer</title>
+</head>
 
 <jsp:include page="/WEB-INF/jsp/tiles/head.jsp"/>
 

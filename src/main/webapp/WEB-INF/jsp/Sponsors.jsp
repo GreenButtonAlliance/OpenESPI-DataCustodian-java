@@ -19,6 +19,9 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <title>Sponsors</title>
+</head>
 
 <jsp:include page="tiles/head.jsp"/>
 
@@ -32,22 +35,16 @@
 
 <h3>Sponsors</h3>
 
-<h4><a href="http://www.openespi.org">OpenESPI Open Source Development Community</a></h4>
+<h4><a href="http://www.openespi.org">ESPI Open Source Development Community</a></h4>
 <dl>
-<dt><a href="http://www.energyos.org">EnergyOS.org</a></dt>
+<dt><a href="http://www.greenbuttonalliance.org">Green Button Alliance, Inc.</a></dt>
 <dt><a href="http://www.nist.gov">National Institute of Standards and Technology</a></dt>
-<dt><a href="http://pivotallabs.com/">Pivotal Labs</a></dt>
-<dt><a href="http://www.peoplepowerco.com">People Power Company</a></dt>
-<dt><a href="http://www.opencommons.org">OpenCommons.org</a></dt>
-<dt>Hypertek Inc.</dt>
 <dt>REMI Networks</dt>
 </dl>
-<h4><a href="https://services.greenbuttondata.org">Green Button Sandbox</a></h4>
+<h4><a href="https://sandbox.greenbuttonalliance.org:8443">Green Button Alliance, Inc. Sandbox</a></h4>
 <dl>
-<dt><a href="http://www.energyos.org">EnergyOS.org</a></dt>
+<dt><a href="http://www.greenbuttonalliance.org">Green Button Alliance, Inc.</a></dt>
 <dt><a href="http://www.nist.gov">National Institute of Standards and Technology</a></dt>
-<dt><a href="http://www.enernex.com">EnerNex</a></dt>
-<dt>HyperTek Inc.</dt>
 </dl>
         </div>
     </div>

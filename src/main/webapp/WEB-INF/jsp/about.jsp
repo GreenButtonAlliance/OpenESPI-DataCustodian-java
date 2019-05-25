@@ -20,6 +20,9 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <title>About Information</title>
+</head>
 
 <jsp:include page="/WEB-INF/jsp/tiles/head.jsp"/>
 

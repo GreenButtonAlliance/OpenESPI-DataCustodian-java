@@ -19,6 +19,9 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <title>Retail Customers</title>
+</head>
 
 <jsp:include page="../tiles/head.jsp"/>
 

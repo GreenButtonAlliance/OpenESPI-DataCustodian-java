@@ -20,6 +20,9 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <title>Data Custodian</title>
+</head>
 
 <jsp:include page="/WEB-INF/jsp/tiles/head.jsp"/>
 
@@ -107,7 +110,6 @@ function OnStateChange () {
     NOTE:  Please use caution when either reseting or initializing the sandbox. This facility is in place only until we have the capability of providing private/individual
     sandbox services.
     <hr />
-    <center>
     <table width="40%">
     <tr>
     <td>
