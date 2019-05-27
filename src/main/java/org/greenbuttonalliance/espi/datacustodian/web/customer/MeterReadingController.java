@@ -30,9 +30,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Iterator;
 
@@ -47,7 +47,7 @@ public class MeterReadingController extends BaseController {
 	protected ResourceService resourceService;
 
 	@Transactional(readOnly = true)
-	@RequestMapping(value = Routes.METER_READINGS_SHOW, method = RequestMethod.GET)
+	@GetMapping(value = Routes.METER_READINGS_SHOW)
 	public String show(@PathVariable Long retailCustomerId,
 			@PathVariable Long usagePointId, @PathVariable Long meterReadingId,
 			ModelMap model) {

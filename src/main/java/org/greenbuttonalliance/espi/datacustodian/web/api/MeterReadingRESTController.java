@@ -66,7 +66,7 @@ public class MeterReadingRESTController {
 
 	// ROOT RESTFul APIs
 	//
-	@RequestMapping(value = Routes.ROOT_METER_READING_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.ROOT_METER_READING_COLLECTION, produces = "application/atom+xml")
 	@ResponseBody
 	public void index(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam Map<String, String> params) throws IOException,
@@ -86,7 +86,7 @@ public class MeterReadingRESTController {
 				response.getOutputStream(), new ExportFilter(params));
 	}
 
-	@RequestMapping(value = Routes.ROOT_METER_READING_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.ROOT_METER_READING_MEMBER, produces = "application/atom+xml")
 	@ResponseBody
 	public void show(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable Long meterReadingId,
@@ -133,7 +133,7 @@ public class MeterReadingRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.ROOT_METER_READING_MEMBER, method = RequestMethod.PUT, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@PutMapping(value = Routes.ROOT_METER_READING_MEMBER, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void update(HttpServletResponse response,
 			@PathVariable Long meterReadingId,
@@ -152,7 +152,7 @@ public class MeterReadingRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.ROOT_METER_READING_MEMBER, method = RequestMethod.DELETE)
+	@DeleteMapping(value = Routes.ROOT_METER_READING_MEMBER)
 	public void delete(HttpServletResponse response,
 			@PathVariable Long meterReadingId) {
 		try {
@@ -164,7 +164,7 @@ public class MeterReadingRESTController {
 
 	// XPath RESTFul APIs
 	//
-	@RequestMapping(value = Routes.METER_READING_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.METER_READING_COLLECTION, produces = "application/atom+xml")
 	@ResponseBody
 	public void index(HttpServletResponse response,
 			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
@@ -187,7 +187,7 @@ public class MeterReadingRESTController {
 						params));
 	}
 
-	@RequestMapping(value = Routes.METER_READING_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.METER_READING_MEMBER, produces = "application/atom+xml")
 	@ResponseBody
 	public void show(HttpServletResponse response,
 			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
@@ -216,7 +216,7 @@ public class MeterReadingRESTController {
 
 	//
 	//
-	@RequestMapping(value = Routes.METER_READING_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@PostMapping(value = Routes.METER_READING_COLLECTION, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void create(HttpServletResponse response,
 			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
@@ -247,7 +247,7 @@ public class MeterReadingRESTController {
 	}
 
 	//
-	@RequestMapping(value = Routes.METER_READING_MEMBER, method = RequestMethod.PUT, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@PutMapping(value = Routes.METER_READING_MEMBER, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void update(HttpServletResponse response,
 			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
@@ -270,7 +270,7 @@ public class MeterReadingRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.METER_READING_MEMBER, method = RequestMethod.DELETE)
+	@DeleteMapping(value = Routes.METER_READING_MEMBER)
 	public void delete(HttpServletResponse response,
 			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
 			@PathVariable Long meterReadingId) {

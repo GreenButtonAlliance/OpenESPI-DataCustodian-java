@@ -29,10 +29,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.lang.Object;
 import java.security.Principal;
@@ -62,13 +61,13 @@ public class UsagePointController extends BaseController {
 				.findAllByRetailCustomer(currentCustomer(principal));
 	}
 
-	@RequestMapping(value = Routes.USAGE_POINT_INDEX, method = RequestMethod.GET)
+	@GetMapping(value = Routes.USAGE_POINT_INDEX)
 	public String index() {
 		return "/customer/usagepoints/index";
 	}
 
 	@Transactional(readOnly = true)
-	@RequestMapping(value = Routes.USAGE_POINT_SHOW, method = RequestMethod.GET)
+	@GetMapping(value = Routes.USAGE_POINT_SHOW)
 	public String show(@PathVariable Long retailCustomerId,
 			@PathVariable Long usagePointId, ModelMap model) {
 		try {

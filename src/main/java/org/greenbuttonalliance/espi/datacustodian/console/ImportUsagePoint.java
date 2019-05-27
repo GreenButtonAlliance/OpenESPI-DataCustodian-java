@@ -18,6 +18,8 @@
 
 package org.greenbuttonalliance.espi.datacustodian.console;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -32,6 +34,8 @@ import java.io.IOException;
 
 public class ImportUsagePoint {
 
+    private static final Log logger = LogFactory.getLog(ImportUsagePoint.class);
+
     public static void upload(String filename, String url, HttpClient client) throws IOException {
         HttpPost post = new HttpPost(url);
         MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
@@ -44,7 +48,8 @@ public class ImportUsagePoint {
         client.execute(post);
     }
 
-    public static void main(String[] args) {
+    public void main(String[] args) {
+
         if (args.length == 2) {
             try {
                 String filename = args[0];
@@ -55,14 +60,18 @@ public class ImportUsagePoint {
                 upload(filename, url, client);
                 client.getConnectionManager().shutdown();
             } catch (IOException e) {
+                if(logger.isErrorEnabled())
+                    logger.error("**** ImportUsagePoint Exception: " + e.toString() + "&n");
                 e.printStackTrace();
             }
         } else {
-            System.out.println("Usage: import_usage_point.sh filename url");
-            System.out.println("");
-            System.out.println("Example:");
-            System.out.println("");
-            System.out.println("  import_usage_point.sh etc/usage_point.xml http://localhost:8080/custodian/retailcustomers/1/upload");
+            if(logger.isInfoEnabled()) {
+                logger.info("Usage: import_usage_point.sh filename url");
+                logger.info("&n");
+                logger.info("Example:");
+                logger.info("&n");
+                logger.info("  import_usage_point.sh etc/usage_point.xml http://localhost:8080/custodian/retailcustomers/1/upload");
+            }
         }
     }
 }

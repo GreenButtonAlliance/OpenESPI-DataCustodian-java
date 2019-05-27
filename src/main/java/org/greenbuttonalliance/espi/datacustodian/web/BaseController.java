@@ -18,6 +18,8 @@
 
 package org.greenbuttonalliance.espi.datacustodian.web;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.greenbuttonalliance.espi.common.domain.RetailCustomer;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,15 +27,21 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import java.security.Principal;
 
 public class BaseController {
+
+	Log logger = LogFactory.getLog(BaseController.class);
+
 	@ModelAttribute("currentCustomer")
 	public RetailCustomer currentCustomer(Principal principal) {
 		try {
-			System.out.printf("BaseController: currentCustomer -- %s\n",
-					(RetailCustomer) ((Authentication) principal)
-							.getPrincipal());
+			if(logger.isInfoEnabled()) {
+				logger.info("BaseController: currentCustomer -- " +
+						(RetailCustomer) ((Authentication) principal).getPrincipal());
+			}
 			return (RetailCustomer) ((Authentication) principal).getPrincipal();
 		} catch (Exception e) {
-			System.out.printf("BaseController: currentCustomer -- null\n");
+			if(logger.isErrorEnabled()) {
+				logger.error("BaseController: currentCustomer -- null&n");
+			}
 			return null;
 		}
 	}

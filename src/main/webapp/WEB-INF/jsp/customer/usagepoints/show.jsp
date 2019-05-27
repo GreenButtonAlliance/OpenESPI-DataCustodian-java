@@ -33,7 +33,7 @@
 <table><tr><td>
 
 <a id = "downloadMyData" class="brand" href="<c:url value='/RetailCustomer/${currentCustomer.id}/DownloadMyData/UsagePoint/${displayBag.get("usagePointId")}'/>">
-         <img src="<c:url value='/resources/img/Green_Download_265.png'/>" width="150"/></a>  
+         <img src="<c:url value='/resources/img/Green_Download_265.png'/>" alt="Green Button Download My Data" width="150"/></a>
 &nbsp;&nbsp;</td><td>
 
   Start Date/Time: 
@@ -41,7 +41,7 @@
     <div id="datetimepicker" class="input-append date" >
       Start: <input id="startTime" type="text"></input>
       <span class="add-on">
-        <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+        <em data-time-icon="icon-time" data-date-icon="icon-calendar"></em>
       </span>
     </div>&nbsp;&nbsp;
 </td><td>
@@ -50,7 +50,7 @@
     <div id="datetimepicker1" class="input-append date">
       End: <input id="endTime" type="text"></input>
       <span class="add-on">
-        <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+        <em data-time-icon="icon-time" data-date-icon="icon-calendar"></em>
       </span>
 </div>
 </td></tr></table>

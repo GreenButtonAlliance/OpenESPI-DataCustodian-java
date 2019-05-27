@@ -20,14 +20,14 @@ package org.greenbuttonalliance.espi.datacustodian.web;
 
 import org.greenbuttonalliance.espi.common.domain.Routes;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping(Routes.LOGIN)
 public class LoginController {
 
-	@RequestMapping(method = RequestMethod.GET)
+	@GetMapping()
 	public String index() {
 		return "login";
 	}

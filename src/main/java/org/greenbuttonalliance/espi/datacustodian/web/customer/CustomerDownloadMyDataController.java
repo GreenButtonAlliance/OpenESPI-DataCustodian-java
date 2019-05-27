@@ -28,9 +28,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
@@ -44,7 +43,7 @@ public class CustomerDownloadMyDataController extends BaseController {
 	@Autowired
 	private ExportService exportService;
 
-	@RequestMapping(value = Routes.RETAIL_CUSTOMER_DOWNLOAD_MY_DATA, method = RequestMethod.GET)
+	@GetMapping(value = Routes.RETAIL_CUSTOMER_DOWNLOAD_MY_DATA)
 	public void downloadMyData(HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
 			@PathVariable Long usagePointId,
@@ -64,7 +63,7 @@ public class CustomerDownloadMyDataController extends BaseController {
 		}
 	}
 
-	@RequestMapping(value = Routes.RETAIL_CUSTOMER_DOWNLOAD_MY_DATA_COLLECTION, method = RequestMethod.GET)
+	@GetMapping(value = Routes.RETAIL_CUSTOMER_DOWNLOAD_MY_DATA_COLLECTION)
 	public void downloadMyDataCollection(HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
 			@RequestParam Map<String, String> params) throws IOException,

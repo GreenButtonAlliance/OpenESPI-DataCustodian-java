@@ -18,15 +18,24 @@
 
 package org.greenbuttonalliance.espi.datacustodian.utils;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.util.Map;
 
 public class VerifyURLParams {
-	
+
+	private static Log logger = LogFactory.getLog(VerifyURLParams.class);
+
+	private VerifyURLParams() {
+	}
+
 	public static boolean verifyEntries(String APIUri, Map<String, String> params) {
-		
-		System.out
-		.printf("\n***** VerifyEntries -- Called by %s API Controller *****\n", APIUri);
-		
+
+		if(logger.isInfoEnabled()) {
+			logger.info("&n***** VerifyEntries -- Called by " + APIUri + " API Controller *****&n");
+		}
+
 		String UTCDateTime = "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z";
 		String numeric = "\\d+";
 		
@@ -38,9 +47,10 @@ public class VerifyURLParams {
 			// Verify published-max only contains numbers
 			if(params.get("published-max").matches(UTCDateTime)) {
 				} else {
-					System.out
-					.printf("VerifyEntries -- published-max: contains an invalid UTC Datetime value - %s\n",
-							params.get("published-max"));
+					if(logger.isInfoEnabled()) {
+						logger.info("VerifyEntries -- published-max: contains an invalid UTC Datetime value - " +
+								params.get("published-max") + "&n");
+				}
 					validParams = false;
 			}
 		}
@@ -51,9 +61,10 @@ public class VerifyURLParams {
 			// Verify published-min only contains numbers
 			if(params.get("published-min").matches(UTCDateTime)) {
 				} else {
-					System.out
-					.printf("VerifyEntries -- published-min: contains an invalid UTC Datetime value - %s\n",
-							params.get("published-min"));
+					if(logger.isInfoEnabled()) {
+						logger.info("VerifyEntries -- published-min: contains an invalid UTC Datetime value - " +
+								params.get("published-min") + "&n");
+					}
 					validParams = false;
 			}
 		}
@@ -64,9 +75,10 @@ public class VerifyURLParams {
 			// Verify updated-max only contains numbers
 			if(params.get("updated-max").matches(UTCDateTime)) {
 				} else {
-					System.out
-					.printf("VerifyEntries -- updated-max: contains an invalid UTC Datetime value - %s\n",
-							params.get("updated-max"));
+					if(logger.isInfoEnabled()) {
+						logger.info("VerifyEntries -- updated-max: contains an invalid UTC Datetime value - " +
+								params.get("updated-max") + "&n");
+					}
 					validParams = false;
 			}
 		}
@@ -77,9 +89,10 @@ public class VerifyURLParams {
 			// Verify updated-min only contains numbers
 			if(params.get("updated-min").matches(UTCDateTime)) {
 				} else {
-					System.out
-					.printf("VerifyEntries -- updated-min: contains an invalid UTC Datetime value - %s\n",
-							params.get("updated-min"));
+					if(logger.isInfoEnabled()) {
+						logger.info("VerifyEntries -- updated-min: contains an invalid UTC Datetime value - " +
+								params.get("updated-min") + "&n");
+					}
 					validParams = false;
 			}
 		}
@@ -90,9 +103,10 @@ public class VerifyURLParams {
 			// Verify max-results only contains numbers
 			if(params.get("max-results").matches(numeric)) {
 				} else {
-					System.out
-					.printf("VerifyEntries -- max-results: contains an invalid numeric value - %s\n",
-							params.get("max-results"));
+					if(logger.isInfoEnabled()) {
+						logger.info("VerifyEntries -- max-results: contains an invalid numeric value - " +
+								params.get("max-results") + "&n");
+					}
 					validParams = false;
 			}
 		}
@@ -103,9 +117,10 @@ public class VerifyURLParams {
 			// Verify start-index only contains numbers
 			if(params.get("start-index").matches(numeric)) {
 				} else {
-					System.out
-					.printf("VerifyEntries -- start-index: contains an invalid numeric value - %s\n",
-							params.get("start-index"));
+					if(logger.isInfoEnabled()) {
+						logger.info("VerifyEntries -- start-index: contains an invalid numeric value - " +
+								params.get("start-index") + "&n");
+					}
 					validParams = false;
 			}
 		}
@@ -116,9 +131,10 @@ public class VerifyURLParams {
 			// Verify depth only contains numbers
 			if(params.get("depth").matches(numeric)) {
 				} else {
-					System.out
-					.printf("VerifyEntries -- depth: contains an invalid numeric value - %s\n",
-							params.get("depth"));
+					if(logger.isInfoEnabled()) {
+						logger.info("VerifyEntries -- depth: contains an invalid numeric value - " +
+								params.get("depth") + "&n");
+					}
 					validParams = false;
 			}
 		}

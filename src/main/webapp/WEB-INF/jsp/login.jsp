@@ -45,6 +45,7 @@
 
                     <form name="f" action="<c:url value='/j_spring_security_check'/>" method="POST">
                         <fieldset>
+                            <legend>User Login Credentials</legend>
                             <div class="clearfix">
                                 <input type="text" name="j_username" placeholder="Username" autofocus="autofocus">
                             </div>

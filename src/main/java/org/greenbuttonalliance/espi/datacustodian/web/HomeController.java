@@ -20,18 +20,17 @@ package org.greenbuttonalliance.espi.datacustodian.web;
 
 import org.greenbuttonalliance.espi.common.domain.Routes;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController extends BaseController {
 
-	@RequestMapping(value = Routes.ROOT, method = RequestMethod.GET)
+	@GetMapping(value = Routes.ROOT)
 	public String index() {
 		return "/home";
 	}
 
-	@RequestMapping(value = Routes.HOME, method = RequestMethod.GET)
+	@GetMapping(value = Routes.HOME)
 	public String home() {
 		return "/home";
 	}

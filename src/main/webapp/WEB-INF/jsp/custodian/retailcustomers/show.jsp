@@ -32,7 +32,7 @@
 
 <div class="container">
 
-    <a href="<c:url value='/custodian/retailcustomers/${retailCustomer.id}/usagepoints/form'/>" class="btn btn-large"><i class="icon-plus"></i>&nbsp;Add Usage Point</a>
+    <a href="<c:url value='/custodian/retailcustomers/${retailCustomer.id}/usagepoints/form'/>" class="btn btn-large"><em class="icon-plus"></em>&nbsp;Add Usage Point</a>
 
     <div class="row">
         <div class="span12">

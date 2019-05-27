@@ -28,7 +28,10 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
@@ -47,7 +50,7 @@ public class ScopeSelectionController extends BaseController {
 	public void handleGenericException() {
 	}
 
-	@RequestMapping(value = Routes.DATA_CUSTODIAN_SCOPE_SELECTION_SCREEN, method = RequestMethod.GET)
+	@GetMapping(value = Routes.DATA_CUSTODIAN_SCOPE_SELECTION_SCREEN)
 	public String scopeSelection(HttpServletRequest request, String[] scopes,
 			@RequestParam("ThirdPartyID") String thirdPartyClientId)
 			throws Exception {

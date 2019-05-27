@@ -65,7 +65,7 @@ public class RetailCustomerRESTController {
 
 	// ROOT and XPath are the same for this one.
 	//
-	@RequestMapping(value = Routes.RETAIL_CUSTOMER_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.RETAIL_CUSTOMER_COLLECTION, produces = "application/atom+xml")
 	@ResponseBody
 	public void index(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam Map<String, String> params) throws IOException,
@@ -94,7 +94,7 @@ public class RetailCustomerRESTController {
 
 	//
 	//
-	@RequestMapping(value = Routes.RETAIL_CUSTOMER_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.RETAIL_CUSTOMER_MEMBER, produces = "application/atom+xml")
 	@ResponseBody
 	public void show(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
@@ -124,7 +124,7 @@ public class RetailCustomerRESTController {
 
 	}
 
-	@RequestMapping(value = Routes.RETAIL_CUSTOMER_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@PostMapping(value = Routes.RETAIL_CUSTOMER_COLLECTION, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void create(HttpServletRequest request,
 			HttpServletResponse response,
@@ -148,7 +148,7 @@ public class RetailCustomerRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.RETAIL_CUSTOMER_MEMBER, method = RequestMethod.PUT, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@PutMapping(value = Routes.RETAIL_CUSTOMER_MEMBER, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void update(HttpServletResponse response,
 			@PathVariable Long applicationInformationId,
@@ -172,7 +172,7 @@ public class RetailCustomerRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.RETAIL_CUSTOMER_MEMBER, method = RequestMethod.DELETE)
+	@DeleteMapping(value = Routes.RETAIL_CUSTOMER_MEMBER)
 	public void delete(HttpServletResponse response,
 			@PathVariable Long applicationInformationId,
 			@RequestParam Map<String, String> params, InputStream stream)

@@ -18,6 +18,8 @@
 
 package org.greenbuttonalliance.espi.datacustodian.oauth;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.provider.AuthorizationRequest;
 import org.springframework.security.oauth2.provider.ClientDetails;
@@ -32,7 +34,9 @@ import java.util.Collection;
  * 
  */
 public class EspiUserApprovalHandler extends ApprovalStoreUserApprovalHandler {
-	
+
+	private static final Log logger = LogFactory.getLog(EspiUserApprovalHandler.class);
+
 	private boolean useApprovalStore = true;
 	
 	private ClientDetailsService clientDetailsService;
@@ -86,6 +90,9 @@ public class EspiUserApprovalHandler extends ApprovalStoreUserApprovalHandler {
 					}
 				}
 				catch (ClientRegistrationException e) {
+					if(logger.isErrorEnabled()) {
+						logger.error("**** checkForPreApproval Exception: " + e.toString() + "&n");
+					}
 				}
 			}
 		}

@@ -87,7 +87,7 @@ public class BatchRESTController {
 	 *   POST /espi/1_1/resource/Batch/RetailCustomer/{retailCustomerId}/UsagePoint
      * </p>
 	 */
-	@RequestMapping(value = Routes.BATCH_UPLOAD_MY_DATA, method = RequestMethod.POST, consumes = "application/xml", produces = "application/atom+xml")
+	@PostMapping(value = Routes.BATCH_UPLOAD_MY_DATA, consumes = "application/xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void upload(HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
@@ -136,7 +136,7 @@ public class BatchRESTController {
      *   GET /espi/1_1/resource/Batch/RetailCustomer/{retailCustomerId}/UsagePoint
      * </p>
 	 */
-	@RequestMapping(value = Routes.BATCH_DOWNLOAD_MY_DATA_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.BATCH_DOWNLOAD_MY_DATA_COLLECTION, produces = "application/atom+xml")
 	@ResponseBody
 	public void download_collection(HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
@@ -190,7 +190,7 @@ public class BatchRESTController {
      *   GET /espi/1_1/resource/Batch/RetailCustomer/{retailCustomerId}/UsagePoint/{usagePointId}
      * </p>
 	 */
-	@RequestMapping(value = Routes.BATCH_DOWNLOAD_MY_DATA_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.BATCH_DOWNLOAD_MY_DATA_MEMBER, produces = "application/atom+xml")
 	@ResponseBody
 	public void download_member(HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
@@ -246,7 +246,7 @@ public class BatchRESTController {
 	 * </p>
 	 */
 	@Transactional(readOnly = true)
-	@RequestMapping(value = Routes.BATCH_SUBSCRIPTION, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.BATCH_SUBSCRIPTION, produces = "application/atom+xml")
 	@ResponseBody
 	public void subscription(HttpServletResponse response,
 			@PathVariable Long subscriptionId,
@@ -299,7 +299,7 @@ public class BatchRESTController {
      * </p>
 	 */
 	@Transactional(readOnly = true)
-	@RequestMapping(value = Routes.BATCH_SUBSCRIPTION_USAGEPOINT, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.BATCH_SUBSCRIPTION_USAGEPOINT, produces = "application/atom+xml")
 	@ResponseBody
 	public void subscriptionUsagePoint(HttpServletResponse response,
 			@PathVariable Long subscriptionId,
@@ -356,7 +356,7 @@ public class BatchRESTController {
 	 */
 
 	@Transactional(readOnly = true)
-	@RequestMapping(value = Routes.BATCH_SUBSCRIPTION_USAGEPOINT_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.BATCH_SUBSCRIPTION_USAGEPOINT_MEMBER, produces = "application/atom+xml")
 	@ResponseBody
 	public void subscriptionUsagePointMember(HttpServletResponse response,
 			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
@@ -413,7 +413,7 @@ public class BatchRESTController {
 	 *   GET /espi/1_1/resource/Batch/Bulk/{bulkId}
      * </p>
 	 */
-	@RequestMapping(value = Routes.BATCH_BULK_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.BATCH_BULK_MEMBER, produces = "application/atom+xml")
 	@ResponseBody
 	public void bulk(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable Long bulkId, @RequestParam Map<String, String> params)

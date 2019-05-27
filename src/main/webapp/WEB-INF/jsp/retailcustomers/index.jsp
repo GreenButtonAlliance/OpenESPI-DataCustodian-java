@@ -38,7 +38,7 @@
             <div class="alert">${message}</div>
             </c:if>
 
-            <a href="<c:url value='/custodian/retailcustomers/form'/>" class="btn btn-large"><i class="icon-plus"></i>&nbsp;Add new customer</a>
+            <a href="<c:url value='/custodian/retailcustomers/form'/>" class="btn btn-large"><em class="icon-plus"></em>&nbsp;Add new customer</a>
 
             <table class="table table-striped">
                 <thead>

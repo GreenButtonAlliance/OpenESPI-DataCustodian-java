@@ -63,7 +63,7 @@ public class UsagePointRESTController {
 	}
 
 	// first the RESTful Interface to the ROOT Objects
-	@RequestMapping(value = Routes.ROOT_USAGE_POINT_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.ROOT_USAGE_POINT_COLLECTION, produces = "application/atom+xml")
 	@ResponseBody
 	public void index(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam Map<String, String> params) throws IOException,
@@ -89,7 +89,7 @@ public class UsagePointRESTController {
 
 	}
 
-	@RequestMapping(value = Routes.ROOT_USAGE_POINT_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.ROOT_USAGE_POINT_MEMBER, produces = "application/atom+xml")
 	@ResponseBody
 	public void show(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable Long usagePointId,
@@ -114,7 +114,7 @@ public class UsagePointRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.ROOT_USAGE_POINT_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@PostMapping(value = Routes.ROOT_USAGE_POINT_COLLECTION, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void create(HttpServletRequest request,
 			HttpServletResponse response,
@@ -135,7 +135,7 @@ public class UsagePointRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.ROOT_USAGE_POINT_MEMBER, method = RequestMethod.PUT, consumes = "application/atom+xml")
+	@PutMapping(value = Routes.ROOT_USAGE_POINT_MEMBER, consumes = "application/atom+xml")
 	@ResponseBody
 	public void update(HttpServletResponse response,
 			@PathVariable Long usagePointId,
@@ -154,7 +154,7 @@ public class UsagePointRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.ROOT_USAGE_POINT_MEMBER, method = RequestMethod.DELETE)
+	@DeleteMapping(value = Routes.ROOT_USAGE_POINT_MEMBER)
 	@ResponseBody
 	public void delete(HttpServletResponse response,
 			@PathVariable Long usagePointId,
@@ -169,7 +169,7 @@ public class UsagePointRESTController {
 
 	// now the RESTful Interface to the XPath Objects
 	//
-	@RequestMapping(value = Routes.USAGE_POINT_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.USAGE_POINT_COLLECTION, produces = "application/atom+xml")
 	@ResponseBody
 	public void index(HttpServletResponse response,
 			@PathVariable Long subscriptionId,
@@ -199,7 +199,7 @@ public class UsagePointRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.USAGE_POINT_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.USAGE_POINT_MEMBER, produces = "application/atom+xml")
 	@ResponseBody
 	public void show(HttpServletResponse response,
 			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
@@ -225,7 +225,7 @@ public class UsagePointRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.USAGE_POINT_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@PostMapping(value = Routes.USAGE_POINT_COLLECTION, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void create(HttpServletResponse response,
 			@PathVariable Long subscriptionId,
@@ -255,7 +255,7 @@ public class UsagePointRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.USAGE_POINT_MEMBER, method = RequestMethod.PUT, consumes = "application/atom+xml")
+	@PutMapping(value = Routes.USAGE_POINT_MEMBER, consumes = "application/atom+xml")
 	@ResponseBody
 	public void update(HttpServletResponse response,
 			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
@@ -277,7 +277,7 @@ public class UsagePointRESTController {
 
 	}
 
-	@RequestMapping(value = Routes.USAGE_POINT_MEMBER, method = RequestMethod.DELETE)
+	@DeleteMapping(value = Routes.USAGE_POINT_MEMBER)
 	@ResponseBody
 	public void delete(HttpServletResponse response,
 			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,

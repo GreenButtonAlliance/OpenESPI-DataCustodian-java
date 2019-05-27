@@ -30,8 +30,7 @@ import org.greenbuttonalliance.espi.common.utils.DateConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -75,7 +74,7 @@ public class ServiceStatusRESTController {
 
 	// ROOT RESTful Forms
 	//
-	@RequestMapping(value = Routes.ROOT_SERVICE_STATUS, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.ROOT_SERVICE_STATUS, produces = "application/atom+xml")
 	@ResponseBody
 	public void index(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam Map<String, String> params) throws IOException,

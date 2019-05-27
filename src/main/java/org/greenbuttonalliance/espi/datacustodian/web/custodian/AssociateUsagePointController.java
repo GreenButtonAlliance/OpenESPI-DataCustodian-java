@@ -60,7 +60,7 @@ public class AssociateUsagePointController {
 		binder.setValidator(new UsagePointFormValidator());
 	}
 
-	@RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_USAGE_POINTS_FORM, method = RequestMethod.GET)
+	@GetMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_USAGE_POINTS_FORM)
 	public String form(@PathVariable Long retailCustomerId, ModelMap model) {
 		model.put("usagePointForm", new UsagePointForm());
 		model.put("retailCustomerId", retailCustomerId);
@@ -68,7 +68,7 @@ public class AssociateUsagePointController {
 		return "/custodian/retailcustomers/usagepoints/form";
 	}
 
-	@RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_USAGE_POINTS_CREATE, method = RequestMethod.POST)
+	@PostMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_USAGE_POINTS_CREATE)
 	public String create(
 			@PathVariable Long retailCustomerId,
 			@ModelAttribute("usagePointForm") @Valid UsagePointForm usagePointForm,

@@ -66,7 +66,7 @@ public class AuthorizationRESTController {
 
 	// ROOT RESTful Forms
 	//
-	@RequestMapping(value = Routes.ROOT_AUTHORIZATION_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.ROOT_AUTHORIZATION_COLLECTION, produces = "application/atom+xml")
 	@ResponseBody
 	public void index(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam Map<String, String> params) throws IOException,
@@ -101,7 +101,7 @@ public class AuthorizationRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.ROOT_AUTHORIZATION_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.ROOT_AUTHORIZATION_MEMBER, produces = "application/atom+xml")
 	@ResponseBody
 	public void show(HttpServletResponse response,
 			@PathVariable Long authorizationId,
@@ -124,7 +124,7 @@ public class AuthorizationRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.ROOT_AUTHORIZATION_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@PostMapping(value = Routes.ROOT_AUTHORIZATION_COLLECTION, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void create(HttpServletResponse response,
 			@RequestParam Map<String, String> params, InputStream stream)
@@ -141,7 +141,7 @@ public class AuthorizationRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.ROOT_AUTHORIZATION_MEMBER, method = RequestMethod.PUT, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@PutMapping(value = Routes.ROOT_AUTHORIZATION_MEMBER, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void update(HttpServletResponse response,
 			@PathVariable Long authorizationId,
@@ -162,7 +162,7 @@ public class AuthorizationRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.ROOT_AUTHORIZATION_MEMBER, method = RequestMethod.DELETE)
+	@DeleteMapping(value = Routes.ROOT_AUTHORIZATION_MEMBER)
 	public void delete(HttpServletResponse response,
 			@PathVariable Long authorizationId,
 			@RequestParam Map<String, String> params, InputStream stream)
@@ -183,7 +183,7 @@ public class AuthorizationRESTController {
 
 	// XPath RESTful forms
 	//
-	@RequestMapping(value = Routes.AUTHORIZATION_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.AUTHORIZATION_COLLECTION, produces = "application/atom+xml")
 	@ResponseBody
 	public void index(HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
@@ -202,7 +202,7 @@ public class AuthorizationRESTController {
 				response.getOutputStream(), new ExportFilter(params));
 	}
 
-	@RequestMapping(value = Routes.AUTHORIZATION_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.AUTHORIZATION_MEMBER, produces = "application/atom+xml")
 	@ResponseBody
 	public void show(HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
@@ -227,7 +227,7 @@ public class AuthorizationRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.AUTHORIZATION_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@PostMapping(value = Routes.AUTHORIZATION_COLLECTION, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void create(HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
@@ -251,7 +251,7 @@ public class AuthorizationRESTController {
 
 	//
 
-	@RequestMapping(value = Routes.AUTHORIZATION_MEMBER, method = RequestMethod.PUT, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@PutMapping(value = Routes.AUTHORIZATION_MEMBER, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void update(HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
@@ -273,7 +273,7 @@ public class AuthorizationRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.AUTHORIZATION_MEMBER, method = RequestMethod.DELETE)
+	@DeleteMapping(value = Routes.AUTHORIZATION_MEMBER)
 	public void delete(HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
 			@PathVariable Long authorizationId,

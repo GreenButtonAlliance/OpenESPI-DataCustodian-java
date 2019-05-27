@@ -67,7 +67,7 @@ public class ElectricPowerQualitySummaryRESTController {
 
 	// ROOT RESTful forms
 	//
-	@RequestMapping(value = Routes.ROOT_ELECTRIC_POWER_QUALITY_SUMMARY_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.ROOT_ELECTRIC_POWER_QUALITY_SUMMARY_COLLECTION, produces = "application/atom+xml")
 	@ResponseBody
 	public void index(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam Map<String, String> params) throws IOException,
@@ -89,7 +89,7 @@ public class ElectricPowerQualitySummaryRESTController {
 
 	//
 	//
-	@RequestMapping(value = Routes.ROOT_ELECTRIC_POWER_QUALITY_SUMMARY_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.ROOT_ELECTRIC_POWER_QUALITY_SUMMARY_MEMBER, produces = "application/atom+xml")
 	@ResponseBody
 	public void show(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable Long electricPowerQualitySummaryId,
@@ -116,7 +116,7 @@ public class ElectricPowerQualitySummaryRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.ROOT_ELECTRIC_POWER_QUALITY_SUMMARY_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@PostMapping(value = Routes.ROOT_ELECTRIC_POWER_QUALITY_SUMMARY_COLLECTION, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void create(HttpServletRequest request,
 			HttpServletResponse response,
@@ -138,7 +138,7 @@ public class ElectricPowerQualitySummaryRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.ROOT_ELECTRIC_POWER_QUALITY_SUMMARY_MEMBER, method = RequestMethod.PUT, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@PutMapping(value = Routes.ROOT_ELECTRIC_POWER_QUALITY_SUMMARY_MEMBER, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void update(HttpServletResponse response,
 			@PathVariable Long electricPowerQualitySummaryId,
@@ -160,7 +160,7 @@ public class ElectricPowerQualitySummaryRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.ROOT_ELECTRIC_POWER_QUALITY_SUMMARY_MEMBER, method = RequestMethod.DELETE)
+	@DeleteMapping(value = Routes.ROOT_ELECTRIC_POWER_QUALITY_SUMMARY_MEMBER)
 	public void delete(HttpServletResponse response,
 			@PathVariable Long electricPowerQualitySummaryId,
 			@RequestParam Map<String, String> params, InputStream stream)
@@ -176,7 +176,7 @@ public class ElectricPowerQualitySummaryRESTController {
 
 	// XPath RESTful forms
 	//
-	@RequestMapping(value = Routes.ELECTRIC_POWER_QUALITY_SUMMARY_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.ELECTRIC_POWER_QUALITY_SUMMARY_COLLECTION, produces = "application/atom+xml")
 	@ResponseBody
 	public void index(HttpServletResponse response,
 			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
@@ -200,7 +200,7 @@ public class ElectricPowerQualitySummaryRESTController {
 				new ExportFilter(params));
 	}
 
-	@RequestMapping(value = Routes.ELECTRIC_POWER_QUALITY_SUMMARY_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
+	@GetMapping(value = Routes.ELECTRIC_POWER_QUALITY_SUMMARY_MEMBER, produces = "application/atom+xml")
 	@ResponseBody
 	public void show(HttpServletResponse response,
 			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
@@ -230,7 +230,7 @@ public class ElectricPowerQualitySummaryRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.ELECTRIC_POWER_QUALITY_SUMMARY_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@PostMapping(value = Routes.ELECTRIC_POWER_QUALITY_SUMMARY_COLLECTION, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void create(HttpServletResponse response,
 			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
@@ -265,7 +265,7 @@ public class ElectricPowerQualitySummaryRESTController {
 
 	//
 
-	@RequestMapping(value = Routes.ELECTRIC_POWER_QUALITY_SUMMARY_MEMBER, method = RequestMethod.PUT, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@PutMapping(value = Routes.ELECTRIC_POWER_QUALITY_SUMMARY_MEMBER, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void update(HttpServletResponse response,
 			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
@@ -297,7 +297,7 @@ public class ElectricPowerQualitySummaryRESTController {
 		}
 	}
 
-	@RequestMapping(value = Routes.ELECTRIC_POWER_QUALITY_SUMMARY_MEMBER, method = RequestMethod.DELETE)
+	@DeleteMapping(value = Routes.ELECTRIC_POWER_QUALITY_SUMMARY_MEMBER)
 	public void delete(HttpServletResponse response,
 			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
 			@PathVariable Long electricPowerQualitySummaryId,

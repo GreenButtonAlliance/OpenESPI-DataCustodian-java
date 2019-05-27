@@ -18,6 +18,8 @@
 
 package org.greenbuttonalliance.espi.datacustodian.oauth;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.greenbuttonalliance.espi.common.domain.*;
 import org.greenbuttonalliance.espi.common.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,8 @@ import javax.persistence.NoResultException;
 import java.util.*;
 
 public class EspiTokenEnhancer implements TokenEnhancer {
+
+	private static final Log logger = LogFactory.getLog(EspiTokenEnhancer.class);
 
 	@Autowired
 	private ApplicationInformationService applicationInformationService;
@@ -62,11 +66,12 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 		DefaultOAuth2AccessToken result = new DefaultOAuth2AccessToken(
 				accessToken);
 
-		System.out.printf("EspiTokenEnhancer: OAuth2Request Parameters = %s\n",
-				authentication.getOAuth2Request().getRequestParameters());
-
-		System.out.printf("EspiTokenEnhancer: Authorities = %s\n",
-				authentication.getAuthorities());
+		if(logger.isInfoEnabled()) {
+			logger.info("EspiTokenEnhancer: OAuth2Request Parameters = " +
+					authentication.getOAuth2Request().getRequestParameters() + "&n");
+			logger.info("EspiTokenEnhancer: OAuth2Request Parameters = " +
+					authentication.getOAuth2Request().getRequestParameters() + "&n");
+		}
 
 		String clientId = authentication.getOAuth2Request().getClientId();
 		ApplicationInformation ai = null;
@@ -91,11 +96,12 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			ai = applicationInformationService.findByClientId(ci);
 
 		} catch (NoResultException | EmptyResultDataAccessException e) {
-			System.out.printf(
-					"\nEspiTokenEnhancer: ApplicationInformation record not found!\n"
-							+ "OAuth2Request Parameters = %s\n", authentication
-							.getOAuth2Request().getRequestParameters()
-							+ " client_id = " + clientId);
+			if(logger.isErrorEnabled()) {
+				logger.error("&nEspiTokenEnhancer: ApplicationInformation record not found!&n" +
+						"OAuth2Request Parameters = " +
+						authentication.getOAuth2Request().getRequestParameters() +
+						" client_id = " + clientId + "&n");
+			}
 			throw new AccessDeniedException(String.format(
 					"No client with requested id: %s", clientId));
 		}
@@ -115,7 +121,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			if (authentication.getAuthorities().toString()
 					.contains("[ROLE_USER]")) {
 				throw new InvalidGrantException(
-						String.format("Client Credentials not valid for ROLE_USER\n"));
+						String.format("Client Credentials not valid for ROLE_USER&n"));
 			}
 
 			// Create Authorization and add authorizationURI to /oath/token
@@ -212,8 +218,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			authorization.setRetailCustomer(retailCustomerService
 					.findById((long) 0));
 			authorization.setUpdated(new GregorianCalendar());
-			authorization.setStatus("1"); // Set authorization record status as
-											// "Active"
+			authorization.setStatus("1"); // Set authorization record status as "Active"
 			authorization.setSubscription(subscription);
 			authorizationService.merge(authorization);
 
@@ -342,12 +347,13 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 
 		} else {
 
-			System.out
-					.printf("EspiTokenEnhancer: Invalid Grant_Type processed by Spring Security OAuth2 Framework:\n"
-							+ "OAuth2Request Parameters = %s\n", authentication
-							.getOAuth2Request().getRequestParameters());
-			throw new AccessDeniedException(
-					String.format("Unsupported ESPI OAuth2 grant_type"));
+			if(logger.isErrorEnabled()) {
+				logger.error("EspiTokenEnhancer: Invalid Grant_Type processed by Spring Security OAuth2 Framework:&n" +
+						"OAuth2Request Parameters = " + authentication.getOAuth2Request().getRequestParameters() +
+						"&n");
+			}
+
+			throw new AccessDeniedException("Unsupported ESPI OAuth2 grant_type");
 		}
 
 		return result;
