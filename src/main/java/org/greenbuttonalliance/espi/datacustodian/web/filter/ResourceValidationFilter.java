@@ -129,8 +129,7 @@ public class ResourceValidationFilter implements Filter {
 						System.out
 								.printf("ResourceValidationFilter: doFilter - No Authorization Found - %s\n",
 										e.toString());
-						throw new AccessDeniedException(
-								String.format("No Authorization Found"));
+						throw new AccessDeniedException("No Authorization Found");
 					}
 				}
 			}
@@ -139,12 +138,11 @@ public class ResourceValidationFilter implements Filter {
 		// /////////////////////////////////////////////////////////////////////
 		// If this is a resource request ensure it has a Bearer token
 		// /////////////////////////////////////////////////////////////////////
-		if ((hasBearer == false) & !(resourceRequest == true)) {
+		if ((hasBearer == false) && !(resourceRequest == true)) {
 			// no Bearer token and it passed the OAuth filter - so it must be
 			// good2go not RESTAPI request
 			// make sure the role is not an ANONYMOUS request for /manage ...
-			if (!((roles.contains("ROLE_ANONYMOUS")) & (uri
-					.indexOf("/management") != -1))) {
+			if (!((roles.contains("ROLE_ANONYMOUS")) && (uri.indexOf("/management") != -1))) {
 				invalid = false;
 			}
 

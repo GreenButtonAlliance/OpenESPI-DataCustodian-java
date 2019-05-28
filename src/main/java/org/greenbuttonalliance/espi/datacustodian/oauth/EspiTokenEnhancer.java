@@ -120,8 +120,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			// "ROLE_USER"
 			if (authentication.getAuthorities().toString()
 					.contains("[ROLE_USER]")) {
-				throw new InvalidGrantException(
-						String.format("Client Credentials not valid for ROLE_USER&n"));
+				throw new InvalidGrantException("Client Credentials not valid for ROLE_USER&n");
 			}
 
 			// Create Authorization and add authorizationURI to /oath/token

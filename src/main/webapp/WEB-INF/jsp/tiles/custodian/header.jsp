@@ -27,7 +27,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="brand" href="<c:url value='/custodian/home'/>"><img src="<c:url value='/resources/ico/favicon.png'/>" width="20"/>&nbsp;Data Custodian</a>
+            <a class="brand" href="<c:url value='/custodian/home'/>"><img src="<c:url value='/resources/ico/favicon.png'/>" alt="Green Button Favicon" width="20"/>&nbsp;Data Custodian</a>
 
             <div class="nav-collapse collapse">
                 <ul class="nav">

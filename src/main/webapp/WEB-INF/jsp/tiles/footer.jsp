@@ -24,7 +24,7 @@
 	<div style="width:100%; margin-left: auto 0px;">
 
 		<ul class="inline">
-			<li><img src="<c:url value='/resources/ico/favicon.png'/>"
+			<li><img src="<c:url value='/resources/ico/favicon.png'/>" alt="Green Button Favicon"
 				width="20" />&nbsp;<a href="http://www.greenbuttondata.org">Green Button for America</a></li>
 			<li>|| <a href="<c:url value='/TermsOfService' />">Terms of Service</a></li>
 			<li>|| <a href="<c:url value='/UsagePolicy' />">Usage Policy</a></li>
