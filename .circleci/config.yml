@@ -44,8 +44,8 @@ jobs:
       #  TODO -- Reactivate after Integration Test issues have been resolved
 
       - run:
-          - name: install yarn
-            - command: sudo npm install -g yarn
+          name: install yarn
+          command: sudo npm install -g yarn
 
       - run: mvn integration-test
 
