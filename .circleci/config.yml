@@ -10,6 +10,7 @@ jobs:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
 
+
     environment:
       # Customize the JVM maximum heap limit
       MAVEN_OPTS: -Xmx3200m
@@ -17,23 +18,21 @@ jobs:
     steps:
       - checkout
 
-      # Download and cache dependencies
-
       - run:
-            name: update-npm
-            command: 'sudo npm install -g npm@latest'
+            name: "Update Node.js and npm"
+            command: |
+                curl -sSL "https://nodejs.org/dist/v11.10.0/node-v11.10.0-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v11.10.0-linux-x64/bin/node
+                curl https://www.npmjs.com/install.sh | sudo bash
+      - run:
+            name: Check current version of node
+            command: node -v
 
+      # Download and cache dependencies
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "pom.xml" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-            - dependency-cache-{{ checksum "package.json" }}
-            - dependency-cache-
-
-      - run:
-          name: update-npm
-          command: 'sudo npm install -g npm@latest'
 
       - run: mvn install -DskipTests
 
