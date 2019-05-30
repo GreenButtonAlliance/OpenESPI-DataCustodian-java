@@ -70,7 +70,7 @@ public class IntervalBlockRESTController {
 
 	// ROOT RESTful forms
 	//
-	@GetMapping(value = Routes.ROOT_INTERVAL_BLOCK_COLLECTION, produces = "application/atom+xml")
+	@RequestMapping(value = Routes.ROOT_INTERVAL_BLOCK_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
 	public void index(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam Map<String, String> params) throws IOException,
@@ -92,7 +92,7 @@ public class IntervalBlockRESTController {
 
 	//
 	//
-	@GetMapping(value = Routes.ROOT_INTERVAL_BLOCK_MEMBER, produces = "application/atom+xml")
+	@RequestMapping(value = Routes.ROOT_INTERVAL_BLOCK_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
 	public void show(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable Long intervalBlockId,
@@ -120,7 +120,7 @@ public class IntervalBlockRESTController {
 
 	//
 	//
-	@PostMapping(value = Routes.ROOT_INTERVAL_BLOCK_COLLECTION, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@RequestMapping(value = Routes.ROOT_INTERVAL_BLOCK_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void create(HttpServletRequest request,
 			HttpServletResponse response,
@@ -142,7 +142,7 @@ public class IntervalBlockRESTController {
 	}
 
 	//
-	@PutMapping(value = Routes.ROOT_INTERVAL_BLOCK_MEMBER, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@RequestMapping(value = Routes.ROOT_INTERVAL_BLOCK_MEMBER, method = RequestMethod.PUT, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void update(HttpServletResponse response,
 			@PathVariable Long intervalBlockId,
@@ -163,7 +163,7 @@ public class IntervalBlockRESTController {
 		}
 	}
 
-	@DeleteMapping(value = Routes.ROOT_INTERVAL_BLOCK_MEMBER)
+	@RequestMapping(value = Routes.ROOT_INTERVAL_BLOCK_MEMBER, method = RequestMethod.DELETE)
 	public void delete(HttpServletResponse response,
 			@PathVariable Long intervalBlockId,
 			@RequestParam Map<String, String> params, InputStream stream)
@@ -178,7 +178,7 @@ public class IntervalBlockRESTController {
 
 	// XPath RESTful forms
 	//
-	@GetMapping(value = Routes.INTERVAL_BLOCK_COLLECTION, produces = "application/atom+xml")
+	@RequestMapping(value = Routes.INTERVAL_BLOCK_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
 	public void index(HttpServletResponse response,
 			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
@@ -205,7 +205,7 @@ public class IntervalBlockRESTController {
 
 	//
 	//
-	@GetMapping(value = Routes.INTERVAL_BLOCK_MEMBER, produces = "application/atom+xml")
+	@RequestMapping(value = Routes.INTERVAL_BLOCK_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
 	public void show(HttpServletResponse response,
 			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
@@ -237,7 +237,7 @@ public class IntervalBlockRESTController {
 
 	//
 	//
-	@PostMapping(value = Routes.INTERVAL_BLOCK_COLLECTION, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@RequestMapping(value = Routes.INTERVAL_BLOCK_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void create(HttpServletResponse response,
 			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
@@ -274,7 +274,7 @@ public class IntervalBlockRESTController {
 	}
 
 	//
-	@PutMapping(value = Routes.INTERVAL_BLOCK_MEMBER, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@RequestMapping(value = Routes.INTERVAL_BLOCK_MEMBER, method = RequestMethod.PUT, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void update(HttpServletResponse response,
 			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
@@ -308,7 +308,7 @@ public class IntervalBlockRESTController {
 		}
 	}
 
-	@DeleteMapping(value = Routes.INTERVAL_BLOCK_MEMBER)
+	@RequestMapping(value = Routes.INTERVAL_BLOCK_MEMBER, method = RequestMethod.DELETE)
 	public void delete(HttpServletResponse response,
 			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
 			@PathVariable Long meterReadingId,

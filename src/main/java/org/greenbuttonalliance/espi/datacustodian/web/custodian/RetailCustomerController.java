@@ -52,21 +52,21 @@ public class RetailCustomerController extends BaseController {
 		binder.setValidator(new RetailCustomerValidator());
 	}
 
-	@GetMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_INDEX)
+	@RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_INDEX, method = RequestMethod.GET)
 	public String index(ModelMap model) {
 		model.put("customers", service.findAll());
 
 		return "retailcustomers/index";
 	}
 
-	@GetMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_FORM)
+	@RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_FORM, method = RequestMethod.GET)
 	public String form(ModelMap model) {
 		model.put("retailCustomer", new RetailCustomer());
 
 		return "retailcustomers/form";
 	}
 
-	@PostMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_CREATE)
+	@RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_CREATE, method = RequestMethod.POST)
 	public String create(
 			@ModelAttribute("retailCustomer") @Valid RetailCustomer retailCustomer,
 			BindingResult result) {
@@ -82,7 +82,7 @@ public class RetailCustomerController extends BaseController {
 		}
 	}
 
-	@GetMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_SHOW)
+	@RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_SHOW, method = RequestMethod.GET)
 	public String show(@PathVariable Long retailCustomerId, ModelMap model) {
 		RetailCustomer retailCustomer = service.findById(retailCustomerId);
 		model.put("retailCustomer", retailCustomer);

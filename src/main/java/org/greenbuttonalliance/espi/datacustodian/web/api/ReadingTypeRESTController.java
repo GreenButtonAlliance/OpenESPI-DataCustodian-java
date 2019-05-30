@@ -57,7 +57,7 @@ public class ReadingTypeRESTController {
 
 	// ROOT RESTful Forms
 	//
-	@GetMapping(value = Routes.ROOT_READING_TYPE_COLLECTION, produces = "application/atom+xml")
+	@RequestMapping(value = Routes.ROOT_READING_TYPE_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
 	public void index(HttpServletResponse response,
 			@RequestParam Map<String, String> params) throws IOException,
@@ -75,7 +75,7 @@ public class ReadingTypeRESTController {
 				new ExportFilter(params));
 	}
 
-	@GetMapping(value = Routes.ROOT_READING_TYPE_MEMBER, produces = "application/atom+xml")
+	@RequestMapping(value = Routes.ROOT_READING_TYPE_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
 	public void show(HttpServletResponse response,
 			@PathVariable Long readingTypeId,
@@ -111,7 +111,7 @@ public class ReadingTypeRESTController {
 		}
 	}
 
-	@PutMapping(value = Routes.ROOT_READING_TYPE_MEMBER, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@RequestMapping(value = Routes.ROOT_READING_TYPE_MEMBER, method = RequestMethod.PUT, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void update(HttpServletResponse response,
 			@PathVariable Long readingTypeId,
@@ -130,7 +130,7 @@ public class ReadingTypeRESTController {
 		}
 	}
 
-	@DeleteMapping(value = Routes.ROOT_READING_TYPE_MEMBER)
+	@RequestMapping(value = Routes.ROOT_READING_TYPE_MEMBER, method = RequestMethod.DELETE)
 	public void delete(HttpServletResponse response,
 			@PathVariable Long readingTypeId,
 			@RequestParam Map<String, String> params) throws IOException {

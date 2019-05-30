@@ -28,9 +28,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBException;
@@ -53,12 +53,12 @@ public class UploadController extends BaseController {
 		return new UploadForm();
 	}
 
-	@GetMapping(value = Routes.DATA_CUSTODIAN_UPLOAD)
+	@RequestMapping(value = Routes.DATA_CUSTODIAN_UPLOAD, method = RequestMethod.GET)
 	public String upload() {
 		return "/custodian/upload";
 	}
 
-	@PostMapping(value = Routes.DATA_CUSTODIAN_UPLOAD)
+	@RequestMapping(value = Routes.DATA_CUSTODIAN_UPLOAD, method = RequestMethod.POST)
 	public String uploadPost(@ModelAttribute UploadForm uploadForm,
 			BindingResult result) throws IOException, JAXBException {
 		

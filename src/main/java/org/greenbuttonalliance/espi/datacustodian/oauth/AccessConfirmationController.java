@@ -25,7 +25,7 @@ import org.springframework.security.oauth2.provider.approval.Approval;
 import org.springframework.security.oauth2.provider.approval.Approval.ApprovalStatus;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -46,7 +46,7 @@ public class AccessConfirmationController {
 	
 	private ApprovalStore approvalStore;	//Spring Security OAuth2 2.0.0.M2 change
 
-	@GetMapping(value = "/oauth/confirm_access")
+	@RequestMapping("/oauth/confirm_access")
 	public ModelAndView getAccessConfirmation(Map<String, Object> model, Principal principal) throws Exception {
 		AuthorizationRequest clientAuth = (AuthorizationRequest) model.remove("authorizationRequest");
 		ClientDetails client = clientDetailsService.loadClientByClientId(clientAuth.getClientId());
@@ -66,7 +66,7 @@ public class AccessConfirmationController {
 		return new ModelAndView("access_confirmation", model);
 	}
 
-	@GetMapping(value = "oauth/error")
+	@RequestMapping("oauth/error")
 	public String handleError(Map<String,Object> model) throws Exception {
 		// We can add more stuff to the model here for JSP rendering.  If the client was a machine then
 		// the JSON will already have been rendered.

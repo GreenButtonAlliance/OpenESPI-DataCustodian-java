@@ -62,7 +62,7 @@ public class TimeConfigurationRESTController {
 
 	// ROOT RESTFul Forms
 	//
-	@GetMapping(value = Routes.ROOT_TIME_CONFIGURATION_COLLECTION, produces = "application/atom+xml")
+	@RequestMapping(value = Routes.ROOT_TIME_CONFIGURATION_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
 	public void index(HttpServletResponse response,
 			@RequestParam Map<String, String> params) throws IOException,
@@ -80,7 +80,7 @@ public class TimeConfigurationRESTController {
 				new ExportFilter(params));
 	}
 
-	@GetMapping(value = Routes.ROOT_TIME_CONFIGURATION_MEMBER, produces = "application/atom+xml")
+	@RequestMapping(value = Routes.ROOT_TIME_CONFIGURATION_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
 	public void show(HttpServletResponse response,
 			@PathVariable Long timeConfigurationId,
@@ -103,7 +103,7 @@ public class TimeConfigurationRESTController {
 		}
 	}
 
-	@PostMapping(value = Routes.ROOT_TIME_CONFIGURATION_COLLECTION, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@RequestMapping(value = Routes.ROOT_TIME_CONFIGURATION_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void create(HttpServletResponse response,
 			@RequestParam Map<String, String> params, InputStream stream)
@@ -122,7 +122,7 @@ public class TimeConfigurationRESTController {
 		}
 	}
 
-	@PutMapping(value = Routes.ROOT_TIME_CONFIGURATION_MEMBER, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@RequestMapping(value = Routes.ROOT_TIME_CONFIGURATION_MEMBER, method = RequestMethod.PUT, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void update(HttpServletResponse response,
 			@PathVariable Long timeConfigurationId,
@@ -136,7 +136,7 @@ public class TimeConfigurationRESTController {
 
 	}
 
-	@DeleteMapping(value = Routes.ROOT_TIME_CONFIGURATION_MEMBER)
+	@RequestMapping(value = Routes.ROOT_TIME_CONFIGURATION_MEMBER, method = RequestMethod.DELETE)
 	public void delete(HttpServletResponse response,
 			@PathVariable Long timeConfigurationId,
 			@RequestParam Map<String, String> params, InputStream stream) {

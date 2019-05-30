@@ -53,19 +53,19 @@ public class OauthAdminController extends BaseController {
 
 	private EspiUserApprovalHandler userApprovalHandler;
 
-	@GetMapping(value = "custodian/oauth/cache_approvals")
+	@RequestMapping("custodian/oauth/cache_approvals")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void startCaching() throws Exception {
 		userApprovalHandler.setUseApprovalStore(true);
 	}
 
-	@GetMapping(value = "custodian/oauth/uncache_approvals")
+	@RequestMapping("custodian/oauth/uncache_approvals")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void stopCaching() throws Exception {
 		userApprovalHandler.setUseApprovalStore(false);
 	}
 	
-	@GetMapping(value="custodian/oauth/tokens/clients/{clientId}/retailcustomers/{userId}", produces="application/json")
+	@RequestMapping(value="custodian/oauth/tokens/clients/{clientId}/retailcustomers/{userId}", method=RequestMethod.GET, produces="application/json")
 	@ResponseBody
 	public Collection<OAuth2AccessToken> listTokensForUser(@PathVariable String clientId, @PathVariable String userId,
 			Principal principal) throws Exception {
@@ -74,7 +74,7 @@ public class OauthAdminController extends BaseController {
 		return enhance(tokenStore.findTokensByClientIdAndUserName(clientId, userId));
 	}
 	
-	@DeleteMapping(value = "custodian/oauth/tokens/{token}/retailcustomers/{userId}")
+	@RequestMapping(value = "custodian/oauth/tokens/{token}/retailcustomers/{userId}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> revokeToken(@PathVariable String userId, @PathVariable String token, Principal principal)
 			throws Exception {
 		checkResourceOwner(userId, principal);
@@ -85,7 +85,7 @@ public class OauthAdminController extends BaseController {
 		}
 	}
 	
-	@GetMapping(value="custodian/oauth/tokens/clients/{clientId}", produces="application/json")
+	@RequestMapping(value="custodian/oauth/tokens/clients/{clientId}", method=RequestMethod.GET, produces="application/json")
 	@ResponseBody
 	public Collection<OAuth2AccessToken> listTokensForClient(@PathVariable String clientId) throws Exception {
 		return tokenStore.findTokensByClientId(clientId);
@@ -149,7 +149,7 @@ public class OauthAdminController extends BaseController {
 	 * 
 	 */
 
-	@GetMapping(value="custodian/oauth/tokens")
+	@RequestMapping(value="custodian/oauth/tokens", method=RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView manageTokens() {
 		return new ModelAndView("/custodian/oauth/tokens");

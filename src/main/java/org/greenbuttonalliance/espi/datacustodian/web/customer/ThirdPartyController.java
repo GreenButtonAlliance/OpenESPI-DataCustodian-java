@@ -27,9 +27,8 @@ import org.greenbuttonalliance.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -42,7 +41,7 @@ public class ThirdPartyController extends BaseController {
 	@Autowired
 	private ResourceService resourceService;
 
-	@GetMapping()
+	@RequestMapping(method = RequestMethod.GET)
 	public String index(ModelMap model) {
 		// note that we are only looking at "THIRD_PARTY" relationships here.
 		model.put("applicationInformationList",
@@ -50,7 +49,7 @@ public class ThirdPartyController extends BaseController {
 		return "/customer/thirdparties/index";
 	}
 
-	@PostMapping()
+	@RequestMapping(method = RequestMethod.POST)
 	public String selectThirdParty(
 			@RequestParam("Third_party") Long thirdPartyId,
 			@RequestParam("Third_party_URL") String thirdPartyURL) {

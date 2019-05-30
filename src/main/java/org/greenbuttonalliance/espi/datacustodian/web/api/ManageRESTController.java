@@ -65,7 +65,7 @@ public class ManageRESTController {
 	 * @throws IOException
 	 *            Exception thrown by failed or interrupted I/O operations.
 	 */
-	@GetMapping(value = Routes.DATA_CUSTODIAN_MANAGE, produces = "text/plain")
+	@RequestMapping(value = Routes.DATA_CUSTODIAN_MANAGE, method = RequestMethod.GET, produces = "text/plain")
 	@ResponseBody
 	public void doCommand(HttpServletResponse response,
 			@RequestParam Map<String, String> params, InputStream stream)

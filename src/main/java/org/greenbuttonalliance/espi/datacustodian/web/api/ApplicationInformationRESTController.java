@@ -56,7 +56,7 @@ public class ApplicationInformationRESTController {
 
 	// ROOT and XPath are the same for this one.
 	//
-	@GetMapping(value = Routes.ROOT_APPLICATION_INFORMATION_COLLECTION, produces = "application/atom+xml")
+	@RequestMapping(value = Routes.ROOT_APPLICATION_INFORMATION_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
 	public void index(HttpServletResponse response,
 			@RequestParam Map<String, String> params) throws IOException,
@@ -76,7 +76,7 @@ public class ApplicationInformationRESTController {
 
 	//
 	//
-	@GetMapping(value = Routes.ROOT_APPLICATION_INFORMATION_MEMBER, produces = "application/atom+xml")
+	@RequestMapping(value = Routes.ROOT_APPLICATION_INFORMATION_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
 	public void show(HttpServletResponse response,
 			@PathVariable Long applicationInformationId,
@@ -103,7 +103,7 @@ public class ApplicationInformationRESTController {
 
 	//
 	//
-	@PostMapping(value = Routes.ROOT_APPLICATION_INFORMATION_COLLECTION, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@RequestMapping(value = Routes.ROOT_APPLICATION_INFORMATION_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void create(HttpServletResponse response,
 			@RequestParam Map<String, String> params, InputStream stream)
@@ -123,7 +123,7 @@ public class ApplicationInformationRESTController {
 
 	//
 
-	@PutMapping(value = Routes.ROOT_APPLICATION_INFORMATION_MEMBER, consumes = "application/atom+xml", produces = "application/atom+xml")
+	@RequestMapping(value = Routes.ROOT_APPLICATION_INFORMATION_MEMBER, method = RequestMethod.PUT, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void update(HttpServletResponse response,
 			@PathVariable Long applicationInformationId,
@@ -145,7 +145,7 @@ public class ApplicationInformationRESTController {
 		}
 	}
 
-	@DeleteMapping(value = Routes.ROOT_APPLICATION_INFORMATION_MEMBER)
+	@RequestMapping(value = Routes.ROOT_APPLICATION_INFORMATION_MEMBER, method = RequestMethod.DELETE)
 	public void delete(HttpServletResponse response,
 			@PathVariable Long applicationInformationId,
 			@RequestParam Map<String, String> params, InputStream stream)

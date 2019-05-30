@@ -21,7 +21,7 @@ package org.greenbuttonalliance.espi.datacustodian.web;
 import org.greenbuttonalliance.espi.common.domain.RetailCustomer;
 import org.greenbuttonalliance.espi.common.domain.Routes;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
@@ -29,7 +29,7 @@ import java.security.Principal;
 @Controller
 public class DefaultController extends BaseController {
 
-	@GetMapping(value = Routes.DEFAULT)
+	@RequestMapping(Routes.DEFAULT)
 	public String defaultAfterLogin(HttpServletRequest request,
 			Principal principal) {
 		if (request.isUserInRole(RetailCustomer.ROLE_CUSTODIAN)) {
