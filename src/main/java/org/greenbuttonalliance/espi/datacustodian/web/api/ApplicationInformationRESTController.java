@@ -47,11 +47,6 @@ public class ApplicationInformationRESTController {
 
 	@Autowired
 	private ResourceService resourceService;
-//
-//	@ExceptionHandler(Exception.class)
-//	@ResponseStatus(HttpStatus.BAD_REQUEST)
-//	public void handleGenericException() {
-//	}
 
 	// ROOT and XPath are the same for this one.
 	//

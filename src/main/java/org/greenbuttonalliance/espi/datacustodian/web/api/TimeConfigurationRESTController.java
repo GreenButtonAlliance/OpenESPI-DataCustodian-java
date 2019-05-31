@@ -55,13 +55,8 @@ public class TimeConfigurationRESTController {
 
 	@Autowired
 	private ResourceService resourceService;
-//
-//	@ExceptionHandler(Exception.class)
-//	@ResponseStatus(HttpStatus.BAD_REQUEST)
-//	public void handleGenericException() {
-//	}
 
-	// ROOT RESTFul Forms
+	// ROOT REST Forms
 	//
 	@RequestMapping(value = Routes.ROOT_TIME_CONFIGURATION_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody

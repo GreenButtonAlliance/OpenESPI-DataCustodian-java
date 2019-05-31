@@ -57,13 +57,8 @@ public class UsagePointRESTController {
 
 	@Autowired
 	private AuthorizationService authorizationService;
-//
-//	@ExceptionHandler(Exception.class)
-//	@ResponseStatus(HttpStatus.BAD_REQUEST)
-//	public void handleGenericException() {
-//	}
 
-	// first the RESTful Interface to the ROOT Objects
+	// first the REST Interface to the ROOT Objects
 	@RequestMapping(value = Routes.ROOT_USAGE_POINT_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
 	public void index(HttpServletRequest request, HttpServletResponse response,

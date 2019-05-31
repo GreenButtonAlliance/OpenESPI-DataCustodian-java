@@ -60,10 +60,6 @@ public class AuthorizationRESTController {
 	@Autowired
 	private ResourceService resourceService;
 //
-//	@ExceptionHandler(Exception.class)
-//	@ResponseStatus(HttpStatus.BAD_REQUEST)
-//	public void handleGenericException() {
-//	}
 
 	// ROOT RESTful Forms
 	//

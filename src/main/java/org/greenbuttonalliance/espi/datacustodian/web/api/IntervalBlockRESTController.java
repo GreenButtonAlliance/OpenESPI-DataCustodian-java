@@ -63,13 +63,8 @@ public class IntervalBlockRESTController {
 
 	@Autowired
 	private AuthorizationService authorizationService;
-//
-//	@ExceptionHandler(Exception.class)
-//	@ResponseStatus(HttpStatus.BAD_REQUEST)
-//	public void handleGenericException() {
-//	}
 
-	// ROOT RESTful forms
+	// ROOT REST forms
 	//
 	@RequestMapping(value = Routes.ROOT_INTERVAL_BLOCK_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody

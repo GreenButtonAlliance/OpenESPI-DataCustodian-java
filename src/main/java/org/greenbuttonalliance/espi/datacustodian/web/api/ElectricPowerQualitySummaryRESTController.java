@@ -60,11 +60,6 @@ public class ElectricPowerQualitySummaryRESTController {
 
 	@Autowired
 	private AuthorizationService authorizationService;
-//
-//	@ExceptionHandler(Exception.class)
-//	@ResponseStatus(HttpStatus.BAD_REQUEST)
-//	public void handleGenericException() {
-//	}
 
 	// ROOT RESTful forms
 	//

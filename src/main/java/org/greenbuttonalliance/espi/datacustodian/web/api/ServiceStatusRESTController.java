@@ -73,7 +73,7 @@ public class ServiceStatusRESTController {
 
 	}
 
-	// ROOT RESTful Forms
+	// ROOT REST Forms
 	//
 	@RequestMapping(value = Routes.ROOT_SERVICE_STATUS, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody

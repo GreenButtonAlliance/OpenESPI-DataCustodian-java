@@ -40,7 +40,9 @@ import java.util.Set;
 
 public class ResourceValidationFilter implements Filter {
 
-	private static final String ACCESS_NOT_AUTHORIZED = "ResourceValidationFilter: doFilter - Access Not Authorized&n";
+	private static final String ACCESS_NOT_AUTHORIZED_LOG_MSG = "ResourceValidationFilter: doFilter - Access Not Authorized&n";
+
+	private static final String ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG = "Access Not Authorized";
 
 	private static final String RESOURCE_URI_ELEMENT = "/resource/";
 
@@ -94,9 +96,9 @@ public class ResourceValidationFilter implements Filter {
 
 		} else {
 			if(logger.isInfoEnabled()) {
-				logger.info(ACCESS_NOT_AUTHORIZED);
+				logger.info(ACCESS_NOT_AUTHORIZED_LOG_MSG);
 			}
-			throw new AccessDeniedException("Access Not Authorized");
+			throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
 		}
 
 		if(logger.isInfoEnabled()) {
@@ -177,7 +179,7 @@ public class ResourceValidationFilter implements Filter {
 						logger.info("ResourceValidationFilter: doFilter - not valid for this token " +
 								uri + "&n");
 					}
-					throw new AccessDeniedException("Access Not Authorized");
+					throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
 				}
 			} else {
 				// lets check the uri
@@ -191,7 +193,7 @@ public class ResourceValidationFilter implements Filter {
 						logger.info("ResourceValidationFilter: doFilter - not valid for this token " +
 								uri + "&n");
 					}
-					throw new AccessDeniedException("Access Not Authorized");
+					throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
 				}
 			}
 
@@ -243,7 +245,7 @@ public class ResourceValidationFilter implements Filter {
 						logger.info("ResourceValidationFilter: doFilter - ROLE_USER attempted a REST " +
 										service +  "Request -- Only GET Request are allowed&n");
 					}
-					throw new AccessDeniedException("Access Not Authorized");
+					throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
 				}
 
 				// look for the root forms of LocalTimeParameters and
@@ -261,9 +263,9 @@ public class ResourceValidationFilter implements Filter {
 					} else {
 						// not authorized for this resource
 						if(logger.isInfoEnabled()) {
-							logger.info(ACCESS_NOT_AUTHORIZED);
+							logger.info(ACCESS_NOT_AUTHORIZED_LOG_MSG);
 						}
-						throw new AccessDeniedException("Access Not Authorized");
+						throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
 					}
 				}
 
@@ -275,9 +277,9 @@ public class ResourceValidationFilter implements Filter {
 					} else {
 						// not authorized for this resource
 						if(logger.isInfoEnabled()) {
-							logger.info(ACCESS_NOT_AUTHORIZED);
+							logger.info(ACCESS_NOT_AUTHORIZED_LOG_MSG);
 						}
-						throw new AccessDeniedException("Access Not Authorized");
+						throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
 					}
 				}
 
@@ -344,9 +346,9 @@ public class ResourceValidationFilter implements Filter {
 								} else {
 									// not authorized for this resource
 									if(logger.isInfoEnabled()) {
-										logger.info(ACCESS_NOT_AUTHORIZED);
+										logger.info(ACCESS_NOT_AUTHORIZED_LOG_MSG);
 									}
-									throw new AccessDeniedException("Access Not Authorized");
+									throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
 								}
 							} else {
 								// this is collection request and controller
@@ -356,9 +358,9 @@ public class ResourceValidationFilter implements Filter {
 								} else {
 									// not authorized for this resource
 									if(logger.isInfoEnabled()) {
-										logger.info(ACCESS_NOT_AUTHORIZED);
+										logger.info(ACCESS_NOT_AUTHORIZED_LOG_MSG);
 									}
-									throw new AccessDeniedException("Access Not Authorized");
+									throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
 								}
 							}
 						}
@@ -371,9 +373,9 @@ public class ResourceValidationFilter implements Filter {
 					} else {
 						// not authorized for this resource
 						if(logger.isInfoEnabled()) {
-							logger.info(ACCESS_NOT_AUTHORIZED);
+							logger.info(ACCESS_NOT_AUTHORIZED_LOG_MSG);
 						}
-						throw new AccessDeniedException("Access Not Authorized");
+						throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
 					}
 				}
 
@@ -400,9 +402,9 @@ public class ResourceValidationFilter implements Filter {
 					} else {
 						// not authorized for this resource
 						if(logger.isInfoEnabled()) {
-							logger.info(ACCESS_NOT_AUTHORIZED);
+							logger.info(ACCESS_NOT_AUTHORIZED_LOG_MSG);
 						}
-						throw new AccessDeniedException("Access Not Authorized");
+						throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
 					}
 				}
 
@@ -416,9 +418,9 @@ public class ResourceValidationFilter implements Filter {
 					} else {
 						// not authorized for this resource
 						if(logger.isInfoEnabled()) {
-							logger.info(ACCESS_NOT_AUTHORIZED);
+							logger.info(ACCESS_NOT_AUTHORIZED_LOG_MSG);
 						}
-						throw new AccessDeniedException("Access Not Authorized");
+						throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
 					}
 				}
 			} else if (invalid && roles.contains("ROLE_TP_REGISTRATION")) {
@@ -453,25 +455,25 @@ public class ResourceValidationFilter implements Filter {
 						} else {
 							// not authorized for this resource
 							if(logger.isInfoEnabled()) {
-								logger.info(ACCESS_NOT_AUTHORIZED);
+								logger.info(ACCESS_NOT_AUTHORIZED_LOG_MSG);
 							}
-							throw new AccessDeniedException("Access Not Authorized");
+							throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
 						}
 
 					} else {
 						// not authorized for this resource
 						if(logger.isInfoEnabled()) {
-							logger.info(ACCESS_NOT_AUTHORIZED);
+							logger.info(ACCESS_NOT_AUTHORIZED_LOG_MSG);
 						}
-						throw new AccessDeniedException("Access Not Authorized");
+						throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
 					}
 
 				} else {
 					// not authorized for this resource
 					if(logger.isInfoEnabled()) {
-						logger.info(ACCESS_NOT_AUTHORIZED);
+						logger.info(ACCESS_NOT_AUTHORIZED_LOG_MSG);
 					}
-					throw new AccessDeniedException("Access Not Authorized");
+					throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
 				}
 			}
 		}
@@ -483,9 +485,9 @@ public class ResourceValidationFilter implements Filter {
 		if (invalid) {
 			// not authorized for this resource
 			if(logger.isInfoEnabled()) {
-				logger.info(ACCESS_NOT_AUTHORIZED);
+				logger.info(ACCESS_NOT_AUTHORIZED_LOG_MSG);
 			}
-			throw new AccessDeniedException("Access Not Authorized");
+			throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
 		}
 
 		chain.doFilter(req, res);

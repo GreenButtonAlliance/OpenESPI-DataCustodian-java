@@ -59,13 +59,8 @@ public class MeterReadingRESTController {
 
 	@Autowired
 	private AuthorizationService authorizationService;
-//
-//	@ExceptionHandler(Exception.class)
-//	@ResponseStatus(HttpStatus.BAD_REQUEST)
-//	public void handleGenericException() {
-//	}
 
-	// ROOT RESTFul APIs
+	// ROOT REST APIs
 	//
 	@RequestMapping(value = Routes.ROOT_METER_READING_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody

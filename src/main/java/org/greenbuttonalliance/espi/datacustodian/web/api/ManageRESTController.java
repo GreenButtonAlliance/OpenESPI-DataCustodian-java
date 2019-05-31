@@ -48,11 +48,6 @@ import java.util.Map;
 @Controller
 public class ManageRESTController {
 
-//	@ExceptionHandler(Exception.class)
-//	@ResponseStatus(HttpStatus.BAD_REQUEST)
-//	public void handleGenericException() {
-//	}
-
 	/**
 	 * Provides access to administrative commands through the pattern:
 	 * DataCustodian/manage?command=[resetDataCustodianDB |

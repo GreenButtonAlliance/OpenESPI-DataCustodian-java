@@ -50,13 +50,8 @@ public class ReadingTypeRESTController {
 
 	@Autowired
 	private ExportService exportService;
-//
-//	@ExceptionHandler(Exception.class)
-//	@ResponseStatus(HttpStatus.BAD_REQUEST)
-//	public void handleGenericException() {
-//	}
 
-	// ROOT RESTful Forms
+	// ROOT REST Forms
 	//
 	@RequestMapping(value = Routes.ROOT_READING_TYPE_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody

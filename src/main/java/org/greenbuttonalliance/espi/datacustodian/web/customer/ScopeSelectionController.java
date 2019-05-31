@@ -42,11 +42,6 @@ public class ScopeSelectionController extends BaseController {
 
 	@Autowired
 	private ApplicationInformationService applicationInformationService;
-//
-//	@ExceptionHandler(Exception.class)
-//	@ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "Access Not Authorized")
-//	public void handleGenericException() {
-//	}
 
 	@RequestMapping(value = Routes.DATA_CUSTODIAN_SCOPE_SELECTION_SCREEN, method = RequestMethod.GET)
 	public String scopeSelection(HttpServletRequest request, String[] scopes,

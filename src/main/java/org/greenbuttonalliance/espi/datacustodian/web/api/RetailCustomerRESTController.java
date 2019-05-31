@@ -64,11 +64,6 @@ public class RetailCustomerRESTController {
 
 	@Autowired
 	private AuthorizationService authorizationService;
-//
-//	@ExceptionHandler(Exception.class)
-//	@ResponseStatus(HttpStatus.BAD_REQUEST)
-//	public void handleGenericException() {
-//	}
 
 	// ROOT and XPath are the same for this one.
 	//
