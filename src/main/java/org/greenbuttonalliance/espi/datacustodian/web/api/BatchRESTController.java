@@ -43,6 +43,8 @@ import java.util.Map;
 @Controller
 public class BatchRESTController {
 
+	private static final String INVALID_QUERY_PARAMETER = "Request contains invalid query parameter values!";
+
 	@Autowired
 	private ImportService importService;
 
@@ -146,7 +148,7 @@ public class BatchRESTController {
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.BATCH_DOWNLOAD_MY_DATA_COLLECTION, params)) {
 
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, INVALID_QUERY_PARAMETER);
 			return;
 		}
 
@@ -201,7 +203,7 @@ public class BatchRESTController {
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.BATCH_DOWNLOAD_MY_DATA_MEMBER, params)) {
 
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, INVALID_QUERY_PARAMETER);
 			return;
 		}
 
@@ -256,7 +258,7 @@ public class BatchRESTController {
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.BATCH_SUBSCRIPTION, params)) {
 
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, INVALID_QUERY_PARAMETER);
 			return;
 		}
 
@@ -309,7 +311,7 @@ public class BatchRESTController {
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.BATCH_SUBSCRIPTION_USAGEPOINT, params)) {
 
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, INVALID_QUERY_PARAMETER);
 			return;
 		}
 
@@ -366,7 +368,7 @@ public class BatchRESTController {
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.BATCH_SUBSCRIPTION_USAGEPOINT_MEMBER, params)) {
 
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, INVALID_QUERY_PARAMETER);
 			return;
 		}
 
@@ -422,7 +424,7 @@ public class BatchRESTController {
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.BATCH_BULK_MEMBER, params)) {
 
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, INVALID_QUERY_PARAMETER);
 			return;
 		}
 

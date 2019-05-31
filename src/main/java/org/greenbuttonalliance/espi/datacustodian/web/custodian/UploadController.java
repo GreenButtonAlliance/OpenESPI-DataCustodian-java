@@ -39,6 +39,8 @@ import java.io.IOException;
 @Controller
 public class UploadController extends BaseController {
 
+	private static final String UPLOAD_VIEW = "/custodian/upload";
+
 	@Autowired
 	private ImportService importService;
 
@@ -55,7 +57,7 @@ public class UploadController extends BaseController {
 
 	@RequestMapping(value = Routes.DATA_CUSTODIAN_UPLOAD, method = RequestMethod.GET)
 	public String upload() {
-		return "/custodian/upload";
+		return UPLOAD_VIEW;
 	}
 
 	@RequestMapping(value = Routes.DATA_CUSTODIAN_UPLOAD, method = RequestMethod.POST)
@@ -72,13 +74,13 @@ public class UploadController extends BaseController {
 			
 			result.addError(new ObjectError("uploadForm",
 					e.getMessage()));
-			return "/custodian/upload";
+			return UPLOAD_VIEW;
 				
 		} catch (Exception e) {
 				
 			result.addError(new ObjectError("uploadForm",
 						"Unable to process file"));
-			return "/custodian/upload";
+			return UPLOAD_VIEW;
 		} 
 	}
 

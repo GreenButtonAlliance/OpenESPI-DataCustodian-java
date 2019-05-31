@@ -28,7 +28,6 @@ import org.greenbuttonalliance.espi.common.service.ResourceService;
 import org.greenbuttonalliance.espi.common.utils.ExportFilter;
 import org.greenbuttonalliance.espi.datacustodian.utils.VerifyURLParams;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +40,8 @@ import java.util.Map;
 @Controller
 public class ReadingTypeRESTController {
 
+	private static final String INVALID_QUERY_PARAMETER = "Request contains invalid query parameter values!";
+
 	@Autowired
 	private ReadingTypeService readingTypeService;
 
@@ -49,11 +50,11 @@ public class ReadingTypeRESTController {
 
 	@Autowired
 	private ExportService exportService;
-
-	@ExceptionHandler(Exception.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public void handleGenericException() {
-	}
+//
+//	@ExceptionHandler(Exception.class)
+//	@ResponseStatus(HttpStatus.BAD_REQUEST)
+//	public void handleGenericException() {
+//	}
 
 	// ROOT RESTful Forms
 	//
@@ -66,7 +67,7 @@ public class ReadingTypeRESTController {
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.ROOT_READING_TYPE_COLLECTION, params)) {
 
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, INVALID_QUERY_PARAMETER);
 			return;
 		}
 
@@ -85,7 +86,7 @@ public class ReadingTypeRESTController {
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.ROOT_READING_TYPE_MEMBER, params)) {
 
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, INVALID_QUERY_PARAMETER);
 			return;
 		}
 

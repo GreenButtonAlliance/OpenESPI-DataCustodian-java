@@ -23,10 +23,12 @@ package org.greenbuttonalliance.espi.datacustodian.web.api;
 
 
 import org.greenbuttonalliance.espi.common.domain.Routes;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -46,10 +48,10 @@ import java.util.Map;
 @Controller
 public class ManageRESTController {
 
-	@ExceptionHandler(Exception.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public void handleGenericException() {
-	}
+//	@ExceptionHandler(Exception.class)
+//	@ResponseStatus(HttpStatus.BAD_REQUEST)
+//	public void handleGenericException() {
+//	}
 
 	/**
 	 * Provides access to administrative commands through the pattern:

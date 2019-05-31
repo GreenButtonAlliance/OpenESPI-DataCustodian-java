@@ -40,6 +40,10 @@ import javax.validation.Valid;
 @PreAuthorize("hasRole('ROLE_CUSTODIAN')")
 public class RetailCustomerController extends BaseController {
 
+	private static final String RETAIL_CUSTOMER_FORM = "retailcustomers/form";
+
+	private static final String FIELD_REQUIRED = "field.required";
+
 	@Autowired
 	private RetailCustomerService service;
 
@@ -63,7 +67,7 @@ public class RetailCustomerController extends BaseController {
 	public String form(ModelMap model) {
 		model.put("retailCustomer", new RetailCustomer());
 
-		return "retailcustomers/form";
+		return RETAIL_CUSTOMER_FORM;
 	}
 
 	@RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_CREATE, method = RequestMethod.POST)
@@ -71,13 +75,13 @@ public class RetailCustomerController extends BaseController {
 			@ModelAttribute("retailCustomer") @Valid RetailCustomer retailCustomer,
 			BindingResult result) {
 		if (result.hasErrors()) {
-			return "retailcustomers/form";
+			return RETAIL_CUSTOMER_FORM;
 		} else {
 			try {
 				service.persist(retailCustomer);
 				return "redirect:/custodian/retailcustomers";
 			} catch (Exception e) {
-				return "retailcustomers/form";
+				return RETAIL_CUSTOMER_FORM;
 			}
 		}
 	}
@@ -97,13 +101,13 @@ public class RetailCustomerController extends BaseController {
 
 		public void validate(Object target, Errors errors) {
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username",
-					"field.required", "Username is required");
+					FIELD_REQUIRED, "Username is required");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password",
-					"field.required", "Password is required");
+					FIELD_REQUIRED, "Password is required");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName",
-					"field.required", "First name is required");
+					FIELD_REQUIRED, "First name is required");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName",
-					"field.required", "Last name is required");
+					FIELD_REQUIRED, "Last name is required");
 		}
 	}
 }

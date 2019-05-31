@@ -27,7 +27,6 @@ import org.greenbuttonalliance.espi.common.service.ResourceService;
 import org.greenbuttonalliance.espi.common.utils.ExportFilter;
 import org.greenbuttonalliance.espi.datacustodian.utils.VerifyURLParams;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -48,11 +47,11 @@ public class ApplicationInformationRESTController {
 
 	@Autowired
 	private ResourceService resourceService;
-
-	@ExceptionHandler(Exception.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public void handleGenericException() {
-	}
+//
+//	@ExceptionHandler(Exception.class)
+//	@ResponseStatus(HttpStatus.BAD_REQUEST)
+//	public void handleGenericException() {
+//	}
 
 	// ROOT and XPath are the same for this one.
 	//

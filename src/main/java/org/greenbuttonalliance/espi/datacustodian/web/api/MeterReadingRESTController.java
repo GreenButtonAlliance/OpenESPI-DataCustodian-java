@@ -24,7 +24,6 @@ import org.greenbuttonalliance.espi.common.service.*;
 import org.greenbuttonalliance.espi.common.utils.ExportFilter;
 import org.greenbuttonalliance.espi.datacustodian.utils.VerifyURLParams;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +36,8 @@ import java.util.Map;
 
 @Controller
 public class MeterReadingRESTController {
+
+	private static final String INVALID_QUERY_PARAMETER = "Request contains invalid query parameter values!";
 
 	@Autowired
 	private MeterReadingService meterReadingService;
@@ -58,11 +59,11 @@ public class MeterReadingRESTController {
 
 	@Autowired
 	private AuthorizationService authorizationService;
-
-	@ExceptionHandler(Exception.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public void handleGenericException() {
-	}
+//
+//	@ExceptionHandler(Exception.class)
+//	@ResponseStatus(HttpStatus.BAD_REQUEST)
+//	public void handleGenericException() {
+//	}
 
 	// ROOT RESTFul APIs
 	//
@@ -75,7 +76,7 @@ public class MeterReadingRESTController {
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.ROOT_METER_READING_COLLECTION, params)) {
 
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, INVALID_QUERY_PARAMETER);
 			return;
 		}
 
@@ -96,7 +97,7 @@ public class MeterReadingRESTController {
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.ROOT_METER_READING_MEMBER, params)) {
 
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, INVALID_QUERY_PARAMETER);
 			return;
 		}
 
@@ -174,7 +175,7 @@ public class MeterReadingRESTController {
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.METER_READING_COLLECTION, params)) {
 
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, INVALID_QUERY_PARAMETER);
 			return;
 		}
 
@@ -198,7 +199,7 @@ public class MeterReadingRESTController {
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.METER_READING_MEMBER, params)) {
 
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, INVALID_QUERY_PARAMETER);
 			return;
 		}
 

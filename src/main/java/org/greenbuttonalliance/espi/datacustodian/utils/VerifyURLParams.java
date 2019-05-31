@@ -25,6 +25,20 @@ import java.util.Map;
 
 public class VerifyURLParams {
 
+	private static final String PUBLISHED_MAX = "published-max";
+
+	private static final String PUBLISHED_MIN = "published-min";
+
+	private static final String UPDATED_MAX = "updated-max";
+
+	private static final String UPDATED_MIN = "updated-min";
+
+	private static final String MAX_RESULTS = "max-results";
+
+	private static final String START_INDEX = "start-index";
+
+	private static final String DEPTH = "depth";
+
 	private static Log logger = LogFactory.getLog(VerifyURLParams.class);
 
 	private VerifyURLParams() {
@@ -42,98 +56,98 @@ public class VerifyURLParams {
 		boolean validParams = true;
 
 		// Verify "published-max" query parameter is valid if present
-		if(params.get("published-max") != null) {
+		if(params.get(PUBLISHED_MAX) != null) {
 
 			// Verify published-max only contains numbers
-			if(params.get("published-max").matches(UTCDateTime)) {
+			if(params.get(PUBLISHED_MAX).matches(UTCDateTime)) {
 				} else {
 					if(logger.isInfoEnabled()) {
 						logger.info("VerifyEntries -- published-max: contains an invalid UTC Datetime value - " +
-								params.get("published-max") + "&n");
+								params.get(PUBLISHED_MAX) + "&n");
 				}
 					validParams = false;
 			}
 		}
 		
 		// Verify "published-min" query parameter is valid if present
-		if(params.get("published-min") != null) {
+		if(params.get(PUBLISHED_MIN) != null) {
 
 			// Verify published-min only contains numbers
-			if(params.get("published-min").matches(UTCDateTime)) {
+			if(params.get(PUBLISHED_MIN).matches(UTCDateTime)) {
 				} else {
 					if(logger.isInfoEnabled()) {
 						logger.info("VerifyEntries -- published-min: contains an invalid UTC Datetime value - " +
-								params.get("published-min") + "&n");
+								params.get(PUBLISHED_MIN) + "&n");
 					}
 					validParams = false;
 			}
 		}
 		
 		// Verify "updated-max" query parameter is valid if present
-		if(params.get("updated-max") != null) {
+		if(params.get(UPDATED_MAX) != null) {
 
 			// Verify updated-max only contains numbers
-			if(params.get("updated-max").matches(UTCDateTime)) {
+			if(params.get(UPDATED_MAX).matches(UTCDateTime)) {
 				} else {
 					if(logger.isInfoEnabled()) {
 						logger.info("VerifyEntries -- updated-max: contains an invalid UTC Datetime value - " +
-								params.get("updated-max") + "&n");
+								params.get(UPDATED_MAX) + "&n");
 					}
 					validParams = false;
 			}
 		}
 		
 		// Verify "updated-min" query parameter is valid if present
-		if(params.get("updated-min") != null) {
+		if(params.get(UPDATED_MIN) != null) {
 
 			// Verify updated-min only contains numbers
-			if(params.get("updated-min").matches(UTCDateTime)) {
+			if(params.get(UPDATED_MIN).matches(UTCDateTime)) {
 				} else {
 					if(logger.isInfoEnabled()) {
 						logger.info("VerifyEntries -- updated-min: contains an invalid UTC Datetime value - " +
-								params.get("updated-min") + "&n");
+								params.get(UPDATED_MIN) + "&n");
 					}
 					validParams = false;
 			}
 		}
 		
 		// Verify "max-results" query parameter is valid if present
-		if(params.get("max-results") != null) {
+		if(params.get(MAX_RESULTS) != null) {
 
 			// Verify max-results only contains numbers
-			if(params.get("max-results").matches(numeric)) {
+			if(params.get(MAX_RESULTS).matches(numeric)) {
 				} else {
 					if(logger.isInfoEnabled()) {
 						logger.info("VerifyEntries -- max-results: contains an invalid numeric value - " +
-								params.get("max-results") + "&n");
+								params.get(MAX_RESULTS) + "&n");
 					}
 					validParams = false;
 			}
 		}
 		
 		// Verify "start-index" query parameter is valid if present
-		if(params.get("start-index") != null) {
+		if(params.get(START_INDEX) != null) {
 
 			// Verify start-index only contains numbers
-			if(params.get("start-index").matches(numeric)) {
+			if(params.get(START_INDEX).matches(numeric)) {
 				} else {
 					if(logger.isInfoEnabled()) {
 						logger.info("VerifyEntries -- start-index: contains an invalid numeric value - " +
-								params.get("start-index") + "&n");
+								params.get(START_INDEX) + "&n");
 					}
 					validParams = false;
 			}
 		}
 		
 		// Verify "depth" query parameter is valid if present
-		if(params.get("depth") != null) {
+		if(params.get(DEPTH) != null) {
 
 			// Verify depth only contains numbers
-			if(params.get("depth").matches(numeric)) {
+			if(params.get(DEPTH).matches(numeric)) {
 				} else {
 					if(logger.isInfoEnabled()) {
 						logger.info("VerifyEntries -- depth: contains an invalid numeric value - " +
-								params.get("depth") + "&n");
+								params.get(DEPTH) + "&n");
 					}
 					validParams = false;
 			}

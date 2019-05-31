@@ -28,7 +28,6 @@ import org.greenbuttonalliance.espi.common.service.RetailCustomerService;
 import org.greenbuttonalliance.espi.common.utils.ExportFilter;
 import org.greenbuttonalliance.espi.datacustodian.utils.VerifyURLParams;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.stereotype.Controller;
@@ -42,6 +41,8 @@ import java.util.Map;
 
 @Controller
 public class AuthorizationRESTController {
+
+	private static final String INVALID_QUERY_PARAMETER = "Request contains invalid query parameter values!";
 
 	@Autowired
 	private AuthorizationService authorizationService;
@@ -58,11 +59,11 @@ public class AuthorizationRESTController {
 
 	@Autowired
 	private ResourceService resourceService;
-
-	@ExceptionHandler(Exception.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public void handleGenericException() {
-	}
+//
+//	@ExceptionHandler(Exception.class)
+//	@ResponseStatus(HttpStatus.BAD_REQUEST)
+//	public void handleGenericException() {
+//	}
 
 	// ROOT RESTful Forms
 	//
@@ -75,7 +76,7 @@ public class AuthorizationRESTController {
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.ROOT_AUTHORIZATION_COLLECTION, params)) {
 
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, INVALID_QUERY_PARAMETER);
 			return;
 		}
 
@@ -111,7 +112,7 @@ public class AuthorizationRESTController {
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.ROOT_AUTHORIZATION_MEMBER, params)) {
 
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, INVALID_QUERY_PARAMETER);
 			return;
 		}
 
@@ -193,7 +194,7 @@ public class AuthorizationRESTController {
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.AUTHORIZATION_COLLECTION, params)) {
 
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, INVALID_QUERY_PARAMETER);
 			return;
 		}
 
@@ -213,7 +214,7 @@ public class AuthorizationRESTController {
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.AUTHORIZATION_MEMBER, params)) {
 
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, INVALID_QUERY_PARAMETER);
 			return;
 		}
 

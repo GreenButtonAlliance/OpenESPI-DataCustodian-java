@@ -38,7 +38,9 @@ import java.util.regex.Pattern;
 @Component
 public class CORSFilter implements Filter {
 
-    private final Log logger = LogFactory.getLog(getClass());
+    private static final String ACCESS_CONTROL_ALLOW_ORIGIN_HEADER = "Access-Control-Allow-Origin";
+
+    private final Log logger = LogFactory.getLog(CORSFilter.class);
 	private final Map<String, String> optionsHeaders = new LinkedHashMap<String, String>();
 
     private Pattern allowOriginRegex;
@@ -57,7 +59,7 @@ public class CORSFilter implements Filter {
         } else {
         	allowOrigin = cfg.getInitParameter("allow.origin");
         	if (allowOrigin != null) {
-        		optionsHeaders.put("Access-Control-Allow-Origin", allowOrigin);
+        		optionsHeaders.put(ACCESS_CONTROL_ALLOW_ORIGIN_HEADER, allowOrigin);
         	}
         }
         
@@ -139,10 +141,10 @@ public class CORSFilter implements Filter {
         if (matches) {
         	
         	if (allowCredentials != null) {
-        		resp.addHeader("Access-Control-Allow-Origin", origin);
+        		resp.addHeader(ACCESS_CONTROL_ALLOW_ORIGIN_HEADER, origin);
         		resp.addHeader("Access-Control-Allow-Credentials", "true");
         	} else {
-            	resp.addHeader("Access-Control-Allow-Origin", "*");
+            	resp.addHeader(ACCESS_CONTROL_ALLOW_ORIGIN_HEADER, "*");
         	}
             return true;
             
@@ -152,5 +154,6 @@ public class CORSFilter implements Filter {
     }
 
     public void destroy() {
+        // Do nothing
     }
 }

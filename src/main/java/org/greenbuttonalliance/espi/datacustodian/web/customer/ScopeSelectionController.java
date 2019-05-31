@@ -25,10 +25,11 @@ import org.greenbuttonalliance.espi.common.service.ApplicationInformationService
 import org.greenbuttonalliance.espi.datacustodian.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
@@ -41,11 +42,11 @@ public class ScopeSelectionController extends BaseController {
 
 	@Autowired
 	private ApplicationInformationService applicationInformationService;
-
-	@ExceptionHandler(Exception.class)
-	@ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "Access Not Authorized")
-	public void handleGenericException() {
-	}
+//
+//	@ExceptionHandler(Exception.class)
+//	@ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "Access Not Authorized")
+//	public void handleGenericException() {
+//	}
 
 	@RequestMapping(value = Routes.DATA_CUSTODIAN_SCOPE_SELECTION_SCREEN, method = RequestMethod.GET)
 	public String scopeSelection(HttpServletRequest request, String[] scopes,
