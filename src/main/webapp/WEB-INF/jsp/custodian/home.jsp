@@ -86,28 +86,28 @@ function OnStateChange () {
             <h3>Data Custodian Services</h3>
             <p>Green Button Data Custodians may, with the authorization of the Retail Customer, publish energy and resource usage information 
             to registered <a href="/DataCustodian">Green Button Third Party Service Providers</a>. These published information streams allow
-            Third Party to provide new and innovative services to energy consumers!</p>
+            Third Party applications to provide new and innovative services to energy consumers!</p>
             <p><a class="btn" href="#">View details &raquo;</a></p>
         </div>
         <div class="span4">
             <h3>Developers Guide</h3>
-            <p>The Green Button Developers Guide provides both overview and detailed information on the mechanisms of Green Button.
-               You can learn about Atom feeds and the OData standard from which Green Button was derived, as well as the details
-               of the Energy Usage Information contained in Green Button feeds. 
+            <p>The Green Button Developers Guide provides an overview and detailed information on Green Button interfaces and data feeds.
+               You will learn about Atom feeds and the OData standard from which Green Button was derived, as well as the details
+               of the Energy Usage (EUI) and Personal Identified (PII) Information contained in Green Button EUI and PII feeds.
                </p>
-            <p><a class="btn" href="http://energyos.github.io/OpenESPI-GreenButton-API-Documentation/">View details &raquo;</a></p>
+            <p><a class="btn" href="http://greenbuttonalliance.github.io/OpenESPI-GreenButton-API-Documentation/">View details &raquo;</a></p>
         </div>
         <div class="span4">
             <h3>API Reference</h3>
-            <p>Green Button services are also available via RESTful APIs. APIs allow the developer to use the EnergyOS Data Custodian and
-               Third Party servers, hosted at GreenButtonData.org, to develop new applications, providing services and features to better engage the Retail Customer
-               to understand their energy usage.
+            <p>Green Button Connect My Data (CMD) services are available via REST APIs. APIs allow the developer to use the Green Button Alliance, Inc. Custodian and
+               Third Party servers, hosted by an Amazon Web Service EC2 Instance, to develop new applications, providing services and features to engage Retail Customers
+               to better understand their energy usage.
                </p>
-            <p><a class="btn" href="http://energyos.github.io/OpenESPI-GreenButton-API-Documentation/API/">View details &raquo;</a></p>
+            <p><a class="btn" href="http://greenbuttonalliance.github.io/OpenESPI-GreenButton-API-Documentation/API/">View details &raquo;</a></p>
         </div>
     </div>
     <div>
-    NOTE:  Please use caution when either reseting or initializing the sandbox. This facility is in place only until we have the capability of providing private/individual
+    NOTE:  Please use caution when either resetting or initializing the sandbox. This facility is in place only until we have the capability of providing private/individual
     sandbox services.
     <hr />
     <table width="40%">

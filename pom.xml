@@ -624,24 +624,6 @@
     </build>
 
     <repositories>        
-<!--        <repository>-->
-<!--            <id>spring-maven-release</id>-->
-<!--            <name>Spring Maven Release Repository</name>-->
-<!--            <url>http://maven.springframework.org/release</url>-->
-<!--        </repository>-->
-<!--        <repository>-->
-<!--            <id>spring-maven-milestone</id>-->
-<!--            <name>Spring Maven Milestone Repository</name>-->
-<!--            <url>http://maven.springframework.org/milestone</url>-->
-<!--        </repository>-->
-<!--        <repository>-->
-<!--            <id>spring-maven-snapshot</id>-->
-<!--            <url>http://maven.springframework.org/snapshot</url>-->
-<!--            <name>Spring Maven Snapshot Repository</name>-->
-<!--            <snapshots>-->
-<!--                <enabled>true</enabled>-->
-<!--            </snapshots>-->
-<!--        </repository>-->
         <repository>
             <id>greenbuttonalliance-snapshot</id>
             <name>Green Button Alliance Snapshot Repository</name>
