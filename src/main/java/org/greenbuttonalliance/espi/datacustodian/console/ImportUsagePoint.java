@@ -61,8 +61,7 @@ public class ImportUsagePoint {
                 client.getConnectionManager().shutdown();
             } catch (IOException e) {
                 if(logger.isErrorEnabled())
-                    logger.error("**** ImportUsagePoint Exception: " + e.toString() + "&n");
-                e.printStackTrace();
+                    logger.error("**** ImportUsagePoint Exception:&n&n" + e + "&n");
             }
         } else {
             if(logger.isInfoEnabled()) {

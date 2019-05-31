@@ -53,13 +53,13 @@ public class OauthAdminController extends BaseController {
 
 	private EspiUserApprovalHandler userApprovalHandler;
 
-	@RequestMapping("custodian/oauth/cache_approvals")
+	@RequestMapping(value = "custodian/oauth/cache_approvals", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void startCaching() throws Exception {
 		userApprovalHandler.setUseApprovalStore(true);
 	}
 
-	@RequestMapping("custodian/oauth/uncache_approvals")
+	@RequestMapping(value = "custodian/oauth/uncache_approvals", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void stopCaching() throws Exception {
 		userApprovalHandler.setUseApprovalStore(false);
