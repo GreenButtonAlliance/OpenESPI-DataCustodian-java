@@ -30,72 +30,72 @@ import java.util.List;
 
 // TODO: Validate that EspiEntry is used within the implementation
 public abstract class EspiEntry<T extends IdentifiedObject> extends Entry {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private Link selfLink = new Link();
-	private Link upLink = new Link();
-	private List<Link> relatedLinks = new ArrayList<>();
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    private Link selfLink = new Link();
+    private Link upLink = new Link();
+    private List<Link> relatedLinks = new ArrayList<>();
 
-	protected T espiObject;
+    protected T espiObject;
 
-	@SuppressWarnings("unchecked")
-	public EspiEntry(T espiObject) throws FeedException {
-		this.espiObject = espiObject;
-		this.setTitle(espiObject.getDescription());
-		this.setId(espiObject.getMRID());
-		this.setPublished(espiObject.getPublished().getTime());
-		this.setUpdated(espiObject.getUpdated().getTime());
+    @SuppressWarnings("unchecked")
+    public EspiEntry(T espiObject) throws FeedException {
+        this.espiObject = espiObject;
+        this.setTitle(espiObject.getDescription());
+        this.setId(espiObject.getMRID());
+        this.setPublished(espiObject.getPublished().getTime());
+        this.setUpdated(espiObject.getUpdated().getTime());
 
-		selfLink.setRel("self");
-		selfLink.setHref(getSelfHref());
-		upLink.setRel("up");
-		upLink.setHref(getUpHref());
+        selfLink.setRel("self");
+        selfLink.setHref(getSelfHref());
+        upLink.setRel("up");
+        upLink.setHref(getUpHref());
 
-		getOtherLinks().add(selfLink);
-		getOtherLinks().add(upLink);
+        getOtherLinks().add(selfLink);
+        getOtherLinks().add(upLink);
 
-		buildRelatedLinks();
+        buildRelatedLinks();
 
-		Content content = new Content();
-		content.setValue(EspiMarshaller.marshal(espiObject));
-		this.getContents().add(content);
-	}
+        Content content = new Content();
+        content.setValue(EspiMarshaller.marshal(espiObject));
+        this.getContents().add(content);
+    }
 
-	protected abstract String getSelfHref();
+    protected abstract String getSelfHref();
 
-	protected abstract String getUpHref();
+    protected abstract String getUpHref();
 
-	protected abstract void buildRelatedLinks();
+    protected abstract void buildRelatedLinks();
 
-	public Link getSelfLink() {
-		return selfLink;
-	}
+    public Link getSelfLink() {
+        return selfLink;
+    }
 
-	public Link getUpLink() {
-		return upLink;
-	}
+    public Link getUpLink() {
+        return upLink;
+    }
 
-	public List<Link> getRelatedLinks() {
-		return relatedLinks;
-	}
+    public List<Link> getRelatedLinks() {
+        return relatedLinks;
+    }
 
-	@SuppressWarnings("unchecked")
-	protected void addRelatedLink(String href) {
-		Link link = new Link();
-		link.setRel("related");
-		link.setHref(href);
+    @SuppressWarnings("unchecked")
+    protected void addRelatedLink(String href) {
+        Link link = new Link();
+        link.setRel("related");
+        link.setHref(href);
 
-		relatedLinks.add(link);
-		getOtherLinks().add(link);
-	}
+        relatedLinks.add(link);
+        getOtherLinks().add(link);
+    }
 
-	protected void setUpLinkHref(String href) {
-		getUpLink().setHref(href);
-	}
+    protected void setUpLinkHref(String href) {
+        getUpLink().setHref(href);
+    }
 
-	protected void setSelfLinkHref(String href) {
-		getSelfLink().setHref(href);
-	}
+    protected void setSelfLinkHref(String href) {
+        getSelfLink().setHref(href);
+    }
 }

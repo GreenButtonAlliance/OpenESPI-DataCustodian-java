@@ -18,7 +18,6 @@
 
 package org.greenbuttonalliance.espi.datacustodian.web.api;
 
-import com.sun.syndication.io.FeedException;
 import org.greenbuttonalliance.espi.common.domain.Authorization;
 import org.greenbuttonalliance.espi.common.domain.Routes;
 import org.greenbuttonalliance.espi.common.service.AuthorizationService;
@@ -59,15 +58,13 @@ public class AuthorizationRESTController {
 
 	@Autowired
 	private ResourceService resourceService;
-//
 
-	// ROOT RESTful Forms
+	// ROOT REST Forms
 	//
 	@RequestMapping(value = Routes.ROOT_AUTHORIZATION_COLLECTION, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
 	public void index(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam Map<String, String> params) throws IOException,
-			FeedException {
+			@RequestParam Map<String, String> params) throws IOException {
 
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.ROOT_AUTHORIZATION_COLLECTION, params)) {
@@ -102,8 +99,7 @@ public class AuthorizationRESTController {
 	@ResponseBody
 	public void show(HttpServletResponse response,
 			@PathVariable Long authorizationId,
-			@RequestParam Map<String, String> params) throws IOException,
-			FeedException {
+			@RequestParam Map<String, String> params) throws IOException {
 
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.ROOT_AUTHORIZATION_MEMBER, params)) {
@@ -124,8 +120,7 @@ public class AuthorizationRESTController {
 	@RequestMapping(value = Routes.ROOT_AUTHORIZATION_COLLECTION, method = RequestMethod.POST, consumes = "application/atom+xml", produces = "application/atom+xml")
 	@ResponseBody
 	public void create(HttpServletResponse response,
-			@RequestParam Map<String, String> params, InputStream stream)
-			throws IOException {
+			@RequestParam Map<String, String> params, InputStream stream) {
 
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
@@ -142,8 +137,7 @@ public class AuthorizationRESTController {
 	@ResponseBody
 	public void update(HttpServletResponse response,
 			@PathVariable Long authorizationId,
-			@RequestParam Map<String, String> params, InputStream stream)
-			throws IOException, FeedException {
+			@RequestParam Map<String, String> params, InputStream stream) {
 		Authorization authorization = authorizationService
 				.findById(authorizationId);
 
@@ -162,8 +156,7 @@ public class AuthorizationRESTController {
 	@RequestMapping(value = Routes.ROOT_AUTHORIZATION_MEMBER, method = RequestMethod.DELETE)
 	public void delete(HttpServletResponse response,
 			@PathVariable Long authorizationId,
-			@RequestParam Map<String, String> params, InputStream stream)
-			throws IOException, FeedException {
+			@RequestParam Map<String, String> params, InputStream stream) {
 		try {
 			Authorization authorization = resourceService.findById(
 					authorizationId, Authorization.class);
@@ -184,8 +177,7 @@ public class AuthorizationRESTController {
 	@ResponseBody
 	public void index(HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
-			@RequestParam Map<String, String> params) throws IOException,
-			FeedException {
+			@RequestParam Map<String, String> params) throws IOException {
 
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.AUTHORIZATION_COLLECTION, params)) {
@@ -204,8 +196,7 @@ public class AuthorizationRESTController {
 	public void show(HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
 			@PathVariable Long authorizationId,
-			@RequestParam Map<String, String> params) throws IOException,
-			FeedException {
+			@RequestParam Map<String, String> params) throws IOException {
 
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.AUTHORIZATION_MEMBER, params)) {
@@ -228,8 +219,7 @@ public class AuthorizationRESTController {
 	@ResponseBody
 	public void create(HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
-			@RequestParam Map<String, String> params, InputStream stream)
-			throws IOException {
+			@RequestParam Map<String, String> params, InputStream stream) {
 
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		try {
@@ -253,8 +243,7 @@ public class AuthorizationRESTController {
 	public void update(HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
 			@PathVariable Long authorizationId,
-			@RequestParam Map<String, String> params, InputStream stream)
-			throws IOException, FeedException {
+			@RequestParam Map<String, String> params, InputStream stream) {
 		Authorization authorization = authorizationService.findById(
 				retailCustomerId, authorizationId);
 
@@ -274,8 +263,7 @@ public class AuthorizationRESTController {
 	public void delete(HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
 			@PathVariable Long authorizationId,
-			@RequestParam Map<String, String> params, InputStream stream)
-			throws IOException, FeedException {
+			@RequestParam Map<String, String> params, InputStream stream) {
 
 		try {
 			Authorization authorization = authorizationService.findById(

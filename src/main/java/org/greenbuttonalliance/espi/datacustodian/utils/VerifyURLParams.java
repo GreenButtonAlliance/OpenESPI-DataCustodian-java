@@ -39,6 +39,8 @@ public class VerifyURLParams {
 
 	private static final String DEPTH = "depth";
 
+	private static boolean validParams;
+
 	private static Log logger = LogFactory.getLog(VerifyURLParams.class);
 
 	private VerifyURLParams() {
@@ -52,20 +54,20 @@ public class VerifyURLParams {
 
 		String UTCDateTime = "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z";
 		String numeric = "\\d+";
-		
-		boolean validParams = true;
 
-		// Verify "published-max" query parameter is valid if present
+        // Verify "published-max" query parameter is valid if present
 		if(params.get(PUBLISHED_MAX) != null) {
 
 			// Verify published-max only contains numbers
-			if(params.get(PUBLISHED_MAX).matches(UTCDateTime)) {
-				} else {
-					if(logger.isInfoEnabled()) {
-						logger.info("VerifyEntries -- published-max: contains an invalid UTC Datetime value - " +
-								params.get(PUBLISHED_MAX) + "&n");
+			if(params.get(PUBLISHED_MAX).matches(UTCDateTime)) validParams = true;
+
+            else {
+				if(logger.isInfoEnabled()) {
+					logger.info("VerifyEntries -- published-max: contains an invalid UTC Datetime value - " +
+							params.get(PUBLISHED_MAX) + "&n");
 				}
-					validParams = false;
+
+				validParams = false;
 			}
 		}
 		
@@ -73,13 +75,15 @@ public class VerifyURLParams {
 		if(params.get(PUBLISHED_MIN) != null) {
 
 			// Verify published-min only contains numbers
-			if(params.get(PUBLISHED_MIN).matches(UTCDateTime)) {
-				} else {
-					if(logger.isInfoEnabled()) {
-						logger.info("VerifyEntries -- published-min: contains an invalid UTC Datetime value - " +
-								params.get(PUBLISHED_MIN) + "&n");
-					}
-					validParams = false;
+			if(params.get(PUBLISHED_MIN).matches(UTCDateTime)) validParams = true;
+
+            else {
+				if(logger.isInfoEnabled()) {
+					logger.info("VerifyEntries -- published-min: contains an invalid UTC Datetime value - " +
+							params.get(PUBLISHED_MIN) + "&n");
+				}
+
+				validParams = false;
 			}
 		}
 		
@@ -87,13 +91,15 @@ public class VerifyURLParams {
 		if(params.get(UPDATED_MAX) != null) {
 
 			// Verify updated-max only contains numbers
-			if(params.get(UPDATED_MAX).matches(UTCDateTime)) {
-				} else {
-					if(logger.isInfoEnabled()) {
-						logger.info("VerifyEntries -- updated-max: contains an invalid UTC Datetime value - " +
-								params.get(UPDATED_MAX) + "&n");
-					}
-					validParams = false;
+			if(params.get(UPDATED_MAX).matches(UTCDateTime)) validParams = true;
+
+            else {
+				if(logger.isInfoEnabled()) {
+					logger.info("VerifyEntries -- updated-max: contains an invalid UTC Datetime value - " +
+							params.get(UPDATED_MAX) + "&n");
+				}
+
+				validParams = false;
 			}
 		}
 		
@@ -101,13 +107,15 @@ public class VerifyURLParams {
 		if(params.get(UPDATED_MIN) != null) {
 
 			// Verify updated-min only contains numbers
-			if(params.get(UPDATED_MIN).matches(UTCDateTime)) {
-				} else {
-					if(logger.isInfoEnabled()) {
-						logger.info("VerifyEntries -- updated-min: contains an invalid UTC Datetime value - " +
-								params.get(UPDATED_MIN) + "&n");
-					}
-					validParams = false;
+			if(params.get(UPDATED_MIN).matches(UTCDateTime)) validParams = true;
+
+            else {
+				if(logger.isInfoEnabled()) {
+					logger.info("VerifyEntries -- updated-min: contains an invalid UTC Datetime value - " +
+							params.get(UPDATED_MIN) + "&n");
+				}
+
+				validParams = false;
 			}
 		}
 		
@@ -115,13 +123,15 @@ public class VerifyURLParams {
 		if(params.get(MAX_RESULTS) != null) {
 
 			// Verify max-results only contains numbers
-			if(params.get(MAX_RESULTS).matches(numeric)) {
-				} else {
-					if(logger.isInfoEnabled()) {
-						logger.info("VerifyEntries -- max-results: contains an invalid numeric value - " +
-								params.get(MAX_RESULTS) + "&n");
-					}
-					validParams = false;
+			if(params.get(MAX_RESULTS).matches(numeric)) validParams = true;
+
+            else {
+				if(logger.isInfoEnabled()) {
+					logger.info("VerifyEntries -- max-results: contains an invalid numeric value - " +
+							params.get(MAX_RESULTS) + "&n");
+				}
+
+				validParams = false;
 			}
 		}
 		
@@ -129,13 +139,15 @@ public class VerifyURLParams {
 		if(params.get(START_INDEX) != null) {
 
 			// Verify start-index only contains numbers
-			if(params.get(START_INDEX).matches(numeric)) {
-				} else {
-					if(logger.isInfoEnabled()) {
-						logger.info("VerifyEntries -- start-index: contains an invalid numeric value - " +
-								params.get(START_INDEX) + "&n");
-					}
-					validParams = false;
+			if(params.get(START_INDEX).matches(numeric)) validParams = true;
+
+            else {
+				if(logger.isInfoEnabled()) {
+					logger.info("VerifyEntries -- start-index: contains an invalid numeric value - " +
+							params.get(START_INDEX) + "&n");
+				}
+
+				validParams = false;
 			}
 		}
 		
@@ -143,13 +155,15 @@ public class VerifyURLParams {
 		if(params.get(DEPTH) != null) {
 
 			// Verify depth only contains numbers
-			if(params.get(DEPTH).matches(numeric)) {
-				} else {
-					if(logger.isInfoEnabled()) {
-						logger.info("VerifyEntries -- depth: contains an invalid numeric value - " +
-								params.get(DEPTH) + "&n");
-					}
-					validParams = false;
+			if(params.get(DEPTH).matches(numeric)) validParams = true;
+
+            else {
+				if(logger.isInfoEnabled()) {
+					logger.info("VerifyEntries -- depth: contains an invalid numeric value - " +
+							params.get(DEPTH) + "&n");
+				}
+
+				validParams = false;
 			}
 		}
 		

@@ -22,6 +22,9 @@ import java.util.Set;
 
 public class URLHelper {
 
+	private URLHelper() {
+	}
+
 	public static String newScopeParams(String[] scopes) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < scopes.length; i++) {

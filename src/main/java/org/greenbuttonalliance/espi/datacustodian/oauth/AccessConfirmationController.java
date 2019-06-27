@@ -48,7 +48,7 @@ public class AccessConfirmationController {
 	private ApprovalStore approvalStore;	//Spring Security OAuth2 2.0.0.M2 change
 
 	@RequestMapping(value = "/oauth/confirm_access", method = RequestMethod.GET)
-	public ModelAndView getAccessConfirmation(Map<String, Object> model, Principal principal) throws Exception {
+	public ModelAndView getAccessConfirmation(Map<String, Object> model, Principal principal) {
 		AuthorizationRequest clientAuth = (AuthorizationRequest) model.remove("authorizationRequest");
 		ClientDetails client = clientDetailsService.loadClientByClientId(clientAuth.getClientId());
 		model.put("auth_request", clientAuth);
@@ -68,7 +68,7 @@ public class AccessConfirmationController {
 	}
 
 	@RequestMapping(value = "oauth/error", method = RequestMethod.GET)
-	public String handleError(Map<String,Object> model) throws Exception {
+	public String handleError(Map<String,Object> model) {
 		// We can add more stuff to the model here for JSP rendering.  If the client was a machine then
 		// the JSON will already have been rendered.
 		model.put("message", "There was a problem with the OAuth2 protocol");

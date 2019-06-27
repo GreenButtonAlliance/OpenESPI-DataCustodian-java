@@ -55,28 +55,27 @@ public class OauthAdminController extends BaseController {
 
 	@RequestMapping(value = "custodian/oauth/cache_approvals", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void startCaching() throws Exception {
+	public void startCaching() {
 		userApprovalHandler.setUseApprovalStore(true);
 	}
 
 	@RequestMapping(value = "custodian/oauth/uncache_approvals", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void stopCaching() throws Exception {
+	public void stopCaching() {
 		userApprovalHandler.setUseApprovalStore(false);
 	}
 	
 	@RequestMapping(value="custodian/oauth/tokens/clients/{clientId}/retailcustomers/{userId}", method=RequestMethod.GET, produces="application/json")
 	@ResponseBody
 	public Collection<OAuth2AccessToken> listTokensForUser(@PathVariable String clientId, @PathVariable String userId,
-			Principal principal) throws Exception {
+			Principal principal) {
 		checkResourceOwner(userId, principal);
 
 		return enhance(tokenStore.findTokensByClientIdAndUserName(clientId, userId));
 	}
 	
 	@RequestMapping(value = "custodian/oauth/tokens/{token}/retailcustomers/{userId}", method = RequestMethod.DELETE)
-	public ResponseEntity<Void> revokeToken(@PathVariable String userId, @PathVariable String token, Principal principal)
-			throws Exception {
+	public ResponseEntity<Void> revokeToken(@PathVariable String userId, @PathVariable String token, Principal principal) {
 		checkResourceOwner(userId, principal);
 		if (tokenServices.revokeToken(token)) {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
@@ -87,7 +86,7 @@ public class OauthAdminController extends BaseController {
 	
 	@RequestMapping(value="custodian/oauth/tokens/clients/{clientId}", method=RequestMethod.GET, produces="application/json")
 	@ResponseBody
-	public Collection<OAuth2AccessToken> listTokensForClient(@PathVariable String clientId) throws Exception {
+	public Collection<OAuth2AccessToken> listTokensForClient(@PathVariable String clientId) {
 		return tokenStore.findTokensByClientId(clientId);
 	}
 
@@ -110,7 +109,7 @@ public class OauthAdminController extends BaseController {
 		return result;
 	}	
 	
-	private void checkResourceOwner(String user, Principal principal) {
+	private void checkResourceOwner(String user, Principal principal) throws AccessDeniedException {
 		if (principal instanceof OAuth2Authentication) {
 			OAuth2Authentication authentication = (OAuth2Authentication) principal;
 			if (!authentication.isClientOnly() && !user.equals(principal.getName())) {
