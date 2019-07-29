@@ -390,6 +390,7 @@ public class BatchRESTController {
 	 */
 	@RequestMapping(value = Routes.BATCH_BULK_MEMBER, method = RequestMethod.GET, produces = "application/atom+xml")
 	@ResponseBody
+	// TODO Add support for wildcard bulkId parameters
 	public void bulk(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable Long bulkId, @RequestParam Map<String, String> params)
 			throws IOException {
