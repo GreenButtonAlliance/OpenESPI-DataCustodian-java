@@ -10,6 +10,10 @@ jobs:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
 
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
 
     environment:
       # Customize the JVM maximum heap limit
@@ -34,8 +38,8 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: mvn install -DskipTests
-
+      # Install deps for Circle CI
+      - run: mvn install -Dskiptests
       - run: mvn dependency:go-offline
 
       - save_cache:
@@ -50,4 +54,3 @@ jobs:
       - run: mvn integration-test
 
       - run: mvn sonar:sonar -Dsonar.projectKey=GreenButtonAlliance_OpenESPI-DataCustodian-java -Dsonar.organization=greenbuttonalliance -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=2ddd7468eede6ec7c1846bf610c2699d9f81b87d
-
