@@ -89,7 +89,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
@@ -633,15 +632,26 @@
 <!--            <id>packagecloud.snapshot</id>-->
 <!--            <url>https://greenbuttonalliance/snapshot</url>-->
 <!--        </repository>-->
+<!--        <repository>-->
+<!--            <id>nexus-snapshot</id>-->
+<!--            <name>Nexus Maven Snapshot Repository</name>-->
+<!--            <url>http://localhost:8081/repository/greenbuttonalliance-snapshot</url>-->
+<!--        </repository>-->
+<!--        <repository>-->
+<!--            <id>nexus-release</id>-->
+<!--            <name>Nexus Maven Release Repository</name>-->
+<!--            <url>http://localhost:8081/repository/greenbuttonalliance-release</url>-->
+<!--        </repository>-->
+        <!-- Sonatype Maven Repository configuration -->
         <repository>
-            <id>nexus-snapshot</id>
-            <name>Nexus Maven Snapshot Repository</name>
-            <url>http://localhost:8081/repository/greenbuttonalliance-snapshot</url>
+            <id>sonatype-snapshot</id>
+            <name>Sonatype Maven Snapshot Repository</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </repository>
         <repository>
-            <id>nexus-release</id>
-            <name>Nexus Maven Release Repository</name>
-            <url>http://localhost:8081/repository/greenbuttonalliance-release</url>
+            <id>sonatype-release</id>
+            <name>Sonatype Maven Snapshot Repository</name>
+            <url>https://oss.sonatype.org/content/repositories/releases</url>
         </repository>
     </repositories>
 </project>
