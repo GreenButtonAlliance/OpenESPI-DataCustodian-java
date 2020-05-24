@@ -49,6 +49,16 @@
             <username>{Nexus UserID}</username>
             <password>{Nexus Password}</password>
         </server>
+        <server>
+            <id>sonatype-snapshot</id>
+            <username>{Sonatype UserID</username>
+            <password>{Sonatype Password</password>
+        </server>
+        <server>
+            <id>sonatype-release</id>
+            <username>{Sonatype UserID</username>
+            <password>{Sonatype Password</password>
+        </server>
     </servers>
     <mirrors/>
     <proxies/>
