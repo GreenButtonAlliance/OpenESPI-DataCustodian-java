@@ -28,8 +28,26 @@
     <servers>
         <server>
             <id>TomcatServerDeployment</id>
-            <username>bitnami</username>
-            <password>password</password>
+            <username>(Tomcat UserID)</username>
+            <password>{Tomcat Password}</password>
+        </server>
+        <server>
+            <id>packagecloud.release</id>
+            <password>{packagecloud API Token}</password>
+        </server>
+        <server>
+            <id>packagecloud.snapshot</id>
+            <password>{packagecloud API Token}</password>
+        </server>
+        <server>
+            <id>nexus-snapshot</id>
+            <username>{Nexus UserID}</username>
+            <password>{Nexus Password}</password>
+        </server>
+        <server>
+            <id>nexus-release</id>
+            <username>{Nexus UserID}</username>
+            <password>{Nexus Password}</password>
         </server>
     </servers>
     <mirrors/>

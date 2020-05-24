@@ -20,9 +20,14 @@
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
     <servers>
         <server>
-            <id>ossrh</id>
+            <id>nexus-snapshot</id>
             <username>DonaldCGBA</username>
-            <password>${env.OSSRH_PWD}</password>
+            <password>${env.NEXUS_PWD}</password>
+        </server>
+        <server>
+            <id>nexus-release</id>
+            <username>DonaldCGBA</username>
+            <password>${env.NEXUS_PWD}</password>
         </server>
     </servers>
 </settings>
