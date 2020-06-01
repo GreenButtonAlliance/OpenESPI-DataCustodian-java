@@ -1,19 +1,19 @@
 /*
- *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
+ *    Copyright (c) 2018-2020 Green Button Alliance, Inc.
  *
- *     Portions copyright (c) 2013-2018 EnergyOS.org
+ *    Portions copyright (c) 2013-2018 EnergyOS.org
  *
- *     Licensed under the Apache License, Version 2.0 (the "License");
- *     you may not use this file except in compliance with the License.
- *     You may obtain a copy of the License at
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
  *
  *         http://www.apache.org/licenses/LICENSE-2.0
  *
- *     Unless required by applicable law or agreed to in writing, software
- *     distributed under the License is distributed on an "AS IS" BASIS,
- *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *     See the License for the specific language governing permissions and
- *     limitations under the License.
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
  */
 
 package org.greenbuttonalliance.espi.datacustodian.integration.utils;
@@ -22,7 +22,6 @@ import org.greenbuttonalliance.espi.common.service.EntryProcessorService;
 import org.greenbuttonalliance.espi.common.utils.ATOMContentHandler;
 import org.greenbuttonalliance.espi.datacustodian.BaseTest;
 import org.greenbuttonalliance.espi.datacustodian.utils.factories.FixtureFactory;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,16 +46,16 @@ import java.util.UUID;
 		org.springframework.dao.EmptyResultDataAccessException.class })
 public class ATOMContentHandlerTests extends BaseTest {
 	@Autowired
-	@Qualifier("atomMarshaller")
-	private Jaxb2Marshaller marshaller;
+	@Qualifier("domainMarshaller")
+	private Jaxb2Marshaller jaxb2Marshaller;
 
 	@Autowired
 	private EntryProcessorService entryProcessorService;
 
 	@Test
-	@Ignore
+//	@Ignore
 	public void processEnty() throws Exception {
-		JAXBContext context = marshaller.getJaxbContext();
+		JAXBContext context = jaxb2Marshaller.getJaxbContext();
 
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		factory.setNamespaceAware(true);

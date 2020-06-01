@@ -1,19 +1,19 @@
 /*
- *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
+ *    Copyright (c) 2018-2020 Green Button Alliance, Inc.
  *
- *     Portions copyright (c) 2013-2018 EnergyOS.org
+ *    Portions copyright (c) 2013-2018 EnergyOS.org
  *
- *     Licensed under the Apache License, Version 2.0 (the "License");
- *     you may not use this file except in compliance with the License.
- *     You may obtain a copy of the License at
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
  *
  *         http://www.apache.org/licenses/LICENSE-2.0
  *
- *     Unless required by applicable law or agreed to in writing, software
- *     distributed under the License is distributed on an "AS IS" BASIS,
- *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *     See the License for the specific language governing permissions and
- *     limitations under the License.
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
  */
 
 package org.greenbuttonalliance.espi.datacustodian.web.custodian;
@@ -23,7 +23,6 @@ import org.greenbuttonalliance.espi.common.domain.UsagePoint;
 import org.greenbuttonalliance.espi.common.service.RetailCustomerService;
 import org.greenbuttonalliance.espi.common.service.UsagePointService;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -70,7 +69,7 @@ public class AssociateUsagePointControllerTests {
 		usagePointCaptor = ArgumentCaptor.forClass(UsagePoint.class);
 	}
 
-	@Ignore
+//	@Ignore
 	@Test
 	public void create_whenThereAreErrors_redisplaysTheForm() throws Exception {
 		when(bindingResult.hasErrors()).thenReturn(true);
@@ -79,7 +78,7 @@ public class AssociateUsagePointControllerTests {
 		assertThat(route, is("/custodian/retailcustomers/usagepoints/form"));
 	}
 
-	@Ignore
+//	@Ignore
 	@Test
 	public void create_associatesTheUsagePointWithTheRetailCustomer() {
 		long retailCustomerId = 5;
@@ -94,7 +93,7 @@ public class AssociateUsagePointControllerTests {
 				is(equalTo(retailCustomer)));
 	}
 
-	@Ignore
+//	@Ignore
 	@Test
 	public void create_redirectsToTheRetailCustomersIndex() {
 		long retailCustomerId = 5;

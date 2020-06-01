@@ -1,19 +1,19 @@
 /*
- *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
+ *    Copyright (c) 2018-2020 Green Button Alliance, Inc.
  *
- *     Portions copyright (c) 2013-2018 EnergyOS.org
+ *    Portions copyright (c) 2013-2018 EnergyOS.org
  *
- *     Licensed under the Apache License, Version 2.0 (the "License");
- *     you may not use this file except in compliance with the License.
- *     You may obtain a copy of the License at
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
  *
  *         http://www.apache.org/licenses/LICENSE-2.0
  *
- *     Unless required by applicable law or agreed to in writing, software
- *     distributed under the License is distributed on an "AS IS" BASIS,
- *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *     See the License for the specific language governing permissions and
- *     limitations under the License.
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
  */
 
 package org.greenbuttonalliance.espi.datacustodian.web.api;
@@ -33,7 +33,6 @@ import org.greenbuttonalliance.espi.common.utils.EntryTypeIterator;
 import org.greenbuttonalliance.espi.common.utils.ExportFilter;
 import org.greenbuttonalliance.espi.datacustodian.domain.XMLTest;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
@@ -106,7 +105,7 @@ public class ExportServiceTests extends XMLTest {
 						.getHashedId())).thenReturn(entries);
 	}
 
-	@Ignore("TODO - put back in later.")
+//	@Ignore("TODO - put back in later.")
 	@Test
 	public void exportSubscription_addsTheXMLProlog() throws Exception {
 		exportService.exportSubscription(subscription.getHashedId(), stream,
@@ -116,7 +115,7 @@ public class ExportServiceTests extends XMLTest {
 				containsString("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"));
 	}
 
-	@Ignore("TODO - put back in later.")
+//	@Ignore("TODO - put back in later.")
 	@Test
 	public void exportSubscription_addsTheFeed() throws Exception {
 		exportService.exportSubscription(subscription.getHashedId(), stream,
@@ -126,7 +125,7 @@ public class ExportServiceTests extends XMLTest {
 	}
 
 	@Test
-	@Ignore("TODO - put back in later.")
+//	@Ignore("TODO - put back in later.")
 	public void exportSubscription_addsEntries() throws Exception {
 		when(entries.hasNext()).thenReturn(true).thenReturn(true)
 				.thenReturn(false);
@@ -140,7 +139,7 @@ public class ExportServiceTests extends XMLTest {
 	// TODO need a way to cleanly initialize the more complex services (in the
 	// absence of @Autowired)
 
-	@Ignore("TODO - put back in later.")
+//	@Ignore("TODO - put back in later.")
 	@Test
 	public void exportUsagePoints() throws Exception {
 		Long retailCustomerId = 1L;
@@ -156,7 +155,7 @@ public class ExportServiceTests extends XMLTest {
 
 	}
 
-	@Ignore("TODO - put back in later.")
+//	@Ignore("TODO - put back in later.")
 	@Test
 	public void exportSubscription_filtersEntries() throws Exception {
 		EntryType goodEntry = getEntry(50);
