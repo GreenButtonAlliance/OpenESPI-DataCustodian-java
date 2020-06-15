@@ -27,7 +27,7 @@
 
     <context:component-scan base-package="org.greenbuttonalliance.espi.datacustodian.web"/>
     <context:component-scan base-package="org.greenbuttonalliance.espi.datacustodian.mocks"/>
-    <context:component-scan base-package="org.greenbuttonalliance.espi.common.test"/>
+    <context:component-scan base-package="org.greenbuttonalliance.espi.common.support"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/pages/"/>

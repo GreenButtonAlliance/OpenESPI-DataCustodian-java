@@ -23,12 +23,12 @@ import org.greenbuttonalliance.espi.common.domain.RetailCustomer;
 import org.greenbuttonalliance.espi.common.domain.Subscription;
 import org.greenbuttonalliance.espi.common.service.AuthorizationService;
 import org.greenbuttonalliance.espi.common.service.SubscriptionService;
-import org.greenbuttonalliance.espi.common.test.EspiFactory;
-import org.greenbuttonalliance.espi.datacustodian.BaseTest;
+import org.greenbuttonalliance.espi.common.support.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -55,7 +55,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @Transactional(rollbackFor = { javax.xml.bind.JAXBException.class }, noRollbackFor = {
 		javax.persistence.NoResultException.class,
 		org.springframework.dao.EmptyResultDataAccessException.class })
-public class EspiTokenEnhancerTests extends BaseTest {
+public class EspiTokenEnhancerTests{
 
 	private MockMvc mockMvc;
 
@@ -75,6 +75,8 @@ public class EspiTokenEnhancerTests extends BaseTest {
 
 	@Before
 	public void setup() {
+		MockitoAnnotations.initMocks(this);
+
 		this.mockMvc = webAppContextSetup(this.wac).build();
 
 		subscription = new Subscription();

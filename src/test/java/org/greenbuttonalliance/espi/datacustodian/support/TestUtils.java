@@ -22,7 +22,7 @@ import com.sun.syndication.feed.atom.Link;
 import org.greenbuttonalliance.espi.common.domain.RetailCustomer;
 import org.greenbuttonalliance.espi.common.service.ImportService;
 import org.greenbuttonalliance.espi.common.service.UsagePointService;
-import org.greenbuttonalliance.espi.common.test.FixtureFactory;
+import org.greenbuttonalliance.espi.common.support.FixtureFactory;
 import org.xml.sax.SAXException;
 
 import javax.persistence.Column;

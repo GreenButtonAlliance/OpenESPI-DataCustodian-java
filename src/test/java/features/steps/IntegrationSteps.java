@@ -26,9 +26,9 @@ import org.greenbuttonalliance.espi.common.service.ExportService;
 import org.greenbuttonalliance.espi.common.service.ImportService;
 import org.greenbuttonalliance.espi.common.service.RetailCustomerService;
 import org.greenbuttonalliance.espi.common.service.UsagePointService;
-import org.greenbuttonalliance.espi.common.test.FixtureFactory;
+import org.greenbuttonalliance.espi.common.support.FixtureFactory;
 import org.greenbuttonalliance.espi.common.utils.ExportFilter;
-import org.greenbuttonalliance.espi.datacustodian.utils.factories.EspiFactory;
+import org.greenbuttonalliance.espi.datacustodian.utils.factories.OriginalDataCustodianEspiFactory;
 import org.junit.Ignore;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -66,10 +66,10 @@ public class IntegrationSteps {
 	@When("^I import Usage Point$")
 	@Ignore
 	public void I_import_Usage_Point() throws Throwable {
-		retailCustomer = EspiFactory.newRetailCustomer();
+		retailCustomer = OriginalDataCustodianEspiFactory.newRetailCustomer();
 		retailCustomerService.persist(retailCustomer);
 
-		UsagePoint usagePoint = EspiFactory.newUsagePoint(retailCustomer);
+		UsagePoint usagePoint = OriginalDataCustodianEspiFactory.newUsagePoint(retailCustomer);
 		usagePointService.createOrReplaceByUUID(usagePoint);
 
 		importService.importData(
@@ -126,7 +126,7 @@ public class IntegrationSteps {
 
 	@When("^I create a Retail Customer$")
 	public void I_create_a_Retail_Customer() throws Throwable {
-		retailCustomer = EspiFactory.newRetailCustomer();
+		retailCustomer = OriginalDataCustodianEspiFactory.newRetailCustomer();
 		retailCustomerService.persist(retailCustomer);
 	}
 

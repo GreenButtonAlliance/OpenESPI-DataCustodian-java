@@ -50,7 +50,7 @@ public class AuthorizationRESTController {
 	private RetailCustomerService retailCustomerService;
 
 	@Autowired
-	// @Qualifier("tokenServices")
+//	@Qualifier("tokenServices")
 	private DefaultTokenServices tokenService;
 
 	@Autowired

@@ -20,10 +20,11 @@ package org.greenbuttonalliance.espi.datacustodian.integration.utils;
 
 import org.greenbuttonalliance.espi.common.service.EntryProcessorService;
 import org.greenbuttonalliance.espi.common.utils.ATOMContentHandler;
-import org.greenbuttonalliance.espi.datacustodian.BaseTest;
 import org.greenbuttonalliance.espi.datacustodian.utils.factories.FixtureFactory;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
@@ -44,13 +45,18 @@ import java.util.UUID;
 @Transactional(rollbackFor = { javax.xml.bind.JAXBException.class }, noRollbackFor = {
 		javax.persistence.NoResultException.class,
 		org.springframework.dao.EmptyResultDataAccessException.class })
-public class ATOMContentHandlerTests extends BaseTest {
+public class ATOMContentHandlerTests {
 	@Autowired
 	@Qualifier("domainMarshaller")
 	private Jaxb2Marshaller jaxb2Marshaller;
 
 	@Autowired
 	private EntryProcessorService entryProcessorService;
+
+	@Before
+	public void setUp() {
+		MockitoAnnotations.initMocks(this);
+	}
 
 	@Test
 //	@Ignore

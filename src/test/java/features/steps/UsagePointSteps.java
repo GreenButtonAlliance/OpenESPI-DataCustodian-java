@@ -22,14 +22,14 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.greenbuttonalliance.espi.common.test.TestUtils;
-import org.greenbuttonalliance.espi.common.test.WebDriverSingleton;
+import org.greenbuttonalliance.espi.common.support.TestUtils2;
+import org.greenbuttonalliance.espi.common.support.WebDriverSingleton;
 import org.junit.Ignore;
 import org.openqa.selenium.WebDriver;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
-import static org.greenbuttonalliance.espi.common.test.Asserts.assertXpathValue;
+import static org.greenbuttonalliance.espi.common.support.Asserts.assertXpathValue;
 
 public class UsagePointSteps {
 
@@ -37,7 +37,7 @@ public class UsagePointSteps {
 
 	@Before
 	public void setup() {
-		TestUtils.setupXMLUnit();
+		TestUtils2.setupXMLUnit();
 	}
 
 	@Given("^I am a Third Party$")

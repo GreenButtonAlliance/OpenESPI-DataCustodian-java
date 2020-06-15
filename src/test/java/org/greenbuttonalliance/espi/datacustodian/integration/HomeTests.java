@@ -18,9 +18,11 @@
 
 package org.greenbuttonalliance.espi.datacustodian.integration;
 
+import org.greenbuttonalliance.espi.datacustodian.web.customer.CustomerHomeController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -41,6 +43,10 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 		javax.persistence.NoResultException.class,
 		org.springframework.dao.EmptyResultDataAccessException.class })
 public class HomeTests {
+
+	@InjectMocks
+	CustomerHomeController customerHomeController;
+
 	private MockMvc mockMvc;
 
 	@Autowired

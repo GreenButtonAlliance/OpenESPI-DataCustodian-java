@@ -29,7 +29,8 @@
 
     <import resource="datasource-config.xml"/>
 
-    <context:property-placeholder location="classpath:spring/${database}-data-access.properties" system-properties-mode="OVERRIDE"/>
+    <context:property-placeholder location="classpath:spring/${database}-data-access.properties"
+                                  system-properties-mode="OVERRIDE"/>
 
     <tx:annotation-driven/>
 
@@ -68,7 +69,6 @@
     </beans>
 
     <beans>
-
         <bean id="domainMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
             <property name="packagesToScan">
                 <list>
@@ -87,7 +87,8 @@
             </property>
         </bean>
    
-        <bean id="resourceValidationFilter" class="org.greenbuttonalliance.espi.datacustodian.web.filter.ResourceValidationFilter" />
+        <bean id="resourceValidationFilter"
+              class="org.greenbuttonalliance.espi.datacustodian.web.filter.ResourceValidationFilter" />
    
 <!--        <bean id="atomMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">-->
 <!--            <property name="packagesToScan">-->

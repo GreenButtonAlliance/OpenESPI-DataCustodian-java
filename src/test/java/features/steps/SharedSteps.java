@@ -19,7 +19,7 @@
 package features.steps;
 
 
-import org.greenbuttonalliance.espi.common.test.WebDriverSingleton;
+import org.greenbuttonalliance.espi.common.support.WebDriverSingleton;
 import org.junit.Ignore;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

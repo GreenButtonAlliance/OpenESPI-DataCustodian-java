@@ -38,8 +38,10 @@ import static org.hamcrest.Matchers.hasSize;
 		javax.persistence.NoResultException.class,
 		org.springframework.dao.EmptyResultDataAccessException.class })
 public class SeedDataGeneratorTest {
+
 	@Autowired
 	private UsagePointService usagePointService;
+
 	@Autowired
 	private RetailCustomerService retailCustomerService;
 
