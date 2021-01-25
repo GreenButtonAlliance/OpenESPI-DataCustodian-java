@@ -4,9 +4,10 @@
 <%@ taglib prefix="authz" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
-  ~     Copyright (c) 2018-2019 Green Button Alliance, Inc.
   ~
-  ~     Portions copyright (c) 2013-2018 EnergyOS.org
+  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
+  ~
+  ~    Portions (c) 2013-2018 EnergyOS.org
   ~
   ~     Licensed under the Apache License, Version 2.0 (the "License");
   ~     you may not use this file except in compliance with the License.
@@ -19,6 +20,7 @@
   ~     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~     See the License for the specific language governing permissions and
   ~     limitations under the License.
+  ~
   --%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
