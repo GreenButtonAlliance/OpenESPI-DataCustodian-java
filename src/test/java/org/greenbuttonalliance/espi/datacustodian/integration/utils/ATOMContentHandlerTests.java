@@ -1,30 +1,32 @@
 /*
- *    Copyright (c) 2018-2020 Green Button Alliance, Inc.
  *
- *    Portions copyright (c) 2013-2018 EnergyOS.org
+ *    Copyright (c) 2018-2021 Green Button Alliance, Inc.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ *    Portions (c) 2013-2018 EnergyOS.org
+ *
+ *     Licensed under the Apache License, Version 2.0 (the "License");
+ *     you may not use this file except in compliance with the License.
+ *     You may obtain a copy of the License at
  *
  *         http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ *     Unless required by applicable law or agreed to in writing, software
+ *     distributed under the License is distributed on an "AS IS" BASIS,
+ *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *     See the License for the specific language governing permissions and
+ *     limitations under the License.
+ *
  */
 
 package org.greenbuttonalliance.espi.datacustodian.integration.utils;
 
 import org.greenbuttonalliance.espi.common.service.EntryProcessorService;
 import org.greenbuttonalliance.espi.common.utils.ATOMContentHandler;
+import org.greenbuttonalliance.espi.datacustodian.BaseTest;
 import org.greenbuttonalliance.espi.datacustodian.utils.factories.FixtureFactory;
-import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
@@ -45,23 +47,18 @@ import java.util.UUID;
 @Transactional(rollbackFor = { javax.xml.bind.JAXBException.class }, noRollbackFor = {
 		javax.persistence.NoResultException.class,
 		org.springframework.dao.EmptyResultDataAccessException.class })
-public class ATOMContentHandlerTests {
+public class ATOMContentHandlerTests extends BaseTest {
 	@Autowired
-	@Qualifier("domainMarshaller")
-	private Jaxb2Marshaller jaxb2Marshaller;
+	@Qualifier("atomMarshaller")
+	private Jaxb2Marshaller marshaller;
 
 	@Autowired
 	private EntryProcessorService entryProcessorService;
 
-	@Before
-	public void setUp() {
-		MockitoAnnotations.initMocks(this);
-	}
-
 	@Test
-//	@Ignore
+	@Ignore
 	public void processEnty() throws Exception {
-		JAXBContext context = jaxb2Marshaller.getJaxbContext();
+		JAXBContext context = marshaller.getJaxbContext();
 
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		factory.setNamespaceAware(true);

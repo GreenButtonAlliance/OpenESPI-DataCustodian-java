@@ -1,23 +1,26 @@
 /*
- *    Copyright (c) 2018-2020 Green Button Alliance, Inc.
  *
- *    Portions copyright (c) 2013-2018 EnergyOS.org
+ *    Copyright (c) 2018-2021 Green Button Alliance, Inc.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ *    Portions (c) 2013-2018 EnergyOS.org
+ *
+ *     Licensed under the Apache License, Version 2.0 (the "License");
+ *     you may not use this file except in compliance with the License.
+ *     You may obtain a copy of the License at
  *
  *         http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ *     Unless required by applicable law or agreed to in writing, software
+ *     distributed under the License is distributed on an "AS IS" BASIS,
+ *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *     See the License for the specific language governing permissions and
+ *     limitations under the License.
+ *
  */
 
 package org.greenbuttonalliance.espi.datacustodian.web.api;
 
+import com.sun.syndication.io.FeedException;
 import org.greenbuttonalliance.espi.common.domain.ApplicationInformation;
 import org.greenbuttonalliance.espi.common.domain.Authorization;
 import org.greenbuttonalliance.espi.common.domain.RetailCustomer;
@@ -41,8 +44,6 @@ import java.util.Map;
 
 @Controller
 public class BatchRESTController {
-
-	private static final String INVALID_QUERY_PARAMETER = "Request contains invalid query parameter values!";
 
 	@Autowired
 	private ImportService importService;
@@ -79,6 +80,9 @@ public class BatchRESTController {
 	 *            An input stream
      * @throws IOException
      *            Exception thrown by failed or interrupted I/O operations.
+     * @throws FeedException
+     *            Exception thrown by WireFeedInput, WireFeedOutput, WireFeedParser
+     *            and WireFeedGenerator instances if they can not parse or generate a feed.
 	 *
      * <p>
      *   Usage:
@@ -89,7 +93,8 @@ public class BatchRESTController {
 	@ResponseBody
 	public void upload(HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
-			@RequestParam Map<String, String> params, InputStream stream){
+			@RequestParam Map<String, String> params, InputStream stream)
+			throws IOException, FeedException {
 
 		try {
 			RetailCustomer retailCustomer = retailCustomerService
@@ -104,7 +109,7 @@ public class BatchRESTController {
 					importService.getMaxUpdated());
 
 		} catch (Exception e) {
-			System.out.printf("**** Batch Import Error: %s&n", e.toString());
+			System.out.printf("**** Batch Import Error: %s\n", e.toString());
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
 
@@ -125,7 +130,9 @@ public class BatchRESTController {
 	 *            HTTP Query Parameters
 	 * @throws IOException
      *            Exception thrown by failed or interrupted I/O operations.
-	 *
+	 * @throws FeedException
+     *            Exception thrown by WireFeedInput, WireFeedOutput, WireFeedParser
+     *            and WireFeedGenerator instances if they can not parse or generate a feed.
 	 * <p>
      *   Usage:
      *   GET /espi/1_1/resource/Batch/RetailCustomer/{retailCustomerId}/UsagePoint
@@ -135,12 +142,13 @@ public class BatchRESTController {
 	@ResponseBody
 	public void download_collection(HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
-			@RequestParam Map<String, String> params) throws IOException {
+			@RequestParam Map<String, String> params) throws IOException,
+			FeedException {
 
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.BATCH_DOWNLOAD_MY_DATA_COLLECTION, params)) {
 
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, INVALID_QUERY_PARAMETER);
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
 			return;
 		}
 
@@ -175,6 +183,9 @@ public class BatchRESTController {
 	 *            HTTP Query Parameters
      * @throws IOException
      *            Exception thrown by failed or interrupted I/O operations.
+     * @throws FeedException
+     *            Exception thrown by WireFeedInput, WireFeedOutput, WireFeedParser
+     *            and WireFeedGenerator instances if they can not parse or generate a feed.
 	 *
      * <p>
      *   Usage:
@@ -186,12 +197,13 @@ public class BatchRESTController {
 	public void download_member(HttpServletResponse response,
 			@PathVariable Long retailCustomerId,
 			@PathVariable Long usagePointId,
-			@RequestParam Map<String, String> params) throws IOException {
+			@RequestParam Map<String, String> params) throws IOException,
+			FeedException {
 
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.BATCH_DOWNLOAD_MY_DATA_MEMBER, params)) {
 
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, INVALID_QUERY_PARAMETER);
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
 			return;
 		}
 
@@ -226,7 +238,10 @@ public class BatchRESTController {
 	 *            HTTP Query Parameters
      * @throws IOException
      *            Exception thrown by failed or interrupted I/O operations.
-	 *
+     * @throws FeedException
+     *            Exception thrown by WireFeedInput, WireFeedOutput, WireFeedParser
+     *            and WireFeedGenerator instances if they can not parse or generate a feed.
+	 * 
 	 * <p>
      *   Usage:
      *   GET /espi/1_1/resource/Batch/Subscription/{subscriptionId}
@@ -237,12 +252,13 @@ public class BatchRESTController {
 	@ResponseBody
 	public void subscription(HttpServletResponse response,
 			@PathVariable Long subscriptionId,
-			@RequestParam Map<String, String> params) throws IOException {
+			@RequestParam Map<String, String> params) throws IOException,
+			FeedException {
 
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.BATCH_SUBSCRIPTION, params)) {
 
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, INVALID_QUERY_PARAMETER);
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
 			return;
 		}
 
@@ -275,6 +291,9 @@ public class BatchRESTController {
 	 *            HTTP Query Parameters
      * @throws IOException
      *            Exception thrown by failed or interrupted I/O operations.
+     * @throws FeedException
+     *            Exception thrown by WireFeedInput, WireFeedOutput, WireFeedParser
+     *            and WireFeedGenerator instances if they can not parse or generate a feed.
 	 *
      * <p>
      *   Usage:
@@ -286,12 +305,13 @@ public class BatchRESTController {
 	@ResponseBody
 	public void subscriptionUsagePoint(HttpServletResponse response,
 			@PathVariable Long subscriptionId,
-			@RequestParam Map<String, String> params) throws IOException {
+			@RequestParam Map<String, String> params) throws IOException,
+			FeedException {
 
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.BATCH_SUBSCRIPTION_USAGEPOINT, params)) {
 
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, INVALID_QUERY_PARAMETER);
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
 			return;
 		}
 
@@ -327,6 +347,9 @@ public class BatchRESTController {
 	 *            HTTP Query Parameters
      * @throws IOException
      *            Exception thrown by failed or interrupted I/O operations.
+     * @throws FeedException
+     *            Exception thrown by WireFeedInput, WireFeedOutput, WireFeedParser
+     *            and WireFeedGenerator instances if they can not parse or generate a feed.
 	 *
      * <p>
      *   Usage:
@@ -339,12 +362,13 @@ public class BatchRESTController {
 	@ResponseBody
 	public void subscriptionUsagePointMember(HttpServletResponse response,
 			@PathVariable Long subscriptionId, @PathVariable Long usagePointId,
-			@RequestParam Map<String, String> params) throws IOException {
+			@RequestParam Map<String, String> params) throws IOException,
+			FeedException {
 
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.BATCH_SUBSCRIPTION_USAGEPOINT_MEMBER, params)) {
 
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, INVALID_QUERY_PARAMETER);
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
 			return;
 		}
 
@@ -382,6 +406,9 @@ public class BatchRESTController {
 	 *            HTTP Query Parameters
      * @throws IOException
      *            Exception thrown by failed or interrupted I/O operations.
+     * @throws FeedException
+     *            Exception thrown by WireFeedInput, WireFeedOutput, WireFeedParser
+     *            and WireFeedGenerator instances if they can not parse or generate a feed.
 	 *
      * <p>
      *   Usage:
@@ -393,12 +420,12 @@ public class BatchRESTController {
 	// TODO Add support for wildcard bulkId parameters
 	public void bulk(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable Long bulkId, @RequestParam Map<String, String> params)
-			throws IOException {
+			throws IOException, FeedException {
 
 		// Verify request contains valid query parameters
 		if(!VerifyURLParams.verifyEntries(Routes.BATCH_BULK_MEMBER, params)) {
 
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, INVALID_QUERY_PARAMETER);
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Request contains invalid query parameter values!");
 			return;
 		}
 

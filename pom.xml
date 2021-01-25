@@ -1,19 +1,21 @@
 <!--
-  ~    Copyright (c) 2018-2020 Green Button Alliance, Inc.
   ~
-  ~    Portions copyright (c) 2013-2018 EnergyOS.org
+  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
   ~
-  ~    Licensed under the Apache License, Version 2.0 (the "License");
-  ~    you may not use this file except in compliance with the License.
-  ~    You may obtain a copy of the License at
+  ~    Portions (c) 2013-2018 EnergyOS.org
+  ~
+  ~     Licensed under the Apache License, Version 2.0 (the "License");
+  ~     you may not use this file except in compliance with the License.
+  ~     You may obtain a copy of the License at
   ~
   ~         http://www.apache.org/licenses/LICENSE-2.0
   ~
-  ~    Unless required by applicable law or agreed to in writing, software
-  ~    distributed under the License is distributed on an "AS IS" BASIS,
-  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~    See the License for the specific language governing permissions and
-  ~    limitations under the License.
+  ~     Unless required by applicable law or agreed to in writing, software
+  ~     distributed under the License is distributed on an "AS IS" BASIS,
+  ~     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~     See the License for the specific language governing permissions and
+  ~     limitations under the License.
+  ~
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -88,7 +90,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
+        <java.version>1.7</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
@@ -97,7 +99,7 @@
         <spring.security.version>3.2.3.RELEASE</spring.security.version>
         <spring-data-jpa.version>1.4.3.RELEASE</spring-data-jpa.version>
         <spring-security-oauth.version>2.0.2.RELEASE</spring-security-oauth.version>
-        <openespi-common.version>1.4-BUILD-SNAPSHOT</openespi-common.version>
+        <openespi-common.version>1.3-SNAPSHOT</openespi-common.version>
         <apache-httpcomponent.version>4.3.2</apache-httpcomponent.version>
         <jackson1.version>1.9.13</jackson1.version>
         <jackson2.version>2.2.2</jackson2.version>
@@ -116,8 +118,6 @@
 
         <maven.build.timestamp.format>yyyy/MM/dd hh:mm:ss a,z</maven.build.timestamp.format>
         <sonar.maven.plugin.version>3.6.0.1398</sonar.maven.plugin.version>
-        <maven.clean.plugin.version>3.1.0</maven.clean.plugin.version>
-        <jacoco.maven.plugin.version>0.8.3</jacoco.maven.plugin.version>
     </properties>
 
     <profiles>
@@ -148,7 +148,7 @@
     <dependencies>
         <dependency>
             <groupId>org.greenbuttonalliance</groupId>
-            <artifactId>OpenESPI-Common</artifactId>
+            <artifactId>Common</artifactId>
             <version>${openespi-common.version}</version>
         </dependency>
         <dependency>
@@ -185,6 +185,11 @@
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
             <version>${spring.version}</version>
         </dependency>
@@ -213,12 +218,12 @@
             <artifactId>jackson-mapper-asl</artifactId>
             <version>${jackson1.version}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.fasterxml.jackson.core</groupId>-->
-<!--            <artifactId>jackson-annotations</artifactId>-->
-<!--            <version>${jackson2.version}</version>-->
-<!--            <optional>true</optional>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson2.version}</version>
+            <optional>true</optional>
+        </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
@@ -401,11 +406,6 @@
             <artifactId>hamcrest-all</artifactId>
             <version>1.3</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
     </dependencies>
 
     <prerequisites>
@@ -490,7 +490,6 @@
             </plugin>
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
-                <version>${maven.clean.plugin.version}</version>
                 <executions>
                     <execution>
                         <id>auto-clean</id>
@@ -509,7 +508,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco.maven.plugin.version}</version>
+                <version>0.8.3</version>
                 <executions>
                     <execution>
                         <id>default-prepare-agent</id>
@@ -544,7 +543,7 @@
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
+                <version>2.0</version>
                 <configuration>
                     <path>/DataCustodian</path>
                     <url>http://sandbox.greenbuttonalliance.org:8443/manager/text</url>
@@ -620,37 +619,44 @@
                 </executions>
             </plugin>
         </plugins>
+        <!--<pluginManagement>-->
+            <!--<plugins>-->
+                <!--<plugin>-->
+                    <!--<groupId>org.sonarsource.scanner.maven</groupId>-->
+                    <!--<artifactId>sonar-maven-plugin</artifactId>-->
+                    <!--<version>${sonar.maven.plugin.version}</version>-->
+                <!--</plugin>-->
+            <!--</plugins>-->
+        <!--</pluginManagement>-->
     </build>
 
-    <repositories>
-        <!-- Packagecloud Repository configuration -->
-<!--        <repository>-->
-<!--            <id>packagecloud.release</id>-->
-<!--            <url>https://packagecloud.io/greenbuttonalliance/release</url>-->
-<!--        </repository>-->
-<!--        <repository>-->
-<!--            <id>packagecloud.snapshot</id>-->
-<!--            <url>https://greenbuttonalliance/snapshot</url>-->
-<!--        </repository>-->
-<!--        <repository>-->
-<!--            <id>nexus-snapshot</id>-->
-<!--            <name>Nexus Maven Snapshot Repository</name>-->
-<!--            <url>http://localhost:8081/repository/greenbuttonalliance-snapshot</url>-->
-<!--        </repository>-->
-<!--        <repository>-->
-<!--            <id>nexus-release</id>-->
-<!--            <name>Nexus Maven Release Repository</name>-->
-<!--            <url>http://localhost:8081/repository/greenbuttonalliance-release</url>-->
-<!--        </repository>-->
-        <!-- Sonatype Maven Repository configuration -->
+    <repositories>        
         <repository>
-            <id>sonatype-snapshot</id>
-            <name>Sonatype Maven Snapshot Repository</name>
+            <id>spring-maven-release</id>
+            <name>Spring Maven Release Repository</name>
+            <url>http://maven.springframework.org/release</url>
+        </repository>
+        <repository>
+            <id>spring-maven-milestone</id>
+            <name>Spring Maven Milestone Repository</name>
+            <url>http://maven.springframework.org/milestone</url>
+        </repository>
+        <repository>
+            <id>spring-maven-snapshot</id>
+            <url>http://maven.springframework.org/snapshot</url>
+            <name>Spring Maven Snapshot Repository</name>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>greenbuttonalliance-snapshot</id>
+            <name>Green Button Alliance Snapshot Repository</name>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </repository>
         <repository>
-            <id>sonatype-release</id>
-            <name>Sonatype Maven Snapshot Repository</name>
+            <id>greenbuttonalliance-release</id>
+            <name>Green Button Alliance Release Repository</name>
             <url>https://oss.sonatype.org/content/repositories/releases</url>
         </repository>
     </repositories>

@@ -1,19 +1,21 @@
 /*
- *    Copyright (c) 2018-2020 Green Button Alliance, Inc.
  *
- *    Portions copyright (c) 2013-2018 EnergyOS.org
+ *    Copyright (c) 2018-2021 Green Button Alliance, Inc.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ *    Portions (c) 2013-2018 EnergyOS.org
+ *
+ *     Licensed under the Apache License, Version 2.0 (the "License");
+ *     you may not use this file except in compliance with the License.
+ *     You may obtain a copy of the License at
  *
  *         http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ *     Unless required by applicable law or agreed to in writing, software
+ *     distributed under the License is distributed on an "AS IS" BASIS,
+ *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *     See the License for the specific language governing permissions and
+ *     limitations under the License.
+ *
  */
 
 package org.greenbuttonalliance.espi.datacustodian.oauth;
@@ -23,17 +25,17 @@ import org.greenbuttonalliance.espi.common.domain.RetailCustomer;
 import org.greenbuttonalliance.espi.common.domain.Subscription;
 import org.greenbuttonalliance.espi.common.service.AuthorizationService;
 import org.greenbuttonalliance.espi.common.service.SubscriptionService;
-import org.greenbuttonalliance.espi.common.support.EspiFactory;
+import org.greenbuttonalliance.espi.common.test.EspiFactory;
+import org.greenbuttonalliance.espi.datacustodian.BaseTest;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -50,12 +52,11 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ActiveProfiles("devmysql")
 @ContextConfiguration("/spring/test-context.xml")
 @Transactional(rollbackFor = { javax.xml.bind.JAXBException.class }, noRollbackFor = {
 		javax.persistence.NoResultException.class,
 		org.springframework.dao.EmptyResultDataAccessException.class })
-public class EspiTokenEnhancerTests{
+public class EspiTokenEnhancerTests extends BaseTest {
 
 	private MockMvc mockMvc;
 
@@ -75,8 +76,6 @@ public class EspiTokenEnhancerTests{
 
 	@Before
 	public void setup() {
-		MockitoAnnotations.initMocks(this);
-
 		this.mockMvc = webAppContextSetup(this.wac).build();
 
 		subscription = new Subscription();
@@ -105,7 +104,7 @@ public class EspiTokenEnhancerTests{
 	}
 
 	@Test
-//	@Ignore
+	@Ignore
 	public void enhance_withResource() throws Exception {
 		String expectedResourceURI = "http://localhost:8080/DataCustodian/espi/1_1/resource/Subscription/"
 				+ subscription.getId();
@@ -114,7 +113,7 @@ public class EspiTokenEnhancerTests{
 	}
 
 	@Test
-//	@Ignore
+	@Ignore
 	public void enhance_withAuthorization() throws Exception {
 		String expectedResourceURI = "http://localhost:8080/DataCustodian/espi/1_1/resource/Authorization/"
 				+ authorization.getId();
@@ -123,13 +122,13 @@ public class EspiTokenEnhancerTests{
 	}
 
 	@Test
-//	@Ignore
+	@Ignore
 	public void enhance_createsSubscription() {
 		verify(subscriptionService).createSubscription(authentication);
 	}
 
 	@Test
-//	@Ignore
+	@Ignore
 	public void enhance_createsAuthorization() {
 		verify(authorizationService).createAuthorization(subscription,
 				"accessToken");

@@ -1,19 +1,21 @@
 /*
- *    Copyright (c) 2018-2020 Green Button Alliance, Inc.
  *
- *    Portions copyright (c) 2013-2018 EnergyOS.org
+ *    Copyright (c) 2018-2021 Green Button Alliance, Inc.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ *    Portions (c) 2013-2018 EnergyOS.org
+ *
+ *     Licensed under the Apache License, Version 2.0 (the "License");
+ *     you may not use this file except in compliance with the License.
+ *     You may obtain a copy of the License at
  *
  *         http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ *     Unless required by applicable law or agreed to in writing, software
+ *     distributed under the License is distributed on an "AS IS" BASIS,
+ *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *     See the License for the specific language governing permissions and
+ *     limitations under the License.
+ *
  */
 
 package org.greenbuttonalliance.espi.datacustodian.web.filter;
@@ -38,9 +40,7 @@ import java.util.regex.Pattern;
 @Component
 public class CORSFilter implements Filter {
 
-    private static final String ACCESS_CONTROL_ALLOW_ORIGIN_HEADER = "Access-Control-Allow-Origin";
-
-    private final Log logger = LogFactory.getLog(CORSFilter.class);
+    private final Log logger = LogFactory.getLog(getClass());
 	private final Map<String, String> optionsHeaders = new LinkedHashMap<String, String>();
 
     private Pattern allowOriginRegex;
@@ -59,7 +59,7 @@ public class CORSFilter implements Filter {
         } else {
         	allowOrigin = cfg.getInitParameter("allow.origin");
         	if (allowOrigin != null) {
-        		optionsHeaders.put(ACCESS_CONTROL_ALLOW_ORIGIN_HEADER, allowOrigin);
+        		optionsHeaders.put("Access-Control-Allow-Origin", allowOrigin);
         	}
         }
         
@@ -141,10 +141,10 @@ public class CORSFilter implements Filter {
         if (matches) {
         	
         	if (allowCredentials != null) {
-        		resp.addHeader(ACCESS_CONTROL_ALLOW_ORIGIN_HEADER, origin);
+        		resp.addHeader("Access-Control-Allow-Origin", origin);
         		resp.addHeader("Access-Control-Allow-Credentials", "true");
         	} else {
-            	resp.addHeader(ACCESS_CONTROL_ALLOW_ORIGIN_HEADER, "*");
+            	resp.addHeader("Access-Control-Allow-Origin", "*");
         	}
             return true;
             
@@ -154,6 +154,5 @@ public class CORSFilter implements Filter {
     }
 
     public void destroy() {
-        // Do nothing
     }
 }

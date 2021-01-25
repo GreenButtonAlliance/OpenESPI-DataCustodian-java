@@ -1,25 +1,25 @@
 /*
- *    Copyright (c) 2018-2020 Green Button Alliance, Inc.
  *
- *    Portions copyright (c) 2013-2018 EnergyOS.org
+ *    Copyright (c) 2018-2021 Green Button Alliance, Inc.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ *    Portions (c) 2013-2018 EnergyOS.org
+ *
+ *     Licensed under the Apache License, Version 2.0 (the "License");
+ *     you may not use this file except in compliance with the License.
+ *     You may obtain a copy of the License at
  *
  *         http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ *     Unless required by applicable law or agreed to in writing, software
+ *     distributed under the License is distributed on an "AS IS" BASIS,
+ *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *     See the License for the specific language governing permissions and
+ *     limitations under the License.
+ *
  */
 
 package org.greenbuttonalliance.espi.datacustodian.oauth;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.greenbuttonalliance.espi.common.domain.*;
 import org.greenbuttonalliance.espi.common.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,20 +38,6 @@ import javax.persistence.NoResultException;
 import java.util.*;
 
 public class EspiTokenEnhancer implements TokenEnhancer {
-
-	private static final Log logger = LogFactory.getLog(EspiTokenEnhancer.class);
-
-	private static final String REGISTRATION_REQUEST = "REGISTRATION_";
-
-	private static final String ADMIN_REQUEST = "_admin";
-
-	private static final String AUTHORIZATION_URI = "authorizationURI";
-
-	private static final String RESOURCE_URI = "resourceURI";
-
-	private static final String ESPI_RESOURCE = "espi/1_1/resource/";
-
-	private static final String AUTHORIZATION_ID = "{authorizationId}";
 
 	@Autowired
 	private ApplicationInformationService applicationInformationService;
@@ -78,12 +64,11 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 		DefaultOAuth2AccessToken result = new DefaultOAuth2AccessToken(
 				accessToken);
 
-		if(logger.isInfoEnabled()) {
-			logger.info("EspiTokenEnhancer: OAuth2Request Parameters = " +
-					authentication.getOAuth2Request().getRequestParameters() + "&n");
-			logger.info("EspiTokenEnhancer: OAuth2Request Parameters = " +
-					authentication.getOAuth2Request().getRequestParameters() + "&n");
-		}
+		System.out.printf("EspiTokenEnhancer: OAuth2Request Parameters = %s\n",
+				authentication.getOAuth2Request().getRequestParameters());
+
+		System.out.printf("EspiTokenEnhancer: Authorities = %s\n",
+				authentication.getAuthorities());
 
 		String clientId = authentication.getOAuth2Request().getClientId();
 		ApplicationInformation ai = null;
@@ -91,16 +76,16 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 		// [mjb20150102] Allow REGISTRATION_xxxx and ADMIN_xxxx to use same
 		// ApplicationInformation record
 		String ci = clientId;
-
-
-		if (ci.contains(REGISTRATION_REQUEST) &&
-            (ci.substring(0, REGISTRATION_REQUEST.length()).equals(REGISTRATION_REQUEST))) {
-                ci = ci.substring(REGISTRATION_REQUEST.length());
-        } else {
-            if (ci.contains(ADMIN_REQUEST)) {
-                ci = ci.substring(0, ci.indexOf(ADMIN_REQUEST));
-            }
-        }
+		String clientCredentialsScope = accessToken.getScope().toString();
+		if (ci.indexOf("REGISTRATION_") != -1) {
+			if (ci.substring(0, "REGISTRATION_".length()).equals(
+					"REGISTRATION_")) {
+				ci = ci.substring("REGISTRATION_".length());
+			}
+		}
+		if (ci.indexOf("_admin") != -1) {
+			ci = ci.substring(0, ci.indexOf("_admin"));
+		}
 
 		// Confirm Application Information record exists for ClientID requesting
 		// an access token
@@ -108,12 +93,11 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			ai = applicationInformationService.findByClientId(ci);
 
 		} catch (NoResultException | EmptyResultDataAccessException e) {
-			if(logger.isErrorEnabled()) {
-				logger.error("&nEspiTokenEnhancer: ApplicationInformation record not found!&n" +
-						"OAuth2Request Parameters = " +
-						authentication.getOAuth2Request().getRequestParameters() +
-						" client_id = " + clientId + "&n");
-			}
+			System.out.printf(
+					"\nEspiTokenEnhancer: ApplicationInformation record not found!\n"
+							+ "OAuth2Request Parameters = %s\n", authentication
+							.getOAuth2Request().getRequestParameters()
+							+ " client_id = " + clientId);
 			throw new AccessDeniedException(String.format(
 					"No client with requested id: %s", clientId));
 		}
@@ -132,7 +116,8 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			// "ROLE_USER"
 			if (authentication.getAuthorities().toString()
 					.contains("[ROLE_USER]")) {
-				throw new InvalidGrantException("Client Credentials not valid for ROLE_USER&n");
+				throw new InvalidGrantException(
+						String.format("Client Credentials not valid for ROLE_USER\n"));
 			}
 
 			// Create Authorization and add authorizationURI to /oath/token
@@ -140,11 +125,11 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			Authorization authorization = authorizationService
 					.createAuthorization(null, result.getValue());
 			result.getAdditionalInformation().put(
-					AUTHORIZATION_URI,
+					"authorizationURI",
 					ai.getDataCustodianResourceEndpoint()
 							+ Routes.DATA_CUSTODIAN_AUTHORIZATION.replace(
-									ESPI_RESOURCE, "").replace(
-									AUTHORIZATION_ID,
+									"espi/1_1/resource/", "").replace(
+									"{authorizationId}",
 									authorization.getId().toString()));
 
 			// Create Subscription
@@ -178,8 +163,8 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			authorization.setAuthorizationURI(ai
 					.getDataCustodianResourceEndpoint()
 					+ Routes.DATA_CUSTODIAN_AUTHORIZATION.replace(
-							ESPI_RESOURCE, "").replace(
-							AUTHORIZATION_ID,
+							"espi/1_1/resource/", "").replace(
+							"{authorizationId}",
 							authorization.getId().toString()));
 
 			// Determine resourceURI value based on Client's Role
@@ -195,7 +180,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 					authorization.setResourceURI(ai
 							.getDataCustodianResourceEndpoint()
 							+ Routes.BATCH_BULK_MEMBER.replace(
-									ESPI_RESOURCE, "").replace(
+									"espi/1_1/resource/", "").replace(
 									"{bulkId}", "**"));
 
 				} else {
@@ -203,7 +188,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 						authorization.setResourceURI(ai
 								.getDataCustodianResourceEndpoint()
 								+ Routes.BATCH_UPLOAD_MY_DATA.replace(
-										ESPI_RESOURCE, "").replace(
+										"espi/1_1/resource/", "").replace(
 										"{retailCustomerId}", "**"));
 					} else {
 						if (role.contains("ROLE_TP_REGISTRATION")) {
@@ -212,7 +197,7 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 											.getDataCustodianResourceEndpoint()
 											+ Routes.ROOT_APPLICATION_INFORMATION_MEMBER
 													.replace(
-															ESPI_RESOURCE,
+															"espi/1_1/resource/",
 															"")
 													.replace(
 															"{applicationInformationId}",
@@ -229,12 +214,13 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 			authorization.setRetailCustomer(retailCustomerService
 					.findById((long) 0));
 			authorization.setUpdated(new GregorianCalendar());
-			authorization.setStatus("1"); // Set authorization record status as "Active"
+			authorization.setStatus("1"); // Set authorization record status as
+											// "Active"
 			authorization.setSubscription(subscription);
 			authorizationService.merge(authorization);
 
 			// Add resourceURI to access_token response
-			result.getAdditionalInformation().put(RESOURCE_URI,
+			result.getAdditionalInformation().put("resourceURI",
 					authorization.getResourceURI());
 
 			// Initialize Subscription record
@@ -254,9 +240,9 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 				authorizationService.merge(authorization);
 
 				// Add ResourceURI and AuthorizationURI to access_token response
-				result.getAdditionalInformation().put(RESOURCE_URI,
+				result.getAdditionalInformation().put("resourceURI",
 						authorization.getResourceURI());
-				result.getAdditionalInformation().put(AUTHORIZATION_URI,
+				result.getAdditionalInformation().put("authorizationURI",
 						authorization.getAuthorizationURI());
 
 			} catch (NoResultException | EmptyResultDataAccessException e) {
@@ -267,10 +253,10 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 				Subscription subscription = subscriptionService
 						.createSubscription(authentication);
 				result.getAdditionalInformation().put(
-						RESOURCE_URI,
+						"resourceURI",
 						ai.getDataCustodianResourceEndpoint()
 								+ Routes.BATCH_SUBSCRIPTION.replace(
-										ESPI_RESOURCE, "").replace(
+										"espi/1_1/resource/", "").replace(
 										"{subscriptionId}",
 										subscription.getId().toString()));
 
@@ -279,11 +265,11 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 				Authorization authorization = authorizationService
 						.createAuthorization(subscription, result.getValue());
 				result.getAdditionalInformation().put(
-						AUTHORIZATION_URI,
+						"authorizationURI",
 						ai.getDataCustodianResourceEndpoint()
 								+ Routes.DATA_CUSTODIAN_AUTHORIZATION.replace(
-										ESPI_RESOURCE, "").replace(
-										AUTHORIZATION_ID,
+										"espi/1_1/resource/", "").replace(
+										"{authorizationId}",
 										authorization.getId().toString()));
 
 				// Update Data Custodian subscription structure
@@ -335,13 +321,13 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 				authorization.setAuthorizationURI(ai
 						.getDataCustodianResourceEndpoint()
 						+ Routes.DATA_CUSTODIAN_AUTHORIZATION.replace(
-								ESPI_RESOURCE, "").replace(
-								AUTHORIZATION_ID,
+								"espi/1_1/resource/", "").replace(
+								"{authorizationId}",
 								authorization.getId().toString()));
 				authorization.setResourceURI(ai
 						.getDataCustodianResourceEndpoint()
 						+ Routes.BATCH_SUBSCRIPTION.replace(
-								ESPI_RESOURCE, "").replace(
+								"espi/1_1/resource/", "").replace(
 								"{subscriptionId}",
 								subscription.getId().toString()));
 				authorization.setUpdated(new GregorianCalendar());
@@ -358,13 +344,12 @@ public class EspiTokenEnhancer implements TokenEnhancer {
 
 		} else {
 
-			if(logger.isErrorEnabled()) {
-				logger.error("EspiTokenEnhancer: Invalid Grant_Type processed by Spring Security OAuth2 Framework:&n" +
-						"OAuth2Request Parameters = " + authentication.getOAuth2Request().getRequestParameters() +
-						"&n");
-			}
-
-			throw new AccessDeniedException("Unsupported ESPI OAuth2 grant_type");
+			System.out
+					.printf("EspiTokenEnhancer: Invalid Grant_Type processed by Spring Security OAuth2 Framework:\n"
+							+ "OAuth2Request Parameters = %s\n", authentication
+							.getOAuth2Request().getRequestParameters());
+			throw new AccessDeniedException(
+					String.format("Unsupported ESPI OAuth2 grant_type"));
 		}
 
 		return result;

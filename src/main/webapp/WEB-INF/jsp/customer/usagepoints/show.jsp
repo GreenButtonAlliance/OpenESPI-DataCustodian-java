@@ -1,27 +1,26 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
-  ~    Copyright (c) 2018-2020 Green Button Alliance, Inc.
   ~
-  ~    Portions copyright (c) 2013-2018 EnergyOS.org
+  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
   ~
-  ~    Licensed under the Apache License, Version 2.0 (the "License");
-  ~    you may not use this file except in compliance with the License.
-  ~    You may obtain a copy of the License at
+  ~    Portions (c) 2013-2018 EnergyOS.org
+  ~
+  ~     Licensed under the Apache License, Version 2.0 (the "License");
+  ~     you may not use this file except in compliance with the License.
+  ~     You may obtain a copy of the License at
   ~
   ~         http://www.apache.org/licenses/LICENSE-2.0
   ~
-  ~    Unless required by applicable law or agreed to in writing, software
-  ~    distributed under the License is distributed on an "AS IS" BASIS,
-  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~    See the License for the specific language governing permissions and
-  ~    limitations under the License.
+  ~     Unless required by applicable law or agreed to in writing, software
+  ~     distributed under the License is distributed on an "AS IS" BASIS,
+  ~     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~     See the License for the specific language governing permissions and
+  ~     limitations under the License.
+  ~
   --%>
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>Usage Point List</title>
-</head>
 
 <jsp:include page="../../tiles/head.jsp"/>
 
@@ -33,7 +32,7 @@
 <table><tr><td>
 
 <a id = "downloadMyData" class="brand" href="<c:url value='/RetailCustomer/${currentCustomer.id}/DownloadMyData/UsagePoint/${displayBag.get("usagePointId")}'/>">
-         <img src="<c:url value='/resources/img/Green_Download_265.png'/>" alt="Green Button Download My Data" width="150"/></a>
+         <img src="<c:url value='/resources/img/Green_Download_265.png'/>" width="150"/></a>  
 &nbsp;&nbsp;</td><td>
 
   Start Date/Time: 
@@ -41,7 +40,7 @@
     <div id="datetimepicker" class="input-append date" >
       Start: <input id="startTime" type="text"></input>
       <span class="add-on">
-        <em data-time-icon="icon-time" data-date-icon="icon-calendar"></em>
+        <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
       </span>
     </div>&nbsp;&nbsp;
 </td><td>
@@ -50,7 +49,7 @@
     <div id="datetimepicker1" class="input-append date">
       End: <input id="endTime" type="text"></input>
       <span class="add-on">
-        <em data-time-icon="icon-time" data-date-icon="icon-calendar"></em>
+        <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
       </span>
 </div>
 </td></tr></table>

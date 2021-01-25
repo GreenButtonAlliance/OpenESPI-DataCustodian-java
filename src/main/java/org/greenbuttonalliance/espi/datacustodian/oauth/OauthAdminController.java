@@ -1,19 +1,21 @@
 /*
- *    Copyright (c) 2018-2020 Green Button Alliance, Inc.
  *
- *    Portions copyright (c) 2013-2018 EnergyOS.org
+ *    Copyright (c) 2018-2021 Green Button Alliance, Inc.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ *    Portions (c) 2013-2018 EnergyOS.org
+ *
+ *     Licensed under the Apache License, Version 2.0 (the "License");
+ *     you may not use this file except in compliance with the License.
+ *     You may obtain a copy of the License at
  *
  *         http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ *     Unless required by applicable law or agreed to in writing, software
+ *     distributed under the License is distributed on an "AS IS" BASIS,
+ *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *     See the License for the specific language governing permissions and
+ *     limitations under the License.
+ *
  */
 
 package org.greenbuttonalliance.espi.datacustodian.oauth;
@@ -53,29 +55,30 @@ public class OauthAdminController extends BaseController {
 
 	private EspiUserApprovalHandler userApprovalHandler;
 
-	@RequestMapping(value = "custodian/oauth/cache_approvals", method = RequestMethod.GET)
+	@RequestMapping("custodian/oauth/cache_approvals")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void startCaching() {
+	public void startCaching() throws Exception {
 		userApprovalHandler.setUseApprovalStore(true);
 	}
 
-	@RequestMapping(value = "custodian/oauth/uncache_approvals", method = RequestMethod.GET)
+	@RequestMapping("custodian/oauth/uncache_approvals")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void stopCaching() {
+	public void stopCaching() throws Exception {
 		userApprovalHandler.setUseApprovalStore(false);
 	}
 	
 	@RequestMapping(value="custodian/oauth/tokens/clients/{clientId}/retailcustomers/{userId}", method=RequestMethod.GET, produces="application/json")
 	@ResponseBody
 	public Collection<OAuth2AccessToken> listTokensForUser(@PathVariable String clientId, @PathVariable String userId,
-			Principal principal) {
+			Principal principal) throws Exception {
 		checkResourceOwner(userId, principal);
 
 		return enhance(tokenStore.findTokensByClientIdAndUserName(clientId, userId));
 	}
 	
 	@RequestMapping(value = "custodian/oauth/tokens/{token}/retailcustomers/{userId}", method = RequestMethod.DELETE)
-	public ResponseEntity<Void> revokeToken(@PathVariable String userId, @PathVariable String token, Principal principal) {
+	public ResponseEntity<Void> revokeToken(@PathVariable String userId, @PathVariable String token, Principal principal)
+			throws Exception {
 		checkResourceOwner(userId, principal);
 		if (tokenServices.revokeToken(token)) {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
@@ -86,7 +89,7 @@ public class OauthAdminController extends BaseController {
 	
 	@RequestMapping(value="custodian/oauth/tokens/clients/{clientId}", method=RequestMethod.GET, produces="application/json")
 	@ResponseBody
-	public Collection<OAuth2AccessToken> listTokensForClient(@PathVariable String clientId) {
+	public Collection<OAuth2AccessToken> listTokensForClient(@PathVariable String clientId) throws Exception {
 		return tokenStore.findTokensByClientId(clientId);
 	}
 
@@ -109,7 +112,7 @@ public class OauthAdminController extends BaseController {
 		return result;
 	}	
 	
-	private void checkResourceOwner(String user, Principal principal) throws AccessDeniedException {
+	private void checkResourceOwner(String user, Principal principal) {
 		if (principal instanceof OAuth2Authentication) {
 			OAuth2Authentication authentication = (OAuth2Authentication) principal;
 			if (!authentication.isClientOnly() && !user.equals(principal.getName())) {

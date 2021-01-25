@@ -1,19 +1,21 @@
 /*
- *    Copyright (c) 2018-2020 Green Button Alliance, Inc.
  *
- *    Portions copyright (c) 2013-2018 EnergyOS.org
+ *    Copyright (c) 2018-2021 Green Button Alliance, Inc.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ *    Portions (c) 2013-2018 EnergyOS.org
+ *
+ *     Licensed under the Apache License, Version 2.0 (the "License");
+ *     you may not use this file except in compliance with the License.
+ *     You may obtain a copy of the License at
  *
  *         http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ *     Unless required by applicable law or agreed to in writing, software
+ *     distributed under the License is distributed on an "AS IS" BASIS,
+ *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *     See the License for the specific language governing permissions and
+ *     limitations under the License.
+ *
  */
 
 
@@ -40,10 +42,6 @@ import javax.validation.Valid;
 @PreAuthorize("hasRole('ROLE_CUSTODIAN')")
 public class RetailCustomerController extends BaseController {
 
-	private static final String RETAIL_CUSTOMER_FORM = "retailcustomers/form";
-
-	private static final String FIELD_REQUIRED = "field.required";
-
 	@Autowired
 	private RetailCustomerService service;
 
@@ -67,7 +65,7 @@ public class RetailCustomerController extends BaseController {
 	public String form(ModelMap model) {
 		model.put("retailCustomer", new RetailCustomer());
 
-		return RETAIL_CUSTOMER_FORM;
+		return "retailcustomers/form";
 	}
 
 	@RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_CREATE, method = RequestMethod.POST)
@@ -75,13 +73,13 @@ public class RetailCustomerController extends BaseController {
 			@ModelAttribute("retailCustomer") @Valid RetailCustomer retailCustomer,
 			BindingResult result) {
 		if (result.hasErrors()) {
-			return RETAIL_CUSTOMER_FORM;
+			return "retailcustomers/form";
 		} else {
 			try {
 				service.persist(retailCustomer);
 				return "redirect:/custodian/retailcustomers";
 			} catch (Exception e) {
-				return RETAIL_CUSTOMER_FORM;
+				return "retailcustomers/form";
 			}
 		}
 	}
@@ -101,13 +99,13 @@ public class RetailCustomerController extends BaseController {
 
 		public void validate(Object target, Errors errors) {
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username",
-					FIELD_REQUIRED, "Username is required");
+					"field.required", "Username is required");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password",
-					FIELD_REQUIRED, "Password is required");
+					"field.required", "Password is required");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName",
-					FIELD_REQUIRED, "First name is required");
+					"field.required", "First name is required");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName",
-					FIELD_REQUIRED, "Last name is required");
+					"field.required", "Last name is required");
 		}
 	}
 }

@@ -1,209 +1,211 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-  ~    Copyright (c) 2018-2020 Green Button Alliance, Inc.
   ~
-  ~    Portions copyright (c) 2013-2018 EnergyOS.org
+  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
   ~
-  ~    Licensed under the Apache License, Version 2.0 (the "License");
-  ~    you may not use this file except in compliance with the License.
-  ~    You may obtain a copy of the License at
+  ~    Portions (c) 2013-2018 EnergyOS.org
+  ~
+  ~     Licensed under the Apache License, Version 2.0 (the "License");
+  ~     you may not use this file except in compliance with the License.
+  ~     You may obtain a copy of the License at
   ~
   ~         http://www.apache.org/licenses/LICENSE-2.0
   ~
-  ~    Unless required by applicable law or agreed to in writing, software
-  ~    distributed under the License is distributed on an "AS IS" BASIS,
-  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~    See the License for the specific language governing permissions and
-  ~    limitations under the License.
+  ~     Unless required by applicable law or agreed to in writing, software
+  ~     distributed under the License is distributed on an "AS IS" BASIS,
+  ~     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~     See the License for the specific language governing permissions and
+  ~     limitations under the License.
+  ~
   -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
-       xmlns:sec="http://www.springframework.org/schema/security"
-       xsi:schemaLocation=
-               "http://www.springframework.org/schema/beans
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
+	   xmlns:sec="http://www.springframework.org/schema/security"
+	   xsi:schemaLocation=
+			   "http://www.springframework.org/schema/beans
        		 http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
 			 http://www.springframework.org/schema/security
 			 http://www.springframework.org/schema/security/spring-security-3.2.xsd
 			 http://www.springframework.org/schema/security/oauth2
-			 http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
+			 http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">						   
 
-    <!-- Used by Token store -->
+	<!-- Used by Token store -->    
     <bean id="mysqlTokenStore"
-          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/tokenstore"/>
-        <property name="username" value="root"/>
-        <property name="password" value="password"/>
+    	class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    	<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+    	<property name="url" value="jdbc:mysql://localhost:3306/tokenstore"/>
+    	<property name="username" value="root"/>
+    	<property name="password" value="password"/>   
     </bean>
 
-    <!-- Used by Client Details Service -->
-    <bean id="mysqlClientDetails"
-          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/tokenstore"/>
-        <property name="username" value="root"/>
-        <property name="password" value="password"/>
-    </bean>
+	<!-- Used by Client Details Service -->
+	<bean id="mysqlClientDetails"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://localhost:3306/tokenstore"/>
+		<property name="username" value="root"/>
+		<property name="password" value="password"/>	
+	</bean>
+	
+	<!-- Used by Authorization Code Service -->
+	<bean id="mysqlAuthorizationCode"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://localhost:3306/tokenstore"/>
+		<property name="username" value="root"/>
+		<property name="password" value="password"/>	
+	</bean>
 
-    <!-- Used by Authorization Code Service -->
-    <bean id="mysqlAuthorizationCode"
-          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/tokenstore"/>
-        <property name="username" value="root"/>
-        <property name="password" value="password"/>
-    </bean>
-
-    <!-- Authorization server configuration -->
-    <oauth:authorization-server
-            client-details-service-ref="clientDetailsService"
-            token-services-ref="tokenServices"
-            user-approval-handler-ref="userApprovalHandler"
-            token-endpoint-url="/oauth/token"
-            authorization-endpoint-url="/oauth/authorize" >
-        <oauth:authorization-code authorization-code-services-ref="authorizationCodeServices"/>
+	<!-- Authorization server configuration -->		        
+    <oauth:authorization-server 
+    	client-details-service-ref="clientDetailsService"
+    	token-services-ref="tokenServices"
+        user-approval-handler-ref="userApprovalHandler"    	    	
+        token-endpoint-url="/oauth/token"    	
+        authorization-endpoint-url="/oauth/authorize" >
+        <oauth:authorization-code authorization-code-services-ref="authorizationCodeServices"/>           	
         <oauth:refresh-token />
-        <oauth:client-credentials />
+        <oauth:client-credentials />      	    	
     </oauth:authorization-server>
 
-    <!-- Services for clients -->
-    <sec:authentication-manager id="clientAuthenticationManager"
-                                xmlns="http://www.springframework.org/schema/security">
+	<!-- Services for clients -->
+    <sec:authentication-manager id="clientAuthenticationManager" 
+    	xmlns="http://www.springframework.org/schema/security">
         <sec:authentication-provider user-service-ref="clientDetailsUserService" />
     </sec:authentication-manager>
+ 
+ 	<!-- TODO: Implement Spring Security Configuration feature to eliminate XML maintenance -->   	    
+<!-- 	<oauth:client-details-service id="clientDetailsService"> -->
+	
+		<!-- Third Party Application ROLE_USER parameters -->
+<!-- 		<oauth:client client-id="third_party" -->
+<!-- 			secret="secret" -->
+<!-- 			access-token-validity="360" -->
+<!-- 			refresh-token-validity="3600" -->
+<!-- 			scope="FB=4_5_15;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13,FB=4_5_15;IntervalDuration=900;BlockDuration=monthly;HistoryLength=13" -->
+<!-- 			authorized-grant-types="authorization_code,refresh_token" -->
+<!-- 			authorities="ROLE_USER"  /> -->
 
-    <!-- TODO: Implement Spring Security Configuration feature to eliminate XML maintenance -->
-    <!-- 	<oauth:client-details-service id="clientDetailsService"> -->
+		<!-- Third Party Application ROLE_ADMIN parameters -->
+<!-- 		<oauth:client client-id="third_party_admin" -->
+<!-- 			secret="secret" -->
+<!-- 			access-token-validity="360" -->
+<!-- 			scope="ThirdParty_Admin_Access"				 -->
+<!-- 			authorized-grant-types="client_credentials" -->
+<!-- 			authorities="ROLE_TP_ADMIN" /> -->
 
-    <!-- Third Party Application ROLE_USER parameters -->
-    <!-- 		<oauth:client client-id="third_party" -->
-    <!-- 			secret="secret" -->
-    <!-- 			access-token-validity="360" -->
-    <!-- 			refresh-token-validity="3600" -->
-    <!-- 			scope="FB=4_5_15;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13,FB=4_5_15;IntervalDuration=900;BlockDuration=monthly;HistoryLength=13" -->
-    <!-- 			authorized-grant-types="authorization_code,refresh_token" -->
-    <!-- 			authorities="ROLE_USER"  /> -->
+		<!-- Data Custodian Application ROLE_ADMIN parameters -->
+<!-- 		<oauth:client client-id="data_custodian_admin" -->
+<!-- 			secret="secret" -->
+<!-- 			access-token-validity="360" -->
+<!-- 			scope="DataCustodian_Admin_Access"				 -->
+<!-- 			authorized-grant-types="client_credentials" -->
+<!-- 			authorities="ROLE_DC_ADMIN" /> -->
+			
+		<!-- Additional User Definition examples -->			
+<!-- 		<oauth:client client-id="my-trusted-client-with-secret" -->
+<!-- 			authorized-grant-types="password,authorization_code,refresh_token,implicit" -->
+<!-- 			secret="somesecret" authorities="ROLE_CLIENT, ROLE_TRUSTED_CLIENT" />	 -->					
+<!-- 		<oauth:client client-id="my-less-trusted-client" -->
+<!-- 			authorized-grant-types="authorization_code,implicit" authorities="ROLE_CLIENT" /> -->
+<!-- 		<oauth:client client-id="my-less-trusted-autoapprove-client" -->
+<!-- 			authorized-grant-types="implicit" authorities="ROLE_CLIENT" scope="read,write,trust" -->
+<!-- 			autoapprove="true" /> -->
+<!-- 		<oauth:client client-id="my-client-with-registered-redirect" -->
+<!-- 			authorized-grant-types="authorization_code,client_credentials" -->
+<!-- 			authorities="ROLE_CLIENT" redirect-uri="http://anywhere?key=value" -->
+<!-- 			scope="read,trust" /> -->
+<!-- 		<oauth:client client-id="my-untrusted-client-with-registered-redirect" -->
+<!-- 			authorized-grant-types="authorization_code" authorities="ROLE_CLIENT" -->
+<!-- 			redirect-uri="http://anywhere" scope="read" /> -->
+<!-- 		<oauth:client client-id="tonr" resource-ids="sparklr" -->
+<!-- 			authorized-grant-types="authorization_code,implicit" authorities="ROLE_CLIENT" -->
+<!-- 			scope="read,write" secret="secret" /> -->
+<!-- 		<oauth:client client-id="tonr-with-redirect" -->
+<!-- 			resource-ids="sparklr" authorized-grant-types="authorization_code,implicit" -->
+<!-- 			authorities="ROLE_CLIENT" scope="read,write" secret="secret" -->
+<!-- 			redirect-uri="${tonr.redirect:http://localhost:8080/tonr2/sparklr/redirect}" /> -->
 
-    <!-- Third Party Application ROLE_ADMIN parameters -->
-    <!-- 		<oauth:client client-id="third_party_admin" -->
-    <!-- 			secret="secret" -->
-    <!-- 			access-token-validity="360" -->
-    <!-- 			scope="ThirdParty_Admin_Access"				 -->
-    <!-- 			authorized-grant-types="client_credentials" -->
-    <!-- 			authorities="ROLE_TP_ADMIN" /> -->
+<!-- 	</oauth:client-details-service>    -->
 
-    <!-- Data Custodian Application ROLE_ADMIN parameters -->
-    <!-- 		<oauth:client client-id="data_custodian_admin" -->
-    <!-- 			secret="secret" -->
-    <!-- 			access-token-validity="360" -->
-    <!-- 			scope="DataCustodian_Admin_Access"				 -->
-    <!-- 			authorized-grant-types="client_credentials" -->
-    <!-- 			authorities="ROLE_DC_ADMIN" /> -->
-
-    <!-- Additional User Definition examples -->
-    <!-- 		<oauth:client client-id="my-trusted-client-with-secret" -->
-    <!-- 			authorized-grant-types="password,authorization_code,refresh_token,implicit" -->
-    <!-- 			secret="somesecret" authorities="ROLE_CLIENT, ROLE_TRUSTED_CLIENT" />	 -->
-    <!-- 		<oauth:client client-id="my-less-trusted-client" -->
-    <!-- 			authorized-grant-types="authorization_code,implicit" authorities="ROLE_CLIENT" /> -->
-    <!-- 		<oauth:client client-id="my-less-trusted-autoapprove-client" -->
-    <!-- 			authorized-grant-types="implicit" authorities="ROLE_CLIENT" scope="read,write,trust" -->
-    <!-- 			autoapprove="true" /> -->
-    <!-- 		<oauth:client client-id="my-client-with-registered-redirect" -->
-    <!-- 			authorized-grant-types="authorization_code,client_credentials" -->
-    <!-- 			authorities="ROLE_CLIENT" redirect-uri="http://anywhere?key=value" -->
-    <!-- 			scope="read,trust" /> -->
-    <!-- 		<oauth:client client-id="my-untrusted-client-with-registered-redirect" -->
-    <!-- 			authorized-grant-types="authorization_code" authorities="ROLE_CLIENT" -->
-    <!-- 			redirect-uri="http://anywhere" scope="read" /> -->
-    <!-- 		<oauth:client client-id="tonr" resource-ids="sparklr" -->
-    <!-- 			authorized-grant-types="authorization_code,implicit" authorities="ROLE_CLIENT" -->
-    <!-- 			scope="read,write" secret="secret" /> -->
-    <!-- 		<oauth:client client-id="tonr-with-redirect" -->
-    <!-- 			resource-ids="sparklr" authorized-grant-types="authorization_code,implicit" -->
-    <!-- 			authorities="ROLE_CLIENT" scope="read,write" secret="secret" -->
-    <!-- 			redirect-uri="${tonr.redirect:http://localhost:8080/tonr2/sparklr/redirect}" /> -->
-
-    <!-- 	</oauth:client-details-service>    -->
-
-    <!-- Services for resolving Users -->
-    <authentication-manager alias="authenticationManager"
-                            xmlns="http://www.springframework.org/schema/security">
+	<!-- Services for resolving Users -->
+    <authentication-manager alias="authenticationManager" 
+    	xmlns="http://www.springframework.org/schema/security">
         <authentication-provider user-service-ref="retailCustomerServiceImpl"/>
     </authentication-manager>
-
+    
     <bean id="clientDetailsService"
-          class="org.springframework.security.oauth2.provider.client.JdbcClientDetailsService" >
-        <constructor-arg ref="mysqlClientDetails" />
+    	class="org.springframework.security.oauth2.provider.client.JdbcClientDetailsService" >
+    	<constructor-arg ref="mysqlClientDetails" />
     </bean>
-
-    <bean id="clientDetailsUserService"
-          class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
+             
+    <bean id="clientDetailsUserService" 
+    	class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
         <constructor-arg ref="clientDetailsService" />
     </bean>
 
-    <!-- Token Management -->
-    <bean id="tokenServices"
-          class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
+	<!-- Token Management -->        
+    <bean id="tokenServices" 
+    	class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
         <property name="tokenStore" ref="tokenStore" />
-        <property name="tokenEnhancer" ref="tokenEnhancer"/>
+        <property name="tokenEnhancer" ref="tokenEnhancer"/>        
         <property name="supportRefreshToken" value="true" />
         <property name="clientDetailsService" ref="clientDetailsService" />
     </bean>
-
-    <bean id="tokenStore"
-          class="org.springframework.security.oauth2.provider.token.store.JdbcTokenStore" >
-        <constructor-arg ref="mysqlTokenStore" />
+    
+    <bean id="tokenStore" 
+    	class="org.springframework.security.oauth2.provider.token.store.JdbcTokenStore" >
+    	<constructor-arg ref="mysqlTokenStore" />
     </bean>
-
+ 
     <bean id="tokenEnhancer" class="org.greenbuttonalliance.espi.datacustodian.oauth.EspiTokenEnhancer">
     </bean>
-
+    
     <bean id="authorizationCodeServices"
-          class="org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices" >
-        <constructor-arg ref="mysqlAuthorizationCode"/>
-    </bean>
+    	class="org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices" >
+    	<constructor-arg ref="mysqlAuthorizationCode"/>	
+    </bean>     
 
-    <!-- Token Approval Handler -->
-    <bean id="userApprovalHandler"
-          class="org.greenbuttonalliance.espi.datacustodian.oauth.EspiUserApprovalHandler">
-        <property name="approvalStore" ref="approvalStore" />
-        <property name="clientDetailsService" ref="clientDetailsService" />
-        <property name="requestFactory" ref="requestFactory" />
-    </bean>
+	<!-- Token Approval Handler -->
+	<bean id="userApprovalHandler"
+		class="org.greenbuttonalliance.espi.datacustodian.oauth.EspiUserApprovalHandler">
+		<property name="approvalStore" ref="approvalStore" />
+		<property name="clientDetailsService" ref="clientDetailsService" />
+		<property name="requestFactory" ref="requestFactory" />
+	</bean>    
 
-    <bean id="approvalStore"
-          class="org.springframework.security.oauth2.provider.approval.TokenApprovalStore">
-        <property name="tokenStore" ref="tokenStore" />
-    </bean>
+	<bean id="approvalStore"
+		class="org.springframework.security.oauth2.provider.approval.TokenApprovalStore">
+		<property name="tokenStore" ref="tokenStore" />
+	</bean>
 
-    <bean id="requestFactory"
-          class="org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory">
-        <constructor-arg name="clientDetailsService" ref="clientDetailsService" />
-    </bean>
+	<bean id="requestFactory"
+		class="org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory">
+		<constructor-arg name="clientDetailsService" ref="clientDetailsService" />
+	</bean>	           
 
-    <!-- Resource server -->
-    <oauth:resource-server id="resourceServerFilter"
-                           resource-id="DataCustodian" token-services-ref="tokenServices" />
-
+	<!-- Resource server -->
+    <oauth:resource-server id="resourceServerFilter" 
+    	resource-id="DataCustodian" token-services-ref="tokenServices" />
+    
     <http pattern="/oauth/token" create-session="stateless"
-          authentication-manager-ref="clientAuthenticationManager"
-          xmlns="http://www.springframework.org/schema/security">
-        <intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />
-        <anonymous enabled="false" />
-        <http-basic entry-point-ref="clientAuthenticationEntryPoint" />
-        <access-denied-handler ref="oauthAccessDeniedHandler" />
+    	authentication-manager-ref="clientAuthenticationManager"
+    	xmlns="http://www.springframework.org/schema/security">
+    	<intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />
+    	<anonymous enabled="false" />
+    	<http-basic entry-point-ref="clientAuthenticationEntryPoint" />
+    	<access-denied-handler ref="oauthAccessDeniedHandler" />
     </http>
-
-    <bean id="clientCredentialsTokenEndpointFilter"
-          class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">
-        <property name="authenticationManager" ref="clientAuthenticationManager" />
-    </bean>
-
-    <bean id="accessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased"
-          xmlns="http://www.springframework.org/schema/beans">
+	   	
+	<bean id="clientCredentialsTokenEndpointFilter"
+		class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">
+		<property name="authenticationManager" ref="clientAuthenticationManager" />
+	</bean>
+	
+    <bean id="accessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased" 
+    	xmlns="http://www.springframework.org/schema/beans">
         <constructor-arg>
             <list>
                 <bean class="org.springframework.security.oauth2.provider.vote.ScopeVoter" />
@@ -211,56 +213,56 @@
                 <bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
             </list>
         </constructor-arg>
-    </bean>
+    </bean>	
 
-    <bean id="clientAuthenticationEntryPoint"
-          class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+    <bean id="clientAuthenticationEntryPoint" 
+    	class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
         <property name="realmName" value="DataCustodian" />
         <property name="typeName" value="Basic" />
     </bean>
 
-    <bean id="oauthAccessDeniedHandler"
-          class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler" />
+    <bean id="oauthAccessDeniedHandler" 
+    	class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler" />	
 
-    <!-- Override the default mappings for approval and error pages -->
-    <bean id="accessConfirmationController"
-          class="org.greenbuttonalliance.espi.datacustodian.oauth.AccessConfirmationController">
+	<!-- Override the default mappings for approval and error pages -->
+    <bean id="accessConfirmationController" 
+    	class="org.greenbuttonalliance.espi.datacustodian.oauth.AccessConfirmationController">
         <property name="clientDetailsService" ref="clientDetailsService" />
         <property name="approvalStore" ref="approvalStore" />
     </bean>
+	
+	<bean id="adminController"
+		class="org.greenbuttonalliance.espi.datacustodian.oauth.OauthAdminController">
+		<property name="tokenServices" ref="tokenServices" />
+		<property name="tokenStore" ref="tokenStore" />
+		<property name="userApprovalHandler" ref="userApprovalHandler" />	
+	</bean> 	    	    
 
-    <bean id="adminController"
-          class="org.greenbuttonalliance.espi.datacustodian.oauth.OauthAdminController">
-        <property name="tokenServices" ref="tokenServices" />
-        <property name="tokenStore" ref="tokenStore" />
-        <property name="userApprovalHandler" ref="userApprovalHandler" />
-    </bean>
-
-    <bean id="oauthAuthenticationEntryPoint"
-          class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+    <bean id="oauthAuthenticationEntryPoint" 
+    	class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
         <property name="realmName" value="DataCustodian" />
     </bean>
 
-    <sec:global-method-security
-            pre-post-annotations="enabled" proxy-target-class="true">
+    <sec:global-method-security 
+    	pre-post-annotations="enabled" proxy-target-class="true">
         <sec:expression-handler ref="oauthExpressionHandler" />
     </sec:global-method-security>
 
     <oauth:expression-handler id="oauthExpressionHandler" />
 
-    <oauth:web-expression-handler id="oauthWebExpressionHandler" />
+    <oauth:web-expression-handler id="oauthWebExpressionHandler" />    	    	  
 
-    <!--**************************************         Development Configuration (Start)         **************************************-->
-    <!-- OAuth Token Administrative Resources -->
-    <http pattern="/oauth/tokens/**" create-session="never"
-          entry-point-ref="oauthAuthenticationEntryPoint"
-          access-decision-manager-ref="accessDecisionManager"
-          xmlns="http://www.springframework.org/schema/security" >
-        <anonymous enabled="false" />
-        <intercept-url pattern="/oauth/users/**" access="ROLE_CUSTODIAN" /> <!-- ?? What is this one doing ?? -->
-        <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
-        <access-denied-handler ref="oauthAccessDeniedHandler" />
-    </http>
-    <!--**************************************          Development Configuration (End)          **************************************-->
-
+	<!--**************************************         Development Configuration (Start)         **************************************-->	
+	<!-- OAuth Token Administrative Resources -->
+	<http pattern="/oauth/tokens/**" create-session="never"
+		entry-point-ref="oauthAuthenticationEntryPoint"
+		access-decision-manager-ref="accessDecisionManager"
+		xmlns="http://www.springframework.org/schema/security" >
+		<anonymous enabled="false" />
+		<intercept-url pattern="/oauth/users/**" access="ROLE_CUSTODIAN" /> <!-- ?? What is this one doing ?? -->
+		<custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
+		<access-denied-handler ref="oauthAccessDeniedHandler" />		
+	</http>				
+	<!--**************************************          Development Configuration (End)          **************************************-->			
+		
 </beans>

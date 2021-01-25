@@ -1,25 +1,25 @@
 /*
- *    Copyright (c) 2018-2020 Green Button Alliance, Inc.
  *
- *    Portions copyright (c) 2013-2018 EnergyOS.org
+ *    Copyright (c) 2018-2021 Green Button Alliance, Inc.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ *    Portions (c) 2013-2018 EnergyOS.org
+ *
+ *     Licensed under the Apache License, Version 2.0 (the "License");
+ *     you may not use this file except in compliance with the License.
+ *     You may obtain a copy of the License at
  *
  *         http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ *     Unless required by applicable law or agreed to in writing, software
+ *     distributed under the License is distributed on an "AS IS" BASIS,
+ *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *     See the License for the specific language governing permissions and
+ *     limitations under the License.
+ *
  */
 
 package org.greenbuttonalliance.espi.datacustodian.console;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -34,8 +34,6 @@ import java.io.IOException;
 
 public class ImportUsagePoint {
 
-    private static final Log logger = LogFactory.getLog(ImportUsagePoint.class);
-
     public static void upload(String filename, String url, HttpClient client) throws IOException {
         HttpPost post = new HttpPost(url);
         MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
@@ -48,8 +46,7 @@ public class ImportUsagePoint {
         client.execute(post);
     }
 
-    public void main(String[] args) {
-
+    public static void main(String[] args) {
         if (args.length == 2) {
             try {
                 String filename = args[0];
@@ -60,17 +57,14 @@ public class ImportUsagePoint {
                 upload(filename, url, client);
                 client.getConnectionManager().shutdown();
             } catch (IOException e) {
-                if(logger.isErrorEnabled())
-                    logger.error("**** ImportUsagePoint Exception:&n&n" + e + "&n");
+                e.printStackTrace();
             }
         } else {
-            if(logger.isInfoEnabled()) {
-                logger.info("Usage: import_usage_point.sh filename url");
-                logger.info("&n");
-                logger.info("Example:");
-                logger.info("&n");
-                logger.info("  import_usage_point.sh etc/usage_point.xml http://localhost:8080/custodian/retailcustomers/1/upload");
-            }
+            System.out.println("Usage: import_usage_point.sh filename url");
+            System.out.println("");
+            System.out.println("Example:");
+            System.out.println("");
+            System.out.println("  import_usage_point.sh etc/usage_point.xml http://localhost:8080/custodian/retailcustomers/1/upload");
         }
     }
 }

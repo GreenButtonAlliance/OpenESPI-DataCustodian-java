@@ -1,19 +1,21 @@
 /*
- *    Copyright (c) 2018-2020 Green Button Alliance, Inc.
  *
- *    Portions copyright (c) 2013-2018 EnergyOS.org
+ *    Copyright (c) 2018-2021 Green Button Alliance, Inc.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ *    Portions (c) 2013-2018 EnergyOS.org
+ *
+ *     Licensed under the Apache License, Version 2.0 (the "License");
+ *     you may not use this file except in compliance with the License.
+ *     You may obtain a copy of the License at
  *
  *         http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ *     Unless required by applicable law or agreed to in writing, software
+ *     distributed under the License is distributed on an "AS IS" BASIS,
+ *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *     See the License for the specific language governing permissions and
+ *     limitations under the License.
+ *
  */
 
 package features.steps;
@@ -26,9 +28,9 @@ import org.greenbuttonalliance.espi.common.service.ExportService;
 import org.greenbuttonalliance.espi.common.service.ImportService;
 import org.greenbuttonalliance.espi.common.service.RetailCustomerService;
 import org.greenbuttonalliance.espi.common.service.UsagePointService;
-import org.greenbuttonalliance.espi.common.support.FixtureFactory;
+import org.greenbuttonalliance.espi.common.test.FixtureFactory;
 import org.greenbuttonalliance.espi.common.utils.ExportFilter;
-import org.greenbuttonalliance.espi.datacustodian.utils.factories.OriginalDataCustodianEspiFactory;
+import org.greenbuttonalliance.espi.datacustodian.utils.factories.EspiFactory;
 import org.junit.Ignore;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -66,10 +68,10 @@ public class IntegrationSteps {
 	@When("^I import Usage Point$")
 	@Ignore
 	public void I_import_Usage_Point() throws Throwable {
-		retailCustomer = OriginalDataCustodianEspiFactory.newRetailCustomer();
+		retailCustomer = EspiFactory.newRetailCustomer();
 		retailCustomerService.persist(retailCustomer);
 
-		UsagePoint usagePoint = OriginalDataCustodianEspiFactory.newUsagePoint(retailCustomer);
+		UsagePoint usagePoint = EspiFactory.newUsagePoint(retailCustomer);
 		usagePointService.createOrReplaceByUUID(usagePoint);
 
 		importService.importData(
@@ -126,7 +128,7 @@ public class IntegrationSteps {
 
 	@When("^I create a Retail Customer$")
 	public void I_create_a_Retail_Customer() throws Throwable {
-		retailCustomer = OriginalDataCustodianEspiFactory.newRetailCustomer();
+		retailCustomer = EspiFactory.newRetailCustomer();
 		retailCustomerService.persist(retailCustomer);
 	}
 

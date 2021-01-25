@@ -1,26 +1,26 @@
 /*
- *    Copyright (c) 2018-2020 Green Button Alliance, Inc.
  *
- *    Portions copyright (c) 2013-2018 EnergyOS.org
+ *    Copyright (c) 2018-2021 Green Button Alliance, Inc.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ *    Portions (c) 2013-2018 EnergyOS.org
+ *
+ *     Licensed under the Apache License, Version 2.0 (the "License");
+ *     you may not use this file except in compliance with the License.
+ *     You may obtain a copy of the License at
  *
  *         http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ *     Unless required by applicable law or agreed to in writing, software
+ *     distributed under the License is distributed on an "AS IS" BASIS,
+ *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *     See the License for the specific language governing permissions and
+ *     limitations under the License.
+ *
  */
 
 
 package org.greenbuttonalliance.espi.datacustodian.web.filter;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.greenbuttonalliance.espi.common.domain.Authorization;
 import org.greenbuttonalliance.espi.common.domain.Subscription;
 import org.greenbuttonalliance.espi.common.service.AuthorizationService;
@@ -40,14 +40,6 @@ import java.util.Set;
 
 public class ResourceValidationFilter implements Filter {
 
-	private static final String ACCESS_NOT_AUTHORIZED_LOG_MSG = "ResourceValidationFilter: doFilter - Access Not Authorized&n";
-
-	private static final String ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG = "Access Not Authorized";
-
-	private static final String RESOURCE_URI_ELEMENT = "/resource/";
-
-	private final Log logger = LogFactory.getLog(ResourceValidationFilter.class);
-
 	@Autowired
 	private SubscriptionService subscriptionService;
 
@@ -66,9 +58,7 @@ public class ResourceValidationFilter implements Filter {
 	public void doFilter(ServletRequest req, ServletResponse res,
 			FilterChain chain) throws IOException, ServletException {
 
-		if(logger.isInfoEnabled()) {
-			logger.info("ResourceValidationFilter: start of doFilter");
-		}
+		System.out.println("ResourceValidationFilter: start of doFilter");
 
 		Boolean invalid = true;
 		Boolean hasBearer = false;
@@ -95,16 +85,16 @@ public class ResourceValidationFilter implements Filter {
 					.getAuthorities());
 
 		} else {
-			if(logger.isInfoEnabled()) {
-				logger.info(ACCESS_NOT_AUTHORIZED_LOG_MSG);
-			}
-			throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
+			System.out
+					.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+			throw new AccessDeniedException(
+					String.format("Access Not Authorized"));
+
 		}
 
-		if(logger.isInfoEnabled()) {
-			logger.info("ResourceValidationFilter: role = " +
-					roles + " HttpRequest Method: " + service + " uri: " + uri + "&n");
-		}
+		System.out
+				.printf("ResourceValidationFilter: role = %s, HttpRequest Method: %s, uri: %s\n",
+						roles, service, uri);
 
 		// Only process resource API request
 
@@ -138,11 +128,11 @@ public class ResourceValidationFilter implements Filter {
 						subscription = authorizationFromToken.getSubscription();
 
 					} catch (Exception e) {
-						if(logger.isErrorEnabled()) {
-							logger.error("ResourceValidationFilter: doFilter - No Authorization Found - " +
-									e.toString() + "&n");
-						}
-						throw new AccessDeniedException("No Authorization Found");
+						System.out
+								.printf("ResourceValidationFilter: doFilter - No Authorization Found - %s\n",
+										e.toString());
+						throw new AccessDeniedException(
+								String.format("No Authorization Found"));
 					}
 				}
 			}
@@ -151,11 +141,12 @@ public class ResourceValidationFilter implements Filter {
 		// /////////////////////////////////////////////////////////////////////
 		// If this is a resource request ensure it has a Bearer token
 		// /////////////////////////////////////////////////////////////////////
-		if ((!hasBearer) && (!resourceRequest)) {
+		if ((hasBearer == false) & !(resourceRequest == true)) {
 			// no Bearer token and it passed the OAuth filter - so it must be
 			// good2go not RESTAPI request
 			// make sure the role is not an ANONYMOUS request for /manage ...
-			if (!((roles.contains("ROLE_ANONYMOUS")) && (uri.indexOf("/management") != -1))) {
+			if (!((roles.contains("ROLE_ANONYMOUS")) & (uri
+					.indexOf("/management") != -1))) {
 				invalid = false;
 			}
 
@@ -175,33 +166,33 @@ public class ResourceValidationFilter implements Filter {
 				if (roles.contains("ROLE_DC_ADMIN")) {
 					invalid = false;
 				} else {
-					if(logger.isInfoEnabled()) {
-						logger.info("ResourceValidationFilter: doFilter - not valid for this token " +
-								uri + "&n");
-					}
-					throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
+					System.out
+							.printf("ResourceValidationFilter: doFilter - not valid for this token %s\n",
+									uri);
+					throw new AccessDeniedException(
+							String.format("Access Not Authorized"));
 				}
 			} else {
 				// lets check the uri
 				i = uri.indexOf("espi/1_1/resource/");
 				if (i > 0) {
 					// lets shorten it by stripping off up to resource
-					uri = uri.substring(uri.indexOf(RESOURCE_URI_ELEMENT));
+					uri = uri.substring(uri.indexOf("/resource/"));
 				} else {
 					// cant be a resource
-					if(logger.isInfoEnabled()) {
-						logger.info("ResourceValidationFilter: doFilter - not valid for this token " +
-								uri + "&n");
-					}
-					throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
+					System.out
+							.printf("ResourceValidationFilter: doFilter - Uri not well formed %s\n",
+									uri);
+					throw new AccessDeniedException(
+							String.format("Access Not Authorized"));
 				}
 			}
 
 			// strip off uri up to /resource/ since that is how we go here
 			resourceUri = resourceUri.substring(resourceUri
-					.indexOf(RESOURCE_URI_ELEMENT));
+					.indexOf("/resource/"));
 			authorizationUri = authorizationUri.substring(authorizationUri
-					.indexOf(RESOURCE_URI_ELEMENT));
+					.indexOf("/resource/"));
 
 			// /////////////////////////////////////////////////////////////////////
 			// ROLE_USER
@@ -241,11 +232,11 @@ public class ResourceValidationFilter implements Filter {
 
 				// only GET for this ROLE permitted
 				if (!service.equals("GET")) {
-					if(logger.isInfoEnabled()) {
-						logger.info("ResourceValidationFilter: doFilter - ROLE_USER attempted a REST " +
-										service +  "Request -- Only GET Request are allowed&n");
-					}
-					throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
+					System.out
+							.printf("ResourceValidationFilter: doFilter - ROLE_USER attempted a RESTful %s Request -- Only GET Request are allowed\n",
+									service);
+					throw new AccessDeniedException(
+							String.format("Access Not Authorized"));
 				}
 
 				// look for the root forms of LocalTimeParameters and
@@ -262,10 +253,10 @@ public class ResourceValidationFilter implements Filter {
 						invalid = false;
 					} else {
 						// not authorized for this resource
-						if(logger.isInfoEnabled()) {
-							logger.info(ACCESS_NOT_AUTHORIZED_LOG_MSG);
-						}
-						throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
+						System.out
+								.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+						throw new AccessDeniedException(
+								String.format("Access Not Authorized"));
 					}
 				}
 
@@ -276,10 +267,10 @@ public class ResourceValidationFilter implements Filter {
 						invalid = false;
 					} else {
 						// not authorized for this resource
-						if(logger.isInfoEnabled()) {
-							logger.info(ACCESS_NOT_AUTHORIZED_LOG_MSG);
-						}
-						throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
+						System.out
+								.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+						throw new AccessDeniedException(
+								String.format("Access Not Authorized"));
 					}
 				}
 
@@ -345,10 +336,10 @@ public class ResourceValidationFilter implements Filter {
 									invalid = false;
 								} else {
 									// not authorized for this resource
-									if(logger.isInfoEnabled()) {
-										logger.info(ACCESS_NOT_AUTHORIZED_LOG_MSG);
-									}
-									throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
+									System.out
+											.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+									throw new AccessDeniedException(
+											String.format("Access Not Authorized"));
 								}
 							} else {
 								// this is collection request and controller
@@ -357,10 +348,10 @@ public class ResourceValidationFilter implements Filter {
 									invalid = false;
 								} else {
 									// not authorized for this resource
-									if(logger.isInfoEnabled()) {
-										logger.info(ACCESS_NOT_AUTHORIZED_LOG_MSG);
-									}
-									throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
+									System.out
+											.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+									throw new AccessDeniedException(
+											String.format("Access Not Authorized"));
 								}
 							}
 						}
@@ -372,10 +363,10 @@ public class ResourceValidationFilter implements Filter {
 						invalid = false;
 					} else {
 						// not authorized for this resource
-						if(logger.isInfoEnabled()) {
-							logger.info(ACCESS_NOT_AUTHORIZED_LOG_MSG);
-						}
-						throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
+						System.out
+								.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+						throw new AccessDeniedException(
+								String.format("Access Not Authorized"));
 					}
 				}
 
@@ -401,10 +392,10 @@ public class ResourceValidationFilter implements Filter {
 						invalid = false;
 					} else {
 						// not authorized for this resource
-						if(logger.isInfoEnabled()) {
-							logger.info(ACCESS_NOT_AUTHORIZED_LOG_MSG);
-						}
-						throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
+						System.out
+								.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+						throw new AccessDeniedException(
+								String.format("Access Not Authorized"));
 					}
 				}
 
@@ -417,10 +408,10 @@ public class ResourceValidationFilter implements Filter {
 						invalid = false;
 					} else {
 						// not authorized for this resource
-						if(logger.isInfoEnabled()) {
-							logger.info(ACCESS_NOT_AUTHORIZED_LOG_MSG);
-						}
-						throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
+						System.out
+								.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+						throw new AccessDeniedException(
+								String.format("Access Not Authorized"));
 					}
 				}
 			} else if (invalid && roles.contains("ROLE_TP_REGISTRATION")) {
@@ -454,43 +445,46 @@ public class ResourceValidationFilter implements Filter {
 
 						} else {
 							// not authorized for this resource
-							if(logger.isInfoEnabled()) {
-								logger.info(ACCESS_NOT_AUTHORIZED_LOG_MSG);
-							}
-							throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
+							System.out
+									.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+							throw new AccessDeniedException(
+									String.format("Access Not Authorized"));
 						}
 
 					} else {
 						// not authorized for this resource
-						if(logger.isInfoEnabled()) {
-							logger.info(ACCESS_NOT_AUTHORIZED_LOG_MSG);
-						}
-						throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
+						System.out
+								.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+						throw new AccessDeniedException(
+								String.format("Access Not Authorized"));
 					}
 
 				} else {
 					// not authorized for this resource
-					if(logger.isInfoEnabled()) {
-						logger.info(ACCESS_NOT_AUTHORIZED_LOG_MSG);
-					}
-					throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
+					System.out
+							.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+					throw new AccessDeniedException(
+							String.format("Access Not Authorized"));
 				}
 			}
 		}
 
-		if(logger.isInfoEnabled()) {
-			logger.info("ResourceValidationFilter: normal exit doFilter: invalid = " + invalid.toString() + "&n");
-		}
+		System.out.printf(
+				"ResourceValidationFilter: normal exit doFilter: invalid=%s\n",
+				invalid);
 
 		if (invalid) {
 			// not authorized for this resource
-			if(logger.isInfoEnabled()) {
-				logger.info(ACCESS_NOT_AUTHORIZED_LOG_MSG);
-			}
-			throw new AccessDeniedException(ACCESS_NOT_AUTHORIZED_EXCEPTION_MSG);
+			System.out
+					.printf("ResourceValidationFilter: doFilter - Access Not Authorized\n");
+			throw new AccessDeniedException(
+					String.format("Access Not Authorized"));
 		}
 
+		// TODO -- Verify contents of query parameters are properly formatted
+		
 		chain.doFilter(req, res);
+
 	}
 
 	@Override
