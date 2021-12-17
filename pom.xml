@@ -105,7 +105,7 @@
         <jackson2.version>2.2.2</jackson2.version>
 
         <!-- Hibernate / JPA -->
-        <hibernate.version>4.2.1.Final</hibernate.version>
+        <hibernate.version>5.4.24.Final</hibernate.version>
 
         <!-- Bean validation -->
         <hibernate-validator.version>4.3.1.Final</hibernate-validator.version>
