@@ -95,7 +95,7 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
         <!-- Spring -->
-        <spring.version>4.0.6.RELEASE</spring.version>
+        <spring.version>4.3.30.RELEASE</spring.version>
         <spring.security.version>3.2.3.RELEASE</spring.security.version>
         <spring-data-jpa.version>1.4.3.RELEASE</spring-data-jpa.version>
         <spring-security-oauth.version>2.0.2.RELEASE</spring-security-oauth.version>
