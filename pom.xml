@@ -113,7 +113,7 @@
         <!-- Database access -->
         <tomcat-jdbc.version>7.0.42</tomcat-jdbc.version>
         <ehcache.version>2.6.6</ehcache.version>
-        <hsqldb.version>2.3.0</hsqldb.version>
+        <hsqldb.version>2.7.1</hsqldb.version>
         <mysql.version>5.1.18</mysql.version>
 
         <maven.build.timestamp.format>yyyy/MM/dd hh:mm:ss a,z</maven.build.timestamp.format>
