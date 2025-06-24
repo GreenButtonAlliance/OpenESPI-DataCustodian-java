@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head}">
+    <title>Customer Portal - Home</title>
+</head>
+
+<body>
+    <nav th:replace="~{fragments/layout :: customerHeader}"></nav>
+
+    <div class="container">
+        <!-- Main hero unit for customer dashboard -->
+        <div class="hero-unit bg-success text-white p-5 rounded mt-4">
+            <h1>Welcome Retail Customer</h1>
+            <p class="lead">
+                Access your energy usage data, manage your Green Button authorizations, and explore your consumption patterns.
+            </p>
+        </div>
+
+        <!-- Customer Dashboard Cards -->
+        <div class="row mt-5">
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="bi bi-lightning-charge"></i> My Usage Points
+                        </h5>
+                        <p class="card-text">
+                            View and manage your energy usage points. Download your Green Button data or authorize third-party access.
+                        </p>
+                        <a href="/customer/usagepoints" class="btn btn-success">View Usage Points</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="bi bi-people"></i> Third Party Services
+                        </h5>
+                        <p class="card-text">
+                            Manage authorizations for third-party applications that have access to your energy data.
+                        </p>
+                        <a href="/customer/thirdparties" class="btn btn-primary">Manage Authorizations</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="bi bi-download"></i> Download My Data
+                        </h5>
+                        <p class="card-text">
+                            Export your energy usage data in Green Button format for your personal use or analysis.
+                        </p>
+                        <a href="/customer/download" class="btn btn-info">Download Data</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="bi bi-graph-up"></i> Usage Analytics
+                        </h5>
+                        <p class="card-text">
+                            View charts and analytics of your energy consumption patterns over time.
+                        </p>
+                        <a href="/customer/analytics" class="btn btn-warning">View Analytics</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-5">
+
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

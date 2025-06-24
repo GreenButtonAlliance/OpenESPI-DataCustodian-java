@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head}">
+    <title>Green Button Data Custodian - Home</title>
+</head>
+
+<body>
+    <nav th:replace="~{fragments/layout :: header}"></nav>
+
+    <div class="container">
+        <!-- Main hero unit for a primary marketing message or call to action -->
+        <div class="hero-unit bg-primary text-white p-5 rounded mt-4">
+            <h2>Welcome to the <a href="https://www.greenbuttonalliance.org" class="text-white">Green Button Alliance</a> Data Custodian</h2>
+            <p class="lead">
+                The Green Button Alliance has, with the support of the open source community, prepared a reference Green Button
+                Data Custodian implementation. This implementation supports a full complement of Green Button facilities and, as an 
+                <a href="https://github.com/GreenButtonAlliance" class="text-white">Open Source project</a>, is freely available for download by any interested parties.
+            </p>
+            <div class="d-flex flex-wrap gap-3 mt-4">
+                <a href="https://www.greenbuttondata.org" class="btn btn-light btn-lg">Learn more about Green Button &raquo;</a>
+                <a href="https://github.com/GreenButtonAlliance" class="btn btn-outline-light btn-lg">View Open Source Projects &raquo;</a>
+            </div>
+        </div>
+
+        <!-- Example row of columns -->
+        <div class="row mt-5">
+            <div class="col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h3 class="card-title">Data Custodian Services</h3>
+                        <p class="card-text">
+                            Green Button Data Custodians may, with the authorization of the Retail Customer, publish energy and resource usage information 
+                            to registered Green Button Third Party Service Providers. These published information streams allow
+                            Third Parties to provide new and innovative services to energy consumers!
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-primary" href="#" role="button">View details &raquo;</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h3 class="card-title">Developers Guide</h3>
+                        <p class="card-text">
+                            The Green Button Developers Guide provides both overview and detailed information on the mechanisms of Green Button.
+                            You can learn about Atom feeds and the OData standard from which Green Button was derived, as well as the details
+                            of the Energy Usage Information contained in Green Button feeds.
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-primary" href="https://greenbuttonalliance.github.io/OpenESPI-GreenButton-API-Documentation/" target="_blank" role="button">View details &raquo;</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h3 class="card-title">API Reference</h3>
+                        <p class="card-text">
+                            Green Button services are also available via RESTful APIs. APIs allow the developer to use the Green Button Alliance Data Custodian and
+                            Third Party servers to develop new applications, providing services and features to better engage the Retail Customer
+                            to understand their energy usage.
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-primary" href="https://greenbuttonalliance.github.io/OpenESPI-GreenButton-API-Documentation/API/" target="_blank" role="button">View details &raquo;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

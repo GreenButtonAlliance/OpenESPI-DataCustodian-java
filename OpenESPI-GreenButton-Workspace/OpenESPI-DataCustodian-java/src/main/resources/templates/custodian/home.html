@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head}">
+    <title>Custodian Portal - Dashboard</title>
+</head>
+
+<body>
+    <nav th:replace="~{fragments/layout :: custodianHeader}"></nav>
+
+    <div class="container">
+        <!-- Main hero unit for custodian dashboard -->
+        <div class="hero-unit bg-warning text-dark p-5 rounded mt-4">
+            <h1>Data Custodian Dashboard</h1>
+            <p class="lead">
+                Manage retail customers, monitor OAuth authorizations, and administer Green Button data access.
+            </p>
+        </div>
+
+        <!-- Custodian Management Cards -->
+        <div class="row mt-5">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-people fs-1 text-primary"></i>
+                        <h5 class="card-title mt-3">Retail Customers</h5>
+                        <p class="card-text">Manage customer accounts and their usage points.</p>
+                        <a href="/custodian/retailcustomers" class="btn btn-primary">Manage Customers</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-key fs-1 text-success"></i>
+                        <h5 class="card-title mt-3">OAuth Tokens</h5>
+                        <p class="card-text">Monitor and manage OAuth access tokens.</p>
+                        <a href="/custodian/oauth/tokens" class="btn btn-success">View Tokens</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-upload fs-1 text-info"></i>
+                        <h5 class="card-title mt-3">Data Upload</h5>
+                        <p class="card-text">Upload customer usage data in bulk.</p>
+                        <a href="/custodian/upload" class="btn btn-info">Upload Data</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-gear fs-1 text-warning"></i>
+                        <h5 class="card-title mt-3">System Settings</h5>
+                        <p class="card-text">Configure system-wide settings and preferences.</p>
+                        <a href="/custodian/settings" class="btn btn-warning">Settings</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Dashboard -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <h3>System Overview</h3>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 th:text="${totalCustomers ?: '0'}">0</h4>
+                                <p class="mb-0">Total Customers</p>
+                            </div>
+                            <i class="bi bi-person-check fs-1"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 th:text="${activeTokens ?: '0'}">0</h4>
+                                <p class="mb-0">Active Tokens</p>
+                            </div>
+                            <i class="bi bi-shield-check fs-1"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 th:text="${totalUsagePoints ?: '0'}">0</h4>
+                                <p class="mb-0">Usage Points</p>
+                            </div>
+                            <i class="bi bi-lightning fs-1"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card bg-warning text-dark">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 th:text="${todayRequests ?: '0'}">0</h4>
+                                <p class="mb-0">Today's API Requests</p>
+                            </div>
+                            <i class="bi bi-graph-up fs-1"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-5">
+
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+</body>
+</html>

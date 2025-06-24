@@ -1,0 +1,180 @@
+# OpenESPI Data Custodian Resource Server Configuration
+# Spring Boot 3.5 configuration with multi-environment support
+
+spring:
+  application:
+    name: OpenESPI-DataCustodian
+  
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev-mysql}
+  
+  # JPA Configuration
+  jpa:
+    open-in-view: false
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
+        generate_statistics: false
+        cache:
+          use_second_level_cache: false
+          use_query_cache: false
+  
+  # Flyway Database Migration
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration/mysql
+    table: flyway_schema_history
+  
+  # Jackson JSON Configuration
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+      indent-output: true
+    deserialization:
+      fail-on-unknown-properties: false
+    default-property-inclusion: NON_NULL
+    time-zone: UTC
+    date-format: yyyy-MM-dd'T'HH:mm:ss.SSSXXX
+  
+  # Cache Configuration
+  cache:
+    type: simple
+    cache-names:
+      - espi-resources
+      - espi-usage-points
+      - espi-authorizations
+  
+  # Thymeleaf Configuration
+  thymeleaf:
+    cache: false # Set to true in production
+    check-template: true
+    check-template-location: true
+    encoding: UTF-8
+    mode: HTML
+    prefix: classpath:/templates/
+    suffix: .html
+    servlet:
+      content-type: text/html
+      produce-partial-output-while-processing: true
+
+  # Web Configuration
+  web:
+    resources:
+      add-mappings: true
+      static-locations: classpath:/static/
+      cache:
+        period: 3600s
+  
+  # MVC Configuration  
+  mvc:
+    view:
+      prefix: classpath:/templates/
+      suffix: .html
+    static-path-pattern: /**
+  
+  # Security Configuration
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${espi.authorization-server.issuer-uri:http://localhost:8080}
+          jwk-set-uri: ${espi.authorization-server.jwk-set-uri:http://localhost:8080/.well-known/jwks.json}
+
+# Server Configuration  
+server:
+  port: 8081
+  servlet:
+    context-path: /DataCustodian
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain,application/atom+xml
+  error:
+    include-stacktrace: never
+    include-message: always
+
+# Actuator Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: when-authorized
+    metrics:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    tags:
+      application: ${spring.application.name}
+
+# ESPI Data Custodian Configuration
+espi:
+  datacustodian:
+    base-url: ${DATACUSTODIAN_BASE_URL:http://localhost:8081/DataCustodian}
+    name: "Green Button Alliance Data Custodian"
+    description: "NAESB ESPI 1.0 Data Custodian Implementation"
+    contact:
+      name: "Green Button Alliance"
+      url: "https://www.greenbuttonalliance.org"
+      email: "info@greenbuttonalliance.org"
+  
+  authorization-server:
+    issuer-uri: ${AUTHORIZATION_SERVER_ISSUER_URI:http://localhost:8080}
+    jwk-set-uri: ${AUTHORIZATION_SERVER_JWK_SET_URI:http://localhost:8080/.well-known/jwks.json}
+    token-endpoint: ${AUTHORIZATION_SERVER_TOKEN_ENDPOINT:http://localhost:8080/oauth/token}
+    introspection-endpoint: ${AUTHORIZATION_SERVER_INTROSPECTION_ENDPOINT:http://localhost:8080/oauth/introspect}
+  
+  # ESPI Resource Configuration
+  resources:
+    base-uri: ${espi.datacustodian.base-url}/espi/1_1/resource
+    page-size: 50
+    max-page-size: 200
+    
+  # XML Processing Configuration
+  xml:
+    pretty-print: true
+    include-namespaces: true
+
+# Logging Configuration
+logging:
+  level:
+    org.greenbuttonalliance.espi: INFO
+    org.springframework.security: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: WARN
+    org.hibernate.type: WARN
+    org.flywaydb: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+# SpringDoc OpenAPI Configuration
+springdoc:
+  api-docs:
+    path: /api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    operations-sorter: alpha
+    tags-sorter: alpha
+  show-actuator: true
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
