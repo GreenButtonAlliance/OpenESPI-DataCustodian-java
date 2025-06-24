@@ -1,4 +1,5 @@
-# Contributing to OpenESPI-DataCustodian-java
+#Contributing to OpenESPI-Common-java
+
 
 ## Have a Question or Problem?
 
@@ -75,7 +76,7 @@ Before you submit your pull request consider the following guidelines:
 
 That's it! Thank you for your contribution!
 
-[github]: https://github.com/greenbuttonalliance/OpenESPI-DataCustodian-java
+[github]: https://github.com/greenbuttonalliance/OpenESPI-Common-java
 [list]: https://groups.google.com/forum/?fromgroups#!forum/angular
 [groups]: https://groups.google.com/forum/?fromgroups#!forum/angular
 [greenbutton-dev]: mailto:greenbutton-dev@googlegroups.com

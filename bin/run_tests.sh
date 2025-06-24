@@ -19,4 +19,4 @@
 #
 #
 
-mvn -DskipTests=true clean
+mvn clean -DskipTests=true package cobertura:cobertura

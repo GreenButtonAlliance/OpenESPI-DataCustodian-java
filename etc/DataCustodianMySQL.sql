@@ -20,11 +20,11 @@
 
 CREATE DATABASE  IF NOT EXISTS `datacustodian` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `datacustodian`;
--- MySQL dump 10.13  Distrib 5.5.34, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.35, for debian-linux-gnu (x86_64)
 --
--- Host: 127.0.0.1    Database: datacustodian
+-- Host: localhost    Database: datacustodian
 -- ------------------------------------------------------
--- Server version	5.5.32
+-- Server version	5.5.35-0ubuntu0.12.04.2
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -51,9 +51,12 @@ CREATE TABLE `line_item` (
   `note` varchar(255) DEFAULT NULL,
   `rounding` bigint(20) DEFAULT NULL,
   `electric_power_usage_summary_id` bigint(20) DEFAULT NULL,
+  `usage_summary_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_bdcc7fff549f43de9c07ff7057e` (`electric_power_usage_summary_id`),
-  CONSTRAINT `FK_bdcc7fff549f43de9c07ff7057e` FOREIGN KEY (`electric_power_usage_summary_id`) REFERENCES `electric_power_usage_summaries` (`id`)
+  KEY `FK_5910ba965b7e41cd9bbe7949fbb` (`electric_power_usage_summary_id`),
+  KEY `fk_line_item_1_idx` (`usage_summary_id`),
+  CONSTRAINT `FK_5910ba965b7e41cd9bbe7949fbb` FOREIGN KEY (`electric_power_usage_summary_id`) REFERENCES `electric_power_usage_summaries` (`id`),
+  CONSTRAINT `fk_line_item_1` FOREIGN KEY (`usage_summary_id`) REFERENCES `usage_summaries` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -67,8 +70,23 @@ DROP TABLE IF EXISTS `application_information_scopes`;
 CREATE TABLE `application_information_scopes` (
   `application_information_id` bigint(20) NOT NULL,
   `scope` varchar(255) DEFAULT NULL,
-  KEY `FK_d727e6ae602c41169a4941ffa6e` (`application_information_id`),
-  CONSTRAINT `FK_d727e6ae602c41169a4941ffa6e` FOREIGN KEY (`application_information_id`) REFERENCES `application_information` (`id`)
+  KEY `FK_61a6f8b0091946139543874d559` (`application_information_id`),
+  CONSTRAINT `FK_61a6f8b0091946139543874d559` FOREIGN KEY (`application_information_id`) REFERENCES `application_information` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `application_information_grant_types`
+--
+
+DROP TABLE IF EXISTS `application_information_grant_types`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `application_information_grant_types` (
+  `application_information_id` bigint(20) NOT NULL,
+  `grantTypes` varchar(255) DEFAULT NULL,
+  KEY `FK_61a6f8b0091946139543874e559` (`application_information_id`),
+  CONSTRAINT `FK_61a6f8b0091946139543874e559` FOREIGN KEY (`application_information_id`) REFERENCES `application_information` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -86,9 +104,13 @@ CREATE TABLE `interval_readings` (
   `start` bigint(20) DEFAULT NULL,
   `value` bigint(20) DEFAULT NULL,
   `interval_block_id` bigint(20) DEFAULT NULL,
+  `consumptionTier` bigint(20) DEFAULT NULL,
+  `tou` bigint(20) DEFAULT NULL,
+  `cpp` bigint(20) DEFAULT NULL,
+  
   PRIMARY KEY (`id`),
-  KEY `FK_748673cd4a134cb9baadc856aa6` (`interval_block_id`),
-  CONSTRAINT `FK_748673cd4a134cb9baadc856aa6` FOREIGN KEY (`interval_block_id`) REFERENCES `interval_blocks` (`id`)
+  KEY `FK_982b1bcd359b47fcb5823a43d21` (`interval_block_id`),
+  CONSTRAINT `FK_982b1bcd359b47fcb5823a43d21` FOREIGN KEY (`interval_block_id`) REFERENCES `interval_blocks` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -102,12 +124,10 @@ DROP TABLE IF EXISTS `subscriptions_usage_points`;
 CREATE TABLE `subscriptions_usage_points` (
   `subscriptions_id` bigint(20) NOT NULL,
   `usagePoints_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`subscriptions_id`,`usagePoints_id`),
-  KEY `FK_9e0c6ce489b349b087c34d4cf1d` (`usagePoints_id`),
-  KEY `FK_d5d3dd36054d4e9a8c113a9e24a` (`subscriptions_id`),
-  CONSTRAINT `FK_d5d3dd36054d4e9a8c113a9e24a` FOREIGN KEY (`subscriptions_id`) REFERENCES `subscriptions` (`id`),
-  CONSTRAINT `FK_9e0c6ce489b349b087c34d4cf1d` FOREIGN KEY (`usagePoints_id`) REFERENCES `usage_points` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `FK_862cd528c4954f4cb2bcdadaf08` (`usagePoints_id`),
+  KEY `FK_c138e968ff2d4cd49398210f48c` (`subscriptions_id`),
+  CONSTRAINT `FK_c138e968ff2d4cd49398210f48c` FOREIGN KEY (`subscriptions_id`) REFERENCES `subscriptions` (`id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,36 +150,21 @@ CREATE TABLE `usage_points` (
   `roleFlags` tinyblob,
   `status` smallint(6) DEFAULT NULL,
   `uri` varchar(255) DEFAULT NULL,
-  `local_time_parameters_id` bigint(20) DEFAULT NULL,
+  `localTimeParameters_id` bigint(20) DEFAULT NULL,
   `retail_customer_id` bigint(20) DEFAULT NULL,
   `serviceCategory_kind` bigint(20) NOT NULL,
   `serviceDeliveryPoint_id` bigint(20) DEFAULT NULL,
   `subscription_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_0a95ac0cd0334d50ae2083fa9d8` (`uuid`),
-  KEY `FK_d897e553cc63448fb7d7990fc1b` (`local_time_parameters_id`),
-  KEY `FK_43c158efb2df41df8bbd3da31fe` (`retail_customer_id`),
-  KEY `FK_4a2058e348524726aa217859989` (`serviceCategory_kind`),
-  KEY `FK_9f858847bb7a4babb376b7abbf9` (`serviceDeliveryPoint_id`),
-  KEY `FK_8b298f6321a74452b841eaea88f` (`subscription_id`),
-  CONSTRAINT `FK_8b298f6321a74452b841eaea88f` FOREIGN KEY (`subscription_id`) REFERENCES `subscriptions` (`id`),
-  CONSTRAINT `FK_43c158efb2df41df8bbd3da31fe` FOREIGN KEY (`retail_customer_id`) REFERENCES `retail_customers` (`id`),
-  CONSTRAINT `FK_4a2058e348524726aa217859989` FOREIGN KEY (`serviceCategory_kind`) REFERENCES `service_categories` (`kind`),
-  CONSTRAINT `FK_9f858847bb7a4babb376b7abbf9` FOREIGN KEY (`serviceDeliveryPoint_id`) REFERENCES `service_delivery_points` (`id`),
-  CONSTRAINT `FK_d897e553cc63448fb7d7990fc1b` FOREIGN KEY (`local_time_parameters_id`) REFERENCES `time_configurations` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `service_categories`
---
-
-DROP TABLE IF EXISTS `service_categories`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `service_categories` (
-  `kind` bigint(20) NOT NULL,
-  PRIMARY KEY (`kind`)
+  UNIQUE KEY `UK_d3b5c06a4b994ad8906ead9757f` (`uuid`),
+  KEY `FK_9fa5cbe1eaeb4dbfb7209cb0213` (`localTimeParameters_id`),
+  KEY `FK_41107ba4248e4bf79b62c405385` (`retail_customer_id`),
+  KEY `FK_c3909436c6934c8bb14da2bb93b` (`serviceDeliveryPoint_id`),
+  KEY `FK_53bcef9479ff4522b63a46e018c` (`subscription_id`),
+  CONSTRAINT `FK_53bcef9479ff4522b63a46e018c` FOREIGN KEY (`subscription_id`) REFERENCES `subscriptions` (`id`),
+  CONSTRAINT `FK_41107ba4248e4bf79b62c405385` FOREIGN KEY (`retail_customer_id`) REFERENCES `retail_customers` (`id`),
+  CONSTRAINT `FK_9fa5cbe1eaeb4dbfb7209cb0213` FOREIGN KEY (`localTimeParameters_id`) REFERENCES `time_configurations` (`id`),
+  CONSTRAINT `FK_c3909436c6934c8bb14da2bb93b` FOREIGN KEY (`serviceDeliveryPoint_id`) REFERENCES `service_delivery_points` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -183,11 +188,11 @@ CREATE TABLE `meter_readings` (
   `reading_type_id` bigint(20) DEFAULT NULL,
   `usage_point_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_af083fa9508d4967be2f673eb20` (`uuid`),
-  KEY `FK_d97631730e244a8b8c224b87afe` (`reading_type_id`),
-  KEY `FK_2fa78fe5040e42b3ade812bbb57` (`usage_point_id`),
-  CONSTRAINT `FK_2fa78fe5040e42b3ade812bbb57` FOREIGN KEY (`usage_point_id`) REFERENCES `usage_points` (`id`),
-  CONSTRAINT `FK_d97631730e244a8b8c224b87afe` FOREIGN KEY (`reading_type_id`) REFERENCES `reading_types` (`id`)
+  UNIQUE KEY `UK_445adb83af2e4fa4928a31692e4` (`uuid`),
+  KEY `FK_67563dc6050e46ba9fcbc86b721` (`reading_type_id`),
+  KEY `FK_8eaf32259169401e8cae99a5891` (`usage_point_id`),
+  CONSTRAINT `FK_8eaf32259169401e8cae99a5891` FOREIGN KEY (`usage_point_id`) REFERENCES `usage_points` (`id`),
+  CONSTRAINT `FK_67563dc6050e46ba9fcbc86b721` FOREIGN KEY (`reading_type_id`) REFERENCES `reading_types` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -229,18 +234,18 @@ CREATE TABLE `reading_types` (
   `tou` varchar(255) DEFAULT NULL,
   `uom` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_173396c4fc324010bb0e5d86577` (`uuid`)
+  UNIQUE KEY `UK_0246e3bcf2a34f8f9a8c992140f` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `batchlist`
+-- Table structure for table `BatchList`
 --
 
-DROP TABLE IF EXISTS `batchlist`;
+DROP TABLE IF EXISTS `BatchList`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `batchlist` (
+CREATE TABLE `BatchList` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -267,9 +272,9 @@ CREATE TABLE `interval_blocks` (
   `start` bigint(20) DEFAULT NULL,
   `meter_reading_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_425b1ddd7891434087b12b606b1` (`uuid`),
-  KEY `FK_ec77d3afb7854056ac33704e412` (`meter_reading_id`),
-  CONSTRAINT `FK_ec77d3afb7854056ac33704e412` FOREIGN KEY (`meter_reading_id`) REFERENCES `meter_readings` (`id`)
+  UNIQUE KEY `UK_52e33c3a319146ea9dcc64bebd0` (`uuid`),
+  KEY `FK_23dcffa0baa44ffb817767d815f` (`meter_reading_id`),
+  CONSTRAINT `FK_23dcffa0baa44ffb817767d815f` FOREIGN KEY (`meter_reading_id`) REFERENCES `meter_readings` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -307,9 +312,9 @@ CREATE TABLE `electric_power_quality_summaries` (
   `tempOvervoltage` bigint(20) DEFAULT NULL,
   `usage_point_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_9871bf069e9d423ead69afd6c86` (`uuid`),
-  KEY `FK_141b7ab8835b47929b75e7a8628` (`usage_point_id`),
-  CONSTRAINT `FK_141b7ab8835b47929b75e7a8628` FOREIGN KEY (`usage_point_id`) REFERENCES `usage_points` (`id`)
+  UNIQUE KEY `UK_a2b7b05e45914898bb9f3e8f2f7` (`uuid`),
+  KEY `FK_804ec1c7cfd4488a8fa95388b74` (`usage_point_id`),
+  CONSTRAINT `FK_804ec1c7cfd4488a8fa95388b74` FOREIGN KEY (`usage_point_id`) REFERENCES `usage_points` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -324,8 +329,8 @@ CREATE TABLE `meter_reading_related_links` (
   `meter_reading_id` bigint(20) NOT NULL,
   `href` varchar(255) DEFAULT NULL,
   `rel` varchar(255) DEFAULT NULL,
-  KEY `FK_7e33a480564845a190e65e04f54` (`meter_reading_id`),
-  CONSTRAINT `FK_7e33a480564845a190e65e04f54` FOREIGN KEY (`meter_reading_id`) REFERENCES `meter_readings` (`id`)
+  KEY `FK_bf71138af7384923bd0b190ac4c` (`meter_reading_id`),
+  CONSTRAINT `FK_bf71138af7384923bd0b190ac4c` FOREIGN KEY (`meter_reading_id`) REFERENCES `meter_readings` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -351,7 +356,7 @@ CREATE TABLE `time_configurations` (
   `dstStartRule` tinyblob,
   `tzOffset` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_76ecb96f39514ff69e2908bc1f7` (`uuid`)
+  UNIQUE KEY `UK_322e8ed3a1024462a1061593ae2` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -367,9 +372,9 @@ CREATE TABLE `authorizations` (
   `description` varchar(255) DEFAULT NULL,
   `published` datetime DEFAULT NULL,
   `self_link_href` varchar(255) DEFAULT NULL,
-  `self_link_rel` varchar(255) DEFAULT NULL,
+  `self_link_rel` varchar(255) DEFAULT 'self',
   `up_link_href` varchar(255) DEFAULT NULL,
-  `up_link_rel` varchar(255) DEFAULT NULL,
+  `up_link_rel` varchar(255) DEFAULT 'up',
   `updated` datetime DEFAULT NULL,
   `uuid` varchar(255) NOT NULL,
   `access_token` varchar(255) DEFAULT NULL,
@@ -390,16 +395,15 @@ CREATE TABLE `authorizations` (
   `scope` varchar(255) DEFAULT NULL,
   `state` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
-  `subscriptionURI` varchar(255) DEFAULT NULL,
   `third_party` varchar(255) DEFAULT NULL,
   `tokenType` int(11) DEFAULT NULL,
   `application_information_id` bigint(20) DEFAULT NULL,
   `retail_customer_id` bigint(20) DEFAULT NULL,
+  `subscription_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_fb1cda8fcdd44bf392f5cb1c73c` (`application_information_id`),
-  KEY `FK_22e197ff014f42f6b48b66487d4` (`retail_customer_id`),
-  CONSTRAINT `FK_22e197ff014f42f6b48b66487d4` FOREIGN KEY (`retail_customer_id`) REFERENCES `retail_customers` (`id`),
-  CONSTRAINT `FK_fb1cda8fcdd44bf392f5cb1c73c` FOREIGN KEY (`application_information_id`) REFERENCES `application_information` (`id`)
+  KEY `FK_d0761ae9d2dd44c49867ac4ec4b` (`application_information_id`),
+  KEY `FK_a4fccef421a14e0ead5c1b9753d` (`retail_customer_id`),
+  KEY `FK_subscriptionkey` (`subscription_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -415,8 +419,8 @@ CREATE TABLE `reading_qualities` (
   `quality` varchar(255) DEFAULT NULL,
   `interval_reading_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_97c871835f1f46aca93c7e97503` (`interval_reading_id`),
-  CONSTRAINT `FK_97c871835f1f46aca93c7e97503` FOREIGN KEY (`interval_reading_id`) REFERENCES `interval_readings` (`id`)
+  KEY `FK_11d630a57d684f26894e1cd6aa6` (`interval_reading_id`),
+  CONSTRAINT `FK_11d630a57d684f26894e1cd6aa6` FOREIGN KEY (`interval_reading_id`) REFERENCES `interval_readings` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -432,9 +436,9 @@ CREATE TABLE `subscriptions` (
   `description` varchar(255) DEFAULT NULL,
   `published` datetime DEFAULT NULL,
   `self_link_href` varchar(255) DEFAULT NULL,
-  `self_link_rel` varchar(255) DEFAULT NULL,
+  `self_link_rel` varchar(255) DEFAULT 'self',
   `up_link_href` varchar(255) DEFAULT NULL,
-  `up_link_rel` varchar(255) DEFAULT NULL,
+  `up_link_rel` varchar(255) DEFAULT 'up',
   `updated` datetime DEFAULT NULL,
   `uuid` varchar(255) NOT NULL,
   `hashedId` varchar(255) DEFAULT NULL,
@@ -443,12 +447,11 @@ CREATE TABLE `subscriptions` (
   `authorization_id` bigint(20) DEFAULT NULL,
   `retail_customer_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_f3fd6642f226406fab39c52ad05` (`applicationInformation_id`),
-  KEY `FK_86dc4fa295244d7faa22b02cc8d` (`authorization_id`),
-  KEY `FK_deadaa535a9249b2ac0d9255829` (`retail_customer_id`),
-  CONSTRAINT `FK_deadaa535a9249b2ac0d9255829` FOREIGN KEY (`retail_customer_id`) REFERENCES `retail_customers` (`id`),
-  CONSTRAINT `FK_86dc4fa295244d7faa22b02cc8d` FOREIGN KEY (`authorization_id`) REFERENCES `authorizations` (`id`),
-  CONSTRAINT `FK_f3fd6642f226406fab39c52ad05` FOREIGN KEY (`applicationInformation_id`) REFERENCES `application_information` (`id`)
+  KEY `FK_a027c87418ce4d7abbde7ee5eec` (`applicationInformation_id`),
+  KEY `FK_a68a2938cbc142c3b82f57cb4b1` (`authorization_id`),
+  KEY `FK_e38a940ce8ed4d8983d1d5dac6e` (`retail_customer_id`),
+  CONSTRAINT `FK_e38a940ce8ed4d8983d1d5dac6e` FOREIGN KEY (`retail_customer_id`) REFERENCES `retail_customers` (`id`),
+  CONSTRAINT `FK_a027c87418ce4d7abbde7ee5eec` FOREIGN KEY (`applicationInformation_id`) REFERENCES `application_information` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -463,8 +466,8 @@ CREATE TABLE `usage_point_related_links` (
   `usage_point_id` bigint(20) NOT NULL,
   `href` varchar(255) DEFAULT NULL,
   `rel` varchar(255) DEFAULT NULL,
-  KEY `FK_e45147476a5b4f0389a709ff6b4` (`usage_point_id`),
-  CONSTRAINT `FK_e45147476a5b4f0389a709ff6b4` FOREIGN KEY (`usage_point_id`) REFERENCES `usage_points` (`id`)
+  KEY `FK_4f728266adfa41b2b8abc65c6e9` (`usage_point_id`),
+  CONSTRAINT `FK_4f728266adfa41b2b8abc65c6e9` FOREIGN KEY (`usage_point_id`) REFERENCES `usage_points` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -537,9 +540,102 @@ CREATE TABLE `electric_power_usage_summaries` (
   `statusTimeStamp` bigint(20) NOT NULL,
   `usage_point_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_a9cf6ab8e3ac450895b8d3eb35b` (`uuid`),
-  KEY `FK_fd859b902ffd44688b9cbf068f0` (`usage_point_id`),
-  CONSTRAINT `FK_fd859b902ffd44688b9cbf068f0` FOREIGN KEY (`usage_point_id`) REFERENCES `usage_points` (`id`)
+  UNIQUE KEY `UK_7b7325ca02a9414ea62fcabc984` (`uuid`),
+  KEY `FK_73bd63f6333f44ff8c7f628f79d` (`usage_point_id`),
+  CONSTRAINT `FK_73bd63f6333f44ff8c7f628f79d` FOREIGN KEY (`usage_point_id`) REFERENCES `usage_points` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `usage_summaries`
+--
+
+DROP TABLE IF EXISTS `usage_summaries`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `usage_summaries` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `description` varchar(255) DEFAULT NULL,
+  `published` datetime DEFAULT NULL,
+  `self_link_href` varchar(255) DEFAULT NULL,
+  `self_link_rel` varchar(255) DEFAULT NULL,
+  `up_link_href` varchar(255) DEFAULT NULL,
+  `up_link_rel` varchar(255) DEFAULT NULL,
+  `updated` datetime DEFAULT NULL,
+  `uuid` varchar(255) NOT NULL,
+  `billLastPeriod` bigint(20) DEFAULT NULL,
+  `billToDate` bigint(20) DEFAULT NULL,
+  `billingPeriod_duration` bigint(20) DEFAULT NULL,
+  `billingPeriod_start` bigint(20) DEFAULT NULL,
+  `costAdditionalDetailLastPeriod` bigint(20) DEFAULT NULL,
+  `currency` varchar(255) DEFAULT NULL,
+  `currentBillingPeriodOverAllConsumption_powerOfTenMultiplier` varchar(255) DEFAULT NULL,
+  `currentBillingPeriodOverAllConsumption_timeStamp` bigint(20) DEFAULT NULL,
+  `currentBillingPeriodOverAllConsumption_uom` varchar(255) DEFAULT NULL,
+  `currentBillingPeriodOverAllConsumption_value` bigint(20) DEFAULT NULL,
+  `currentDayLastYearNetConsumption_powerOfTenMultiplier` varchar(255) DEFAULT NULL,
+  `currentDayLastYearNetConsumption_timeStamp` bigint(20) DEFAULT NULL,
+  `currentDayLastYearNetConsumption_uom` varchar(255) DEFAULT NULL,
+  `currentDayLastYearNetConsumption_value` bigint(20) DEFAULT NULL,
+  `currentDayNetConsumption_powerOfTenMultiplier` varchar(255) DEFAULT NULL,
+  `currentDayNetConsumption_timeStamp` bigint(20) DEFAULT NULL,
+  `currentDayNetConsumption_uom` varchar(255) DEFAULT NULL,
+  `currentDayNetConsumption_value` bigint(20) DEFAULT NULL,
+  `currentDayOverallConsumption_powerOfTenMultiplier` varchar(255) DEFAULT NULL,
+  `currentDayOverallConsumption_timeStamp` bigint(20) DEFAULT NULL,
+  `currentDayOverallConsumption_uom` varchar(255) DEFAULT NULL,
+  `currentDayOverallConsumption_value` bigint(20) DEFAULT NULL,
+  `overallConsumptionLastPeriod_powerOfTenMultiplier` varchar(255) DEFAULT NULL,
+  `overallConsumptionLastPeriod_timeStamp` bigint(20) DEFAULT NULL,
+  `overallConsumptionLastPeriod_uom` varchar(255) DEFAULT NULL,
+  `overallConsumptionLastPeriod_value` bigint(20) DEFAULT NULL,
+  `peakDemand_powerOfTenMultiplier` varchar(255) DEFAULT NULL,
+  `peakDemand_timeStamp` bigint(20) DEFAULT NULL,
+  `peakDemand_uom` varchar(255) DEFAULT NULL,
+  `peakDemand_value` bigint(20) DEFAULT NULL,
+  `previousDayLastYearOverallConsumption_powerOfTenMultiplier` varchar(255) DEFAULT NULL,
+  `previousDayLastYearOverallConsumption_timeStamp` bigint(20) DEFAULT NULL,
+  `previousDayLastYearOverallConsumption_uom` varchar(255) DEFAULT NULL,
+  `previousDayLastYearOverallConsumption_value` bigint(20) DEFAULT NULL,
+  `previousDayNetConsumption_powerOfTenMultiplier` varchar(255) DEFAULT NULL,
+  `previousDayNetConsumption_timeStamp` bigint(20) DEFAULT NULL,
+  `previousDayNetConsumption_uom` varchar(255) DEFAULT NULL,
+  `previousDayNetConsumption_value` bigint(20) DEFAULT NULL,
+  `previousDayOverallConsumption_powerOfTenMultiplier` varchar(255) DEFAULT NULL,
+  `previousDayOverallConsumption_timeStamp` bigint(20) DEFAULT NULL,
+  `previousDayOverallConsumption_uom` varchar(255) DEFAULT NULL,
+  `previousDayOverallConsumption_value` bigint(20) DEFAULT NULL,
+  `qualityOfReading` varchar(255) DEFAULT NULL,
+  `ratchetDemand_powerOfTenMultiplier` varchar(255) DEFAULT NULL,
+  `ratchetDemand_timeStamp` bigint(20) DEFAULT NULL,
+  `ratchetDemand_uom` varchar(255) DEFAULT NULL,
+  `ratchetDemand_value` bigint(20) DEFAULT NULL,
+  `ratchetDemandPeriod_duration` bigint(20) DEFAULT NULL,
+  `ratchetDemandPeriod_start` bigint(20) DEFAULT NULL,
+  `statusTimeStamp` bigint(20) NOT NULL,
+  `usage_point_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uuid_UNIQUE` (`uuid`),
+  KEY `fk_usage_summaries_1` (`usage_point_id`),
+  CONSTRAINT `fk_usage_summaries_1` FOREIGN KEY (`usage_point_id`) REFERENCES `usage_points` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `reading_types_meter_readings`
+--
+
+DROP TABLE IF EXISTS `reading_types_meter_readings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `reading_types_meter_readings` (
+  `reading_types_id` bigint(20) NOT NULL,
+  `meterReadings_id` bigint(20) NOT NULL,
+  UNIQUE KEY `UK_47a670721527488b84a5a98d629` (`meterReadings_id`),
+  KEY `FK_041b1404ae52437480cb75e6966` (`meterReadings_id`),
+  KEY `FK_5268261ff37f4147a4d1250213f` (`reading_types_id`),
+  CONSTRAINT `FK_5268261ff37f4147a4d1250213f` FOREIGN KEY (`reading_types_id`) REFERENCES `reading_types` (`id`),
+  CONSTRAINT `FK_041b1404ae52437480cb75e6966` FOREIGN KEY (`meterReadings_id`) REFERENCES `meter_readings` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -560,14 +656,14 @@ CREATE TABLE `retail_customers` (
   `up_link_rel` varchar(255) DEFAULT NULL,
   `updated` datetime DEFAULT NULL,
   `uuid` varchar(255) NOT NULL,
-  `enabled` boolean NOT NULL,
+  `enabled` bit(1) NOT NULL,
   `first_name` varchar(30) NOT NULL,
   `last_name` varchar(30) NOT NULL,
   `password` varchar(100) DEFAULT NULL,
   `role` varchar(255) NOT NULL,
   `username` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -595,6 +691,7 @@ DROP TABLE IF EXISTS `application_information`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `application_information` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `kind` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `published` datetime DEFAULT NULL,
   `self_link_href` varchar(255) DEFAULT NULL,
@@ -621,7 +718,6 @@ CREATE TABLE `application_information` (
   `dataCustodianId` varchar(64) DEFAULT NULL,
   `dataCustodianResourceEndpoint` varchar(255) DEFAULT NULL,
   `dataCustodianThirdPartySelectionScreenURI` varchar(255) DEFAULT NULL,
-  `grantTypes` tinyblob,
   `logoUri` varchar(255) DEFAULT NULL,
   `policyUri` varchar(255) DEFAULT NULL,
   `redirectUri` varchar(255) DEFAULT NULL,
@@ -643,9 +739,10 @@ CREATE TABLE `application_information` (
   `thirdPartyUserPortalScreenURI` varchar(255) DEFAULT NULL,
   `tokenEndpointAuthMethod` varchar(255) DEFAULT NULL,
   `tosUri` varchar(255) DEFAULT NULL,
+  `dataCustodianScopeSelectionScreenURI` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_45f65bb6e8e441a0b58a27fa584` (`dataCustodianId`,`clientId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  UNIQUE KEY `clientId_UNIQUE` (`clientId`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -658,8 +755,8 @@ DROP TABLE IF EXISTS `resources`;
 CREATE TABLE `resources` (
   `id` bigint(20) NOT NULL,
   `uri` varchar(255) DEFAULT NULL,
-  KEY `FK_c03e35fa0d2942be9bb9b214da6` (`id`),
-  CONSTRAINT `FK_c03e35fa0d2942be9bb9b214da6` FOREIGN KEY (`id`) REFERENCES `batchlist` (`id`)
+  KEY `FK_37f4ae42a5f94b85ac063017869` (`id`),
+  CONSTRAINT `FK_37f4ae42a5f94b85ac063017869` FOREIGN KEY (`id`) REFERENCES `BatchList` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -672,4 +769,4 @@ CREATE TABLE `resources` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-12-28 16:33:48
+-- Dump completed on 2014-02-25  7:42:51
