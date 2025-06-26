@@ -1,0 +1,1975 @@
+:)
+øú…parserHXmlParser‰sourcePathbsrc/main/webapp/WEB-INF/jsp/400.jspŒexceptionTypeTIllegalStateException‡treeType!†snippet!‰stackTraceàjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/400.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/400.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/400.jsp
+index 611ed87..e61963b 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/400.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/400.jsp
+@@ -1,7 +1,5 @@ 
+ <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -20,4 +18,23 @@
+   --%>
+ 
+ <?xml version="1.0" encoding="UTF-8"?>
+-<h4>Invalid Request</h4>
++</c) 2018-2021 Green Button Alliance, Inc.
++  ~
++  ~    Portions (c) 2013-2018 EnergyOS.org
++  ~
++  ~     Licensed under the Apache License, Version 2.0 (the "License");
++  ~     you may not use this file except in compliance with the License.
++  ~     You may obtain a copy of the License at
++  ~
++  ~         http://www.apache.org/licenses/LICENSE-2.0
++  ~
++  ~     Unless required by applicable law or agreed to in writing, software
++  ~     distributed under the License is distributed on an "AS IS" BASIS,
++  ~     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++  ~     See the License for the specific language governing permissions and
++  ~     limitations under the License.
++  ~
++  --%>
++
++<?xml version="1.0" encoding="UTF-8"?>
++<h4>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Absrc/main/webapp/WEB-INF/jsp/403.jspBC!D!Eàjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/403.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/403.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/403.jsp
+index cc48fb9..0c9b66f 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/403.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/403.jsp
+@@ -1,7 +1,5 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -22,22 +20,3 @@
+ <html lang="en">
+ 
+ <jsp:include page="/WEB-INF/jsp/tiles/head.jsp"/>
+-
+-<%--<security:authentication var="principal" property="principal" />--%>
+-
+-<body>
+-
+-<jsp:include page="/WEB-INF/jsp/tiles/customer/header.jsp"/>
+-
+-<div class="hero-unit">
+-    <h1>Whoops!</h1>
+-    <br>
+-    <p>You don't have permission to view the page you attempted to access.</p>
+-    <p><a href="<c:url value='/logout.do'/>">Continue</a>
+-
+-    <jsp:include page="/WEB-INF/jsp/tiles/footer.jsp"/>
+-    
+-</div>
+-
+-</body>
+-</html>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Agsrc/main/webapp/WEB-INF/jsp/Sponsors.jspBC!D!Eàjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/Sponsors.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/Sponsors.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/Sponsors.jsp
+index 771eba4..beb774f 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/Sponsors.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/Sponsors.jsp
+@@ -1,7 +1,5 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -23,42 +21,3 @@
+ <html lang="en">
+ 
+ <jsp:include page="tiles/head.jsp"/>
+-
+-<body>
+-
+-<jsp:include page="tiles/customer/header.jsp"/>
+-
+-<div class="container">
+-    <div class="row">
+-        <div class="span12">
+-
+-<h3>Sponsors</h3>
+-
+-<h4><a href="http://www.openespi.org">OpenESPI Open Source Development Community</a></h4>
+-<dl>
+-<dt><a href="http://www.energyos.org">EnergyOS.org</a></dt>
+-<dt><a href="http://www.nist.gov">National Institute of Standards and Technology</a></dt>
+-<dt><a href="http://pivotallabs.com/">Pivotal Labs</a></dt>
+-<dt><a href="http://www.peoplepowerco.com">People Power Company</a></dt>
+-<dt><a href="http://www.opencommons.org">OpenCommons.org</a></dt>
+-<dt>Hypertek Inc.</dt>
+-<dt>REMI Networks</dt>
+-</dl>
+-<h4><a href="https://services.greenbuttondata.org">Green Button Sandbox</a></h4>
+-<dl>
+-<dt><a href="http://www.energyos.org">EnergyOS.org</a></dt>
+-<dt><a href="http://www.nist.gov">National Institute of Standards and Technology</a></dt>
+-<dt><a href="http://www.enernex.com">EnerNex</a></dt>
+-<dt>HyperTek Inc.</dt>
+-</dl>
+-        </div>
+-    </div>
+-
+-    <hr>
+-
+-    <jsp:include page="tiles/footer.jsp"/>
+-
+-</div>
+-
+-</body>
+-</html>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Amsrc/main/webapp/WEB-INF/jsp/TermsOfService.jspBC!D!Eäjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/TermsOfService.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/TermsOfService.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/TermsOfService.jsp
+index a9653d5..beb774f 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/TermsOfService.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/TermsOfService.jsp
+@@ -1,7 +1,5 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -23,69 +21,3 @@
+ <html lang="en">
+ 
+ <jsp:include page="tiles/head.jsp"/>
+-
+-<body>
+-
+-<jsp:include page="tiles/customer/header.jsp"/>
+-
+-<div class="container">
+-    <div class="row">
+-        <div class="span12">
+- <h1>Terms and Conditions of Use</h1>
+-
+-Welcome to EnergyOS Green Button Services (the "Web site"). The Web site is providing services using the Open Source implementaion of Green Button services provide by EnergyOS.org . The following are the Terms and Conditions of Use for the Web site (the "Terms and Conditions"). BY USING THE WEB SITE, YOU ACKNOWLEDGE THAT YOU HAVE READ AND ARE LEGALLY BOUND BY THESE TERMS AND CONDITIONS. IF YOU DO NOT AGREE TO THESE TERMS AND CONDITIONS, PLEASE DO NOT USE THE WEB SITE AND EXIT IMMEDIATELY. WE RESERVE THE RIGHT TO MODIFY OR AMEND THESE TERMS AND CONDITIONS FROM TIME TO TIME WITHOUT PRIOR NOTICE. YOUR CONTINUED USE OF THE WEB SITE AND ANY AFFILIATE WEB SITES FOLLOWING THE POSTING OF CHANGES TO THESE TERMS AND CONDITIONS WILL MEAN YOU ACCEPT THOSE CHANGES.
+-COMPLIANCE WITH LAW
+-
+-Users of the Web site shall abide by all applicable international, federal, state and local laws, including, but not limited to, those pertaining to libel, slander, defamation, trade libel, product disparagement, harassment, invasion of privacy, and copyright and trademark infringement.
+-
+-<h2>DISCLAIMER OF WARRANTIES AND LIMITATION OF LIABILITY</h2>
+-
+-The content provided on the Web site is presented as a courtesy to be used only for informational purposes and is not represented to be error free.  makes no representations or warranties of any kind with respect to the Web site or its content, such representations and warranties being expressly disclaimed. EnergyOS.Org does not warrant that the Web site or the server(s) that make the Web site available are free of viruses or other harmful components. Moreover, EnergyOS.Org does not represent or warrant that the content of the Web site is accurate, complete or current for any specific or particular purpose or application. The Web site is not intended to provide, nor should anyone consider that the Web site provides, legal, accounting, tax or other advice. In addition, EnergyOS.Org is not endorsing or recommending the use of the means or methods contained on or through the Web site for any special or particular purpose. In no event will EnergyOS.org  or any of its officers, trustees, employees, agents or contractors (collectively, "Representatives") be liable for any damages-whether direct, indirect, special, general, consequential, for alleged lost profits or otherwise-that might result from any use of or reliance on materials or links made available on or through the Web site. 
+-<h3>Links to Other Web Sites.</h3>
+-From time to time, the Web site may contain links to other Web sites that are not owned, operated or controlled by EnergyOS.Org. All such links are provided solely as a convenience to you. If you use these links, you will leave this Web site. We are not responsible for any content, materials or other information located on or accessible from any other Web site, nor any products or services that you buy from that Web site or any donations made through that Web site. We do not endorse, guarantee or make any representations or warranties regarding any other Web sites, or any content, materials or other information located or accessible from any other Web sites, or the products or services that you may obtain from using any other Web sites or how any donations you make through such Web sites will be used. If you decide to access any other Web sites linked to or from this Web site, you do so entirely at your own risk.
+-
+-<h2>INTELLECTUAL PROPERTY</h2>
+-
+-Copyright and Ownership. All of the content featured or displayed on the Web site, including without limitation text, graphics, photographs, images, moving images, sound and illustrations (collectively, "Content"), is owned by EnergyOS.Org, its licensors, vendors, agents, and/or content providers, as applicable. All elements of the Web site, including without limitation the general design and the Content, are protected by trade dress, copyright, moral rights, trademark and other laws relating to intellectual property rights. EnergyOS.Org reserves the right to track the usage of Content. Except as may be otherwise indicated in specific documents within the Web site, you are authorized to view, play, print, and download documents, audio and video found on the Web site for personal, informational and noncommercial purposes only. You may not modify any of the materials, and, except as set forth below, you may not copy, distribute, transmit, display, perform, reproduce, publish, license, create derivative works from, transfer or sell any information or work contained on the Web site. You will not remove any copyright, trademark or other proprietary notices from Content found on the Web site. Text materials on the Web site may be used, downloaded, reproduced, publicly displayed or reprinted for personal or noncommercial purposes provided that the following attribution appears in all copies: "Reproduced with permission of EnergyOS.org." Permission to reproduce text materials for commercial application (e.g., book publishing) must be obtained from EnergyOS.Org in writing. Unless we have expressly made a file available for download, prior permission to use, download, reproduce, publicly display or republish any of the non-text materials on the Web site (e.g., software, graphic images, video and audio files) must be obtained from EnergyOS.org or any other designated copyright owner, as applicable. In using Content in accordance with these Terms and Conditions, you may not (1) state or imply that EnergyOS.org is endorsing you, your viewpoints or any of the products or services that you or your organization may provide, or (2) represent that you or your organization has a relationship with EnergyOS.org or any of the events, products or services that EnergyOS.Org provides unless that relationship is the subject of a written agreement that has been signed by EnergyOS.Org. You will not access any Content from the Web site through any technology or means other than the pages of the Web site itself, the Embeddable Player (as defined below), the Widgets (as defined below) or such other explicitly authorized means as EnergyOS.Org may designate. Trademarks. All trademarks, service marks and trade names of the Foundation that may be used in the Web site (including, but not limited to, the EnergyOS.Org name and the EnergyOS.Org logo) (collectively, the "Marks") are trademarks or registered trademarks of EnergyOS.Org or its licensors, vendors, agents and/or content providers. You may not use, copy, reproduce, republish, upload, post, transmit, distribute or modify the Marks in any way, including in advertising or publicity pertaining to distribution of materials on the Web site, without EnergyOS.Org's prior written consent. The use of the Marks on any other Web site or network computer environment is not allowed.
+-
+-<h2>ACCESS AND INTERFERENCE</h2>
+-
+-You agree not to circumvent, disable or otherwise interfere with security-related features of the Web site or features that prevent or restrict use or copying of any content or enforce limitations on use of the Web site or the Content therein. You agree that you will not use any bot, crawler, harvester, indexer, robot, spider, scraper or any other automated means to access, compile, read or gather content from the Web site automatically. Additionally, you agree that you will not: (a) take any action that, in our sole discretion, imposes, or may impose an unreasonable or disproportionately large load on our infrastructure; (b) interfere or attempt to interfere with the proper working of the Web site or any activities conducted on the Web site; or (c) bypass any measures we may use to prevent or restrict access to the Web site.
+-
+-<h2>INDENTIFICATION</h2>
+-
+-You agree to indemnify, defend and hold harmless EnergyOS.org and the Representatives from and against any and all losses, damages, liabilities and costs of every nature incurred by any of them in connection with any claim, damage or loss related to or arising out of: your use of the Web site, any assistance or services provided by us or the Representatives to you, any alleged unauthorized use of the Web site by you, or any breach or alleged breach by you of these Terms and Conditions. You agree to cooperate fully in the defense of any of the foregoing. We reserve the right, at our own expense, to control exclusively the defense of any matter otherwise subject to indemnification by you and you will not settle any matter without our prior written consent. Your obligation to indemnify, defend and hold harmless shall be limited to the extent that you are afforded sovereign immunity under applicable federal, state or local laws. In such cases where your obligation to indemnify may be limited due to the requirements of federal, state or local laws, you shall be responsible for the ordinary negligent acts and omissions of your agents and employees causing harm to persons not a party to these Terms and Conditions.
+-
+-<h2>RELEASE</h2>
+-
+-In the event that you have a dispute with one or more other users of the Web site, you release EnergyOS.Org and Representatives from any and all claims, demands and damages (actual and consequential) of every kind and nature, known and unknown, suspected and unsuspected, disclosed and undisclosed, arising out of or in any way connected with such disputes.
+-
+-<h2>APPLICABLE LAW AND JURISDICTION</h2>
+-
+-The site is controlled and operated from EnergyOS.Org's offices in Knoxville, TN. By accessing the site, you agree to be bound by the terms and conditions of this agreement which is governed by and construed in accordance with the laws of the State of Tennessee, without giving effect to any conflict of laws principles. All activity occurring in connection with the site (including, but not limited to, accessing pages, downloading materials, etc.) is presumed to occur in the State of Tennessee. In connection with any suit, action or proceeding arising from or relating to these Terms and Conditions, you consent to the jurisdiction of the federal and state courts within the State of Tennessee.
+-
+-<h2>ELECTRONIC COMMUNICATIONS; BINDING AND ENTIRE AGREEMENT</h2>
+-
+-You agree that (a) these Terms and Conditions constitute an agreement "signed by you" under applicable law; (b) any notices or other communication regarding your use of the Web site may be provided to you electronically (by posting on the Web site, by e-mail, and other electronic formats) and will be considered received upon posting or other distribution. These Terms and Conditions (including the Privacy Policy) constitute the entire agreement between you and EnergyOS.Org and supersede all other agreements, oral or written, concerning its subject matter. You consent to the use of the English language in these Terms and Conditions and all documents or notices relating to them and your use of
+-
+-<h2>SEVERABILITY</h2>
+-
+-If any of these Terms and Conditions is determined to be invalid, void or unenforceable for any reason, then the unenforceable provision will be deemed amended in a manner that will most nearly carry out the intent of the provision to the fullest extent permitted by applicable law or deleted if amendment is not possible, and the remaining Terms and Conditions will be enforceable to the fullest extent permitted by law.
+-NO WAIVER
+-
+-EnergyOS.Org's failure to enforce these Terms and Conditions in every instance in which they might apply is not a waiver of any of EnergyOS.Org's rights, and EnergyOS.org reserves its right to take all legal steps available to enforce these Terms and Conditions.
+-
+-<h2>TERMINATION</h2>
+-
+-We reserve the right to terminate the Web site and/or these Terms and Conditions at any time without notice for any reason, including, in the case of these Terms and Conditions, for your violation of any of its provisions. The Disclaimer of Warranties and Limitation of Liability, Indemnification, Release and Applicable Law and Jurisdiction provisions of these Terms and Conditions shall survive any such termination.
+-        </div>
+-    </div>
+-
+-    <hr>
+-
+-    <jsp:include page="tiles/footer.jsp"/>
+-
+-</div>
+-
+-</body>
+-</html>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Ajsrc/main/webapp/WEB-INF/jsp/UsagePolicy.jspBC!D!Eäjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/UsagePolicy.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/UsagePolicy.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/UsagePolicy.jsp
+index d2c1831..beb774f 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/UsagePolicy.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/UsagePolicy.jsp
+@@ -1,7 +1,5 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -23,66 +21,3 @@
+ <html lang="en">
+ 
+ <jsp:include page="tiles/head.jsp"/>
+-
+-<body>
+-
+-<jsp:include page="tiles/customer/header.jsp"/>
+-
+-<div class="container">
+-    <div class="row">
+-        <div class="span12">
+-<h1>End User Acceptable Use Policy</h1>
+-This is an Acceptable Use Policy for the server running at nominatim.openstreetmap.org and does not apply to Green Button Services run by yourself or other organizations. 
+-
+-EnergyOS.org's Green Button DataCustodian and ThirdParty services provide Industry Standard Green Button Connect My Data and Download My Data services.  We are in principle happy for the public API to be used by external users for creative and unexpected uses. However, be aware that the service runs on donated servers and has a very limited capacity. We therefore ask you to limit your use and adhere to this usage policy.
+-
+-<h2>Requirements</h2>
+-
+-<ul>
+-<li>No heavy uses (an absolute maximum of 1 request/s).</li>
+-<li>Provide a valid HTTP Referrer or User-Agent identifying the application (stock User-Agents as set by http libraries will not do).</li>
+-<li>Clearly display attribution as suitable for your medium.</li>
+-<li>Data is provided under the Creative Commons license which requires to share alike (although small extractions are likely to be covered by fair usage / fair dealing).</li>
+-</ul>
+-<h2>Websites and Apps</h2>
+-
+-Use that is directly triggered by the end-user (for example, user searches for something) is ok, provided that your number of users is moderate. Note that the usage limits above apply per website/ application: the sum of traffic by all your users should not exceed the limits.
+-<p>
+-Apps must make sure that they can switch the service at our request at any time (in particular, switching should be possible without requiring a software update). If anyhow possible, set up a proxy and also enable caching of requests.
+-
+-<h2>Bulk Uploading and Downloading</h2>
+-<p>
+-As a general rule, bulk movement of Energy Usage Information of larger amounts of data is not encouraged. If you have regular data movement tasks, please, look into alternatives below. Smaller one-time bulk tasks may be permissible, if these additional rules are followed
+-
+-<ul>
+-    <li>limit your requests to a single thread</li>
+-    <li>limited to 1 machine only, no distributed scripts (including multiple Amazon EC2 instances or similar)</li>
+-    <li>Results must be cached on your side. Clients sending repeatedly the same query may be classified as faulty and blocked.</li>
+-</ul>
+-
+-<h2>Unacceptable Use</h2>
+-
+-The following uses are strictly forbidden and will get you banned:
+-<ul>
+-    <li>Bulk upload of data that is not expressly approved by the owner of the data for public display</li>
+-    <li>Multiple, high volume transaction requests for data through the RESTful API</li>
+-</ul>
+-
+-<h2>Changes to this Policy</h2>
+-
+-Please be aware that this usage policy may change without notice. In particular, the definition of heavy use may need to be modified in the future and you might have your access withdrawn. Commercial applications should keep that in mind when relying on this API for serving paying customers.
+-
+-<h2>Alternatives</h2>
+-
+-For slightly larger requirements you may deploy the services provided here on your own machines. The source code and release packages for the EnergyOS.org Green Button Services are readily available at <a href="http://github.com/energyos/">github.com/energyos</a>
+-        </div>
+-    </div>
+-
+-    <hr>
+-
+-    <jsp:include page="tiles/footer.jsp"/>
+-
+-</div>
+-
+-</body>
+-</html>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Adsrc/main/webapp/WEB-INF/jsp/about.jspBC!D!Eàjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/about.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/about.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/about.jsp
+index a7a12aa..9ba901c 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/about.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/about.jsp
+@@ -1,8 +1,6 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -23,34 +21,4 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ 
+-<jsp:include page="/WEB-INF/jsp/tiles/head.jsp"/>
+-
+-<body>
+-
+-<jsp:include page="/WEB-INF/jsp/tiles/custodian/header.jsp"/>
+-
+-<div class="container">
+-
+-    <div class="row">
+-        <div class="span12">
+-
+- <table>
+-<tr><td>Implementation-Vendor</td><td><c:out value="${aboutInfo.get('Implementation-Vendor')}" /></td></tr>
+-<tr><td>Implementation-Title</td><td><c:out value="${aboutInfo.get('Implementation-Title')}" /></td></tr>
+-<tr><td>Implementation-Version</td><td><c:out value="${aboutInfo.get('Implementation-Version')}" /></td></tr>
+-<tr><td>Implementation-Jdk</td><td><c:out value="${aboutInfo.get('Implementation-Jdk')}" /></td></tr>
+-<tr><td>Implementation-Build</td><td><c:out value="${aboutInfo.get('Implementation-Build')}" /></td></tr>
+-<tr><td>Implementation-Build-Time</td><td><c:out value="${aboutInfo.get('Implementation-Build-Time')}" /></td></tr>
+-</table>
+-
+-        </div>
+-    </div>
+-
+-    <hr>
+-
+-    <jsp:include page="/WEB-INF/jsp/tiles/footer.jsp"/>
+-
+-</div>
+-
+-</body>
+-</html>
+\ No newline at end of file
++<jsp:include page="/WEB-INF/jsp/tiles/head.jsp"/>
+\ No newline at end of file
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Arsrc/main/webapp/WEB-INF/jsp/access_confirmation.jspBC!D!Eäjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/access_confirmation.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/access_confirmation.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/access_confirmation.jsp
+index 33c07ec..cbf674d 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/access_confirmation.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/access_confirmation.jsp
+@@ -3,9 +3,7 @@ 
+ <%@ page import="org.springframework.security.web.WebAttributes" %>
+ <%@ taglib prefix="authz" uri="http://www.springframework.org/security/tags" %>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -29,48 +27,3 @@
+ <html lang="en">
+ 
+ <jsp:include page="tiles/head.jsp"/>
+-
+-<body>
+-
+-<jsp:include page="tiles/header.jsp"/>
+-
+-<div class="container">
+-
+-
+-    <% if (session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION) != null && !(session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION) instanceof UnapprovedClientAuthenticationException)) { %>
+-    <div class="error">
+-
+-        <h2>Whoops!</h2>
+-
+-        <p>Access could not be granted.
+-            (<%= ((AuthenticationException) session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION)).getMessage() %>)</p>
+-    </div>
+-    <% } %>
+-
+-    <c:remove scope="session" var="SPRING_SECURITY_LAST_EXCEPTION"/>
+-
+-    <authz:authorize ifAllGranted="ROLE_USER">
+-
+-        <h2>Please Confirm</h2>
+-
+-        <p>You hereby authorize "<c:out value="${client.clientId}"/>" to access your protected resources.</p>
+-
+-        <form id="confirmationForm" name="confirmationForm" action="<%=request.getContextPath()%>/oauth/authorize" method="post">
+-            <input name="user_oauth_approval" value="true" type="hidden"/>
+-            <ul>
+-        		<c:forEach items="${scopes}" var="scope"><c:set var="approved"><c:if test="${scope.value}"> checked</c:if></c:set><c:set var="denied"><c:if test="${!scope.value}"> checked</c:if></c:set>
+-        			<li>${scope.key}: <input type="radio" name="${scope.key}" value="true"${approved}> Approve  </input><input type="radio" name="${scope.key}" value="false"${denied}> Deny</input></li> 
+-        		</c:forEach>            
+-            </ul>
+-            <label>
+-                <input name="authorize" value="Submit" type="submit" class="btn btn-primary">
+-            </label>
+-        </form>
+-    </authz:authorize>
+-
+-    <jsp:include page="tiles/footer.jsp"/>
+-
+-</div>
+-
+-</body>
+-</html>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Amsrc/main/webapp/WEB-INF/jsp/custodian/home.jspBC!D!Eäjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/custodian/home.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/custodian/home.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/custodian/home.jsp
+index b5202f0..417b009 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/custodian/home.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/custodian/home.jsp
+@@ -1,8 +1,6 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -24,109 +22,3 @@
+ <html lang="en">
+ 
+ <jsp:include page="/WEB-INF/jsp/tiles/head.jsp"/>
+-
+-<script charset="utf-8">
+-
+-var temp = window.location.href.substr(0, window.location.href.indexOf("/custodian"));
+-
+-var resetUrl = temp + "/management?command=resetDataCustodianDB";
+-var initUrl = temp + "/management?command=initializeDataCustodianDB";
+-
+-function SendRequest (url) {
+-  if (window.XMLHttpRequest)
+-  {// code for IE7+, Firefox, Chrome, Opera, Safari
+-     xmlhttp=new XMLHttpRequest();
+-  } else {// code for IE6, IE5
+-     xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+-  }
+-  xmlhttp.open ("GET", url, true);    // async
+-  xmlhttp.setRequestHeader ("Accept", "*/*");
+-  xmlhttp.setRequestHeader ("Authorization", "Bearer 688b026c-665f-4994-9139-6b21b13fbeee");
+-  xmlhttp.setRequestHeader ("Content-type", "text/plain");
+-  xmlhttp.withCredentials = true;
+-  xmlhttp.setRequestHeader ("Host", "services.greenbuttondata.org");
+-  xmlhttp.onreadystatechange = OnStateChange;
+-  xmlhttp.send (null);
+-}
+-
+-function OnStateChange () {
+-  alert("action accomplished");
+-}
+-
+-</script>
+-
+-<body>
+-
+-<jsp:include page="/WEB-INF/jsp/tiles/custodian/header.jsp"/>
+-
+-<div class="container">
+-
+-    <!-- Main hero unit for a primary marketing message or call to action -->
+-    <div class="hero-unit">
+-	<h2>Welcome to the <a href="http://www.energyos.org">EnergyOS</a> Green Button Data Custodian</h2>
+-	<p><a href="http://www.energyos.org">EnergyOS</a> has, with the support of <a href="http://pivotallabs.com/">Pivotal Labs</a>, prepared a reference Green Button
+-	Data Custodian implementation. This implementation supports a full complement of Green Button facilities and, as an 
+-	<a href="https://github.com/energyos">Open Source project</a>, is freely available for download by any interested parties.</p>
+-	<p>
+-
+-	<span class="inline pull-left"><a href="http://www.greenbuttondata.org" class="btn btn-primary btn-large">Learn more about Green Button &raquo;</a></span>
+-    <span class="inline pull-right"><a href="http://www.greenbuttondata.org" class="btn btn-primary btn-large">Learn more about EnergyOS Open Source &raquo;</a></span>
+-    </p>
+-    </div>
+-
+-
+-    <!-- Example row of columns -->
+-    <div class="row">
+-        <div class="span4">
+-            <h3>Data Custodian Services</h3>
+-            <p>Green Button Data Custodians may, with the authorization of the Retail Customer, publish energy and resource usage information 
+-            to registered <a href="/DataCustodian">Green Button Third Party Service Providers</a>. These published information streams allow
+-            Third Party to provide new and innovative services to energy consumers!</p>
+-            <p><a class="btn" href="#">View details &raquo;</a></p>
+-        </div>
+-        <div class="span4">
+-            <h3>Developers Guide</h3>
+-            <p>The Green Button Developers Guide provides both overview and detailed information on the mechanisms of Green Button.
+-               You can learn about Atom feeds and the OData standard from which Green Button was derived, as well as the details
+-               of the Energy Usage Information contained in Green Button feeds. 
+-               </p>
+-            <p><a class="btn" href="http://energyos.github.io/OpenESPI-GreenButton-API-Documentation/">View details &raquo;</a></p>
+-        </div>
+-        <div class="span4">
+-            <h3>API Reference</h3>
+-            <p>Green Button services are also available via RESTful APIs. APIs allow the developer to use the EnergyOS Data Custodian and
+-               Third Party servers, hosted at GreenButtonData.org, to develop new applications, providing services and features to better engage the Retail Customer
+-               to understand their energy usage.
+-               </p>
+-            <p><a class="btn" href="http://energyos.github.io/OpenESPI-GreenButton-API-Documentation/API/">View details &raquo;</a></p>
+-        </div>
+-    </div>
+-    <div>
+-    NOTE:  Please use caution when either reseting or initializing the sandbox. This facility is in place only until we have the capability of providing private/individual
+-    sandbox services.
+-    <hr />
+-    <center>
+-    <table width="40%">
+-    <tr>
+-    <td>
+-        <form>
+-   <button onclick="SendRequest (resetUrl)">Reset Green Button Sandbox</button>
+-   </form>
+-   </td>
+-   <td>
+-    <form>
+-    <button onclick="SendRequest (initUrl)">Initialize Green Button Sandbox</button>
+-   </form>
+-   </td>
+-    </tr>
+-    </table>
+-
+-  
+-    </div>
+- 
+-    <jsp:include page="/WEB-INF/jsp/tiles/footer.jsp"/>
+-
+-</div>
+-
+-</body>
+-</html>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Ausrc/main/webapp/WEB-INF/jsp/custodian/oauth/tokens.jspBC!D!Eàjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/custodian/oauth/tokens.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/custodian/oauth/tokens.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/custodian/oauth/tokens.jsp
+index 657e26c..328b386 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/custodian/oauth/tokens.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/custodian/oauth/tokens.jsp
+@@ -1,9 +1,7 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+ <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -25,25 +23,3 @@
+ <html lang="en">
+ 
+ <jsp:include page="/WEB-INF/jsp/tiles/head.jsp"/>
+-
+-<body>
+-
+-<jsp:include page="/WEB-INF/jsp/tiles/custodian/oauth/header.jsp"/>
+-
+-<div class="container">
+-    <div class="row">
+-        <div class="span12">
+-        	<br>
+-            <h2>OAuth Token Management</h2>
+-
+-
+-        </div>
+-    </div>
+-    <hr>
+-
+-    <jsp:include page="/WEB-INF/jsp/tiles/footer.jsp"/>
+-
+-</div>
+-
+-</body>
+-</html>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@A}src/main/webapp/WEB-INF/jsp/custodian/retailcustomers/show.jspBC!D!Eàjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/custodian/retailcustomers/show.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/custodian/retailcustomers/show.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/custodian/retailcustomers/show.jsp
+index ded584f..417b009 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/custodian/retailcustomers/show.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/custodian/retailcustomers/show.jsp
+@@ -1,8 +1,6 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -24,28 +22,3 @@
+ <html lang="en">
+ 
+ <jsp:include page="/WEB-INF/jsp/tiles/head.jsp"/>
+-
+-<body>
+-
+-<jsp:include page="/WEB-INF/jsp/tiles/custodian/header.jsp"/>
+-
+-<div class="container">
+-
+-    <a href="<c:url value='/custodian/retailcustomers/${retailCustomer.id}/usagepoints/form'/>" class="btn btn-large"><i class="icon-plus"></i>&nbsp;Add Usage Point</a>
+-
+-    <div class="row">
+-        <div class="span12">
+-
+-            <h2><c:out value="${retailCustomer.firstName}"/> <c:out value="${retailCustomer.lastName}"/></h2>
+-
+-        </div>
+-    </div>
+-
+-    <hr>
+-
+-    <jsp:include page="/WEB-INF/jsp/tiles/footer.jsp"/>
+-
+-</div>
+-
+-</body>
+-</html>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Aàsrc/main/webapp/WEB-INF/jsp/custodian/retailcustomers/usagepoints/form.jspüBC!D!Eàjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/custodian/retailcustomers/usagepoints/form.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/custodian/retailcustomers/usagepoints/form.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/custodian/retailcustomers/usagepoints/form.jsp
+index b50a6bd..6446289 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/custodian/retailcustomers/usagepoints/form.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/custodian/retailcustomers/usagepoints/form.jsp
+@@ -1,9 +1,7 @@ 
+ <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+ <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -25,36 +23,3 @@
+ <html lang="en">
+ 
+ <jsp:include page="../../../tiles/head.jsp"/>
+-
+-<body>
+-
+-<jsp:include page="../../../tiles/custodian/header.jsp"/>
+-
+-<div class="container">
+-    <div class="row">
+-        <div class="span12">
+-            <h2>Add Usage Point</h2>
+-
+-            <form:form modelAttribute="usagePointForm" name="usagePointForm" class="form-horizontal" action="${pageContext.request.contextPath}/custodian/retailcustomers/${retailCustomerId}/usagepoints/create">
+-                <div class="control-group">
+-                    <label class="control-label" for="UUID">UUID</label>
+-                    <div class="controls">
+-                        <form:input path="UUID"/>
+-                        <form:errors path="UUID" cssClass="error"/>
+-                    </div>
+-                </div>
+-                <div class="control-group">
+-                    <div class="controls">
+-                        <input type="submit" name="create" class="btn" value="Create"/>
+-                    </div>
+-                </div>
+-            </form:form>
+-
+-            <jsp:include page="../../../tiles/footer.jsp"/>
+-
+-        </div>
+-    </div>
+-</div>
+-
+-</body>
+-</html>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Aosrc/main/webapp/WEB-INF/jsp/custodian/upload.jspBC!D!Eàjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/custodian/upload.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/custodian/upload.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/custodian/upload.jsp
+index 87eef59..45b37a9 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/custodian/upload.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/custodian/upload.jsp
+@@ -1,9 +1,7 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+ <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -25,44 +23,3 @@
+ <html lang="en">
+ 
+ <jsp:include page="../tiles/head.jsp"/>
+-
+-<script type="text/javascript">
+-function validateForm() {
+-	var filename = document.forms["uploadForm"]["file"].value;
+-	if (filename == null || filename == "") {
+-		alert("No File has been selected.  Please specify File to be uploaded");
+-		return false;
+-	}
+-}
+-</script>
+-<body>
+-
+-<jsp:include page="../tiles/custodian/header.jsp"/>
+-
+-<div class="container">
+-    <div class="row">
+-        <div class="span12">
+-            <h2>Upload</h2>
+-
+-            <form:form modelAttribute="uploadForm" class="form-horizontal" action="${pageContext.request.contextPath}/custodian/upload" enctype="multipart/form-data"
+-            	onsubmit="return validateForm()">
+-                <form:errors path="*" cssClass="alert alert-error" element="div" />
+-
+-                <div class="control-group">
+-                    <label class="control-label" for="file">File</label>
+-                    <div class="controls">
+-                        <input type="file" name="file"/>
+-                        <input type="submit" name="upload" value="Upload"/>
+-                    </div>
+-                </div>
+-            </form:form>
+-        </div>
+-    </div>
+-    <hr>
+-
+-    <jsp:include page="../tiles/footer.jsp"/>
+-
+-</div>
+-
+-</body>
+-</html>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Amsrc/main/webapp/WEB-INF/jsp/customer/error.jspBC!D!Eàjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/customer/error.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/customer/error.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/customer/error.jsp
+index 1209008..417b009 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/customer/error.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/customer/error.jsp
+@@ -1,8 +1,6 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -24,31 +22,3 @@
+ <html lang="en">
+ 
+ <jsp:include page="/WEB-INF/jsp/tiles/head.jsp"/>
+-
+-<body>
+-
+-<jsp:include page="/WEB-INF/jsp/tiles/customer/header.jsp"/>
+-
+-<div class="container">
+-
+-    <!-- Main hero unit for a primary marketing message or call to action -->
+-    <div class="hero-unit">
+-        <h3>Error</h3>
+-        The Following Error Occurred:<p>
+-        <ul>
+-        <li>${errorString}</li>
+-        </ul>
+-       <p>
+-       Please Contact <a href="support@greenbuttondata.org">Support at GreenButtonData</a> for further assistance.
+-       </p><p>
+-       <a href="<c:url value='/RetailCustomer/${retailCustomerId}/UsagePoint'/>">Continue</a>
+-    </div>
+-
+-    <hr>
+-
+-    <jsp:include page="/WEB-INF/jsp/tiles/footer.jsp"/>
+-
+-</div>
+-
+-</body>
+-</html>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Alsrc/main/webapp/WEB-INF/jsp/customer/home.jspBC!D!Eàjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/customer/home.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/customer/home.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/customer/home.jsp
+index 9ca76c2..417b009 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/customer/home.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/customer/home.jsp
+@@ -1,8 +1,6 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -24,23 +22,3 @@
+ <html lang="en">
+ 
+ <jsp:include page="/WEB-INF/jsp/tiles/head.jsp"/>
+-
+-<body>
+-
+-<jsp:include page="/WEB-INF/jsp/tiles/customer/header.jsp"/>
+-
+-<div class="container">
+-
+-    <!-- Main hero unit for a primary marketing message or call to action -->
+-    <div class="hero-unit">
+-        <h1>Welcome Retail Customer</h1>
+-    </div>
+-
+-    <hr>
+-
+-    <jsp:include page="/WEB-INF/jsp/tiles/footer.jsp"/>
+-
+-</div>
+-
+-</body>
+-</html>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Azsrc/main/webapp/WEB-INF/jsp/customer/meterreadings/show.jspBC!D!Eäjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/customer/meterreadings/show.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/customer/meterreadings/show.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/customer/meterreadings/show.jsp
+index eeab8da..113313b 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/customer/meterreadings/show.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/customer/meterreadings/show.jsp
+@@ -1,7 +1,5 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -23,112 +21,3 @@
+ <html lang="en">
+ 
+ <jsp:include page="../../tiles/head.jsp"/>
+-
+-<body>
+-
+-<jsp:include page="../../tiles/customer/header.jsp"/>
+-
+-<div class="container">
+-    <div class="row">
+-        <div class="span12">
+-            <h2>Meter Reading: <c:out value="${meterReading.description}"/></h2>
+-            <table class="table table-striped">
+-                <caption class="text-left">Reading Type:</caption>
+-                <thead>
+-                <tr>
+-                    <th>Reading Type</th>
+-                    <th>Accumulation Behaviour</th>
+-                    <th>Commodity</th>
+-                    <th>Currency</th>
+-                    <th>Data Qualifier</th>
+-                    <th>Argument</th>
+-                    <th>Interharmonic</th>
+-                </tr>
+-                </thead>
+-                <tbody>
+-                    <tr>
+-                        <td><c:out value="${meterReading.readingType.description}"/></td>
+-                        <td><c:out value="${meterReading.readingType.accumulationBehaviour}"/></td>
+-                        <td><c:out value="${meterReading.readingType.commodity}"/></td>
+-                        <td><c:out value="${meterReading.readingType.currency}"/></td>
+-                        <td><c:out value="${meterReading.readingType.dataQualifier}"/></td>
+-                        <td><c:out value="${meterReading.readingType.argument.numerator}/${meterReading.readingType.argument.denominator}"/></td>
+-                        <td><c:out value="${meterReading.readingType.interharmonic.numerator}/${meterReading.readingType.interharmonic.denominator}"/></td>
+-                    </tr>
+-                </tbody>
+-            </table>
+-
+-            <div id="interval-blocks">
+-                <c:forEach var="intervalBlock" items="${meterReading.intervalBlocks}">
+-                    <table class="table table-striped">
+-                        <caption class="text-left">Interval:</caption>
+-                        <thead>
+-                        <tr>
+-                            <th>Duration</th>
+-                            <th>Start</th>
+-                        </tr>
+-                        </thead>
+-                        <tbody>
+-                            <tr>
+-                                <td>
+-                                    <c:out value="${intervalBlock.interval.duration}"/>
+-                                </td>
+-                                <td>
+-                                    <c:out value="${intervalBlock.interval.start}"/>
+-                                </td>
+-                            </tr>
+-                        </tbody>
+-                    </table>
+-                    <table class="table table-striped">
+-                        <caption class="text-left">Interval Readings:</caption>
+-                        <thead>
+-                        <tr>
+-                            <th>Usage</th>
+-                            <th>Cost</th>
+-                            <th>Duration</th>
+-                            <th>Start</th>
+-                            <th>Reading Qualities</th>
+-                        </tr>
+-                        </thead>
+-                        <tbody>
+-                        <c:forEach var="intervalReading" items="${intervalBlock.intervalReadings}">
+-                            <tr>
+-                                <td>
+-                                    <c:out value="${intervalReading.value}"/>
+-                                </td>
+-                                <td>
+-                                    <c:out value="${intervalReading.cost}"/>
+-                                </td>
+-                                <td>
+-                                    <c:out value="${intervalReading.timePeriod.duration}"/>
+-                                </td>
+-                                <td>
+-                                    <c:out value="${intervalReading.timePeriod.start}"/>
+-                                </td>
+-                                <td>
+-                                    <ul class="reading-qualities">
+-                                        <c:forEach var="readingQuality" items="${intervalReading.readingQualities}">
+-                                            <li>
+-                                                <c:out value="${readingQuality.quality}"/>
+-                                            </li>
+-                                        </c:forEach>
+-                                    </ul>
+-                                </td>
+-                            </tr>
+-                        </c:forEach>
+-                        </tbody>
+-                    </table>
+-                </c:forEach>
+-
+-            </div>
+-        </div>
+-    </div>
+-
+-    <hr>
+-
+-    <jsp:include page="../../tiles/footer.jsp"/>
+-
+-</div>
+-
+-</body>
+-</html>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Azsrc/main/webapp/WEB-INF/jsp/customer/thirdparties/index.jspBC!D!Eäjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/customer/thirdparties/index.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/customer/thirdparties/index.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/customer/thirdparties/index.jsp
+index 225cc93..417b009 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/customer/thirdparties/index.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/customer/thirdparties/index.jsp
+@@ -1,8 +1,6 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -24,54 +22,3 @@
+ <html lang="en">
+ 
+ <jsp:include page="/WEB-INF/jsp/tiles/head.jsp"/>
+-
+-<body>
+-
+-<script type="text/javascript">
+-    $(function() {
+-        $("form input[type=radio]").on("click", function() {
+-            $("input[name=Third_party_URL]").val($(this).data("third-party-url"));
+-            $("input[type=submit]").removeAttr("disabled");
+-        });
+-    });
+-</script>
+-
+-<jsp:include page="/WEB-INF/jsp/tiles/customer/header.jsp"/>
+-
+-<div class="container">
+-
+-    <h1>Third Party List</h1>
+-
+-    <form method="POST" action="<c:url value='/RetailCustomer/${currentCustomer.id}/ThirdPartyList'/>">
+-        <table class="table table-striped">
+-            <thead>
+-            <tr>
+-                <th>Third Party</th>
+-                <th>URL</th>
+-            </tr>
+-            </thead>
+-            <tbody>
+-            <c:forEach var="applicationInformation" items="${applicationInformationList}">
+-                <tr>
+-                    <td>
+-                        <label>
+-                            <input type="radio" name="Third_party" value="${applicationInformation.id}" data-third-party-url="${applicationInformation.thirdPartyScopeSelectionScreenURI}" class="third-party" />
+-                            <c:out value="${applicationInformation.thirdPartyApplicationName}"/>
+-                        </label>
+-                    </td>
+-                    <td><c:out value="${applicationInformation.thirdPartyScopeSelectionScreenURI}"/></td>
+-                </tr>
+-            </c:forEach>
+-            </tbody>
+-        </table>
+-        <input type="hidden" name="Third_party_URL"/>
+-        <input type="submit" name="next" value="Next" disabled="disabled" class="btn btn-primary">
+-    </form>
+-
+-
+-    <jsp:include page="/WEB-INF/jsp/tiles/footer.jsp"/>
+-
+-</div>
+-
+-</body>
+-</html>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Aysrc/main/webapp/WEB-INF/jsp/customer/usagepoints/index.jspBC!D!Eäjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/customer/usagepoints/index.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/customer/usagepoints/index.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/customer/usagepoints/index.jsp
+index f86709f..113313b 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/customer/usagepoints/index.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/customer/usagepoints/index.jsp
+@@ -1,7 +1,5 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -23,115 +21,3 @@
+ <html lang="en">
+ 
+ <jsp:include page="../../tiles/head.jsp"/>
+-
+-<body>
+-
+-<jsp:include page="../../tiles/customer/header.jsp"/>
+-<div style="margin-left: 40px;">
+-<table><tr><td>
+-<a id = "downloadMyData" class="brand" href="<c:url value='/RetailCustomer/${currentCustomer.id}/DownloadMyData/UsagePoint'/>">
+-         <img src="<c:url value='/resources/img/Green_Download_265.png'/>" width="150"/></a>  
+-&nbsp;&nbsp;</td><td>
+-
+-  Start Date/Time: 
+-  <br />
+-    <div id="datetimepicker" class="input-append date" >
+-      Start: <input id="startTime" type="text"></input>
+-      <span class="add-on">
+-        <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+-      </span>
+-    </div>&nbsp;&nbsp;
+-</td><td>
+-    End Date/Time:
+-    <br />
+-    <div id="datetimepicker1" class="input-append date">
+-      End: <input id="endTime" type="text"></input>
+-      <span class="add-on">
+-        <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+-      </span>
+-</div>
+-</td></tr></table>
+-</div>
+-
+-    <script type="text/javascript"
+-     src="<c:url value='/resources/bootstrap-datetimepicker-0.0.11/js/bootstrap-datetimepicker.min.js'/> ">
+-    </script>
+-
+-    <script type="text/javascript">
+-      var startDate =
+-       $('#datetimepicker').datetimepicker({
+-        format: 'yyyy-MM-dd Thh:mm:ss Z',
+-        language: 'pt-US',
+-        showMeridian: true,
+-        autohide: true,
+-        pickerPosition: "bottom-left"
+-
+-
+-      })     
+-      .on('changeDate', function(ev){
+-    	    var separator = "?";
+-    	    var temp = ev.date.toISOString();
+-    	    temp = temp.replace(" T", "T");
+-    	    temp = temp.replace(" Z", "Z");
+-    	    if ($('#downloadMyData').attr('href').indexOf("?") != -1) separator = "&";
+-            $('#downloadMyData').attr('href',$('#downloadMyData').attr('href') + separator + 'published-min=' + temp);
+-          });
+-      
+-     var endDate =
+-      $('#datetimepicker1').datetimepicker({
+-          format: 'yyyy-MM-dd Thh:mm:ss Z',
+-          language: 'pt-US',
+-          autoclose: true,
+-          showMeridian: true,
+-          pickerPosition: "bottom-left"
+-  		})
+-  		.on('changeDate', function(ev){
+-    	    var separator = "?";
+-    	    var temp = ev.date.toISOString();
+-    	    temp.replace(" T", "T");
+-    	    temp.replace(" Z", "Z");
+-    	    if ($('#downloadMyData').attr('href').indexOf("?") != -1) separator = "&";
+-            $('#downloadMyData').attr('href',$('#downloadMyData').attr('href') + separator + 'published-max=' + temp);
+-          });
+-      
+-    </script>
+-<div class="container">
+-    <div class="row">
+-        <div class="span12">
+-            <h2>Usage Points</h2>
+-
+-
+-
+-            <table class="table table-striped">
+-                <thead>
+-                <tr>
+-                    <th>Title</th>
+-                    <th>Service Category</th>
+-                </tr>
+-                </thead>
+-                <tbody>
+-                <c:forEach var="usagePoint" items="${usagePointList}">
+-                    <tr>
+-                        <td>
+-                            <a href="<c:url value='/RetailCustomer/${currentCustomer.id}/UsagePoint/${usagePoint.id}/show' />" class="usage-point">
+-                                <c:out value="${usagePoint.description}"/>
+-                            </a>
+-                        </td>
+-                        <td>
+-                            <c:out value="${usagePoint.serviceCategory}"/>
+-                        </td>
+-                    </tr>
+-                </c:forEach>
+-                </tbody>
+-            </table>
+-        </div>
+-    </div>
+-
+-    <hr>
+-
+-    <jsp:include page="../../tiles/footer.jsp"/>
+-
+-</div>
+-
+-</body>
+-</html>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Axsrc/main/webapp/WEB-INF/jsp/customer/usagepoints/show.jspBC!D!Eäjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/customer/usagepoints/show.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/customer/usagepoints/show.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/customer/usagepoints/show.jsp
+index 212f44c..24b977f 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/customer/usagepoints/show.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/customer/usagepoints/show.jsp
+@@ -1,7 +1,5 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -24,183 +22,3 @@
+ 
+ <jsp:include page="../../tiles/head.jsp"/>
+ 
+-<body>
+-
+-<jsp:include page="../../tiles/customer/header.jsp"/>
+-
+-<div style="margin-left: 40px;">
+-<table><tr><td>
+-
+-<a id = "downloadMyData" class="brand" href="<c:url value='/RetailCustomer/${currentCustomer.id}/DownloadMyData/UsagePoint/${displayBag.get("usagePointId")}'/>">
+-         <img src="<c:url value='/resources/img/Green_Download_265.png'/>" width="150"/></a>  
+-&nbsp;&nbsp;</td><td>
+-
+-  Start Date/Time: 
+-  <br />
+-    <div id="datetimepicker" class="input-append date" >
+-      Start: <input id="startTime" type="text"></input>
+-      <span class="add-on">
+-        <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+-      </span>
+-    </div>&nbsp;&nbsp;
+-</td><td>
+-    End Date/Time:
+-    <br />
+-    <div id="datetimepicker1" class="input-append date">
+-      End: <input id="endTime" type="text"></input>
+-      <span class="add-on">
+-        <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+-      </span>
+-</div>
+-</td></tr></table>
+-</div>
+-
+-    <script type="text/javascript"
+-     src="<c:url value='/resources/bootstrap-datetimepicker-0.0.11/js/bootstrap-datetimepicker.min.js'/> ">
+-    </script>
+-    
+-    <script type="text/javascript">
+-      var startDate =
+-       $('#datetimepicker').datetimepicker({
+-        format: 'yyyy-MM-dd Thh:mm:ss Z',
+-        language: 'pt-US',
+-        showMeridian: true,
+-        autohide: true,
+-        pickerPosition: "bottom-left"
+-
+-
+-      })     
+-      .on('changeDate', function(ev){
+-    	    var separator = "?";
+-    	    var temp = ev.date.toISOString();
+-    	    temp = temp.replace(" T", "T");
+-    	    temp = temp.replace(" Z", "Z");
+-    	    if ($('#downloadMyData').attr('href').indexOf("?") != -1) separator = "&";
+-            $('#downloadMyData').attr('href',$('#downloadMyData').attr('href') + separator + 'published-min=' + temp);
+-          });
+-      
+-     var endDate =
+-      $('#datetimepicker1').datetimepicker({
+-          format: 'yyyy-MM-dd Thh:mm:ss Z',
+-          language: 'pt-US',
+-          autoclose: true,
+-          showMeridian: true,
+-          pickerPosition: "bottom-left"
+-  		})
+-  		.on('changeDate', function(ev){
+-    	    var separator = "?";
+-    	    var temp = ev.date.toISOString();
+-    	    temp.replace(" T", "T");
+-    	    temp.replace(" Z", "Z");
+-    	    if ($('#downloadMyData').attr('href').indexOf("?") != -1) separator = "&";
+-            $('#downloadMyData').attr('href',$('#downloadMyData').attr('href') + separator + 'published-max=' + temp);
+-          });
+-      
+-    </script>
+-<hr size="4" />
+-<div class="container">
+-    <div class="row">
+-        <div class="span12">
+-            <h2>Usage Point: <c:out value="${displayBag.get('Description')}"/></h2>
+-            <p>Service Category: <c:out value="${displayBag.get('ServiceCategory')}"/></p>
+-
+-            <table class="table table-striped">
+-                <caption class="text-left">Meter Readings:</caption>
+-                <thead>
+-                <tr>
+-                    <th>Description</th>
+-                    <th>Reading Type</th>
+-                </tr>
+-                </thead>
+-                <tbody>
+-                <c:forEach var="meterReading" items="${displayBag.get('MeterReadings')}">
+-                    <tr>
+-                        <td>
+-                            <a href="<c:url value='${meterReading.get("Uri")}' />">
+-                                <c:out value='${meterReading.get("Description")}' />
+-                            </a>
+-                        </td>
+-                        <td><c:out value="${meterReading.get('ReadingType')}"/></td>
+-                    </tr>
+-                </c:forEach>
+-                </tbody>
+-            </table>
+-
+-            <table class="table table-striped">
+-                <caption class="text-left">Electric Power Usage Summaries:</caption>
+-                <thead>
+-                <tr>
+-                    <th>Description</th>
+-                    <th>Billing Period Start</th>
+-                    <th>Billing Period Duration</th>
+-                </tr>
+-                </thead>
+-                <tbody>
+-                <c:forEach var="electricPowerUsageSummary" items="${displayBag.get('UsageSummmaryList')}">
+-                    <tr>
+-                        <td>
+-                            <c:out value="${electricPowerUsageSummary.description}"/>
+-                        </td>
+-                        <td>
+-                            <c:out value="${electricPowerUsageSummary.billingPeriod.start}"/>
+-                        </td>
+-                        <td>
+-                            <c:out value="${electricPowerUsageSummary.billingPeriod.duration}"/>
+-                        </td>
+-                    </tr>
+-                </c:forEach>
+-                </tbody>
+-            </table>
+-
+-            <table class="table table-striped">
+-                <caption class="text-left">Electric Power Quality Summaries:</caption>
+-                <thead>
+-                <tr>
+-                    <th>Description</th>
+-                    <th>Billing Period Start</th>
+-                    <th>Billing Period Duration</th>
+-                </tr>
+-                </thead>
+-                <tbody>
+-                <c:forEach var="electricPowerQualitySummary" items="${displayBag.get('QualitySummaryList')}">
+-                    <tr>
+-                        <td>
+-                            <c:out value="${electricPowerQualitySummary.description}"/>
+-                        </td>
+-                        <td>
+-                            <c:out value="${electricPowerQualitySummary.summaryInterval.start}"/>
+-                        </td>
+-                        <td>
+-                            <c:out value="${electricPowerQualitySummary.summaryInterval.duration}"/>
+-                        </td>
+-                    </tr>
+-                </c:forEach>
+-                </tbody>
+-            </table>
+-            <table class="table table-striped">
+-                <caption class="text-left">Local Time Parameters:</caption>
+-                <thead>
+-                <tr>
+-                    <th>Local time zone offset from UTCTime</th>
+-                </tr>
+-                </thead>
+-                <tbody>
+-                    <tr>
+-                        <td>
+-                            <c:out value="${displayBag.get('localTimeParameters').tzOffset}"/>
+-                        </td>
+-                    </tr>
+-                </tbody>
+-            </table>
+-        </div>
+-    </div>
+-
+-    <hr>
+-
+-    <jsp:include page="../../tiles/footer.jsp"/>
+-
+-</div>
+-
+-</body>
+-</html>
+-
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Adsrc/main/webapp/WEB-INF/jsp/error.jspBC!D!Eàjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/error.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/error.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/error.jsp
+index d946d64..19e5772 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/error.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/error.jsp
+@@ -1,8 +1,6 @@ 
+ <%@ page isErrorPage="true" import="java.io.PrintWriter"%>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -24,27 +22,3 @@
+ <html lang="en">
+ 
+ <jsp:include page="tiles/head.jsp"/>
+-
+-<body>
+-
+-<jsp:include page="tiles/header.jsp"/>
+-
+-<div class="container">
+-    <div class="row">
+-        <div class="span12">
+-            <h2>Application Error</h2>
+-
+-            <p>Please contact support.</p>
+-
+-            <pre><% exception.printStackTrace(new PrintWriter(out)); %></pre>
+-        </div>
+-    </div>
+-
+-    <hr>
+-
+-    <jsp:include page="tiles/footer.jsp"/>
+-
+-</div>
+-
+-</body>
+-</html>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Acsrc/main/webapp/WEB-INF/jsp/home.jspBC!D!Eäjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/home.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/home.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/home.jsp
+index 54dcccb..9e9e3e6 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/home.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/home.jsp
+@@ -1,8 +1,6 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -24,57 +22,3 @@
+ <html lang="en">
+ 
+ <jsp:include page="tiles/head.jsp"/>
+-
+-<body>
+-
+-<jsp:include page="tiles/header.jsp"/>
+-
+-<div class="container">
+-
+-    <!-- Main hero unit for a primary marketing message or call to action -->
+-    <div class="hero-unit">
+-	<h2>Welcome to the <a href="http://www.energyos.org">EnergyOS</a> Green Button Data Custodian</h2>
+-	<p><a href="http://www.energyos.org">EnergyOS</a> has, with the support of <a href="http://pivotallabs.com/">Pivotal Labs</a>, prepared a reference Green Button
+-	Data Custodian implementation. This implementation supports a full complement of Green Button facilities and, as an 
+-	<a href="https://github.com/energyos">Open Source project</a>, is freely available for download by any interested parties.</p>
+-	<p>
+-
+-	<span class="inline pull-left"><a href="http://www.greenbuttondata.org" class="btn btn-primary btn-large">Learn more about Green Button &raquo;</a></span>
+-    <span class="inline pull-right"><a href="http://www.greenbuttondata.org" class="btn btn-primary btn-large">Learn more about EnergyOS Open Source &raquo;</a></span>
+-
+-    </p>
+-    </div>
+-
+-    <!-- Example row of columns -->
+-    <div class="row">
+-        <div class="span4">
+-            <h3>Data Custodian Services</h3>
+-            <p>Green Button Data Custodians may, with the authorization of the Retail Customer, publish energy and resource usage information 
+-            to registered <a href="/DataCustodian">Green Button Third Party Service Providers</a>. These published information streams allow
+-            Third Party to provide new and innovative services to energy consumers!</p>
+-            <p><a class="btn" href="#">View details &raquo;</a></p>
+-        </div>
+-        <div class="span4">
+-            <h3>Developers Guide</h3>
+-            <p>The Green Button Developers Guide provides both overview and detailed information on the mechanisms of Green Button.
+-               You can learn about Atom feeds and the OData standard from which Green Button was derived, as well as the details
+-               of the Energy Usage Information contained in Green Button feeds. 
+-               </p>
+-            <p><a class="btn" href="http://energyos.github.io/OpenESPI-GreenButton-API-Documentation/">View details &raquo;</a></p>
+-        </div>
+-        <div class="span4">
+-            <h3>API Reference</h3>
+-            <p>Green Button services are also available via RESTful APIs. APIs allow the developer to use the EnergyOS Data Custodian and
+-               Third Party servers, hosted at GreenButtonData.org, to develop new applications, providing services and features to better engage the Retail Customer
+-               to understand their energy usage.
+-               </p>
+-            <p><a class="btn" href="http://energyos.github.io/OpenESPI-GreenButton-API-Documentation/API/">View details &raquo;</a></p>
+-        </div>
+-    </div>
+-
+-    <jsp:include page="tiles/footer.jsp"/>
+-
+-</div>
+-
+-</body>
+-</html>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Adsrc/main/webapp/WEB-INF/jsp/login.jspBC!D!Eàjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/login.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/login.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/login.jsp
+index 5a9df92..d8c8dd7 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/login.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/login.jsp
+@@ -1,8 +1,6 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ page isELIgnored="false" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -24,43 +22,3 @@
+ <html lang="en">
+ 
+ <jsp:include page="tiles/head.jsp"/>
+-
+-<body>
+-
+-<jsp:include page="tiles/header.jsp"/>
+-
+-<div class="container">
+-    <div class="content">
+-        <div class="row">
+-            <div class="span12">
+-                <div class="login-form">
+-                    <h2>Login</h2>
+-
+-                    <c:if test="${not empty sessionScope.SPRING_SECURITY_LAST_EXCEPTION}">
+-                        <div class="alert alert-error">
+-                            <c:out value="${sessionScope.SPRING_SECURITY_LAST_EXCEPTION.localizedMessage}"/>
+-                        </div>
+-                    </c:if>
+-
+-                    <form name="f" action="<c:url value='/j_spring_security_check'/>" method="POST">
+-                        <fieldset>
+-                            <div class="clearfix">
+-                                <input type="text" name="j_username" placeholder="Username" autofocus="autofocus">
+-                            </div>
+-                            <div class="clearfix">
+-                                <input type="password" name="j_password" placeholder="Password">
+-                            </div>
+-                            <button class="btn primary" name="submit" type="submit">Sign in</button>
+-                        </fieldset>
+-                    </form>
+-                </div>
+-            </div>
+-        </div>
+-    </div>
+-    <hr>
+-
+-    <jsp:include page="tiles/footer.jsp"/>
+-</div>
+-
+-</body>
+-</html>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Ajsrc/main/webapp/WEB-INF/jsp/oauth_error.jspBC!D!Eàjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/oauth_error.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/oauth_error.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/oauth_error.jsp
+index 5a40978..9a3a3a7 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/oauth_error.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/oauth_error.jsp
+@@ -1,7 +1,5 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -23,21 +21,3 @@
+ <html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+-  <title>DataCustodian</title>
+-  <link type="text/css" rel="stylesheet" href="<c:url value="/style.css"/>"/>
+-</head>
+-
+-<body>
+-
+-  <h1>OAuth2 Error</h1>
+-
+-  <div id="content">
+-	<p><c:out value="${message}"/> (<c:out value="${error.summary}"/>)</p>
+-	<p>Please go back to your client application and try again, or contact the owner and ask for support</p>
+-  </div>
+-
+-  <div id="footer">Sample application for <a href="http://github.com/SpringSource/spring-security-oauth" target="_blank">Spring Security OAuth</a></div>
+-
+-
+-</body>
+-</html>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Assrc/main/webapp/WEB-INF/jsp/retailcustomers/form.jspBC!D!Eäjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/retailcustomers/form.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/retailcustomers/form.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/retailcustomers/form.jsp
+index cdfd9bf..c8bfc5d 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/retailcustomers/form.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/retailcustomers/form.jsp
+@@ -1,9 +1,7 @@ 
+ <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+ <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -25,57 +23,3 @@
+ <html lang="en">
+ 
+ <jsp:include page="../tiles/head.jsp"/>
+-
+-<body>
+-
+-<jsp:include page="../tiles/custodian/header.jsp"/>
+-
+-<div class="container">
+-    <div class="row">
+-        <div class="span12">
+-            <h2>New Retail Customer</h2>
+-
+-            <form:form modelAttribute="retailCustomer" name="new_customer" class="form-horizontal" action="${pageContext.request.contextPath}/custodian/retailcustomers/create">
+-                <div class="control-group">
+-                    <label class="control-label" for="username">Username</label>
+-                    <div class="controls">
+-                        <form:input path="username"/>
+-                        <form:errors path="username" cssClass="error"/>
+-                    </div>
+-                </div>
+-                <div class="control-group">
+-                    <label class="control-label" for="firstName">First Name</label>
+-                    <div class="controls">
+-                        <form:input path="firstName"/>
+-                        <form:errors path="firstName" cssClass="error"/>
+-                    </div>
+-                </div>
+-                <div class="control-group">
+-                    <label class="control-label" for="lastName">Last Name</label>
+-                    <div class="controls">
+-                        <form:input path="lastName"/>
+-                        <form:errors path="lastName" cssClass="error"/>
+-                    </div>
+-                </div>
+-                <div class="control-group">
+-                    <label class="control-label" for="password">Password</label>
+-                    <div class="controls">
+-                        <form:password path="password"/>
+-                        <form:errors path="password" cssClass="error"/>
+-                    </div>
+-                </div>
+-                <div class="control-group">
+-                    <div class="controls">
+-                        <input type="submit" name="create" class="btn" value="Create"/>
+-                    </div>
+-                </div>
+-            </form:form>
+-
+-            <jsp:include page="../tiles/footer.jsp"/>
+-
+-        </div>
+-    </div>
+-</div>
+-
+-</body>
+-</html>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Atsrc/main/webapp/WEB-INF/jsp/retailcustomers/index.jspBC!D!Eäjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/retailcustomers/index.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/retailcustomers/index.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/retailcustomers/index.jsp
+index dc8a3db..8666b50 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/retailcustomers/index.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/retailcustomers/index.jsp
+@@ -1,7 +1,5 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -23,56 +21,3 @@
+ <html lang="en">
+ 
+ <jsp:include page="../tiles/head.jsp"/>
+-
+-<body>
+-
+-<jsp:include page="../tiles/custodian/header.jsp"/>
+-
+-<div class="container">
+-    <div class="row">
+-        <div class="span12">
+-            <h2>Retail Customers</h2>
+-
+-            <c:if test="${not empty message}">
+-            <div class="alert">${message}</div>
+-            </c:if>
+-
+-            <a href="<c:url value='/custodian/retailcustomers/form'/>" class="btn btn-large"><i class="icon-plus"></i>&nbsp;Add new customer</a>
+-
+-            <table class="table table-striped">
+-                <thead>
+-                <tr>
+-                    <th>Username</th>
+-                    <th>First Name</th>
+-                    <th>Last Name</th>
+-                </tr>
+-                </thead>
+-                <tbody>
+-                <c:forEach var="customer" items="${customers}">
+-                    <tr>
+-                        <td>
+-                            <a href="<c:url value='/custodian/retailcustomers/${customer.id}/show'/>">
+-                                <c:out value="${customer.username}"/>
+-                            </a>
+-                        </td>
+-                        <td>
+-                            <c:out value="${customer.firstName}"/>
+-                        </td>
+-                        <td>
+-                            <c:out value="${customer.lastName}"/>
+-                        </td>
+-                    </tr>
+-                </c:forEach>
+-                </tbody>
+-            </table>
+-        </div>
+-    </div>
+-
+-    <hr>
+-
+-    <jsp:include page="../tiles/footer.jsp"/>
+-
+-</div>
+-
+-</body>
+-</html>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Ausrc/main/webapp/WEB-INF/jsp/tiles/custodian/header.jspBC!D!Eäjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/tiles/custodian/header.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/tiles/custodian/header.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/tiles/custodian/header.jsp
+index ddc8e5e..3df3d74 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/tiles/custodian/header.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/tiles/custodian/header.jsp
+@@ -1,9 +1,7 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+ <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -29,23 +27,4 @@
+                 <span class="icon-bar"></span>
+                 <span class="icon-bar"></span>
+             </button>
+-            <a class="brand" href="<c:url value='/custodian/home'/>"><img src="<c:url value='/resources/ico/favicon.png'/>" width="20"/>&nbsp;Data Custodian</a>
+-
+-            <div class="nav-collapse collapse">
+-                <ul class="nav">
+-                    <security:authorize access="isAuthenticated()">
+-                        <li><a href="<c:url value='/custodian/retailcustomers'/>">Customer List</a></li>
+-                        <li><a href="<c:url value='/custodian/upload'/>">Upload</a></li>
+-                        <li><a href="<c:url value='/custodian/oauth/tokens'/>">OAuth Token Management</a></li>                 
+-                        <li><a href="<c:url value='/espi/1_1/NotifyThirdParty'/>">Notify Third Party</a></li> 
+-                        <li class="active"><a id="logout" href="<c:url value='/logout.do'/>">Logout</a></li>
+-                        <li><a id="profile" href="">Welcome: ${currentCustomer.firstName} ${currentCustomer.lastName}</a></li>
+-                    </security:authorize>
+-                    <security:authorize access="isAnonymous()">
+-                        <li class="active"><a id="login" href="<c:url value='/login'/>">Login</a></li>
+-                    </security:authorize>
+-                </ul>
+-            </div>
+-        </div>
+-    </div>
+-</div>
++            <a class="brand" href="<c:url value='/custodian/home'/>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@A{src/main/webapp/WEB-INF/jsp/tiles/custodian/oauth/header.jspBC!D!Eäjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/tiles/custodian/oauth/header.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/tiles/custodian/oauth/header.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/tiles/custodian/oauth/header.jsp
+index 81e4abe..3df3d74 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/tiles/custodian/oauth/header.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/tiles/custodian/oauth/header.jsp
+@@ -1,9 +1,7 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+ <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -29,23 +27,4 @@
+                 <span class="icon-bar"></span>
+                 <span class="icon-bar"></span>
+             </button>
+-            <a class="brand" href="<c:url value='/custodian/home'/>"><img src="<c:url value='/resources/ico/favicon.png'/>" width="20"/>&nbsp;Data Custodian</a>
+-
+-            <div class="nav-collapse collapse">
+-                <ul class="nav">
+-                    <security:authorize access="isAuthenticated()">
+-                        <li><a href="<c:url value='/custodian/oauth/tokens'/>">List Client OAuth Tokens</a></li>
+-                        <li><a href="<c:url value='/custodian/oauth/tokens'/>">List User OAuth Tokens</a></li>  
+-                        <li><a href="<c:url value='/custodian/oauth/tokens'/>">Delete User OAuth Token</a></li>  
+-                        <li><a href="<c:url value='/custodian/oauth/tokens'/>">Delete All OAuth Tokens</a></li>                                                                                           
+-                        <li class="active"><a id="logout" href="<c:url value='/logout.do'/>">Logout</a></li>
+-                        <li><a id="profile" href="">Welcome: ${currentCustomer.firstName} ${currentCustomer.lastName}</a></li>
+-                    </security:authorize>
+-                    <security:authorize access="isAnonymous()">
+-                        <li class="active"><a id="login" href="<c:url value='/login'/>">Login</a></li>
+-                    </security:authorize>
+-                </ul>
+-            </div>
+-        </div>
+-    </div>
+-</div>
++            <a class="brand" href="<c:url value='/custodian/home'/>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Atsrc/main/webapp/WEB-INF/jsp/tiles/customer/header.jspBC!D!Eàjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/tiles/customer/header.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/tiles/customer/header.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/tiles/customer/header.jsp
+index 947fff7..2c65928 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/tiles/customer/header.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/tiles/customer/header.jsp
+@@ -1,8 +1,6 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -43,21 +41,4 @@
+                 <span class="icon-bar"></span>
+                 <span class="icon-bar"></span>
+             </button>
+-            <a class="brand" href="<c:url value='/RetailCustomer/${currentCustomer.id}/home'/>"><img src="<c:url value='/resources/ico/favicon.png'/>" width="20"/>&nbsp;Data Custodian</a>
+-
+-            <div class="nav-collapse collapse">
+-                <ul class="nav">
+-                    <li><a href="<c:url value='/RetailCustomer/${currentCustomer.id}/UsagePoint'/>">Usage Points</a></li>
+-                    <security:authorize access="isAuthenticated()">
+-                        <li><a href="<c:url value='/RetailCustomer/${currentCustomer.id}/ThirdPartyList'/>">Third Parties</a></li>
+-                        <li><a id="logout" href="<c:url value='/logout.do'/>">Logout</a></li>
+-                        <li><a id="profile" href="">Welcome: ${currentCustomer.firstName} ${currentCustomer.lastName}</a></li>
+-                    </security:authorize>
+-                    <security:authorize access="isAnonymous()">
+-                        <li><a id="login" href="<c:url value='/login'/>">Login</a></li>
+-                    </security:authorize>
+-                </ul>
+-            </div>
+-        </div>
+-    </div>
+-</div>
++            <a class="brand" href="<c:url value='/RetailCustomer/${currentCustomer.id}/home'/>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Aksrc/main/webapp/WEB-INF/jsp/tiles/footer.jspBC!D!Eàjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/tiles/footer.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/tiles/footer.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/tiles/footer.jsp
+index f26d5f3..76de807 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/tiles/footer.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/tiles/footer.jsp
+@@ -1,7 +1,5 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -20,20 +18,4 @@
+   --%>
+ 
+     <!-- Placed at the end of the document so the pages load faster -->
+-    <script src="<c:url value='/resources/js/jquery.min.js'/>"></script>
+-<footer>
+-<hr>
+-	<div style="width:100%; margin-left: auto 0px;">
+-
+-		<ul class="inline">
+-			<li><img src="<c:url value='/resources/ico/favicon.png'/>"
+-				width="20" />&nbsp;<a href="http://www.greenbuttondata.org">Green Button for America</a></li>
+-			<li>|| <a href="<c:url value='/TermsOfService' />">Terms of Service</a></li>
+-			<li>|| <a href="<c:url value='/UsagePolicy' />">Usage Policy</a></li>
+-			<li>|| <a href="<c:url value='/about-version' />">About</a></li>
+-			<li>|| <a href="<c:url value='/Sponsors' /> ">Sponsors</a></li>
+-			<li>|| &copy; <a href="http://www.EnergyOS.org/">EnergyOS.org</a> 2013, 2014 </li>
+-		</ul>
+-
+-	</div>
+-</footer>
++    <script src="<c:url value='/resources/js/jquery.min.js'/>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Aisrc/main/webapp/WEB-INF/jsp/tiles/head.jspBC!D!Eäjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/tiles/head.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/tiles/head.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/tiles/head.jsp
+index bcba494..14f81ec 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/tiles/head.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/tiles/head.jsp
+@@ -1,7 +1,5 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -26,25 +24,4 @@
+     <meta name="description" content="">
+     <meta name="author" content="">
+ 
+-    <link href="<c:url value='/resources/css/bootstrap.css' />" rel="stylesheet" type="text/css"/>
+-    <link href="<c:url value='/resources/css/bootstrap-responsive.css' />" rel="stylesheet" type="text/css"/>
+-    <link href="<c:url value='/resources/css/application.css' />" rel="stylesheet" type="text/css"/>
+-   <link href="<c:url value='/resources/css/bootstrap-datetimepicker.min.css' />" rel="stylesheet" type="text/css"/>
+-
+-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+-    <!--[if lt IE 9]>
+-    <script src="<c:url value='/resources/js/html5shiv.js'/>"></script>
+-    <![endif]-->
+-
+-    <script src="<c:url value='/resources/js/jquery.min.js'/>"></script>
+-    <script src="<c:url value='/resources/js/bootstrap-datetimepicker.min.js'/>"></script>
+-    <!--  US DatePicker calendar -->
+-    <script src="<c:url value='/resources/js/bootstrap-datetimepicker.pt-US.js'/>"></script>
+-    <script src="<c:url value='/resources/js/application.js'/>"></script>
+-
+-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<c:url value='/resources/ico/apple-touch-icon-144-precomposed.png'/>">
+-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<c:url value='/resources/ico/apple-touch-icon-114-precomposed.png'/>">
+-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<c:url value='/resources/ico/apple-touch-icon-72-precomposed.png'/>">
+-    <link rel="apple-touch-icon-precomposed" href="<c:url value='/resources/ico/apple-touch-icon-57-precomposed.png'/>">
+-    <link rel="shortcut icon" href="<c:url value='/resources/ico/favicon.png'/>">
+-</head>
+\ No newline at end of file
++    <link href="<c:url value='/resources/css/bootstrap.css' />
+\ No newline at end of file
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûú@Aksrc/main/webapp/WEB-INF/jsp/tiles/header.jspBC!D!Eàjava.lang.IllegalStateException: src/main/webapp/WEB-INF/jsp/tiles/header.jsp is not print idempotent. 
+diff --git a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/tiles/header.jsp b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/tiles/header.jsp
+index f06be2a..b1709f4 100644
+--- a//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/tiles/header.jsp
++++ b//Users/donal/Git/GreenButtonAlliance/OpenESPI-GreenButton-Workspace/OpenESPI-DataCustodian-java/src/main/webapp/WEB-INF/jsp/tiles/header.jsp
+@@ -1,8 +1,6 @@ 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+-<%--
+-  ~
+-  ~    Copyright (c) 2018-2021 Green Button Alliance, Inc.
++<Copyright (c) 2018-2021 Green Button Alliance, Inc.
+   ~
+   ~    Portions (c) 2013-2018 EnergyOS.org
+   ~
+@@ -28,19 +26,4 @@
+                 <span class="icon-bar"></span>
+                 <span class="icon-bar"></span>
+             </button>
+-            <a class="brand" href="<c:url value='/home'/>"><img src="<c:url value='/resources/ico/favicon.png'/>" width="20"/>&nbsp;Data Custodian</a>
+-           
+-            <div class="nav-collapse collapse">
+-                <ul class="nav">
+-                    <security:authorize access="isAuthenticated()">
+-                        <li class="active"><a id="logout" href="<c:url value='/logout.do'/>">Logout</a></li>
+-                        <li><a id="profile" href="">Welcome: ${currentCustomer.firstName} ${currentCustomer.lastName}</a></li>                        
+-                    </security:authorize>
+-                    <security:authorize access="isAnonymous()">
+-                        <li class="active"><a id="login" href="<c:url value='/login'/>">Login</a></li>
+-                    </security:authorize>
+-                </ul>
+-            </div>
+-        </div>
+-    </div>
+-</div>
++            <a class="brand" href="<c:url value='/home'/>
+
+  org.openrewrite.Parser.requirePrintEqualsInput(Parser.java:52)üûù

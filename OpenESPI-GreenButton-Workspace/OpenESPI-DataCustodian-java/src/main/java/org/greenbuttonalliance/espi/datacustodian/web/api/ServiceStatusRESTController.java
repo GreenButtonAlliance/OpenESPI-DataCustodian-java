@@ -24,7 +24,7 @@ package org.greenbuttonalliance.espi.datacustodian.web.api;
 import com.sun.syndication.io.FeedException;
 import org.greenbuttonalliance.espi.common.domain.usage.ApplicationInformationEntity;
 import org.greenbuttonalliance.espi.common.domain.usage.AuthorizationEntity;
-import org.greenbuttonalliance.espi.common.models.atom.DateTimeType;
+import org.greenbuttonalliance.espi.common.domain.legacy.atom.DateTimeType;
 import org.greenbuttonalliance.espi.common.service.AuthorizationService;
 import org.greenbuttonalliance.espi.common.service.ResourceService;
 import org.greenbuttonalliance.espi.common.utils.DateConverter;

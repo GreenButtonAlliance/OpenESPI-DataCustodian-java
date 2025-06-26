@@ -1,0 +1,40 @@
+# Test Configuration
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        generate_statistics: false
+  
+  flyway:
+    enabled: false
+  
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080
+          jwk-set-uri: http://localhost:8080/.well-known/jwks.json
+
+logging:
+  level:
+    org.greenbuttonalliance.espi: DEBUG
+    org.springframework.security: WARN
+    org.hibernate: WARN
+    org.flywaydb: WARN
+
+espi:
+  datacustodian:
+    base-url: http://localhost:8081/DataCustodian
+  authorization-server:
+    issuer-uri: http://localhost:8080
+    jwk-set-uri: http://localhost:8080/.well-known/jwks.json
