@@ -21,27 +21,126 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-                      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-    <import resource="classpath:spring/test-service-context.xml"/>
+    <context:component-scan base-package="org.greenbuttonalliance.espi.common.service"/>
+    <context:component-scan base-package="org.greenbuttonalliance.espi.common.utils"/>
+<!--    <context:component-scan base-package="org.greenbuttonalliance.espi.common.support"/>    -->
 
-    <context:component-scan base-package="org.greenbuttonalliance.espi.datacustodian.web"/>
-    <context:component-scan base-package="org.greenbuttonalliance.espi.datacustodian.mocks"/>
-    <context:component-scan base-package="org.greenbuttonalliance.espi.common.test"/>
+<!--    <context:property-placeholder location="classpath:spring/${database}-data-access.properties"-->
+<!--                                  system-properties-mode="OVERRIDE"/>-->
 
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/pages/"/>
-        <property name="suffix" value=".jsp"/>
-    </bean>
+    <beans profile="dev">
+        <context:property-placeholder location="classpath:spring/hsql-data-access.properties" />
+    </beans>
 
-    <bean id="tokenEnhancer" class="org.greenbuttonalliance.espi.datacustodian.oauth.EspiTokenEnhancer">
-   </bean>
-   
-    <bean id="retailCustomerService" name="retailCustomerServiceImpl" class="org.greenbuttonalliance.espi.common.service.impl.RetailCustomerServiceImpl" autowire-candidate="true"/>
-    <bean id="importService" name="importService" class="org.greenbuttonalliance.espi.common.service.impl.ImportServiceImpl" autowire-candidate="true"/>
-    <bean id="applicationInformationService" name="applicationInformationService" class="org.greenbuttonalliance.espi.common.service.impl.ApplicationInformationServiceImpl" autowire-candidate="true"/>
-    <bean id="authorizationService" name="authorizationService" class="org.greenbuttonalliance.espi.common.service.impl.AuthorizationServiceImpl" autowire-candidate="true"/>
- 
+    <beans profile="devmysql">
+        <context:property-placeholder location="classpath:src/test/resources/spring/mysql-data-access.properties" />
+    </beans>
+
+    <beans>
+        <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource" p:driverClassName="${jdbc.driverClassName}"
+              p:url="${jdbc.url}" p:username="${jdbc.username}" p:password="${jdbc.password}" p:initialSize="10"
+              p:maxActive="20" p:maxIdle="5" p:minIdle="2"/>
+
+<!--    <context:property-placeholder location="classpath:spring/${database}-data-access.properties"-->
+<!--                                  system-properties-mode="OVERRIDE"/>-->
+
+        <tx:annotation-driven/>
+
+        <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" p:dataSource-ref="dataSource">
+            <property name="jpaVendorAdapter">
+                <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" p:database="${jpa.database}" p:showSql="${jpa.showSql}"/>
+            </property>
+            <property name="jpaProperties">
+                <props>
+<!--                    <prop key="hibernate.hbm2ddl.auto">create-drop</prop>-->
+                    <prop key="hibernate.hbm2ddl.import_files">db/populateDB.sql</prop>
+<!--                    <prop key="hibernate.htm2ddl.auto">none</prop>-->
+                </props>
+            </property>
+            <property name="persistenceUnitName" value="energy"/>
+            <property name="packagesToScan" value="org.greenbuttonalliance.espi.common.domain"/>
+        </bean>
+
+        <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" p:entityManagerFactory-ref="entityManagerFactory"/>
+
+        <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+
+        <context:component-scan base-package="org.greenbuttonalliance.espi.common.repositories.jpa"/>
+
+        <bean id="domainMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+            <property name="packagesToScan">
+                <list>
+                    <value>org.greenbuttonalliance.espi.common.domain</value>
+                    <value>org.greenbuttonalliance.espi.common.models.atom</value>
+                </list>
+            </property>
+            <property name="marshallerProperties">
+                <map>
+                    <entry>
+                        <key>
+                            <util:constant static-field="javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT"/>
+                        </key>
+                        <value type="java.lang.Boolean">true</value>
+                    </entry>
+                </map>
+            </property>
+        </bean>
+
+<!--        <bean id="atomMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">-->
+<!--            <property name="packagesToScan">-->
+<!--                <list>-->
+<!--                    <value>org.greenbuttonalliance.espi.common.models.atom</value>-->
+<!--                    <value>org.greenbuttonalliance.espi.common.domain</value>-->
+<!--                </list>-->
+<!--            </property>-->
+<!--            <property name="marshallerProperties">-->
+<!--                <map>-->
+<!--                    <entry>-->
+<!--                        <key>-->
+<!--                            <util:constant static-field="javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT"/>-->
+<!--                        </key>-->
+<!--                        <value type="java.lang.Boolean">true</value>-->
+<!--                    </entry>-->
+<!--                </map>-->
+<!--            </property>-->
+<!--        </bean>-->
+
+        <bean id="fragmentMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+            <property name="packagesToScan">
+                <list>
+                    <value>org.greenbuttonalliance.espi.common.models.atom</value>
+                    <value>org.greenbuttonalliance.espi.common.domain</value>
+                </list>
+            </property>
+            <property name="marshallerProperties">
+                <map>
+                    <entry>
+                        <key>
+                            <util:constant static-field="javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT"/>
+                        </key>
+                        <value type="java.lang.Boolean">true</value>
+                    </entry>
+                    <entry>
+                        <key>
+                            <util:constant static-field="javax.xml.bind.Marshaller.JAXB_FRAGMENT"/>
+                        </key>
+                        <value type="java.lang.Boolean">true</value>
+                    </entry>
+                </map>
+            </property>
+        </bean>
+
+        <bean id="validator"
+              class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+        <bean id="restTemplate" name="restTemplate" class="org.springframework.web.client.RestTemplate" autowire-candidate="true"/>
+    </beans>
 </beans>

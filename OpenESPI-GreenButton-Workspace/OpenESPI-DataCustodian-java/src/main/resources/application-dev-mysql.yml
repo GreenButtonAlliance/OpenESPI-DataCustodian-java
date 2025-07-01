@@ -1,0 +1,45 @@
+# Development MySQL Profile Configuration
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/datacustodian?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: espi
+    password: espi123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      idle-timeout: 300000
+      pool-name: DataCustodianHikariCP
+      auto-commit: false
+      connection-test-query: SELECT 1
+  
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        generate_statistics: true
+        
+  flyway:
+    locations: classpath:db/migration/mysql
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+
+# Development-specific logging
+logging:
+  level:
+    org.greenbuttonalliance.espi: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  
+server:
+  port: 8081
+
+espi:
+  datacustodian:
+    base-url: http://localhost:8081/DataCustodian
+  authorization-server:
+    issuer-uri: http://localhost:8080
+    jwk-set-uri: http://localhost:8080/.well-known/jwks.json

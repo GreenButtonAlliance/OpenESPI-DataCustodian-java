@@ -1,0 +1,2 @@
+:)
+úƒnameforg.openrewrite.table.SourcesFileErrorsŠdisplayNamedSource files that errored on a recipeŠdescriptionrThe details of all errors produced by a recipe run.†columnsøú@IsourcePathƒtypeEStringAJSource pathB]The file that failed to parse.ûú@ErecipeDAWRecipe that made changesBfThe specific recipe that made a change.ûú@IstackTraceDAJStack traceB^The stack trace of the failure.ûùû

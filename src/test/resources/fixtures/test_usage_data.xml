@@ -28,7 +28,7 @@
 =========================================================
 =========================================================
 
-To view this data file in a browser in a more readable tabluar form
+To view this data file in a browser in a more readable tabular form
 please download the GreenButtonDataStyleSheet.xslt file by copying and
 pasting the following link in your browser and place the file in the same
 directory as this XML file:
@@ -45,8 +45,7 @@ Please leave this heading comment section in this file.
 =========================================================
 =========================================================
 -->
-<feed xmlns="http://www.w3.org/2005/Atom" xsi:schemaLocation="http://naesb.org/espi espiDerived.xsd"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<feed xmlns="http://www.w3.org/2005/Atom">
 	<id>urn:uuid:15B0A4ED-CCF4-4521-A0A1-9FF650EC8A6B</id>
 	<title>Green Button Subscription Feed</title>
 	<updated>2012-10-24T00:00:00Z</updated>

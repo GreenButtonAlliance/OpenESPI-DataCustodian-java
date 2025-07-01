@@ -1,0 +1,296 @@
+# HELP process_uptime_seconds The uptime of the Java virtual machine
+# TYPE process_uptime_seconds gauge
+process_uptime_seconds{command="run",process="modjava",} 4.617
+# HELP system_cpu_usage The "recent cpu usage" of the system the application is running in
+# TYPE system_cpu_usage gauge
+system_cpu_usage{command="run",process="modjava",} 0.49386871844193314
+# HELP cache_gets_total The number of times cache lookup methods have returned a cached (hit) or uncached (newly loaded or null) value (miss).
+# TYPE cache_gets_total counter
+cache_gets_total{cache="Maven metadata - default",command="run",process="modjava",result="hit",} 0.0
+cache_gets_total{cache="Resolved dependency POMs - default",command="run",process="modjava",result="hit",} 0.0
+cache_gets_total{cache="Maven POMs - default",command="run",process="modjava",result="miss",} 0.0
+cache_gets_total{cache="Maven metadata - default",command="run",process="modjava",result="miss",} 0.0
+cache_gets_total{cache="Resolved dependency POMs - default",command="run",process="modjava",result="miss",} 0.0
+cache_gets_total{cache="Maven repositories - default",command="run",process="modjava",result="miss",} 0.0
+cache_gets_total{cache="Maven POMs - default",command="run",process="modjava",result="hit",} 0.0
+cache_gets_total{cache="Maven repositories - default",command="run",process="modjava",result="hit",} 0.0
+# HELP system_load_average_1m The sum of the number of runnable entities queued to available processors and the number of runnable entities running on the available processors averaged over a period of time
+# TYPE system_load_average_1m gauge
+system_load_average_1m{command="run",process="modjava",} 1.86572265625
+# HELP jvm_gc_max_data_size_bytes Max size of long-lived heap memory pool
+# TYPE jvm_gc_max_data_size_bytes gauge
+jvm_gc_max_data_size_bytes{command="run",process="modjava",} 8.589934592E9
+# HELP jvm_threads_daemon_threads The current number of live daemon threads
+# TYPE jvm_threads_daemon_threads gauge
+jvm_threads_daemon_threads{command="run",process="modjava",} 6.0
+# HELP moderne_lss_edits_page_index_off_total  
+# TYPE moderne_lss_edits_page_index_off_total counter
+moderne_lss_edits_page_index_off_total{command="run",process="modjava",} 0.0
+# HELP cache_evictions_total The number of times the cache was evicted.
+# TYPE cache_evictions_total counter
+cache_evictions_total{cache="Maven metadata - default",command="run",process="modjava",} 0.0
+cache_evictions_total{cache="Resolved dependency POMs - default",command="run",process="modjava",} 0.0
+cache_evictions_total{cache="Maven repositories - default",command="run",process="modjava",} 0.0
+cache_evictions_total{cache="Maven POMs - default",command="run",process="modjava",} 0.0
+# HELP jvm_memory_committed_bytes The amount of memory in bytes that is committed for the Java virtual machine to use
+# TYPE jvm_memory_committed_bytes gauge
+jvm_memory_committed_bytes{area="nonheap",command="run",id="Metaspace",process="modjava",} 4.784128E7
+jvm_memory_committed_bytes{area="nonheap",command="run",id="CodeHeap 'non-nmethods'",process="modjava",} 2555904.0
+jvm_memory_committed_bytes{area="heap",command="run",id="G1 Survivor Space",process="modjava",} 3.3554432E7
+jvm_memory_committed_bytes{area="nonheap",command="run",id="CodeHeap 'profiled nmethods'",process="modjava",} 2.2544384E7
+jvm_memory_committed_bytes{area="nonheap",command="run",id="CodeHeap 'non-profiled nmethods'",process="modjava",} 9240576.0
+jvm_memory_committed_bytes{area="heap",command="run",id="G1 Eden Space",process="modjava",} 5.4525952E8
+jvm_memory_committed_bytes{area="nonheap",command="run",id="Compressed Class Space",process="modjava",} 6488064.0
+jvm_memory_committed_bytes{area="heap",command="run",id="G1 Old Gen",process="modjava",} 3.73293056E8
+# HELP disk_total_bytes Total space for path
+# TYPE disk_total_bytes gauge
+disk_total_bytes{command="run",path="/Users/donal/.moderne/cli",process="modjava",} 9.9466258432E11
+# HELP jvm_gc_concurrent_phase_time_seconds Time spent in concurrent phase
+# TYPE jvm_gc_concurrent_phase_time_seconds summary
+jvm_gc_concurrent_phase_time_seconds_count{action="end of concurrent GC pause",cause="No GC",command="run",gc="G1 Concurrent GC",process="modjava",} 4.0
+jvm_gc_concurrent_phase_time_seconds_sum{action="end of concurrent GC pause",cause="No GC",command="run",gc="G1 Concurrent GC",process="modjava",} 0.005
+# HELP jvm_gc_concurrent_phase_time_seconds_max Time spent in concurrent phase
+# TYPE jvm_gc_concurrent_phase_time_seconds_max gauge
+jvm_gc_concurrent_phase_time_seconds_max{action="end of concurrent GC pause",cause="No GC",command="run",gc="G1 Concurrent GC",process="modjava",} 0.004
+# HELP jvm_threads_states_threads The current number of threads
+# TYPE jvm_threads_states_threads gauge
+jvm_threads_states_threads{command="run",process="modjava",state="blocked",} 0.0
+jvm_threads_states_threads{command="run",process="modjava",state="waiting",} 1.0
+jvm_threads_states_threads{command="run",process="modjava",state="timed-waiting",} 2.0
+jvm_threads_states_threads{command="run",process="modjava",state="runnable",} 4.0
+jvm_threads_states_threads{command="run",process="modjava",state="new",} 0.0
+jvm_threads_states_threads{command="run",process="modjava",state="terminated",} 0.0
+# HELP system_cpu_count The number of processors available to the Java virtual machine
+# TYPE system_cpu_count gauge
+system_cpu_count{command="run",process="modjava",} 10.0
+# HELP cache_eviction_weight_total The sum of weights of evicted entries. This total does not include manual invalidations.
+# TYPE cache_eviction_weight_total counter
+cache_eviction_weight_total{cache="Maven metadata - default",command="run",process="modjava",} 0.0
+cache_eviction_weight_total{cache="Resolved dependency POMs - default",command="run",process="modjava",} 0.0
+cache_eviction_weight_total{cache="Maven repositories - default",command="run",process="modjava",} 0.0
+cache_eviction_weight_total{cache="Maven POMs - default",command="run",process="modjava",} 0.0
+# HELP moderne_lss_generate_seconds_max  
+# TYPE moderne_lss_generate_seconds_max gauge
+moderne_lss_generate_seconds_max{command="run",process="modjava",} 0.0
+# HELP moderne_lss_generate_seconds  
+# TYPE moderne_lss_generate_seconds summary
+moderne_lss_generate_seconds_count{command="run",process="modjava",} 0.0
+moderne_lss_generate_seconds_sum{command="run",process="modjava",} 0.0
+# HELP jvm_gc_overhead An approximation of the percent of CPU time used by GC activities over the last lookback period or since monitoring began, whichever is shorter, in the range [0..1]
+# TYPE jvm_gc_overhead gauge
+jvm_gc_overhead{command="run",process="modjava",} 0.033060811550376566
+# HELP disk_free_bytes Usable space for path
+# TYPE disk_free_bytes gauge
+disk_free_bytes{command="run",path="/Users/donal/.moderne/cli",process="modjava",} 6.91406737408E11
+# HELP moderne_ast_postprocess_seconds  
+# TYPE moderne_ast_postprocess_seconds summary
+moderne_ast_postprocess_seconds_count{command="run",process="modjava",} 7.0
+moderne_ast_postprocess_seconds_sum{command="run",process="modjava",} 0.010212668
+# HELP moderne_ast_postprocess_seconds_max  
+# TYPE moderne_ast_postprocess_seconds_max gauge
+moderne_ast_postprocess_seconds_max{command="run",process="modjava",} 0.004287708
+# HELP process_cpu_time_ns_total The "cpu time" used by the Java Virtual Machine process
+# TYPE process_cpu_time_ns_total counter
+process_cpu_time_ns_total{command="run",process="modjava",} 1.9782119E10
+# HELP moderne_lst_load_failed_bytes_max The size of the LST files failed to load (due to being too big on disk) in SourceFileBuffer
+# TYPE moderne_lst_load_failed_bytes_max gauge
+moderne_lst_load_failed_bytes_max{command="run",process="modjava",} 0.0
+# HELP moderne_lst_load_failed_bytes The size of the LST files failed to load (due to being too big on disk) in SourceFileBuffer
+# TYPE moderne_lst_load_failed_bytes summary
+moderne_lst_load_failed_bytes_count{command="run",process="modjava",} 0.0
+moderne_lst_load_failed_bytes_sum{command="run",process="modjava",} 0.0
+# HELP cache_puts_total The number of entries added to the cache
+# TYPE cache_puts_total counter
+cache_puts_total{cache="Maven metadata - default",command="run",process="modjava",} 0.0
+cache_puts_total{cache="Resolved dependency POMs - default",command="run",process="modjava",} 0.0
+cache_puts_total{cache="Maven repositories - default",command="run",process="modjava",} 0.0
+cache_puts_total{cache="Maven POMs - default",command="run",process="modjava",} 0.0
+# HELP jvm_threads_live_threads The current number of live threads including both daemon and non-daemon threads
+# TYPE jvm_threads_live_threads gauge
+jvm_threads_live_threads{command="run",process="modjava",} 7.0
+# HELP jvm_memory_max_bytes The maximum amount of memory in bytes that can be used for memory management
+# TYPE jvm_memory_max_bytes gauge
+jvm_memory_max_bytes{area="nonheap",command="run",id="Metaspace",process="modjava",} -1.0
+jvm_memory_max_bytes{area="nonheap",command="run",id="CodeHeap 'non-nmethods'",process="modjava",} 5849088.0
+jvm_memory_max_bytes{area="heap",command="run",id="G1 Survivor Space",process="modjava",} -1.0
+jvm_memory_max_bytes{area="nonheap",command="run",id="CodeHeap 'profiled nmethods'",process="modjava",} 1.22896384E8
+jvm_memory_max_bytes{area="nonheap",command="run",id="CodeHeap 'non-profiled nmethods'",process="modjava",} 1.22912768E8
+jvm_memory_max_bytes{area="heap",command="run",id="G1 Eden Space",process="modjava",} -1.0
+jvm_memory_max_bytes{area="nonheap",command="run",id="Compressed Class Space",process="modjava",} 1.073741824E9
+jvm_memory_max_bytes{area="heap",command="run",id="G1 Old Gen",process="modjava",} 8.589934592E9
+# HELP moderne_lss_write_edit_seconds  
+# TYPE moderne_lss_write_edit_seconds summary
+moderne_lss_write_edit_seconds_count{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",} 1.0
+moderne_lss_write_edit_seconds_sum{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",} 0.043247042
+# HELP moderne_lss_write_edit_seconds_max  
+# TYPE moderne_lss_write_edit_seconds_max gauge
+moderne_lss_write_edit_seconds_max{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",} 0.043247042
+# HELP moderne_lst_load_bytes The size of the LST files loaded in SourceFileBuffer
+# TYPE moderne_lst_load_bytes summary
+moderne_lst_load_bytes_count{command="run",process="modjava",} 6.0
+moderne_lst_load_bytes_sum{command="run",process="modjava",} 7715001.0
+# HELP moderne_lst_load_bytes_max The size of the LST files loaded in SourceFileBuffer
+# TYPE moderne_lst_load_bytes_max gauge
+moderne_lst_load_bytes_max{command="run",process="modjava",} 2453099.0
+# HELP jvm_buffer_memory_used_bytes An estimate of the memory that the Java virtual machine is using for this buffer pool
+# TYPE jvm_buffer_memory_used_bytes gauge
+jvm_buffer_memory_used_bytes{command="run",id="mapped - 'non-volatile memory'",process="modjava",} 0.0
+jvm_buffer_memory_used_bytes{command="run",id="mapped",process="modjava",} 0.0
+jvm_buffer_memory_used_bytes{command="run",id="direct",process="modjava",} 131075.0
+# HELP jvm_threads_peak_threads The peak live thread count since the Java virtual machine started or peak was reset
+# TYPE jvm_threads_peak_threads gauge
+jvm_threads_peak_threads{command="run",process="modjava",} 24.0
+# HELP moderne_lss_edit_seconds  
+# TYPE moderne_lss_edit_seconds summary
+moderne_lss_edit_seconds_count{command="run",process="modjava",} 2.0
+moderne_lss_edit_seconds_sum{command="run",process="modjava",} 1.420707708
+# HELP moderne_lss_edit_seconds_max  
+# TYPE moderne_lss_edit_seconds_max gauge
+moderne_lss_edit_seconds_max{command="run",process="modjava",} 0.779984666
+# HELP moderne_lss_load_edit_page_seconds_max  
+# TYPE moderne_lss_load_edit_page_seconds_max gauge
+moderne_lss_load_edit_page_seconds_max{command="run",process="modjava",} 0.014214708
+# HELP moderne_lss_load_edit_page_seconds  
+# TYPE moderne_lss_load_edit_page_seconds summary
+moderne_lss_load_edit_page_seconds_count{command="run",process="modjava",} 1.0
+moderne_lss_load_edit_page_seconds_sum{command="run",process="modjava",} 0.014214708
+# HELP jvm_gc_memory_allocated_bytes_total Incremented for an increase in the size of the (young) heap memory pool after one GC to before the next
+# TYPE jvm_gc_memory_allocated_bytes_total counter
+jvm_gc_memory_allocated_bytes_total{command="run",process="modjava",} 3.242196992E9
+# HELP jvm_gc_pause_seconds Time spent in GC pause
+# TYPE jvm_gc_pause_seconds summary
+jvm_gc_pause_seconds_count{action="end of minor GC",cause="G1 Evacuation Pause",command="run",gc="G1 Young Generation",process="modjava",} 17.0
+jvm_gc_pause_seconds_sum{action="end of minor GC",cause="G1 Evacuation Pause",command="run",gc="G1 Young Generation",process="modjava",} 0.122
+jvm_gc_pause_seconds_count{action="end of minor GC",cause="Metadata GC Threshold",command="run",gc="G1 Young Generation",process="modjava",} 2.0
+jvm_gc_pause_seconds_sum{action="end of minor GC",cause="Metadata GC Threshold",command="run",gc="G1 Young Generation",process="modjava",} 0.007
+jvm_gc_pause_seconds_count{action="end of minor GC",cause="GCLocker Initiated GC",command="run",gc="G1 Young Generation",process="modjava",} 2.0
+jvm_gc_pause_seconds_sum{action="end of minor GC",cause="GCLocker Initiated GC",command="run",gc="G1 Young Generation",process="modjava",} 0.013
+# HELP jvm_gc_pause_seconds_max Time spent in GC pause
+# TYPE jvm_gc_pause_seconds_max gauge
+jvm_gc_pause_seconds_max{action="end of minor GC",cause="G1 Evacuation Pause",command="run",gc="G1 Young Generation",process="modjava",} 0.025
+jvm_gc_pause_seconds_max{action="end of minor GC",cause="Metadata GC Threshold",command="run",gc="G1 Young Generation",process="modjava",} 0.005
+jvm_gc_pause_seconds_max{action="end of minor GC",cause="GCLocker Initiated GC",command="run",gc="G1 Young Generation",process="modjava",} 0.01
+# HELP moderne_ast_maven_settings_repaired_total  
+# TYPE moderne_ast_maven_settings_repaired_total counter
+moderne_ast_maven_settings_repaired_total{command="run",process="modjava",} 0.0
+# HELP jvm_threads_started_threads_total The total number of application threads started in the JVM
+# TYPE jvm_threads_started_threads_total counter
+jvm_threads_started_threads_total{command="run",process="modjava",} 42.0
+# HELP moderne_lss_invisible_change_check_seconds_max  
+# TYPE moderne_lss_invisible_change_check_seconds_max gauge
+moderne_lss_invisible_change_check_seconds_max{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",} 0.006562
+# HELP moderne_lss_invisible_change_check_seconds  
+# TYPE moderne_lss_invisible_change_check_seconds summary
+moderne_lss_invisible_change_check_seconds_count{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",} 1.0
+moderne_lss_invisible_change_check_seconds_sum{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",} 0.006562
+# HELP moderne_cli_run_stages_seconds_max  
+# TYPE moderne_cli_run_stages_seconds_max gauge
+moderne_cli_run_stages_seconds_max{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",stage="results - writing patch",} 0.243245
+moderne_cli_run_stages_seconds_max{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",stage="load recipe",} 2.341776375
+moderne_cli_run_stages_seconds_max{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",stage="visit sources",} 1.427784834
+moderne_cli_run_stages_seconds_max{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",stage="results - writing data tables",} 0.006258292
+moderne_cli_run_stages_seconds_max{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",stage="validate recipe",} 0.00706725
+# HELP moderne_cli_run_stages_seconds  
+# TYPE moderne_cli_run_stages_seconds summary
+moderne_cli_run_stages_seconds_count{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",stage="results - writing patch",} 1.0
+moderne_cli_run_stages_seconds_sum{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",stage="results - writing patch",} 0.243245
+moderne_cli_run_stages_seconds_count{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",stage="load recipe",} 1.0
+moderne_cli_run_stages_seconds_sum{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",stage="load recipe",} 2.341776375
+moderne_cli_run_stages_seconds_count{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",stage="visit sources",} 1.0
+moderne_cli_run_stages_seconds_sum{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",stage="visit sources",} 1.427784834
+moderne_cli_run_stages_seconds_count{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",stage="results - writing data tables",} 1.0
+moderne_cli_run_stages_seconds_sum{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",stage="results - writing data tables",} 0.006258292
+moderne_cli_run_stages_seconds_count{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",stage="validate recipe",} 1.0
+moderne_cli_run_stages_seconds_sum{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",stage="validate recipe",} 0.00706725
+# HELP jvm_memory_used_bytes The amount of used memory
+# TYPE jvm_memory_used_bytes gauge
+jvm_memory_used_bytes{area="nonheap",command="run",id="Metaspace",process="modjava",} 4.6497216E7
+jvm_memory_used_bytes{area="nonheap",command="run",id="CodeHeap 'non-nmethods'",process="modjava",} 1536128.0
+jvm_memory_used_bytes{area="heap",command="run",id="G1 Survivor Space",process="modjava",} 3.3554432E7
+jvm_memory_used_bytes{area="nonheap",command="run",id="CodeHeap 'profiled nmethods'",process="modjava",} 2.252096E7
+jvm_memory_used_bytes{area="nonheap",command="run",id="CodeHeap 'non-profiled nmethods'",process="modjava",} 9192576.0
+jvm_memory_used_bytes{area="heap",command="run",id="G1 Eden Space",process="modjava",} 3.3554432E7
+jvm_memory_used_bytes{area="nonheap",command="run",id="Compressed Class Space",process="modjava",} 5853888.0
+jvm_memory_used_bytes{area="heap",command="run",id="G1 Old Gen",process="modjava",} 1.97380224E8
+# HELP jvm_buffer_total_capacity_bytes An estimate of the total capacity of the buffers in this pool
+# TYPE jvm_buffer_total_capacity_bytes gauge
+jvm_buffer_total_capacity_bytes{command="run",id="mapped - 'non-volatile memory'",process="modjava",} 0.0
+jvm_buffer_total_capacity_bytes{command="run",id="mapped",process="modjava",} 0.0
+jvm_buffer_total_capacity_bytes{command="run",id="direct",process="modjava",} 131075.0
+# HELP process_start_time_seconds Start time of the process since unix epoch.
+# TYPE process_start_time_seconds gauge
+process_start_time_seconds{command="run",process="modjava",} 1.741388438269E9
+# HELP jvm_gc_memory_promoted_bytes_total Count of positive increases in the size of the old generation memory pool before GC to after GC
+# TYPE jvm_gc_memory_promoted_bytes_total counter
+jvm_gc_memory_promoted_bytes_total{command="run",process="modjava",} 1.84100544E8
+# HELP jvm_gc_live_data_size_bytes Size of long-lived heap memory pool after reclamation
+# TYPE jvm_gc_live_data_size_bytes gauge
+jvm_gc_live_data_size_bytes{command="run",process="modjava",} 1.05454912E8
+# HELP moderne_lss_lst_read_seconds_max  
+# TYPE moderne_lss_lst_read_seconds_max gauge
+moderne_lss_lst_read_seconds_max{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",} 0.63100725
+# HELP moderne_lss_lst_read_seconds  
+# TYPE moderne_lss_lst_read_seconds summary
+moderne_lss_lst_read_seconds_count{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",} 6.0
+moderne_lss_lst_read_seconds_sum{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",} 1.167867166
+# HELP jvm_classes_loaded_classes The number of classes that are currently loaded in the Java virtual machine
+# TYPE jvm_classes_loaded_classes gauge
+jvm_classes_loaded_classes{command="run",process="modjava",} 8932.0
+# HELP moderne_lss_search_change_check_seconds  
+# TYPE moderne_lss_search_change_check_seconds summary
+moderne_lss_search_change_check_seconds_count{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",} 1.0
+moderne_lss_search_change_check_seconds_sum{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",} 0.001501625
+# HELP moderne_lss_search_change_check_seconds_max  
+# TYPE moderne_lss_search_change_check_seconds_max gauge
+moderne_lss_search_change_check_seconds_max{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",} 0.001501625
+# HELP cache_size The number of entries in this cache. This may be an approximation, depending on the type of cache.
+# TYPE cache_size gauge
+cache_size{cache="Maven metadata - default",command="run",process="modjava",} 0.0
+cache_size{cache="Resolved dependency POMs - default",command="run",process="modjava",} 0.0
+cache_size{cache="Maven repositories - default",command="run",process="modjava",} 0.0
+cache_size{cache="Maven POMs - default",command="run",process="modjava",} 0.0
+# HELP process_cpu_usage The "recent cpu usage" for the Java Virtual Machine process
+# TYPE process_cpu_usage gauge
+process_cpu_usage{command="run",process="modjava",} 0.456548208477334
+# HELP moderne_ast_load_seconds  
+# TYPE moderne_ast_load_seconds summary
+moderne_ast_load_seconds_count{command="run",compressor="ZstdCompressorInputStream",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",} 4.0
+moderne_ast_load_seconds_sum{command="run",compressor="ZstdCompressorInputStream",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",} 0.982928208
+moderne_ast_load_seconds_count{command="run",compressor="XZCompressorInputStream",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",} 3.0
+moderne_ast_load_seconds_sum{command="run",compressor="XZCompressorInputStream",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",} 0.18459175
+# HELP moderne_ast_load_seconds_max  
+# TYPE moderne_ast_load_seconds_max gauge
+moderne_ast_load_seconds_max{command="run",compressor="ZstdCompressorInputStream",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",} 0.627829125
+moderne_ast_load_seconds_max{command="run",compressor="XZCompressorInputStream",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",} 0.13921225
+# HELP moderne_lst_source_file_buffer_cache_size_max The number of source files buffered in SourceFileBuffer
+# TYPE moderne_lst_source_file_buffer_cache_size_max gauge
+moderne_lst_source_file_buffer_cache_size_max{command="run",process="modjava",} 111.0
+# HELP moderne_lst_source_file_buffer_cache_size The number of source files buffered in SourceFileBuffer
+# TYPE moderne_lst_source_file_buffer_cache_size summary
+moderne_lst_source_file_buffer_cache_size_count{command="run",process="modjava",} 1.0
+moderne_lst_source_file_buffer_cache_size_sum{command="run",process="modjava",} 111.0
+# HELP jvm_classes_unloaded_classes_total The number of classes unloaded in the Java virtual machine
+# TYPE jvm_classes_unloaded_classes_total counter
+jvm_classes_unloaded_classes_total{command="run",process="modjava",} 74.0
+# HELP jvm_memory_usage_after_gc The percentage of long-lived heap pool used after the last GC event, in the range [0..1]
+# TYPE jvm_memory_usage_after_gc gauge
+jvm_memory_usage_after_gc{area="heap",command="run",pool="long-lived",process="modjava",} 0.022978082299232483
+# HELP moderne_cli_recipe_load_jar_seconds_max  
+# TYPE moderne_cli_recipe_load_jar_seconds_max gauge
+moderne_cli_recipe_load_jar_seconds_max{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",} 2.225887625
+# HELP moderne_cli_recipe_load_jar_seconds  
+# TYPE moderne_cli_recipe_load_jar_seconds summary
+moderne_cli_recipe_load_jar_seconds_count{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",} 1.0
+moderne_cli_recipe_load_jar_seconds_sum{command="run",exception="none",exception_declaring_class="none",exception_line="none",outcome="success",process="modjava",reason="none",} 2.225887625
+# HELP moderne_lss_edit_map_seconds_max  
+# TYPE moderne_lss_edit_map_seconds_max gauge
+moderne_lss_edit_map_seconds_max{command="run",process="modjava",} 0.025859375
+# HELP moderne_lss_edit_map_seconds  
+# TYPE moderne_lss_edit_map_seconds summary
+moderne_lss_edit_map_seconds_count{command="run",process="modjava",} 442.0
+moderne_lss_edit_map_seconds_sum{command="run",process="modjava",} 0.40180363
+# HELP jvm_buffer_count_buffers An estimate of the number of buffers in the pool
+# TYPE jvm_buffer_count_buffers gauge
+jvm_buffer_count_buffers{command="run",id="mapped - 'non-volatile memory'",process="modjava",} 0.0
+jvm_buffer_count_buffers{command="run",id="mapped",process="modjava",} 0.0
+jvm_buffer_count_buffers{command="run",id="direct",process="modjava",} 1.0
